@@ -1,5 +1,5 @@
 //
-// This unit is part of the GLScene Project, http://glscene.org
+// The graphics engine GLXEngine. The unit of GLScene for Delphi
 //
 {
    Frame combining a TrackBar and an Edit. 

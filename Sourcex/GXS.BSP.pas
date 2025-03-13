@@ -16,9 +16,9 @@ uses
   System.Math,
 
   Stage.VectorTypes,
+  Stage.VectorGeometry,
   GXS.VectorFileObjects,
   GXS.Material,
-  Stage.VectorGeometry,
   GXS.VectorLists,
   GXS.Color,
   GXS.RenderContextInfo;
@@ -156,9 +156,7 @@ type
     property Cluster: Integer read FCluster write FCluster;
   end;
 
-// ------------------------------------------------------------------
-implementation
-// ------------------------------------------------------------------
+implementation // --------------------------------------------------------
 
 const
   cOwnTriangleEpsilon = 1E-5;

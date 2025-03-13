@@ -5,17 +5,17 @@ del *.xml /s
 rem del *.res /s
 
 @echo off delete delphi units but not packages
-del *.bpl /s
-del *.dcp /s
-del *.rsm /s
 del *.dcu /s
 del *.bak /s
+rem del *.bpl /s
+rem del *.dcp /s
+rem del *.rsm /s
 
 @echo off not delete C++ includes and libs
-del *.hpp /s
-del *.bpi /s
-del *.lib /s
-del *.a /s
+rem del *.hpp /s
+rem del *.bpi /s
+rem del *.lib /s
+rem del *.a /s
 
 @echo off delete debug files
 del *.ddp /s

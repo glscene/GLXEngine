@@ -35,7 +35,7 @@ del *.spider /s
 
 rem delete cpp builder files
 
-del *.hpp /s
+rem del *.hpp /s
 del *.#00 /s
 del *.pch /s
 del *.tds /s
