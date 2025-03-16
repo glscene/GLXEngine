@@ -44,4 +44,4 @@ Plot2D
 <img src="./Help/Screenshots/Plot2D.png" height="300" width="400">
 </br>
 
-Admin of GLX
+[Админ](https://t.me/glscene)
