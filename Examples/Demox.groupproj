@@ -27,9 +27,6 @@
         <Projects Include="Demox\Island\Island.dproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="Demox\Joystickplayer\Joystickplayer.dproj">
-            <Dependencies/>
-        </Projects>
         <Projects Include="Demox\Multitextures\Multitextures.dproj">
             <Dependencies/>
         </Projects>
@@ -131,15 +128,6 @@
     <Target Name="Island:Make">
         <MSBuild Projects="Demox\Island\Island.dproj" Targets="Make"/>
     </Target>
-    <Target Name="Joystickplayer">
-        <MSBuild Projects="Demox\Joystickplayer\Joystickplayer.dproj"/>
-    </Target>
-    <Target Name="Joystickplayer:Clean">
-        <MSBuild Projects="Demox\Joystickplayer\Joystickplayer.dproj" Targets="Clean"/>
-    </Target>
-    <Target Name="Joystickplayer:Make">
-        <MSBuild Projects="Demox\Joystickplayer\Joystickplayer.dproj" Targets="Make"/>
-    </Target>
     <Target Name="Multitextures">
         <MSBuild Projects="Demox\Multitextures\Multitextures.dproj"/>
     </Target>
@@ -204,13 +192,13 @@
         <MSBuild Projects="Demox\Waves\Waves.dproj" Targets="Make"/>
     </Target>
     <Target Name="Build">
-        <CallTarget Targets="Clouds;Cube;Cubemap;CylinderExt;Genoise;Grass;Heightmap;Island;Joystickplayer;Multitextures;Pathfinder;Sailboat;SphereExt;Terrain;Viewports;Waves"/>
+        <CallTarget Targets="Clouds;Cube;Cubemap;CylinderExt;Genoise;Grass;Heightmap;Island;Multitextures;Pathfinder;Sailboat;SphereExt;Terrain;Viewports;Waves"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="Clouds:Clean;Cube:Clean;Cubemap:Clean;CylinderExt:Clean;Genoise:Clean;Grass:Clean;Heightmap:Clean;Island:Clean;Joystickplayer:Clean;Multitextures:Clean;Pathfinder:Clean;Sailboat:Clean;SphereExt:Clean;Terrain:Clean;Viewports:Clean;Waves:Clean"/>
+        <CallTarget Targets="Clouds:Clean;Cube:Clean;Cubemap:Clean;CylinderExt:Clean;Genoise:Clean;Grass:Clean;Heightmap:Clean;Island:Clean;Multitextures:Clean;Pathfinder:Clean;Sailboat:Clean;SphereExt:Clean;Terrain:Clean;Viewports:Clean;Waves:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="Clouds:Make;Cube:Make;Cubemap:Make;CylinderExt:Make;Genoise:Make;Grass:Make;Heightmap:Make;Island:Make;Joystickplayer:Make;Multitextures:Make;Pathfinder:Make;Sailboat:Make;SphereExt:Make;Terrain:Make;Viewports:Make;Waves:Make"/>
+        <CallTarget Targets="Clouds:Make;Cube:Make;Cubemap:Make;CylinderExt:Make;Genoise:Make;Grass:Make;Heightmap:Make;Island:Make;Multitextures:Make;Pathfinder:Make;Sailboat:Make;SphereExt:Make;Terrain:Make;Viewports:Make;Waves:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

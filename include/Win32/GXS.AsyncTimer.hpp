@@ -1,5 +1,5 @@
 ﻿// CodeGear C++Builder
-// Copyright (c) 1995, 2024 by Embarcadero Technologies, Inc.
+// Copyright (c) 1995, 2025 by Embarcadero Technologies, Inc.
 // All rights reserved
 
 // (DO NOT EDIT: machine generated header) 'GXS.AsyncTimer.pas' rev: 36.00 (Windows)
@@ -62,6 +62,7 @@ __published:
 
 //-- var, const, procedure ---------------------------------------------------
 static _DELPHI_CONST System::Word cDEFAULT_TIMER_INTERVAL = System::Word(0x3e8);
+extern DELPHI_PACKAGE void __fastcall Register(void);
 }	/* namespace Asynctimer */
 }	/* namespace Gxs */
 #if !defined(DELPHIHEADER_NO_IMPLICIT_NAMESPACE_USE) && !defined(NO_USING_NAMESPACE_GXS_ASYNCTIMER)

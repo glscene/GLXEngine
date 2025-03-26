@@ -8,7 +8,7 @@ unit GXS.AsyncTimer;
 *)
 interface
 
-{$I Stage.Defines.inc}
+{.$I Stage.Defines.inc}
 
 uses
   System.Classes,
@@ -51,6 +51,8 @@ type
     property ThreadPriority: TThreadPriority read GetThreadPriority
       write SetThreadPriority default tpTimeCritical;
   end;
+
+procedure Register;
 
 implementation // ------------------------------------------------------------
 
@@ -182,10 +184,9 @@ begin
   FTimerThread.Priority := Value;
 end;
 
-initialization //-------------------------------------------------------------
-
-//  RegisterClass('GXScene', [TgxAsyncTimer]);
-  RegisterClass(TgxAsyncTimer);
-
+procedure Register;
+begin
+  RegisterComponents('GLXEngine', [TgxAsyncTimer]);
+end;
 
 end.

@@ -28,7 +28,7 @@ package GXScene_RT;
 {$IMAGEBASE $400000}
 {$DEFINE DEBUG}
 {$ENDIF IMPLICITBUILDING}
-{$DESCRIPTION 'GLXEngine'}
+{$DESCRIPTION 'GXScene Platform'}
 {$RUNONLY}
 {$IMPLICITBUILD ON}
 
@@ -44,7 +44,6 @@ contains
   GXS.ApplicationFileIO in '..\SourceX\GXS.ApplicationFileIO.pas',
   GXS.ArchiveManager in '..\SourceX\GXS.ArchiveManager.pas',
   GXS.AsyncHDS in '..\SourceX\GXS.AsyncHDS.pas',
-  GXS.AsyncTimer in '..\SourceX\GXS.AsyncTimer.pas',
   GXS.Atmosphere in '..\SourceX\GXS.Atmosphere.pas',
   GXS.AVIRecorder in '..\SourceX\GXS.AVIRecorder.pas',
   GXS.BaseClasses in '..\sourcex\GXS.BaseClasses.pas',

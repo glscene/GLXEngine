@@ -1,85 +1,70 @@
 object Form1: TForm1
   Left = 0
   Top = 0
+  Margins.Left = 2
+  Margins.Top = 2
+  Margins.Right = 2
+  Margins.Bottom = 2
   Caption = 'Render To Texture'
-  ClientHeight = 600
-  ClientWidth = 1000
+  ClientHeight = 480
+  ClientWidth = 800
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
-  Font.Height = -14
+  Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
   Position = poScreenCenter
   OnCreate = FormCreate
-  PixelsPerInch = 120
-  TextHeight = 17
+  TextHeight = 13
   object GLSceneViewer1: TGLSceneViewer
     Left = 0
     Top = 0
-    Width = 870
-    Height = 600
-    Margins.Left = 4
-    Margins.Top = 4
-    Margins.Right = 4
-    Margins.Bottom = 4
+    Width = 696
+    Height = 480
     Camera = GLCamera1
     Buffer.BackgroundColor = clGray
-    FieldOfView = 161.075363159179700000
+    FieldOfView = 156.463424682617200000
     PenAsTouch = False
     Align = alClient
     TabOrder = 0
   end
   object Panel1: TPanel
-    Left = 870
+    Left = 696
     Top = 0
-    Width = 130
-    Height = 600
-    Margins.Left = 4
-    Margins.Top = 4
-    Margins.Right = 4
-    Margins.Bottom = 4
+    Width = 104
+    Height = 480
     Align = alRight
     TabOrder = 1
+    ExplicitLeft = 688
+    ExplicitHeight = 455
     object Label1: TLabel
-      Left = 8
-      Top = 10
-      Width = 75
-      Height = 24
-      Margins.Left = 4
-      Margins.Top = 4
-      Margins.Right = 4
-      Margins.Bottom = 4
+      Left = 6
+      Top = 8
+      Width = 60
+      Height = 19
       Caption = 'Options'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
-      Font.Height = -20
+      Font.Height = -16
       Font.Name = 'Arial'
       Font.Style = [fsBold]
       ParentFont = False
     end
     object CheckBox1: TCheckBox
-      Left = 8
-      Top = 160
-      Width = 71
-      Height = 21
-      Margins.Left = 4
-      Margins.Top = 4
-      Margins.Right = 4
-      Margins.Bottom = 4
+      Left = 6
+      Top = 128
+      Width = 57
+      Height = 17
       Caption = 'VSync'
       TabOrder = 0
       OnClick = CheckBox1Click
     end
     object RadioGroup1: TRadioGroup
-      Left = 8
-      Top = 189
-      Width = 113
-      Height = 111
-      Margins.Left = 4
-      Margins.Top = 4
-      Margins.Right = 4
-      Margins.Bottom = 4
+      Left = 6
+      Top = 151
+      Width = 91
+      Height = 89
       Caption = 'Texture size'
       ItemIndex = 2
       Items.Strings = (
@@ -90,14 +75,10 @@ object Form1: TForm1
       OnClick = SBClick
     end
     object RadioGroup2: TRadioGroup
-      Left = 8
-      Top = 41
-      Width = 113
-      Height = 112
-      Margins.Left = 4
-      Margins.Top = 4
-      Margins.Right = 4
-      Margins.Bottom = 4
+      Left = 6
+      Top = 33
+      Width = 91
+      Height = 89
       Caption = 'Texture frame'
       ItemIndex = 0
       Items.Strings = (

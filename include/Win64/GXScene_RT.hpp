@@ -1,5 +1,5 @@
 ﻿// CodeGear C++Builder
-// Copyright (c) 1995, 2024 by Embarcadero Technologies, Inc.
+// Copyright (c) 1995, 2025 by Embarcadero Technologies, Inc.
 // All rights reserved
 
 // (DO NOT EDIT: machine generated header) 'GXScene_RT.dpk' rev: 36.00 (Windows)
@@ -23,7 +23,6 @@
 #include <GXS.ApplicationFileIO.hpp>
 #include <GXS.ArchiveManager.hpp>
 #include <GXS.AsyncHDS.hpp>
-#include <GXS.AsyncTimer.hpp>
 #include <GXS.Atmosphere.hpp>
 #include <GXS.AVIRecorder.hpp>
 #include <GXS.BaseClasses.hpp>

@@ -15,13 +15,18 @@ uses
   Vcl.ExtCtrls,
 
   
-  GLS.Scene, GLS.SceneViewer, 
-  GLS.FBORenderer, 
-  GLS.Objects, GLS.Coordinates, GLS.SimpleNavigation,
-  GLS.Material, 
-  GLS.Cadencer,  GLS.BaseClasses,
-  GLS.RenderContextInfo, 
-  GLS.Context, GLS.AsyncTimer;
+  GLS.Scene,
+  GLS.SceneViewer,
+  GLS.FBORenderer,
+  GLS.Objects,
+  GLS.Coordinates,
+  GLS.SimpleNavigation,
+  GLS.Material,
+  GLS.Cadencer,
+  GLS.BaseClasses,
+  GLS.RenderContextInfo,
+  GLS.Context,
+  GLS.AsyncTimer;
 
 type
   TForm1 = class(TForm)
