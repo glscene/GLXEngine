@@ -7,15 +7,15 @@ rem del *.res /s
 @echo off delete delphi units but not packages
 del *.dcu /s
 del *.bak /s
-rem del *.bpl /s
-rem del *.dcp /s
-rem del *.rsm /s
+del *.bpl /s
+del *.dcp /s
+del *.rsm /s
 
 @echo off not delete C++ includes and libs
-rem del *.hpp /s
-rem del *.bpi /s
-rem del *.lib /s
-rem del *.a /s
+del *.hpp /s
+del *.bpi /s
+del *.lib /s
+del *.a /s
 
 @echo off delete debug files
 del *.ddp /s
@@ -58,13 +58,11 @@ echo             Don't delete some files
 echo ************************************************
 
 attrib +R "AdvDemos/Q3Demo/Model/animation.cfg"
-rem del *.cfg /s - there are quake's animations
+rem del *.cfg /s - there are quake's animations in assets
 attrib -R "AdvDemos/Q3Demo/Model/animation.cfg"
 
 echo---------------------------------------------------------
  
-rem echo delete all .svn directories with subdirectories and files 
-rem for /r %1 %%R in (.svn) do if exist "%%R" (rd /s /q "%%R")
 rem echo delete all .git directories with subdirectories and files 
 rem for /r %1 %%R in (.git) do if exist "%%R" (rd /s /q "%%R")
 
