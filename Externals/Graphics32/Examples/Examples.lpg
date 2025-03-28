@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <ProjectGroup FileVersion="2">
+    <Targets>
+      <Target FileName="Blending\BlendVsMerge\BlendVsMerge.lpi">
+        <BuildModes>
+          <Mode Name="Release" Compile="True"/>
+          <Mode Name="Debug"/>
+        </BuildModes>
+      </Target>
+      <Target FileName="Blending\PixelCombine\PixelCombine.lpi">
+        <BuildModes>
+          <Mode Name="Release" Compile="True"/>
+          <Mode Name="Debug"/>
+        </BuildModes>
+      </Target>
+      <Target FileName="Blending\TextureBlend\TextureBlend.lpi">
+        <BuildModes>
+          <Mode Name="Release" Compile="True"/>
+          <Mode Name="Debug"/>
+        </BuildModes>
+      </Target>
+      <Target FileName="Drawing\AntiAliasing\AntiAliasing.lpi">
+        <BuildModes>
+          <Mode Name="Release" Compile="True"/>
+          <Mode Name="Debug"/>
+        </BuildModes>
+      </Target>
+      <Target FileName="Drawing\ArrowHead\ArrowHead.lpi">
+        <BuildModes>
+          <Mode Name="Release" Compile="True"/>
+          <Mode Name="Debug"/>
+        </BuildModes>
+      </Target>
+      <Target FileName="Drawing\Benchmark\Benchmark.lpi">
+        <BuildModes>
+          <Mode Name="Debug" Compile="True"/>
+          <Mode Name="Release"/>
+        </BuildModes>
+      </Target>
+      <Target FileName="Drawing\Blurs\Blurs.lpi">
+        <BuildModes>
+          <Mode Name="Release"/>
+          <Mode Name="Debug"/>
+        </BuildModes>
+      </Target>
+      <Target FileName="Drawing\CubicSpline\CubicSpline.lpi">
+        <BuildModes>
+          <Mode Name="Release" Compile="True"/>
+          <Mode Name="Debug"/>
+        </BuildModes>
+      </Target>
+      <Target FileName="Drawing\Curves\Curves.lpi">
+        <BuildModes>
+          <Mode Name="Release" Compile="True"/>
+          <Mode Name="Debug"/>
+        </BuildModes>
+      </Target>
+      <Target FileName="Drawing\GradFills\GradFills.lpi">
+        <BuildModes>
+          <Mode Name="Debug" Compile="True"/>
+          <Mode Name="Release"/>
+        </BuildModes>
+      </Target>
+      <Target FileName="Drawing\GradLines\GradLines.lpi">
+        <BuildModes>
+          <Mode Name="Debug" Compile="True"/>
+          <Mode Name="Release"/>
+        </BuildModes>
+      </Target>
+      <Target FileName="Drawing\GradSampler\GradSampler.lpi">
+        <BuildModes>
+          <Mode Name="Debug" Compile="True"/>
+          <Mode Name="Release"/>
+        </BuildModes>
+      </Target>
+      <Target FileName="Drawing\LineStippling\LineStippling.lpi">
+        <BuildModes>
+          <Mode Name="Debug" Compile="True"/>
+          <Mode Name="Release"/>
+        </BuildModes>
+      </Target>
+      <Target FileName="Drawing\MeshGradients\MeshGradients.lpi">
+        <BuildModes>
+          <Mode Name="Release" Compile="True"/>
+          <Mode Name="Debug"/>
+        </BuildModes>
+      </Target>
+      <Target FileName="Drawing\Polygons\Polygons.lpi">
+        <BuildModes>
+          <Mode Name="Debug" Compile="True"/>
+          <Mode Name="Release"/>
+        </BuildModes>
+      </Target>
+      <Target FileName="Drawing\RenderText\RenderText.lpi">
+        <BuildModes>
+          <Mode Name="Release" Compile="True"/>
+          <Mode Name="Debug"/>
+        </BuildModes>
+      </Target>
+      <Target FileName="Drawing\ScatterPlot\ScatterPlot.lpi">
+        <BuildModes>
+          <Mode Name="Release" Compile="True"/>
+          <Mode Name="Debug"/>
+        </BuildModes>
+      </Target>
+      <Target FileName="Drawing\TextVPR\TextVPR.lpi">
+        <BuildModes>
+          <Mode Name="Debug" Compile="True"/>
+          <Mode Name="Release"/>
+        </BuildModes>
+      </Target>
+      <Target FileName="Drawing\VertexReduction\LineSimplification.lpi">
+        <BuildModes>
+          <Mode Name="Debug" Compile="True"/>
+          <Mode Name="Release"/>
+        </BuildModes>
+      </Target>
+      <Target FileName="General\ByteMaps\ByteMaps.lpi">
+        <BuildModes>
+          <Mode Name="Debug" Compile="True"/>
+          <Mode Name="Release"/>
+        </BuildModes>
+      </Target>
+      <Target FileName="General\Image32\Image32.lpi">
+        <BuildModes>
+          <Mode Name="Release" Compile="True"/>
+          <Mode Name="Debug"/>
+        </BuildModes>
+      </Target>
+      <Target FileName="General\Mandelbrot\Mandelbrot.lpi">
+        <BuildModes>
+          <Mode Name="Debug" Compile="True"/>
+          <Mode Name="Release"/>
+        </BuildModes>
+      </Target>
+      <Target FileName="General\Rotate\Rotate.lpi">
+        <BuildModes>
+          <Mode Name="Debug" Compile="True"/>
+          <Mode Name="Release"/>
+        </BuildModes>
+      </Target>
+      <Target FileName="Layers\ImgView_Layers\ImgView_Layers.lpi">
+        <BuildModes>
+          <Mode Name="Debug" Compile="True"/>
+          <Mode Name="Release"/>
+        </BuildModes>
+      </Target>
+      <Target FileName="Layers\RotLayer\RotLayer.lpi">
+        <BuildModes>
+          <Mode Name="Debug" Compile="True"/>
+          <Mode Name="Release"/>
+        </BuildModes>
+      </Target>
+      <Target FileName="Layers\Sprites\Sprites.lpi">
+        <BuildModes>
+          <Mode Name="Debug" Compile="True"/>
+          <Mode Name="Release"/>
+        </BuildModes>
+      </Target>
+      <Target FileName="Resampling\NestedSampling\NestedSampling.lpi">
+        <BuildModes>
+          <Mode Name="Debug" Compile="True"/>
+          <Mode Name="Release"/>
+        </BuildModes>
+      </Target>
+      <Target FileName="Resampling\PixelF\PixelF.lpi">
+        <BuildModes>
+          <Mode Name="Release" Compile="True"/>
+          <Mode Name="Debug"/>
+        </BuildModes>
+      </Target>
+      <Target FileName="Resampling\Resamplers\Resamplers.lpi">
+        <BuildModes>
+          <Mode Name="Debug" Compile="True"/>
+          <Mode Name="Release"/>
+        </BuildModes>
+      </Target>
+      <Target FileName="Transformation\ImgWarping\ImgWarping.lpi">
+        <BuildModes>
+          <Mode Name="Debug" Compile="True"/>
+          <Mode Name="Release"/>
+        </BuildModes>
+      </Target>
+      <Target FileName="Transformation\Transform\Transform.lpi">
+        <BuildModes>
+          <Mode Name="Debug" Compile="True"/>
+          <Mode Name="Release"/>
+        </BuildModes>
+      </Target>
+      <Target FileName="Transformation\Visualization\Visualization.lpi">
+        <BuildModes>
+          <Mode Name="Debug" Compile="True"/>
+          <Mode Name="Release"/>
+        </BuildModes>
+      </Target>
+      <Target FileName="Drawing\Clipper\ClipperDemo.lpi">
+        <BuildModes>
+          <Mode Name="Default"/>
+        </BuildModes>
+      </Target>
+      <Target FileName="Drawing\Swarm\ParticleSwarm.lpi">
+        <BuildModes>
+          <Mode Name="Default"/>
+        </BuildModes>
+      </Target>
+      <Target FileName="General\Bitmap32 to PSD layers\PSD_bitmap_export.lpi">
+        <BuildModes>
+          <Mode Name="Default"/>
+        </BuildModes>
+      </Target>
+      <Target FileName="General\Color Picker\ColorPicker.lpi">
+        <BuildModes>
+          <Mode Name="Default"/>
+        </BuildModes>
+      </Target>
+      <Target FileName="General\Image32 background\Image32Background.lpi">
+        <BuildModes>
+          <Mode Name="Default"/>
+        </BuildModes>
+      </Target>
+      <Target FileName="General\PNG Image32\PNG_GR32_Demo.lpi">
+        <BuildModes>
+          <Mode Name="Release" Compile="True"/>
+          <Mode Name="Debug"/>
+        </BuildModes>
+      </Target>
+      <Target FileName="Layers\PSD Export\PSD_export.lpi">
+        <BuildModes>
+          <Mode Name="Default"/>
+        </BuildModes>
+      </Target>
+    </Targets>
+  </ProjectGroup>
+</CONFIG>

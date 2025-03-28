@@ -1,0 +1,95 @@
+package GR32_RT;
+
+{$R *.res}
+{$IFDEF IMPLICITBUILDING This IFDEF should not be used by users}
+{$ALIGN 8}
+{$ASSERTIONS ON}
+{$BOOLEVAL OFF}
+{$DEBUGINFO OFF}
+{$EXTENDEDSYNTAX ON}
+{$IMPORTEDDATA ON}
+{$IOCHECKS ON}
+{$LOCALSYMBOLS OFF}
+{$LONGSTRINGS ON}
+{$OPENSTRINGS ON}
+{$OPTIMIZATION ON}
+{$OVERFLOWCHECKS OFF}
+{$RANGECHECKS OFF}
+{$REFERENCEINFO OFF}
+{$SAFEDIVIDE OFF}
+{$STACKFRAMES OFF}
+{$TYPEDADDRESS OFF}
+{$VARSTRINGCHECKS ON}
+{$WRITEABLECONST OFF}
+{$MINENUMSIZE 1}
+{$IMAGEBASE $400000}
+{$DEFINE RELEASE}
+{$ENDIF IMPLICITBUILDING}
+{$DESCRIPTION 'Graphics32'}
+{$RUNONLY}
+{$IMPLICITBUILD ON}
+
+requires
+  vcl;
+
+contains
+  GR32_Backends in '..\Source\GR32_Backends.pas',
+  GR32_Backends_Generic in '..\Source\GR32_Backends_Generic.pas',
+  GR32_Backends_VCL in '..\Source\GR32_Backends_VCL.pas',
+  GR32_Bindings in '..\Source\GR32_Bindings.pas',
+  GR32_Blend in '..\Source\GR32_Blend.pas',
+  GR32_Brushes in '..\Source\GR32_Brushes.pas',
+  GR32_ColorGradients in '..\Source\GR32_ColorGradients.pas',
+  GR32_ColorPicker in '..\Source\GR32_ColorPicker.pas',
+  GR32_ColorSwatch in '..\Source\GR32_ColorSwatch.pas',
+  GR32_Containers in '..\Source\GR32_Containers.pas',
+  GR32_ExtImage in '..\Source\GR32_ExtImage.pas',
+  GR32_Filters in '..\Source\GR32_Filters.pas',
+  GR32_Gamma in '..\Source\GR32_Gamma.pas',
+  GR32_Geometry in '..\Source\GR32_Geometry.pas',
+  GR32_Image in '..\Source\GR32_Image.pas',
+  GR32_Layers in '..\Source\GR32_Layers.pas',
+  GR32_LowLevel in '..\Source\GR32_LowLevel.pas',
+  GR32_Math in '..\Source\GR32_Math.pas',
+  GR32_MicroTiles in '..\Source\GR32_MicroTiles.pas',
+  GR32_OrdinalMaps in '..\Source\GR32_OrdinalMaps.pas',
+  GR32_Paths in '..\Source\GR32_Paths.pas',
+  GR32_Polygons in '..\Source\GR32_Polygons.pas',
+  GR32_RangeBars in '..\Source\GR32_RangeBars.pas',
+  GR32_Rasterizers in '..\Source\GR32_Rasterizers.pas',
+  GR32_RepaintOpt in '..\Source\GR32_RepaintOpt.pas',
+  GR32_Resamplers in '..\Source\GR32_Resamplers.pas',
+  GR32_System in '..\Source\GR32_System.pas',
+  GR32_Transforms in '..\Source\GR32_Transforms.pas',
+  GR32_VectorMaps in '..\Source\GR32_VectorMaps.pas',
+  GR32_VectorUtils in '..\Source\GR32_VectorUtils.pas',
+  GR32_VPR in '..\Source\GR32_VPR.pas',
+  GR32_XPThemes in '..\Source\GR32_XPThemes.pas',
+  GR32.Blend.Assembler in '..\Source\GR32.Blend.Assembler.pas',
+  GR32.Blend.SSE2 in '..\Source\GR32.Blend.SSE2.pas',
+  GR32_Polygons.AggLite in '..\Source\GR32_Polygons.AggLite.pas',
+  GR32 in '..\Source\GR32.pas',
+  GR32.Blend.Pascal in '..\Source\GR32.Blend.Pascal.pas',
+  GR32.Text.Win in '..\Source\GR32.Text.Win.pas',
+  GR32.BigEndian in '..\Source\GR32.BigEndian.pas',
+  GR32_Png in '..\Source\GR32_Png.pas',
+  GR32.ImageFormats.TBitmap in '..\Source\GR32.ImageFormats.TBitmap.pas',
+  GR32.ImageFormats.TClipboard in '..\Source\GR32.ImageFormats.TClipboard.pas',
+  GR32.ImageFormats.TGraphic in '..\Source\GR32.ImageFormats.TGraphic.pas',
+  GR32.ImageFormats.TIcon in '..\Source\GR32.ImageFormats.TIcon.pas',
+  GR32.ImageFormats.TMetaFile in '..\Source\GR32.ImageFormats.TMetaFile.pas',
+  GR32.ImageFormats.TPicture in '..\Source\GR32.ImageFormats.TPicture.pas',
+  GR32.ImageFormats.TWICImage in '..\Source\GR32.ImageFormats.TWICImage.pas',
+  GR32.ImageFormats.PNG32 in '..\Source\GR32.ImageFormats.PNG32.pas',
+  GR32.CPUID in '..\Source\GR32.CPUID.pas',
+  GR32.Text.Types in '..\Source\GR32.Text.Types.pas',
+  GR32.Types.SIMD in '..\Source\GR32.Types.SIMD.pas',
+  GR32.ImageFormats.BMP in '..\Source\GR32.ImageFormats.BMP.pas',
+  GR32.ImageFormats in '..\Source\GR32.ImageFormats.pas',
+  GR32_PortableNetworkGraphic in '..\Source\GR32_PortableNetworkGraphic.pas',
+  GR32_VectorUtils.Reference in '..\Source\GR32_VectorUtils.Reference.pas',
+  GR32_Clipboard in '..\Source\GR32_Clipboard.pas';
+
+end.
+
+

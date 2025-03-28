@@ -1,0 +1,48 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{DC1A22F5-639E-4A7E-B613-0E12476BB7C1}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="Packages\GLScene_SDL_RT.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="Packages\GLScene_SDL_DT.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="GLScene_SDL_RT">
+        <MSBuild Projects="Packages\GLScene_SDL_RT.dproj"/>
+    </Target>
+    <Target Name="GLScene_SDL_RT:Clean">
+        <MSBuild Projects="Packages\GLScene_SDL_RT.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="GLScene_SDL_RT:Make">
+        <MSBuild Projects="Packages\GLScene_SDL_RT.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="GLScene_SDL_DT">
+        <MSBuild Projects="Packages\GLScene_SDL_DT.dproj"/>
+    </Target>
+    <Target Name="GLScene_SDL_DT:Clean">
+        <MSBuild Projects="Packages\GLScene_SDL_DT.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="GLScene_SDL_DT:Make">
+        <MSBuild Projects="Packages\GLScene_SDL_DT.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="GLScene_SDL_RT;GLScene_SDL_DT"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="GLScene_SDL_RT:Clean;GLScene_SDL_DT:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="GLScene_SDL_RT:Make;GLScene_SDL_DT:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

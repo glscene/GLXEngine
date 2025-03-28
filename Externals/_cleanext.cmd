@@ -20,6 +20,8 @@ del *.rsm /s
 del *.drc /s
 del *.vrc /s
 del *.local /s
+rem del *.res /s  // manifest and data in GR32
+del sk4d.dll /s
 
 rem delete more files
 
@@ -52,15 +54,13 @@ echo             Don't delete some files
 echo ************************************************
 
 attrib +R "AdvDemos/Q3Demo/Model/animation.cfg"
-rem del *.cfg /s  - there are quake's animations
+rem del *.cfg /s  - there are quake's animations in assets
 attrib -R "AdvDemos/Q3Demo/Model/animation.cfg"
-
-rem  - some apps may load/save resources in RES files
-del *.res /s 
-del sk4d.dll /s
 
 echo---------------------------------------------------------
 echo delete debug and Platform directories with all subdirectories and files 
+for /r %1 %%R in (Bin) do if exist "%%R" (rd /s /q "%%R")
+rem for /r %1 %%R in (Lib) do if exist "%%R" (rd /s /q "%%R")
 for /r %1 %%R in (Win32) do if exist "%%R" (rd /s /q "%%R")
 for /r %1 %%R in (Win64) do if exist "%%R" (rd /s /q "%%R")
 for /r %1 %%R in (Win64x) do if exist "%%R" (rd /s /q "%%R")

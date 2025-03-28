@@ -99,12 +99,6 @@
         <Projects Include="tobitmap\ToBitmapC.cbproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="BasicSDL\BasicSDL_D.dproj">
-            <Dependencies/>
-        </Projects>
-        <Projects Include="BasicSDL\BasicSDL_C.cbproj">
-            <Dependencies/>
-        </Projects>
     </ItemGroup>
     <ProjectExtensions>
         <Borland.Personality>Default.Personality.12</Borland.Personality>
@@ -401,32 +395,14 @@
     <Target Name="ToBitmapC:Make">
         <MSBuild Projects="tobitmap\ToBitmapC.cbproj" Targets="Make"/>
     </Target>
-    <Target Name="BasicSDL_D">
-        <MSBuild Projects="BasicSDL\BasicSDL_D.dproj"/>
-    </Target>
-    <Target Name="BasicSDL_D:Clean">
-        <MSBuild Projects="BasicSDL\BasicSDL_D.dproj" Targets="Clean"/>
-    </Target>
-    <Target Name="BasicSDL_D:Make">
-        <MSBuild Projects="BasicSDL\BasicSDL_D.dproj" Targets="Make"/>
-    </Target>
-    <Target Name="BasicSDL_C">
-        <MSBuild Projects="BasicSDL\BasicSDL_C.cbproj"/>
-    </Target>
-    <Target Name="BasicSDL_C:Clean">
-        <MSBuild Projects="BasicSDL\BasicSDL_C.cbproj" Targets="Clean"/>
-    </Target>
-    <Target Name="BasicSDL_C:Make">
-        <MSBuild Projects="BasicSDL\BasicSDL_C.cbproj" Targets="Make"/>
-    </Target>
     <Target Name="Build">
-        <CallTarget Targets="BlurD;BlurC;BlurAdvancedD;BlurAdvancedC;CelShadingD;CelshadingC;CullingD;CullingC;GrassD;FogD;FogC;FullscreenD;FullScreenC;InvarianceD;InvarianceC;MemViewerD;MemviewerC;MultiProxyD;MultiproxyC;MultiTexturesD;MultiTexturesC;OctreeRenderD;OctreeRenderC;PhongD;PhongC;QuadtreeCullingD;RenderToTexD;RenderToTexC;SkyBoxD;SkyBoxC;TobitmapD;ToBitmapC;BasicSDL_D;BasicSDL_C"/>
+        <CallTarget Targets="BlurD;BlurC;BlurAdvancedD;BlurAdvancedC;CelShadingD;CelshadingC;CullingD;CullingC;GrassD;FogD;FogC;FullscreenD;FullScreenC;InvarianceD;InvarianceC;MemViewerD;MemviewerC;MultiProxyD;MultiproxyC;MultiTexturesD;MultiTexturesC;OctreeRenderD;OctreeRenderC;PhongD;PhongC;QuadtreeCullingD;RenderToTexD;RenderToTexC;SkyBoxD;SkyBoxC;TobitmapD;ToBitmapC"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="BlurD:Clean;BlurC:Clean;BlurAdvancedD:Clean;BlurAdvancedC:Clean;CelShadingD:Clean;CelshadingC:Clean;CullingD:Clean;CullingC:Clean;GrassD:Clean;FogD:Clean;FogC:Clean;FullscreenD:Clean;FullScreenC:Clean;InvarianceD:Clean;InvarianceC:Clean;MemViewerD:Clean;MemviewerC:Clean;MultiProxyD:Clean;MultiproxyC:Clean;MultiTexturesD:Clean;MultiTexturesC:Clean;OctreeRenderD:Clean;OctreeRenderC:Clean;PhongD:Clean;PhongC:Clean;QuadtreeCullingD:Clean;RenderToTexD:Clean;RenderToTexC:Clean;SkyBoxD:Clean;SkyBoxC:Clean;TobitmapD:Clean;ToBitmapC:Clean;BasicSDL_D:Clean;BasicSDL_C:Clean"/>
+        <CallTarget Targets="BlurD:Clean;BlurC:Clean;BlurAdvancedD:Clean;BlurAdvancedC:Clean;CelShadingD:Clean;CelshadingC:Clean;CullingD:Clean;CullingC:Clean;GrassD:Clean;FogD:Clean;FogC:Clean;FullscreenD:Clean;FullScreenC:Clean;InvarianceD:Clean;InvarianceC:Clean;MemViewerD:Clean;MemviewerC:Clean;MultiProxyD:Clean;MultiproxyC:Clean;MultiTexturesD:Clean;MultiTexturesC:Clean;OctreeRenderD:Clean;OctreeRenderC:Clean;PhongD:Clean;PhongC:Clean;QuadtreeCullingD:Clean;RenderToTexD:Clean;RenderToTexC:Clean;SkyBoxD:Clean;SkyBoxC:Clean;TobitmapD:Clean;ToBitmapC:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="BlurD:Make;BlurC:Make;BlurAdvancedD:Make;BlurAdvancedC:Make;CelShadingD:Make;CelshadingC:Make;CullingD:Make;CullingC:Make;GrassD:Make;FogD:Make;FogC:Make;FullscreenD:Make;FullScreenC:Make;InvarianceD:Make;InvarianceC:Make;MemViewerD:Make;MemviewerC:Make;MultiProxyD:Make;MultiproxyC:Make;MultiTexturesD:Make;MultiTexturesC:Make;OctreeRenderD:Make;OctreeRenderC:Make;PhongD:Make;PhongC:Make;QuadtreeCullingD:Make;RenderToTexD:Make;RenderToTexC:Make;SkyBoxD:Make;SkyBoxC:Make;TobitmapD:Make;ToBitmapC:Make;BasicSDL_D:Make;BasicSDL_C:Make"/>
+        <CallTarget Targets="BlurD:Make;BlurC:Make;BlurAdvancedD:Make;BlurAdvancedC:Make;CelShadingD:Make;CelshadingC:Make;CullingD:Make;CullingC:Make;GrassD:Make;FogD:Make;FogC:Make;FullscreenD:Make;FullScreenC:Make;InvarianceD:Make;InvarianceC:Make;MemViewerD:Make;MemviewerC:Make;MultiProxyD:Make;MultiproxyC:Make;MultiTexturesD:Make;MultiTexturesC:Make;OctreeRenderD:Make;OctreeRenderC:Make;PhongD:Make;PhongC:Make;QuadtreeCullingD:Make;RenderToTexD:Make;RenderToTexC:Make;SkyBoxD:Make;SkyBoxC:Make;TobitmapD:Make;ToBitmapC:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>
