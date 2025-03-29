@@ -1,0 +1,72 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{FDD3A4E7-EBA8-4B11-AD6C-97BB626AE0CD}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="fire2D_gr32\Fire_GR32D.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="fire2D_gr32\Fire_GR32C.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="HTFUtils\HTFPackD.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="HTFUtils\HTFViewerD.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="Fire_GR32D">
+        <MSBuild Projects="fire2D_gr32\Fire_GR32D.dproj"/>
+    </Target>
+    <Target Name="Fire_GR32D:Clean">
+        <MSBuild Projects="fire2D_gr32\Fire_GR32D.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="Fire_GR32D:Make">
+        <MSBuild Projects="fire2D_gr32\Fire_GR32D.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Fire_GR32C">
+        <MSBuild Projects="fire2D_gr32\Fire_GR32C.cbproj"/>
+    </Target>
+    <Target Name="Fire_GR32C:Clean">
+        <MSBuild Projects="fire2D_gr32\Fire_GR32C.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="Fire_GR32C:Make">
+        <MSBuild Projects="fire2D_gr32\Fire_GR32C.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="HTFPackD">
+        <MSBuild Projects="HTFUtils\HTFPackD.dproj"/>
+    </Target>
+    <Target Name="HTFPackD:Clean">
+        <MSBuild Projects="HTFUtils\HTFPackD.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="HTFPackD:Make">
+        <MSBuild Projects="HTFUtils\HTFPackD.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="HTFViewerD">
+        <MSBuild Projects="HTFUtils\HTFViewerD.dproj"/>
+    </Target>
+    <Target Name="HTFViewerD:Clean">
+        <MSBuild Projects="HTFUtils\HTFViewerD.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="HTFViewerD:Make">
+        <MSBuild Projects="HTFUtils\HTFViewerD.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="Fire_GR32D;Fire_GR32C;HTFPackD;HTFViewerD"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="Fire_GR32D:Clean;Fire_GR32C:Clean;HTFPackD:Clean;HTFViewerD:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="Fire_GR32D:Make;Fire_GR32C:Make;HTFPackD:Make;HTFViewerD:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

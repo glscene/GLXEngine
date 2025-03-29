@@ -6,7 +6,7 @@ uses
   Forms,
   MainUnit in 'MainUnit.pas';
 
-{$R '..\..\manifest.res'}
+{$R '..\manifest.res'}
 
 begin
   Application.Initialize;

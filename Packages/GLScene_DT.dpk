@@ -40,23 +40,23 @@ requires
   GLScene_RT;
 
 contains
-  FRColorEditor in '..\Source\FRColorEditor.pas' {RColorEditor: TFrame},
-  FRTextureEdit in '..\Source\FRTextureEdit.pas' {RTextureEdit: TFrame},
-  FRTrackBarEdit in '..\Source\FRTrackBarEdit.pas' {RTrackBarEdit: TFrame},
-  FRFaceEditor in '..\Source\FRFaceEditor.pas' {RFaceEditor: TFrame},
-  FRMaterialPreview in '..\Source\FRMaterialPreview.pas' {RMaterialPreview: TFrame},
-  FmGuiLayoutEditor in '..\Source\FmGuiLayoutEditor.pas' {GLLayoutEditorForm},
-  FmGuiSkinEditor in '..\Source\FmGuiSkinEditor.pas' {GLSkinEditorForm},
-  FmShaderMemo in '..\Source\FmShaderMemo.pas' {ShaderMemoForm},
-  FmShaderUniformEditor in '..\Source\FmShaderUniformEditor.pas' {GLShaderUniformEditor},
-  FmVectorEditor in '..\Source\FmVectorEditor.pas' {GLVectorEditorForm},
-  FmSceneEditor in '..\Source\FmSceneEditor.pas' {GLSceneEditorForm},
-  FmXCollectionEditor in '..\Source\FmXCollectionEditor.pas' {GLXCollectionEditorForm},
-  FmInfo in '..\Source\FmInfo.pas' {GLInfoForm},
+  FRColorEditor in '..\Source\DesignTime\FRColorEditor.pas' {RColorEditor: TFrame},
+  FRTextureEdit in '..\Source\DesignTime\FRTextureEdit.pas' {RTextureEdit: TFrame},
+  FRTrackBarEdit in '..\Source\DesignTime\FRTrackBarEdit.pas' {RTrackBarEdit: TFrame},
+  FRFaceEditor in '..\Source\DesignTime\FRFaceEditor.pas' {RFaceEditor: TFrame},
+  FRMaterialPreview in '..\Source\DesignTime\FRMaterialPreview.pas' {RMaterialPreview: TFrame},
+  FmGuiLayoutEditor in '..\Source\DesignTime\FmGuiLayoutEditor.pas' {GLLayoutEditorForm},
+  FmGuiSkinEditor in '..\Source\DesignTime\FmGuiSkinEditor.pas' {GLSkinEditorForm},
+  FmShaderMemo in '..\Source\DesignTime\FmShaderMemo.pas' {ShaderMemoForm},
+  FmShaderUniformEditor in '..\Source\DesignTime\FmShaderUniformEditor.pas' {GLShaderUniformEditor},
+  FmVectorEditor in '..\Source\DesignTime\FmVectorEditor.pas' {GLVectorEditorForm},
+  FmSceneEditor in '..\Source\DesignTime\FmSceneEditor.pas' {GLSceneEditorForm},
+  FmXCollectionEditor in '..\Source\DesignTime\FmXCollectionEditor.pas' {GLXCollectionEditorForm},
+  FmInfo in '..\Source\DesignTime\FmInfo.pas' {GLInfoForm},
   GLS.SceneRegister in '..\Source\GLS.SceneRegister.pas',
   GLS.XCollectionRegister in '..\Source\GLS.XCollectionRegister.pas',
-  FmMaterialEditor in '..\Source\FmMaterialEditor.pas' {GLMaterialEditorForm},
-  FmLibMaterialPicker in '..\Source\FmLibMaterialPicker.pas' {GLLibMaterialPickerForm};
+  FmMaterialEditor in '..\Source\DesignTime\FmMaterialEditor.pas' {GLMaterialEditorForm},
+  FmLibMaterialPicker in '..\Source\DesignTime\FmLibMaterialPicker.pas' {GLLibMaterialPickerForm};
 
 end.
 

@@ -508,8 +508,8 @@ var
   N: Integer;
 begin
   Path := LowerCase(ExtractFilePath(ParamStr(0)));
-  N := Pos('examples', Path);
-  Delete(Path, N, Length(path));
+  N := Pos('glxengine', Path);
+  Delete(Path, N + 9(*glxengine*), Length(path));
   Path := IncludeTrailingPathDelimiter(Path) + 'assets';
   SetCurrentDir(Path);
   Result := Path;

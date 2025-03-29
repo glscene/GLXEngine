@@ -128,7 +128,7 @@
         <DCCReference Include="GLScene_GPU_RT.dcp"/>
         <DCCReference Include="..\Source\GLS.CUDA.PropEditors.pas"/>
         <DCCReference Include="..\Source\GLS.CUDA.Register.pas"/>
-        <DCCReference Include="..\Source\FmCUDAEditor.pas">
+        <DCCReference Include="..\Source\DesignTime\FmCUDAEditor.pas">
             <Form>GLCUDAEditorForm</Form>
             <FormType>dfm</FormType>
         </DCCReference>
