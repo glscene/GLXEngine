@@ -21,15 +21,13 @@ var
   TexturePath: TFileName;
   IniFile: TIniFile;
 
-  Language: integer;
+  LanguageID: integer;
   GeneralSection: string = RegGLSViewer + 'General';
 
   SplashStart : Boolean;
   TipOfTheDay : Boolean;
 
 
-//==========================================================================
-implementation
-//==========================================================================
+implementation //===========================================================
 
 end.

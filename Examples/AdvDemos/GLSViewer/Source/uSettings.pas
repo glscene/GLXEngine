@@ -13,15 +13,11 @@ uses
   System.SysUtils,
   Vcl.Forms,
   Vcl.Graphics,
-  Vcl.ActnList,
-  //
-  GnuGettext;
+  Vcl.ActnList;
 
 procedure InitGeneralRegistry;
 
-//-------------------------------------------------------------------------
-implementation
-// ------------------------------------------------------------------------
+implementation // ----------------------------------------------------------
 
 uses
   uGlobals;
@@ -65,6 +61,8 @@ begin
 *)
 end;
 
-initialization
+initialization //-----------------------------------------------------------
+
   InitGeneralRegistry;
+
 end.

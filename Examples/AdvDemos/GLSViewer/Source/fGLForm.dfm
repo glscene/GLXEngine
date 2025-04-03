@@ -12,6 +12,5 @@ object GLForm: TGLForm
   Font.Style = []
   Position = poMainFormCenter
   Scaled = False
-  OnCreate = FormCreate
   TextHeight = 21
 end

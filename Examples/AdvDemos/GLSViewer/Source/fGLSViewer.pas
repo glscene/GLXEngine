@@ -77,12 +77,10 @@ uses
   fGLAbout,
   fGLOptions,
   dImages,
-  dDialogs,
-
-  GnuGettext;
+  dDialogs, Vcl.PlatformDefaultStyleActnCtrls;
 
 type
-  TFormGLSViewer = class(TGLForm)
+  TfrmGLSViewer = class(TGLForm)
     StatusBar: TStatusBar;
     Scene: TGLScene;
     ffObject: TGLFreeForm;
@@ -280,7 +278,7 @@ type
   end;
 
 var
-  FormGLSViewer: TFormGLSViewer;
+  frmGLSViewer: TfrmGLSViewer;
   NaviCube: TGLNaviCube;
 
 implementation //-------------------------------------------------------------
@@ -362,7 +360,7 @@ begin
 end;
 
 //---------------------------------------------------------------
-procedure TFormGLSViewer.FormCreate(Sender: TObject);
+procedure TfrmGLSViewer.FormCreate(Sender: TObject);
 begin
   AssetPath := GetCurrentAssetPath();
   TextureDir := AssetPath + '\texture';
@@ -383,7 +381,7 @@ begin
 end;
 
 //---------------------------------------------------------------
-procedure TFormGLSViewer.FormShow(Sender: TObject);
+procedure TfrmGLSViewer.FormShow(Sender: TObject);
 begin
   if not nthShow then
   begin
@@ -401,7 +399,7 @@ begin
 end;
 
 //---------------------------------------------------------------
-procedure TFormGLSViewer.acFileOpenExecute(Sender: TObject);
+procedure TfrmGLSViewer.acFileOpenExecute(Sender: TObject);
 begin
   NaviCube.ActiveMouse := False;
   if dmDialogs.OpenDialog.Execute then
@@ -409,7 +407,7 @@ begin
 end;
 
 //---------------------------------------------------------------
-procedure TFormGLSViewer.acFileOpenTexLibExecute(Sender: TObject);
+procedure TfrmGLSViewer.acFileOpenTexLibExecute(Sender: TObject);
 var
   I: Integer;
 begin
@@ -426,7 +424,7 @@ begin
 end;
 
 //---------------------------------------------------------------
-procedure TFormGLSViewer.acFilePickExecute(Sender: TObject);
+procedure TfrmGLSViewer.acFilePickExecute(Sender: TObject);
 begin
   dmDialogs.ODTextures.InitialDir := AssetPath + '\texture';;
   if dmDialogs.opDialog.Execute then
@@ -445,7 +443,7 @@ begin
 end;
 
 //---------------------------------------------------------------
-procedure TFormGLSViewer.acFileSaveAsExecute(Sender: TObject);
+procedure TfrmGLSViewer.acFileSaveAsExecute(Sender: TObject);
 var
   ext: String;
 begin
@@ -459,19 +457,19 @@ begin
         (dmDialogs.SaveDialog.FilterIndex, False, True));
     if GetVectorFileFormats.FindFromFileName(dmDialogs.SaveDialog.FileName) = nil
     then
-      ShowMessage(_('Unsupported file extension'))
+      ShowMessage('Unsupported file extension')
     else
       ffObject.SaveToFile(dmDialogs.SaveDialog.FileName);
   end;
 end;
 
-procedure TFormGLSViewer.acFileSaveTexturesExecute(Sender: TObject);
+procedure TfrmGLSViewer.acFileSaveTexturesExecute(Sender: TObject);
 begin
   if dmDialogs.SDTextures.Execute then
     dmImages.MaterialLib.SaveToFile(dmDialogs.SDTextures.FileName);
 end;
 
-procedure TFormGLSViewer.snViewerBeforeRender(Sender: TObject);
+procedure TfrmGLSViewer.snViewerBeforeRender(Sender: TObject);
 begin
   THiddenLineShader(hlShader).LinesColor := VectorMake(107 / 256, 123 / 256,
     173 / 256, 1);
@@ -489,13 +487,13 @@ begin
   end;
 end;
 
-procedure TFormGLSViewer.snViewerAfterRender(Sender: TObject);
+procedure TfrmGLSViewer.snViewerAfterRender(Sender: TObject);
 begin
   ApplyFSAA;
   Screen.Cursor := crDefault;
 end;
 
-procedure TFormGLSViewer.DoResetCamera;
+procedure TfrmGLSViewer.DoResetCamera;
 var
   objSize: Single;
 begin
@@ -520,7 +518,7 @@ begin
   end;
 end;
 
-procedure TFormGLSViewer.ApplyShadeModeToMaterial(aMaterial: TGLMaterial);
+procedure TfrmGLSViewer.ApplyShadeModeToMaterial(aMaterial: TGLMaterial);
 begin
   if acViewSmoothShading.Checked then
   begin
@@ -554,7 +552,7 @@ begin
   end;
 end;
 
-procedure TFormGLSViewer.ApplyShadeMode;
+procedure TfrmGLSViewer.ApplyShadeMode;
 var
   I: Integer;
 begin
@@ -571,7 +569,7 @@ begin
   ffObject.StructureChanged;
 end;
 
-procedure TFormGLSViewer.ApplyFSAA;
+procedure TfrmGLSViewer.ApplyFSAA;
 begin
   with snViewer.Buffer do
   begin
@@ -592,7 +590,7 @@ begin
   end;
 end;
 
-procedure TFormGLSViewer.ApplyFaceCull;
+procedure TfrmGLSViewer.ApplyFaceCull;
 begin
   with snViewer.Buffer do
   begin
@@ -609,7 +607,7 @@ begin
   end;
 end;
 
-procedure TFormGLSViewer.ApplyBgColor;
+procedure TfrmGLSViewer.ApplyBgColor;
 var
   bmp: TBitmap;
   col: TColor;
@@ -628,7 +626,7 @@ begin
   end;
 end;
 
-procedure TFormGLSViewer.ApplyTexturing;
+procedure TfrmGLSViewer.ApplyTexturing;
 var
   I: Integer;
 begin
@@ -646,12 +644,12 @@ begin
 end;
 
 //--------------------------------------------------------
-procedure TFormGLSViewer.AsyncTimerTimer(Sender: TObject);
+procedure TfrmGLSViewer.AsyncTimerTimer(Sender: TObject);
 begin
   snViewer.ResetPerformanceMonitor;
 end;
 
-procedure TFormGLSViewer.ApplyFPS;
+procedure TfrmGLSViewer.ApplyFPS;
 begin
   if acToolsShowFPS.Checked then
   begin
@@ -666,7 +664,7 @@ begin
   end;
 end;
 
-procedure TFormGLSViewer.SetupFreeFormShading;
+procedure TfrmGLSViewer.SetupFreeFormShading;
 var
   I: Integer;
   LibMat: TGLLibMaterial;
@@ -686,7 +684,7 @@ begin
   ApplyFPS;
 end;
 
-procedure TFormGLSViewer.DoOpen(const FileName: String);
+procedure TfrmGLSViewer.DoOpen(const FileName: String);
 var
   min, max: TAffineVector;
   Name: TFileName;
@@ -694,7 +692,7 @@ begin
   if not FileExists(FileName) then
     Exit;
   Screen.Cursor := crHourGlass;
-  FormGLSViewer.Caption := 'GLSViewer - ' + FileName;
+  frmGLSViewer.Caption := 'GLSViewer - ' + FileName;
   dmImages.MaterialLib.Materials.Clear;
   ffObject.MeshObjects.Clear;
   ffObject.LoadFromFile(FileName);
@@ -716,7 +714,7 @@ begin
   DoResetCamera;
 end;
 
-procedure TFormGLSViewer.snViewerMouseDown(Sender: TObject; Button: TMouseButton;
+procedure TfrmGLSViewer.snViewerMouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
   mx := X;
@@ -724,12 +722,12 @@ begin
   md := True;
 end;
 
-procedure TFormGLSViewer.snViewerMouseLeave(Sender: TObject);
+procedure TfrmGLSViewer.snViewerMouseLeave(Sender: TObject);
 begin
   Cadencer.Enabled := False;
 end;
 
-procedure TFormGLSViewer.snViewerMouseMove(Sender: TObject; Shift: TShiftState;
+procedure TfrmGLSViewer.snViewerMouseMove(Sender: TObject; Shift: TShiftState;
   X, Y: Integer);
 var
   d: Single;
@@ -763,13 +761,13 @@ begin
   end;
 end;
 
-procedure TFormGLSViewer.snViewerMouseUp(Sender: TObject; Button: TMouseButton;
+procedure TfrmGLSViewer.snViewerMouseUp(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
   md := False;
 end;
 
-procedure TFormGLSViewer.FormMouseWheel(Sender: TObject; Shift: TShiftState;
+procedure TfrmGLSViewer.FormMouseWheel(Sender: TObject; Shift: TShiftState;
   WheelDelta: Integer; MousePos: TPoint; var Handled: Boolean);
 begin
   if ffObject.MeshObjects.Count > 0 then
@@ -781,14 +779,14 @@ begin
   Handled := True;
 end;
 
-procedure TFormGLSViewer.MaterialLibTextureNeeded(Sender: TObject;
+procedure TfrmGLSViewer.MaterialLibTextureNeeded(Sender: TObject;
   var textureFileName: String);
 begin
   if not acToolsTexturing.Enabled then
     textureFileName := '';
 end;
 
-procedure TFormGLSViewer.acInvertNormalsExecute(Sender: TObject);
+procedure TfrmGLSViewer.acInvertNormalsExecute(Sender: TObject);
 var
   I: Integer;
 begin
@@ -798,7 +796,7 @@ begin
   ffObject.StructureChanged;
 end;
 
-procedure TFormGLSViewer.acReverseRenderingOrderExecute(Sender: TObject);
+procedure TfrmGLSViewer.acReverseRenderingOrderExecute(Sender: TObject);
 var
   I, j, n: Integer;
   fg: TGLFaceGroup;
@@ -827,17 +825,17 @@ begin
   ffObject.StructureChanged;
 end;
 
-procedure TFormGLSViewer.acRoomExecute(Sender: TObject);
+procedure TfrmGLSViewer.acRoomExecute(Sender: TObject);
 begin
   // Room
 end;
 
-procedure TFormGLSViewer.acSaveAsUpdate(Sender: TObject);
+procedure TfrmGLSViewer.acSaveAsUpdate(Sender: TObject);
 begin
   acFileSaveAs.Enabled := (ffObject.MeshObjects.Count > 0);
 end;
 
-procedure TFormGLSViewer.acHelpAboutExecute(Sender: TObject);
+procedure TfrmGLSViewer.acHelpAboutExecute(Sender: TObject);
 begin
   with TGLAbout.Create(Self) do
     try
@@ -847,32 +845,32 @@ begin
     end;
 end;
 
-procedure TFormGLSViewer.acHelpContentsExecute(Sender: TObject);
+procedure TfrmGLSViewer.acHelpContentsExecute(Sender: TObject);
 begin
   inherited;
   ShellExecute(0, 'open', 'https://en.wikipedia.org/wiki/GLScene', '', '', SW_SHOW);
 end;
 
-procedure TFormGLSViewer.acHelpTopicSearchExecute(Sender: TObject);
+procedure TfrmGLSViewer.acHelpTopicSearchExecute(Sender: TObject);
 begin
   inherited;
   ShellExecute(0, 'open', 'https://glscene.org', '', '', SW_SHOW);
 end;
 
-procedure TFormGLSViewer.acHelpGLSHomePageExecute(Sender: TObject);
+procedure TfrmGLSViewer.acHelpGLSHomePageExecute(Sender: TObject);
 begin
   inherited;
   ShellExecute(0, 'open','https://github.com/glscene', '', '', SW_SHOW);
 end;
 
 
-procedure TFormGLSViewer.acAADefaultExecute(Sender: TObject);
+procedure TfrmGLSViewer.acAADefaultExecute(Sender: TObject);
 begin
   (Sender as TAction).Checked := True;
   ApplyFSAA;
 end;
 
-procedure TFormGLSViewer.acConvertToIndexedTrianglesExecute(Sender: TObject);
+procedure TfrmGLSViewer.acConvertToIndexedTrianglesExecute(Sender: TObject);
 var
   v: TGLAffineVectorList;
   I: TGLIntegerList;
@@ -905,7 +903,7 @@ begin
   SetupFreeFormShading;
 end;
 
-procedure TFormGLSViewer.acStripifyExecute(Sender: TObject);
+procedure TfrmGLSViewer.acStripifyExecute(Sender: TObject);
 var
   I: Integer;
   mo: TGLMeshObject;
@@ -932,7 +930,7 @@ begin
   end;
 end;
 
-procedure TFormGLSViewer.acSaveTreeViewExecute(Sender: TObject);
+procedure TfrmGLSViewer.acSaveTreeViewExecute(Sender: TObject);
 begin
   if dmDialogs.SaveDialog.Execute then
   begin
@@ -940,76 +938,76 @@ begin
   end;
 end;
 
-procedure TFormGLSViewer.acSpheresExecute(Sender: TObject);
+procedure TfrmGLSViewer.acSpheresExecute(Sender: TObject);
 begin
   inherited;
   // random spheres
 end;
 
-procedure TFormGLSViewer.acLandscapeExecute(Sender: TObject);
+procedure TfrmGLSViewer.acLandscapeExecute(Sender: TObject);
 begin
   inherited;
   // Hills
 end;
 
-procedure TFormGLSViewer.acLoadTreeViewExecute(Sender: TObject);
+procedure TfrmGLSViewer.acLoadTreeViewExecute(Sender: TObject);
 begin
   inherited;
   //
 end;
 
-procedure TFormGLSViewer.acViewFlatShadingExecute(Sender: TObject);
+procedure TfrmGLSViewer.acViewFlatShadingExecute(Sender: TObject);
 begin
   ApplyShadeMode;
 end;
 
-procedure TFormGLSViewer.acViewHiddenLinesExecute(Sender: TObject);
+procedure TfrmGLSViewer.acViewHiddenLinesExecute(Sender: TObject);
 begin
   ApplyShadeMode;
 end;
 
-procedure TFormGLSViewer.acViewResetExecute(Sender: TObject);
+procedure TfrmGLSViewer.acViewResetExecute(Sender: TObject);
 begin
   DoResetCamera;
 end;
 
-procedure TFormGLSViewer.acViewFlatLinesExecute(Sender: TObject);
+procedure TfrmGLSViewer.acViewFlatLinesExecute(Sender: TObject);
 begin
   ApplyShadeMode;
 end;
 
-procedure TFormGLSViewer.acViewSmoothShadingExecute(Sender: TObject);
+procedure TfrmGLSViewer.acViewSmoothShadingExecute(Sender: TObject);
 begin
   ApplyShadeMode;
 end;
 
-procedure TFormGLSViewer.acViewWireFrameExecute(Sender: TObject);
+procedure TfrmGLSViewer.acViewWireFrameExecute(Sender: TObject);
 begin
   ApplyShadeMode;
 end;
 
-procedure TFormGLSViewer.acViewZoomInExecute(Sender: TObject);
+procedure TfrmGLSViewer.acViewZoomInExecute(Sender: TObject);
 var
   h: Boolean;
 begin
   FormMouseWheel(Self, [], -120 * 4, Point(0, 0), h);
 end;
 
-procedure TFormGLSViewer.acViewZoomOutExecute(Sender: TObject);
+procedure TfrmGLSViewer.acViewZoomOutExecute(Sender: TObject);
 var
   h: Boolean;
 begin
   FormMouseWheel(Self, [], 120 * 4, Point(0, 0), h);
 end;
 
-procedure TFormGLSViewer.acOptimizeExecute(Sender: TObject);
+procedure TfrmGLSViewer.acOptimizeExecute(Sender: TObject);
 begin
   OptimizeMesh(ffObject.MeshObjects, [mooVertexCache, mooSortByMaterials]);
   ffObject.StructureChanged;
   SetupFreeFormShading;
 end;
 
-procedure TFormGLSViewer.acToolsOptionsExecute(Sender: TObject);
+procedure TfrmGLSViewer.acToolsOptionsExecute(Sender: TObject);
 begin
   with TFormOptions.Create(Self) do
     try
@@ -1019,13 +1017,13 @@ begin
     end;
 end;
 
-procedure TFormGLSViewer.acToolsFaceCullingExecute(Sender: TObject);
+procedure TfrmGLSViewer.acToolsFaceCullingExecute(Sender: TObject);
 begin
   acToolsFaceCulling.Checked := not acToolsFaceCulling.Checked;
   ApplyFaceCull;
 end;
 
-procedure TFormGLSViewer.acToolsInfoExecute(Sender: TObject);
+procedure TfrmGLSViewer.acToolsInfoExecute(Sender: TObject);
 begin
   with TGLDialog.Create(Self) do
     try
@@ -1039,20 +1037,20 @@ begin
     end;
 end;
 
-procedure TFormGLSViewer.acToolsLightingExecute(Sender: TObject);
+procedure TfrmGLSViewer.acToolsLightingExecute(Sender: TObject);
 begin
   acToolsLighting.Checked := not acToolsLighting.Checked;
   // TBLighting
   ApplyShadeMode;
 end;
 
-procedure TFormGLSViewer.acToolsShowFPSExecute(Sender: TObject);
+procedure TfrmGLSViewer.acToolsShowFPSExecute(Sender: TObject);
 begin
   acToolsShowFPS.Checked := not acToolsShowFPS.Checked;
   ApplyFPS;
 end;
 
-procedure TFormGLSViewer.acToolsTexturingExecute(Sender: TObject);
+procedure TfrmGLSViewer.acToolsTexturingExecute(Sender: TObject);
 begin
   acToolsTexturing.Checked := not acToolsTexturing.Checked;
   if acToolsTexturing.Checked then
@@ -1066,7 +1064,7 @@ begin
     ApplyTexturing;
 end;
 
-procedure TFormGLSViewer.acToolsNaviCubeExecute(Sender: TObject);
+procedure TfrmGLSViewer.acToolsNaviCubeExecute(Sender: TObject);
 begin
   acToolsNaviCube.Checked := not acToolsNaviCube.Checked;
   if acToolsNaviCube.Checked = True then
@@ -1085,7 +1083,7 @@ end;
 //------------------------------------------------------
 // Show Base and Additional Objects
 //------------------------------------------------------
-procedure TFormGLSViewer.acPointsExecute(Sender: TObject);
+procedure TfrmGLSViewer.acPointsExecute(Sender: TObject);
 var
   I: Integer;
   Color: TVector4f;
@@ -1111,12 +1109,12 @@ begin
   end;
 end;
 
-procedure TFormGLSViewer.acFileExitExecute(Sender: TObject);
+procedure TfrmGLSViewer.acFileExitExecute(Sender: TObject);
 begin
   Close;
 end;
 
-procedure TFormGLSViewer.CadencerProgress(Sender: TObject;
+procedure TfrmGLSViewer.CadencerProgress(Sender: TObject;
   const deltaTime, newTime: Double);
 begin
   if NaviCube.InactiveTime > 5 then
@@ -1132,14 +1130,14 @@ begin
     snViewer.Invalidate;
 end;
 
-procedure TFormGLSViewer.TimerTimer(Sender: TObject);
+procedure TfrmGLSViewer.TimerTimer(Sender: TObject);
 begin
 //  StatusBar.Panels[3].Text := Format('%.1f  FPS', [snViewer.FramesPerSecond]);
   snViewer.ResetPerformanceMonitor;
 end;
 
 //---------------------------------------------------------------------------
-procedure TFormGLSViewer.tvSceneCheckStateChanged(Sender: TCustomTreeView;
+procedure TfrmGLSViewer.tvSceneCheckStateChanged(Sender: TCustomTreeView;
   Node: TTreeNode; CheckState: TNodeCheckState);
 begin
   inherited;
@@ -1147,7 +1145,7 @@ begin
 end;
 
 //---------------------------------------------------------------------------
-procedure TFormGLSViewer.tvSceneClick(Sender: TObject);
+procedure TfrmGLSViewer.tvSceneClick(Sender: TObject);
 var
   I: Integer;
   pos1, pos2: TGLVector;
@@ -1378,7 +1376,7 @@ begin
   end;
 end;
 
-procedure TFormGLSViewer.ReadIniFile;
+procedure TfrmGLSViewer.ReadIniFile;
 begin
   inherited;
   IniFile := TIniFile.Create(ChangeFileExt(ParamStr(0), '.ini'));
@@ -1390,7 +1388,7 @@ begin
   end;
 end;
 
-procedure TFormGLSViewer.WriteIniFile;
+procedure TfrmGLSViewer.WriteIniFile;
 begin
   IniFile := TIniFile.Create(ChangeFileExt(ParamStr(0), '.ini'));
   with IniFile do

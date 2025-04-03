@@ -5,32 +5,13 @@ inherited FormOptions: TFormOptions
   ClientWidth = 460
   Font.Height = -21
   StyleElements = [seFont, seClient, seBorder]
-  OnClick = rgLanguageClick
   OnClose = FormClose
   ExplicitWidth = 476
   ExplicitHeight = 352
-  TextHeight = 25
-  object rgLanguage: TRadioGroup
-    Left = 56
-    Top = 98
-    Width = 351
-    Height = 155
-    Margins.Left = 5
-    Margins.Top = 5
-    Margins.Right = 5
-    Margins.Bottom = 5
-    Caption = 'Language'
-    Columns = 2
-    ItemIndex = 0
-    Items.Strings = (
-      'English'
-      'Russian')
-    TabOrder = 0
-    OnClick = rgLanguageClick
-  end
+  TextHeight = 30
   object CheckBoxAxis: TCheckBox
-    Left = 56
-    Top = 28
+    Left = 80
+    Top = 132
     Width = 183
     Height = 29
     Margins.Left = 5
@@ -38,12 +19,12 @@ inherited FormOptions: TFormOptions
     Margins.Right = 5
     Margins.Bottom = 5
     Caption = 'Axis'
-    TabOrder = 1
+    TabOrder = 0
     OnClick = CheckBoxAxisClick
   end
   object PanelBackground: TPanel
-    Left = 294
-    Top = 22
+    Left = 310
+    Top = 126
     Width = 57
     Height = 40
     Margins.Left = 5
@@ -52,7 +33,7 @@ inherited FormOptions: TFormOptions
     Margins.Bottom = 5
     Color = clBlack
     ParentBackground = False
-    TabOrder = 2
+    TabOrder = 1
     OnClick = PanelBackgroundClick
   end
   object ButtonOk: TButton
@@ -65,7 +46,7 @@ inherited FormOptions: TFormOptions
     Margins.Right = 5
     Margins.Bottom = 5
     Caption = 'Ok'
-    TabOrder = 3
+    TabOrder = 2
     OnClick = ButtonOKClick
   end
 end

@@ -245,8 +245,6 @@ contains
   GLS.VerletTypes in '..\Source\GLS.VerletTypes.pas',
   GLS.VerletClothify in '..\Source\GLS.VerletClothify.pas',
   GLS.OpenGLAdapter in '..\Source\GLS.OpenGLAdapter.pas',
-  gnuGettext in '..\Src\gnuGettext.pas',
-  gnuGettextInit in '..\Src\gnuGettextInit.pas',
   GLS.CurvesAndSurfaces in '..\Source\GLS.CurvesAndSurfaces.pas',
   PasDblStrUtils in '..\Src\PasDblStrUtils.pas',
   PasGLTF in '..\Src\PasGLTF.pas',

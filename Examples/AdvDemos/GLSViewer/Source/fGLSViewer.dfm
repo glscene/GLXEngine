@@ -1,4 +1,4 @@
-object FormGLSViewer: TFormGLSViewer
+object frmGLSViewer: TfrmGLSViewer
   Left = 188
   Top = 87
   Caption = 'GLSViewer'
@@ -7,7 +7,7 @@ object FormGLSViewer: TFormGLSViewer
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
-  Font.Height = -11
+  Font.Height = -16
   Font.Name = 'MS Sans Serif'
   Font.Style = []
   Icon.Data = {
@@ -129,7 +129,7 @@ object FormGLSViewer: TFormGLSViewer
   ShowHint = True
   OnCreate = FormCreate
   OnShow = FormShow
-  TextHeight = 13
+  TextHeight = 20
   object StatusBar: TStatusBar
     Left = 0
     Top = 683
@@ -152,8 +152,6 @@ object FormGLSViewer: TFormGLSViewer
         Text = 'Model'
         Width = 40
       end>
-    ExplicitTop = 658
-    ExplicitWidth = 1072
   end
   object snViewer: TGLSceneViewer
     Left = 273
@@ -181,7 +179,6 @@ object FormGLSViewer: TFormGLSViewer
     Height = 29
     Align = alTop
     TabOrder = 2
-    ExplicitWidth = 1072
     object atbTools: TActionToolBar
       Left = 357
       Top = 2
@@ -259,12 +256,11 @@ object FormGLSViewer: TFormGLSViewer
     ColorMap.BtnSelectedFont = clBlack
     ColorMap.UnusedColor = clWhite
     Font.Charset = DEFAULT_CHARSET
-    Font.Color = clBlack
-    Font.Height = -11
+    Font.Color = clWindowText
+    Font.Height = -16
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     Spacing = 0
-    ExplicitWidth = 1072
   end
   object PanelLeft: TPanel
     Left = 0
@@ -273,7 +269,6 @@ object FormGLSViewer: TFormGLSViewer
     Height = 629
     Align = alLeft
     TabOrder = 4
-    ExplicitHeight = 604
     object tvScene: TTreeView
       Left = 1
       Top = 1
@@ -482,7 +477,6 @@ object FormGLSViewer: TFormGLSViewer
         6D0070007500740069006E0067000000410000005E0000005E000000FFFFFFFF
         FFFFFFFF0000000000000000000000000001114300550044004100470065006E
         006500720061007400650064004D00650073006800}
-      ExplicitHeight = 602
     end
   end
   object Scene: TGLScene
@@ -1406,7 +1400,7 @@ object FormGLSViewer: TFormGLSViewer
     Images = ImageListMenu
     Left = 297
     Top = 289
-    StyleName = 'Standard'
+    StyleName = 'Platform Default'
     object acOptimizeMesh: TAction
       Category = 'Processing'
       Caption = 'Optimize Mesh'

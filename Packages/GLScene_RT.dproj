@@ -380,8 +380,6 @@
         <DCCReference Include="..\Source\GLS.VerletTypes.pas"/>
         <DCCReference Include="..\Source\GLS.VerletClothify.pas"/>
         <DCCReference Include="..\Source\GLS.OpenGLAdapter.pas"/>
-        <DCCReference Include="..\Src\gnuGettext.pas"/>
-        <DCCReference Include="..\Src\gnuGettextInit.pas"/>
         <DCCReference Include="..\Source\GLS.CurvesAndSurfaces.pas"/>
         <DCCReference Include="..\Src\PasDblStrUtils.pas"/>
         <DCCReference Include="..\Src\PasGLTF.pas"/>
