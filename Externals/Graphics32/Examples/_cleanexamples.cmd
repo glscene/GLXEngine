@@ -21,7 +21,11 @@ del *.drc /s
 del *.vrc /s
 del *.local /s
 del *.res /s
-del sk4d.dll /s
+
+rem Lazarus
+del *.lpi /s
+del *.lpr /s
+
 
 rem delete more files
 
@@ -34,9 +38,11 @@ del *.stat /s
 del *.db /s
 del *.~dbg /s
 del *.spider /s
+del sk4d.dll /s
 
-rem delete cpp builder files
+rem delete cpp builder6 files
 
+del *.bpr /s
 del *.hpp /s
 del *.#00 /s
 del *.pch /s
