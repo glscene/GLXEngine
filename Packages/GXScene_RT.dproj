@@ -416,8 +416,6 @@
         <DCCReference Include="..\Sourcex\Formatx.VRML.pas"/>
         <DCCReference Include="..\Sourcex\Formatx.Q3MD3.pas"/>
         <DCCReference Include="..\Sourcex\Formatx.B3D.pas"/>
-        <DCCReference Include="..\Src\gnuGettext.pas"/>
-        <DCCReference Include="..\Src\gnuGettextInit.pas"/>
         <DCCReference Include="..\Src\PasDblStrUtils.pas"/>
         <DCCReference Include="..\Src\PasGLTF.pas"/>
         <DCCReference Include="..\Src\PasJSON.pas"/>
@@ -500,6 +498,12 @@
                 <DeployFile LocalName="C:\Users\Public\Documents\Embarcadero\Studio\23.0\Bpl\Win64\GXScene_RT.bpl" Configuration="Debug" Class="ProjectOutput"/>
                 <DeployFile LocalName="C:\Users\Public\Documents\Embarcadero\Studio\23.0\Bpl\Win64\GXScene_RT.bpl" Configuration="Debug" Class="ProjectOutput">
                     <Platform Name="Win64">
+                        <RemoteName>GXScene_RT.bpl</RemoteName>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="C:\Users\Public\Documents\Embarcadero\Studio\23.0\Bpl\Win64x\GXScene_RT.bpl" Configuration="Debug" Class="ProjectOutput">
+                    <Platform Name="Win64x">
                         <RemoteName>GXScene_RT.bpl</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>

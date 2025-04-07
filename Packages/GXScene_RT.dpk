@@ -28,7 +28,7 @@ package GXScene_RT;
 {$IMAGEBASE $400000}
 {$DEFINE DEBUG}
 {$ENDIF IMPLICITBUILDING}
-{$DESCRIPTION 'GXScene Platform'}
+{$DESCRIPTION 'GLSceneVKS Vulkan 3D library'}
 {$RUNONLY}
 {$IMPLICITBUILD ON}
 
@@ -247,8 +247,6 @@ contains
   Formatx.VRML in '..\Sourcex\Formatx.VRML.pas',
   Formatx.Q3MD3 in '..\Sourcex\Formatx.Q3MD3.pas',
   Formatx.B3D in '..\Sourcex\Formatx.B3D.pas',
-  gnuGettext in '..\Src\gnuGettext.pas',
-  gnuGettextInit in '..\Src\gnuGettextInit.pas',
   PasDblStrUtils in '..\Src\PasDblStrUtils.pas',
   PasGLTF in '..\Src\PasGLTF.pas',
   PasJSON in '..\Src\PasJSON.pas',
