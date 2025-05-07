@@ -1,4 +1,4 @@
-GLXEngine is an OpenGL based 3D library for Delphi and C++Builder. 
+GLXEngine is an OpenGL based collector for Delphi and C++Builder packages. 
 It provides visual components and objects allowing description and effective rendering of 3D scenes.
 GLXEngine is not only an OpenGL wrapper or utility library, but it's grown to become a set of founding classes 
 for a generic 3D engine for the Rapid Application Development. 

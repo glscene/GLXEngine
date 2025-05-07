@@ -28,7 +28,7 @@ object GLInfoForm: TGLInfoForm
     Top = 0
     Width = 468
     Height = 341
-    ActivePage = TabSheetContributors
+    ActivePage = TabSheetGLScene
     Align = alTop
     TabOrder = 0
     ExplicitWidth = 460

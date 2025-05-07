@@ -1,6 +1,6 @@
 The directory for PasDoc scripts
 ------------------------------------------------------------
-To generate GXSysHelp.chm you need to follow steps:
+To generate GXSysHelp.chm follow the steps:
 1.Download PasDoc program from https://github.com/pasdoc/pasdoc/releases/tag/snapshot and setup it.
 2.Run the pasdoc_gui program and Open GXSysHelp.pds script 
 3.Click on the button Generate and create GLXEngine's help system files in HTML folder

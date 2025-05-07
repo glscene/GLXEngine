@@ -57,9 +57,10 @@ uses
   Vcl.Forms,
 
   Stage.OpenGLTokens,
-  GLS.Scene,
   Stage.VectorTypes,
   Stage.VectorGeometry,
+
+  GLS.Scene,
   GLS.HeightData,
   GLS.TerrainRenderer,
   GLS.Texture,

@@ -38,6 +38,8 @@ object FormCsg: TFormCsg
     Height = 542
     Align = alRight
     TabOrder = 1
+    ExplicitLeft = 536
+    ExplicitHeight = 517
     object chbSolidResult: TCheckBox
       Left = 48
       Top = 324
@@ -139,6 +141,7 @@ object FormCsg: TFormCsg
         Material.FrontProperties.Shininess = 32
         Material.FrontProperties.Specular.Color = {9A99593F9A99593FCDCCCC3D0000803F}
         Scale.Coordinates = {0000A0420000A0420000A04200000000}
+        Visible = False
         AutoCentering = [macCenterX, macCenterY, macCenterZ]
       end
       object FF_B: TGLFreeForm
@@ -148,10 +151,18 @@ object FormCsg: TFormCsg
         Material.FrontProperties.Specular.Color = {BEBEBE3E999F1F3F999F1F3F0000803F}
         Position.Coordinates = {0000004200000000000000000000803F}
         Scale.Coordinates = {00002042000020420000204200000000}
+        Visible = False
         AutoCentering = [macCenterX, macCenterY, macCenterZ]
       end
       object FF_C: TGLFreeForm
+        Position.Coordinates = {0000000000000042000000000000803F}
+        Visible = False
         MaterialLibrary = GLMaterialLibrary1
+      end
+      object ffSphere: TGLFreeForm
+        Scale.Coordinates = {00002041000020410000204100000000}
+      end
+      object ffHalhSphere: TGLFreeForm
       end
     end
   end

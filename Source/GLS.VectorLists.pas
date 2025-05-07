@@ -47,7 +47,6 @@ type
     function BufferItem: PByteArray;  inline;
     function GetSetCountResetsMemory: Boolean; inline;
     procedure SetSetCountResetsMemory(const Val: Boolean);
-    // Borland-style persistency support.
     procedure ReadItemsData(AReader : TReader); virtual;
     procedure WriteItemsData(AWriter : TWriter); virtual;
     procedure DefineProperties(AFiler: TFiler); override;
@@ -420,7 +419,7 @@ type
     // Lerps corresponding quaternions from both lists using QuaternionSlerp
     procedure Lerp(const list1, list2: TGLBaseVectorList; lerpFactor: Single); override;
     (* Multiplies corresponding quaternions after the second quaternion is
-      slerped with the IdentityQuaternion using factor. This allows for weighted
+      lerped with the IdentityQuaternion using factor. This allows for weighted
       combining of rotation transforms using quaternions *)
     procedure Combine(const list2: TGLBaseVectorList; factor: Single); override;
   end;

@@ -52,6 +52,8 @@ type
     chbB: TCheckBox;
     chbC: TCheckBox;
     rgOperation: TRadioGroup;
+    ffSphere: TGLFreeForm;
+    ffHalhSphere: TGLFreeForm;
     procedure GLSceneViewer1MouseDown(Sender: TObject;
       Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
     procedure GLSceneViewer1MouseUp(Sender: TObject; Button: TMouseButton;
@@ -88,8 +90,9 @@ begin
   // scaled 40
   FF_A.LoadFromFile('polyhedron.3ds');
 
-  // scaled 20, position.x = 16
+  // scaled 20, position.x = 32
   FF_B.LoadFromFile('polyhedron.3ds');
+  ffSphere.LoadFromFile('sphere.3ds');
 end;
 
 //

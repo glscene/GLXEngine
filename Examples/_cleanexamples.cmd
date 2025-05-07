@@ -20,6 +20,7 @@ del *.rsm /s
 del *.drc /s
 del *.vrc /s
 del *.local /s
+del *.dsv /s
 
 rem delete more files
 

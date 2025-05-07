@@ -32,6 +32,7 @@ del *.s /s
 del *.map /s
 del *.drc /s
 del *.local /s
+del *.dsv /s
 
 @echo off delete more rad studio files
 
