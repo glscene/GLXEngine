@@ -7,35 +7,32 @@ include managers for supporting physics, sounds, terrains with materials and sha
 2. Run _setupDLL_admin.cmd to support external DLLs
 3. Configure the IDE settings and paths to src, sources and sourcex, include and lib dirs  
 4. Open the GLSEngine.groupproj in RAD Studio Delphi or .lpk projects for Lazarus, compile and install components
-5. Users of the C++ Builder Personality only need to copy the compiled .bpl packages from ../GLXEngine/bpl directory 
-   to a folder  C:\Users\Public\Documents\Embarcadero\Studio\23.0\Bpl then add them and install to palette  
 5. Run Examples for Delphi or C++Builder <br>
-### Some examples:
 
-<br>
-![GLSViewer](./Help/Screenshots/GLSViewer.png)
-</br>
+
+![GLSViewer](Help/Screenshots/GLSViewer.png)
+
 ActorToPoint
-<br>
-![ActorToPoint](./Help/Clips/ActorToPoint.gif)
-![ClothActor](./Help/Clips/ClothActor.gif)
-</br>
-Ragdoll 
-<br>
-![Ragdoll](./Help/Clips/RagDoll.gif)
-<br>
-![Christmas](./Help/Screenshots/Christmas.png)
-</br>
-<br>
-![Forest](./Help/Screenshots/Forest.png)
-</br>
 
-<br>
-![Village](./Help/Screenshots/Village.png)
-</br>
+![ActorToPoint](Help/Clips/ActorToPoint.gif)
+![ClothActor](Help/Clips/ClothActor.gif)
+
+Ragdoll 
+
+![Ragdoll](Help/Clips/RagDoll.gif)
+
+![Christmas](Help/Screenshots/Christmas.png)
+
+
+![Forest](Help/Screenshots/Forest.png)
+
+
+
+![Village](Help/Screenshots/Village.png)
+
 Plot2D
-<br>
-![Plot2D](./Help/Screenshots/Plot2D.png)
-</br>
+
+![Plot2D](Help/Screenshots/Plot2D.png)
+
 
 [Admin](https://t.me/glscene)
