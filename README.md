@@ -13,29 +13,29 @@ include managers for supporting physics, sounds, terrains with materials and sha
 ### Some examples:
 
 <br>
-![GLSViewer](Help/Screenshots/GLSViewer.png)
+![GLSViewer](./Help/Screenshots/GLSViewer.png)
 </br>
 ActorToPoint
 <br>
-![ActorToPoint](Help/Clips/ActorToPoint.gif)
-![ClothActor](Help/Clips/ClothActor.gif)
+![ActorToPoint](./Help/Clips/ActorToPoint.gif)
+![ClothActor](./Help/Clips/ClothActor.gif)
 </br>
 Ragdoll 
 <br>
-![Ragdoll](Help/Clips/RagDoll.gif)
+![Ragdoll](./Help/Clips/RagDoll.gif)
 <br>
-![Christmas](Help/Screenshots/Christmas.png)
+![Christmas](./Help/Screenshots/Christmas.png)
 </br>
 <br>
-![Forest](Help/Screenshots/Forest.png)
+![Forest](./Help/Screenshots/Forest.png)
 </br>
 
 <br>
-![Village](Help/Screenshots/Village.png)
+![Village](./Help/Screenshots/Village.png)
 </br>
 Plot2D
 <br>
-![Plot2D](Help/Screenshots/Plot2D.png)
+![Plot2D](./Help/Screenshots/Plot2D.png)
 </br>
 
-[Админ](https://t.me/glscene)
+[Admin](https://t.me/glscene)
