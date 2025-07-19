@@ -1,0 +1,108 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{9B780FAA-D85C-4EC7-867D-81ACBBFB2E47}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="BumpShader\BumpShaderC.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="BunnyBump\BunnybumpC.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="DiffuseShader\DiffuseShaderC.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="LiningShaders\LiningShadersC.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="Ocean\OceanC.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="PostShader\PostShaderC.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="SimpleGLSL\SimpleShaderC.cbproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="BumpShaderC">
+        <MSBuild Projects="BumpShader\BumpShaderC.cbproj"/>
+    </Target>
+    <Target Name="BumpShaderC:Clean">
+        <MSBuild Projects="BumpShader\BumpShaderC.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="BumpShaderC:Make">
+        <MSBuild Projects="BumpShader\BumpShaderC.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="BunnybumpC">
+        <MSBuild Projects="BunnyBump\BunnybumpC.cbproj"/>
+    </Target>
+    <Target Name="BunnybumpC:Clean">
+        <MSBuild Projects="BunnyBump\BunnybumpC.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="BunnybumpC:Make">
+        <MSBuild Projects="BunnyBump\BunnybumpC.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="DiffuseShaderC">
+        <MSBuild Projects="DiffuseShader\DiffuseShaderC.cbproj"/>
+    </Target>
+    <Target Name="DiffuseShaderC:Clean">
+        <MSBuild Projects="DiffuseShader\DiffuseShaderC.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="DiffuseShaderC:Make">
+        <MSBuild Projects="DiffuseShader\DiffuseShaderC.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="LiningShadersC">
+        <MSBuild Projects="LiningShaders\LiningShadersC.cbproj"/>
+    </Target>
+    <Target Name="LiningShadersC:Clean">
+        <MSBuild Projects="LiningShaders\LiningShadersC.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="LiningShadersC:Make">
+        <MSBuild Projects="LiningShaders\LiningShadersC.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="OceanC">
+        <MSBuild Projects="Ocean\OceanC.cbproj"/>
+    </Target>
+    <Target Name="OceanC:Clean">
+        <MSBuild Projects="Ocean\OceanC.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="OceanC:Make">
+        <MSBuild Projects="Ocean\OceanC.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="PostShaderC">
+        <MSBuild Projects="PostShader\PostShaderC.cbproj"/>
+    </Target>
+    <Target Name="PostShaderC:Clean">
+        <MSBuild Projects="PostShader\PostShaderC.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="PostShaderC:Make">
+        <MSBuild Projects="PostShader\PostShaderC.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="SimpleShaderC">
+        <MSBuild Projects="SimpleGLSL\SimpleShaderC.cbproj"/>
+    </Target>
+    <Target Name="SimpleShaderC:Clean">
+        <MSBuild Projects="SimpleGLSL\SimpleShaderC.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="SimpleShaderC:Make">
+        <MSBuild Projects="SimpleGLSL\SimpleShaderC.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="BumpShaderC;BunnybumpC;DiffuseShaderC;LiningShadersC;OceanC;PostShaderC;SimpleShaderC"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="BumpShaderC:Clean;BunnybumpC:Clean;DiffuseShaderC:Clean;LiningShadersC:Clean;OceanC:Clean;PostShaderC:Clean;SimpleShaderC:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="BumpShaderC:Make;BunnybumpC:Make;DiffuseShaderC:Make;LiningShadersC:Make;OceanC:Make;PostShaderC:Make;SimpleShaderC:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

@@ -1,59 +1,42 @@
 object FormCgBombShader: TFormCgBombShader
   Left = 387
   Top = 217
-  Margins.Left = 5
-  Margins.Top = 5
-  Margins.Right = 5
-  Margins.Bottom = 5
   Caption = 'Cg Bomb Shader'
-  ClientHeight = 807
-  ClientWidth = 1376
+  ClientHeight = 461
+  ClientWidth = 786
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
-  Font.Height = -19
+  Font.Height = -11
   Font.Name = 'MS Sans Serif'
   Font.Style = []
   KeyPreview = True
   Position = poScreenCenter
   OnCreate = FormCreate
-  PixelsPerInch = 168
-  TextHeight = 24
+  TextHeight = 13
   object Splitter1: TSplitter
-    Left = 366
+    Left = 209
     Top = 0
     Width = 0
-    Height = 807
-    Margins.Left = 5
-    Margins.Top = 5
-    Margins.Right = 5
-    Margins.Bottom = 5
+    Height = 461
     Color = clBtnShadow
-    MinSize = 53
     ParentColor = False
   end
   object Panel1: TPanel
     Left = 0
     Top = 0
-    Width = 366
-    Height = 807
-    Margins.Left = 5
-    Margins.Top = 5
-    Margins.Right = 5
-    Margins.Bottom = 5
+    Width = 209
+    Height = 461
     Align = alLeft
     BevelInner = bvRaised
     BevelOuter = bvLowered
     TabOrder = 0
+    ExplicitHeight = 436
     object ComboBox1: TComboBox
-      Left = 28
-      Top = 597
-      Width = 282
+      Left = 16
+      Top = 341
+      Width = 161
       Height = 21
-      Margins.Left = 5
-      Margins.Top = 5
-      Margins.Right = 5
-      Margins.Bottom = 5
       Style = csDropDownList
       ItemIndex = 0
       TabOrder = 0
@@ -67,25 +50,17 @@ object FormCgBombShader: TFormCgBombShader
         'FighterTexture')
     end
     object GroupBox1: TGroupBox
-      Left = 14
-      Top = 392
-      Width = 310
-      Height = 191
-      Margins.Left = 5
-      Margins.Top = 5
-      Margins.Right = 5
-      Margins.Bottom = 5
+      Left = 8
+      Top = 224
+      Width = 177
+      Height = 109
       Caption = 'Objects'
       TabOrder = 1
       object CheckBox1: TCheckBox
-        Left = 14
-        Top = 28
-        Width = 170
-        Height = 30
-        Margins.Left = 5
-        Margins.Top = 5
-        Margins.Right = 5
-        Margins.Bottom = 5
+        Left = 8
+        Top = 16
+        Width = 97
+        Height = 17
         Caption = 'Space Fighter'
         Checked = True
         State = cbChecked
@@ -93,14 +68,10 @@ object FormCgBombShader: TFormCgBombShader
         OnClick = CheckBox1Click
       end
       object CheckBox2: TCheckBox
-        Left = 14
-        Top = 70
-        Width = 170
-        Height = 30
-        Margins.Left = 5
-        Margins.Top = 5
-        Margins.Right = 5
-        Margins.Bottom = 5
+        Left = 8
+        Top = 40
+        Width = 97
+        Height = 17
         Caption = 'TeePot'
         Checked = True
         State = cbChecked
@@ -108,14 +79,10 @@ object FormCgBombShader: TFormCgBombShader
         OnClick = CheckBox1Click
       end
       object CheckBox3: TCheckBox
-        Left = 5
-        Top = 110
-        Width = 170
-        Height = 30
-        Margins.Left = 5
-        Margins.Top = 5
-        Margins.Right = 5
-        Margins.Bottom = 5
+        Left = 3
+        Top = 63
+        Width = 97
+        Height = 17
         Caption = 'Sphere'
         Checked = True
         State = cbChecked
@@ -123,14 +90,10 @@ object FormCgBombShader: TFormCgBombShader
         OnClick = CheckBox1Click
       end
       object CheckBox4: TCheckBox
-        Left = 14
-        Top = 151
-        Width = 170
-        Height = 29
-        Margins.Left = 5
-        Margins.Top = 5
-        Margins.Right = 5
-        Margins.Bottom = 5
+        Left = 8
+        Top = 86
+        Width = 97
+        Height = 17
         Caption = 'Big Shpere'
         Checked = True
         State = cbChecked
@@ -139,14 +102,10 @@ object FormCgBombShader: TFormCgBombShader
       end
     end
     object ShaderEnabledCheckBox: TCheckBox
-      Left = 56
-      Top = 644
-      Width = 170
-      Height = 30
-      Margins.Left = 5
-      Margins.Top = 5
-      Margins.Right = 5
-      Margins.Bottom = 5
+      Left = 32
+      Top = 368
+      Width = 97
+      Height = 17
       Caption = 'Shader Enabled'
       Checked = True
       State = cbChecked
@@ -154,195 +113,150 @@ object FormCgBombShader: TFormCgBombShader
       OnClick = ShaderEnabledCheckBoxClick
     end
     object TrackBar1: TTrackBar
-      Left = 42
-      Top = 14
-      Width = 263
-      Height = 44
-      Margins.Left = 5
-      Margins.Top = 5
-      Margins.Right = 5
-      Margins.Bottom = 5
+      Left = 24
+      Top = 8
+      Width = 150
+      Height = 25
       Max = 100
       PageSize = 1
       Frequency = 5
       TabOrder = 3
-      ThumbLength = 18
+      ThumbLength = 10
       TickMarks = tmTopLeft
       OnChange = TrackBar1Change
     end
     object TrackBar2: TTrackBar
-      Left = 42
-      Top = 56
-      Width = 263
-      Height = 44
-      Margins.Left = 5
-      Margins.Top = 5
-      Margins.Right = 5
-      Margins.Bottom = 5
+      Left = 24
+      Top = 32
+      Width = 150
+      Height = 25
       Max = 100
       PageSize = 1
       Frequency = 5
       TabOrder = 4
-      ThumbLength = 18
+      ThumbLength = 10
       TickMarks = tmTopLeft
       OnChange = TrackBar2Change
     end
     object TrackBar3: TTrackBar
-      Left = 42
-      Top = 98
-      Width = 263
-      Height = 44
-      Margins.Left = 5
-      Margins.Top = 5
-      Margins.Right = 5
-      Margins.Bottom = 5
+      Left = 24
+      Top = 56
+      Width = 150
+      Height = 25
       Max = 100
       PageSize = 1
       Frequency = 5
       TabOrder = 5
-      ThumbLength = 18
+      ThumbLength = 10
       TickMarks = tmTopLeft
       OnChange = TrackBar3Change
     end
     object TrackBar4: TTrackBar
-      Left = 42
-      Top = 140
-      Width = 263
-      Height = 44
-      Margins.Left = 5
-      Margins.Top = 5
-      Margins.Right = 5
-      Margins.Bottom = 5
+      Left = 24
+      Top = 80
+      Width = 150
+      Height = 25
       Max = 100
       PageSize = 1
       Frequency = 5
       TabOrder = 6
-      ThumbLength = 18
+      ThumbLength = 10
       TickMarks = tmTopLeft
       OnChange = TrackBar4Change
     end
     object TrackBar5: TTrackBar
-      Left = 42
-      Top = 182
-      Width = 263
-      Height = 44
-      Margins.Left = 5
-      Margins.Top = 5
-      Margins.Right = 5
-      Margins.Bottom = 5
+      Left = 24
+      Top = 104
+      Width = 150
+      Height = 25
       Max = 100
       PageSize = 1
       Frequency = 5
       TabOrder = 7
-      ThumbLength = 18
+      ThumbLength = 10
       TickMarks = tmTopLeft
       OnChange = TrackBar5Change
     end
     object TrackBar6: TTrackBar
-      Left = 42
-      Top = 224
-      Width = 263
-      Height = 44
-      Margins.Left = 5
-      Margins.Top = 5
-      Margins.Right = 5
-      Margins.Bottom = 5
+      Left = 24
+      Top = 128
+      Width = 150
+      Height = 25
       Max = 100
       PageSize = 1
       Frequency = 5
       TabOrder = 8
-      ThumbLength = 18
+      ThumbLength = 10
       TickMarks = tmTopLeft
       OnChange = TrackBar6Change
     end
     object TrackBar7: TTrackBar
-      Left = 42
-      Top = 266
-      Width = 263
-      Height = 44
-      Margins.Left = 5
-      Margins.Top = 5
-      Margins.Right = 5
-      Margins.Bottom = 5
+      Left = 24
+      Top = 152
+      Width = 150
+      Height = 25
       Max = 100
       PageSize = 1
       Frequency = 5
       TabOrder = 9
-      ThumbLength = 18
+      ThumbLength = 10
       TickMarks = tmTopLeft
       OnChange = TrackBar7Change
     end
     object TrackBar8: TTrackBar
-      Left = 42
-      Top = 308
-      Width = 263
-      Height = 44
-      Margins.Left = 5
-      Margins.Top = 5
-      Margins.Right = 5
-      Margins.Bottom = 5
+      Left = 24
+      Top = 176
+      Width = 150
+      Height = 25
       Max = 100
       PageSize = 1
       Frequency = 5
       TabOrder = 10
-      ThumbLength = 18
+      ThumbLength = 10
       TickMarks = tmTopLeft
       OnChange = TrackBar8Change
     end
     object TrackBar9: TTrackBar
-      Left = 42
-      Top = 350
-      Width = 263
-      Height = 44
-      Margins.Left = 5
-      Margins.Top = 5
-      Margins.Right = 5
-      Margins.Bottom = 5
+      Left = 24
+      Top = 200
+      Width = 150
+      Height = 25
       Max = 100
       PageSize = 1
       Frequency = 5
       TabOrder = 11
-      ThumbLength = 18
+      ThumbLength = 10
       TickMarks = tmTopLeft
       OnChange = TrackBar9Change
     end
   end
   object Panel9: TPanel
-    Left = 366
+    Left = 209
     Top = 0
-    Width = 1010
-    Height = 807
-    Margins.Left = 5
-    Margins.Top = 5
-    Margins.Right = 5
-    Margins.Bottom = 5
+    Width = 577
+    Height = 461
     Align = alClient
     Font.Charset = ANSI_CHARSET
     Font.Color = clWindowText
-    Font.Height = -33
+    Font.Height = -19
     Font.Name = 'Tahoma'
     Font.Style = [fsBold]
     ParentFont = False
     TabOrder = 1
+    ExplicitWidth = 569
+    ExplicitHeight = 436
     object GLSceneViewer1: TGLSceneViewer
       Left = 1
       Top = 1
-      Width = 1008
-      Height = 805
-      Margins.Left = 5
-      Margins.Top = 5
-      Margins.Right = 5
-      Margins.Bottom = 5
+      Width = 575
+      Height = 459
       Camera = GLCamera1
+      Buffer.BackgroundColor = clBackground
       Buffer.AntiAliasing = aa4x
-      FieldOfView = 165.837570190429700000
+      FieldOfView = 155.418640136718800000
       PenAsTouch = False
       Align = alClient
       TabOrder = 0
-      ExplicitLeft = 2
-      ExplicitTop = 2
-      ExplicitWidth = 1006
-      ExplicitHeight = 803
     end
   end
   object GLScene1: TGLScene

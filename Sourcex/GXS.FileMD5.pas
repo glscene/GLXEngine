@@ -25,7 +25,7 @@ type
     FCurrentPos: Integer;
     FBasePose: TgxSkeletonFrame;
     FFramePositions: TgxAffineVectorList;
-    FFrameQuaternions: TGQuaternionList;
+    FFrameQuaternions: TgxQuaternionList;
     FJointFlags: TgxIntegerList;
     FNumFrames, FFirstFrame, FFrameRate, FNumJoints: Integer;
 
@@ -477,7 +477,7 @@ begin
         begin
           FNumJoints := StrToInt(FTempString[1]);
           FFramePositions := TgxAffineVectorList.Create;
-          FFrameQuaternions := TGQuaternionList.Create;
+          FFrameQuaternions := TgxQuaternionList.Create;
           if Owner.Skeleton.Frames.Count = 0 then
           begin
             FBasePose := TgxSkeletonFrame.CreateOwned(Owner.Skeleton.Frames);

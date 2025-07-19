@@ -1,43 +1,41 @@
 object FormVolcano: TFormVolcano
   Left = 171
   Top = 95
+  Margins.Left = 2
+  Margins.Top = 2
+  Margins.Right = 2
+  Margins.Bottom = 2
   Caption = 'Volcano'
-  ClientHeight = 394
-  ClientWidth = 575
+  ClientHeight = 494
+  ClientWidth = 699
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
-  Font.Height = -14
+  Font.Height = -11
   Font.Name = 'MS Sans Serif'
   Font.Style = []
+  Position = poScreenCenter
   OnCreate = FormCreate
-  PixelsPerInch = 120
-  TextHeight = 16
+  TextHeight = 13
   object GLSceneViewer1: TGLSceneViewer
     Left = 0
     Top = 0
-    Width = 470
-    Height = 360
-    Margins.Left = 4
-    Margins.Top = 4
-    Margins.Right = 4
-    Margins.Bottom = 4
+    Width = 615
+    Height = 467
     Camera = GLCamera1
     Buffer.BackgroundColor = clBlack
-    FieldOfView = 148.951782226562500000
+    FieldOfView = 155.827239990234400000
     PenAsTouch = False
     Align = alClient
     TabOrder = 0
+    ExplicitWidth = 376
+    ExplicitHeight = 288
   end
   object RadioGroup1: TRadioGroup
-    Left = 470
+    Left = 615
     Top = 0
-    Width = 105
-    Height = 360
-    Margins.Left = 4
-    Margins.Top = 4
-    Margins.Right = 4
-    Margins.Bottom = 4
+    Width = 84
+    Height = 467
     Align = alRight
     Caption = 'Mode'
     ItemIndex = 1
@@ -50,19 +48,19 @@ object FormVolcano: TFormVolcano
       'Inferno')
     TabOrder = 1
     OnClick = RadioGroup1Click
+    ExplicitLeft = 368
+    ExplicitHeight = 263
   end
   object Panel1: TPanel
     Left = 0
-    Top = 360
-    Width = 575
-    Height = 34
-    Margins.Left = 4
-    Margins.Top = 4
-    Margins.Right = 4
-    Margins.Bottom = 4
+    Top = 467
+    Width = 699
+    Height = 27
     Align = alBottom
     Caption = 'FPS'
     TabOrder = 2
+    ExplicitTop = 263
+    ExplicitWidth = 452
   end
   object GLScene1: TGLScene
     Left = 24

@@ -37,6 +37,7 @@ object FormRayCast: TFormRayCast
     Width = 209
     Height = 193
     Camera = GLCamera1
+    Buffer.BackgroundColor = clBlack
     FieldOfView = 125.219512939453100000
     PenAsTouch = False
     TabOrder = 0
@@ -58,11 +59,10 @@ object FormRayCast: TFormRayCast
     Align = alTop
     BevelOuter = bvNone
     TabOrder = 2
-    ExplicitWidth = 505
     object Label1: TLabel
       Left = 0
       Top = 0
-      Width = 505
+      Width = 513
       Height = 22
       Align = alTop
       Alignment = taCenter
@@ -75,6 +75,7 @@ object FormRayCast: TFormRayCast
       Font.Style = [fsBold]
       ParentFont = False
       Layout = tlCenter
+      ExplicitWidth = 505
     end
     object Label2: TLabel
       Left = 8

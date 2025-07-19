@@ -1,0 +1,72 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{18365A3F-D138-4D4B-BF35-F39B0AAA8663}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="BombShader\CGBombShaderC.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="CellShader\CgCellShaderC.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="Reflect\CgReflectC.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="texturing\CgTextureC.cbproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="CGBombShaderC">
+        <MSBuild Projects="BombShader\CGBombShaderC.cbproj"/>
+    </Target>
+    <Target Name="CGBombShaderC:Clean">
+        <MSBuild Projects="BombShader\CGBombShaderC.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="CGBombShaderC:Make">
+        <MSBuild Projects="BombShader\CGBombShaderC.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="CgCellShaderC">
+        <MSBuild Projects="CellShader\CgCellShaderC.cbproj"/>
+    </Target>
+    <Target Name="CgCellShaderC:Clean">
+        <MSBuild Projects="CellShader\CgCellShaderC.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="CgCellShaderC:Make">
+        <MSBuild Projects="CellShader\CgCellShaderC.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="CgReflectC">
+        <MSBuild Projects="Reflect\CgReflectC.cbproj"/>
+    </Target>
+    <Target Name="CgReflectC:Clean">
+        <MSBuild Projects="Reflect\CgReflectC.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="CgReflectC:Make">
+        <MSBuild Projects="Reflect\CgReflectC.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="CgTextureC">
+        <MSBuild Projects="texturing\CgTextureC.cbproj"/>
+    </Target>
+    <Target Name="CgTextureC:Clean">
+        <MSBuild Projects="texturing\CgTextureC.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="CgTextureC:Make">
+        <MSBuild Projects="texturing\CgTextureC.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="CGBombShaderC;CgCellShaderC;CgReflectC;CgTextureC"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="CGBombShaderC:Clean;CgCellShaderC:Clean;CgReflectC:Clean;CgTextureC:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="CGBombShaderC:Make;CgCellShaderC:Make;CgReflectC:Make;CgTextureC:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

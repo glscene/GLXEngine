@@ -1,0 +1,72 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{2E3221B1-5B2C-430B-8087-B9633A920509}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="DCEDemo\DceDemoD.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="FPSMovement\FPSMovementD.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="PathControl\PathControlD.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="Torque\TorqueD.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="DceDemoD">
+        <MSBuild Projects="DCEDemo\DceDemoD.dproj"/>
+    </Target>
+    <Target Name="DceDemoD:Clean">
+        <MSBuild Projects="DCEDemo\DceDemoD.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="DceDemoD:Make">
+        <MSBuild Projects="DCEDemo\DceDemoD.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="FPSMovementD">
+        <MSBuild Projects="FPSMovement\FPSMovementD.dproj"/>
+    </Target>
+    <Target Name="FPSMovementD:Clean">
+        <MSBuild Projects="FPSMovement\FPSMovementD.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="FPSMovementD:Make">
+        <MSBuild Projects="FPSMovement\FPSMovementD.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="PathControlD">
+        <MSBuild Projects="PathControl\PathControlD.dproj"/>
+    </Target>
+    <Target Name="PathControlD:Clean">
+        <MSBuild Projects="PathControl\PathControlD.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="PathControlD:Make">
+        <MSBuild Projects="PathControl\PathControlD.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="TorqueD">
+        <MSBuild Projects="Torque\TorqueD.dproj"/>
+    </Target>
+    <Target Name="TorqueD:Clean">
+        <MSBuild Projects="Torque\TorqueD.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="TorqueD:Make">
+        <MSBuild Projects="Torque\TorqueD.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="DceDemoD;FPSMovementD;PathControlD;TorqueD"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="DceDemoD:Clean;FPSMovementD:Clean;PathControlD:Clean;TorqueD:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="DceDemoD:Make;FPSMovementD:Make;PathControlD:Make;TorqueD:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

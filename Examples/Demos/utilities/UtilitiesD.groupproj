@@ -12,9 +12,6 @@
         <Projects Include="fontgen\FontgenD.dproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="fontgen\FontgenC.cbproj">
-            <Dependencies/>
-        </Projects>
         <Projects Include="GLInfos\GLInfosD.dproj">
             <Dependencies/>
         </Projects>
@@ -28,9 +25,6 @@
             <Dependencies/>
         </Projects>
         <Projects Include="ScreenSaver\ScreenSaverD.dproj">
-            <Dependencies/>
-        </Projects>
-        <Projects Include="ScreenSaver\ScreenSaverC.cbproj">
             <Dependencies/>
         </Projects>
     </ItemGroup>
@@ -67,15 +61,6 @@
     </Target>
     <Target Name="FontgenD:Make">
         <MSBuild Projects="fontgen\FontgenD.dproj" Targets="Make"/>
-    </Target>
-    <Target Name="FontgenC">
-        <MSBuild Projects="fontgen\FontgenC.cbproj"/>
-    </Target>
-    <Target Name="FontgenC:Clean">
-        <MSBuild Projects="fontgen\FontgenC.cbproj" Targets="Clean"/>
-    </Target>
-    <Target Name="FontgenC:Make">
-        <MSBuild Projects="fontgen\FontgenC.cbproj" Targets="Make"/>
     </Target>
     <Target Name="GLInfosD">
         <MSBuild Projects="GLInfos\GLInfosD.dproj"/>
@@ -122,23 +107,14 @@
     <Target Name="ScreenSaverD:Make">
         <MSBuild Projects="ScreenSaver\ScreenSaverD.dproj" Targets="Make"/>
     </Target>
-    <Target Name="ScreenSaverC">
-        <MSBuild Projects="ScreenSaver\ScreenSaverC.cbproj"/>
-    </Target>
-    <Target Name="ScreenSaverC:Clean">
-        <MSBuild Projects="ScreenSaver\ScreenSaverC.cbproj" Targets="Clean"/>
-    </Target>
-    <Target Name="ScreenSaverC:Make">
-        <MSBuild Projects="ScreenSaver\ScreenSaverC.cbproj" Targets="Make"/>
-    </Target>
     <Target Name="Build">
-        <CallTarget Targets="ArchiverD;ArchiveEditD;FontgenD;FontgenC;GLInfosD;JoystickD;KeymapD;RecorderD;ScreenSaverD;ScreenSaverC"/>
+        <CallTarget Targets="ArchiverD;ArchiveEditD;FontgenD;GLInfosD;JoystickD;KeymapD;RecorderD;ScreenSaverD"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="ArchiverD:Clean;ArchiveEditD:Clean;FontgenD:Clean;FontgenC:Clean;GLInfosD:Clean;JoystickD:Clean;KeymapD:Clean;RecorderD:Clean;ScreenSaverD:Clean;ScreenSaverC:Clean"/>
+        <CallTarget Targets="ArchiverD:Clean;ArchiveEditD:Clean;FontgenD:Clean;GLInfosD:Clean;JoystickD:Clean;KeymapD:Clean;RecorderD:Clean;ScreenSaverD:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="ArchiverD:Make;ArchiveEditD:Make;FontgenD:Make;FontgenC:Make;GLInfosD:Make;JoystickD:Make;KeymapD:Make;RecorderD:Make;ScreenSaverD:Make;ScreenSaverC:Make"/>
+        <CallTarget Targets="ArchiverD:Make;ArchiveEditD:Make;FontgenD:Make;GLInfosD:Make;JoystickD:Make;KeymapD:Make;RecorderD:Make;ScreenSaverD:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

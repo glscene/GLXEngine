@@ -7,7 +7,7 @@
         <TargetedPlatforms>1</TargetedPlatforms>
         <AppType>Application</AppType>
         <FrameworkType>VCL</FrameworkType>
-        <ProjectVersion>20.2</ProjectVersion>
+        <ProjectVersion>20.3</ProjectVersion>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
         <ProjectName Condition="'$(ProjectName)'==''">CgTextureD</ProjectName>
     </PropertyGroup>
@@ -165,7 +165,6 @@
                 <DeployFile LocalName="..\..\..\Assets\Shader\cg_texture_fp.cg" Configuration="Debug" Class="ProjectFile"/>
                 <DeployFile LocalName="..\..\..\Assets\Shader\cg_texture_vp.cg" Configuration="Debug" Class="ProjectFile"/>
                 <DeployFile LocalName="CgTextureD.exe" Configuration="Debug" Class="ProjectOutput"/>
-                <DeployFile LocalName="CgTextureD.exe" Configuration="Debug" Class="ProjectOutput"/>
                 <DeployFile LocalName="Win64\Debug\CgTextureD.exe" Configuration="Debug" Class="ProjectOutput"/>
                 <DeployClass Name="AdditionalDebugSymbols">
                     <Platform Name="iOSSimulator">
@@ -278,6 +277,16 @@
                     </Platform>
                     <Platform Name="Android64">
                         <RemoteDir>res\values-v31</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="AndroidSplashStylesV35">
+                    <Platform Name="Android">
+                        <RemoteDir>res\values-v35</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="Android64">
+                        <RemoteDir>res\values-v35</RemoteDir>
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>

@@ -6,9 +6,6 @@
         <Projects Include="SoundAround\SoundAroundD.dproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="SoundAround\SoundAroundC.cbproj">
-            <Dependencies/>
-        </Projects>
         <Projects Include="SoundBASS\SoundBASS.dproj">
             <Dependencies/>
         </Projects>
@@ -37,15 +34,6 @@
     </Target>
     <Target Name="SoundAroundD:Make">
         <MSBuild Projects="SoundAround\SoundAroundD.dproj" Targets="Make"/>
-    </Target>
-    <Target Name="SoundAroundC">
-        <MSBuild Projects="SoundAround\SoundAroundC.cbproj"/>
-    </Target>
-    <Target Name="SoundAroundC:Clean">
-        <MSBuild Projects="SoundAround\SoundAroundC.cbproj" Targets="Clean"/>
-    </Target>
-    <Target Name="SoundAroundC:Make">
-        <MSBuild Projects="SoundAround\SoundAroundC.cbproj" Targets="Make"/>
     </Target>
     <Target Name="SoundBASS">
         <MSBuild Projects="SoundBASS\SoundBASS.dproj"/>
@@ -84,13 +72,13 @@
         <MSBuild Projects="SoundWaveOut\SoundWaveOut.dproj" Targets="Make"/>
     </Target>
     <Target Name="Build">
-        <CallTarget Targets="SoundAroundD;SoundAroundC;SoundBASS;SoundFMOD;SoundOpenAL;SoundWaveOut"/>
+        <CallTarget Targets="SoundAroundD;SoundBASS;SoundFMOD;SoundOpenAL;SoundWaveOut"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="SoundAroundD:Clean;SoundAroundC:Clean;SoundBASS:Clean;SoundFMOD:Clean;SoundOpenAL:Clean;SoundWaveOut:Clean"/>
+        <CallTarget Targets="SoundAroundD:Clean;SoundBASS:Clean;SoundFMOD:Clean;SoundOpenAL:Clean;SoundWaveOut:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="SoundAroundD:Make;SoundAroundC:Make;SoundBASS:Make;SoundFMOD:Make;SoundOpenAL:Make;SoundWaveOut:Make"/>
+        <CallTarget Targets="SoundAroundD:Make;SoundBASS:Make;SoundFMOD:Make;SoundOpenAL:Make;SoundWaveOut:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

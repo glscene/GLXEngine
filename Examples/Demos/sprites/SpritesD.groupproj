@@ -6,22 +6,13 @@
         <Projects Include="caterpillar\CaterpillarD.dproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="caterpillar\CaterpillarC.cbproj">
-            <Dependencies/>
-        </Projects>
         <Projects Include="fountainparticles\FountainParticlesD.dproj">
             <Dependencies/>
         </Projects>
         <Projects Include="imposter\ImposterD.dproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="imposter\ImposterC.cbproj">
-            <Dependencies/>
-        </Projects>
         <Projects Include="particles\ParticlesD.dproj">
-            <Dependencies/>
-        </Projects>
-        <Projects Include="particles\ParticlesC.cbproj">
             <Dependencies/>
         </Projects>
     </ItemGroup>
@@ -41,15 +32,6 @@
     <Target Name="CaterpillarD:Make">
         <MSBuild Projects="caterpillar\CaterpillarD.dproj" Targets="Make"/>
     </Target>
-    <Target Name="CaterpillarC">
-        <MSBuild Projects="caterpillar\CaterpillarC.cbproj"/>
-    </Target>
-    <Target Name="CaterpillarC:Clean">
-        <MSBuild Projects="caterpillar\CaterpillarC.cbproj" Targets="Clean"/>
-    </Target>
-    <Target Name="CaterpillarC:Make">
-        <MSBuild Projects="caterpillar\CaterpillarC.cbproj" Targets="Make"/>
-    </Target>
     <Target Name="FountainParticlesD">
         <MSBuild Projects="fountainparticles\FountainParticlesD.dproj"/>
     </Target>
@@ -68,15 +50,6 @@
     <Target Name="ImposterD:Make">
         <MSBuild Projects="imposter\ImposterD.dproj" Targets="Make"/>
     </Target>
-    <Target Name="ImposterC">
-        <MSBuild Projects="imposter\ImposterC.cbproj"/>
-    </Target>
-    <Target Name="ImposterC:Clean">
-        <MSBuild Projects="imposter\ImposterC.cbproj" Targets="Clean"/>
-    </Target>
-    <Target Name="ImposterC:Make">
-        <MSBuild Projects="imposter\ImposterC.cbproj" Targets="Make"/>
-    </Target>
     <Target Name="ParticlesD">
         <MSBuild Projects="particles\ParticlesD.dproj"/>
     </Target>
@@ -86,23 +59,14 @@
     <Target Name="ParticlesD:Make">
         <MSBuild Projects="particles\ParticlesD.dproj" Targets="Make"/>
     </Target>
-    <Target Name="ParticlesC">
-        <MSBuild Projects="particles\ParticlesC.cbproj"/>
-    </Target>
-    <Target Name="ParticlesC:Clean">
-        <MSBuild Projects="particles\ParticlesC.cbproj" Targets="Clean"/>
-    </Target>
-    <Target Name="ParticlesC:Make">
-        <MSBuild Projects="particles\ParticlesC.cbproj" Targets="Make"/>
-    </Target>
     <Target Name="Build">
-        <CallTarget Targets="CaterpillarD;CaterpillarC;FountainParticlesD;ImposterD;ImposterC;ParticlesD;ParticlesC"/>
+        <CallTarget Targets="CaterpillarD;FountainParticlesD;ImposterD;ParticlesD"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="CaterpillarD:Clean;CaterpillarC:Clean;FountainParticlesD:Clean;ImposterD:Clean;ImposterC:Clean;ParticlesD:Clean;ParticlesC:Clean"/>
+        <CallTarget Targets="CaterpillarD:Clean;FountainParticlesD:Clean;ImposterD:Clean;ParticlesD:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="CaterpillarD:Make;CaterpillarC:Make;FountainParticlesD:Make;ImposterD:Make;ImposterC:Make;ParticlesD:Make;ParticlesC:Make"/>
+        <CallTarget Targets="CaterpillarD:Make;FountainParticlesD:Make;ImposterD:Make;ParticlesD:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

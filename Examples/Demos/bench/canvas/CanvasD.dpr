@@ -1,4 +1,4 @@
-{: Benchmark for GLCanvas.
+(* Benchmark for GLCanvas.
 
    This project pits TGLCanvas against TCanvas in direct mode (hardware
    acceleration should be available on both sides).
@@ -10,15 +10,8 @@
    a "decelerator" if you have some 2D stuff to draw on your 3D Scene.
 
    Figures for PenWidth = 1, GLCanvas / GDI
-
    CPU         Graphics Board    Lines          Ellipses         Points       TextOut
-
-   Tbird 1.2   GF3 Ti200         5.2 / 227      64 /  756        27 / 408     75 / 208
-   ----29/09/02 - Added TextOut bench
-   Tbird 1.2   GF2 Pro           7.1 / 162       92 /  557       40 / 223
-   Duron 800   TNT2 M64        105.0 / 571      400 / 1148      126 / 676
-   ----21/01/02 - Initial
-}
+*)
 program CanvasD;
 
 uses

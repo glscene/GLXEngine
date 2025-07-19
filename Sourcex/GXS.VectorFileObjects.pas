@@ -117,13 +117,13 @@ type
     FName: string;
     FPosition: TgxAffineVectorList;
     FRotation: TgxAffineVectorList;
-    FQuaternion: TGQuaternionList;
+    FQuaternion: TgxQuaternionList;
     FLocalMatrixList: PMatrixArray;
     FTransformMode: TgxSkeletonFrameTransform;
   protected
     procedure SetPosition(const val: TgxAffineVectorList);
     procedure SetRotation(const val: TgxAffineVectorList);
-    procedure SetQuaternion(const val: TGQuaternionList);
+    procedure SetQuaternion(const val: TgxQuaternionList);
   public
     constructor CreateOwned(aOwner: TgxSkeletonFrameList);
     constructor Create; override;
@@ -138,7 +138,7 @@ type
     property Rotation: TgxAffineVectorList read FRotation write SetRotation;
     (* Quaternions are an alternative to Euler rotations to build the
       global matrices for the skeleton bones. *)
-    property Quaternion: TGQuaternionList read FQuaternion write SetQuaternion;
+    property Quaternion: TgxQuaternionList read FQuaternion write SetQuaternion;
     (* TransformMode indicates whether to use Rotation or Quaternion to build
       the local transform matrices. *)
     property TransformMode: TgxSkeletonFrameTransform read FTransformMode write FTransformMode;
@@ -320,7 +320,7 @@ type
     weight: Single;
     externalPositions: TgxAffineVectorList;
     externalRotations: TgxAffineVectorList;
-    externalQuaternions: TGQuaternionList;
+    externalQuaternions: TgxQuaternionList;
   end;
 
   (* Main skeleton object.
@@ -1730,7 +1730,7 @@ begin
   inherited Create;
   FPosition := TgxAffineVectorList.Create;
   FRotation := TgxAffineVectorList.Create;
-  FQuaternion := TGQuaternionList.Create;
+  FQuaternion := TgxQuaternionList.Create;
   FTransformMode := sftRotation;
 end;
 
@@ -1790,7 +1790,7 @@ begin
   FRotation.Assign(val);
 end;
 
-procedure TgxSkeletonFrame.SetQuaternion(const val: TGQuaternionList);
+procedure TgxSkeletonFrame.SetQuaternion(const val: TgxQuaternionList);
 begin
   FQuaternion.Assign(val);
 end;
@@ -2560,7 +2560,7 @@ var
   i, n: Integer;
   blendPositions: TgxAffineVectorList;
   blendRotations: TgxAffineVectorList;
-  blendQuaternions: TGQuaternionList;
+  blendQuaternions: TgxQuaternionList;
 begin
   n := High(lerpInfos) - Low(lerpInfos) + 1;
   Assert(n >= 1);
@@ -2629,7 +2629,7 @@ begin
 
         sftQuaternion:
           begin
-            blendQuaternions := TGQuaternionList.Create;
+            blendQuaternions := TgxQuaternionList.Create;
             // Initial frame lerp
             Quaternion.Lerp(Frames[lerpInfos[i].frameIndex1].Quaternion, Frames[lerpInfos[i].frameIndex2].Quaternion,
               lerpInfos[i].lerpFactor);

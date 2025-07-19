@@ -174,7 +174,7 @@ type
     procedure Scale(const factors: TAffineVector); overload;
   end;
 
-  (* A list of TGLVectors.
+  (* A list of TgxVectors.
    Similar to TList, but using TGLVector as items.
    The list has stack-like push/pop methods *)
   TgxVectorList = class(TgxBaseVectorList)
@@ -205,7 +205,7 @@ type
     procedure Lerp(const list1, list2: TgxBaseVectorList; lerpFactor: Single); override;
   end;
 
-  (* A list of TGLTexPoint. Similar to TList, but using TTexPoint as items.
+  (* A list of TgxTexPoint. Similar to TList, but using TTexPoint as items.
      The list has stack-like push/pop methods. *)
   TgxTexPointList = class(TgxBaseVectorList)
   private
@@ -395,9 +395,9 @@ type
     property List: PByteArray read FList;
   end;
 
-  (* A list of TQuaternion. Similar to TList, but using TQuaternion as items.
+  (* A list of TgxQuaternion. Similar to TList, but using TQuaternion as items.
     The list has stack-like push/pop methods *)
-  TGQuaternionList = class(TgxBaseVectorList)
+  TgxQuaternionList = class(TgxBaseVectorList)
   private
     FList: PQuaternionArray;
   protected
@@ -602,20 +602,19 @@ var
   I, J:   Integer;
   Temp:   Integer;
 begin
-
-  for I := startIndex+1 to endIndex-1 do
+  for I := startIndex + 1 to endIndex do
   begin
-    J := i-1;
+    J := I - 1;
     Temp := ppl^[I];
     oTemp := oppl^[I];
-    while (J>=startIndex) and (Temp < ppl^[J]) do
+    while (J >= startIndex) and (Temp < ppl^[J]) do
     begin
-      ppl^[J+1] := ppl^[J];
-      oppl^[J+1] := oppl^[J];
-      Dec(j);
+      ppl^[J + 1] := ppl^[J];
+      oppl^[J + 1] := oppl^[J];
+      Dec(J);
     end;
-    ppl^[J+1] := Temp;
-    oppl^[J+1] := oTemp;
+    ppl^[J + 1] := Temp;
+    oppl^[J + 1] := oTemp;
   end;
 end;
 
@@ -690,7 +689,6 @@ end;
 // ------------------
 // ------------------ TgxBaseList ------------------
 // ------------------
-
 constructor TgxBaseList.Create;
 begin
   inherited Create;
@@ -2776,29 +2774,29 @@ begin
 end;
 
 // ------------------
-// ------------------ TGQuaternionList ------------------
+// ------------------ TgxQuaternionList ------------------
 // ------------------
 
-constructor TGQuaternionList.Create;
+constructor TgxQuaternionList.Create;
 begin
   FItemSize := SizeOf(TQuaternion);
   inherited Create;
   FGrowthDelta := cDefaultListGrowthDelta;
 end;
 
-procedure TGQuaternionList.Assign(Src: TPersistent);
+procedure TgxQuaternionList.Assign(Src: TPersistent);
 begin
   if Assigned(Src) then
   begin
     inherited;
-    if (Src is TGQuaternionList) then
-      System.Move(TGQuaternionList(Src).FList^, FList^, FCount * SizeOf(TQuaternion));
+    if (Src is TgxQuaternionList) then
+      System.Move(TgxQuaternionList(Src).FList^, FList^, FCount * SizeOf(TQuaternion));
   end
   else
     Clear;
 end;
 
-function TGQuaternionList.Add(const item: TQuaternion): Integer;
+function TgxQuaternionList.Add(const item: TQuaternion): Integer;
 begin
   Result := FCount;
   if Result = FCapacity then
@@ -2807,17 +2805,17 @@ begin
   Inc(FCount);
 end;
 
-function TGQuaternionList.Add(const item: TAffineVector; w: Single): Integer;
+function TgxQuaternionList.Add(const item: TAffineVector; w: Single): Integer;
 begin
   Result := Add(QuaternionMake([item.X, item.Y, item.Z], w));
 end;
 
-function TGQuaternionList.Add(const X, Y, Z, w: Single): Integer;
+function TgxQuaternionList.Add(const X, Y, Z, w: Single): Integer;
 begin
   Result := Add(QuaternionMake([X, Y, Z], w));
 end;
 
-function TGQuaternionList.Get(Index: Integer): TQuaternion;
+function TgxQuaternionList.Get(Index: Integer): TQuaternion;
 begin
 {$IFOPT R+}
     Assert(Cardinal(Index) < Cardinal(FCount));
@@ -2825,7 +2823,7 @@ begin
   Result := FList^[Index];
 end;
 
-procedure TGQuaternionList.Insert(Index: Integer; const Item: TQuaternion);
+procedure TgxQuaternionList.Insert(Index: Integer; const Item: TQuaternion);
 begin
 {$IFOPT R+}
     Assert(Cardinal(Index) < Cardinal(FCount));
@@ -2839,7 +2837,7 @@ begin
   Inc(FCount);
 end;
 
-procedure TGQuaternionList.Put(Index: Integer; const Item: TQuaternion);
+procedure TgxQuaternionList.Put(Index: Integer; const Item: TQuaternion);
 begin
 {$IFOPT R+}
     Assert(Cardinal(Index) < Cardinal(FCount));
@@ -2847,18 +2845,18 @@ begin
   FList^[Index] := Item;
 end;
 
-procedure TGQuaternionList.SetCapacity(NewCapacity: Integer);
+procedure TgxQuaternionList.SetCapacity(NewCapacity: Integer);
 begin
   inherited;
   FList := PQuaternionArray(FBaseList);
 end;
 
-procedure TGQuaternionList.Push(const Val: TQuaternion);
+procedure TgxQuaternionList.Push(const Val: TQuaternion);
 begin
   Add(Val);
 end;
 
-function TGQuaternionList.Pop: TQuaternion;
+function TgxQuaternionList.Pop: TQuaternion;
 begin
   if FCount > 0 then
   begin
@@ -2869,7 +2867,7 @@ begin
     Result := IdentityQuaternion;
 end;
 
-function TGQuaternionList.IndexOf(const item: TQuaternion): Integer;
+function TgxQuaternionList.IndexOf(const item: TQuaternion): Integer;
 var
   I: Integer;
   curItem: PQuaternion;
@@ -2886,28 +2884,28 @@ begin
   Result := -1;
 end;
 
-function TGQuaternionList.FindOrAdd(const item: TQuaternion): Integer;
+function TgxQuaternionList.FindOrAdd(const item: TQuaternion): Integer;
 begin
   Result := IndexOf(item);
   if Result < 0 then
     Result := Add(item);
 end;
 
-procedure TGQuaternionList.Lerp(const list1, list2: TgxBaseVectorList; lerpFactor: Single);
+procedure TgxQuaternionList.Lerp(const list1, list2: TgxBaseVectorList; lerpFactor: Single);
 var
   I: Integer;
 begin
-  if (list1 is TGQuaternionList) and (list2 is TGQuaternionList) then
+  if (list1 is TgxQuaternionList) and (list2 is TgxQuaternionList) then
   begin
     Assert(list1.Count = list2.Count);
     Capacity := list1.Count;
     FCount := list1.Count;
     for I := 0 to FCount - 1 do
-      Put(I, QuaternionSlerp(TGQuaternionList(list1)[I], TGQuaternionList(list2)[I], lerpFactor));
+      Put(I, QuaternionSlerp(TgxQuaternionList(list1)[I], TgxQuaternionList(list2)[I], lerpFactor));
   end;
 end;
 
-procedure TGQuaternionList.Combine(const list2: TgxBaseVectorList; factor: Single);
+procedure TgxQuaternionList.Combine(const list2: TgxBaseVectorList; factor: Single);
 
   procedure CombineQuaternion(var q1: TQuaternion; const q2: TQuaternion; factor: Single);
   begin
@@ -2918,7 +2916,7 @@ var
   I: Integer;
 begin
   Assert(list2.Count >= Count);
-  if list2 is TGQuaternionList then
+  if list2 is TgxQuaternionList then
   begin
     for I := 0 to Count - 1 do
     begin
@@ -3389,4 +3387,3 @@ initialization // ----------------------------------------------------
                    TgxDoubleList, TG4ByteList, TGLongWordList]);
 
 end.
-

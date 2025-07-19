@@ -96,11 +96,11 @@ void __fastcall TForm1::GLCadencer1Progress(
     }
     if (IsKeyDown('9')) {
         CurrShaderName = "TEST TEXTURE BUMP";
-        CurrShader = 8;
-    }
-    if (IsKeyDown('0')) {
-        CurrShaderName = "TEST Toon";
-        CurrShader = 9;
+		CurrShader = 7;  // was 8
+	}
+	if (IsKeyDown('0')) {
+		CurrShaderName = "TEST Toon";
+		CurrShader = 7;  // was 9
     }
     if (CurrShader != 8) {
         DummyLight->Position->X = sin(DegToRad(newTime * 15)) * 65;

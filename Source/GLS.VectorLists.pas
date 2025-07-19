@@ -35,7 +35,7 @@ type
     FRevision: LongWord;
     FTagString: string;
   protected
-     // The base list pointer (untyped)
+    // The base list pointer (untyped)
     FBaseList: PByteArray;
     // Must be defined by all subclasses in their constructor(s)
     FItemSize: Integer;
@@ -601,8 +601,7 @@ var
   I, J:   Integer;
   Temp:   Integer;
 begin
-
-  for I := startIndex+1 to endIndex-1 do
+  for I := startIndex + 1 to endIndex do
   begin
     J := i-1;
     Temp := ppl^[I];
@@ -626,19 +625,16 @@ var
   I, J:     Integer;
   p, Temp:  Integer;
 begin
-
   // All singles are >=1, so IEEE format allows comparing them as if they were integers
   ppl := PIntegerArray(@refList.List[0]);
   oppl := PPointerArray(objList.List);
   if endIndex > startIndex + 1 then
   begin
-
     if (endIndex-startIndex)<16 then
     begin
       FastInsertionSortLists(startIndex, endIndex, ppl, oppl);
     end else
     begin
-
       repeat
         I := startIndex;
         J := endIndex;
@@ -689,7 +685,6 @@ end;
 // ------------------
 // ------------------ TGLBaseList ------------------
 // ------------------
-
 constructor TGLBaseList.Create;
 begin
   inherited Create;

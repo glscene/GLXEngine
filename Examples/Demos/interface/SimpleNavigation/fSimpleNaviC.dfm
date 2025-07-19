@@ -1,33 +1,32 @@
 object Form1: TForm1
   Left = 0
   Top = 0
+  Margins.Left = 2
+  Margins.Top = 2
+  Margins.Right = 2
+  Margins.Bottom = 2
   Caption = 'Simple Navigation'
-  ClientHeight = 505
-  ClientWidth = 666
+  ClientHeight = 404
+  ClientWidth = 538
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
-  Font.Height = -14
+  Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
-  PixelsPerInch = 120
-  TextHeight = 17
+  Position = poScreenCenter
+  TextHeight = 13
   object GLSceneViewer1: TGLSceneViewer
     Left = 0
     Top = 0
-    Width = 666
-    Height = 505
-    Margins.Left = 4
-    Margins.Top = 4
-    Margins.Right = 4
-    Margins.Bottom = 4
+    Width = 538
+    Height = 404
     Camera = GLCamera1
     Buffer.BackgroundColor = clBackground
-    FieldOfView = 157.598403930664100000
+    FieldOfView = 152.194625854492200000
     PenAsTouch = False
     Align = alClient
     TabOrder = 0
-    ExplicitLeft = 9
   end
   object GLScene1: TGLScene
     Left = 80

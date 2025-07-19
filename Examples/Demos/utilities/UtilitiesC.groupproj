@@ -1,0 +1,48 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{42939014-896A-4EC3-A943-FC10829CCD36}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="fontgen\FontgenC.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="ScreenSaver\ScreenSaverC.cbproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="FontgenC">
+        <MSBuild Projects="fontgen\FontgenC.cbproj"/>
+    </Target>
+    <Target Name="FontgenC:Clean">
+        <MSBuild Projects="fontgen\FontgenC.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="FontgenC:Make">
+        <MSBuild Projects="fontgen\FontgenC.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="ScreenSaverC">
+        <MSBuild Projects="ScreenSaver\ScreenSaverC.cbproj"/>
+    </Target>
+    <Target Name="ScreenSaverC:Clean">
+        <MSBuild Projects="ScreenSaver\ScreenSaverC.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="ScreenSaverC:Make">
+        <MSBuild Projects="ScreenSaver\ScreenSaverC.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="FontgenC;ScreenSaverC"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="FontgenC:Clean;ScreenSaverC:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="FontgenC:Make;ScreenSaverC:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

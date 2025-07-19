@@ -2,32 +2,34 @@ object Form1: TForm1
   Left = 0
   Top = 0
   Caption = 'Sphere Collision'
-  ClientHeight = 333
-  ClientWidth = 452
+  ClientHeight = 442
+  ClientWidth = 575
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
-  OldCreateOrder = False
-  PixelsPerInch = 96
+  Position = poScreenCenter
   TextHeight = 13
   object GLSceneViewer1: TGLSceneViewer
     Left = 0
     Top = 0
-    Width = 452
-    Height = 288
+    Width = 575
+    Height = 397
     Camera = GLCamera1
-    FieldOfView = 141.703720092773400000
+    Buffer.BackgroundColor = clBlack
+    FieldOfView = 151.723861694335900000
     PenAsTouch = False
     Align = alClient
     TabOrder = 0
+    ExplicitWidth = 452
+    ExplicitHeight = 288
   end
   object TrackBar1: TTrackBar
     Left = 0
-    Top = 288
-    Width = 452
+    Top = 397
+    Width = 575
     Height = 45
     Align = alBottom
     Max = 20
@@ -37,6 +39,8 @@ object Form1: TForm1
     TabOrder = 1
     TickMarks = tmBoth
     OnChange = TrackBar1Change
+    ExplicitTop = 263
+    ExplicitWidth = 444
   end
   object Button1: TButton
     Left = 336

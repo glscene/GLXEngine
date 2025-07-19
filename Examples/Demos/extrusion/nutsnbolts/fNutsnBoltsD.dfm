@@ -11,6 +11,7 @@ object FormNutsnBolts: TFormNutsnBolts
   Font.Height = -11
   Font.Name = 'MS Sans Serif'
   Font.Style = []
+  Position = poScreenCenter
   OnMouseWheel = FormMouseWheel
   TextHeight = 13
   object GLSceneViewer1: TGLSceneViewer
@@ -19,7 +20,7 @@ object FormNutsnBolts: TFormNutsnBolts
     Width = 564
     Height = 415
     Camera = GLCamera1
-    Buffer.BackgroundColor = clBackground
+    Buffer.BackgroundColor = clTeal
     FieldOfView = 152.904129028320300000
     PenAsTouch = False
     Align = alClient

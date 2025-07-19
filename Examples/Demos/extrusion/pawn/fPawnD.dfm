@@ -20,7 +20,7 @@ object FormPawn: TFormPawn
     Width = 381
     Height = 379
     Camera = GLCamera1
-    Buffer.BackgroundColor = clBackground
+    Buffer.BackgroundColor = clTeal
     FieldOfView = 150.438476562500000000
     PenAsTouch = False
     Align = alClient
@@ -35,6 +35,8 @@ object FormPawn: TFormPawn
     Height = 379
     Align = alRight
     TabOrder = 1
+    ExplicitLeft = 373
+    ExplicitHeight = 354
     object Label1: TLabel
       Left = 23
       Top = 8

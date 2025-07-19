@@ -1,0 +1,252 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{CAA3621A-2A22-4CA4-B83A-457DFB36FC73}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="Atmosphere\AtmosphereC.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="beer\BeerC.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="boom\BoomC.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="candles\CandlesC.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="fire\FireC.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="meshexplosion\MeshExplosionC.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="motionblur\MotionBlurC.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="motionblur2\MotionBlur2C.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="ParticleMasking\ParticleMaskingC.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="PFXGallery\PFXGalleryC.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="posteffect\PostEffectC.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="projtextures\ProjTexturesC.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="ShadowPlane\ShadowPlaneC.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="shadows\ShadowsC.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="shadowvolumes\ShadowVolumesC.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="spiral\SpiralC.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="thor\ThorC.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="warping\WarpingC.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="waterplane\WaterPlaneC.cbproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="AtmosphereC">
+        <MSBuild Projects="Atmosphere\AtmosphereC.cbproj"/>
+    </Target>
+    <Target Name="AtmosphereC:Clean">
+        <MSBuild Projects="Atmosphere\AtmosphereC.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="AtmosphereC:Make">
+        <MSBuild Projects="Atmosphere\AtmosphereC.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="BeerC">
+        <MSBuild Projects="beer\BeerC.cbproj"/>
+    </Target>
+    <Target Name="BeerC:Clean">
+        <MSBuild Projects="beer\BeerC.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="BeerC:Make">
+        <MSBuild Projects="beer\BeerC.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="BoomC">
+        <MSBuild Projects="boom\BoomC.cbproj"/>
+    </Target>
+    <Target Name="BoomC:Clean">
+        <MSBuild Projects="boom\BoomC.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="BoomC:Make">
+        <MSBuild Projects="boom\BoomC.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="CandlesC">
+        <MSBuild Projects="candles\CandlesC.cbproj"/>
+    </Target>
+    <Target Name="CandlesC:Clean">
+        <MSBuild Projects="candles\CandlesC.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="CandlesC:Make">
+        <MSBuild Projects="candles\CandlesC.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="FireC">
+        <MSBuild Projects="fire\FireC.cbproj"/>
+    </Target>
+    <Target Name="FireC:Clean">
+        <MSBuild Projects="fire\FireC.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="FireC:Make">
+        <MSBuild Projects="fire\FireC.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="MeshExplosionC">
+        <MSBuild Projects="meshexplosion\MeshExplosionC.cbproj"/>
+    </Target>
+    <Target Name="MeshExplosionC:Clean">
+        <MSBuild Projects="meshexplosion\MeshExplosionC.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="MeshExplosionC:Make">
+        <MSBuild Projects="meshexplosion\MeshExplosionC.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="MotionBlurC">
+        <MSBuild Projects="motionblur\MotionBlurC.cbproj"/>
+    </Target>
+    <Target Name="MotionBlurC:Clean">
+        <MSBuild Projects="motionblur\MotionBlurC.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="MotionBlurC:Make">
+        <MSBuild Projects="motionblur\MotionBlurC.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="MotionBlur2C">
+        <MSBuild Projects="motionblur2\MotionBlur2C.cbproj"/>
+    </Target>
+    <Target Name="MotionBlur2C:Clean">
+        <MSBuild Projects="motionblur2\MotionBlur2C.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="MotionBlur2C:Make">
+        <MSBuild Projects="motionblur2\MotionBlur2C.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="ParticleMaskingC">
+        <MSBuild Projects="ParticleMasking\ParticleMaskingC.cbproj"/>
+    </Target>
+    <Target Name="ParticleMaskingC:Clean">
+        <MSBuild Projects="ParticleMasking\ParticleMaskingC.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="ParticleMaskingC:Make">
+        <MSBuild Projects="ParticleMasking\ParticleMaskingC.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="PFXGalleryC">
+        <MSBuild Projects="PFXGallery\PFXGalleryC.cbproj"/>
+    </Target>
+    <Target Name="PFXGalleryC:Clean">
+        <MSBuild Projects="PFXGallery\PFXGalleryC.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="PFXGalleryC:Make">
+        <MSBuild Projects="PFXGallery\PFXGalleryC.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="PostEffectC">
+        <MSBuild Projects="posteffect\PostEffectC.cbproj"/>
+    </Target>
+    <Target Name="PostEffectC:Clean">
+        <MSBuild Projects="posteffect\PostEffectC.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="PostEffectC:Make">
+        <MSBuild Projects="posteffect\PostEffectC.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="ProjTexturesC">
+        <MSBuild Projects="projtextures\ProjTexturesC.cbproj"/>
+    </Target>
+    <Target Name="ProjTexturesC:Clean">
+        <MSBuild Projects="projtextures\ProjTexturesC.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="ProjTexturesC:Make">
+        <MSBuild Projects="projtextures\ProjTexturesC.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="ShadowPlaneC">
+        <MSBuild Projects="ShadowPlane\ShadowPlaneC.cbproj"/>
+    </Target>
+    <Target Name="ShadowPlaneC:Clean">
+        <MSBuild Projects="ShadowPlane\ShadowPlaneC.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="ShadowPlaneC:Make">
+        <MSBuild Projects="ShadowPlane\ShadowPlaneC.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="ShadowsC">
+        <MSBuild Projects="shadows\ShadowsC.cbproj"/>
+    </Target>
+    <Target Name="ShadowsC:Clean">
+        <MSBuild Projects="shadows\ShadowsC.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="ShadowsC:Make">
+        <MSBuild Projects="shadows\ShadowsC.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="ShadowVolumesC">
+        <MSBuild Projects="shadowvolumes\ShadowVolumesC.cbproj"/>
+    </Target>
+    <Target Name="ShadowVolumesC:Clean">
+        <MSBuild Projects="shadowvolumes\ShadowVolumesC.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="ShadowVolumesC:Make">
+        <MSBuild Projects="shadowvolumes\ShadowVolumesC.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="SpiralC">
+        <MSBuild Projects="spiral\SpiralC.cbproj"/>
+    </Target>
+    <Target Name="SpiralC:Clean">
+        <MSBuild Projects="spiral\SpiralC.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="SpiralC:Make">
+        <MSBuild Projects="spiral\SpiralC.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="ThorC">
+        <MSBuild Projects="thor\ThorC.cbproj"/>
+    </Target>
+    <Target Name="ThorC:Clean">
+        <MSBuild Projects="thor\ThorC.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="ThorC:Make">
+        <MSBuild Projects="thor\ThorC.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="WarpingC">
+        <MSBuild Projects="warping\WarpingC.cbproj"/>
+    </Target>
+    <Target Name="WarpingC:Clean">
+        <MSBuild Projects="warping\WarpingC.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="WarpingC:Make">
+        <MSBuild Projects="warping\WarpingC.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="WaterPlaneC">
+        <MSBuild Projects="waterplane\WaterPlaneC.cbproj"/>
+    </Target>
+    <Target Name="WaterPlaneC:Clean">
+        <MSBuild Projects="waterplane\WaterPlaneC.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="WaterPlaneC:Make">
+        <MSBuild Projects="waterplane\WaterPlaneC.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="AtmosphereC;BeerC;BoomC;CandlesC;FireC;MeshExplosionC;MotionBlurC;MotionBlur2C;ParticleMaskingC;PFXGalleryC;PostEffectC;ProjTexturesC;ShadowPlaneC;ShadowsC;ShadowVolumesC;SpiralC;ThorC;WarpingC;WaterPlaneC"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="AtmosphereC:Clean;BeerC:Clean;BoomC:Clean;CandlesC:Clean;FireC:Clean;MeshExplosionC:Clean;MotionBlurC:Clean;MotionBlur2C:Clean;ParticleMaskingC:Clean;PFXGalleryC:Clean;PostEffectC:Clean;ProjTexturesC:Clean;ShadowPlaneC:Clean;ShadowsC:Clean;ShadowVolumesC:Clean;SpiralC:Clean;ThorC:Clean;WarpingC:Clean;WaterPlaneC:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="AtmosphereC:Make;BeerC:Make;BoomC:Make;CandlesC:Make;FireC:Make;MeshExplosionC:Make;MotionBlurC:Make;MotionBlur2C:Make;ParticleMaskingC:Make;PFXGalleryC:Make;PostEffectC:Make;ProjTexturesC:Make;ShadowPlaneC:Make;ShadowsC:Make;ShadowVolumesC:Make;SpiralC:Make;ThorC:Make;WarpingC:Make;WaterPlaneC:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

@@ -2,40 +2,41 @@ object Form1: TForm1
   Left = 0
   Top = 0
   Caption = 'Camera'
-  ClientHeight = 429
-  ClientWidth = 503
+  ClientHeight = 471
+  ClientWidth = 616
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
-  OldCreateOrder = False
+  Position = poScreenCenter
   OnKeyPress = FormKeyPress
   OnMouseWheel = FormMouseWheel
   DesignSize = (
-    503
-    429)
-  PixelsPerInch = 96
+    616
+    471)
   TextHeight = 13
   object GLSceneViewer1: TGLSceneViewer
     Left = 0
     Top = 0
-    Width = 503
-    Height = 429
+    Width = 616
+    Height = 471
     Camera = GLCamera1
     VSync = vsmSync
     Buffer.BackgroundColor = clTeal
-    FieldOfView = 153.757293701171900000
+    FieldOfView = 156.026565551757800000
     PenAsTouch = False
     Align = alClient
     OnMouseDown = GLSceneViewer1MouseDown
     OnMouseMove = GLSceneViewer1MouseMove
     TabOrder = 0
+    ExplicitWidth = 503
+    ExplicitHeight = 429
   end
   object RadioGroup1: TRadioGroup
     Left = 4
-    Top = 335
+    Top = 377
     Width = 181
     Height = 73
     Anchors = [akLeft, akBottom]
@@ -48,10 +49,11 @@ object Form1: TForm1
       'Custom')
     TabOrder = 1
     OnClick = RadioGroup1Click
+    ExplicitTop = 310
   end
   object RadioGroup2: TRadioGroup
-    Left = 289
-    Top = 351
+    Left = 402
+    Top = 393
     Width = 145
     Height = 57
     Anchors = [akRight, akBottom]
@@ -62,6 +64,8 @@ object Form1: TForm1
       'Vertical')
     TabOrder = 2
     OnClick = RadioGroup2Click
+    ExplicitLeft = 281
+    ExplicitTop = 326
   end
   object GLScene1: TGLScene
     Left = 32

@@ -6,25 +6,13 @@
         <Projects Include="BumpShader\BumpShaderD.dproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="BumpShader\BumpShaderC.cbproj">
-            <Dependencies/>
-        </Projects>
         <Projects Include="BunnyBump\BunnyBumpD.dproj">
-            <Dependencies/>
-        </Projects>
-        <Projects Include="BunnyBump\BunnybumpC.cbproj">
             <Dependencies/>
         </Projects>
         <Projects Include="DiffuseShader\DiffuseShaderD.dproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="DiffuseShader\DiffuseShaderC.cbproj">
-            <Dependencies/>
-        </Projects>
         <Projects Include="LiningShaders\LiningShadersD.dproj">
-            <Dependencies/>
-        </Projects>
-        <Projects Include="LiningShaders\LiningShadersC.cbproj">
             <Dependencies/>
         </Projects>
         <Projects Include="Mandelbrot\MandelbrotD.dproj">
@@ -33,16 +21,7 @@
         <Projects Include="Ocean\OceanD.dproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="Ocean\OceanC.cbproj">
-            <Dependencies/>
-        </Projects>
         <Projects Include="PostShader\PostShaderD.dproj">
-            <Dependencies/>
-        </Projects>
-        <Projects Include="PostShader\PostShaderC.cbproj">
-            <Dependencies/>
-        </Projects>
-        <Projects Include="SimpleGLSL\SimpleShaderC.cbproj">
             <Dependencies/>
         </Projects>
         <Projects Include="ShadersLab\ShadersLabD.dproj">
@@ -71,15 +50,6 @@
     <Target Name="BumpShaderD:Make">
         <MSBuild Projects="BumpShader\BumpShaderD.dproj" Targets="Make"/>
     </Target>
-    <Target Name="BumpShaderC">
-        <MSBuild Projects="BumpShader\BumpShaderC.cbproj"/>
-    </Target>
-    <Target Name="BumpShaderC:Clean">
-        <MSBuild Projects="BumpShader\BumpShaderC.cbproj" Targets="Clean"/>
-    </Target>
-    <Target Name="BumpShaderC:Make">
-        <MSBuild Projects="BumpShader\BumpShaderC.cbproj" Targets="Make"/>
-    </Target>
     <Target Name="BunnyBumpD">
         <MSBuild Projects="BunnyBump\BunnyBumpD.dproj"/>
     </Target>
@@ -88,15 +58,6 @@
     </Target>
     <Target Name="BunnyBumpD:Make">
         <MSBuild Projects="BunnyBump\BunnyBumpD.dproj" Targets="Make"/>
-    </Target>
-    <Target Name="BunnybumpC">
-        <MSBuild Projects="BunnyBump\BunnybumpC.cbproj"/>
-    </Target>
-    <Target Name="BunnybumpC:Clean">
-        <MSBuild Projects="BunnyBump\BunnybumpC.cbproj" Targets="Clean"/>
-    </Target>
-    <Target Name="BunnybumpC:Make">
-        <MSBuild Projects="BunnyBump\BunnybumpC.cbproj" Targets="Make"/>
     </Target>
     <Target Name="DiffuseShaderD">
         <MSBuild Projects="DiffuseShader\DiffuseShaderD.dproj"/>
@@ -107,15 +68,6 @@
     <Target Name="DiffuseShaderD:Make">
         <MSBuild Projects="DiffuseShader\DiffuseShaderD.dproj" Targets="Make"/>
     </Target>
-    <Target Name="DiffuseShaderC">
-        <MSBuild Projects="DiffuseShader\DiffuseShaderC.cbproj"/>
-    </Target>
-    <Target Name="DiffuseShaderC:Clean">
-        <MSBuild Projects="DiffuseShader\DiffuseShaderC.cbproj" Targets="Clean"/>
-    </Target>
-    <Target Name="DiffuseShaderC:Make">
-        <MSBuild Projects="DiffuseShader\DiffuseShaderC.cbproj" Targets="Make"/>
-    </Target>
     <Target Name="LiningShadersD">
         <MSBuild Projects="LiningShaders\LiningShadersD.dproj"/>
     </Target>
@@ -124,15 +76,6 @@
     </Target>
     <Target Name="LiningShadersD:Make">
         <MSBuild Projects="LiningShaders\LiningShadersD.dproj" Targets="Make"/>
-    </Target>
-    <Target Name="LiningShadersC">
-        <MSBuild Projects="LiningShaders\LiningShadersC.cbproj"/>
-    </Target>
-    <Target Name="LiningShadersC:Clean">
-        <MSBuild Projects="LiningShaders\LiningShadersC.cbproj" Targets="Clean"/>
-    </Target>
-    <Target Name="LiningShadersC:Make">
-        <MSBuild Projects="LiningShaders\LiningShadersC.cbproj" Targets="Make"/>
     </Target>
     <Target Name="MandelbrotD">
         <MSBuild Projects="Mandelbrot\MandelbrotD.dproj"/>
@@ -152,15 +95,6 @@
     <Target Name="OceanD:Make">
         <MSBuild Projects="Ocean\OceanD.dproj" Targets="Make"/>
     </Target>
-    <Target Name="OceanC">
-        <MSBuild Projects="Ocean\OceanC.cbproj"/>
-    </Target>
-    <Target Name="OceanC:Clean">
-        <MSBuild Projects="Ocean\OceanC.cbproj" Targets="Clean"/>
-    </Target>
-    <Target Name="OceanC:Make">
-        <MSBuild Projects="Ocean\OceanC.cbproj" Targets="Make"/>
-    </Target>
     <Target Name="PostShaderD">
         <MSBuild Projects="PostShader\PostShaderD.dproj"/>
     </Target>
@@ -169,24 +103,6 @@
     </Target>
     <Target Name="PostShaderD:Make">
         <MSBuild Projects="PostShader\PostShaderD.dproj" Targets="Make"/>
-    </Target>
-    <Target Name="PostShaderC">
-        <MSBuild Projects="PostShader\PostShaderC.cbproj"/>
-    </Target>
-    <Target Name="PostShaderC:Clean">
-        <MSBuild Projects="PostShader\PostShaderC.cbproj" Targets="Clean"/>
-    </Target>
-    <Target Name="PostShaderC:Make">
-        <MSBuild Projects="PostShader\PostShaderC.cbproj" Targets="Make"/>
-    </Target>
-    <Target Name="SimpleShaderC">
-        <MSBuild Projects="SimpleGLSL\SimpleShaderC.cbproj"/>
-    </Target>
-    <Target Name="SimpleShaderC:Clean">
-        <MSBuild Projects="SimpleGLSL\SimpleShaderC.cbproj" Targets="Clean"/>
-    </Target>
-    <Target Name="SimpleShaderC:Make">
-        <MSBuild Projects="SimpleGLSL\SimpleShaderC.cbproj" Targets="Make"/>
     </Target>
     <Target Name="ShadersLabD">
         <MSBuild Projects="ShadersLab\ShadersLabD.dproj"/>
@@ -216,13 +132,13 @@
         <MSBuild Projects="Shadertoy\ShadertoyD.dproj" Targets="Make"/>
     </Target>
     <Target Name="Build">
-        <CallTarget Targets="BumpShaderD;BumpShaderC;BunnyBumpD;BunnybumpC;DiffuseShaderD;DiffuseShaderC;LiningShadersD;LiningShadersC;MandelbrotD;OceanD;OceanC;PostShaderD;PostShaderC;SimpleShaderC;ShadersLabD;SkyboxShaderD;ShadertoyD"/>
+        <CallTarget Targets="BumpShaderD;BunnyBumpD;DiffuseShaderD;LiningShadersD;MandelbrotD;OceanD;PostShaderD;ShadersLabD;SkyboxShaderD;ShadertoyD"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="BumpShaderD:Clean;BumpShaderC:Clean;BunnyBumpD:Clean;BunnybumpC:Clean;DiffuseShaderD:Clean;DiffuseShaderC:Clean;LiningShadersD:Clean;LiningShadersC:Clean;MandelbrotD:Clean;OceanD:Clean;OceanC:Clean;PostShaderD:Clean;PostShaderC:Clean;SimpleShaderC:Clean;ShadersLabD:Clean;SkyboxShaderD:Clean;ShadertoyD:Clean"/>
+        <CallTarget Targets="BumpShaderD:Clean;BunnyBumpD:Clean;DiffuseShaderD:Clean;LiningShadersD:Clean;MandelbrotD:Clean;OceanD:Clean;PostShaderD:Clean;ShadersLabD:Clean;SkyboxShaderD:Clean;ShadertoyD:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="BumpShaderD:Make;BumpShaderC:Make;BunnyBumpD:Make;BunnybumpC:Make;DiffuseShaderD:Make;DiffuseShaderC:Make;LiningShadersD:Make;LiningShadersC:Make;MandelbrotD:Make;OceanD:Make;OceanC:Make;PostShaderD:Make;PostShaderC:Make;SimpleShaderC:Make;ShadersLabD:Make;SkyboxShaderD:Make;ShadertoyD:Make"/>
+        <CallTarget Targets="BumpShaderD:Make;BunnyBumpD:Make;DiffuseShaderD:Make;LiningShadersD:Make;MandelbrotD:Make;OceanD:Make;PostShaderD:Make;ShadersLabD:Make;SkyboxShaderD:Make;ShadertoyD:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>
