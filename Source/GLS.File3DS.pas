@@ -13,7 +13,7 @@ uses
   System.Classes,
   System.SysUtils,
   System.Math,
-  
+
   Stage.Strings,
   Stage.OpenGLTokens,
   Stage.VectorTypes,
@@ -1491,7 +1491,7 @@ end;
 
 procedure TGL3DSVectorFile.LoadFromStream(aStream: TStream);
 type
-  TSmoothIndexEntry = array[0..31] of cardinal;
+  TSmoothIndexEntry = array[0..31] of Cardinal;
   PSmoothIndexArray = ^TSmoothIndexArray;
   TSmoothIndexArray = array[0..MaxInt shr 8] of TSmoothIndexEntry;
 var
@@ -1509,6 +1509,7 @@ var
     specColor: TGLVector;
     matLib: TGLMaterialLibrary;
     libMat, SecondMaterial: TGLLibMaterial;
+    TmpShininess: Integer;
   begin
     material := Materials.MaterialByName[Name];
     Assert(Assigned(material));
@@ -1532,7 +1533,11 @@ var
               1 - Abs(material.Transparency));
             specColor := VectorMake(material.Specular.R, material.Specular.G, material.Specular.B, 1);
             Specular.Color := VectorScale(specColor, material.ShinStrength);
-            Shininess := MaxInteger(0, Integer(round((material.Shininess) * 128)));
+            TmpShininess := MaxInteger(0, Integer(round((material.Shininess) * 128)));
+            if (TmpShininess >= 0) and (TmpShininess <= 128) then
+              Shininess := TmpShininess
+            else
+              Shininess := 0;
             if material.Transparency <> 0 then
               libMat.material.BlendingMode := bmTransparency;
           end;
@@ -2025,7 +2030,7 @@ begin
                           StoreSmoothIndex(CurrentVertexCount - 1, SmoothingGroup, CurrentVertexCount - 1, SmoothIndices);
                           // mark new vertex also as touched
                           MarkVertex(Marker, CurrentVertexCount - 1);
-                        end;  
+                        end;
                       end
                       else
                       begin
