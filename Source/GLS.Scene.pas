@@ -53,6 +53,12 @@ uses
   GLS.ImageUtils;
 
 type
+{$IF (CompilerVersion >= 36)}
+  TListSize = NativeInt;
+{$ELSE}
+  TListSize = Integer;
+{$ENDIF}
+
   // Defines which features are taken from the master object.
   TGLProxyObjectOption = (pooEffects, pooObjects, pooTransformation);
   TGLProxyObjectOptions = set of TGLProxyObjectOption;
@@ -138,11 +144,24 @@ type
   // Just a list of objects that support IGLInitializable.
   TGLInitializableObjectList = class(TList)
   private
-    function GetItems(const Index: Integer): IGLInitializable;
-    procedure PutItems(const Index: Integer; const Value: IGLInitializable);
+    function GetItems(const Index: TListSize): IGLInitializable;
+    procedure PutItems(const Index: TListSize; const Value: IGLInitializable);
   public
     function Add(const Item: IGLInitializable): Integer;
-    property Items[const Index: Integer]: IGLInitializable read GetItems write PutItems; default;
+    property Items[const Index: TListSize]: IGLInitializable read GetItems write PutItems; default;
+  end;
+
+  PGLAxisInfo = ^TGLAxisInfo;
+  TGLAxisInfo = record
+    Visible: Boolean;
+    Pattern: Word;
+    ColorMax: TColor;
+    ColorMin: TColor;
+    BoundMax: Single;
+    BoundMin: Single;
+    LineWidth: Single;
+    procedure Assign(Source: PGLAxisInfo);
+    procedure Init(AVisible: Boolean; APattern: Word; AColorMax, AColorMin: TColor; ABoundMax, ABoundMin, ALineWidth: Single);
   end;
 
   (* Base class for all scene objects.
@@ -158,6 +177,15 @@ type
      other children manipulations methods and properties are provided (to browse,
      move and delete them). Using the regular TComponent methods is not encouraged *)
   TGLBaseSceneObject = class(TGLCoordinatesUpdateAbleComponent)
+  private
+    FXAxisInfo: TGLAxisInfo;
+    FYAxisInfo: TGLAxisInfo;
+    FZAxisInfo: TGLAxisInfo;
+    function GetAxisInfo(AxisID: Integer): PGLAxisInfo;
+  protected
+    procedure DrawAxis(axis: Integer; var rci: TGLRenderContextInfo);
+  public
+    property AxisInfo[AxisID: Integer]: PGLAxisInfo read GetAxisInfo;
   private
     FAbsoluteMatrix, FInvAbsoluteMatrix: TGLMatrix;
     FLocalMatrix: TGLMatrix;
@@ -1874,6 +1902,11 @@ end;
 constructor TGLBaseSceneObject.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
+
+  FXAxisInfo.Init(False, $CCCC, $000000FF, $0000007F, System.Math.NaN, System.Math.NaN, 1.0);
+  FYAxisInfo.Init(False, $CCCC, $0000FF00, $00007F00, System.Math.NaN, System.Math.NaN, 1.0);
+  FZAxisInfo.Init(False, $CCCC, $00FF0000, $007F0000, System.Math.NaN, System.Math.NaN, 1.0);
+
   FListHandle := TGLListHandle.Create;
   FObjectStyle := [];
   FChanges := [ocTransformation, ocStructure,
@@ -2779,6 +2812,9 @@ begin
     TGLBaseSceneObject(Source).RebuildMatrix;
     SetMatrix(TGLBaseSceneObject(Source).FLocalMatrix);
     FShowAxes := TGLBaseSceneObject(Source).FShowAxes;
+    FXAxisInfo.Assign(@TGLBaseSceneObject(Source).FXAxisInfo);
+    FYAxisInfo.Assign(@TGLBaseSceneObject(Source).FYAxisInfo);
+    FZAxisInfo.Assign(@TGLBaseSceneObject(Source).FZAxisInfo);
     FObjectsSorting := TGLBaseSceneObject(Source).FObjectsSorting;
     FVisibilityCulling := TGLBaseSceneObject(Source).FVisibilityCulling;
     FRotation.Assign(TGLBaseSceneObject(Source).FRotation);
@@ -3669,7 +3705,13 @@ begin
     vCurrentRenderingObject := Self;
 {$IFNDEF USE_OPTIMIZATIONS}
     if FShowAxes then
-      DrawAxes(ARci, $CCCC);
+      DrawAxes(ARci, $CCCC)
+    else
+    begin
+      if FXAxisInfo.Visible then DrawAxis(0, ARci);
+      if FYAxisInfo.Visible then DrawAxis(1, ARci);
+      if FZAxisInfo.Visible then DrawAxis(2, ARci);
+    end;
 {$ENDIF}
     if Assigned(FEffects) and (FEffects.Count > 0) then
     begin
@@ -7979,18 +8021,111 @@ begin
 end;
 
 function TGLInitializableObjectList.GetItems(
-  const Index: Integer): IGLInitializable;
+  const Index: TListSize): IGLInitializable;
 begin
   Result := IGLInitializable(inherited Get(Index));
 end;
 
-procedure TGLInitializableObjectList.PutItems(const Index: Integer;
+procedure TGLInitializableObjectList.PutItems(const Index: TListSize;
   const Value: IGLInitializable);
 begin
   inherited Put(Index, Pointer(Value));
 end;
 
 //------------------------------------------------------------------------------
+
+{ TGLAxisInfo }
+
+procedure TGLAxisInfo.Assign(Source: PGLAxisInfo);
+begin
+  Visible := Source.Visible;
+  Pattern := Source.Pattern;
+  ColorMax := Source.ColorMax;
+  ColorMin := Source.ColorMin;
+  BoundMax := Source.BoundMax;
+  BoundMin := Source.BoundMin;
+  LineWidth := Source.LineWidth;
+end;
+
+procedure TGLAxisInfo.Init(AVisible: Boolean; APattern: Word; AColorMax, AColorMin: TColor; ABoundMax, ABoundMin, ALineWidth: Single);
+begin
+  Visible := AVisible;
+  Pattern := APattern;
+  ColorMax := AColorMax;
+  ColorMin := AColorMin;
+  BoundMax := ABoundMax;
+  BoundMin := ABoundMin;
+  LineWidth := ALineWidth;
+end;
+
+procedure TGLBaseSceneObject.DrawAxis(axis: Integer; var rci: TGLRenderContextInfo);
+var
+  AxisLenMax: Single;
+  AxisLenMin: Single;
+  AxisInfo: PGLAxisInfo;
+  ColorMax: TGLColorVector;
+  ColorMin: TGLColorVector;
+begin
+  AxisInfo := GetAxisInfo(Axis);
+  if AxisInfo = nil then Exit;
+
+  if IsNan(AxisInfo.BoundMax) then
+    AxisLenMax := FScene.CurrentBuffer.FCamera.FDepthOfView
+  else
+    AxisLenMax := AxisInfo.BoundMax;
+
+  if IsNan(AxisInfo.BoundMin) then
+    AxisLenMin := -FScene.CurrentBuffer.FCamera.FDepthOfView
+  else
+    AxisLenMin := AxisInfo.BoundMin;
+
+  ColorMax := ConvertWinColor(AxisInfo.ColorMax);
+  ColorMin := ConvertWinColor(AxisInfo.ColorMin);
+
+  glPushAttrib(GL_ENABLE_BIT or GL_LIGHTING_BIT or GL_LINE_BIT);
+  glDisable(GL_LIGHTING);
+  glEnable(GL_LINE_STIPPLE);
+  if not rci.ignoreBlendingRequests then begin
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+  end;
+  glLineWidth(AxisInfo.LineWidth);
+  glLineStipple(1, AxisInfo.Pattern);
+  glBegin(GL_LINES);
+  if axis = 0 then
+  begin
+    glColor3f(ColorMin.X, ColorMin.Y, ColorMin.Z); glVertex3f(0, 0, 0); glVertex3f(AxisLenMin, 0, 0);
+    glColor3f(ColorMax.X, ColorMax.Y, ColorMax.Z); glVertex3f(0, 0, 0); glVertex3f(AxisLenMax, 0, 0);
+  end;
+  if axis = 1 then
+  begin
+    glColor3f(ColorMin.X, ColorMin.Y, ColorMin.Z); glVertex3f(0, 0, 0); glVertex3f(0, AxisLenMin, 0);
+    glColor3f(ColorMax.X, ColorMax.Y, ColorMax.Z); glVertex3f(0, 0, 0); glVertex3f(0, AxisLenMax, 0);
+  end;
+  if axis = 2 then
+  begin
+    glColor3f(ColorMin.X, ColorMin.Y, ColorMin.Z); glVertex3f(0, 0, 0); glVertex3f(0, 0, AxisLenMin);
+    glColor3f(ColorMax.X, ColorMax.Y, ColorMax.Z); glVertex3f(0, 0, 0); glVertex3f(0, 0, AxisLenMax);
+  end;
+  glEnd;
+  glPopAttrib;
+  // clear fpu exception flag (sometime raised by the call to glEnd)
+{$IFDEF CPUX86}
+  asm fclex end;
+{$ENDIF}
+end;
+
+function TGLBaseSceneObject.GetAxisInfo(AxisID: Integer): PGLAxisInfo;
+begin
+  case AxisID of
+    0: Result := @FXAxisInfo;
+    1: Result := @FYAxisInfo;
+    2: Result := @FZAxisInfo;
+    else
+      Result := nil;
+  end;
+end;
+
 initialization
 //------------------------------------------------------------------------------
 
