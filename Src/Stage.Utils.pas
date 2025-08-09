@@ -221,7 +221,7 @@ var
   DSeparator: Char;
   fs: TFormatSettings;
 begin
-  DSeparator := fs.DecimalSeparator;                                                                                                   fs.DecimalSeparator := ',';
+  DSeparator := fs.DecimalSeparator;
   try
     fs.DecimalSeparator := ',';
     if not TryStrToFloat(S, Result, fs) then
