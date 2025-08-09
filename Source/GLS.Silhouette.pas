@@ -99,14 +99,14 @@ type
     FFaceNormal: TGLAffineVectorList;
     FVertexMemory: TGLIntegerList;
     FVertices: TGLAffineVectorList;
-    function GetEdgeCount: integer;
-    function GetFaceCount: integer;
+    function GetEdgeCount: integer; override;
+    function GetFaceCount: integer; override;
     function ReuseOrFindVertexID(const SeenFrom: TAffineVector; ASilhouette: TGLSilhouette; index: integer): integer;
   public
     // Clears out all connectivity information.
     procedure Clear; virtual;
     procedure CreateSilhouette(const silhouetteParameters: TGLSilhouetteParameters; var ASilhouette: TGLSilhouette;
-      AddToSilhouette: Boolean);
+      AddToSilhouette: Boolean); override;
     function AddIndexedEdge(vertexIndex0, vertexIndex1: integer; FaceID: integer): integer;
     function AddIndexedFace(Vi0, Vi1, vi2: integer): integer;
     function AddFace(const vertex0, vertex1, vertex2: TAffineVector): integer; inline;
