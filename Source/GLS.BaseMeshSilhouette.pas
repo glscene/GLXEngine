@@ -50,7 +50,7 @@ type
     // Builds the connectivity information.
     procedure RebuildEdgeList;
     procedure CreateSilhouette(const silhouetteParameters: TGLSilhouetteParameters; var aSilhouette: TGLSilhouette;
-	  AddToSilhouette: boolean);
+	  AddToSilhouette: boolean); override;
     constructor Create(APrecomputeFaceNormal: boolean); override;
     constructor CreateFromMesh(aBaseMesh: TGLBaseMesh);
     destructor Destroy; override;
@@ -59,6 +59,9 @@ type
 //==============================================================================
 implementation
 //==============================================================================
+
+uses
+  GLS.PersistentClasses;
 
 // ------------------
 // ------------------ TGLFaceGroupConnectivity ------------------

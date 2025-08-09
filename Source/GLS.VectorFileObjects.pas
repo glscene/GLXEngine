@@ -6917,7 +6917,7 @@ procedure TGLActorAnimations.SaveToStream(aStream: TStream);
 var
   i: Integer;
 begin
-  WriteCRLFString(aStream, cAAFHeader);
+  WriteCRLFString(aStream, string(cAAFHeader));
   WriteCRLFString(aStream, IntToStr(Count));
   for i := 0 to Count - 1 do
     WriteCRLFString(aStream, Items[i].AsString);
@@ -6928,7 +6928,7 @@ var
   i, n: Integer;
 begin
   Clear;
-  if ReadCRLFString(aStream) <> cAAFHeader then
+  if ReadCRLFString(aStream) <> string(cAAFHeader) then
     Assert(False);
   n := StrToInt(ReadCRLFString(aStream));
   for i := 0 to n - 1 do
@@ -6951,8 +6951,8 @@ procedure TGLActorAnimations.LoadFromFile(const fileName: string);
 var
   fs: TStream;
 begin
+  fs := TFileStream.Create(fileName, fmOpenRead + fmShareDenyWrite);
   try
-    fs := TFileStream.Create(fileName, fmOpenRead + fmShareDenyWrite);
   finally
     fs.Free;
   end;
