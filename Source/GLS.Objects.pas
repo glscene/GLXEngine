@@ -5,16 +5,16 @@ unit GLS.Objects;
 
 (*
   Implementation of basic scene objects plus some management routines.
-  The registered classes are:
-    [TGLSphere, TGLCube, TGLPlane, TGLSprite, TGLPoints,
-    TGLDummyCube, TGLLines, TGLSuperellipsoid]
-
-  All objects declared in this unit are part of the basic GLScene package,
-  these are only simple objects and should be kept simple and lightweight.
+  All objects declared in this unit are only simple objects
+  and should be kept simple and lightweight.
 
   More complex or more specialized versions should be placed in dedicated
   units where they can grow and prosper untammed. "Generic" geometrical
   objects can be found in GLS.GeomObjects unit.
+
+  The registered classes are:
+    [TGLSphere, TGLCube, TGLPlane, TGLSprite, TGLPoints,
+    TGLDummyCube, TGLLines, TGLSuperellipsoid]
 *)
 
 interface

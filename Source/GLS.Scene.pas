@@ -27,13 +27,13 @@ uses
   Stage.VectorTypes,
   Stage.VectorGeometry,
   Stage.OpenGLTokens,
-  GLS.XCollection,
   Stage.Strings,
   Stage.PipelineTransform,
   Stage.TextureFormat,
   Stage.Utils,
   Stage.Logger,
 
+  GLS.XCollection,
   GLS.Context,
   GLS.Silhouette,
   GLS.PersistentClasses,
@@ -53,12 +53,6 @@ uses
   GLS.ImageUtils;
 
 type
-{$IF (CompilerVersion >= 36)}
-  TListSize = NativeInt;
-{$ELSE}
-  TListSize = Integer;
-{$ENDIF}
-
   // Defines which features are taken from the master object.
   TGLProxyObjectOption = (pooEffects, pooObjects, pooTransformation);
   TGLProxyObjectOptions = set of TGLProxyObjectOption;
@@ -67,7 +61,7 @@ type
 
 const
   cDefaultProxyOptions = [pooEffects, pooObjects, pooTransformation];
-  GLSCENE_REVISION = '$Revision: 2024$';
+  GLSCENE_REVISION = '$Revision: 2025$';
   GLSCENE_VERSION = 'v2.5 %s';
 
 type
@@ -144,11 +138,11 @@ type
   // Just a list of objects that support IGLInitializable.
   TGLInitializableObjectList = class(TList)
   private
-    function GetItems(const Index: TListSize): IGLInitializable;
-    procedure PutItems(const Index: TListSize; const Value: IGLInitializable);
+    function GetItems(const Index: NativeInt): IGLInitializable;
+    procedure PutItems(const Index: NativeInt; const Value: IGLInitializable);
   public
     function Add(const Item: IGLInitializable): Integer;
-    property Items[const Index: TListSize]: IGLInitializable read GetItems write PutItems; default;
+    property Items[const Index: NativeInt]: IGLInitializable read GetItems write PutItems; default;
   end;
 
   PGLAxisInfo = ^TGLAxisInfo;
@@ -8021,12 +8015,12 @@ begin
 end;
 
 function TGLInitializableObjectList.GetItems(
-  const Index: TListSize): IGLInitializable;
+  const Index: NativeInt): IGLInitializable;
 begin
   Result := IGLInitializable(inherited Get(Index));
 end;
 
-procedure TGLInitializableObjectList.PutItems(const Index: TListSize;
+procedure TGLInitializableObjectList.PutItems(const Index: NativeInt;
   const Value: IGLInitializable);
 begin
   inherited Put(Index, Pointer(Value));

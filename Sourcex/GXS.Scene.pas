@@ -61,7 +61,7 @@ type
 
 const
   cDefaultProxyOptions = [pooEffects, pooObjects, pooTransformation];
-  SCENE_REVISION = '$Revision: 2024$';
+  SCENE_REVISION = '$Revision: 2025$';
   SCENE_VERSION = 'v2.5 %s';
 
 type
@@ -143,11 +143,11 @@ type
   // Just a list of objects that support IGLInitializable.
   TgxInitializableObjectList = class(TList)
   private
-    function GetItems(const Index: Integer): IgxInitializable;
-    procedure PutItems(const Index: Integer; const Value: IgxInitializable);
+    function GetItems(const Index: NativeInt): IgxInitializable;
+    procedure PutItems(const Index: NativeInt; const Value: IgxInitializable);
   public
     function Add(const Item: IgxInitializable): Integer;
-    property Items[const Index: Integer]: IgxInitializable read GetItems write PutItems; default;
+    property Items[const Index: NativeInt]: IgxInitializable read GetItems write PutItems; default;
   end;
 
   (* Base class for all scene objects.
@@ -7832,12 +7832,12 @@ begin
   Result := inherited Add(Pointer(Item));
 end;
 
-function TgxInitializableObjectList.GetItems(const Index: Integer): IgxInitializable;
+function TgxInitializableObjectList.GetItems(const Index: NativeInt): IgxInitializable;
 begin
   Result := IgxInitializable(inherited Get(Index));
 end;
 
-procedure TgxInitializableObjectList.PutItems(const Index: Integer; const Value: IgxInitializable);
+procedure TgxInitializableObjectList.PutItems(const Index: NativeInt; const Value: IgxInitializable);
 begin
   inherited Put(Index, Pointer(Value));
 end;

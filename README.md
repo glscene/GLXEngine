@@ -6,7 +6,7 @@ include managers for supporting physics, sounds, terrains with materials and sha
 1. Download a zip archive of the last release or clone the repository
 2. Run _setupDLL_admin.cmd to support external DLLs
 3. Configure the IDE settings and paths to src, sources and sourcex, include and lib dirs  
-4. Open the GLSEngine.groupproj in RAD Studio Delphi or .lpk projects for Lazarus, compile and install components
+4. Open the GLSEngine.groupproj in RAD Studio Delphi, compile and install components
 5. Run Examples for Delphi or C++Builder <br>
 
 
