@@ -31,7 +31,7 @@ Plot2D
 ![Plot2D](Help/Screenshots/Plot2D.png)
 
 ### Tools
-- [RAD Studio for Delphi and C++], Community Edition.    
+- RAD Studio for Delphi and C++, Community Edition.    
 - [Git](https://git-scm.com/downloads/win), console utility for tracking and maintaining the history of file changes.
 - [TortoiseGit](https://tortoisegit.org/), shell interface client to Git for Windows Explorer.
 - [Beyond Compare](https://www.scootersoftware.com/), an application to compare, merge, and synchronize data. 
