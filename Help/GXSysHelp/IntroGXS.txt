@@ -1,18 +1,15 @@
-GLXEngine is an OpenGL based collector for Delphi and C++Builder packages. 
-It provides visual components and objects allowing description and effective rendering of 3D scenes.
-GLXEngine is not only an OpenGL wrapper or utility library, but it's grown to become a set of founding classes 
-for a generic 3D engine for the Rapid Application Development. 
-GLXEngine allows you to design and render 3D scenes quickly and without having to learn the intricacies of OpenGL: 
-if you know how to design a TForm, you'll easily master the basic operation of TgxScene. 
-Make sure to checkout the introduction tutorial included in the help folder.
-GLXEngine includes more than many components and a variety of founding classes. 
-The library comes with a comfortable set of demos showcasing the ease of use and demonstrating RAD wasn't done 
-at the expense of CPU horsepower. 
-The GLXEngine Sound System allows positional 3D audio via low-level APIs like 
-FMOD, BASS, OpenAL and WaveOut.
-Advanced demos and samples could be found in the project directory GLXEngine\Examples.
-Some additional options for compiler are in GLScene.Defines.inc (activated/deactivated, all are inactive by default):
-The option DEFINE Graphics32_SUPPORT controls support Alex Denissov's Graphics32 library 
-(http://www.graphics32.org), once activated will redirect assignments from TBitmap32 to TGLBitmap32.
+GLXEngine is a graphical package collector for Delphi and C++Builder.
+It provides components and objects for fast and efficient rendering of 3D scenes.
+GLXEngine allows you to quickly design and visualize 3D scenes without learning the intricacies of OpenGL or Vulkan:
+
+If you know how to design with VCL/FMX, you'll easily master the basic functions of GLScene and GXScene.
+Be sure to read the installation instruction and introductory guide included in the help folder.
+GLXEngine includes numerous components and base classes.
+The GLXEngine sound system enables positional 3D sound playback through low-level APIs with FMOD, BASS, OpenAL, and WaveOut.
+The library includes a convenient set of demo examples. Advanced demos and examples can be found in the GLXEngine\Examples project directory. 
+Some additional compiler options are found in GLScene.Defines.inc (enabled/disabled):
+The DEFINE Graphics32_SUPPORT option supports Graphics32 library (http://www.graphics32.org). 
+When enabled, it redirects mappings from TBitmap32 to TGLBitmap32.
+The system help was created using Pasdoc 
 
 GLXEngine Team

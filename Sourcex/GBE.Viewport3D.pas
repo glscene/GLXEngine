@@ -235,7 +235,7 @@ begin
   FMyTexture.SetSize(Round(Width), Round(Height));
   fMyContext := TContextManager.CreateFromTexture(FMyTexture,
     TMultisample.FourSamples, true);
-  FMyBitmap := TBitmap.Create(fMyContext.Width, fMyContext.Height);
+  FMyBitmap := TBitmap.Create; // old TBitmap.Create(fMyContext.Width, fMyContext.Height);
 end;
 
 // ----------------------------------------------------------------------------
