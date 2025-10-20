@@ -40,4 +40,4 @@ Plot2D
 - [Inno Setup](https://jrsoftware.org/isinfo.php), an open-source installation tool for Windows applications.
    
 
-[Admin](https://t.me/glscene)
+[Telegram](https://t.me/glscene)
