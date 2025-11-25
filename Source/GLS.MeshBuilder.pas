@@ -1,5 +1,5 @@
 //
-// The graphics engine GLXEngine. The unit of GLScene for Delphi
+// The graphics GaLaXy Engine. The unit of GLScene
 //
 unit GLS.MeshBuilder;
 
@@ -202,9 +202,7 @@ var
   vDefaultMeshOptimizerOptions: TGLMeshOptimizerOptions = [mooStandardize,
     mooVertexCache, mooSortByMaterials, mooMergeObjects];
 
-//------------------------------------------------------------------
-implementation
-//------------------------------------------------------------------
+implementation //=============================================================
 
 function VectorCombineWeighted(const Position, Scale: TAffineVector; X, Y, Z: single)
   : TAffineVector;

@@ -24,7 +24,7 @@ program HeightFieldD;
 
 uses
   Forms,
-  fHeightFieldD in 'fHeightFieldD.pas' {FormHeightField};
+  fdHeightField in 'fdHeightField.pas' {FormHeightField};
 
 {$R *.RES}
 

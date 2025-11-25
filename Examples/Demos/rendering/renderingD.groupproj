@@ -42,9 +42,6 @@
         <Projects Include="phong\PhongD.dproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="phong\PhongC.cbproj">
-            <Dependencies/>
-        </Projects>
         <Projects Include="RenderToTexture\RenderToTexD.dproj">
             <Dependencies/>
         </Projects>
@@ -179,15 +176,6 @@
     <Target Name="PhongD:Make">
         <MSBuild Projects="phong\PhongD.dproj" Targets="Make"/>
     </Target>
-    <Target Name="PhongC">
-        <MSBuild Projects="phong\PhongC.cbproj"/>
-    </Target>
-    <Target Name="PhongC:Clean">
-        <MSBuild Projects="phong\PhongC.cbproj" Targets="Clean"/>
-    </Target>
-    <Target Name="PhongC:Make">
-        <MSBuild Projects="phong\PhongC.cbproj" Targets="Make"/>
-    </Target>
     <Target Name="RenderToTexD">
         <MSBuild Projects="RenderToTexture\RenderToTexD.dproj"/>
     </Target>
@@ -216,13 +204,13 @@
         <MSBuild Projects="tobitmap\TobitmapD.dproj" Targets="Make"/>
     </Target>
     <Target Name="Build">
-        <CallTarget Targets="BlurD;BlurAdvancedD;CelShadingD;CullingD;GrassD;FogD;FullscreenD;InvarianceD;MemViewerD;MultiProxyD;MultiTexturesD;OctreeRenderD;PhongD;PhongC;RenderToTexD;SkyBoxD;TobitmapD"/>
+        <CallTarget Targets="BlurD;BlurAdvancedD;CelShadingD;CullingD;GrassD;FogD;FullscreenD;InvarianceD;MemViewerD;MultiProxyD;MultiTexturesD;OctreeRenderD;PhongD;RenderToTexD;SkyBoxD;TobitmapD"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="BlurD:Clean;BlurAdvancedD:Clean;CelShadingD:Clean;CullingD:Clean;GrassD:Clean;FogD:Clean;FullscreenD:Clean;InvarianceD:Clean;MemViewerD:Clean;MultiProxyD:Clean;MultiTexturesD:Clean;OctreeRenderD:Clean;PhongD:Clean;PhongC:Clean;RenderToTexD:Clean;SkyBoxD:Clean;TobitmapD:Clean"/>
+        <CallTarget Targets="BlurD:Clean;BlurAdvancedD:Clean;CelShadingD:Clean;CullingD:Clean;GrassD:Clean;FogD:Clean;FullscreenD:Clean;InvarianceD:Clean;MemViewerD:Clean;MultiProxyD:Clean;MultiTexturesD:Clean;OctreeRenderD:Clean;PhongD:Clean;RenderToTexD:Clean;SkyBoxD:Clean;TobitmapD:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="BlurD:Make;BlurAdvancedD:Make;CelShadingD:Make;CullingD:Make;GrassD:Make;FogD:Make;FullscreenD:Make;InvarianceD:Make;MemViewerD:Make;MultiProxyD:Make;MultiTexturesD:Make;OctreeRenderD:Make;PhongD:Make;PhongC:Make;RenderToTexD:Make;SkyBoxD:Make;TobitmapD:Make"/>
+        <CallTarget Targets="BlurD:Make;BlurAdvancedD:Make;CelShadingD:Make;CullingD:Make;GrassD:Make;FogD:Make;FullscreenD:Make;InvarianceD:Make;MemViewerD:Make;MultiProxyD:Make;MultiTexturesD:Make;OctreeRenderD:Make;PhongD:Make;RenderToTexD:Make;SkyBoxD:Make;TobitmapD:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

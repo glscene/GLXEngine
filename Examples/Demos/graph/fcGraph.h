@@ -13,11 +13,11 @@
 
 #include "fcGraph.h"
 
-#include "fFxyC.h"
-#include "fHeightFieldC.h"
-#include "fPointsC.h"
-#include "fProjectionC.h"
-#include "fSplinesC.h"
+#include "fcFxy.h"
+#include "fñHeightField.h"
+#include "fcPoints.h"
+#include "fñSplines.h"
+///#include "fñProjection.h"
 
 
 //---------------------------------------------------------------------------

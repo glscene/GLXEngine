@@ -74,7 +74,7 @@ type
 var
   FormBlinnSheen: TFormBlinnSheen;
 
-implementation //-------------------------------------------------------------
+implementation //=============================================================
 
 {$R *.dfm}
 
@@ -213,9 +213,10 @@ var
   am: array [0 .. 2] of single;
 begin
   // Set up the texture sampler parameter
-  (* am[0]:=GLLightSource1.Diffuse.Red;
-    am[1]:=GLLightSource1.Diffuse.Green;
-    am[2]:=GLLightSource1.Diffuse.Blue;
+   am[0] := GLLightSource1.Diffuse.Red;
+   am[1] := GLLightSource1.Diffuse.Green;
+   am[2]:=GLLightSource1.Diffuse.Blue;
+   (*
     CgBumpShader.FragmentProgram.ParamByName('LightDiffuseColor').SetAsVector(am);
     CgBumpShader.VertexProgram.ParamByName('modelViewProjMatrix').SetAsStateMatrix( CG_GL_MODELVIEW_PROJECTION_MATRIX, CG_GL_MATRIX_IDENTITY);
     CgBumpShader.VertexProgram.ParamByName('vLightPosition').SetAsVector(GLLightSource1.Position.AsAffineVector);

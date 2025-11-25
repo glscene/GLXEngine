@@ -45,6 +45,8 @@ object FormSubdivide: TFormSubdivide
     Align = alRight
     BevelOuter = bvLowered
     TabOrder = 1
+    ExplicitLeft = 495
+    ExplicitHeight = 384
     object LASubdivideTime: TLabel
       Left = 8
       Top = 168

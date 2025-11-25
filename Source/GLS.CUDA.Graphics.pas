@@ -1,5 +1,5 @@
 ﻿//
-// The graphics engine GLXEngine. The unit of GLScene for Delphi
+// The graphics GaLaXy Engine. The unit of GLScene
 //
 unit GLS.CUDA.Graphics;
 

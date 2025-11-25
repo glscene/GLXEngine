@@ -1,5 +1,5 @@
 //
-// The graphics engine GLXEngine. The unit of GLScene for Delphi
+// The graphics GaLaXy Engine. The unit of GLScene
 //
 unit GLS.FileDDS;
 
@@ -16,17 +16,18 @@ uses
   System.SysUtils,
   System.Math,
 
+  Stage.VectorGeometry,
+  Stage.TextureFormat,
+  Stage.RGBE,
+  Stage.Strings,
   GLS.Context,
   GLS.Graphics,
   GLS.Texture,
-  Stage.VectorGeometry,
-  Stage.TextureFormat,
   GLS.CompositeImage,
   GLS.MultiSampleImage,
-  Stage.RGBE,
   GLS.ApplicationFileIO,
-  GLS.Material,
-  Stage.Strings;
+  GLS.Material
+  ;
 
 type
 
@@ -76,7 +77,7 @@ var
      low - skipped the first two levels. *)
   vDDSDetailLevel: TGLDDSDetailLevels = ddsHighDet;
 
-implementation //------------------------------------------------------------
+implementation //====================================================
 
 uses
   Formats.DXTC;

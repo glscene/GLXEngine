@@ -4,7 +4,7 @@
 #pragma hdrstop
 #include <tchar.h>
 //---------------------------------------------------------------------------
-USEFORM("fCgTextureC.cpp", Form1);
+USEFORM("fcCgTexture.cpp", Form1);
 //---------------------------------------------------------------------------
 int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 {

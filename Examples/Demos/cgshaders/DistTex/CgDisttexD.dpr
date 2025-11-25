@@ -17,7 +17,7 @@ program CgDisttexD;
 
 uses
   Forms,
-  fDisttexD in 'fDisttexD.pas' {Form1};
+  fdDisttex in 'fdDisttex.pas' {Form1};
 
 {$R *.res}
 

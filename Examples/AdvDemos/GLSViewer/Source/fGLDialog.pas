@@ -36,7 +36,7 @@ type
 var
   GLDialog: TGLDialog;
 
-implementation
+implementation //=============================================================
 
 {$R *.dfm}
 

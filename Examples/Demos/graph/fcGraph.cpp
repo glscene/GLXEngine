@@ -6,11 +6,11 @@
 
 #include "fcGraph.h"
 
-#pragma link "fFxyC"
-#pragma link "fHeightFieldC"
-#pragma link "fPointsC"
-#pragma link "fProjectionC"
-#pragma link "fSplinesC"
+#pragma link "fcFxy"
+#pragma link "fñHeightField"
+#pragma link "fcPoints"
+#pragma link "fñSplines"
+///#pragma link "fñProjection"
 
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
@@ -23,7 +23,7 @@ __fastcall TFormGraph::TFormGraph(TComponent* Owner) : TForm(Owner) {}
 
 void __fastcall TFormGraph::FormCreate(TObject *Sender)
 {
-  tvGraph->Select(tvGraph->Items->Item[2]);  // goto to item 2
+  tvGraph->Select(tvGraph->Items->Item[1]);  // goto to item 2
 }
 
 //---------------------------------------------------------------------------
@@ -63,11 +63,13 @@ void __fastcall TFormGraph::tvGraphClick(TObject* Sender)
 			break;
 		}
 		case 3: { // Projection
+/*
 			FormProjection = new TFormProjection(FormGraph);
 			FormProjection->Parent = FormGraph;
 			FormProjection->Align = alClient;
 			FormProjection->BorderStyle = bsNone;
 			FormProjection->Show();
+*/
 			break;
 		}
 		case 4: { // Splines

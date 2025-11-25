@@ -98,8 +98,6 @@ __published:	// IDE-managed Components
 	TGLPolygon *Pentagon10;
 	TGLPolygon *Pentagon11;
 	TCheckBox *chbRotation;
-	TGLMesh *meshConvexhull;
-	TGLDummyCube *dcConvexhull;
 	void __fastcall GLCadencer1Progress(TObject *Sender, const double DeltaTime, const double NewTime);
 	void __fastcall Timer1Timer(TObject *Sender);
 	void __fastcall rgPolyhedraClick(TObject *Sender);

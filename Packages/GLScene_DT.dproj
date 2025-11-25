@@ -224,6 +224,12 @@
             </Platforms>
             <Deployment Version="5">
                 <DeployFile LocalName="C:\Users\Public\Documents\Embarcadero\Studio\22.0\Bpl\GLScene_DT.bpl" Configuration="Debug" Class="ProjectOutput"/>
+                <DeployFile LocalName="C:\Users\Public\Documents\Embarcadero\Studio\37.0\Bpl\GLScene_DT.bpl" Configuration="Debug" Class="ProjectOutput">
+                    <Platform Name="Win32">
+                        <RemoteName>GLScene_DT.bpl</RemoteName>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
                 <DeployClass Name="AdditionalDebugSymbols">
                     <Platform Name="OSX32">
                         <Operation>1</Operation>

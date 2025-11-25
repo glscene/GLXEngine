@@ -13,12 +13,12 @@ program RecorderD;
 
 uses
   Forms,
-  fRecorderD in 'fRecorderD.pas' {Form1};
+  fdRecorder in 'fdRecorder.pas' {FormAVI};
 
 {$R *.RES}
 
 begin
   Application.Initialize;
-  Application.CreateForm(TForm1, Form1);
+  Application.CreateForm(TFormAVI, FormAVI);
   Application.Run;
 end.

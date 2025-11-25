@@ -15,6 +15,9 @@
         <Projects Include="texturing\CgTextureC.cbproj">
             <Dependencies/>
         </Projects>
+        <Projects Include="SimpleCG\CgSimpleC.cbproj">
+            <Dependencies/>
+        </Projects>
     </ItemGroup>
     <ProjectExtensions>
         <Borland.Personality>Default.Personality.12</Borland.Personality>
@@ -59,14 +62,23 @@
     <Target Name="CgTextureC:Make">
         <MSBuild Projects="texturing\CgTextureC.cbproj" Targets="Make"/>
     </Target>
+    <Target Name="CgSimpleC">
+        <MSBuild Projects="SimpleCG\CgSimpleC.cbproj"/>
+    </Target>
+    <Target Name="CgSimpleC:Clean">
+        <MSBuild Projects="SimpleCG\CgSimpleC.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="CgSimpleC:Make">
+        <MSBuild Projects="SimpleCG\CgSimpleC.cbproj" Targets="Make"/>
+    </Target>
     <Target Name="Build">
-        <CallTarget Targets="CGBombShaderC;CgCellShaderC;CgReflectC;CgTextureC"/>
+        <CallTarget Targets="CGBombShaderC;CgCellShaderC;CgReflectC;CgTextureC;CgSimpleC"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="CGBombShaderC:Clean;CgCellShaderC:Clean;CgReflectC:Clean;CgTextureC:Clean"/>
+        <CallTarget Targets="CGBombShaderC:Clean;CgCellShaderC:Clean;CgReflectC:Clean;CgTextureC:Clean;CgSimpleC:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="CGBombShaderC:Make;CgCellShaderC:Make;CgReflectC:Make;CgTextureC:Make"/>
+        <CallTarget Targets="CGBombShaderC:Make;CgCellShaderC:Make;CgReflectC:Make;CgTextureC:Make;CgSimpleC:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

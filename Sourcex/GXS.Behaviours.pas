@@ -1,6 +1,6 @@
 //
 //
-// The graphics engine GLXEngine. The unit of GXScene for Delphi
+// The graphics GaLaXy Engine. The unit of GXScene
 //
 //
 

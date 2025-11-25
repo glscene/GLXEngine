@@ -1,36 +1,27 @@
 object FormBlinnSheen: TFormBlinnSheen
   Left = 192
   Top = 114
-  Margins.Left = 5
-  Margins.Top = 5
-  Margins.Right = 5
-  Margins.Bottom = 5
   Caption = 'Cg Normal/Bump Blinn Shading Demo'
-  ClientHeight = 676
-  ClientWidth = 740
+  ClientHeight = 386
+  ClientWidth = 423
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
-  Font.Height = -19
+  Font.Height = -11
   Font.Name = 'MS Sans Serif'
   Font.Style = []
   Position = poScreenCenter
   OnCreate = FormCreate
   OnMouseWheel = FormMouseWheel
-  PixelsPerInch = 168
-  TextHeight = 24
+  TextHeight = 13
   object GLSceneViewer1: TGLSceneViewer
     Left = 0
     Top = 0
-    Width = 740
-    Height = 676
-    Margins.Left = 5
-    Margins.Top = 5
-    Margins.Right = 5
-    Margins.Bottom = 5
+    Width = 423
+    Height = 386
     Camera = GLCamera1
     Buffer.BackgroundColor = clGray
-    FieldOfView = 163.170639038085900000
+    FieldOfView = 150.951690673828100000
     PenAsTouch = False
     Align = alClient
     OnMouseDown = GLSceneViewer1MouseDown
@@ -38,14 +29,10 @@ object FormBlinnSheen: TFormBlinnSheen
     TabOrder = 0
   end
   object CheckBox1: TCheckBox
-    Left = 560
-    Top = 14
-    Width = 170
-    Height = 30
-    Margins.Left = 5
-    Margins.Top = 5
-    Margins.Right = 5
-    Margins.Bottom = 5
+    Left = 320
+    Top = 8
+    Width = 97
+    Height = 17
     Caption = 'BumpShader'
     Checked = True
     State = cbChecked

@@ -13,6 +13,9 @@ uses
   Vcl.ComCtrls,
   Vcl.ExtCtrls,
 
+  Stage.VectorGeometry,
+  Stage.Utils,
+
   GLS.Scene,
   GLS.VectorFileObjects,
   GLS.PersistentClasses,
@@ -20,15 +23,12 @@ uses
   GLS.Texture,
   GLS.SceneViewer,
   GLS.MeshUtils,
-  Stage.VectorGeometry,
   GLS.VectorLists,
   GLS.Cadencer,
-
   GLS.Material,
   GLS.Coordinates,
   GLS.State,
   GLS.BaseClasses,
-  Stage.Utils,
   GLS.File3DS,
   GLS.FileMD2,
   GLS.FileSMD;
@@ -69,7 +69,7 @@ type
 var
   FormSubdivide: TFormSubdivide;
 
-implementation
+implementation //=============================================================
 
 {$R *.dfm}
 

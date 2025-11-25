@@ -116,7 +116,7 @@ begin
   begin
     oldColor := pickedObject.Material.FrontProperties.Emission.Color;
     //...turn it to yellow and show its name
-    pickedObject.Material.FrontProperties.Emission.Color := clrYellow;
+    //  pickedObject.Material.FrontProperties.Emission.Color := clrYellow;
     ShowMessage('You clicked the ' + pickedObject.Name);
     pickedObject.BuildList(rci);
     pickedObject.Material.FrontProperties.Emission.Color := oldColor;

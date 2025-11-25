@@ -12,7 +12,7 @@ program SplinesD;
 
 uses
   Forms,
-  fSplinesD in 'fSplinesD.pas' {FormSplines};
+  fdSplines in 'fdSplines.pas' {FormSplines};
 
 {$R *.RES}
 

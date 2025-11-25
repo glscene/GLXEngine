@@ -1,5 +1,5 @@
 //
-// The graphics engine GLXEngine. The unit of GXScene for Delphi
+// The graphics GaLaXy Engine. The unit of GXScene
 //
 (*==========================================================================================
  FMOD Main header file. Copyright (c), FireLight Technologies Pty, Ltd. 1999-2003.

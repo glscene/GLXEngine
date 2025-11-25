@@ -82,7 +82,7 @@
         <VerInfo_Locale>1036</VerInfo_Locale>
         <DCC_Namespace>Vcl;Vcl.Imaging;Vcl.Touch;Vcl.Samples;Vcl.Shell;System;Xml;Data;Datasnap;Web;Soap;$(DCC_Namespace)</DCC_Namespace>
         <FinalOutputDir>.</FinalOutputDir>
-        <ILINK_LibraryPath>$(BDS)\lib\obj;$(BDS)\lib;..\..\..\..\lib;..\..\..\..\dcu;$(BDS)\lib\psdk;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <ILINK_LibraryPath>$(BDS)\lib;..\..\..\..\lib;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <ILINK_FullDebugInfo>true</ILINK_FullDebugInfo>
         <DCC_AdditionalSwitches> -M</DCC_AdditionalSwitches>
         <TASM_IncludePath>$(BDS)\include;$(BDS)\include\vcl;..\..\..\..\include;$(TASM_IncludePath)</TASM_IncludePath>
@@ -156,11 +156,12 @@
         <BCC_Defines>_DEBUG;$(BCC_Defines);$(BCC_Defines)</BCC_Defines>
         <ILINK_LibraryPath>$(BDSCOMMONDIR)\Dcp;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <Defines>_DEBUG;$(Defines)</Defines>
-        <Icon_MainIcon>$(BDS)\bin\cbuilder_PROJECTICON.ico</Icon_MainIcon>
         <LinkPackageStatics>GLScene_RT.lib;fmx.lib;xmlrtl.lib;vclimg.lib</LinkPackageStatics>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
+        <AppDPIAwarenessMode>none</AppDPIAwarenessMode>
         <LinkPackageImports>rtl.bpi;vcl.bpi</LinkPackageImports>
+        <Icon_MainIcon>..\..\..\..\Assets\Icon\Pyramid.ico</Icon_MainIcon>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win64)'!=''">
         <Defines>_DEBUG;$(Defines)</Defines>
@@ -188,17 +189,17 @@
         <AppDPIAwarenessMode>PerMonitorV2</AppDPIAwarenessMode>
     </PropertyGroup>
     <ItemGroup>
-        <CppCompile Include="fSplinesC.cpp">
+        <CppCompile Include="fсSplines.cpp">
             <BuildOrder>2</BuildOrder>
             <Form>FormSplines</Form>
-            <DependentOn>fSplinesC.h</DependentOn>
+            <DependentOn>fсSplines.h</DependentOn>
             <BuildOrder>0</BuildOrder>
         </CppCompile>
         <CppCompile Include="SplinesC.cpp">
             <BuildOrder>-1</BuildOrder>
             <BuildOrder>0</BuildOrder>
         </CppCompile>
-        <FormResources Include="fSplinesC.dfm"/>
+        <FormResources Include="fсSplines.dfm"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
@@ -268,6 +269,12 @@
                 <Source>
                     <Source Name="MainSource">SplinesC.cpp</Source>
                 </Source>
+                <Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\bcboffice2k370.bpl">Embarcadero C++Builder Office 2000 Servers Package</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\bcbofficexp370.bpl">Embarcadero C++Builder Office XP Servers Package</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\dcloffice2k370.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\dclofficexp370.bpl">Microsoft Office XP Sample Automation Server Wrapper Components</Excluded_Packages>
+                </Excluded_Packages>
             </CPlusPlusBuilder.Personality>
             <Platforms>
                 <Platform value="Win32">True</Platform>
@@ -314,6 +321,16 @@
                     </Platform>
                 </DeployFile>
                 <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin64\cc64290mt.dll" Class="DependencyModule">
+                    <Platform Name="Win64">
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'" LocalName="$(BDS)\bin64\cc64370.dll" Class="DependencyModule">
+                    <Platform Name="Win64">
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin64\cc64370mt.dll" Class="DependencyModule">
                     <Platform Name="Win64">
                         <Overwrite>true</Overwrite>
                     </Platform>
@@ -381,6 +398,16 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
+                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'" LocalName="$(BDS)\bin\cc32370.dll" Class="DependencyModule">
+                    <Platform Name="Win32">
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin\cc32370mt.dll" Class="DependencyModule">
+                    <Platform Name="Win32">
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
                 <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'" LocalName="$(BDS)\bin\cc32c240.dll" Class="DependencyModule"/>
                 <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin\cc32c240mt.dll" Class="DependencyModule"/>
                 <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'" LocalName="$(BDS)\bin\cc32c250.dll" Class="DependencyModule"/>
@@ -397,6 +424,16 @@
                     </Platform>
                 </DeployFile>
                 <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin\cc32c290mt.dll" Class="DependencyModule">
+                    <Platform Name="Win32">
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'" LocalName="$(BDS)\bin\cc32c370.dll" Class="DependencyModule">
+                    <Platform Name="Win32">
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin\cc32c370mt.dll" Class="DependencyModule">
                     <Platform Name="Win32">
                         <Overwrite>true</Overwrite>
                     </Platform>

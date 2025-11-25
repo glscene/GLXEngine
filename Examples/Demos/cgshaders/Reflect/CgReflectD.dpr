@@ -4,7 +4,7 @@ program CgReflectD;
 
 uses
   Forms,
-  fReflectD in 'fReflectD.pas' {Form1};
+  fdReflect in 'fdReflect.pas' {Form1};
 
 {$R *.res}
 

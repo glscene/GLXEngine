@@ -1,4 +1,4 @@
-/*: This is a quick demo for the TGLLines object and spline functionality.
+/* This is a quick demo for the TGLLines object and spline functionality.
 
    TGLLines can handle normal lines and cubic splines, each node can have a
    different color, and the line can be color-interpolated.
@@ -11,7 +11,7 @@
 
 #include <vcl.h>
 #pragma hdrstop
-USEFORM("fSplinesC.cpp", FormSplines);
+USEFORM("fñSplines.cpp", FormSplines);
 //---------------------------------------------------------------------------
 WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 {

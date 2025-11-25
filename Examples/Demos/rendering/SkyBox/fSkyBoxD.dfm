@@ -31,8 +31,6 @@ object FormSkybox: TFormSkybox
     Left = 32
     Top = 24
     object GLSkyBox1: TGLSkyBox
-      Direction.Coordinates = {9598A23144F7DFB20000803F00000000}
-      Up.Coordinates = {1DB356B30000803FB3FA87B300000000}
       MaterialLibrary = GLMatLibCubeMap
       MatNameTop = 'Top'
       MatNameBottom = 'Bottom'

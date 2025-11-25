@@ -1,5 +1,5 @@
 //
-// The graphics engine GLXEngine. The unit of GXScene for Delphi
+// The graphics GaLaXy Engine. The unit of GXScene
 //
 unit Formatx.Q3MD3;
 

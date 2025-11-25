@@ -23,7 +23,7 @@ program CgCellShaderD;
 
 uses
   Forms,
-  fCgCellShaderD in 'fCgCellShaderD.pas' {FormCellShading};
+  fdCgCellShader in 'fdCgCellShader.pas' {FormCellShading};
 
 {$R *.res}
 

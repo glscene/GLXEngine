@@ -54,13 +54,7 @@
         <Projects Include="tiles\TilesD.dproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="tiles\TilesC.cbproj">
-            <Dependencies/>
-        </Projects>
         <Projects Include="tree\TreeD.dproj">
-            <Dependencies/>
-        </Projects>
-        <Projects Include="tree\TreeC.cbproj">
             <Dependencies/>
         </Projects>
     </ItemGroup>
@@ -224,15 +218,6 @@
     <Target Name="TilesD:Make">
         <MSBuild Projects="tiles\TilesD.dproj" Targets="Make"/>
     </Target>
-    <Target Name="TilesC">
-        <MSBuild Projects="tiles\TilesC.cbproj"/>
-    </Target>
-    <Target Name="TilesC:Clean">
-        <MSBuild Projects="tiles\TilesC.cbproj" Targets="Clean"/>
-    </Target>
-    <Target Name="TilesC:Make">
-        <MSBuild Projects="tiles\TilesC.cbproj" Targets="Make"/>
-    </Target>
     <Target Name="TreeD">
         <MSBuild Projects="tree\TreeD.dproj"/>
     </Target>
@@ -242,23 +227,14 @@
     <Target Name="TreeD:Make">
         <MSBuild Projects="tree\TreeD.dproj" Targets="Make"/>
     </Target>
-    <Target Name="TreeC">
-        <MSBuild Projects="tree\TreeC.cbproj"/>
-    </Target>
-    <Target Name="TreeC:Clean">
-        <MSBuild Projects="tree\TreeC.cbproj" Targets="Clean"/>
-    </Target>
-    <Target Name="TreeC:Make">
-        <MSBuild Projects="tree\TreeC.cbproj" Targets="Make"/>
-    </Target>
     <Target Name="Build">
-        <CallTarget Targets="ActorD;ActorProxyD;ActorTwocamD;CenteringD;CsgD;DuckyD;ExPolygonD;FeedbackD;FormulaD;MushroomD;PortalD;ShadedTerrainD;SkeletalD;SubdivideD;SynthTerrainD;TerrainD;TilesD;TilesC;TreeD;TreeC"/>
+        <CallTarget Targets="ActorD;ActorProxyD;ActorTwocamD;CenteringD;CsgD;DuckyD;ExPolygonD;FeedbackD;FormulaD;MushroomD;PortalD;ShadedTerrainD;SkeletalD;SubdivideD;SynthTerrainD;TerrainD;TilesD;TreeD"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="ActorD:Clean;ActorProxyD:Clean;ActorTwocamD:Clean;CenteringD:Clean;CsgD:Clean;DuckyD:Clean;ExPolygonD:Clean;FeedbackD:Clean;FormulaD:Clean;MushroomD:Clean;PortalD:Clean;ShadedTerrainD:Clean;SkeletalD:Clean;SubdivideD:Clean;SynthTerrainD:Clean;TerrainD:Clean;TilesD:Clean;TilesC:Clean;TreeD:Clean;TreeC:Clean"/>
+        <CallTarget Targets="ActorD:Clean;ActorProxyD:Clean;ActorTwocamD:Clean;CenteringD:Clean;CsgD:Clean;DuckyD:Clean;ExPolygonD:Clean;FeedbackD:Clean;FormulaD:Clean;MushroomD:Clean;PortalD:Clean;ShadedTerrainD:Clean;SkeletalD:Clean;SubdivideD:Clean;SynthTerrainD:Clean;TerrainD:Clean;TilesD:Clean;TreeD:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="ActorD:Make;ActorProxyD:Make;ActorTwocamD:Make;CenteringD:Make;CsgD:Make;DuckyD:Make;ExPolygonD:Make;FeedbackD:Make;FormulaD:Make;MushroomD:Make;PortalD:Make;ShadedTerrainD:Make;SkeletalD:Make;SubdivideD:Make;SynthTerrainD:Make;TerrainD:Make;TilesD:Make;TilesC:Make;TreeD:Make;TreeC:Make"/>
+        <CallTarget Targets="ActorD:Make;ActorProxyD:Make;ActorTwocamD:Make;CenteringD:Make;CsgD:Make;DuckyD:Make;ExPolygonD:Make;FeedbackD:Make;FormulaD:Make;MushroomD:Make;PortalD:Make;ShadedTerrainD:Make;SkeletalD:Make;SubdivideD:Make;SynthTerrainD:Make;TerrainD:Make;TilesD:Make;TreeD:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

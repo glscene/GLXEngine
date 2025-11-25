@@ -1,0 +1,48 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{3BB2E069-CFF4-414D-ADB5-2F0B6BCC6BF9}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="GLSViewerD.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="GLSViewerC.cbproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="GLSViewerD">
+        <MSBuild Projects="GLSViewerD.dproj"/>
+    </Target>
+    <Target Name="GLSViewerD:Clean">
+        <MSBuild Projects="GLSViewerD.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="GLSViewerD:Make">
+        <MSBuild Projects="GLSViewerD.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="GLSViewerC">
+        <MSBuild Projects="GLSViewerC.cbproj"/>
+    </Target>
+    <Target Name="GLSViewerC:Clean">
+        <MSBuild Projects="GLSViewerC.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="GLSViewerC:Make">
+        <MSBuild Projects="GLSViewerC.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="GLSViewerD;GLSViewerC"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="GLSViewerD:Clean;GLSViewerC:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="GLSViewerD:Make;GLSViewerC:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

@@ -4,20 +4,6 @@
 #define fcGLSViewerH
 //---------------------------------------------------------------------------
 #include <System.Classes.hpp>
-#include <Vcl.Controls.hpp>
-#include <Vcl.StdCtrls.hpp>
-#include <Vcl.Forms.hpp>
-#include "GLS.AsyncTimer.hpp"
-#include "GLS.BaseClasses.hpp"
-#include "GLS.Cadencer.hpp"
-#include "GLS.Coordinates.hpp"
-#include "GLS.Graph.hpp"
-#include "GLS.Material.hpp"
-#include "GLS.Objects.hpp"
-#include "GLS.Scene.hpp"
-#include "GLS.SceneViewer.hpp"
-#include "GLS.SimpleNavigation.hpp"
-#include "GLS.VectorFileObjects.hpp"
 #include <System.Actions.hpp>
 #include <System.ImageList.hpp>
 #include <Vcl.ActnCtrls.hpp>
@@ -32,6 +18,26 @@
 #include <Vcl.StdActns.hpp>
 #include <Vcl.StdStyleActnCtrls.hpp>
 #include <Vcl.ToolWin.hpp>
+#include <Vcl.Controls.hpp>
+#include <Vcl.StdCtrls.hpp>
+#include <Vcl.Forms.hpp>
+#include "GLS.AsyncTimer.hpp"
+#include "GLS.BaseClasses.hpp"
+#include "GLS.Cadencer.hpp"
+#include "GLS.Coordinates.hpp"
+#include "GLS.Graph.hpp"
+#include "GLS.Material.hpp"
+#include "GLS.Objects.hpp"
+#include "GLS.GeomObjects.hpp"
+#include "GLS.MultiPolygon.hpp"
+#include "GLS.Extrusion.hpp"
+#include "GLS.Scene.hpp"
+#include "GLS.SceneViewer.hpp"
+#include "GLS.SimpleNavigation.hpp"
+#include "GLS.VectorFileObjects.hpp"
+#include "GLS.SkyDome.hpp"
+#include "GLS.Navigator.hpp"
+
 //---------------------------------------------------------------------------
 class TFormViewer : public TForm
 {
@@ -114,10 +120,71 @@ __published:	// IDE-managed Components
 	TOpenDialog *OpenDialog;
 	TSaveDialog *SaveDialog;
 	void __fastcall tvSceneClick(TObject *Sender);
+	void __fastcall FormCreate(TObject *Sender);
 private:	// User declarations
+	TFileName AssetPath;
+	TFileName TextureDir;
+	// Base objects
+	TGLLines *Lines;
+	TGLPlane *Plane;
+	TGLPolygon *Polygon;
+	TGLCube *Cube;
+	TGLFrustrum *Frustrum;
+	TGLSphere *Sphere;
+	TGLDisk *Disk;
+	TGLCone *Cone;
+	TGLCylinder *Cylinder;
+	TGLCapsule *Capsule;
+	TGLDodecahedron *Dodecahedron;
+	TGLIcosahedron *Icosahedron;
+	TGLHexahedron *Hexahedron;
+	TGLOctahedron *Octahedron;
+	TGLTetrahedron *Tetrahedron;
+//	TGLSuperEllipsoid *SuperEllipsoid;
+	// Advanced objects
+	TGLAnnulus *Annulus;
+	TGLArrowLine *ArrowLine;
+	TGLArrowArc *ArrowArc;
+	TGLMultiPolygon *MultiPolygon;
+	TGLRevolutionSolid *RevolutionSolid;
+	TGLExtrusionSolid *ExtrusionSolid;
+	// Mesh objects
+	TGLActor *Actor;
+	TGLFreeForm *FreeForm;
+	TGLMeshObject *MeshObject;
+	// Environment objects
+	TGLSkyBox *SkyBox;
+	TGLSkyDome *SkyDome;
+	TGLEarthSkyDome *EarthSkyDome;
+
+/*
+	void DoResetCamera;
+	void SetupFreeFormShading;
+	void ApplyShadeModeToMaterial(aMaterial: TGLMaterial);
+	void ApplyShadeMode;
+	void ApplyFSAA;
+	void ApplyFaceCull;
+	void ApplyTexturing;
+	void ApplyFPS;
+	void DoOpen(const FileName: String);
+*/
+
 public:		// User declarations
 	__fastcall TFormViewer(TComponent* Owner);
+	bool md, nthShow;
+	int mx, my;
+	TGLShader *hlShader;
+	/// StringlastFileName;
+	bool lastLoadWithTextures;
+/*
+	void ApplyBgColor;
+	void ReadIniFile; override;
+	void WriteIniFile;
+*/
+
 };
+
+
 //---------------------------------------------------------------------------
 extern PACKAGE TFormViewer *FormViewer;
 //---------------------------------------------------------------------------

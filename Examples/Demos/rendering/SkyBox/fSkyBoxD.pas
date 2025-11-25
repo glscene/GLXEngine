@@ -14,9 +14,11 @@ uses
   Vcl.ExtCtrls,
   Vcl.Imaging.Jpeg,
 
-  GLS.Scene,
   Stage.VectorTypes,
   Stage.Keyboard,
+  Stage.Utils,
+
+  GLS.Scene,
   GLS.Texture,
   GLS.SkyDome,
 
@@ -29,8 +31,7 @@ uses
   GLS.Material,
   GLS.Coordinates,
   GLS.BaseClasses,
-  GLS.SimpleNavigation,
-  Stage.Utils;
+  GLS.SimpleNavigation;
 
 type
   TFormSkybox = class(TForm)
@@ -63,13 +64,13 @@ type
     procedure HandleKeys(d: Double);
     function LoadTexture(Matname, Filename: string): TGLLibMaterial;
   public
-    PathToAsset: TFileName;
+    PathToAssets: TFileName;
   end;
 
 var
   FormSkybox: TFormSkybox;
 
-implementation  //-------------------------------------------------------------
+implementation  // ============================================================
 
 {$R *.dfm}
 
@@ -84,8 +85,8 @@ end;
 
 procedure TFormSkybox.FormCreate(Sender: TObject);
 begin
-  PathToAsset := GetCurrentAssetPath();
-  SetCurrentDir(PathToAsset  + '\cubemap');
+  PathToAssets := GetCurrentAssetPath();
+  SetCurrentDir(PathToAssets  + '\cubemap');
   GLMatLibCubeMap.TexturePaths := GetCurrentDir();
 
   // Skybox cubemaps
@@ -97,7 +98,7 @@ begin
   LoadTexture('Back', 'icecraterbk.jpg');
 
   // back to folder with textures
-  SetCurrentDir(PathToAsset  + '\texture');
+  SetCurrentDir(PathToAssets  + '\texture');
   with LoadTexture('Clouds', 'Clouds.jpg') do
   begin
     // Add transparency to clouds
@@ -123,7 +124,7 @@ begin
   end;
 
   // Moon
-  SetCurrentDir(PathToAsset  + '\map');
+  SetCurrentDir(PathToAssets  + '\map');
   LoadTexture('Moon', 'moon.jpg').Material.Texture.TextureMode := tmModulate;
 
   // -----------------------------------------

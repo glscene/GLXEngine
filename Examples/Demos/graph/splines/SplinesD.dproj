@@ -138,7 +138,7 @@
         <DelphiCompile Include="$(MainSource)">
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
-        <DCCReference Include="fSplinesD.pas">
+        <DCCReference Include="fdSplines.pas">
             <Form>FormSplines</Form>
         </DCCReference>
         <BuildConfiguration Include="Base">

@@ -1,10 +1,10 @@
 //
-// The graphics engine GLXEngine. The unit of GLScene for Delphi
+// The graphics GaLaXy Engine. The unit of GLScene
 //
 unit GLS.Color;
-
-(* All color types, constants and utilities should go here *)
-
+(*
+  All color types, constants and utilities
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -13,7 +13,7 @@ uses
   System.Types,
   System.SysUtils,
   System.Classes,
-  System.UITypes,  // Colors
+  System.UITypes,  // system colors
 
   Stage.VectorTypes,
   Stage.VectorGeometry,
@@ -21,7 +21,6 @@ uses
 
   GLS.PersistentClasses,
   GLS.BaseClasses;
-
 
 type
   PGLColorVector = ^TGLColorVector;
@@ -363,17 +362,15 @@ var
   // their default values (ie. design-time) or not (run-time)
   vUseDefaultColorSets: Boolean = False;
 
-implementation //-------------------------------------------------------------
+implementation //==============================================================
 
 var
   vColorManager: TGLColorManager;
-
 
 function RGB2Color(const r, g, b: Byte): TColor;
 begin
   Result := r or (g shl 8) or (b shl 16);
 end;
-
 
 function ColorManager: TGLColorManager;
 begin
@@ -384,6 +381,8 @@ begin
   end;
   Result := vColorManager;
 end;
+
+//----------------------------------------------------------------------------
 
 function ConvertWinColor(aColor: TColor; alpha: Single = 1): TGLColorVector;
 var

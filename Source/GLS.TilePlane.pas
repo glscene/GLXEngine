@@ -1,10 +1,12 @@
 //
-// The graphics engine GLXEngine. The unit of GLScene for Delphi
+// The graphics GaLaXy Engine. The unit of GLScene
 //
 unit GLS.TilePlane;
-
-(* Implements a tiled texture plane. *)
-
+(*
+  Implements a tiled texture plane.
+  The registered classes are:
+    [TGLTilePlane, TGLTiledAreaRow, TGLTiledArea]
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -14,9 +16,10 @@ uses
   System.Classes,
 
   Stage.OpenGLTokens,
+  Stage.VectorGeometry,
+
   GLS.Scene,
   GLS.State,
-  Stage.VectorGeometry,
   GLS.Context,
   GLS.Material,
   GLS.Objects,
@@ -117,9 +120,7 @@ type
     property MaterialLibrary: TGLMaterialLibrary read FMaterialLibrary write SetMaterialLibrary;
   end;
 
-// -------------------------------------------------------------
-implementation
-// -------------------------------------------------------------
+implementation //==============================================================
 
 // ------------------
 // ------------------ TGLTiledAreaRow ------------------
@@ -642,9 +643,7 @@ begin
     rci.GLStates.DepthWriteMask := True;
 end;
 
-// -------------------------------------------------------------
-initialization
-// -------------------------------------------------------------
+initialization //=============================================================
 
 RegisterClasses([TGLTilePlane, TGLTiledAreaRow, TGLTiledArea]);
 

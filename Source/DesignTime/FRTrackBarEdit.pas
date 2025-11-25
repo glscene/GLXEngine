@@ -1,5 +1,5 @@
 //
-// The graphics engine GLXEngine. The unit of GLScene for Delphi
+// The graphics GaLaXy Engine. The unit of GLScene
 //
 {
    Frame combining a TrackBar and an Edit. 

@@ -7,7 +7,7 @@ program CgBumpMapD;
 
 uses
   Forms,
-  fBumpMapD in 'fBumpMapD.pas' {FormBumpMap};
+  fdBumpMap in 'fdBumpMap.pas' {FormBumpMap};
 
 {$R *.res}
 

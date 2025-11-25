@@ -1,61 +1,42 @@
 object FormObjMaterial: TFormObjMaterial
   Left = 0
   Top = 0
-  Margins.Left = 5
-  Margins.Top = 5
-  Margins.Right = 5
-  Margins.Bottom = 5
   Caption = 'Object Material'
-  ClientHeight = 775
-  ClientWidth = 1310
+  ClientHeight = 443
+  ClientWidth = 749
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
-  Font.Height = -21
+  Font.Height = -12
   Font.Name = 'Segoe UI'
   Font.Style = []
   Position = poScreenCenter
   OnCreate = FormCreate
-  PixelsPerInch = 168
-  TextHeight = 30
+  TextHeight = 15
   object GLSceneViewer1: TGLSceneViewer
     Left = 0
     Top = 0
-    Width = 1310
-    Height = 700
-    Margins.Left = 5
-    Margins.Top = 5
-    Margins.Right = 5
-    Margins.Bottom = 5
+    Width = 749
+    Height = 400
     Camera = Camera
     Buffer.BackgroundColor = clBlack
-    FieldOfView = 157.380142211914100000
+    FieldOfView = 141.419906616210900000
     PenAsTouch = False
     Align = alClient
     TabOrder = 0
-    ExplicitWidth = 1091
   end
   object PanelBottom: TPanel
     Left = 0
-    Top = 700
-    Width = 1310
-    Height = 75
-    Margins.Left = 5
-    Margins.Top = 5
-    Margins.Right = 5
-    Margins.Bottom = 5
+    Top = 400
+    Width = 749
+    Height = 43
     Align = alBottom
     TabOrder = 1
-    ExplicitWidth = 1089
     object rgPolyhedra: TRadioGroup
       Left = 1
       Top = 1
-      Width = 1308
-      Height = 73
-      Margins.Left = 5
-      Margins.Top = 5
-      Margins.Right = 5
-      Margins.Bottom = 5
+      Width = 747
+      Height = 41
       Align = alClient
       Caption = 'Polyhedra'
       Columns = 6
@@ -65,22 +46,16 @@ object FormObjMaterial: TFormObjMaterial
         'Octahedron'
         'Hexahedron'
         'Icosahedron'
-        'Dodecahedron'
-        'Convexhull')
+        'Dodecahedron')
       TabOrder = 0
       OnClick = rgPolyhedraClick
-      ExplicitWidth = 1087
     end
   end
   object chbRotation: TCheckBox
-    Left = 602
-    Top = 42
-    Width = 141
-    Height = 29
-    Margins.Left = 5
-    Margins.Top = 5
-    Margins.Right = 5
-    Margins.Bottom = 5
+    Left = 344
+    Top = 24
+    Width = 81
+    Height = 17
     Caption = 'Rotation'
     TabOrder = 2
   end
@@ -1141,16 +1116,6 @@ object FormObjMaterial: TFormObjMaterial
               Y = 0.300000011920929000
               Z = 0.300000011920929000
             end>
-        end
-      end
-      object dcConvexhull: TGLDummyCube
-        Visible = False
-        CubeSize = 1.000000000000000000
-        object meshConvexhull: TGLMesh
-          Material.MaterialLibrary = GLMatLibColors
-          Material.LibMaterialName = 'clrRed'
-          ShowAxes = True
-          Mode = mmTriangleStrip
         end
       end
     end

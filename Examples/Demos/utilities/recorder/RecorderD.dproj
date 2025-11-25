@@ -124,8 +124,8 @@
         <DelphiCompile Include="$(MainSource)">
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
-        <DCCReference Include="fRecorderD.pas">
-            <Form>Form1</Form>
+        <DCCReference Include="fdRecorder.pas">
+            <Form>FormAVI</Form>
         </DCCReference>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>

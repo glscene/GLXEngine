@@ -6,7 +6,7 @@ inherited GLDialog: TGLDialog
   StyleElements = [seFont, seClient, seBorder]
   ExplicitWidth = 500
   ExplicitHeight = 401
-  TextHeight = 20
+  TextHeight = 21
   object PanelTop: TPanel
     Left = 0
     Top = 0

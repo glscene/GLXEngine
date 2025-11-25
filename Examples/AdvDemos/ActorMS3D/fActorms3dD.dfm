@@ -29,6 +29,7 @@ object FormActorms3d: TFormActorms3d
     PenAsTouch = False
     Align = alClient
     TabOrder = 0
+    ExplicitTop = 71
   end
   object Panel1: TPanel
     Left = 0

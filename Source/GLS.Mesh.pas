@@ -1,8 +1,7 @@
 //
-// The graphics engine GLXEngine. The unit of GLScene for Delphi
+// The graphics GaLaXy Engine. The unit of GLScene
 //
 unit GLS.Mesh;
-
 (*
   The unit is for simple meshes and legacy support, while GLS.VectorFileObjects
   implements more efficient though more complex mesh tools.
@@ -10,7 +9,6 @@ unit GLS.Mesh;
   The registered class is:
    [TGLMesh]
 *)
-
 interface
 
 {$I Stage.Defines.inc}
@@ -183,11 +181,9 @@ type
       default vmVNCT;
   end;
 
-// ------------------------------------------------------------------
-implementation
-// ------------------------------------------------------------------
+implementation //==============================================================
 
-// ----------------- TGLVertexList ------------------------------------------------
+// ----------------- TGLVertexList --------------------------------------------
 
 constructor TGLVertexList.Create(AOwner: TPersistent);
 begin

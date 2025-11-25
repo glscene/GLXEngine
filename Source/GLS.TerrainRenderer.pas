@@ -1,5 +1,5 @@
 //
-// The graphics engine GLXEngine. The unit of GLScene for Delphi
+// The graphics GaLaXy Engine. The unit of GLScene
 //
 unit GLS.TerrainRenderer;
 
@@ -20,6 +20,9 @@ uses
   System.Types,
 
   Stage.OpenGLTokens,
+  Stage.Utils,
+  Stage.VectorTypes,
+
   GLS.Scene,
   GLS.Coordinates,
   GLS.HeightData,
@@ -30,8 +33,6 @@ uses
   GLS.VectorLists,
   GLS.RenderContextInfo,
   GLS.XOpenGL,
-  Stage.Utils,
-  Stage.VectorTypes,
   GLS.Texture;
 
 const

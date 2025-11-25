@@ -1,16 +1,14 @@
 //
-// The graphics engine GLXEngine. The unit of GLScene for Delphi
+// The graphics GaLaXy Engine. The unit of GLScene
 //
 unit GLS.GeomObjects;
-
-(* 
+(*
   Geometric objects.
   The registered classes are:
     [TGLDodecahedron, TGLIcosahedron, TGLHexahedron, TGLOctahedron, TGLTetrahedron,
     TGLCylinder, TGLCone, TGLTorus, TGLDisk, TGLArrowLine, TGLAnnulus,
     TGLFrustrum, TGLPolygon, TGLCapsule, TGLArrowArc, TGLTeapot]
 *)
-
 interface
 
 {$I Stage.Defines.inc}
@@ -43,9 +41,7 @@ uses
   GLS.RenderContextInfo,
   GLS.XOpenGL;
 
-
 type
-
 //-------------------- TGLBaseMesh Objects -----------------------
 
   (* This objects has no texture coordinates defined, ie. without using
@@ -94,13 +90,13 @@ type
     function RayCastIntersect(const rayStart, rayVector: TGLVector;
       intersectPoint: PGLVector = nil; intersectNormal: PGLVector = nil) : Boolean; override;
   published
-    //  Allows defining a "hole" in the disk 
+    //  Allows defining a "hole" in the disk
     property InnerRadius: Single read FInnerRadius write SetInnerRadius;
-    //  Number of radial mesh subdivisions 
+    //  Number of radial mesh subdivisions
     property Loops: Integer read FLoops write SetLoops default 2;
-    // Outer radius for the disk. If you leave InnerRadius at 0, this is the disk radius 
+    // Outer radius for the disk. If you leave InnerRadius at 0, this is the disk radius
     property OuterRadius: Single read FOuterRadius write SetOuterRadius;
-    // Number of mesh slices. For instance, if Slices=6, your disk will look like an hexagon 
+    // Number of mesh slices. For instance, if Slices=6, your disk will look like an hexagon
     property Slices: Integer read FSlices write SetSlices default 16;
     property StartAngle: Single read FStartAngle write SetStartAngle;
     property SweepAngle: Single read FSweepAngle write SetSweepAngle;
@@ -487,15 +483,11 @@ type
       ARenderSelf, ARenderChildren: Boolean); override;
   end;
 
-
-// -------------------------------------------------------------
-implementation
-// -------------------------------------------------------------
+implementation //=============================================================
 
 //--------------------
 //--------------------  TGLTetrahedron ------------------------
 //--------------------
-
 procedure TGLTetrahedron.BuildList(var rci: TGLRenderContextInfo);
 const
   Vertices: packed array [0 .. 3] of TAffineVector =
@@ -530,7 +522,6 @@ end;
 //--------------------
 //--------------------  TGLOctahedron ------------------------
 //--------------------
-
 procedure TGLOctahedron.BuildList(var rci: TGLRenderContextInfo);
 const
   Vertices: packed array [0 .. 5] of TAffineVector =
@@ -570,7 +561,6 @@ end;
 // ------------------
 // ------------------ TGLHexahedron ------------------
 // ------------------
-
 procedure TGLHexahedron.BuildList(var rci: TGLRenderContextInfo);
 const
   Vertices: packed array [0 .. 7] of TAffineVector =
@@ -611,7 +601,6 @@ end;
 // ------------------
 // ------------------ TGLIcosahedron ------------------
 // ------------------
-
 procedure TGLIcosahedron.BuildList(var rci: TGLRenderContextInfo);
 const
   B = 0.309017; // 1/(1+Sqrt(5))
@@ -674,7 +663,6 @@ end;
 // ------------------
 // ------------------ TGLDodecahedron ------------------
 // ------------------
-
 procedure TGLDodecahedron.BuildList(var rci: TGLRenderContextInfo);
 const
   A = 1.61803398875 * 0.3; // (Sqrt(5)+1)/2
@@ -724,7 +712,6 @@ end;
 // ------------------
 // ------------------ TGLDisk ------------------
 // ------------------
-
 constructor TGLDisk.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
@@ -875,7 +862,6 @@ end;
 // ------------------
 // ------------------ TGLCylinderBase ------------------
 // ------------------
-
 constructor TGLCylinderBase.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
@@ -1009,7 +995,6 @@ end;
 // ------------------
 // ------------------ TGLCone ------------------
 // ------------------
-
 constructor TGLCone.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
@@ -1141,7 +1126,6 @@ end;
 // ------------------
 // ------------------ TGLCylinder ------------------
 // ------------------
-
 constructor TGLCylinder.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
@@ -1386,7 +1370,6 @@ end;
 // ------------------
 // ------------------ TGLCapsule ------------------
 // ------------------
-
 constructor TGLCapsule.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
@@ -1742,7 +1725,6 @@ end;
 // ------------------
 // ------------------ TGLAnnulus ------------------
 // ------------------
-
 constructor TGLAnnulus.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
@@ -2019,7 +2001,6 @@ end;
 // ------------------
 // ------------------ TGLTorus ------------------
 // ------------------
-
 constructor TGLTorus.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
@@ -2032,6 +2013,7 @@ begin
   FParts := [toSides, toStartDisk, toStopDisk];
 end;
 
+//--------------------------------------------------------------------------
 procedure TGLTorus.BuildList(var rci: TGLRenderContextInfo);
 
   procedure EmitVertex(ptr: PGLVertexRec; L1, L2: integer);
@@ -2090,7 +2072,6 @@ begin
           Phi := Phi + sideDelta;
           SinCosine(Phi, sinPhi, cosPhi);
           dist := FMajorRadius + FMinorRadius * cosPhi;
-
           FMesh[i][j].Position := Vector3fMake(cosTheta1 * dist,
             -sinTheta1 * dist, FMinorRadius * sinPhi);
           ringDir := FMesh[i][j].Position;
@@ -2262,6 +2243,7 @@ begin
   end;
 end;
 
+//--------------------------------------------------------------------------
 procedure TGLTorus.SetMajorRadius(const aValue: Single);
 begin
   if FMajorRadius <> aValue then
@@ -2406,7 +2388,6 @@ end;
 // ------------------
 // ------------------ TGLArrowLine ------------------
 // ------------------
-
 constructor TGLArrowLine.Create(AOwner: TComponent);
 begin
   inherited;
@@ -2486,6 +2467,7 @@ begin
   end;
 end;
 
+//--------------------------------------------------------------------------
 procedure TGLArrowLine.BuildList(var rci: TGLRenderContextInfo);
 var
   quadric: PGLUquadricObj;
@@ -2584,7 +2566,6 @@ end;
 // ------------------
 // ------------------ TGLArrowArc ------------------
 // ------------------
-
 constructor TGLArrowArc.Create(AOwner: TComponent);
 begin
   inherited;
@@ -2702,6 +2683,7 @@ begin
   end;
 end;
 
+//--------------------------------------------------------------------------
 procedure TGLArrowArc.BuildList(var rci: TGLRenderContextInfo);
   procedure EmitVertex(ptr: PGLVertexRec; L1, L2: integer);
   begin
@@ -3135,6 +3117,7 @@ begin
   end;
 end;
 
+//--------------------------------------------------------------------------
 procedure TGLArrowArc.Assign(Source: TPersistent);
 begin
   if Assigned(Source) and (Source is TGLArrowLine) then
@@ -3156,7 +3139,6 @@ end;
 // ------------------
 // ------------------ TGLFrustrum ------------------
 // ------------------
-
 constructor TGLFrustrum.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
@@ -3168,6 +3150,7 @@ begin
   FNormalDirection := ndOutside;
 end;
 
+//--------------------------------------------------------------------------
 procedure TGLFrustrum.BuildList(var rci: TGLRenderContextInfo);
 var
   HBW, HBD: Single; // half of width, half of depth at base
@@ -3274,6 +3257,7 @@ begin
   gl.End_;
 end;
 
+//--------------------------------------------------------------------------
 procedure TGLFrustrum.SetApexHeight(const aValue: Single);
 begin
   if (aValue <> FApexHeight) and (aValue >= 0) then
@@ -3416,7 +3400,6 @@ end;
 // ------------------
 // ------------------ TGLPolygon ------------------
 // ------------------
-
 constructor TGLPolygon.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
@@ -3447,6 +3430,7 @@ begin
   inherited Assign(Source);
 end;
 
+//--------------------------------------------------------------------------
 procedure TGLPolygon.BuildList(var rci: TGLRenderContextInfo);
 var
   Normal: TAffineVector;
@@ -3479,13 +3463,9 @@ begin
   end;
 end;
 
-
-//-------------------------------------------------------------
-
 // ------------------
 // ------------------ TGLTeapot ------------------
 // ------------------
-
 constructor TGLTeapot.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
@@ -3497,8 +3477,8 @@ begin
   SetVector(Result, 0.55, 0.25, 0.35);
 end;
 
+//--------------------------------------------------------------------------
 procedure TGLTeapot.BuildList(var rci: TGLRenderContextInfo);
-
 const
   PatchData: array[0..9, 0..15] of Integer =
     ((102, 103, 104, 105, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15), // rim
@@ -3599,6 +3579,7 @@ begin
   rci.GLStates.InvertFrontFace;
 end;
 
+//--------------------------------------------------------------------------
 procedure TGLTeapot.DoRender(var ARci: TGLRenderContextInfo;
   ARenderSelf, ARenderChildren: Boolean);
 const
@@ -3634,9 +3615,7 @@ begin
     Self.RenderChildren(0, Count - 1, ARci);
 end;
 
-// -------------------------------------------------------------
-initialization
-// -------------------------------------------------------------
+initialization //==============================================================
 
 RegisterClasses(
  [TGLDodecahedron, TGLIcosahedron, TGLHexahedron, TGLOctahedron, TGLTetrahedron,

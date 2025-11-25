@@ -35,11 +35,13 @@ uses
   Vcl.VirtualImageList,
   Vcl.BaseImageCollection,
   Vcl.ImageCollection,
+  Vcl.PlatformDefaultStyleActnCtrls,
 
   Stage.VectorTypes,
-  GLS.VectorLists,
   Stage.Keyboard,
   Stage.VectorGeometry,
+
+  GLS.VectorLists,
   GLS.Coordinates,
   GLS.BaseClasses,
   GLS.PersistentClasses,
@@ -77,7 +79,7 @@ uses
   fGLAbout,
   fGLOptions,
   dImages,
-  dDialogs, Vcl.PlatformDefaultStyleActnCtrls;
+  dDialogs;
 
 type
   TfrmGLSViewer = class(TGLForm)
@@ -353,7 +355,6 @@ begin
         Result := False;
       end;
   else
-    // doesn't hurt to be cautious
     Assert(False);
     Result := False;
   end;
@@ -1144,14 +1145,14 @@ begin
   // Add or removed scene's objects
 end;
 
-//---------------------------------------------------------------------------
+//------------------------- tvSceneClick -------------------------------------
 procedure TfrmGLSViewer.tvSceneClick(Sender: TObject);
 var
   I: Integer;
   pos1, pos2: TGLVector;
-
 const
   Nlines = 1000;
+
 begin
   dcObject.DeleteChildren;
 
@@ -1168,7 +1169,7 @@ begin
          dcObject.VisibleAtRunTime := not dcObject.VisibleAtRunTime;
          dcAxis.VisibleAtRunTime := not dcAxis.VisibleAtRunTime;
        end;
-    3:;//Sprite
+    3:;//Sprite todo
     4: //Points in dcWorld
     begin
       Points.Visible := True;
@@ -1180,11 +1181,10 @@ begin
       Lines := TGLLines.CreateAsChild(dcObject);
       SetVector(pos1, Random()-0.5, Random()-0.5, Random()-0.5);
       SetVector(pos2, Random()-0.5, Random()-0.5, Random()-0.5);
-      Lines.NodesAspect := lnaInvisible;
+      Lines.NodesAspect := lnaInvisible; // also lnaAxes; lnaCube;
       Lines.AddNode(pos1);
       Lines.AddNode(pos2);
       Lines.LineColor.RandomColor;
-      /// e.g. Lines.AddChild(ff);
     end;
     6: //Plane
     begin
@@ -1267,7 +1267,7 @@ begin
       SuperEllipsoid := TGLSuperEllipsoid.CreateAsChild(dcObject);
       SuperEllipsoid.Material.FrontProperties.Diffuse.Color := clrTeal;
     end;
-    21: //Animated sprite
+    21: //Animated sprite todo
     begin
       //
     end;
@@ -1323,39 +1323,39 @@ begin
       Actor.Turn(90);
       Actor.Scale.Scale(0.05);
     end;
-    31: //FreeForm
+    31: //FreeForm todo
     begin
       //
     end;
-    32: //Mesh
+    32: //Mesh todo
     begin
       //
     end;
-    33: //TilePlane
+    33: //TilePlane todo
     begin
       //
     end;
-    34: //Portal
+    34: //Portal todo
     begin
       //
     end;
-    35: //TerrainRenderer
+    35: //TerrainRenderer todo
     begin
       //
     end;
-    41: //Atmosphere
+    41: //Atmosphere todo
     begin
       //
     end;
-    42: //SkyBox
+    42: //SkyBox todo
     begin
       //
     end;
-    43: //SkyDome
+    43: //SkyDome todo
     begin
       //
     end;
-    44: //EarthSkyDome
+    44: //EarthSkyDome todo
     begin
       //
     end;

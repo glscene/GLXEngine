@@ -1,7 +1,7 @@
 ﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     <PropertyGroup>
         <ProjectGuid>{ABD08787-34E3-4138-A745-1ACF8D832AF5}</ProjectGuid>
-        <ProjectVersion>20.2</ProjectVersion>
+        <ProjectVersion>20.3</ProjectVersion>
         <FrameworkType>VCL</FrameworkType>
         <Base>True</Base>
         <Config Condition="'$(Config)'==''">Debug</Config>
@@ -105,23 +105,23 @@
             <Form>FormGraph</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="fxy\fFxyD.pas">
+        <DCCReference Include="fxy\fdFxy.pas">
             <Form>FormFxy</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="heightfield\fHeightFieldD.pas">
+        <DCCReference Include="heightfield\fdHeightField.pas">
             <Form>FormHeightField</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="points\fPointsD.pas">
+        <DCCReference Include="points\fdPoints.pas">
             <Form>FormPoints</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="projection\fProjectionD.pas">
+        <DCCReference Include="projection\fdProjection.pas">
             <Form>FormProjection</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="splines\fSplinesD.pas">
+        <DCCReference Include="splines\fdSplines.pas">
             <Form>FormSplines</Form>
             <FormType>dfm</FormType>
         </DCCReference>
@@ -146,14 +146,20 @@
                     <Source Name="MainSource">GraphD.dpr</Source>
                 </Source>
                 <Excluded_Packages>
-                    <Excluded_Packages Name="$(BDSBIN)\bcboffice2k290.bpl">Embarcadero C++Builder Office 2000 Servers Package</Excluded_Packages>
-                    <Excluded_Packages Name="$(BDSBIN)\bcbofficexp290.bpl">Embarcadero C++Builder Office XP Servers Package</Excluded_Packages>
-                    <Excluded_Packages Name="$(BDSBIN)\dcloffice2k290.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
-                    <Excluded_Packages Name="$(BDSBIN)\dclofficexp290.bpl">Microsoft Office XP Sample Automation Server Wrapper Components</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\bcboffice2k370.bpl">Embarcadero C++Builder Office 2000 Servers Package</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\bcbofficexp370.bpl">Embarcadero C++Builder Office XP Servers Package</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\dcloffice2k370.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\dclofficexp370.bpl">Microsoft Office XP Sample Automation Server Wrapper Components</Excluded_Packages>
                 </Excluded_Packages>
             </Delphi.Personality>
             <Deployment Version="5">
                 <DeployFile LocalName="GraphD.exe" Configuration="Debug" Class="ProjectOutput"/>
+                <DeployFile LocalName="GraphD.exe" Configuration="Debug" Class="ProjectOutput">
+                    <Platform Name="Win32">
+                        <RemoteName>GraphD.exe</RemoteName>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
                 <DeployFile LocalName="\pdGraph.exe" Configuration="Debug" Class="ProjectOutput"/>
                 <DeployClass Name="AdditionalDebugSymbols">
                     <Platform Name="iOSSimulator">
@@ -266,6 +272,16 @@
                     </Platform>
                     <Platform Name="Android64">
                         <RemoteDir>res\values-v31</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="AndroidSplashStylesV35">
+                    <Platform Name="Android">
+                        <RemoteDir>res\values-v35</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="Android64">
+                        <RemoteDir>res\values-v35</RemoteDir>
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>

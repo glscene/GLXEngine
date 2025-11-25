@@ -125,7 +125,7 @@
         <DelphiCompile Include="$(MainSource)">
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
-        <DCCReference Include="fCgTextureD.pas">
+        <DCCReference Include="fdCgTexture.pas">
             <Form>FormCgTexture</Form>
         </DCCReference>
         <BuildConfiguration Include="Base">

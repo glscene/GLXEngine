@@ -1,7 +1,7 @@
 ﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     <PropertyGroup>
         <ProjectGuid>{D8448091-C231-4687-9659-2F7E944AAA64}</ProjectGuid>
-        <ProjectVersion>20.2</ProjectVersion>
+        <ProjectVersion>20.3</ProjectVersion>
         <FrameworkType>VCL</FrameworkType>
         <AppType>Application</AppType>
         <MainSource>GraphC.cpp</MainSource>
@@ -80,8 +80,8 @@
         <Icon_MainIcon>$(BDS)\bin\cbuilder_PROJECTICON.ico</Icon_MainIcon>
         <UWP_CppLogo44>$(BDS)\bin\Artwork\Windows\UWP\cppreg_UwpDefault_44.png</UWP_CppLogo44>
         <UWP_CppLogo150>$(BDS)\bin\Artwork\Windows\UWP\cppreg_UwpDefault_150.png</UWP_CppLogo150>
-        <IncludePath>splines\;projection\;points\;heightfield\;fxy\;D:\GLScene\Examples\Demos\graph\;$(IncludePath)</IncludePath>
-        <ILINK_LibraryPath>splines\;projection\;points\;heightfield\;fxy\;D:\GLScene\Examples\Demos\graph\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <IncludePath>splines\;heightfield\;points\;projection\;fxy\;..\;$(IncludePath)</IncludePath>
+        <ILINK_LibraryPath>splines\;heightfield\;points\;projection\;fxy\;..\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <SanitizedProjectName>GraphC</SanitizedProjectName>
         <IntermediateOutputDir>.\$(Platform)\$(Config)</IntermediateOutputDir>
         <FinalOutputDir>.\$(Platform)\$(Config)</FinalOutputDir>
@@ -95,7 +95,7 @@
         <VerInfo_Keys>CompanyName=;FileDescription=$(MSBuildProjectName);FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
-        <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
+        <AppDPIAwarenessMode>none</AppDPIAwarenessMode>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win64)'!=''">
         <PackageImports>adortl;appanalytics;bcbie;bcbsmp;bindcomp;bindcompdbx;bindcompfmx;bindcompvcl;bindcompvclsmp;bindcompvclwinx;bindengine;CloudService;CustomIPTransport;DataSnapClient;DataSnapCommon;DataSnapConnectors;DatasnapConnectorsFreePascal;DataSnapFireDAC;DataSnapIndy10ServerTransport;DataSnapNativeClient;DataSnapProviderClient;DataSnapServer;DataSnapServerMidas;dbexpress;dbrtl;dbxcds;DbxClientDriver;DbxCommonDriver;DBXDb2Driver;DBXFirebirdDriver;DBXInformixDriver;DBXInterBaseDriver;DBXMSSQLDriver;DBXMySQLDriver;DBXOdbcDriver;DBXOracleDriver;DBXSqliteDriver;DBXSybaseASADriver;DBXSybaseASEDriver;dsnap;dsnapcon;dsnapxml;emsclient;emsclientfiredac;emsedge;emshosting;emsserverresource;FireDAC;FireDACADSDriver;FireDACASADriver;FireDACCommon;FireDACCommonDriver;FireDACCommonODBC;FireDACDb2Driver;FireDACDBXDriver;FireDACDSDriver;FireDACIBDriver;FireDACInfxDriver;FireDACMongoDBDriver;FireDACMSAccDriver;FireDACMSSQLDriver;FireDACMySQLDriver;FireDACODBCDriver;FireDACOracleDriver;FireDACPgDriver;FireDACSqliteDriver;FireDACTDataDriver;fmx;fmxase;fmxdae;fmxFireDAC;fmxobj;FMXTee;FmxTeeUI;GBE3D;GLScene_RT;GR32_RT;IndyCore;IndyIPClient;IndyIPCommon;IndyIPServer;IndyProtocols;IndySystem;inet;inetdb;inetdbxpress;RESTBackendComponents;RESTComponents;rtl;soapmidas;soaprtl;soapserver;Tee;TeeDB;TeeUI;tethering;vcl;vclactnband;vcldb;vcldsnap;vcledge;vclFireDAC;vclie;vclimg;VCLRESTComponents;VclSmp;vcltouch;vclwinx;vclx;xmlrtl;$(PackageImports)</PackageImports>
@@ -135,7 +135,7 @@
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
         <AppDPIAwarenessMode>PerMonitorV2</AppDPIAwarenessMode>
         <BCC_UseClassicCompiler>false</BCC_UseClassicCompiler>
-        <ILINK_LibraryPath>$(BDSLIB)\$(PLATFORM)$(CC_SUFFIX)\debug;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <ILINK_LibraryPath>$(BDSLIB)\$(PLATFORM)$(CC_SUFFIX)\debug</ILINK_LibraryPath>
         <LinkPackageImports>rtl.bpi;vcl.bpi;GLScene_RT.bpi;xmlrtl.bpi;vclimg.bpi</LinkPackageImports>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <VerInfo_Locale>1033</VerInfo_Locale>
@@ -162,45 +162,46 @@
             <DependentOn>fcGraph.h</DependentOn>
             <BuildOrder>2</BuildOrder>
         </CppCompile>
-        <CppCompile Include="fxy\fFxyC.cpp">
-            <Form>FormPlot</Form>
+        <CppCompile Include="fxy\fcFxy.cpp">
+            <Form>FormFxy</Form>
             <FormType>dfm</FormType>
-            <DependentOn>fxy\fFxyC.h</DependentOn>
-            <BuildOrder>2</BuildOrder>
+            <DependentOn>fxy\fcFxy.h</DependentOn>
+            <BuildOrder>6</BuildOrder>
         </CppCompile>
         <CppCompile Include="GraphC.cpp">
             <BuildOrder>0</BuildOrder>
         </CppCompile>
-        <CppCompile Include="heightfield\fHeightfieldC.cpp">
+        <CppCompile Include="heightfield\fсHeightfield.cpp">
             <Form>FormHeightField</Form>
             <FormType>dfm</FormType>
-            <DependentOn>heightfield\fHeightfieldC.h</DependentOn>
+            <DependentOn>heightfield\fсHeightfield.h</DependentOn>
             <BuildOrder>6</BuildOrder>
         </CppCompile>
-        <CppCompile Include="points\fPointsC.cpp">
+        <CppCompile Include="points\fcPoints.cpp">
             <Form>FormPoints</Form>
             <FormType>dfm</FormType>
-            <DependentOn>points\fPointsC.h</DependentOn>
-            <BuildOrder>4</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="projection\fProjectionC.cpp">
-            <Form>FormProjection</Form>
-            <FormType>dfm</FormType>
-            <DependentOn>projection\fProjectionC.h</DependentOn>
-            <BuildOrder>5</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="splines\fSplinesC.cpp">
-            <Form>FormSplines</Form>
-            <FormType>dfm</FormType>
-            <DependentOn>splines\fSplinesC.h</DependentOn>
+            <DependentOn>points\fcPoints.h</DependentOn>
             <BuildOrder>6</BuildOrder>
         </CppCompile>
-        <FormResources Include="points\fPointsC.dfm"/>
-        <FormResources Include="projection\fProjectionC.dfm"/>
-        <FormResources Include="splines\fSplinesC.dfm"/>
-        <FormResources Include="heightfield\fHeightfieldC.dfm"/>
+        <None Include="projection\fcProjection.cpp">
+            <Exclude>True</Exclude>
+            <Form>FormProjection</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>projection\fcProjection.h</DependentOn>
+            <BuildOrder>6</BuildOrder>
+        </None>
+        <CppCompile Include="splines\fсSplines.cpp">
+            <Form>FormSplines</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>splines\fсSplines.h</DependentOn>
+            <BuildOrder>6</BuildOrder>
+        </CppCompile>
+        <FormResources Include="points\fcPoints.dfm"/>
+        <FormResources Include="projection\fcProjection.dfm"/>
+        <FormResources Include="splines\fсSplines.dfm"/>
+        <FormResources Include="heightfield\fсHeightfield.dfm"/>
         <FormResources Include="fcGraph.dfm"/>
-        <FormResources Include="fxy\fFxyC.dfm"/>
+        <FormResources Include="fxy\fcFxy.dfm"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
@@ -228,10 +229,10 @@
                     <Source Name="MainSource">GraphC.cpp</Source>
                 </Source>
                 <Excluded_Packages>
-                    <Excluded_Packages Name="$(BDSBIN)\bcboffice2k290.bpl">Embarcadero C++Builder Office 2000 Servers Package</Excluded_Packages>
-                    <Excluded_Packages Name="$(BDSBIN)\bcbofficexp290.bpl">Embarcadero C++Builder Office XP Servers Package</Excluded_Packages>
-                    <Excluded_Packages Name="$(BDSBIN)\dcloffice2k290.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
-                    <Excluded_Packages Name="$(BDSBIN)\dclofficexp290.bpl">Microsoft Office XP Sample Automation Server Wrapper Components</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\bcboffice2k370.bpl">Embarcadero C++Builder Office 2000 Servers Package</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\bcbofficexp370.bpl">Embarcadero C++Builder Office XP Servers Package</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\dcloffice2k370.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\dclofficexp370.bpl">Microsoft Office XP Sample Automation Server Wrapper Components</Excluded_Packages>
                 </Excluded_Packages>
             </CPlusPlusBuilder.Personality>
             <Deployment Version="5">
@@ -262,6 +263,16 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
+                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'" LocalName="$(BDS)\bin64\cc64370.dll" Class="DependencyModule">
+                    <Platform Name="Win64">
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin64\cc64370mt.dll" Class="DependencyModule">
+                    <Platform Name="Win64">
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
                 <DeployFile Condition="'$(UsingDelphiRTL)'=='true'" LocalName="$(BDS)\bin\borlndmm.dll" Class="DependencyModule">
                     <Platform Name="Win32">
                         <Overwrite>true</Overwrite>
@@ -279,6 +290,16 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
+                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'" LocalName="$(BDS)\bin\cc32370.dll" Class="DependencyModule">
+                    <Platform Name="Win32">
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin\cc32370mt.dll" Class="DependencyModule">
+                    <Platform Name="Win32">
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
                 <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'" LocalName="$(BDS)\bin\cc32c280.dll" Class="DependencyModule"/>
                 <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin\cc32c280mt.dll" Class="DependencyModule"/>
                 <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'" LocalName="$(BDS)\bin\cc32c290.dll" Class="DependencyModule">
@@ -291,8 +312,30 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
+                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'" LocalName="$(BDS)\bin\cc32c370.dll" Class="DependencyModule">
+                    <Platform Name="Win32">
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin\cc32c370mt.dll" Class="DependencyModule">
+                    <Platform Name="Win32">
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
                 <DeployFile LocalName=".\Win32\Debug\GraphC.exe" Configuration="Debug" Class="ProjectOutput"/>
+                <DeployFile LocalName=".\Win32\Debug\GraphC.exe" Configuration="Debug" Class="ProjectOutput">
+                    <Platform Name="Win32">
+                        <RemoteName>GraphC.exe</RemoteName>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
                 <DeployFile LocalName=".\Win32\Debug\GraphC.tds" Configuration="Debug" Class="DebugSymbols"/>
+                <DeployFile LocalName=".\Win32\Debug\GraphC.tds" Configuration="Debug" Class="DebugSymbols">
+                    <Platform Name="Win32">
+                        <RemoteName>GraphC.tds</RemoteName>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
                 <DeployFile LocalName="GraphC.tds" Configuration="Debug" Class="DebugSymbols"/>
                 <DeployFile LocalName="\pcGraph.exe" Configuration="Debug" Class="ProjectOutput"/>
                 <DeployClass Name="AdditionalDebugSymbols">
@@ -406,6 +449,16 @@
                     </Platform>
                     <Platform Name="Android64">
                         <RemoteDir>res\values-v31</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="AndroidSplashStylesV35">
+                    <Platform Name="Android">
+                        <RemoteDir>res\values-v35</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="Android64">
+                        <RemoteDir>res\values-v35</RemoteDir>
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>

@@ -138,7 +138,7 @@
         <DelphiCompile Include="$(MainSource)">
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
-        <DCCReference Include="fHeightFieldD.pas">
+        <DCCReference Include="fdHeightField.pas">
             <Form>FormHeightField</Form>
         </DCCReference>
         <BuildConfiguration Include="Base">

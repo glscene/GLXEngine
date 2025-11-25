@@ -37,12 +37,12 @@
 #include "GLSL.CustomShader.hpp"
 
 //---------------------------------------------------------------------------
-class TForm1 : public TForm
+class TFormDancer : public TForm
 {
 __published:	// IDE-managed Components
 	TGLSceneViewer *GLSceneViewer1;
 	TPanel *Panel1;
-	TButton *Button2;
+	TButton *ButtonNextFrame;
 	TButton *btnStartStop;
 	TButton *Button4;
 	TComboBox *aniBox;
@@ -68,7 +68,7 @@ __published:	// IDE-managed Components
 	void __fastcall aniBoxSelect(TObject *Sender);
 	void __fastcall aniPosChange(TObject *Sender);
 	void __fastcall btnStartStopClick(TObject *Sender);
-	void __fastcall Button2Click(TObject *Sender);
+	void __fastcall ButtonNextFrameClick(TObject *Sender);
 	void __fastcall Button4Click(TObject *Sender);
 	void __fastcall FormCloseQuery(TObject *Sender, bool &CanClose);
 	void __fastcall FormCreate(TObject *Sender);
@@ -84,9 +84,9 @@ __published:	// IDE-managed Components
 
 private:	// User declarations
 public:		// User declarations
-	__fastcall TForm1(TComponent* Owner);
+	__fastcall TFormDancer(TComponent* Owner);
 };
 //---------------------------------------------------------------------------
-extern PACKAGE TForm1 *Form1;
+extern PACKAGE TFormDancer *FormDancer;
 //---------------------------------------------------------------------------
 #endif

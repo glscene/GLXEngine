@@ -14,7 +14,7 @@ program PointsD;
 
 uses
   Forms,
-  fPointsD in 'fPointsD.pas' {FormPoints};
+  fdPoints in 'fdPoints.pas' {FormPoints};
 
 {$R *.RES}
 

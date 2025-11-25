@@ -1,14 +1,12 @@
 //
-// The graphics engine GLXEngine. The unit of GLScene for Delphi
+// The graphics GaLaXy Engine. The unit of GLScene
 //
 unit GLS.Scene;
-
 (*
   Base classes and structures. The registered classes are:
    [TGLScene, TGLLightSource, TGLCamera, TGLProxyObject,
     TGLRenderPoint, TGLMemoryViewer, TGLDirectOpenGL]
 *)
-
 interface
 
 {$I Stage.Defines.inc}

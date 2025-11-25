@@ -2,7 +2,6 @@
 // The graphics engine GLXEngine
 //
 unit Stage.VectorTypes;
-
 (*
    Defines base vector types for use in VectorGeometry unit
    The sole aim of this unit is to limit dependency between the VectorGeometry
@@ -16,7 +15,6 @@ unit Stage.VectorTypes;
         s  is uses for 16 bits signed integers (smallint)
    Note : D3D types untested.
 *)
-
 interface
 
 // ===========  Vectors  ============
@@ -396,7 +394,7 @@ type
   PGLMatrix = ^TGLMatrix;
   TGLMatrix = TMatrix4f;
 
-implementation //--------------------------------------------------------------
+implementation //==============================================================
 
 end.
 

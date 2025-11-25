@@ -1,46 +1,34 @@
 object FormGraph: TFormGraph
   Left = 0
   Top = 0
-  Margins.Left = 5
-  Margins.Top = 5
-  Margins.Right = 5
-  Margins.Bottom = 5
   Caption = 'Graph'
-  ClientHeight = 721
-  ClientWidth = 1153
+  ClientHeight = 412
+  ClientWidth = 659
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
-  Font.Height = -21
+  Font.Height = -12
   Font.Name = 'Segoe UI'
   Font.Style = []
   Menu = MainMenu
   Position = poScreenCenter
   OnCreate = FormCreate
-  PixelsPerInch = 168
-  TextHeight = 30
+  TextHeight = 15
   object PanelLeft: TPanel
     Left = 0
     Top = 0
-    Width = 226
-    Height = 721
-    Margins.Left = 5
-    Margins.Top = 5
-    Margins.Right = 5
-    Margins.Bottom = 5
+    Width = 105
+    Height = 412
     Align = alLeft
     TabOrder = 0
+    ExplicitHeight = 387
     object tvGraph: TTreeView
       Left = 1
       Top = 1
-      Width = 224
-      Height = 719
-      Margins.Left = 5
-      Margins.Top = 5
-      Margins.Right = 5
-      Margins.Bottom = 5
+      Width = 103
+      Height = 410
       Align = alClient
-      Indent = 33
+      Indent = 19
       TabOrder = 0
       OnClick = tvGraphClick
       Items.NodeData = {
@@ -53,6 +41,7 @@ object FormGraph: TFormGraph
         FF00000000000000000000000000010A500072006F006A006500630074006900
         6F006E0000002D0000000000000000000000FFFFFFFFFFFFFFFF000000000000
         000000000000000107530070006C0069006E0065007300}
+      ExplicitHeight = 385
     end
   end
   object MainMenu: TMainMenu

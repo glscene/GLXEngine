@@ -3,7 +3,7 @@ object FormViewer: TFormViewer
   Top = 0
   Caption = 'GLSViewer'
   ClientHeight = 595
-  ClientWidth = 785
+  ClientWidth = 930
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -11,11 +11,12 @@ object FormViewer: TFormViewer
   Font.Name = 'Segoe UI'
   Font.Style = []
   Position = poScreenCenter
+  OnCreate = FormCreate
   TextHeight = 15
   object StatusBar: TStatusBar
     Left = 0
     Top = 576
-    Width = 785
+    Width = 930
     Height = 19
     Panels = <
       item
@@ -34,13 +35,13 @@ object FormViewer: TFormViewer
         Text = 'Model'
         Width = 40
       end>
-    ExplicitTop = 424
-    ExplicitWidth = 733
+    ExplicitTop = 551
+    ExplicitWidth = 777
   end
   object snViewer: TGLSceneViewer
     Left = 153
     Top = 54
-    Width = 632
+    Width = 777
     Height = 522
     Camera = Camera
     Buffer.BackgroundColor = clGray
@@ -50,17 +51,16 @@ object FormViewer: TFormViewer
     PenAsTouch = False
     Align = alClient
     TabOrder = 1
-    ExplicitWidth = 581
-    ExplicitHeight = 370
+    ExplicitWidth = 632
   end
   object ControlBar: TControlBar
     Left = 0
     Top = 25
-    Width = 785
+    Width = 930
     Height = 29
     Align = alTop
     TabOrder = 2
-    ExplicitWidth = 733
+    ExplicitWidth = 777
     object atbTools: TActionToolBar
       Left = 333
       Top = 2
@@ -127,7 +127,7 @@ object FormViewer: TFormViewer
   object amMenuBar: TActionMainMenuBar
     Left = 0
     Top = 0
-    Width = 785
+    Width = 930
     Height = 25
     UseSystemFont = False
     ActionManager = ActionManager
@@ -143,7 +143,7 @@ object FormViewer: TFormViewer
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     Spacing = 0
-    ExplicitWidth = 733
+    ExplicitWidth = 777
   end
   object PanelLeft: TPanel
     Left = 0
@@ -152,7 +152,7 @@ object FormViewer: TFormViewer
     Height = 522
     Align = alLeft
     TabOrder = 4
-    ExplicitHeight = 370
+    ExplicitHeight = 497
     object tvScene: TTreeView
       Left = 1
       Top = 1
@@ -359,7 +359,7 @@ object FormViewer: TFormViewer
         6D0070007500740069006E0067000000410000005E0000005E000000FFFFFFFF
         FFFFFFFF0000000000000000000000000001114300550044004100470065006E
         006500720061007400650064004D00650073006800}
-      ExplicitHeight = 368
+      ExplicitHeight = 495
     end
   end
   object Scene: TGLScene
@@ -423,8 +423,8 @@ object FormViewer: TFormViewer
     end
   end
   object MaterialLib: TGLMaterialLibrary
-    Left = 296
-    Top = 544
+    Left = 736
+    Top = 280
   end
   object Cadencer: TGLCadencer
     Scene = Scene

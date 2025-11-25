@@ -1,4 +1,4 @@
-object Form1: TForm1
+object FormDancer: TFormDancer
   Left = 332
   Top = 110
   Caption = 'Actor MS3D Animation'
@@ -38,7 +38,7 @@ object Form1: TForm1
     Align = alTop
     TabOrder = 1
     ExplicitWidth = 939
-    object Button2: TButton
+    object ButtonNextFrame: TButton
       Left = 374
       Top = 13
       Width = 94
@@ -49,7 +49,7 @@ object Form1: TForm1
       Margins.Bottom = 4
       Caption = 'Next Frame'
       TabOrder = 0
-      OnClick = Button2Click
+      OnClick = ButtonNextFrameClick
     end
     object btnStartStop: TButton
       Left = 16

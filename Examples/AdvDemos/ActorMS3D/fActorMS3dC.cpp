@@ -42,7 +42,7 @@
 #pragma link "GLS.FileTGA"
 
 #pragma resource "*.dfm"
-TForm1* Form1;
+TFormDancer* FormDancer;
 
 int mdx, mdy;
 TMatrix4f FBiasMatrix;
@@ -57,10 +57,10 @@ TMatrix4f FInvCameraMatrix2;
 TMatrix4f FEyeToLightMatrix2;
 
 // ---------------------------------------------------------------------------
-__fastcall TForm1::TForm1(TComponent* Owner) : TForm(Owner) {}
+__fastcall TFormDancer::TFormDancer(TComponent* Owner) : TForm(Owner) {}
 // ---------------------------------------------------------------------------
 
-void __fastcall TForm1::Actor1EndFrameReached(TObject* Sender)
+void __fastcall TFormDancer::Actor1EndFrameReached(TObject* Sender)
 {
 	if (Actor1->AnimationMode == aamNone) {
         btnStartStop->Caption = "Start";
@@ -70,7 +70,7 @@ void __fastcall TForm1::Actor1EndFrameReached(TObject* Sender)
 }
 
 // ---------------------------------------------------------------------------
-void __fastcall TForm1::aniBoxSelect(TObject* Sender)
+void __fastcall TFormDancer::aniBoxSelect(TObject* Sender)
 {
     Actor1->AnimationMode = aamNone;
     if (aniBox->ItemIndex != -1) {
@@ -88,7 +88,7 @@ void __fastcall TForm1::aniBoxSelect(TObject* Sender)
 }
 
 // ---------------------------------------------------------------------------
-void __fastcall TForm1::aniPosChange(TObject* Sender)
+void __fastcall TFormDancer::aniPosChange(TObject* Sender)
 {
     if (aniPos->Enabled) {
         Actor1->CurrentFrame = Actor1->StartFrame + aniPos->Position;
@@ -96,7 +96,7 @@ void __fastcall TForm1::aniPosChange(TObject* Sender)
 }
 
 // ---------------------------------------------------------------------------
-void __fastcall TForm1::btnStartStopClick(TObject* Sender)
+void __fastcall TFormDancer::btnStartStopClick(TObject* Sender)
 {
     if (Actor1->AnimationMode == aamNone) {
         if (Actor1->CurrentFrame == Actor1->EndFrame) {
@@ -115,26 +115,26 @@ void __fastcall TForm1::btnStartStopClick(TObject* Sender)
 }
 
 // ---------------------------------------------------------------------------
-void __fastcall TForm1::Button2Click(TObject* Sender)
+void __fastcall TFormDancer::ButtonNextFrameClick(TObject* Sender)
 {
     Actor1->NextFrame();
 }
 
 // ---------------------------------------------------------------------------
-void __fastcall TForm1::Button4Click(TObject* Sender)
+void __fastcall TFormDancer::Button4Click(TObject* Sender)
 {
     Actor1->PrevFrame();
 }
 
 // ---------------------------------------------------------------------------
-void __fastcall TForm1::FormCloseQuery(TObject* Sender, bool &CanClose)
+void __fastcall TFormDancer::FormCloseQuery(TObject* Sender, bool &CanClose)
 {
 	Actor1->AnimationMode = aamNone;
 	GLCadencer1->Enabled = false;
 }
 
 // ---------------------------------------------------------------------------
-void _fastcall TForm1::LoadTexture(String AName, String ext)
+void _fastcall TFormDancer::LoadTexture(String AName, String ext)
 {
 	TGLCompositeImage* img;
 	TStream* strm = new TStream();
@@ -145,7 +145,7 @@ void _fastcall TForm1::LoadTexture(String AName, String ext)
 }
 
 // ---------------------------------------------------------------------------
-void __fastcall TForm1::FormCreate(TObject* Sender)
+void __fastcall TFormDancer::FormCreate(TObject* Sender)
 {
 	TFileName Path = GetCurrentAssetPath();
 
@@ -223,14 +223,14 @@ void __fastcall TForm1::FormCreate(TObject* Sender)
 }
 
 // ---------------------------------------------------------------------------
-void __fastcall TForm1::FormShow(TObject* Sender)
+void __fastcall TFormDancer::FormShow(TObject* Sender)
 {
 	aniBox->ItemIndex = 0;
 	aniBoxSelect(Sender);
 }
 
 // ---------------------------------------------------------------------------
-void __fastcall TForm1::GLCadencer1Progress(
+void __fastcall TFormDancer::GLCadencer1Progress(
 	TObject* Sender, const double deltaTime, const double newTime)
 {
 	TAffineVector af, af2, pv, pv2;
@@ -244,7 +244,7 @@ void __fastcall TForm1::GLCadencer1Progress(
 }
 
 // ---------------------------------------------------------------------------
-void __fastcall TForm1::GLDirectOpenGL1Render(
+void __fastcall TFormDancer::GLDirectOpenGL1Render(
 	TObject* Sender, TGLRenderContextInfo &rci)
 
 {
@@ -255,7 +255,7 @@ void __fastcall TForm1::GLDirectOpenGL1Render(
 }
 
 // ---------------------------------------------------------------------------
-void __fastcall TForm1::GLFrameBufferAfterRender(
+void __fastcall TFormDancer::GLFrameBufferAfterRender(
 	TObject* Sender, TGLRenderContextInfo &rci)
 
 {
@@ -263,7 +263,7 @@ void __fastcall TForm1::GLFrameBufferAfterRender(
 }
 
 // ---------------------------------------------------------------------------
-void __fastcall TForm1::GLFrameBufferBeforeRender(
+void __fastcall TFormDancer::GLFrameBufferBeforeRender(
 	TObject* Sender, TGLRenderContextInfo &rci)
 
 {
@@ -277,7 +277,7 @@ void __fastcall TForm1::GLFrameBufferBeforeRender(
 }
 
 // ---------------------------------------------------------------------------
-void __fastcall TForm1::Timer1Timer(TObject* Sender)
+void __fastcall TFormDancer::Timer1Timer(TObject* Sender)
 {
     aniPos->Position =
         Actor1->CurrentFrame -

@@ -21,7 +21,7 @@ program FxyD;
 
 uses
   Forms,
-  fFxyD in 'fFxyD.pas' {FormFxy};
+  fdFxy in 'fdFxy.pas' {FormFxy};
 
 {$R *.RES}
 

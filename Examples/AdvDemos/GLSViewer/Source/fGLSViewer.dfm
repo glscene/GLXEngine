@@ -152,6 +152,8 @@ object frmGLSViewer: TfrmGLSViewer
         Text = 'Model'
         Width = 40
       end>
+    ExplicitTop = 658
+    ExplicitWidth = 1072
   end
   object snViewer: TGLSceneViewer
     Left = 273
@@ -256,7 +258,7 @@ object frmGLSViewer: TfrmGLSViewer
     ColorMap.BtnSelectedFont = clBlack
     ColorMap.UnusedColor = clWhite
     Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
+    Font.Color = clBlack
     Font.Height = -16
     Font.Name = 'MS Sans Serif'
     Font.Style = []
@@ -269,6 +271,7 @@ object frmGLSViewer: TfrmGLSViewer
     Height = 629
     Align = alLeft
     TabOrder = 4
+    ExplicitHeight = 604
     object tvScene: TTreeView
       Left = 1
       Top = 1

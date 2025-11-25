@@ -1,5 +1,5 @@
 ﻿//
-// The graphics engine GLXEngine. The unit of GLScene for Delphi
+// The graphics GaLaXy Engine. The unit of GLScene
 //
 unit GLS.VectorFileObjects;
 (*
@@ -1343,7 +1343,7 @@ var
   // Flag to avoid loading materials (useful for IDE Extentions or scene editors)
   vGLVectorFileObjectsEnableVBOByDefault: Boolean = True;
 
-implementation // ------------------------------------------------------------
+implementation //==============================================================
 
 uses
   GLS.BaseMeshSilhouette;

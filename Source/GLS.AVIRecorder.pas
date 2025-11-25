@@ -1,9 +1,10 @@
 //
-// The graphics engine GLXEngine. The unit of GLScene for Delphi
+// The graphics GaLaXy Engine. The unit of GLScene
 //
 unit GLS.AVIRecorder;
-
-(* Component to make it easy to record GLScene frames into an AVI file *)
+(*
+  Component to make it easy to record GLScene frames into an AVI file
+*)
 
 interface
 
@@ -124,9 +125,7 @@ type
       read FOnPostProcessEvent write FOnPostProcessEvent;
   end;
 
-// ---------------------------------------------------------------------
-implementation
-// ---------------------------------------------------------------------
+implementation //==============================================================
 
 // DIB support rountines for AVI output
 
@@ -184,7 +183,6 @@ end;
 // ------------------
 // ------------------ TAVIRecorder ------------------
 // ------------------
-
 constructor TGLAVIRecorder.Create(AOwner: TComponent);
 begin
   inherited;
@@ -355,12 +353,9 @@ begin
     Exit;
 
   AVIFileInit; // initialize the AVI lib.
-
   AVIBitmap := TBitmap.Create;
   AVIFrameIndex := 0;
-
   RecorderState := rsRecording;
-
   try
     AVIBitmap.PixelFormat := pf24Bit;
     AVIBitmap.Width := FWidth;
@@ -381,7 +376,6 @@ begin
     end;
 
     FillChar(asi, SizeOf(asi), 0);
-
     with asi do
     begin
       fccType := streamtypeVIDEO; // Now prepare the stream
@@ -395,10 +389,8 @@ begin
 
     if AVIFileCreateStream(pfile, Stream, asi) <> AVIERR_OK then
       raise Exception.Create('Cannot create AVI stream.');
-
     with AVIBitmap do
       InternalGetDIB(Handle, FBitmapInfo^, FBitmapBits^);
-
     galpAVIOptions := @gaAVIOptions;
     FillChar(gaAVIOptions, SizeOf(gaAVIOptions), 0);
     gaAVIOptions.fccType := streamtypeVIDEO;
@@ -429,7 +421,6 @@ begin
     end;
 
     AVIResult := AVIMakeCompressedStream(Stream_c, Stream, galpAVIOptions, nil);
-
     if AVIResult <> AVIERR_OK then
     begin
       if AVIResult = AVIERR_NOCOMPRESSOR then
@@ -443,9 +434,7 @@ begin
     then
       raise Exception.Create('AVIStreamSetFormat Error');
     // no error description found in MSDN.
-
     AVI_DPI := DPI;
-
   except
     CloseAVIFile(True);
     raise;
@@ -460,17 +449,14 @@ begin
       raise Exception.Create('Cannot close AVI file. AVI file not created.');
 
     AVIBitmap.Free;
-
     FreeMem(FBitmapInfo);
     FreeMem(FBitmapBits);
 
     AVIFileExit; // finalize the AVI lib.
-
     // release the interfaces explicitly (can't rely on automatic release)
     Stream := nil;
     Stream_c := nil;
     pfile := nil;
-
     if UserAbort then
       DeleteFile(FTempName);
   finally

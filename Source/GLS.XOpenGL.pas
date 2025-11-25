@@ -1,8 +1,7 @@
 //
-// The graphics engine GLXEngine. The unit of GLScene for Delphi
+// The graphics GaLaXy Engine. The unit of GLScene
 //
 unit GLS.XOpenGL;
-
 (*
    "Alternate" OpenGL functions to handle multi-texturing.
 
@@ -11,7 +10,6 @@ unit GLS.XOpenGL;
    Before using any of the xglTexCoordXxxx fonctions, call one of the
    xglMapTexCoordToXxxx functions to establish the redirectors.
 *)
-
 interface
 
 {.$I GLScene.Defines.inc}
@@ -21,6 +19,7 @@ uses
 
   Stage.VectorTypes,
   Stage.OpenGLTokens,
+
   GLS.State;
 
 type
@@ -92,9 +91,7 @@ type
     property SecondTextureUnitForbidden: Boolean read FSecondTextureUnitForbidden;
   end;
 
-// ------------------------------------------------------------------
-implementation
-// ------------------------------------------------------------------
+implementation //==============================================================
 
 uses
   GLS.Context;
@@ -858,8 +855,6 @@ begin
   Result := n;
 end;
 
-// ------------------------------------------------------------------------
-initialization
-// ------------------------------------------------------------------------
+initialization //=============================================================
 
 end.

@@ -10,7 +10,7 @@ program BumpShaderD;
 
 uses
   Forms,
-  fBumpShaderD in 'fBumpShaderD.pas' {FormBumpShader};
+  fdBumpShader in 'fdBumpShader.pas' {FormBumpShader};
 
 {$R *.res}
 

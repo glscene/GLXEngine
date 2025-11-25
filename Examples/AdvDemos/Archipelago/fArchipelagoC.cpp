@@ -47,7 +47,7 @@ void __fastcall TForm1::FormCreate(TObject *Sender) {
 	String DataPath;
 
 	DataPath = ExtractFilePath(ParamStr(0));
-	DataPath += "Data\\";
+  	DataPath += "data\\";
 	SetCurrentDir(DataPath);
 	MaterialLibrary->TexturePaths = DataPath;
 

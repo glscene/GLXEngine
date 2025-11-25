@@ -1,10 +1,12 @@
 ﻿//
-// The graphics engine GLXEngine. The unit of GLScene for Delphi
+// The graphics GaLaXy Engine. The unit of GLScene
 //
 unit GLS.SkyDome;
-
-(* Skydome classes with celestial grids and routine functions *)
-
+(*
+  Skydome classes with celestial grids and routine functions
+  The registered classes are:
+  [TGLSkyBox, TGLSkyDome, TGLEarthSkyDome]
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -477,23 +479,19 @@ function LonLatToPos(Lon, Lat: Single): TAffineVector;
 // Computes star color from BV index (RGB) and magnitude (alpha)
 function StarRecordColor(const starRecord: TGLStarRecord; bias: Single): TVector4f;
 
-//----------------------------------------------------------------------
-implementation
-//----------------------------------------------------------------------
+implementation //-------------------------------------------------------------
 
 uses
   GLS.Context,
   GLS.State;
 
-//--------------------------- Functions --------------------------------
-
+//----------------------- GMTDateTimeToJulianDay ------------------------------
 function GMTDateTimeToJulianDay(const dt: TDateTime): Double;
 begin
   Result := dt - EncodeDate(2000, 1, 1);
 end;
 
-//--------------------------------------------------------------------------------
-
+//---------------------- ComputeOrbitalElements -------------------------------
 function ComputeOrbitalElements(const oeData: TOrbitalElementsData;
   const d: Double): TGLOrbitalElements;
 begin
@@ -508,8 +506,7 @@ begin
   end;
 end;
 
-//--------------------------------------------------------------------------------
-
+//---------------------- ComputePlanetPosition --------------------------------
 function ComputePlanetPosition(const orbitalElements: TGLOrbitalElements)
   : TAffineVector;
 var
@@ -553,8 +550,7 @@ begin
   Result.Z := r * (svw * si);
 end;
 
-//--------------------------------------------------------------------------------
-
+//-------------------- ComputePlanetPosition ---------------------------------
 function ComputePlanetPosition(const orbitalElementsData: TOrbitalElementsData;
   const d: Double): TAffineVector;
 var
@@ -564,7 +560,7 @@ begin
   Result := ComputePlanetPosition(oe);
 end;
 
-//----------------------------------------------------------------------
+//------------------- StarRecordPositionYUp -----------------------------------
 function StarRecordPositionYUp(const starRecord: TGLStarRecord): TAffineVector;
 var
   f: Single;
@@ -573,8 +569,7 @@ begin
   SinCosine(starRecord.RA * (0.01 * PI / 180), f, Result.X, Result.Z);
 end;
 
-//----------------------------------------------------------------------
-
+//-------------------- StarRecordPositionZUp ----------------------------------
 function StarRecordPositionZUp(const starRecord: TGLStarRecord): TAffineVector;
 var
   f: Single;
@@ -583,8 +578,7 @@ begin
   SinCosine(starRecord.RA * (0.01 * PI / 180), f, Result.X, Result.Y);
 end;
 
-//----------------------------------------------------------------------
-
+//----------------------- LonLatToPos -----------------------------------------
 function LonLatToPos(Lon, Lat: Single): TAffineVector;
 var
   f: Single;
@@ -593,8 +587,7 @@ begin
   SinCosine(Lon * (360 / 24 * PI / 180), f, Result.X, Result.Z);
 end;
 
-//----------------------------------------------------------------------
-
+//---------------------- StarRecordColor --------------------------------------
 function StarRecordColor(const starRecord: TGLStarRecord; bias: Single): TVector4f;
 const
   // very *rough* approximation
@@ -626,7 +619,6 @@ end;
 // ------------------
 // ------------------ TGLSkyBox ------------------
 // ------------------
-
 constructor TGLSkyBox.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
@@ -963,12 +955,9 @@ begin
   StructureChanged;
 end;
 
-//--------------------- SkyDome Region ------------------------------
-
 // ------------------
 // ------------------ TGLSkyDomeBand ------------------
 // ------------------
-
 constructor TGLSkyDomeBand.Create(Collection: TCollection);
 begin
   inherited Create(Collection);
@@ -990,7 +979,6 @@ begin
 end;
 
 //----------------------------------------------------------------------
-
 procedure TGLSkyDomeBand.Assign(Source: TPersistent);
 begin
   if Source is TGLSkyDomeBand then
@@ -1024,7 +1012,6 @@ begin
 end;
 
 //----------------------------------------------------------------------
-
 procedure TGLSkyDomeBand.SetStopAngle(const val: Single);
 begin
   FStopAngle := ClampValue(val, -90, 90);
@@ -1062,7 +1049,6 @@ begin
 end;
 
 //----------------------------------------------------------------------
-
 procedure TGLSkyDomeBand.BuildList(var rci: TGLRenderContextInfo);
 // coordinates system note: X is forward, Y is left and Z is up
 // always rendered as sphere of radius 1
@@ -1159,7 +1145,6 @@ begin
 end;
 
 //----------------------------------------------------------------------
-
 procedure TGLSkyDomeBands.SetItems(index: Integer; const val: TGLSkyDomeBand);
 begin
   inherited Items[index] := val;
@@ -1221,7 +1206,6 @@ begin
 end;
 
 //----------------------------------------------------------------------
-
 function TGLSkyDomeStar.GetDisplayName: string;
 begin
   Result := Format('RA: %5.1f / Dec: %5.1f', [RA, DEC]);
@@ -1262,7 +1246,6 @@ begin
 end;
 
 //----------------------------------------------------------------------
-
 procedure TGLSkyDomeStars.PrecomputeCartesianCoordinates;
 var
   i: Integer;
@@ -1282,7 +1265,6 @@ begin
 end;
 
 //----------------------------------------------------------------------
-
 procedure TGLSkyDomeStars.BuildList(var rci: TGLRenderContextInfo;
   twinkle: Boolean);
 var
@@ -1363,7 +1345,6 @@ begin
 end;
 
 //----------------------------------------------------------------------
-
 procedure TGLSkyDomeStars.AddRandomStars(const nb: Integer; const Color: TColor;
   const LimitToTopDome: Boolean = False);
 var
@@ -1390,7 +1371,6 @@ begin
 end;
 
 //-----------------------------------------------------------------------
-
 procedure TGLSkyDomeStars.AddRandomStars(const nb: Integer;
   const ColorMin, ColorMax: TVector3b;
   const Magnitude_min, Magnitude_max: Single;
@@ -1427,7 +1407,6 @@ begin
 end;
 
 //----------------------------------------------------------------------
-
 procedure TGLSkyDomeStars.LoadStarsFile(const starsFileName: string);
 var
   fs: TFileStream;
@@ -1491,7 +1470,6 @@ begin
 end;
 
 //----------------------------------------------------------------------
-
 procedure TGLSkyDome.Assign(Source: TPersistent);
 begin
   if Source is TGLSkyDome then
@@ -1503,7 +1481,6 @@ begin
 end;
 
 //----------------------------------------------------------------------
-
 procedure TGLSkyDome.SetBands(const val: TGLSkyDomeBands);
 begin
   FBands.Assign(val);
@@ -1517,7 +1494,6 @@ begin
 end;
 
 //--------- Options to draw grids and twinkle stars --------
-
 procedure TGLSkyDome.SetOptions(const val: TGLSkyDomeOptions);
 begin
   if val <> FOptions then
@@ -1533,8 +1509,8 @@ begin
     StructureChanged;
   end;
 end;
-//----------------------------------------------------------------------
 
+//----------------------------------------------------------------------
 procedure TGLSkyDome.BuildList(var rci: TGLRenderContextInfo);
 var
   f: Single;
@@ -1584,7 +1560,6 @@ begin
 end;
 
 //----------------------------------------------------------------------
-
 destructor TGLEarthSkyDome.Destroy;
 begin
   FSunZenithColor.Free;
@@ -1597,7 +1572,6 @@ begin
 end;
 
 //----------------------------------------------------------------------
-
 procedure TGLEarthSkyDome.Assign(Source: TPersistent);
 begin
   if Source is TGLSkyDome then
@@ -1623,7 +1597,6 @@ begin
 end;
 
 //----------------------------------------------------------------------
-
 procedure TGLEarthSkyDome.SetSunElevation(const val: Single);
 var
   newVal: Single;
@@ -1697,7 +1670,6 @@ begin
 end;
 
 //----------------------------------------------------------------------
-
 procedure TGLEarthSkyDome.BuildList(var rci: TGLRenderContextInfo);
 var
   f: Single;
@@ -1739,7 +1711,6 @@ begin
 end;
 
 //----------------------------------------------------------------------
-
 procedure TGLEarthSkyDome.SetSunAtTime(HH, MM: Single);
 const
   cHourToElevation1: array [0 .. 23] of Single = (-45, -67.5, -90, -57.5, -45,
@@ -1815,7 +1786,6 @@ begin
 end;
 
 //----------------------------------------------------------------------
-
 procedure TGLEarthSkyDome.PreCalculate;
 var
   ts: Single;
@@ -1863,7 +1833,6 @@ begin
 end;
 
 //----------------------------------------------------------------------
-
 function TGLEarthSkyDome.CalculateColor(const theta, cosGamma: Single)
   : TGLColorVector;
 var
@@ -1879,7 +1848,6 @@ begin
 end;
 
 //----------------------------------------------------------------------
-
 procedure TGLEarthSkyDome.RenderDome;
 var
   ts: Single;
@@ -2021,9 +1989,7 @@ begin
 end;
 
 
-// -------------------------------------------------------------
-initialization
-// -------------------------------------------------------------
+initialization //=============================================================
 
 RegisterClasses([TGLSkyBox, TGLSkyDome, TGLEarthSkyDome]);
 

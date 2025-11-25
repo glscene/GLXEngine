@@ -1,5 +1,5 @@
 //
-// The graphics engine GLXEngine. The unit of GLScene for Delphi
+// The graphics GaLaXy Engine. The unit of GLScene
 //
 unit GLS.VerletTypes;
 (*
@@ -22,13 +22,13 @@ uses
   System.Types,
 
   Stage.VectorTypes,
+  Stage.VectorGeometry,
+
   GLS.PersistentClasses,
   GLS.BaseClasses,
   GLS.Coordinates,
-  Stage.VectorGeometry,
   GLS.VectorLists,
   GLS.GeometryBB,
-
   GLS.Objects,
   GLS.Scene,
   GLS.SpacePartition,
@@ -720,10 +720,7 @@ procedure AddVerletConstriantsToVerletWorld
 function CreateVerletPlaneFromGLPlane(Plane: TGLPlane; VerletWorld: TGLVerletWorld;
   Offset: Single): TGLVerletFloor;
 
-// ------------------------------------------------------------------
-implementation
-
-// ------------------------------------------------------------------
+implementation //=============================================================
 
 function CreateVerletPlaneFromGLPlane(Plane: TGLPlane; VerletWorld: TGLVerletWorld;
   Offset: Single): TGLVerletFloor;

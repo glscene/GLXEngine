@@ -9,7 +9,7 @@ program CgCloudSkyD;
 
 uses
   Forms,
-  fCloudSkyD in 'fCloudSkyD.pas' {MainForm};
+  fdCloudSky in 'fdCloudSky.pas' {MainForm};
 
 {$R *.res}
 

@@ -29,7 +29,7 @@ __fastcall TFormObjMaterial::TFormObjMaterial(TComponent* Owner)
 //---------------------------------------------------------------------------
 void __fastcall TFormObjMaterial::FormCreate(TObject *Sender)
 {
-// Load vertices of convexhull
+// Load vertices of colorwheel
 }
 
 //---------------------------------------------------------------------------
@@ -55,8 +55,6 @@ void __fastcall TFormObjMaterial::rgPolyhedraClick(TObject *Sender)
   dcPolyHex->Visible = false;
   dcPolyIco->Visible = false;
   dcPolyDod->Visible = false;
-  dcConvexhull->Visible = false;
-
    switch (rgPolyhedra->ItemIndex) {
 	 case 0: {
 			   dcPolyTet->Visible = true; break;
@@ -72,9 +70,6 @@ void __fastcall TFormObjMaterial::rgPolyhedraClick(TObject *Sender)
 			 };
 	 case 4: {
 			   dcPolyDod->Visible = true; break;
-			 };
-	 case 5: {
-			   dcConvexhull->Visible = true; break;
 			 };
    default:;
    }

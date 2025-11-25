@@ -1,125 +1,90 @@
 object FormTorque: TFormTorque
   Left = 125
   Top = 119
-  Margins.Left = 5
-  Margins.Top = 5
-  Margins.Right = 5
-  Margins.Bottom = 5
   BorderWidth = 5
   Caption = 'Torque'
-  ClientHeight = 712
-  ClientWidth = 1314
+  ClientHeight = 407
+  ClientWidth = 751
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
-  Font.Height = -19
+  Font.Height = -11
   Font.Name = 'MS Sans Serif'
   Font.Style = []
   Position = poScreenCenter
   OnCreate = FormCreate
-  PixelsPerInch = 168
-  TextHeight = 24
+  TextHeight = 13
   object GLSceneViewer1: TGLSceneViewer
     Left = 0
-    Top = 137
-    Width = 1314
-    Height = 504
-    Margins.Left = 5
-    Margins.Top = 5
-    Margins.Right = 5
-    Margins.Bottom = 5
+    Top = 78
+    Width = 751
+    Height = 288
     Camera = GLCamera1
     Buffer.BackgroundColor = clBlack
-    FieldOfView = 136.711135864257800000
+    FieldOfView = 110.444335937500000000
     PenAsTouch = False
     Align = alClient
+    OnMouseDown = GLSceneViewer1MouseDown
     OnMouseMove = GLSceneViewer1MouseMove
     TabOrder = 0
   end
   object Panel1: TPanel
     Left = 0
     Top = 0
-    Width = 1314
-    Height = 137
-    Margins.Left = 5
-    Margins.Top = 5
-    Margins.Right = 5
-    Margins.Bottom = 5
+    Width = 751
+    Height = 78
     Align = alTop
     TabOrder = 1
+    ExplicitWidth = 743
     object lHexahedron: TLabel
-      Left = 490
-      Top = 14
-      Width = 162
-      Height = 72
-      Margins.Left = 5
-      Margins.Top = 5
-      Margins.Right = 5
-      Margins.Bottom = 5
+      Left = 280
+      Top = 8
+      Width = 90
+      Height = 39
       Alignment = taCenter
       Caption = 'Hexahedron has a small constant'#13#10'and linear damping'
       WordWrap = True
     end
     object lDodecahedron: TLabel
-      Left = 826
-      Top = 14
-      Width = 162
-      Height = 96
-      Margins.Left = 5
-      Margins.Top = 5
-      Margins.Right = 5
-      Margins.Bottom = 5
+      Left = 472
+      Top = 8
+      Width = 91
+      Height = 52
       Alignment = taCenter
       Caption = 'Dodecahedron has a'#13#10'small constant and'#13#10'quadratic damping'
       WordWrap = True
     end
     object lOctagedron: TLabel
-      Left = 224
-      Top = 14
-      Width = 140
-      Height = 96
-      Margins.Left = 5
-      Margins.Top = 5
-      Margins.Right = 5
-      Margins.Bottom = 5
+      Left = 128
+      Top = 8
+      Width = 79
+      Height = 52
       Alignment = taCenter
       Caption = 'Octahedron has a'#13#10'only quadratic damping'
       WordWrap = True
     end
     object lTetrahedron: TLabel
-      Left = 14
-      Top = 18
-      Width = 144
-      Height = 72
-      Margins.Left = 5
-      Margins.Top = 5
-      Margins.Right = 5
-      Margins.Bottom = 5
+      Left = 8
+      Top = 10
+      Width = 81
+      Height = 39
       Caption = 'Tetrahedron has an only quadratic damping'
       WordWrap = True
     end
     object lIcosahedron: TLabel
-      Left = 1057
-      Top = 14
-      Width = 203
-      Height = 72
-      Margins.Left = 5
-      Margins.Top = 5
-      Margins.Right = 5
-      Margins.Bottom = 5
+      Left = 604
+      Top = 8
+      Width = 114
+      Height = 39
       Alignment = taCenter
       Caption = 'Icosahedron has a small constant'#13#10'and linear damping'
       WordWrap = True
     end
     object CheckBox1: TCheckBox
-      Left = 14
-      Top = 96
-      Width = 142
-      Height = 30
-      Margins.Left = 5
-      Margins.Top = 5
-      Margins.Right = 5
-      Margins.Bottom = 5
+      Left = 8
+      Top = 55
+      Width = 81
+      Height = 17
       Caption = 'Double Mass'
       TabOrder = 0
       OnClick = CheckBox1Click
@@ -127,18 +92,16 @@ object FormTorque: TFormTorque
   end
   object PanelBottom: TPanel
     Left = 0
-    Top = 641
-    Width = 1314
-    Height = 71
-    Margins.Left = 5
-    Margins.Top = 5
-    Margins.Right = 5
-    Margins.Bottom = 5
+    Top = 366
+    Width = 751
+    Height = 41
     Align = alBottom
     Caption = 
       'Move your mouse over an object and it will start spinning. Click' +
       ' to get info.'
     TabOrder = 2
+    ExplicitTop = 341
+    ExplicitWidth = 743
   end
   object GLScene1: TGLScene
     Left = 16
@@ -168,16 +131,19 @@ object FormTorque: TFormTorque
         Direction.Coordinates = {2EF9E43E000000002EF9643F00000000}
         Position.Coordinates = {0000000000000000000080400000803F}
         Scale.Coordinates = {0000003F0000003F0000003F00000000}
+        Hint = 'Tetrahedron'
       end
       object Octahedron: TGLOctahedron
         Material.FrontProperties.Diffuse.Color = {CDCC4C3FF8FEFE3EACC8483E0000803F}
         Position.Coordinates = {0000000000000000000000400000803F}
         Scale.Coordinates = {CDCC4C3FCDCC4C3FCDCC4C3F00000000}
+        Hint = 'Octahedron'
       end
       object Cube: TGLCube
         Material.FrontProperties.Diffuse.Color = {F8FEFE3E0000803F000000000000803F}
         Direction.Coordinates = {0000003F00000000D7B35D3F00000000}
         TurnAngle = 30.000000000000000000
+        Hint = 'Cube'
       end
       object Hexahedron: TGLHexahedron
         Material.FrontProperties.Diffuse.Color = {9A99593F9A99593FCDCCCC3D0000803F}
@@ -186,17 +152,20 @@ object FormTorque: TFormTorque
         Position.Coordinates = {0000A0C000000000333333C00000803F}
         Scale.Coordinates = {0000003F0000003F0000003F00000000}
         TurnAngle = 30.000000000000000000
+        Hint = 'Hexahedron'
       end
       object Dodecahedron: TGLDodecahedron
         Material.FrontProperties.Diffuse.Color = {0000803F00000000000000000000803F}
         Material.BlendingMode = bmTransparency
         Position.Coordinates = {0000000000000000000000C00000803F}
         Scale.Coordinates = {9A99993F9A99993F9A99993F00000000}
+        Hint = 'Dodecahedron'
       end
       object Icosahedron: TGLIcosahedron
         Material.FrontProperties.Diffuse.Color = {14AE073F8FC2F53DD7A3F03E0000803F}
         Position.Coordinates = {0000000000000000000080C00000803F}
         Scale.Coordinates = {9A99993F9A99993F9A99993F00000000}
+        Hint = 'Icosahedron'
       end
       object Teapot: TGLTeapot
         Material.FrontProperties.Diffuse.Color = {1F856B3F14AE473F52B81E3F0000803F}
@@ -219,6 +188,7 @@ object FormTorque: TFormTorque
         Material.Texture.ImageClassName = 'TGLPicFileImage'
         Position.Coordinates = {000090C000000000000000000000803F}
         Scale.Coordinates = {0000C03F0000C03F0000C03F00000000}
+        Hint = 'Superellipsoid'
         Radius = 0.500000000000000000
         VCurve = 1.000000000000000000
         HCurve = 1.000000000000000000

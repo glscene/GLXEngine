@@ -16,11 +16,11 @@ uses
   Vcl.Menus,
   Vcl.ComCtrls,
 
-  fFxyD,
-  fHeightFieldD,
-  fPointsD,
-  fProjectionD,
-  fSplinesD;
+  fdFxy,
+  fdHeightField,
+  fdPoints,
+  fdProjection,
+  fdSplines;
 
 type
   TFormGraph = class(TForm)
@@ -36,7 +36,7 @@ type
 var
   FormGraph: TFormGraph;
 
-implementation
+implementation //=============================================================
 
 {$R *.dfm}
 
@@ -46,6 +46,7 @@ begin
   tvGraphClick(Sender);
 end;
 
+//----------------------------------------------------------------------------
 procedure TFormGraph.tvGraphClick(Sender: TObject);
 begin
   tvGraph.Items[0].DropHighlighted := False;

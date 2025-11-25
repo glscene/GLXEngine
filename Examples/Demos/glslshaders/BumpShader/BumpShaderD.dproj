@@ -124,7 +124,7 @@
         <DelphiCompile Include="$(MainSource)">
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
-        <DCCReference Include="fBumpShaderD.pas">
+        <DCCReference Include="fdBumpShader.pas">
             <Form>FormBumpShader</Form>
         </DCCReference>
         <BuildConfiguration Include="Base">
