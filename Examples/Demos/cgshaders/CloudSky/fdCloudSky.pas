@@ -40,16 +40,16 @@ type
 
   TMainForm = class(TForm)
     GLScene: TGLScene;
-    GLSV: TGLSceneViewer;
-    dc_cam: TGLDummyCube;
-    cam: TGLCamera;
+    SceneViewer: TGLSceneViewer;
+    dcCamera: TGLDummyCube;
+    Camera: TGLCamera;
     Cadencer: TGLCadencer;
     Timer: TGLAsyncTimer;
-    SbBackground: TGLSkyBox;
+    SkyBoxBkg: TGLSkyBox;
     MatLib: TGLMaterialLibrary;
     CgBackground: TCgShader;
     CgClouds: TCgShader;
-    SbClouds: TGLSkyBox;
+    SkyBoxClouds: TGLSkyBox;
     Moons: TGLDummyCube;
     sprSecunda: TGLSprite;
     sprMasser: TGLSprite;
@@ -63,8 +63,7 @@ type
     Label3: TLabel;
     Label4: TLabel;
     Label5: TLabel;
-    GLSimpleNavigation1: TGLSimpleNavigation;
-    PanelFPS: TPanel;
+    GLSimpleNavigation: TGLSimpleNavigation;
     procedure CgCloudsApplyVP(CgProgram: TCgProgram; Sender: TObject);
     procedure CgSunUnApplyFP(CgProgram: TCgProgram);
     procedure CgSunApplyFP(CgProgram: TCgProgram; Sender: TObject);
@@ -79,14 +78,7 @@ type
     procedure CadencerProgress(Sender: TObject;
       const deltaTime, newTime: Double);
     procedure FormCreate(Sender: TObject);
-    procedure GLSVMouseDown(Sender: TObject; Button: TMouseButton;
-      Shift: TShiftState; X, Y: Integer);
-    procedure GLSVMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
-    procedure FormMouseWheel(Sender: TObject; Shift: TShiftState;
-      WheelDelta: Integer; MousePos: TPoint; var Handled: Boolean);
-    procedure TimerTimer(Sender: TObject);
   private
-    mx, my: Integer;
     bg_w1, bg_w2, c_w1, c_w2, m_w, a_w: single;
     DayMode, WeatherMode: byte;
     procedure HandleKeys;
@@ -102,16 +94,15 @@ var
 const
   Coeff = 0.1;
 
-// ---------------------------------------------------------
-implementation
+implementation // ============================================================
 
 {$R *.dfm}
 
-// ---------------------------FormCreate--------------------
+// ---------------------------FormCreate--------------------------------------
 procedure TMainForm.FormCreate(Sender: TObject);
 begin
   // GetDir(0, dirSelf);
-  dirSelf := GetCurrentAssetPath();  // current assets
+  dirSelf := GetCurrentAssetPath();
   dirTextures := dirSelf + '\texture\';
   dirShaders := dirSelf + '\shader\';
 
@@ -128,38 +119,38 @@ begin
   ClientWidth := 1024;
   ClientHeight := 712;
   Position := poScreenCenter;
-  GLSV.Align := alClient;
+  SceneViewer.Align := alClient;
   Timer.Enabled := True;
 end;
 
-// ---------------------------CreateMaterials---------------
+// ---------------------------CreateMaterials----------------------------------
 procedure TMainForm.CreateMaterials;
 begin
-  CgBackground.FragmentProgram.LoadFromFile
-    (dirShaders + 'fragment_bkground.cg');
+  // using shaders
+  CgBackground.FragmentProgram.LoadFromFile(dirShaders + 'fragment_bkground.cg');
   CgClouds.FragmentProgram.LoadFromFile(dirShaders + 'fragment_clouds.cg');
   CgMasser.FragmentProgram.LoadFromFile(dirShaders + 'fragment_moon.cg');
   CgSecunda.FragmentProgram.LoadFromFile(dirShaders + 'fragment_moon.cg');
   CgSun.FragmentProgram.LoadFromFile(dirShaders + 'fragment_moon.cg');
 
-  // day background
+  // add day background
   MatLib.AddTextureMaterial('day', dirTextures + 'tx_day.tga');
 
-  // night background
+  // add night background
   MatLib.AddTextureMaterial('night', dirTextures + 'tx_night.tga');
 
-  // main skybox material
+  // add main skybox material
   with MatLib.Materials.Add do
   begin
     Name := 'background';
     Shader := CgBackground;
   end;
 
-  // clouds
+  // add clouds
   MatLib.AddTextureMaterial('clouds_clear', dirTextures + 'tx_sky_clear.tga');
   MatLib.AddTextureMaterial('clouds_cloudy', dirTextures + 'tx_sky_cloudy.tga');
 
-  // main clouds material
+  // add main clouds material
   with MatLib.Materials.Add do
   begin
     Name := 'clouds';
@@ -167,12 +158,12 @@ begin
     Shader := CgClouds;
   end;
 
-  // moons
+  // add moons
   MatLib.AddTextureMaterial('masser', dirTextures + 'tx_masser_three_wan.tga');
-  MatLib.AddTextureMaterial('secunda',
-    dirTextures + 'tx_secunda_three_wan.tga');
+  MatLib.AddTextureMaterial('secunda', dirTextures + 'tx_secunda_three_wan.tga');
   MatLib.AddTextureMaterial('sun', dirTextures + 'tx_sun.tga');
 
+  // add moon_masser
   with MatLib.Materials.Add do
   begin
     Name := 'moon_masser';
@@ -180,6 +171,7 @@ begin
     Shader := CgMasser;
   end;
 
+ // add moon_secunda
   with MatLib.Materials.Add do
   begin
     Name := 'moon_secunda';
@@ -187,6 +179,7 @@ begin
     Shader := CgSecunda;
   end;
 
+  // add moon_sun
   with MatLib.Materials.Add do
   begin
     Name := 'moon_sun';
@@ -195,10 +188,10 @@ begin
   end;
 end;
 
-// ---------------------------AssignMaterials---------------
+// ---------------------------AssignMaterials----------------------------------
 procedure TMainForm.AssignMaterials;
 begin
-  with SbBackground do
+  with SkyBoxBkg do
   begin
     MaterialLibrary := MatLib;
     MatNameTop := 'background';
@@ -209,7 +202,7 @@ begin
     MatNameBottom := 'background';
   end;
 
-  with SbClouds do
+  with SkyBoxClouds do
   begin
     MaterialLibrary := MatLib;
     MatNameClouds := 'clouds';
@@ -234,39 +227,8 @@ begin
   end;
 end;
 
-// ---------------------------GLSVMouseDown-----------------
-procedure TMainForm.GLSVMouseDown(Sender: TObject; Button: TMouseButton;
-  Shift: TShiftState; X, Y: Integer);
-begin
-  mx := X;
-  my := Y;
-end;
 
-// ---------------------------GLSVMouseMove-----------------
-procedure TMainForm.GLSVMouseMove(Sender: TObject; Shift: TShiftState;
-  X, Y: Integer);
-begin
-  if Shift = [ssRight] then
-    cam.MoveAroundTarget(my - Y, mx - X);
-  mx := X;
-  my := Y;
-end;
-
-// ---------------------------FormMouseWheel----------------
-procedure TMainForm.FormMouseWheel(Sender: TObject; Shift: TShiftState;
-  WheelDelta: Integer; MousePos: TPoint; var Handled: Boolean);
-begin
-  cam.AdjustDistanceToTarget(Power(1.1, WheelDelta / 100));
-end;
-
-// ---------------------------TimerTimer--------------------
-procedure TMainForm.TimerTimer(Sender: TObject);
-begin
-  PanelFPS.Caption := GLSV.FramesPerSecondText(2);
-  GLSV.ResetPerformanceMonitor;
-end;
-
-// ---------------------------CadencerProgress--------------
+// ---------------------------CadencerProgress---------------------------------
 procedure TMainForm.CadencerProgress(Sender: TObject;
   const deltaTime, newTime: Double);
 begin
@@ -327,7 +289,7 @@ begin
       end;
 
   end;
-  GLSV.Invalidate;
+  SceneViewer.Invalidate;
 end;
 
 // ---------------------------HandleKeys--------------------
@@ -342,7 +304,6 @@ begin
   else if IsKeyDown('d') then      // day
     DayMode := 1
   else
-
 end;
 
 // ---------------------------CgShaderApplyFP---------------
@@ -387,8 +348,7 @@ begin
       .Material.Texture.Handle);
     EnableTexture;
   end;
-  // if a_w < 0.1 then
-  // a:= 0.5;
+  // if a_w < 0.1 then a := 0.5;
   CgProgram.ParamByName('w1').SetAsScalar(c_w1);
   CgProgram.ParamByName('w2').SetAsScalar(c_w2 - bg_w2 / 2);
   if a_w > 0 then

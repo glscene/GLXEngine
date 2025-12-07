@@ -2,7 +2,7 @@ program ShadertoyD;
 
 uses
   Forms,
-  fShadertoyD in 'fShadertoyD.pas' {FormEiffie};
+  fdShadertoy in 'fdShadertoy.pas' {FormEiffie};
 
 {$R *.res}
 

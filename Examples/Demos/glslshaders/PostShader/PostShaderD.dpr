@@ -11,7 +11,7 @@ program PostShaderD;
 
 uses
   Forms,
-  fPostShaderD in 'fPostShaderD.pas' {FormPostShader};
+  fdPostShader in 'fdPostShader.pas' {FormPostShader};
 
 {$R *.res}
 

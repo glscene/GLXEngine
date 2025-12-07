@@ -173,14 +173,15 @@
         <AppDPIAwarenessMode>PerMonitorV2</AppDPIAwarenessMode>
     </PropertyGroup>
     <ItemGroup>
-        <CppCompile Include="fPanoViewerC.cpp">
-            <Form>Form1</Form>
-            <DependentOn>fPanoViewerC.h</DependentOn>
+        <CppCompile Include="fcPanoViewer.cpp">
+            <Form>FormPanorama</Form>
+            <DependentOn>fcPanoViewer.h</DependentOn>
             <BuildOrder>3</BuildOrder>
         </CppCompile>
         <CppCompile Include="PanoViewerC.cpp">
             <BuildOrder>0</BuildOrder>
         </CppCompile>
+        <FormResources Include="fcPanoViewer.dfm"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

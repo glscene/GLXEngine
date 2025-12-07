@@ -15,12 +15,12 @@ program PanoViewerD;
 
 uses
   Forms,
-  fPanoViewerD in 'fPanoViewerD.pas' {Form1};
+  fdPanoViewer in 'fdPanoViewer.pas' {FormPamorama};
 
 {$R *.RES}
 
 begin
   Application.Initialize;
-  Application.CreateForm(TForm1, Form1);
+  Application.CreateForm(TFormPamorama, FormPamorama);
   Application.Run;
 end.

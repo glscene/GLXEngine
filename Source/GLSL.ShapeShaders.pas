@@ -1024,10 +1024,10 @@ begin
   FSpecularColor := TGLColor.Create(self);
   FSpecularColor.SetColor(0.75,0.75,0.75,1.0);
   FAmbientFactor  := 0.8;
-  FDiffuseFactor  :=0.9;
-  FSpecularFactor :=0.8;
-  FSpecularRoughness :=0.45;
-  FAnisotropicRoughness :=0.35;
+  FDiffuseFactor  := 0.9;
+  FSpecularFactor := 0.8;
+  FSpecularRoughness := 0.45;
+  FAnisotropicRoughness := 0.35;
   FErosionScale     := 0.03;
   FErosionFactor    := 0.35;
   FIntensityFactor1 := 0.75;

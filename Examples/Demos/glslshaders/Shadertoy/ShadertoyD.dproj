@@ -91,10 +91,9 @@
         <DelphiCompile Include="$(MainSource)">
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
-        <DCCReference Include="fShadertoyD.pas">
+        <DCCReference Include="fdShadertoy.pas">
             <Form>FormEiffie</Form>
         </DCCReference>
-        <None Include="..\..\..\..\Assets\Shader\eiffie_too-early.fp"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
@@ -130,6 +129,12 @@
             <Deployment Version="5">
                 <DeployFile LocalName="..\..\..\..\Assets\Shader\eiffie_too-early.fp" Configuration="Debug" Class="ProjectFile"/>
                 <DeployFile LocalName="ShadertoyD.exe" Configuration="Debug" Class="ProjectOutput"/>
+                <DeployFile LocalName="ShadertoyD.exe" Configuration="Debug" Class="ProjectOutput">
+                    <Platform Name="Win32">
+                        <RemoteName>ShadertoyD.exe</RemoteName>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
                 <DeployClass Name="AdditionalDebugSymbols">
                     <Platform Name="iOSSimulator">
                         <Operation>1</Operation>

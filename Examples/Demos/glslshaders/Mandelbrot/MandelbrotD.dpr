@@ -5,12 +5,12 @@ program MandelbrotD;
 
 uses
   Forms,
-  fMandelbrotD in 'fMandelbrotD.pas' {Form1};
+  fdMandelbrot in 'fdMandelbrot.pas' {FormMandelbrot};
 
 {$R *.res}
 
 begin
   Application.Initialize;
-  Application.CreateForm(TForm1, Form1);
+  Application.CreateForm(TFormMandelbrot, FormMandelbrot);
   Application.Run;
 end.

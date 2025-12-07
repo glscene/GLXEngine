@@ -89,9 +89,9 @@ begin
   SetCurrentDir(Path  + '\model');
   Teapot.LoadFromFile('Teapot.3ds'); //Teapot (no texture coordinates)
   Teapot.Scale.Scale(0.8);
-  Sphere_big.LoadFromFile('Sphere_big.3DS'); //Sphere_big
+  Sphere_big.LoadFromFile('Sphere.3DS'); //Sphere_big
   Sphere_big.Scale.Scale(70);
-  Sphere_little.LoadFromFile('Sphere.3ds'); //Sphere_little
+  Sphere_little.LoadFromFile('Sphere.3DS'); //Sphere_little
   Sphere_little.Scale.Scale(4);
 
 

@@ -125,7 +125,7 @@
         <DelphiCompile Include="$(MainSource)">
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
-        <DCCReference Include="fOceanD.pas">
+        <DCCReference Include="fdOceanD.pas">
             <Form>Form1</Form>
         </DCCReference>
         <BuildConfiguration Include="Base">

@@ -2,7 +2,7 @@ program OceanD;
 
 uses
   Forms,
-  fOceanD in 'fOceanD.pas' {Form1};
+  fdOceanD in 'fdOceanD.pas' {Form1};
 
 {$R *.res}
 

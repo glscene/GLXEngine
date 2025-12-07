@@ -13,22 +13,21 @@ object MainForm: TMainForm
   Position = poScreenCenter
   OnCreate = FormCreate
   TextHeight = 13
-  object GLSV: TGLSceneViewer
-    Left = 73
+  object SceneViewer: TGLSceneViewer
+    Left = 105
     Top = 0
-    Width = 551
+    Width = 519
     Height = 450
-    Camera = cam
+    Camera = Camera
     FieldOfView = 136.397186279296900000
     PenAsTouch = False
     Align = alClient
-    OnMouseDown = GLSVMouseDown
     TabOrder = 0
   end
   object Panel1: TPanel
     Left = 0
     Top = 0
-    Width = 73
+    Width = 105
     Height = 450
     Align = alLeft
     Alignment = taRightJustify
@@ -69,19 +68,11 @@ object MainForm: TMainForm
       Height = 13
       Caption = 'Keys:'
     end
-    object PanelFPS: TPanel
-      Left = 3
-      Top = 136
-      Width = 96
-      Height = 41
-      Caption = 'FPS'
-      TabOrder = 0
-    end
   end
   object GLScene: TGLScene
     Left = 120
     Top = 20
-    object SbBackground: TGLSkyBox
+    object SkyBoxBkg: TGLSkyBox
       CloudsPlaneOffset = 0.200000002980232200
       CloudsPlaneSize = 32.000000000000000000
       object Moons: TGLDummyCube
@@ -106,17 +97,17 @@ object MainForm: TMainForm
         Rotation = 0.000000000000000000
       end
     end
-    object SbClouds: TGLSkyBox
+    object SkyBoxClouds: TGLSkyBox
       Position.Coordinates = {0000A0C1000020410000A0C10000803F}
       CloudsPlaneOffset = 0.200000002980232200
       CloudsPlaneSize = 32.000000000000000000
     end
-    object dc_cam: TGLDummyCube
+    object dcCamera: TGLDummyCube
       CubeSize = 1.000000000000000000
-      object cam: TGLCamera
+      object Camera: TGLCamera
         DepthOfView = 500.000000000000000000
         FocalLength = 90.000000000000000000
-        TargetObject = dc_cam
+        TargetObject = dcCamera
         Position.Coordinates = {0000204100000000000020410000803F}
       end
     end
@@ -128,7 +119,6 @@ object MainForm: TMainForm
     Top = 20
   end
   object Timer: TGLAsyncTimer
-    OnTimer = TimerTimer
     ThreadPriority = tpNormal
     Left = 120
     Top = 108
@@ -179,9 +169,9 @@ object MainForm: TMainForm
     Left = 554
     Top = 244
   end
-  object GLSimpleNavigation1: TGLSimpleNavigation
+  object GLSimpleNavigation: TGLSimpleNavigation
     Form = Owner
-    GLSceneViewer = GLSV
+    GLSceneViewer = SceneViewer
     FormCaption = 'Sky Clouds - %FPS'
     KeyCombinations = <
       item
@@ -196,7 +186,7 @@ object MainForm: TMainForm
         ShiftState = [ssRight]
         Action = snaMoveAroundTarget
       end>
-    Left = 152
-    Top = 320
+    Left = 160
+    Top = 328
   end
 end

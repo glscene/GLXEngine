@@ -104,8 +104,8 @@ begin
   // First load static models from asset directory
   SetCurrentDir(Path  + '\model');
   ffTeapot.LoadFromFile('Teapot.3ds');
-  ffSphere1.LoadFromFile('Sphere.3DS');
-  ffSphere2.LoadFromFile('Sphere_big.3DS');
+  ffSphere1.LoadFromFile('sphere.3ds');
+  ffSphere2.LoadFromFile('sphere.3ds');
   ffSphere2.Scale.Scale(20);
 
   // Second loading dynamic models with texture and animation

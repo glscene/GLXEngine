@@ -116,11 +116,9 @@
         <DelphiCompile Include="$(MainSource)">
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
-        <DCCReference Include="fMandelbrotD.pas">
-            <Form>Form1</Form>
+        <DCCReference Include="fdMandelbrot.pas">
+            <Form>FormMandelbrot</Form>
         </DCCReference>
-        <None Include="..\..\..\..\Assets\Shader\Mandelbrot.frag"/>
-        <None Include="..\..\..\..\Assets\Shader\Mandelbrot.vert"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
@@ -157,6 +155,12 @@
                 <DeployFile LocalName="..\..\..\..\Assets\Shader\Mandelbrot.frag" Configuration="Debug" Class="ProjectFile"/>
                 <DeployFile LocalName="..\..\..\..\Assets\Shader\Mandelbrot.vert" Configuration="Debug" Class="ProjectFile"/>
                 <DeployFile LocalName="MandelbrotD.exe" Configuration="Debug" Class="ProjectOutput"/>
+                <DeployFile LocalName="MandelbrotD.exe" Configuration="Debug" Class="ProjectOutput">
+                    <Platform Name="Win32">
+                        <RemoteName>MandelbrotD.exe</RemoteName>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
                 <DeployFile LocalName="Shaders\Mandelbrot.frag" Configuration="Debug" Class="ProjectFile"/>
                 <DeployFile LocalName="Shaders\Mandelbrot.vert" Configuration="Debug" Class="ProjectFile"/>
                 <DeployFile LocalName="\MandelbrotD.exe" Configuration="Debug" Class="ProjectOutput"/>

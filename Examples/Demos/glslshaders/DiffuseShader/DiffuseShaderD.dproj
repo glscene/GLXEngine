@@ -124,7 +124,7 @@
         <DelphiCompile Include="$(MainSource)">
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
-        <DCCReference Include="fDiffuseShaderD.pas">
+        <DCCReference Include="fdDiffuseShader.pas">
             <Form>FormDiffuseShader</Form>
         </DCCReference>
         <BuildConfiguration Include="Base">

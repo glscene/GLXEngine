@@ -3,7 +3,7 @@
 //---------------------------------------------------------------------------
 #include <vcl.h>
 #pragma hdrstop
-USEFORM("fSimpleShaderC.cpp", Form1);
+USEFORM("fcSimpleShader.cpp", Form1);
 //---------------------------------------------------------------------------
 WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 {

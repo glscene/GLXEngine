@@ -128,10 +128,10 @@ begin
   actTeapot.LoadFromFile('Teapot.3ds'); //Teapot
   actTeapot.Scale.Scale(0.8);
   // actTeapotTeapot.MeshObjects.BuildTangentSpace; does not have texture coordinates...
-  actSphere_big.LoadFromFile('Sphere_big.3DS'); //Sphere_big
+  actSphere_big.LoadFromFile('Sphere.3DS'); //Sphere_big
   actSphere_big.Scale.Scale(70);
   actSphere_big.MeshObjects.BuildTangentSpace;
-  actSphere_lit.LoadFromFile('Sphere.3ds'); //Sphere_little
+  actSphere_lit.LoadFromFile('Sphere.3DS'); //Sphere_little
   actSphere_lit.Scale.Scale(4);
   actSphere_lit.MeshObjects.BuildTangentSpace;
 

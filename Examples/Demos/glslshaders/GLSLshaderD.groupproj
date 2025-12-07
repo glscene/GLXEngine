@@ -27,10 +27,10 @@
         <Projects Include="ShadersLab\ShadersLabD.dproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="SkyboxShader\SkyboxShaderD.dproj">
+        <Projects Include="Shadertoy\ShadertoyD.dproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="Shadertoy\ShadertoyD.dproj">
+        <Projects Include="SkyShader\SkyShaderD.dproj">
             <Dependencies/>
         </Projects>
     </ItemGroup>
@@ -113,15 +113,6 @@
     <Target Name="ShadersLabD:Make">
         <MSBuild Projects="ShadersLab\ShadersLabD.dproj" Targets="Make"/>
     </Target>
-    <Target Name="SkyboxShaderD">
-        <MSBuild Projects="SkyboxShader\SkyboxShaderD.dproj"/>
-    </Target>
-    <Target Name="SkyboxShaderD:Clean">
-        <MSBuild Projects="SkyboxShader\SkyboxShaderD.dproj" Targets="Clean"/>
-    </Target>
-    <Target Name="SkyboxShaderD:Make">
-        <MSBuild Projects="SkyboxShader\SkyboxShaderD.dproj" Targets="Make"/>
-    </Target>
     <Target Name="ShadertoyD">
         <MSBuild Projects="Shadertoy\ShadertoyD.dproj"/>
     </Target>
@@ -131,14 +122,23 @@
     <Target Name="ShadertoyD:Make">
         <MSBuild Projects="Shadertoy\ShadertoyD.dproj" Targets="Make"/>
     </Target>
+    <Target Name="SkyShaderD">
+        <MSBuild Projects="SkyShader\SkyShaderD.dproj"/>
+    </Target>
+    <Target Name="SkyShaderD:Clean">
+        <MSBuild Projects="SkyShader\SkyShaderD.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="SkyShaderD:Make">
+        <MSBuild Projects="SkyShader\SkyShaderD.dproj" Targets="Make"/>
+    </Target>
     <Target Name="Build">
-        <CallTarget Targets="BumpShaderD;BunnyBumpD;DiffuseShaderD;LiningShadersD;MandelbrotD;OceanD;PostShaderD;ShadersLabD;SkyboxShaderD;ShadertoyD"/>
+        <CallTarget Targets="BumpShaderD;BunnyBumpD;DiffuseShaderD;LiningShadersD;MandelbrotD;OceanD;PostShaderD;ShadersLabD;ShadertoyD;SkyShaderD"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="BumpShaderD:Clean;BunnyBumpD:Clean;DiffuseShaderD:Clean;LiningShadersD:Clean;MandelbrotD:Clean;OceanD:Clean;PostShaderD:Clean;ShadersLabD:Clean;SkyboxShaderD:Clean;ShadertoyD:Clean"/>
+        <CallTarget Targets="BumpShaderD:Clean;BunnyBumpD:Clean;DiffuseShaderD:Clean;LiningShadersD:Clean;MandelbrotD:Clean;OceanD:Clean;PostShaderD:Clean;ShadersLabD:Clean;ShadertoyD:Clean;SkyShaderD:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="BumpShaderD:Make;BunnyBumpD:Make;DiffuseShaderD:Make;LiningShadersD:Make;MandelbrotD:Make;OceanD:Make;PostShaderD:Make;ShadersLabD:Make;SkyboxShaderD:Make;ShadertoyD:Make"/>
+        <CallTarget Targets="BumpShaderD:Make;BunnyBumpD:Make;DiffuseShaderD:Make;LiningShadersD:Make;MandelbrotD:Make;OceanD:Make;PostShaderD:Make;ShadersLabD:Make;ShadertoyD:Make;SkyShaderD:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

@@ -71,10 +71,10 @@ void __fastcall TForm1::FormCreate(TObject *Sender)
   Teapot->LoadFromFile("Teapot.3ds"); //Teapot
   Teapot->Scale->Scale(0.8);
   //  Teapot.MeshObjects->BuildTangentSpace; does not have texture coordinates...
-  Sphere_big->LoadFromFile("Sphere_big.3DS"); //Sphere_big
+  Sphere_big->LoadFromFile("Sphere.3DS"); //Sphere_big
   Sphere_big->Scale->Scale(70);
   Sphere_big->MeshObjects->BuildTangentSpace();
-  Sphere_little->LoadFromFile("Sphere.3ds"); //Sphere_little
+  Sphere_little->LoadFromFile("Sphere.3DS"); //Sphere_little
   Sphere_little->Scale->Scale(4);
   Sphere_little->MeshObjects->BuildTangentSpace();
 

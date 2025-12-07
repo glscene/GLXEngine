@@ -55,7 +55,7 @@ void __fastcall TForm1::FormCreate(TObject *Sender)
   SetCurrentDir(Path  + "\\model");
   ffTeapot->LoadFromFile("Teapot.3ds");
   ffSphere1->LoadFromFile("Sphere.3DS");
-  ffSphere2->LoadFromFile("Sphere_big.3DS");
+  ffSphere2->LoadFromFile("Sphere.3DS");
   ffSphere2->Scale->Scale(20);
 
   // Second load dynamic models with texture and animation

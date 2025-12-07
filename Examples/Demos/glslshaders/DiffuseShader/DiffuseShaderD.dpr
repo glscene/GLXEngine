@@ -15,7 +15,7 @@ program DiffuseShaderD;
 
 uses
   Forms,
-  fDiffuseShaderD in 'fDiffuseShaderD.pas' {FormDiffuseShader};
+  fdDiffuseShader in 'fdDiffuseShader.pas' {FormDiffuseShader};
 
 {$R *.res}
 

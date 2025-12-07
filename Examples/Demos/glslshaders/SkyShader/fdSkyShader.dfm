@@ -2,8 +2,8 @@ object FormSkyShader: TFormSkyShader
   Left = 192
   Top = 122
   Caption = 'GLSL Sky'
-  ClientHeight = 429
-  ClientWidth = 608
+  ClientHeight = 561
+  ClientWidth = 743
   Color = clBlack
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -41,19 +41,21 @@ object FormSkyShader: TFormSkyShader
   object SceneViewer: TGLSceneViewer
     Left = 0
     Top = 0
-    Width = 608
-    Height = 429
+    Width = 743
+    Height = 561
     Camera = Camera
     Buffer.BackgroundColor = clBlack
     Buffer.ContextOptions = [roDoubleBuffer, roRenderToWindow, roNoColorBufferClear]
-    FieldOfView = 141.455612182617200000
+    FieldOfView = 150.060897827148400000
     PenAsTouch = False
     Align = alClient
     TabOrder = 0
+    ExplicitWidth = 609
+    ExplicitHeight = 429
   end
   object GLScene1: TGLScene
-    Left = 16
-    Top = 8
+    Left = 88
+    Top = 16
     object DummyCam: TGLDummyCube
       CubeSize = 1.000000000000000000
       object Camera: TGLCamera
@@ -104,7 +106,7 @@ object FormSkyShader: TFormSkyShader
     Enabled = False
     SleepLength = 1
     OnProgress = CadencerProgress
-    Left = 80
-    Top = 8
+    Left = 88
+    Top = 80
   end
 end

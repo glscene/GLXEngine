@@ -11,7 +11,7 @@ program EarthD;
 
 uses
   Forms,
-  fEarthD in 'fEarthD.pas' {FormEarth};
+  fdEarth in 'fdEarth.pas' {FormEarth};
 
 {$R *.res}
 

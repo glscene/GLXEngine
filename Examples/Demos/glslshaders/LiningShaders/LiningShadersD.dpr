@@ -11,7 +11,7 @@ program LiningShadersD;
 
 uses
   Forms,
-  fLiningShaderD in 'fLiningShaderD.pas' {FormLiningShader};
+  fdLiningShader in 'fdLiningShader.pas' {FormLiningShader};
 
 {$R *.res}
 

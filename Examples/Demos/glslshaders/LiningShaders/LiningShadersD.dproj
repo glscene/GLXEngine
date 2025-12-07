@@ -123,7 +123,7 @@
         <DelphiCompile Include="$(MainSource)">
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
-        <DCCReference Include="fLiningShaderD.pas">
+        <DCCReference Include="fdLiningShader.pas">
             <Form>FormLiningShader</Form>
         </DCCReference>
         <BuildConfiguration Include="Base">

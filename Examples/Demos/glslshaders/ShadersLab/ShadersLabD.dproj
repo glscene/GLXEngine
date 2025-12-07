@@ -132,9 +132,8 @@
         <DelphiCompile Include="$(MainSource)">
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
-        <DCCReference Include="fShaderLabD.pas">
+        <DCCReference Include="fdShaderLab.pas">
             <Form>FormShaderLab</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>

@@ -102,7 +102,7 @@
         <DelphiCompile Include="$(MainSource)">
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
-        <DCCReference Include="fBunnyBumpD.pas">
+        <DCCReference Include="fdBunnyBump.pas">
             <Form>Form1</Form>
         </DCCReference>
         <BuildConfiguration Include="Base">
