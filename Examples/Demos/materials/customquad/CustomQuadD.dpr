@@ -13,7 +13,7 @@ program CustomQuadD;
 
 uses
   Forms,
-  fCustomQuadD in 'fCustomQuadD.pas' {FormCustomQuad};
+  fdCustomQuad in 'fdCustomQuad.pas' {FormCustomQuad};
 
 {$R *.RES}
 

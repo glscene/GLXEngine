@@ -17,7 +17,7 @@
 #include <tchar.h>
 #pragma hdrstop
 //---------------------------------------------------------------------------
-USEFORM("fFPSMovementC.cpp", FormFPSMovement);
+USEFORM("fcFPSMovement.cpp", FormFPSMovement);
 //---------------------------------------------------------------------------
 int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 {

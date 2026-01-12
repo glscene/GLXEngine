@@ -50,7 +50,7 @@ program MirrorD;
 
 uses
   Forms,
-  fMirrorD in 'fMirrorD.pas';
+  fdMirror in 'fdMirror.pas' {FormMirror};
 
 {$R *.RES}
 

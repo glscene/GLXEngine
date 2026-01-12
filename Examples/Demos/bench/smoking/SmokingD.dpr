@@ -10,7 +10,7 @@ program SmokingD;
 
 uses
   Forms,
-  fSmokingD in 'fSmokingD.pas' {FormSmoking};
+  fdSmoking in 'fdSmoking.pas' {FormSmoking};
 
 {$R *.res}
 

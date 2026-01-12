@@ -15,7 +15,7 @@ program ChristmasD;
 uses
   Vcl.Forms,
   GLS.SoundManager,
-  fChrismasD in 'fChrismasD.pas';
+  fdChrismas in 'fdChrismas.pas' {Main};
 
 {$E .scr}
 

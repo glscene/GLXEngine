@@ -124,7 +124,7 @@
         <DelphiCompile Include="$(MainSource)">
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
-        <DCCReference Include="fMegaglassD.pas">
+        <DCCReference Include="fdMegaglass.pas">
             <Form>FormMegaglasscube</Form>
         </DCCReference>
         <BuildConfiguration Include="Base">

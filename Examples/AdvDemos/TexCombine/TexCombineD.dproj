@@ -88,7 +88,7 @@
         <DelphiCompile Include="$(MainSource)">
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
-        <DCCReference Include="fTexCombineD.pas">
+        <DCCReference Include="fdTexCombine.pas">
             <Form>TTBMain</Form>
         </DCCReference>
         <BuildConfiguration Include="Base">

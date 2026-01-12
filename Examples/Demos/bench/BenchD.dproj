@@ -105,28 +105,28 @@
             <Form>FormBench</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="megacube\fMegaCubeD.pas">
+        <DCCReference Include="canvas\fdCanvas.pas">
+            <Form>FormCanvas</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="megacube\fdMegaCube.pas">
             <Form>FormMegacube</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="megaglasscube\fMegaglassD.pas">
+        <DCCReference Include="megaglasscube\fdMegaglass.pas">
             <Form>FormMegaglasscube</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="smoking\fSmokingD.pas">
+        <DCCReference Include="smoking\fdSmoking.pas">
             <Form>FormSmoking</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="volcano\fVolcanoD.pas">
+        <DCCReference Include="volcano\fdVolcano.pas">
             <Form>FormVolcano</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="whirlwind\fWhirlD.pas">
+        <DCCReference Include="whirlwind\fdWhirl.pas">
             <Form>FormWhirl</Form>
-            <FormType>dfm</FormType>
-        </DCCReference>
-        <DCCReference Include="canvas\fCanvasD.pas">
-            <Form>FormCanvas</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <BuildConfiguration Include="Base">
@@ -159,6 +159,12 @@
             </Delphi.Personality>
             <Deployment Version="5">
                 <DeployFile LocalName="BenchD.exe" Configuration="Debug" Class="ProjectOutput"/>
+                <DeployFile LocalName="BenchD.exe" Configuration="Debug" Class="ProjectOutput">
+                    <Platform Name="Win32">
+                        <RemoteName>BenchD.exe</RemoteName>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
                 <DeployFile LocalName="Win32\Debug\BenchD.exe" Configuration="Debug" Class="ProjectOutput"/>
                 <DeployClass Name="AdditionalDebugSymbols">
                     <Platform Name="iOSSimulator">

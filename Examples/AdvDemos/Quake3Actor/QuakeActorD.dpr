@@ -7,7 +7,7 @@ program QuakeActorD;
 
 uses
   Forms,
-  fQuakeActorD in 'fQuakeActorD.pas' {FormQuakeActor};
+  fdQuakeActor in 'fdQuakeActor.pas' {FormQuakeActor};
 
 {$R *.RES}
 

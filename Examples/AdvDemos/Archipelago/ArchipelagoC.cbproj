@@ -192,12 +192,13 @@
         <CppCompile Include="ArchipelagoC.cpp">
             <BuildOrder>0</BuildOrder>
         </CppCompile>
-        <CppCompile Include="fArchipelagoC.cpp">
+        <CppCompile Include="fcArchipelago.cpp">
             <Form>Form1</Form>
             <FormType>dfm</FormType>
-            <DependentOn>fArchipelagoC.h</DependentOn>
+            <DependentOn>fcArchipelago.h</DependentOn>
             <BuildOrder>2</BuildOrder>
         </CppCompile>
+        <FormResources Include="fcArchipelago.dfm"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

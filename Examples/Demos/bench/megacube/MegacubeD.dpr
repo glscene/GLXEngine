@@ -49,7 +49,7 @@ program MegacubeD;
 
 uses
   Forms,
-  fMegaCubeD in 'fMegaCubeD.pas' {;
+  fdMegaCube in 'fdMegaCube.pas' {;
 
 {$R *.RES};
 

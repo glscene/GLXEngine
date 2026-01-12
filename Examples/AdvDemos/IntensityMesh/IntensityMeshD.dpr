@@ -19,7 +19,7 @@ program IntensityMeshD;
 
 uses
   Forms,
-  fIntensityMeshD in 'fIntensityMeshD.pas' {FormIntensutyMesh};
+  fdIntensityMesh in 'fdIntensityMesh.pas' {FormIntensutyMesh};
 
 {$R *.res}
 

@@ -105,7 +105,7 @@
         <DelphiCompile Include="$(MainSource)">
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
-        <DCCReference Include="fObjMaterialD.pas">
+        <DCCReference Include="fdObjMaterial.pas">
             <Form>FormMO</Form>
             <FormType>dfm</FormType>
         </DCCReference>

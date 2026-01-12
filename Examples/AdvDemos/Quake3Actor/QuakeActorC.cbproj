@@ -177,15 +177,16 @@
         <AppDPIAwarenessMode>PerMonitorV2</AppDPIAwarenessMode>
     </PropertyGroup>
     <ItemGroup>
-        <CppCompile Include="fQuakeActorC.cpp">
+        <CppCompile Include="fcQuakeActor.cpp">
             <Form>FormQuakeActor</Form>
             <FormType>dfm</FormType>
-            <DependentOn>fQuakeActorC.h</DependentOn>
+            <DependentOn>fcQuakeActor.h</DependentOn>
             <BuildOrder>2</BuildOrder>
         </CppCompile>
         <CppCompile Include="QuakeActorC.cpp">
             <BuildOrder>0</BuildOrder>
         </CppCompile>
+        <FormResources Include="fcQuakeActor.dfm"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

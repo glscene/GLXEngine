@@ -5,7 +5,7 @@ program OdeFurballD;
 
 uses
   Forms,
-  fOdeFurballD in 'fOdeFurballD.pas' {FormFurball};
+  fdOdeFurball in 'fdOdeFurball.pas' {FormFurball};
 
 {$R *.res}
 

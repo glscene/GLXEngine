@@ -13,7 +13,7 @@
 program DceDemoD;
 uses
   Forms,
-  fDceDemoD in 'fDceDemoD.pas' {FormDCE};
+  fdDceDemo in 'fdDceDemo.pas' {FormDCE};
 
 {$R *.res}
 

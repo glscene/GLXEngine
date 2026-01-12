@@ -2,8 +2,8 @@ object Form1: TForm1
   Left = 0
   Top = 0
   Caption = 'GLSL Bump Shader'
-  ClientHeight = 505
-  ClientWidth = 664
+  ClientHeight = 596
+  ClientWidth = 789
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -18,25 +18,27 @@ object Form1: TForm1
   object Viewer: TGLSceneViewer
     Left = 0
     Top = 0
-    Width = 664
-    Height = 458
+    Width = 789
+    Height = 549
     Camera = Camera
     Buffer.BackgroundColor = clBackground
     Buffer.ContextOptions = [roDoubleBuffer, roStencilBuffer, roRenderToWindow]
     Buffer.AntiAliasing = aaNone
     Buffer.DepthPrecision = dp24bits
     Buffer.ColorDepth = cd24bits
-    FieldOfView = 148.307571411132800000
+    FieldOfView = 153.356140136718800000
     PenAsTouch = False
     Align = alClient
     OnMouseDown = ViewerMouseDown
     OnMouseMove = ViewerMouseMove
     TabOrder = 0
+    ExplicitWidth = 664
+    ExplicitHeight = 458
   end
   object Panel1: TPanel
     Left = 0
-    Top = 458
-    Width = 664
+    Top = 549
+    Width = 789
     Height = 47
     Align = alBottom
     TabOrder = 1

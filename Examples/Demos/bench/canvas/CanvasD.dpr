@@ -16,7 +16,7 @@ program CanvasD;
 
 uses
   Forms,
-  fCanvasD in 'fCanvasD.pas' {FormCanvas};
+  fdCanvas in 'fdCanvas.pas' {FormCanvas};
 
 {$R *.res}
 

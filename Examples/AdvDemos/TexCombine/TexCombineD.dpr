@@ -8,7 +8,7 @@ program TexCombineD;
 
 uses
   Forms,
-  fTexCombineD in 'fTexCombineD.pas' {TTBMain};
+  fdTexCombine in 'fdTexCombine.pas' {TTBMain};
 
 {$R *.res}
 

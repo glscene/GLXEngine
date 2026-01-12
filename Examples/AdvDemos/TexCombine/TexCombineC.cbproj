@@ -176,15 +176,16 @@
         <AppDPIAwarenessMode>PerMonitorV2</AppDPIAwarenessMode>
     </PropertyGroup>
     <ItemGroup>
-        <CppCompile Include="fTexCombineC.cpp">
+        <CppCompile Include="fcTexCombine.cpp">
             <Form>FormTexCombine</Form>
             <FormType>dfm</FormType>
-            <DependentOn>fTexCombineC.h</DependentOn>
+            <DependentOn>fcTexCombine.h</DependentOn>
             <BuildOrder>2</BuildOrder>
         </CppCompile>
         <CppCompile Include="TexCombineC.cpp">
             <BuildOrder>0</BuildOrder>
         </CppCompile>
+        <FormResources Include="fcTexCombine.dfm"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

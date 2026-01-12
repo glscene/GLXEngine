@@ -1,4 +1,4 @@
-{: TexCombineShader demo / mini-lab.
+(* TexCombineShader demo / mini-lab.
 
    This is an advanced demo, which showcases use and setup of extra texture
    units, along with texture combination possibilities.
@@ -11,12 +11,12 @@
    Note that if the code allows you to declare the combiners in any order,
    the hardware will evaluate them in their index order, and will only accept
    one combiner assignement for each texture unit.
-}
+*)
 program TexCombineD;
 
 uses
   Forms,
-  fTexCombineD in 'fTexCombineD.pas' {FormTexCombine};
+  fdTexCombine in 'fdTexCombine.pas' {FormTexCombine};
 
 {$R *.res}
 

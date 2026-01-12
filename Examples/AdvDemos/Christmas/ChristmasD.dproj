@@ -129,7 +129,7 @@
         <DelphiCompile Include="$(MainSource)">
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
-        <DCCReference Include="fChrismasD.pas">
+        <DCCReference Include="fdChrismas.pas">
             <Form>Main</Form>
         </DCCReference>
         <BuildConfiguration Include="Base">

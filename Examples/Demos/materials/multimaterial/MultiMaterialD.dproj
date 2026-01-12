@@ -132,7 +132,7 @@
         <DelphiCompile Include="$(MainSource)">
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
-        <DCCReference Include="fMultiMaterialD.pas">
+        <DCCReference Include="fdMultiMaterial.pas">
             <Form>FormMultiMat</Form>
         </DCCReference>
         <BuildConfiguration Include="Base">

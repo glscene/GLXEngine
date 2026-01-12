@@ -149,13 +149,13 @@
         <CppCompile Include="ActorMS3dC.cpp">
             <BuildOrder>0</BuildOrder>
         </CppCompile>
-        <CppCompile Include="fActorMS3dC.cpp">
+        <CppCompile Include="fcActorMS3d.cpp">
             <Form>FormDancer</Form>
             <FormType>dfm</FormType>
-            <DependentOn>fActorMS3dC.h</DependentOn>
+            <DependentOn>fcActorMS3d.h</DependentOn>
             <BuildOrder>2</BuildOrder>
         </CppCompile>
-        <FormResources Include="fActorMS3dC.dfm"/>
+        <FormResources Include="fcActorMS3d.dfm"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

@@ -15,10 +15,16 @@
         <Projects Include="NewtonMaterial\NewtonMaterialD.dproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="NewtonWalkCarry\NewtonWalkCarryD.dproj">
+        <Projects Include="NewtonPick\NewtonPickD.dproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="NewtonWalkShoot\NGDWalkShootD.dproj">
+        <Projects Include="NewtonWalkShoot\NewtonShootD.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="NewtonSimple\NewtonSimpleD.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="NewtonWalkCarry\NewtonWalkCarryD.dproj">
             <Dependencies/>
         </Projects>
         <Projects Include="OdeClothify\OdeClothifyD.dproj">
@@ -40,6 +46,9 @@
             <Dependencies/>
         </Projects>
         <Projects Include="OdeTerrain\OdeTerrainD.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="PhysXScatter\PhysXScatter.dproj">
             <Dependencies/>
         </Projects>
     </ItemGroup>
@@ -86,6 +95,33 @@
     <Target Name="NewtonMaterialD:Make">
         <MSBuild Projects="NewtonMaterial\NewtonMaterialD.dproj" Targets="Make"/>
     </Target>
+    <Target Name="NewtonPickD">
+        <MSBuild Projects="NewtonPick\NewtonPickD.dproj"/>
+    </Target>
+    <Target Name="NewtonPickD:Clean">
+        <MSBuild Projects="NewtonPick\NewtonPickD.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="NewtonPickD:Make">
+        <MSBuild Projects="NewtonPick\NewtonPickD.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="NewtonShootD">
+        <MSBuild Projects="NewtonWalkShoot\NewtonShootD.dproj"/>
+    </Target>
+    <Target Name="NewtonShootD:Clean">
+        <MSBuild Projects="NewtonWalkShoot\NewtonShootD.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="NewtonShootD:Make">
+        <MSBuild Projects="NewtonWalkShoot\NewtonShootD.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="NewtonSimpleD">
+        <MSBuild Projects="NewtonSimple\NewtonSimpleD.dproj"/>
+    </Target>
+    <Target Name="NewtonSimpleD:Clean">
+        <MSBuild Projects="NewtonSimple\NewtonSimpleD.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="NewtonSimpleD:Make">
+        <MSBuild Projects="NewtonSimple\NewtonSimpleD.dproj" Targets="Make"/>
+    </Target>
     <Target Name="NewtonWalkCarryD">
         <MSBuild Projects="NewtonWalkCarry\NewtonWalkCarryD.dproj"/>
     </Target>
@@ -94,15 +130,6 @@
     </Target>
     <Target Name="NewtonWalkCarryD:Make">
         <MSBuild Projects="NewtonWalkCarry\NewtonWalkCarryD.dproj" Targets="Make"/>
-    </Target>
-    <Target Name="NGDWalkShootD">
-        <MSBuild Projects="NewtonWalkShoot\NGDWalkShootD.dproj"/>
-    </Target>
-    <Target Name="NGDWalkShootD:Clean">
-        <MSBuild Projects="NewtonWalkShoot\NGDWalkShootD.dproj" Targets="Clean"/>
-    </Target>
-    <Target Name="NGDWalkShootD:Make">
-        <MSBuild Projects="NewtonWalkShoot\NGDWalkShootD.dproj" Targets="Make"/>
     </Target>
     <Target Name="OdeClothifyD">
         <MSBuild Projects="OdeClothify\OdeClothifyD.dproj"/>
@@ -167,14 +194,23 @@
     <Target Name="OdeTerrainD:Make">
         <MSBuild Projects="OdeTerrain\OdeTerrainD.dproj" Targets="Make"/>
     </Target>
+    <Target Name="PhysXScatter">
+        <MSBuild Projects="PhysXScatter\PhysXScatter.dproj"/>
+    </Target>
+    <Target Name="PhysXScatter:Clean">
+        <MSBuild Projects="PhysXScatter\PhysXScatter.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="PhysXScatter:Make">
+        <MSBuild Projects="PhysXScatter\PhysXScatter.dproj" Targets="Make"/>
+    </Target>
     <Target Name="Build">
-        <CallTarget Targets="ClothActorD;NewtonDensityD;NewtonJointsD;NewtonMaterialD;NewtonWalkCarryD;NGDWalkShootD;OdeClothifyD;OdeConveyorD;OdeFurballD;OdeMachineD;OdeRagdollD;OdeSimpleD;OdeTerrainD"/>
+        <CallTarget Targets="ClothActorD;NewtonDensityD;NewtonJointsD;NewtonMaterialD;NewtonPickD;NewtonShootD;NewtonSimpleD;NewtonWalkCarryD;OdeClothifyD;OdeConveyorD;OdeFurballD;OdeMachineD;OdeRagdollD;OdeSimpleD;OdeTerrainD;PhysXScatter"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="ClothActorD:Clean;NewtonDensityD:Clean;NewtonJointsD:Clean;NewtonMaterialD:Clean;NewtonWalkCarryD:Clean;NGDWalkShootD:Clean;OdeClothifyD:Clean;OdeConveyorD:Clean;OdeFurballD:Clean;OdeMachineD:Clean;OdeRagdollD:Clean;OdeSimpleD:Clean;OdeTerrainD:Clean"/>
+        <CallTarget Targets="ClothActorD:Clean;NewtonDensityD:Clean;NewtonJointsD:Clean;NewtonMaterialD:Clean;NewtonPickD:Clean;NewtonShootD:Clean;NewtonSimpleD:Clean;NewtonWalkCarryD:Clean;OdeClothifyD:Clean;OdeConveyorD:Clean;OdeFurballD:Clean;OdeMachineD:Clean;OdeRagdollD:Clean;OdeSimpleD:Clean;OdeTerrainD:Clean;PhysXScatter:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="ClothActorD:Make;NewtonDensityD:Make;NewtonJointsD:Make;NewtonMaterialD:Make;NewtonWalkCarryD:Make;NGDWalkShootD:Make;OdeClothifyD:Make;OdeConveyorD:Make;OdeFurballD:Make;OdeMachineD:Make;OdeRagdollD:Make;OdeSimpleD:Make;OdeTerrainD:Make"/>
+        <CallTarget Targets="ClothActorD:Make;NewtonDensityD:Make;NewtonJointsD:Make;NewtonMaterialD:Make;NewtonPickD:Make;NewtonShootD:Make;NewtonSimpleD:Make;NewtonWalkCarryD:Make;OdeClothifyD:Make;OdeConveyorD:Make;OdeFurballD:Make;OdeMachineD:Make;OdeRagdollD:Make;OdeSimpleD:Make;OdeTerrainD:Make;PhysXScatter:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

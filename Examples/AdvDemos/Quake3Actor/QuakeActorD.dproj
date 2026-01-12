@@ -114,7 +114,7 @@
         <DelphiCompile Include="$(MainSource)">
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
-        <DCCReference Include="fQuakeActorD.pas">
+        <DCCReference Include="fdQuakeActor.pas">
             <Form>FormQuakeActor</Form>
             <FormType>dfm</FormType>
         </DCCReference>

@@ -19,7 +19,7 @@ program RayCastD;
 
 uses
   Forms,
-  fRayCastD in 'fRayCastD.pas' {FormRayCast};
+  fdRayCast in 'fdRayCast.pas' {FormRayCast};
 
 {$R *.RES}
 

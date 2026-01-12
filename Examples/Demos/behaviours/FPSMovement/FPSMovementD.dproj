@@ -129,7 +129,7 @@
         <DelphiCompile Include="$(MainSource)">
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
-        <DCCReference Include="fFPSMovementD.pas">
+        <DCCReference Include="fdFPSMovement.pas">
             <Form>FormFPSMovement</Form>
         </DCCReference>
         <BuildConfiguration Include="Base">

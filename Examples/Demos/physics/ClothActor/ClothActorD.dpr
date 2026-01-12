@@ -19,7 +19,7 @@ program ClothActorD;
 
 uses
   Forms,
-  fClothActorD in 'fClothActorD.pas';
+  fdClothActor in 'fdClothActor.pas' {FormClothActor};
 
 {$R *.res}
 

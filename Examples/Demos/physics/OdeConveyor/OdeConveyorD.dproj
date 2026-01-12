@@ -124,7 +124,7 @@
         <DelphiCompile Include="$(MainSource)">
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
-        <DCCReference Include="fOdeConveyorD.pas">
+        <DCCReference Include="fdOdeConveyor.pas">
             <Form>FormOdeConveyor</Form>
         </DCCReference>
         <BuildConfiguration Include="Base">

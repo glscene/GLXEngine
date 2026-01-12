@@ -187,12 +187,13 @@
         <CppCompile Include="ChristmasC.cpp">
             <BuildOrder>0</BuildOrder>
         </CppCompile>
-        <CppCompile Include="fChrismasC.cpp">
+        <CppCompile Include="fcChrismas.cpp">
             <Form>Form1</Form>
             <FormType>dfm</FormType>
-            <DependentOn>fChrismasC.h</DependentOn>
+            <DependentOn>fcChrismas.h</DependentOn>
             <BuildOrder>2</BuildOrder>
         </CppCompile>
+        <FormResources Include="fcChrismas.dfm"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

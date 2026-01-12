@@ -119,7 +119,7 @@
         <DelphiCompile Include="$(MainSource)">
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
-        <DCCReference Include="fMultiPassD.pas">
+        <DCCReference Include="fdMultiPass.pas">
             <Form>FormMultiPath</Form>
         </DCCReference>
         <BuildConfiguration Include="Base">

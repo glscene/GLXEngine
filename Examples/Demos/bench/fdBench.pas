@@ -16,12 +16,12 @@ uses
   Vcl.ComCtrls,
   Vcl.ExtCtrls,
 
-  fCanvasD,
-  fMegacubeD,
-  fMegaglassD,
-  fSmokingD,
-  fVolcanoD,
-  fWhirlD;
+  fdCanvas,
+  fdMegacube,
+  fdMegaglass,
+  fdSmoking,
+  fdVolcano,
+  fdWhirl;
 
 type
   TFormBench = class(TForm)
@@ -38,17 +38,13 @@ type
     procedure FormShow(Sender: TObject);
     procedure tvBenchClick(Sender: TObject);
   private
-
   public
-
   end;
 
 var
   FormBench: TFormBench;
 
-//----------------------------------------------------------------------
-implementation
-//----------------------------------------------------------------------
+implementation //==============================================================
 
 {$R *.dfm}
 

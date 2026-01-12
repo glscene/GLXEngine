@@ -13,7 +13,7 @@ program MultiMaterialD;
 
 uses
   Forms,
-  fMultiMaterialD in 'fMultiMaterialD.pas' {FormMultiMat};
+  fdMultiMaterial in 'fdMultiMaterial.pas' {FormMultiMat};
 
 {$R *.res}
 

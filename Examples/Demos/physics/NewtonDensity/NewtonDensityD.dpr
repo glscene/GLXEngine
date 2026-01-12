@@ -25,7 +25,7 @@ program NewtonDensityD;
 
 uses
   Forms,
-  fNewtonDensityD in 'fNewtonDensityD.pas' {FormNewtonDensity};
+  fdNewtonDensity in 'fdNewtonDensity.pas' {FormNewtonDensity};
 
 {$R *.res}
 

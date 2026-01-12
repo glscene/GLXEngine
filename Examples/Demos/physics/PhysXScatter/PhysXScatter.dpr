@@ -2,7 +2,7 @@ program PhysXScatter;
 
 uses
   Forms,
-  PhysXScatterFm in 'PhysXScatterFm.pas' {FormPhysXScatter};
+  fdPhysXScatter in 'fdPhysXScatter.pas' {FormPhysXScatter};
 
 {$R *.res}
 

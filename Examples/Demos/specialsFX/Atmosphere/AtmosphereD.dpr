@@ -7,7 +7,7 @@ program AtmosphereD;
 
 uses
   Forms,
-  fAtmosphereD in 'fAtmosphereD.pas';
+  fdAtmosphere in 'fdAtmosphere.pas' {FormAtmosphere};
 
 {$R *.res}
   

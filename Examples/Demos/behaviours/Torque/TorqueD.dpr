@@ -21,7 +21,7 @@ program TorqueD;
 
 uses
   Forms,
-  fTorqueD in 'fTorqueD.pas' {FormTorque};
+  fdTorque in 'fdTorque.pas' {FormTorque};
 
 {$R *.RES}
 

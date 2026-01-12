@@ -14,7 +14,7 @@ program OdeRagdollD;
 
 uses
   Forms,
-  fOdeRagdollD in 'fOdeRagdollD.pas' {FormRagdoll};
+  fdOdeRagdoll in 'fdOdeRagdoll.pas' {FormRagdoll};
 
 {$R *.res}
 

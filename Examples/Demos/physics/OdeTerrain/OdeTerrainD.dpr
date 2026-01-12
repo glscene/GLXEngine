@@ -7,7 +7,7 @@ program OdeTerrainD;
 
 uses
   Forms,
-  fOdeTerrainD in 'fOdeTerrainD.pas' {FormOdeTerrain};
+  fdOdeTerrain in 'fdOdeTerrain.pas' {FormOdeTerrain};
 
 {$R *.RES}
 

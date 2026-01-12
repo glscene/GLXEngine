@@ -45,10 +45,10 @@
         <Projects Include="texformat\TexFormatD.dproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="transparency\TransparencyD.dproj">
+        <Projects Include="TransparAdv\TransparAdvD.dproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="TransparAdv\TransparAdvD.dproj">
+        <Projects Include="transparency\TransparencyD.dproj">
             <Dependencies/>
         </Projects>
     </ItemGroup>
@@ -185,15 +185,6 @@
     <Target Name="TexFormatD:Make">
         <MSBuild Projects="texformat\TexFormatD.dproj" Targets="Make"/>
     </Target>
-    <Target Name="TransparencyD">
-        <MSBuild Projects="transparency\TransparencyD.dproj"/>
-    </Target>
-    <Target Name="TransparencyD:Clean">
-        <MSBuild Projects="transparency\TransparencyD.dproj" Targets="Clean"/>
-    </Target>
-    <Target Name="TransparencyD:Make">
-        <MSBuild Projects="transparency\TransparencyD.dproj" Targets="Make"/>
-    </Target>
     <Target Name="TransparAdvD">
         <MSBuild Projects="TransparAdv\TransparAdvD.dproj"/>
     </Target>
@@ -203,14 +194,23 @@
     <Target Name="TransparAdvD:Make">
         <MSBuild Projects="TransparAdv\TransparAdvD.dproj" Targets="Make"/>
     </Target>
+    <Target Name="TransparencyD">
+        <MSBuild Projects="transparency\TransparencyD.dproj"/>
+    </Target>
+    <Target Name="TransparencyD:Clean">
+        <MSBuild Projects="transparency\TransparencyD.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="TransparencyD:Make">
+        <MSBuild Projects="transparency\TransparencyD.dproj" Targets="Make"/>
+    </Target>
     <Target Name="Build">
-        <CallTarget Targets="CubemapD;CustomQuadD;DynTextureD;DynCubemapD;MatScriptD;MirrorD;MultiMaterialD;MultipassD;MultiTextureD;ObjMaterialD;ProcCloudsD;TexAnimD;TexCombineD;TexFormatD;TransparencyD;TransparAdvD"/>
+        <CallTarget Targets="CubemapD;CustomQuadD;DynTextureD;DynCubemapD;MatScriptD;MirrorD;MultiMaterialD;MultipassD;MultiTextureD;ObjMaterialD;ProcCloudsD;TexAnimD;TexCombineD;TexFormatD;TransparAdvD;TransparencyD"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="CubemapD:Clean;CustomQuadD:Clean;DynTextureD:Clean;DynCubemapD:Clean;MatScriptD:Clean;MirrorD:Clean;MultiMaterialD:Clean;MultipassD:Clean;MultiTextureD:Clean;ObjMaterialD:Clean;ProcCloudsD:Clean;TexAnimD:Clean;TexCombineD:Clean;TexFormatD:Clean;TransparencyD:Clean;TransparAdvD:Clean"/>
+        <CallTarget Targets="CubemapD:Clean;CustomQuadD:Clean;DynTextureD:Clean;DynCubemapD:Clean;MatScriptD:Clean;MirrorD:Clean;MultiMaterialD:Clean;MultipassD:Clean;MultiTextureD:Clean;ObjMaterialD:Clean;ProcCloudsD:Clean;TexAnimD:Clean;TexCombineD:Clean;TexFormatD:Clean;TransparAdvD:Clean;TransparencyD:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="CubemapD:Make;CustomQuadD:Make;DynTextureD:Make;DynCubemapD:Make;MatScriptD:Make;MirrorD:Make;MultiMaterialD:Make;MultipassD:Make;MultiTextureD:Make;ObjMaterialD:Make;ProcCloudsD:Make;TexAnimD:Make;TexCombineD:Make;TexFormatD:Make;TransparencyD:Make;TransparAdvD:Make"/>
+        <CallTarget Targets="CubemapD:Make;CustomQuadD:Make;DynTextureD:Make;DynCubemapD:Make;MatScriptD:Make;MirrorD:Make;MultiMaterialD:Make;MultipassD:Make;MultiTextureD:Make;ObjMaterialD:Make;ProcCloudsD:Make;TexAnimD:Make;TexCombineD:Make;TexFormatD:Make;TransparAdvD:Make;TransparencyD:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

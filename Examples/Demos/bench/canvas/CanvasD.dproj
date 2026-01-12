@@ -121,7 +121,7 @@
         <DelphiCompile Include="$(MainSource)">
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
-        <DCCReference Include="fCanvasD.pas">
+        <DCCReference Include="fdCanvas.pas">
             <Form>FormCanvas</Form>
         </DCCReference>
         <BuildConfiguration Include="Base">

@@ -2,7 +2,7 @@ program ObjMaterialD;
 
 uses
   Vcl.Forms,
-  fObjMaterialD in 'fObjMaterialD.pas' {FormMO};
+  fdObjMaterial in 'fdObjMaterial.pas' {FormMO};
 
 {$R *.res}
 

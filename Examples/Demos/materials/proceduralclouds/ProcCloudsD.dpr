@@ -5,7 +5,7 @@ program ProcCloudsD;
 
 uses
   Forms,
-  fProcCloudsD in 'fProcCloudsD.pas' {FormClouds};
+  fdProcClouds in 'fdProcClouds.pas' {FormClouds};
 
 {$R *.RES}
 

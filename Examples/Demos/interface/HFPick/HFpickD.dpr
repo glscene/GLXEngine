@@ -26,7 +26,7 @@ program HFpickD;
 
 uses
   Forms,
-  fHFPickD in 'fHFPickD.pas' {FormHFPick};
+  fdHFPick in 'fdHFPick.pas' {FormHFPick};
 
 {$R *.res}
 

@@ -7,7 +7,7 @@ program PathControlD;
 
 uses
   Forms,
-  fPathControlD in 'fPathControlD.pas' {FormPathControl};
+  fdPathControl in 'fdPathControl.pas' {FormPathControl};
 
 {$R *.RES}
 

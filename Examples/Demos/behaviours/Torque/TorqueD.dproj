@@ -132,7 +132,7 @@
         <DelphiCompile Include="$(MainSource)">
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
-        <DCCReference Include="fTorqueD.pas">
+        <DCCReference Include="fdTorque.pas">
             <Form>FormTorque</Form>
         </DCCReference>
         <BuildConfiguration Include="Base">

@@ -2,7 +2,7 @@ program ForestD;
 
 uses
   Forms,
-  fForestD in 'fForestD.pas' {FormForest};
+  fdForest in 'fdForest.pas' {FormForest};
 
 {$R *.res}
 

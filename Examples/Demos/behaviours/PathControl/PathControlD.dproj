@@ -129,7 +129,7 @@
         <DelphiCompile Include="$(MainSource)">
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
-        <DCCReference Include="fPathControlD.pas">
+        <DCCReference Include="fdPathControl.pas">
             <Form>FormPathControl</Form>
         </DCCReference>
         <BuildConfiguration Include="Base">

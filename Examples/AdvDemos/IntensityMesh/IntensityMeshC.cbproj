@@ -176,15 +176,16 @@
         <AppDPIAwarenessMode>PerMonitorV2</AppDPIAwarenessMode>
     </PropertyGroup>
     <ItemGroup>
-        <CppCompile Include="fIntensityMeshC.cpp">
+        <CppCompile Include="fcIntensityMesh.cpp">
             <Form>Form1</Form>
             <FormType>dfm</FormType>
-            <DependentOn>fIntensityMeshC.h</DependentOn>
+            <DependentOn>fcIntensityMesh.h</DependentOn>
             <BuildOrder>2</BuildOrder>
         </CppCompile>
         <CppCompile Include="IntensityMeshC.cpp">
             <BuildOrder>0</BuildOrder>
         </CppCompile>
+        <FormResources Include="fcIntensityMesh.dfm"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

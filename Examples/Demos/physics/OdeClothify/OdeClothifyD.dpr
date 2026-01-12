@@ -10,7 +10,7 @@ program OdeClothifyD;
 
 uses
   Forms,
-  fOdeClothifyD in 'fOdeClothifyD.pas' {FormClothify};
+  fdOdeClothify in 'fdOdeClothify.pas' {FormClothify};
 
 {$R *.res}
 

@@ -116,7 +116,7 @@
         <DelphiCompile Include="$(MainSource)">
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
-        <DCCReference Include="fProcCloudsD.pas">
+        <DCCReference Include="fdProcClouds.pas">
             <Form>FormClouds</Form>
         </DCCReference>
         <BuildConfiguration Include="Base">

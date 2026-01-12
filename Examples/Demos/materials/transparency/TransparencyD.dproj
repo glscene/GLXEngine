@@ -116,7 +116,7 @@
         <DelphiCompile Include="$(MainSource)">
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
-        <DCCReference Include="fTransparencyD.pas">
+        <DCCReference Include="fdTransparency.pas">
             <Form>Form1</Form>
         </DCCReference>
         <BuildConfiguration Include="Base">

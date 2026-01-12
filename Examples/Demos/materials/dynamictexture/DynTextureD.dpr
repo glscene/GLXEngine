@@ -13,7 +13,7 @@ program DynTextureD;
 
 uses
   Forms,
-  fDynTextureD in 'fDynTextureD.pas' {FormDynamicTexture};
+  fdDynTexture in 'fdDynTexture.pas' {FormDynamicTexture};
 
 {$R *.res}
 

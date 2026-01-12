@@ -136,7 +136,7 @@
         <DelphiCompile Include="$(MainSource)">
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
-        <DCCReference Include="fMatScriptD.pas">
+        <DCCReference Include="fdMatScript.pas">
             <Form>FormMatScript</Form>
         </DCCReference>
         <BuildConfiguration Include="Base">

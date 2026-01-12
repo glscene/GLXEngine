@@ -14,7 +14,7 @@ program PickD;
 
 uses
   Forms,
-  fPickD in 'fPickD.pas' {Form1};
+  fdPick in 'fdPick.pas' {Form1};
 
 {$R *.RES}
 

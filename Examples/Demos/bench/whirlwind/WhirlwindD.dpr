@@ -2,7 +2,7 @@ program WhirlwindD;
 
 uses
   Vcl.Forms,
-  fWhirlD in 'fWhirlD.pas' {FormWhirl};
+  fdWhirl in 'fdWhirl.pas' {FormWhirl};
 
 {$R *.res}
 

@@ -1,4 +1,4 @@
-﻿(* 
+﻿(*
     This demo shows how easy it is to use milkshape animations in GLScene. The
     animations are courtesy of Carnegie-Mellon's motion capture project. 
 
@@ -23,7 +23,7 @@ program Actorms3dD;
 
 uses
   Forms,
-  fActorms3dD in 'fActorms3dD.pas' {FormActorms3d};
+  fdActorMS3d in 'fdActorMS3d.pas' {FormActorms3d};
 
 {$R *.res}
 

@@ -1,4 +1,4 @@
-(* 
+(*
    Archipelago GLScene advdemo.
 
    This advdemo illustrates several GLScene components:
@@ -22,7 +22,7 @@ program ArchipelagoD;
 
 uses
   Forms,
-  fArchipelagoD in 'fArchipelagoD.pas' {Form1};
+  fdArchipelago in 'fdArchipelago.pas' {Form1};
 
 {$R *.res}
 

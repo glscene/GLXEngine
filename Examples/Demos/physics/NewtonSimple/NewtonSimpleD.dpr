@@ -11,7 +11,7 @@ program NewtonSimpleD;
 
 uses
   Forms,
-  fNewtonSimpleD in 'fNewtonSimpleD.pas' {FormNewtonSimple};
+  fdNewtonSimple in 'fdNewtonSimple.pas' {FormNewtonSimple};
 
 {$R *.res}
 

@@ -1,4 +1,4 @@
-ArenaCPP
+GLSViewer
 
 A fast 3D mesh viewer. 
 Supports smooth and flat shading, wireframes,
@@ -8,7 +8,7 @@ hidden lines removal, texturing and antialiasing.
 2D Formats: PNG, JPG, BMP, TGA etc.
 
 Join us and enjoy.
-https://gitverse.ru/glscene
+https://github.com/glscene
 
 
-GaLaXyS Team
+GLXE Team

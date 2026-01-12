@@ -15,7 +15,7 @@ program FPSMovementD;
 
 uses
   Vcl.Forms,
-  fFPSMovementD in 'fFPSMovementD.pas' {FormFPSMovement};
+  fdFPSMovement in 'fdFPSMovement.pas' {FormFPSMovement};
 
 {$R *.res}
 

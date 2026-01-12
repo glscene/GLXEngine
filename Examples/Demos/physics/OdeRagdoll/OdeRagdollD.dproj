@@ -93,7 +93,7 @@
         <DelphiCompile Include="$(MainSource)">
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
-        <DCCReference Include="fOdeRagdollD.pas">
+        <DCCReference Include="fdOdeRagdoll.pas">
             <Form>FormRagdoll</Form>
         </DCCReference>
         <BuildConfiguration Include="Base">

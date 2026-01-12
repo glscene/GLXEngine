@@ -120,7 +120,7 @@
         <DelphiCompile Include="$(MainSource)">
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
-        <DCCReference Include="fVolcanoD.pas">
+        <DCCReference Include="fdVolcano.pas">
             <Form>FormVolcano</Form>
         </DCCReference>
         <BuildConfiguration Include="Base">

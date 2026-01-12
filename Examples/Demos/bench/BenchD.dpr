@@ -3,12 +3,12 @@ program BenchD;
 uses
   Vcl.Forms,
   fdBench in 'fdBench.pas' {FormBench},
-  fMegaCubeD in 'megacube\fMegaCubeD.pas' {FormMegacube},
-  fMegaglassD in 'megaglasscube\fMegaglassD.pas' {FormMegaglasscube},
-  fSmokingD in 'smoking\fSmokingD.pas' {FormSmoking},
-  fVolcanoD in 'volcano\fVolcanoD.pas' {FormVolcano},
-  fWhirlD in 'whirlwind\fWhirlD.pas' {FormWhirl},
-  fCanvasD in 'canvas\fCanvasD.pas' {FormCanvas};
+  fdCanvas in 'canvas\fdCanvas.pas' {FormCanvas},
+  fdMegaCube in 'megacube\fdMegaCube.pas' {FormMegacube},
+  fdMegaglass in 'megaglasscube\fdMegaglass.pas' {FormMegaglasscube},
+  fdSmoking in 'smoking\fdSmoking.pas' {FormSmoking},
+  fdVolcano in 'volcano\fdVolcano.pas' {FormVolcano},
+  fdWhirl in 'whirlwind\fdWhirl.pas' {FormWhirl};
 
 {$R *.res}
 
@@ -17,5 +17,10 @@ begin
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TFormBench, FormBench);
   Application.CreateForm(TFormCanvas, FormCanvas);
+  Application.CreateForm(TFormMegacube, FormMegacube);
+  Application.CreateForm(TFormMegaglasscube, FormMegaglasscube);
+  Application.CreateForm(TFormSmoking, FormSmoking);
+  Application.CreateForm(TFormVolcano, FormVolcano);
+  Application.CreateForm(TFormWhirl, FormWhirl);
   Application.Run;
 end.

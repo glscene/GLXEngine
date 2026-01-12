@@ -121,7 +121,7 @@
         <DelphiCompile Include="$(MainSource)">
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
-        <DCCReference Include="fDynTextureD.pas">
+        <DCCReference Include="fdDynTexture.pas">
             <Form>FormDynamicTexture</Form>
         </DCCReference>
         <BuildConfiguration Include="Base">

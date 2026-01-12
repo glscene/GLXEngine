@@ -25,7 +25,7 @@ program VolcanoD;
 
 uses
   Forms,
-  fVolcanoD in 'fVolcanoD.pas' {FormVolcano};
+  fdVolcano in 'fdVolcano.pas' {FormVolcano};
 
 {$R *.res}
 

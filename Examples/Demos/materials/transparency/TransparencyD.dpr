@@ -30,7 +30,7 @@ program TransparencyD;
 
 uses
   Forms,
-  fTransparencyD in 'fTransparencyD.pas' {Form1};
+  fdTransparency in 'fdTransparency.pas' {Form1};
 
 {$R *.RES}
 

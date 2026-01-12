@@ -15,7 +15,7 @@ program CubemapD;
 
 uses
   Forms,
-  fCubemapD in 'fCubemapD.pas' {FormCubeMap};
+  fdCubemap in 'fdCubemap.pas' {FormCubeMap};
 
 {$R *.res}
 

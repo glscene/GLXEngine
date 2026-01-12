@@ -2,7 +2,7 @@ program OdeSimpleD;
 
 uses
   Forms,
-  fOdeSimpleD in 'fOdeSimpleD.pas' {FormOdeSimple};
+  fdOdeSimple in 'fdOdeSimple.pas' {FormOdeSimple};
 
 {$R *.res}
 
