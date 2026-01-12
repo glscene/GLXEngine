@@ -209,7 +209,7 @@ type
   protected
     fBitmap: TGLImage;
     fWidth, fHeight, fDepth: Integer;
-    // Store a icolor format, because fBitmap is not always defined
+    // Store an icolor format, because fBitmap is not always defined
     fColorFormat: Cardinal;
     // Blank Cube Map
     fCubeMap: Boolean;
@@ -230,7 +230,7 @@ type
     class function FriendlyName: string; override;
     class function FriendlyDescription: string; override;
   published
-    // Width, height and depth of the blank image (for memory allocation).
+    // Width, height and depth of the blank image (for memory allocation)
     property Width: Integer read GetWidth write SetWidth default 256;
     property Height: Integer read GetHeight write SetHeight default 256;
     property Depth: Integer read GetDepth write SetDepth default 0;
@@ -239,7 +239,7 @@ type
     property ColorFormat: Cardinal read fColorFormat write fColorFormat;
   end;
 
-  // Base class for image data classes internally based on a TPicture.
+  // Base class for image data classes internally based on a TPicture
   TGLPictureImage = class(TGLTextureImage)
   private
     FBitmap: TGLImage;
@@ -260,17 +260,17 @@ type
     (* Use this function if you are going to modify the Picture directly.
      Each invocation MUST be balanced by a call to EndUpdate *)
     procedure BeginUpdate;
-    // Ends a direct picture modification session. Follows a BeginUpdate.
+    // Ends a direct picture modification session. Follows a BeginUpdate
     procedure EndUpdate;
     function GetBitmap32: TGLImage; override;
     procedure ReleaseBitmap32; override;
-    // Holds the image content.
+    // Holds the image content
     property Picture: TPicture read GetPicture write SetPicture;
   end;
 
-  (* Stores any image compatible with TPicture mechanism.
-   The picture's data is actually stored into the DFM, the original
+  (* The picture's data is actually stored into the DFM, the original
    picture name or path is not remembered.
+   Stores any image compatible with TPicture mechanism.
    It is similar in behaviour of TImage.
    Note that if original image is for instance JPEG format, only the JPEG
    data will be stored in the DFM (compact) *)

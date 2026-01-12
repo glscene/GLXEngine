@@ -10,11 +10,10 @@ uses
 
 const
 {$IFDEF WIN32}
-  PhysXDLL = 'PhysXwrap.dll';
+  PhysXDLL = 'PhysXwrap32.dll';
 {$ELSE}
-  PhysXDLL = 'PhysXwrap.dll';
+  PhysXDLL = 'PhysXwrap64.dll';
 {$ENDIF}
-
 
 
 procedure SDK_Version(major, minor, bugfix: pdword); stdcall; external PhysXDLL;

@@ -66,9 +66,9 @@ type
     function ScaleAsAddress: PGLFloat;
     procedure Assign(Source: TPersistent); override;
     procedure InitializeByObject(const Obj: TGLBaseSceneObject);
-    {Warning: does not take speed into account. }
+    // Warning: does not take speed into account.
     function EqualNode(const aNode: TGLPathNode): boolean;
-    {Rotation.X means PitchAngle, Rotation.Y means TurnAngle, Rotation.Z means RollAngle.}
+    // Rotation.X means PitchAngle, Rotation.Y means TurnAngle, Rotation.Z means RollAngle.
     property RotationAsVector: TGLVector Read FRotation Write SetRotationAsVector;
     property PositionAsVector: TGLVector Read FPosition Write SetPositionAsVector;
     property ScaleAsVector: TGLVector Read FScale Write SetScaleAsVector;
@@ -97,7 +97,6 @@ type
   end;
 
   TGLMovementRotationMode = (rmTurnPitchRoll, rmUpDirection);
-
   TGLMovementPath = class;
 
   TGLPathNodes = class (TOwnedCollection)
@@ -180,7 +179,7 @@ type
     property OnTravelStop: TNotifyEvent Read FOnTravelStop Write FOnTravelStop;
   published
     property Name: string Read FName Write FName;
-    {This property is currently ignored. }
+    // This property is currently ignored.
     property PathSplineMode: TGLLineSplineMode read FPathSplineMode write SetPathSplineMode default lsmLines;
     property RotationMode: TGLMovementRotationMode read FRotationMode write FRotationMode default rmTurnPitchRoll;
 
@@ -282,9 +281,7 @@ function GetOrCreateMovement(const obj: TGLBaseSceneObject): TGLMovement; overlo
 procedure StartAllMovements(const Scene: TGLScene; const StartCamerasMove, StartObjectsMove: Boolean);
 procedure StopAllMovements(const Scene: TGLScene; const StopCamerasMove, StopObjectsMove: Boolean);
 
-// ------------------------------------------------------------------
-implementation
-// ------------------------------------------------------------------
+implementation //==============================================================
 
  //----------------------------- TGLPathNode ------------------------------------
 constructor TGLPathNode.Create(Collection: TCollection);
