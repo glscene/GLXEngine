@@ -1,2 +1,2 @@
 @echo off
-D:\GLScene\external\_setupDLL.cmd
+external\_setupDLL.cmd
