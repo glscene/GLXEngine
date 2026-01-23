@@ -2,7 +2,7 @@ program FontgenD;
 
 uses
   Forms,
-  fFontgenD in 'fFontgenD.pas' {FormFontGen};
+  fdFontgen in 'fdFontgen.pas' {FormFontGen};
 
 {$R *.res}
 

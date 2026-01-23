@@ -37,14 +37,15 @@ type
     DummyCube1: TGLDummyCube;
     DummyCube2: TGLDummyCube;
     GLCadencer1: TGLCadencer;
-    Button1: TButton;
+    ButtonRecord: TButton;
     AVIRecorder1: TGLAVIRecorder;
     procedure TrackBarChange(Sender: TObject);
     procedure FormResize(Sender: TObject);
-    procedure Button1Click(Sender: TObject);
+    procedure ButtonRecordClick(Sender: TObject);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
     procedure AVIRecorder1PostProcessEvent(Sender: TObject;
       frame: TBitmap);
+    procedure FormCreate(Sender: TObject);
   private
       UserAbort : boolean;
   end;
@@ -55,6 +56,12 @@ var
 implementation //=============================================================
 
 {$R *.DFM}
+
+procedure TFormAVI.FormCreate(Sender: TObject);
+begin
+  SetCurrentDir(Application.ExeName);
+end;
+
 
 procedure TFormAVI.TrackBarChange(Sender: TObject);
 var
@@ -76,27 +83,29 @@ end;
 procedure TFormAVI.FormResize(Sender: TObject);
 begin
 	GLSceneViewer1.ResetPerformanceMonitor;
-  AVIRecorder1.Width:=GLSceneViewer1.Width;
-  AVIRecorder1.Height:=GLSceneViewer1.Height;
+  AVIRecorder1.Width := GLSceneViewer1.Width;
+  AVIRecorder1.Height := GLSceneViewer1.Height;
 end;
 
-procedure TFormAVI.Button1Click(Sender: TObject);
+procedure TFormAVI.ButtonRecordClick(Sender: TObject);
 var
   i : integer;
   SavedCap : string;
+
 begin
+   AVIRecorder1.Filename := GetCurrentDir() + 'Test.avi';
    if not AVIRecorder1.CreateAVIFile then Exit;
    // if AVIRecorder1.filename is empty, a dialog box will appear asking
    // for the filename. CreateAVIFile() will return a bool
    // indicating if user presses "cancel" in the dialog box.
 
-   SavedCap := caption;
+   SavedCap := Caption;
    caption := 'Press ESC to abort';
    UserAbort := false;
    StaticText1.Visible := false; // the FPS shown is not correct now,
                                // so just hide it for the time being.
    i:=0;
-   Button1.enabled := false;
+   ButtonRecord.enabled := false;
    TrackBar.enabled := false;
    try
       while (i<360) and not UserAbort do begin
@@ -112,9 +121,9 @@ begin
       AVIRecorder1.CloseAVIFile(UserAbort); // if UserAbort, CloseAVIFile will
                                             // also delete the unfinished file.
       caption:=SavedCap;
-      StaticText1.Visible:=true;
-      Button1.enabled:=true;
-      TrackBar.enabled:=true;
+      StaticText1.Visible := true;
+      ButtonRecord.Enabled := true;
+      TrackBar.enabled := true;
    end;
 end;
 

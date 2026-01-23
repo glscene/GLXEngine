@@ -1,4 +1,4 @@
-object Form1: TForm1
+object FormArchiver: TFormArchiver
   Left = 333
   Top = 166
   Caption = 'Archive Loader'
@@ -10,6 +10,7 @@ object Form1: TForm1
   Font.Height = -11
   Font.Name = 'MS Sans Serif'
   Font.Style = []
+  Position = poScreenCenter
   OnCreate = FormCreate
   TextHeight = 13
   object GLSceneViewer1: TGLSceneViewer

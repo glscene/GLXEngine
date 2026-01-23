@@ -17,7 +17,7 @@ program GuiEditor;
 
 uses
   Forms,
-  MainFormUnit in 'MainFormUnit.pas' {Form1};
+  fdGuiEditor in 'fdGuiEditor.pas' {Form1};
 
 {$R *.res}
 

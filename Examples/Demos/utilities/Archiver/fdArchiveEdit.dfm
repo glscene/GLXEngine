@@ -20,7 +20,7 @@ object Form1: TForm1
   object Bevel1: TBevel
     Left = 0
     Top = 0
-    Width = 691
+    Width = 683
     Height = 9
     Anchors = [akLeft, akTop, akRight]
     Shape = bsTopLine
@@ -186,25 +186,25 @@ object Form1: TForm1
   end
   object OpenDialog1: TOpenDialog
     Options = [ofHideReadOnly, ofPathMustExist, ofFileMustExist, ofEnableSizing]
-    Left = 184
-    Top = 64
+    Left = 504
+    Top = 176
   end
   object SaveDialog1: TSaveDialog
     DefaultExt = 'glp'
     Filter = 'All (Pak, Zlib)|*.pak;*.zlib|PAK files|*.pak|ZLib Files|*.zlib'
     Options = [ofOverwritePrompt, ofHideReadOnly, ofEnableSizing]
-    Left = 216
-    Top = 64
+    Left = 416
+    Top = 176
   end
   object ImageList1: TImageList
     Height = 20
     Width = 20
-    Left = 216
-    Top = 32
+    Left = 320
+    Top = 176
   end
   object GLScene1: TGLScene
-    Left = 248
-    Top = 32
+    Left = 200
+    Top = 56
     object GLCamera1: TGLCamera
       DepthOfView = 100000.000000000000000000
       FocalLength = 100.000000000000000000
@@ -244,7 +244,7 @@ object Form1: TForm1
         Material.Texture.Image.Depth = 0
         Material.Texture.Disabled = False
       end>
-    Left = 248
+    Left = 568
     Top = 64
   end
   object GLSimpleNavigation1: TGLSimpleNavigation
@@ -264,15 +264,19 @@ object Form1: TForm1
         ShiftState = [ssRight]
         Action = snaMoveAroundTarget
       end>
-    Left = 280
-    Top = 32
+    Left = 296
+    Top = 56
   end
   object GLSArchiveManager1: TGLSArchiveManager
     Archives = <
       item
         Name = 'LibArchive'
       end>
-    Left = 280
+    Left = 440
     Top = 64
+  end
+  object ShellResources1: TShellResources
+    Left = 232
+    Top = 272
   end
 end

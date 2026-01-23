@@ -1,4 +1,4 @@
-unit fKeymapD;
+unit fdKeymap;
 
 interface
 
@@ -17,7 +17,7 @@ uses
   GLS.XCollection;
 
 type
-  TForm1 = class(TForm)
+  TFormKeymap = class(TForm)
     Timer1: TTimer;
     PAUp: TPanel;
     Label1: TLabel;
@@ -34,18 +34,18 @@ type
   end;
 
 var
-  Form1: TForm1;
+  FormKeymap: TFormKeymap;
 
 implementation
 
 {$R *.DFM}
 
-procedure TForm1.FormCreate(Sender: TObject);
+procedure TFormKeymap.FormCreate(Sender: TObject);
 begin
    Label1.Caption:='Hit one/any of the keys below to light up the panel...';
 end;
 
-procedure TForm1.Timer1Timer(Sender: TObject);
+procedure TFormKeymap.Timer1Timer(Sender: TObject);
 
    procedure CheckPanel(panel : TPanel);
    begin
@@ -62,7 +62,7 @@ begin
    CheckPanel(PARight);
 end;
 
-procedure TForm1.PAUpClick(Sender: TObject);
+procedure TFormKeymap.PAUpClick(Sender: TObject);
 var
    keyCode : Integer;
 begin

@@ -2,13 +2,13 @@ program ArchiverD;
 
 uses
   Forms,
-  fArchiverD in 'fArchiverD.pas';
+  fdArchiver in 'fdArchiver.pas' {FormArchiver};
 
 {$R *.res}
 
 begin
   Application.Initialize;
-  Application.CreateForm(TForm1, Form1);
+  Application.CreateForm(TFormArchiver, FormArchiver);
   Application.Run;
 end.
 

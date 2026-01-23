@@ -7,10 +7,8 @@ object FolderSel: TFolderSel
   ClientWidth = 317
   Color = clBtnFace
   ParentFont = True
-  OldCreateOrder = True
   Position = poScreenCenter
-  PixelsPerInch = 96
-  TextHeight = 13
+  TextHeight = 15
   object Bevel1: TBevel
     Left = 8
     Top = 8
@@ -21,8 +19,8 @@ object FolderSel: TFolderSel
   object Label1: TLabel
     Left = 120
     Top = 16
-    Width = 64
-    Height = 13
+    Width = 68
+    Height = 15
     Caption = 'Select folder:'
   end
   object OKBtn: TButton
@@ -44,20 +42,5 @@ object FolderSel: TFolderSel
     Caption = 'Cancel'
     ModalResult = 2
     TabOrder = 1
-  end
-  object ShellView: TShellTreeView
-    Left = 16
-    Top = 32
-    Width = 281
-    Height = 265
-    ObjectTypes = [otFolders]
-    Root = 'rfDesktop'
-    UseShellImages = True
-    AutoRefresh = False
-    Indent = 19
-    ParentColor = False
-    RightClickSelect = True
-    ShowRoot = False
-    TabOrder = 2
   end
 end

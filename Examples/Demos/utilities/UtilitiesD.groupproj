@@ -3,16 +3,19 @@
         <ProjectGuid>{42939014-896A-4EC3-A943-FC10829CCD36}</ProjectGuid>
     </PropertyGroup>
     <ItemGroup>
-        <Projects Include="ArchiverDemo\ArchiverD.dproj">
+        <Projects Include="Archiver\ArchiverD.dproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="ArchiveEdit\ArchiveEditD.dproj">
+        <Projects Include="Archiver\ArchiverEditD.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="GLInfos\GLInfoD.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="GuiEditor\GuiEditor.dproj">
             <Dependencies/>
         </Projects>
         <Projects Include="fontgen\FontgenD.dproj">
-            <Dependencies/>
-        </Projects>
-        <Projects Include="GLInfos\GLInfosD.dproj">
             <Dependencies/>
         </Projects>
         <Projects Include="joystick\JoystickD.dproj">
@@ -36,22 +39,40 @@
         </BorlandProject>
     </ProjectExtensions>
     <Target Name="ArchiverD">
-        <MSBuild Projects="ArchiverDemo\ArchiverD.dproj"/>
+        <MSBuild Projects="Archiver\ArchiverD.dproj"/>
     </Target>
     <Target Name="ArchiverD:Clean">
-        <MSBuild Projects="ArchiverDemo\ArchiverD.dproj" Targets="Clean"/>
+        <MSBuild Projects="Archiver\ArchiverD.dproj" Targets="Clean"/>
     </Target>
     <Target Name="ArchiverD:Make">
-        <MSBuild Projects="ArchiverDemo\ArchiverD.dproj" Targets="Make"/>
+        <MSBuild Projects="Archiver\ArchiverD.dproj" Targets="Make"/>
     </Target>
-    <Target Name="ArchiveEditD">
-        <MSBuild Projects="ArchiveEdit\ArchiveEditD.dproj"/>
+    <Target Name="ArchiverEditD">
+        <MSBuild Projects="Archiver\ArchiverEditD.dproj"/>
     </Target>
-    <Target Name="ArchiveEditD:Clean">
-        <MSBuild Projects="ArchiveEdit\ArchiveEditD.dproj" Targets="Clean"/>
+    <Target Name="ArchiverEditD:Clean">
+        <MSBuild Projects="Archiver\ArchiverEditD.dproj" Targets="Clean"/>
     </Target>
-    <Target Name="ArchiveEditD:Make">
-        <MSBuild Projects="ArchiveEdit\ArchiveEditD.dproj" Targets="Make"/>
+    <Target Name="ArchiverEditD:Make">
+        <MSBuild Projects="Archiver\ArchiverEditD.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="GLInfoD">
+        <MSBuild Projects="GLInfos\GLInfoD.dproj"/>
+    </Target>
+    <Target Name="GLInfoD:Clean">
+        <MSBuild Projects="GLInfos\GLInfoD.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="GLInfoD:Make">
+        <MSBuild Projects="GLInfos\GLInfoD.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="GuiEditor">
+        <MSBuild Projects="GuiEditor\GuiEditor.dproj"/>
+    </Target>
+    <Target Name="GuiEditor:Clean">
+        <MSBuild Projects="GuiEditor\GuiEditor.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="GuiEditor:Make">
+        <MSBuild Projects="GuiEditor\GuiEditor.dproj" Targets="Make"/>
     </Target>
     <Target Name="FontgenD">
         <MSBuild Projects="fontgen\FontgenD.dproj"/>
@@ -61,15 +82,6 @@
     </Target>
     <Target Name="FontgenD:Make">
         <MSBuild Projects="fontgen\FontgenD.dproj" Targets="Make"/>
-    </Target>
-    <Target Name="GLInfosD">
-        <MSBuild Projects="GLInfos\GLInfosD.dproj"/>
-    </Target>
-    <Target Name="GLInfosD:Clean">
-        <MSBuild Projects="GLInfos\GLInfosD.dproj" Targets="Clean"/>
-    </Target>
-    <Target Name="GLInfosD:Make">
-        <MSBuild Projects="GLInfos\GLInfosD.dproj" Targets="Make"/>
     </Target>
     <Target Name="JoystickD">
         <MSBuild Projects="joystick\JoystickD.dproj"/>
@@ -108,13 +120,13 @@
         <MSBuild Projects="ScreenSaver\ScreenSaverD.dproj" Targets="Make"/>
     </Target>
     <Target Name="Build">
-        <CallTarget Targets="ArchiverD;ArchiveEditD;FontgenD;GLInfosD;JoystickD;KeymapD;RecorderD;ScreenSaverD"/>
+        <CallTarget Targets="ArchiverD;ArchiverEditD;GLInfoD;GuiEditor;FontgenD;JoystickD;KeymapD;RecorderD;ScreenSaverD"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="ArchiverD:Clean;ArchiveEditD:Clean;FontgenD:Clean;GLInfosD:Clean;JoystickD:Clean;KeymapD:Clean;RecorderD:Clean;ScreenSaverD:Clean"/>
+        <CallTarget Targets="ArchiverD:Clean;ArchiverEditD:Clean;GLInfoD:Clean;GuiEditor:Clean;FontgenD:Clean;JoystickD:Clean;KeymapD:Clean;RecorderD:Clean;ScreenSaverD:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="ArchiverD:Make;ArchiveEditD:Make;FontgenD:Make;GLInfosD:Make;JoystickD:Make;KeymapD:Make;RecorderD:Make;ScreenSaverD:Make"/>
+        <CallTarget Targets="ArchiverD:Make;ArchiverEditD:Make;GLInfoD:Make;GuiEditor:Make;FontgenD:Make;JoystickD:Make;KeymapD:Make;RecorderD:Make;ScreenSaverD:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

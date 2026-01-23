@@ -1,4 +1,4 @@
-unit fFontgenD;
+unit fdFontgen;
 
 interface
 

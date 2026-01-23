@@ -125,10 +125,10 @@
         <DelphiCompile Include="$(MainSource)">
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
-        <DCCReference Include="fScreenSaver1D.pas">
+        <DCCReference Include="fdScreenSaver1.pas">
             <Form>Form1</Form>
         </DCCReference>
-        <DCCReference Include="fScreenSaver2D.pas">
+        <DCCReference Include="fdScreenSaver2.pas">
             <Form>Form2</Form>
         </DCCReference>
         <BuildConfiguration Include="Base">

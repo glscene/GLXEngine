@@ -14,6 +14,7 @@ object FormAVI: TFormAVI
   Font.Style = []
   Position = poScreenCenter
   Scaled = False
+  OnCreate = FormCreate
   OnKeyPress = FormKeyPress
   OnResize = FormResize
   TextHeight = 16
@@ -28,8 +29,6 @@ object FormAVI: TFormAVI
     PenAsTouch = False
     Align = alClient
     TabOrder = 0
-    ExplicitWidth = 560
-    ExplicitHeight = 354
   end
   object TrackBar: TTrackBar
     Left = 0
@@ -55,14 +54,14 @@ object FormAVI: TFormAVI
     Caption = '??? FPS'
     TabOrder = 2
   end
-  object Button1: TButton
+  object ButtonRecord: TButton
     Left = 199
     Top = 8
     Width = 132
     Height = 31
     Caption = 'Record to AVI...'
     TabOrder = 3
-    OnClick = Button1Click
+    OnClick = ButtonRecordClick
   end
   object GLScene1: TGLScene
     Left = 40

@@ -21,8 +21,8 @@ program ScreenSaverD;
 
 uses
   Forms,
-  fScreenSaver1D in 'fScreenSaver1D.pas' {Form1},
-  fScreenSaver2D in 'fScreenSaver2D.pas' {Form2};
+  fdScreenSaver1 in 'fdScreenSaver1.pas' {Form1},
+  fdScreenSaver2 in 'fdScreenSaver2.pas' {Form2};
 
 {$E scr}
 

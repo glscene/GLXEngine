@@ -1,4 +1,4 @@
-unit fArchiverD;
+unit fdArchiver;
 
 interface
 
@@ -28,7 +28,7 @@ uses
 
 type
 
-  TForm1 = class(TForm)
+  TFormArchiver = class(TForm)
     GLCadencer1: TGLCadencer;
     GLCamera: TGLCamera;
     GLDummyCube1: TGLDummyCube;
@@ -48,21 +48,18 @@ type
   end;
 
 var
-  Form1: TForm1;
+  FormArchiver: TFormArchiver;
 
-  // --------------------------------------------
-implementation
-
-// --------------------------------------------
+implementation //==============================================================
 
 {$R *.dfm}
 
-procedure TForm1.GLCadencer1Progress(Sender: TObject; const deltaTime, newTime: Double);
+procedure TFormArchiver.GLCadencer1Progress(Sender: TObject; const deltaTime, newTime: Double);
 begin
   GLCamera.Position.Rotate(VectorMake(0, 1, 0), deltaTime * 0.1);
 end;
 
-procedure TForm1.FormCreate(Sender: TObject);
+procedure TFormArchiver.FormCreate(Sender: TObject);
 begin
   var
     Path: TFileName := GetCurrentAssetPath();

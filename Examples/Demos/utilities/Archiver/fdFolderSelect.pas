@@ -1,6 +1,7 @@
-unit fFolderDlg;
+unit fdFolderSelect;
 
 interface
+
 
 uses
   System.SysUtils,
@@ -10,15 +11,16 @@ uses
   Vcl.Controls,
   Vcl.StdCtrls,
   Vcl.Buttons,
-  Vcl.ExtCtrls;
+  Vcl.ExtCtrls,
+  Vcl.ComCtrls,
+  Vcl.Shell.ShellCtrls;
 
 type
-  TFDialog = class(TForm)
+  TFolderSel = class(TForm)
     OKBtn: TButton;
     CancelBtn: TButton;
     Bevel1: TBevel;
     Label1: TLabel;
-    Edit1: TEdit;
   private
      
   public
@@ -26,7 +28,7 @@ type
   end;
 
 var
-  FDialog: TFDialog;
+  FolderSel: TFolderSel;
 
 implementation
 

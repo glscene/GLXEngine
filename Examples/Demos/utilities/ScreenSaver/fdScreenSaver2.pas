@@ -11,7 +11,7 @@
 
   Beginners may also be interested in the Registry access.
 }
-unit fScreenSaver2D;
+unit fdScreenSaver2;
 
 interface
 

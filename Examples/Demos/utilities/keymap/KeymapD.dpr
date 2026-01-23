@@ -12,12 +12,12 @@ program KeymapD;
 
 uses
   Forms,
-  fKeymapD in 'fKeymapD.pas' {Form1};
+  fdKeymap in 'fdKeymap.pas' {FormKeymap};
 
 {$R *.RES}
 
 begin
   Application.Initialize;
-  Application.CreateForm(TForm1, Form1);
+  Application.CreateForm(TFormKeymap, FormKeymap);
   Application.Run;
 end.

@@ -11,7 +11,7 @@ program JoystickD;
 
 uses
   Forms,
-  fJoystickD in 'fJoystickD.pas' {Form1};
+  fdJoystick in 'fdJoystick.pas' {Form1};
 
 {$R *.RES}
 

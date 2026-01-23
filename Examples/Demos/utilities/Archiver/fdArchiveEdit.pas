@@ -1,4 +1,4 @@
-unit fMainD;
+unit fdArchiveEdit;
 
 interface
 
@@ -18,13 +18,14 @@ uses
   Vcl.ComCtrls,
   Vcl.Imaging.Jpeg,
 
+  Stage.VectorTypes,
+  Stage.VectorGeometry,
+  Stage.Utils,
+
   GLS.ArchiveManager,
   GLS.SceneViewer,
-
   GLS.BaseClasses,
-  Stage.VectorTypes,
   GLS.Scene,
-  Stage.VectorGeometry,
   GLS.SimpleNavigation,
   GLS.Material,
   GLS.VectorFileObjects,
@@ -33,7 +34,6 @@ uses
   GLS.Graphics,
   GLS.State,
   GLS.CompositeImage,
-
   GLS.FileJPEG,
   GLS.PAKArchive,
   GLS.FileZLIB,
@@ -47,9 +47,8 @@ uses
   GLS.FileSMD,
   GLS.FileTGA,
   GLS.FilePNG,
-  GLS.FileDDS,
-
-  Stage.Utils;
+  GLS.FileDDS, Vcl.ShellAnimations
+  ;
 
 type
   TForm1 = class(TForm)
@@ -90,6 +89,7 @@ type
     PanelTree: TPanel;
     TreeView: TTreeView;
     GLSceneViewer1: TGLSceneViewer;
+    ShellResources1: TShellResources;
     procedure FormCreate(Sender: TObject);
     procedure TreeViewRefresh;
     procedure FileListRefresh;
@@ -128,13 +128,11 @@ var
   Archive: TGLLibArchive;
   vMenu: TMenuItem;
 
-//-------------------------------------
-implementation
-//-------------------------------------
+implementation //==============================================================
 
 uses
-  fFolderDlg, 
-  FolderSelect;
+  fdFolderDlg,
+  fdFolderSelect;
 
 {$R *.dfm}
 {$R icons.res}

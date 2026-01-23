@@ -1,4 +1,4 @@
-object Form1: TForm1
+object FormKeymap: TFormKeymap
   Left = 209
   Top = 108
   Margins.Left = 2

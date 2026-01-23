@@ -1,33 +1,32 @@
 object Form2: TForm2
   Left = 209
   Top = 124
+  Margins.Left = 2
+  Margins.Top = 2
+  Margins.Right = 2
+  Margins.Bottom = 2
   BorderStyle = bsNone
   BorderWidth = 2
   Caption = 'Form2'
-  ClientHeight = 346
-  ClientWidth = 590
+  ClientHeight = 277
+  ClientWidth = 472
   Color = clBtnShadow
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
-  Font.Height = -14
+  Font.Height = -11
   Font.Name = 'MS Sans Serif'
   Font.Style = []
   Position = poScreenCenter
   OnCreate = FormCreate
-  PixelsPerInch = 120
-  TextHeight = 16
+  TextHeight = 13
   object GLSceneViewer1: TGLSceneViewer
     Left = 0
     Top = 0
-    Width = 590
-    Height = 346
-    Margins.Left = 4
-    Margins.Top = 4
-    Margins.Right = 4
-    Margins.Bottom = 4
+    Width = 472
+    Height = 277
     Camera = GLCamera1
     Buffer.BackgroundColor = clBlack
-    FieldOfView = 147.759582519531300000
+    FieldOfView = 140.299743652343800000
     PenAsTouch = False
     Align = alClient
     OnMouseDown = GLSceneViewer1MouseDown
@@ -35,14 +34,10 @@ object Form2: TForm2
     TabOrder = 0
   end
   object Button1: TButton
-    Left = 350
-    Top = 230
-    Width = 94
-    Height = 31
-    Margins.Left = 4
-    Margins.Top = 4
-    Margins.Right = 4
-    Margins.Bottom = 4
+    Left = 280
+    Top = 184
+    Width = 75
+    Height = 25
     Cancel = True
     Caption = 'Ok'
     Default = True
@@ -52,14 +47,10 @@ object Form2: TForm2
     TabOrder = 1
   end
   object Button2: TButton
-    Left = 180
-    Top = 235
-    Width = 121
-    Height = 24
-    Margins.Left = 4
-    Margins.Top = 4
-    Margins.Right = 4
-    Margins.Bottom = 4
+    Left = 144
+    Top = 188
+    Width = 97
+    Height = 19
     Caption = 'Define Password'
     ParentShowHint = False
     ShowHint = False

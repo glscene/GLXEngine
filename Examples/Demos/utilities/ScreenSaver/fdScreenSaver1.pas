@@ -1,4 +1,4 @@
-unit fScreenSaver1D;
+unit fdScreenSaver1;
 
 interface
 
