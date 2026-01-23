@@ -43,4 +43,19 @@ object FolderSel: TFolderSel
     ModalResult = 2
     TabOrder = 1
   end
+  object ShellView: TShellTreeView
+    Left = 16
+    Top = 32
+    Width = 281
+    Height = 265
+    ObjectTypes = [otFolders]
+    Root = 'rfDesktop'
+    UseShellImages = True
+    AutoRefresh = False
+    Indent = 19
+    ParentColor = False
+    RightClickSelect = True
+    ShowRoot = False
+    TabOrder = 2
+  end
 end

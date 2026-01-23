@@ -20,6 +20,7 @@ type
     OKBtn: TButton;
     CancelBtn: TButton;
     Bevel1: TBevel;
+    ShellView: TShellTreeView;
     Label1: TLabel;
   private
      
