@@ -2,9 +2,9 @@
 // The graphics GaLaXy Engine. The unit of GLScene
 //
 unit GLS.Behaviours;
-
-(* Standard TGLBehaviour subclasses *)
-
+(*
+Standard TGLBehaviour subclasses
+*)
 interface
 
 {$I Stage.Defines.inc}

@@ -280,11 +280,11 @@ type
 
 type
   TGLStarSysData = record
-    NbStar: byte; // Only 1 allowed so far
-    NbPlanet: byte;
-    NbAsteroid: byte;
-    NbComet: byte;
-    NbDebris: byte;
+    NbStar: Byte; // Only 1 allowed so far
+    NbPlanet: Byte;
+    NbAsteroid: Byte;
+    NbComet: Byte;
+    NbDebris: Byte;
   end;
 
   TGLStarData = record // Also equal to material texture
@@ -293,8 +293,8 @@ type
     Radius: Double;
     ObjectRotation: Double;
     AxisTilt: Double;
-    nbS3ds: byte;
-    DocIndex: byte;
+    nbS3ds: Byte;
+    DocIndex: Byte;
     StarSysScale: Double;
     StarDistanceScale: Double;
   end;
@@ -305,10 +305,10 @@ type
     Radius: Double;
     ObjectRotation: Double;
     AxisTilt: Double;
-    nbRings: byte;
-    nbMoons: byte;
-    nbS3ds: byte;
-    DocIndex: byte;
+    nbRings: Byte;
+    nbMoons: Byte;
+    nbS3ds: Byte;
+    DocIndex: Byte;
 
     Albedo, OrbitRotation: Double;
     aDistance, aDistanceVar: Double; // aConstEdit aVarEdit
@@ -319,7 +319,7 @@ type
     mAnomaly, mAnomalyVar: Double; // MConstEdit MVarEdit
 
     Mass, Density: Double;
-    Atmosphere, VelocityType: byte;
+    Atmosphere, VelocityType: Byte;
     (* Which way does the wind blow Given a direction
       0 to 100 or 1 to 100 is that 100 or 101 *)
     Velocity, VelocityDir: Double;
@@ -332,7 +332,7 @@ type
     ObjectRotation: Double;
     AxisTilt: Double;
     S3dsTex: Boolean;
-    DocIndex: byte;
+    DocIndex: Byte;
     Mass, Density: Double;
 
     RCDType, RCDCount: Integer;
@@ -346,7 +346,7 @@ type
     wPerihelion, wPerihelionVar: Double;
     mAnomaly, mAnomalyVar: Double;
 
-    Atmosphere, VelocityType: byte;
+    Atmosphere, VelocityType: Byte;
     Velocity, VelocityDir: Double;
   end;
 
@@ -356,8 +356,8 @@ type
     Radius: Double;
     ObjectRotation: Double;
     AxisTilt: Double;
-    nbS3ds: byte;
-    DocIndex: byte;
+    nbS3ds: Byte;
+    DocIndex: Byte;
     RCDType, RCDCount: Integer;
     RCDXYSize, RCDZSize, RCDPosition: Double;
     Albedo, OrbitRotation: Double;
@@ -368,7 +368,7 @@ type
     wPerihelion, wPerihelionVar: Double;
     mAnomaly, mAnomalyVar: Double;
     Mass, Density: Double;
-    Atmosphere, VelocityType: byte;
+    Atmosphere, VelocityType: Byte;
     Velocity, VelocityDir: Double;
   end;
 
@@ -479,7 +479,7 @@ function LonLatToPos(Lon, Lat: Single): TAffineVector;
 // Computes star color from BV index (RGB) and magnitude (alpha)
 function StarRecordColor(const starRecord: TGLStarRecord; bias: Single): TVector4f;
 
-implementation //-------------------------------------------------------------
+implementation //==============================================================
 
 uses
   GLS.Context,

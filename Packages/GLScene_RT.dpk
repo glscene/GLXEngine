@@ -267,7 +267,8 @@ contains
   Stage.Utils in '..\Src\Stage.Utils.pas',
   Stage.VectorGeometry in '..\Src\Stage.VectorGeometry.pas',
   Stage.VectorTypes in '..\Src\Stage.VectorTypes.pas',
-  Stage.VectorTypesExt in '..\Src\Stage.VectorTypesExt.pas';
+  Stage.VectorTypesExt in '..\Src\Stage.VectorTypesExt.pas',
+  GLS.Vehicles in '..\Source\GLS.Vehicles.pas';
 
 end.
 

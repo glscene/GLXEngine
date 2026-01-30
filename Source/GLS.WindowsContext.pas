@@ -78,9 +78,7 @@ var
     destruction *)
   vUseWindowTrackingHook: Boolean = True;
 
-// ------------------------------------------------------------------
-implementation
-// ------------------------------------------------------------------
+implementation //==============================================================
 
 var
   vTrackingCount: Integer;
