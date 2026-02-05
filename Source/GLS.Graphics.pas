@@ -3009,7 +3009,7 @@ end;
 
 type
   PFileFormat = ^TFileFormat;
-
+  TGetFileFormatFunc = function ():TList;
   TFileFormat = record
     GraphicClass: TGraphicClass;
     Extension: string;
@@ -3022,40 +3022,45 @@ type
   {$DEFINE HackTPictureRegisteredFormats_Disable_RangeCheck}
   {$R-}
 {$ENDIF}
+{$Q-}
 procedure HackTPictureRegisteredFormats(destList: TStrings);
+const
+  kOperationsOffset: Cardinal = {$IFDEF WIN32}16{$ELSE}17{$ENDIF};
+  kCallOffset: Cardinal = 4;
 var
-  pRegisterFileFormat, pCallGetFileFormat, pGetFileFormats, pFileFormats: PAnsiChar;
-  iCall: cardinal;
+  LRegisterFileFormat, LCallGetFileFormat: Cardinal;
+  LCallShift: Cardinal;
+  LGetFileFormats, LFileFormats: Cardinal;
+
   i: integer;
-  list: TList;
-  fileFormat: PFileFormat;
+  LList: TList;
+  LFileFormat: PFileFormat;
 begin
   {$MESSAGE WARN 'HackTPictureRegisteredFormats will crash when Graphics.pas is compiled with the 'Use Debug DCUs' option'}
+  LRegisterFileFormat := Cardinal(@TPicture.RegisterFileFormat);
+//  if pRegisterFileFormat[0] = #$FF then // in case of BPL redirector
+//    pRegisterFileFormat := PAnsiChar(PCardinal(PCardinal(@pRegisterFileFormat[2])^)^);
+  LCallGetFileFormat := LRegisterFileFormat + kOperationsOffset;
+  LCallShift := PCardinal(LCallGetFileFormat)^;
+  LGetFileFormats := Cardinal(LCallGetFileFormat + LCallShift + kCallOffset);
+  LList := TGetFileFormatFunc(LGetFileFormats)();
 
-  pRegisterFileFormat := PAnsiChar(@TPicture.RegisterFileFormat);
-  if pRegisterFileFormat[0] = #$FF then // in case of BPL redirector
-    pRegisterFileFormat := PAnsiChar(PCardinal(PCardinal(@pRegisterFileFormat[2])^)^);
-  pCallGetFileFormat := @pRegisterFileFormat[16];
-  iCall := PCardinal(pCallGetFileFormat)^;
-  pGetFileFormats := @pCallGetFileFormat[iCall + 4];
-  pFileFormats := PAnsiChar(PCardinal(@pGetFileFormats[2])^);
-  list := TList(PCardinal(pFileFormats)^);
-
-  if list <> nil then
+  if LList <> nil then
   begin
-    for i := 0 to list.Count - 1 do
+    for i := 0 to LList.Count - 1 do
     begin
-      fileFormat := PFileFormat(list[i]);
-      destList.AddObject(fileFormat.Extension + '=' + fileFormat.Description,
-        TObject(fileFormat.GraphicClass));
+      LFileFormat := PFileFormat(LList[i]);
+      destList.AddObject(LFileFormat.Extension + '=' + LFileFormat.Description,
+        TObject(LFileFormat.GraphicClass));
     end;
   end;
 end;
-
+{$Q+}
 {$IFDEF HackTPictureRegisteredFormats_Disable_RangeCheck}
   {$R+}
   {$UNDEF HackTPictureRegisteredFormats_Disable_RangeCheck}
 {$ENDIF}
+
 
 //---------------------------------------------------
 initialization
