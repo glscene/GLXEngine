@@ -15,15 +15,15 @@ uses
   Vcl.ComCtrls,
   Vcl.ExtCtrls,
 
-  fColumnD,
-  fEventsD,
-  fHierarchD,
-  fManualD,
-  fObjmoveD,
-  fPointtoD,
-  fPongD,
-  fSmoothNaviD,
-  fTweeningD;
+  fdColumn,
+  fdEvents,
+  fdHierarch,
+  fdManual,
+  fdObjmove,
+  fdPointto,
+  fdPong,
+  fdSmoothNavi,
+  fdTweening;
 
 type
   TFormMovements = class(TForm)
@@ -40,7 +40,7 @@ type
 var
   FormMovements: TFormMovements;
 
-implementation
+implementation //============================================================
 
 {$R *.dfm}
 
@@ -128,7 +128,6 @@ begin
         FormTweening.BorderStyle := bsNone;
         FormTweening.Show;
       end;
-
   end;
 end;
 

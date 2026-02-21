@@ -1,4 +1,4 @@
-unit fActorTwocamD;
+unit fdActorTwocam;
 
 interface
 
@@ -77,7 +77,7 @@ type
 var
   FormActorTwocam: TFormActorTwocam;
 
-implementation
+implementation //==============================================================
 
 {$R *.DFM}
 

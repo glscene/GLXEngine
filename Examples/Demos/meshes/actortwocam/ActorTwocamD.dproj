@@ -124,7 +124,7 @@
         <DelphiCompile Include="$(MainSource)">
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
-        <DCCReference Include="fActorTwocamD.pas">
+        <DCCReference Include="fdActorTwocam.pas">
             <Form>FormActorTwocam</Form>
         </DCCReference>
         <BuildConfiguration Include="Base">

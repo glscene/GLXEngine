@@ -3,15 +3,15 @@ program MovementsD;
 uses
   Vcl.Forms,
   fdMovements in 'fdMovements.pas' {FormMovements},
-  fColumnD in 'column\fColumnD.pas' {FormColumn},
-  fEventsD in 'events\fEventsD.pas' {FormEvents},
-  fHierarchD in 'hierarch\fHierarchD.pas' {FormHierarchy},
-  fManualD in 'manual\fManualD.pas' {FormManual},
-  fObjmoveD in 'objmove\fObjmoveD.pas' {FormObjmove},
-  fPointtoD in 'pointto\fPointtoD.pas' {FormPointto},
-  fPongD in 'pong\fPongD.pas' {FormPong},
-  fSmoothNaviD in 'smoothnavi\fSmoothNaviD.pas' {FormSmoothNavigator},
-  fTweeningD in 'tweening\fTweeningD.pas' {FormTweening};
+  fdColumn in 'column\fdColumn.pas' {FormColumn},
+  fdEvents in 'events\fdEvents.pas' {FormEvents},
+  fdHierarch in 'hierarch\fdHierarch.pas' {FormHierarchy},
+  fdManual in 'manual\fdManual.pas' {FormManual},
+  fdObjmove in 'objmove\fdObjmove.pas' {FormObjmove},
+  fdPointto in 'pointto\fdPointto.pas' {FormPointto},
+  fdPong in 'pong\fdPong.pas' {FormPong},
+  fdSmoothNavi in 'smoothnavi\fdSmoothNavi.pas' {FormSmoothNavigator},
+  fdTweening in 'tweening\fdTweening.pas' {FormTweening};
 
 {$R *.res}
 

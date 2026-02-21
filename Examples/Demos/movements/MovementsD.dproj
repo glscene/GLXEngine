@@ -129,39 +129,39 @@
             <Form>FormMovements</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="column\fColumnD.pas">
+        <DCCReference Include="column\fdColumn.pas">
             <Form>FormColumn</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="events\fEventsD.pas">
+        <DCCReference Include="events\fdEvents.pas">
             <Form>FormEvents</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="hierarch\fHierarchD.pas">
+        <DCCReference Include="hierarch\fdHierarch.pas">
             <Form>FormHierarchy</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="manual\fManualD.pas">
+        <DCCReference Include="manual\fdManual.pas">
             <Form>FormManual</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="objmove\fObjmoveD.pas">
+        <DCCReference Include="objmove\fdObjmove.pas">
             <Form>FormObjmove</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="pointto\fPointtoD.pas">
+        <DCCReference Include="pointto\fdPointto.pas">
             <Form>FormPointto</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="pong\fPongD.pas">
+        <DCCReference Include="pong\fdPong.pas">
             <Form>FormPong</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="smoothnavi\fSmoothNaviD.pas">
+        <DCCReference Include="smoothnavi\fdSmoothNavi.pas">
             <Form>FormSmoothNavigator</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="tweening\fTweeningD.pas">
+        <DCCReference Include="tweening\fdTweening.pas">
             <Form>FormTweening</Form>
             <FormType>dfm</FormType>
         </DCCReference>

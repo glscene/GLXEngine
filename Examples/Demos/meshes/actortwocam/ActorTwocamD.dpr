@@ -23,7 +23,7 @@ program ActorTwocamD;
 
 uses
   Forms,
-  fActorTwocamD in 'fActorTwocamD.pas' {FormActorTwocam};
+  fdActorTwocam in 'fdActorTwocam.pas' {FormActorTwocam};
 
 {$R *.RES}
 

@@ -1,45 +1,33 @@
 object FormMovements: TFormMovements
   Left = 0
   Top = 0
-  Margins.Left = 5
-  Margins.Top = 5
-  Margins.Right = 5
-  Margins.Bottom = 5
   Caption = 'Movements'
-  ClientHeight = 814
-  ClientWidth = 1138
+  ClientHeight = 465
+  ClientWidth = 650
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
-  Font.Height = -21
+  Font.Height = -12
   Font.Name = 'Segoe UI'
   Font.Style = []
   Position = poScreenCenter
   OnCreate = FormCreate
-  PixelsPerInch = 168
-  TextHeight = 30
+  TextHeight = 15
   object PanelLeft: TPanel
     Left = 0
     Top = 0
-    Width = 226
-    Height = 814
-    Margins.Left = 5
-    Margins.Top = 5
-    Margins.Right = 5
-    Margins.Bottom = 5
+    Width = 129
+    Height = 465
     Align = alLeft
     TabOrder = 0
+    ExplicitHeight = 440
     object tvMovements: TTreeView
       Left = 1
       Top = 1
-      Width = 224
-      Height = 812
-      Margins.Left = 5
-      Margins.Top = 5
-      Margins.Right = 5
-      Margins.Bottom = 5
+      Width = 127
+      Height = 463
       Align = alClient
-      Indent = 33
+      Indent = 19
       TabOrder = 0
       OnClick = tvMovementsClick
       Items.NodeData = {
@@ -58,25 +46,20 @@ object FormMovements: TFormMovements
         FFFFFFFFFFFFFF00000000000000000000000000010A73006D006F006F007400
         68006E0061007600690000002F0000000000000000000000FFFFFFFFFFFFFFFF
         00000000000000000000000000010874007700650065006E0069006E006700}
+      ExplicitHeight = 438
     end
   end
   object PageControl: TPageControl
-    Left = 226
+    Left = 129
     Top = 0
-    Width = 912
-    Height = 814
-    Margins.Left = 5
-    Margins.Top = 5
-    Margins.Right = 5
-    Margins.Bottom = 5
+    Width = 521
+    Height = 465
     ActivePage = tsMovements
     Align = alClient
     TabOrder = 1
+    ExplicitWidth = 513
+    ExplicitHeight = 440
     object tsMovements: TTabSheet
-      Margins.Left = 5
-      Margins.Top = 5
-      Margins.Right = 5
-      Margins.Bottom = 5
       Caption = 'Movements'
       TabVisible = False
     end
