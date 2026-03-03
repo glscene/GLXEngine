@@ -289,7 +289,7 @@ type
 
   TGLStarData = record // Also equal to material texture
     (* ONLY .jpg;  Expected: .bmp  .tif  .tga  .png ignored *)
-    StarName: String[255];
+    StarName: string;
     Radius: Double;
     ObjectRotation: Double;
     AxisTilt: Double;
@@ -301,7 +301,7 @@ type
 
   TGLPlanetData = record
     // Planet.jpg .. Planet_bump.jpg
-    Name: String[255];
+    Name: string;
     Radius: Double;
     ObjectRotation: Double;
     AxisTilt: Double;
@@ -327,7 +327,7 @@ type
 
   // 3ds files and DebrisAsteroid too
   TGLMoonRingData = record
-    Name: String[255];
+    Name: string;
     Radius: Double;
     ObjectRotation: Double;
     AxisTilt: Double;
@@ -352,7 +352,7 @@ type
 
   // Asteroid Comet spheres..NOT DebrisAsteroid
   TGLAsteroidData = record
-    Name: String[255];
+    Name: string;
     Radius: Double;
     ObjectRotation: Double;
     AxisTilt: Double;
@@ -630,16 +630,19 @@ begin
     // the bigger, the more this extends the clouds cap to the horizon
 end;
 
+//----------------------------------------------------------------------------
 destructor TGLSkyBox.Destroy;
 begin
   inherited;
 end;
 
+//----------------------------------------------------------------------------
 function TGLSkyBox.GetMaterialLibrary: TGLAbstractMaterialLibrary;
 begin
   Result := FMaterialLibrary;
 end;
 
+//----------------------------------------------------------------------------
 procedure TGLSkyBox.Notification(AComponent: TComponent; Operation: TOperation);
 begin
   if (Operation = opRemove) and (AComponent = FMaterialLibrary) then
@@ -647,6 +650,7 @@ begin
   inherited;
 end;
 
+//----------------------------------------------------------------------------
 procedure TGLSkyBox.DoRender(var ARci: TGLRenderContextInfo; ARenderSelf,
   ARenderChildren: Boolean);
 begin
@@ -660,6 +664,7 @@ begin
   Arci.ignoreDepthRequests := False;
 end;
 
+//----------------------------------------------------------------------------
 procedure TGLSkyBox.BuildList(var ARci: TGLRenderContextInfo);
 var
   f, cps, cof1: Single;
@@ -668,7 +673,6 @@ var
 begin
   if FMaterialLibrary = nil then
     Exit;
-
   with ARci.GLStates do
   begin
     oldStates := States;
@@ -676,11 +680,9 @@ begin
     Disable(stLighting);
     Disable(stFog);
   end;
-
   gl.PushMatrix;
   f := ARci.rcci.farClippingDistance * 0.5;
   gl.Scalef(f, f, f);
-
   try
     case Style of
       sbsFull: ;
@@ -700,7 +702,6 @@ begin
           gl.Scalef(1, 2 / 3, 1);
         end;
     end;
-
     // FRONT
     libMat := MaterialLibrary.LibMaterialByName(FMatNameFront);
     if libMat <> nil then
@@ -875,80 +876,88 @@ begin
         gl.End_;
       until not libMat.UnApply(ARci);
     end;
-
     gl.PopMatrix;
-
     if stLighting in oldStates then
       ARci.GLStates.Enable(stLighting);
     if stFog in oldStates then
       ARci.GLStates.Enable(stFog);
     if stDepthTest in oldStates then
       ARci.GLStates.Enable(stDepthTest);
-
   finally
   end;
 end;
 
+//----------------------------------------------------------------------------
 procedure TGLSkyBox.SetCloudsPlaneOffset(const Value: single);
 begin
   FCloudsPlaneOffset := Value;
   StructureChanged;
 end;
 
+//----------------------------------------------------------------------------
 procedure TGLSkyBox.SetCloudsPlaneSize(const Value: single);
 begin
   FCloudsPlaneSize := Value;
   StructureChanged;
 end;
 
+//----------------------------------------------------------------------------
 procedure TGLSkyBox.SetStyle(const value: TGLSkyBoxStyle);
 begin
   FStyle := value;
   StructureChanged;
 end;
 
+//----------------------------------------------------------------------------
 procedure TGLSkyBox.SetMaterialLibrary(const value: TGLMaterialLibrary);
 begin
   FMaterialLibrary := value;
   StructureChanged;
 end;
 
+//----------------------------------------------------------------------------
 procedure TGLSkyBox.SetMatNameBack(const Value: string);
 begin
   FMatNameBack := Value;
   StructureChanged;
 end;
 
+//----------------------------------------------------------------------------
 procedure TGLSkyBox.SetMatNameBottom(const Value: string);
 begin
   FMatNameBottom := Value;
   StructureChanged;
 end;
 
+//----------------------------------------------------------------------------
 procedure TGLSkyBox.SetMatNameClouds(const Value: string);
 begin
   FMatNameClouds := Value;
   StructureChanged;
 end;
 
+//----------------------------------------------------------------------------
 procedure TGLSkyBox.SetMatNameFront(const Value: string);
 begin
   FMatNameFront := Value;
   StructureChanged;
 end;
 
+//----------------------------------------------------------------------------
 procedure TGLSkyBox.SetMatNameLeft(const Value: string);
 begin
   FMatNameLeft := Value;
   StructureChanged;
 end;
 
+//----------------------------------------------------------------------------
 procedure TGLSkyBox.SetMatNameRight(const Value: string);
 begin
   FMatNameRight := Value;
   StructureChanged;
 end;
 
+//----------------------------------------------------------------------------
 procedure TGLSkyBox.SetMatNameTop(const Value: string);
 begin
   FMatNameTop := Value;
@@ -971,6 +980,7 @@ begin
   FStacks := 1;
 end;
 
+//----------------------------------------------------------------------------
 destructor TGLSkyDomeBand.Destroy;
 begin
   FStartColor.Free;
@@ -978,7 +988,7 @@ begin
   inherited Destroy;
 end;
 
-//----------------------------------------------------------------------
+//----------------------------------------------------------------------------
 procedure TGLSkyDomeBand.Assign(Source: TPersistent);
 begin
   if Source is TGLSkyDomeBand then
@@ -993,11 +1003,13 @@ begin
   inherited Destroy;
 end;
 
+//----------------------------------------------------------------------------
 function TGLSkyDomeBand.GetDisplayName: string;
 begin
   Result := Format('%d: %.1f° - %.1f°', [Index, StartAngle, StopAngle]);
 end;
 
+//----------------------------------------------------------------------------
 procedure TGLSkyDomeBand.SetStartAngle(const val: Single);
 begin
   FStartAngle := ClampValue(val, -90, 90);
@@ -1006,12 +1018,13 @@ begin
   TGLSkyDomeBands(Collection).NotifyChange;
 end;
 
+//----------------------------------------------------------------------------
 procedure TGLSkyDomeBand.SetStartColor(const val: TGLColor);
 begin
   FStartColor.Assign(val);
 end;
 
-//----------------------------------------------------------------------
+//----------------------------------------------------------------------------
 procedure TGLSkyDomeBand.SetStopAngle(const val: Single);
 begin
   FStopAngle := ClampValue(val, -90, 90);
@@ -1020,11 +1033,13 @@ begin
   TGLSkyDomeBands(Collection).NotifyChange;
 end;
 
+//----------------------------------------------------------------------------
 procedure TGLSkyDomeBand.SetStopColor(const val: TGLColor);
 begin
   FStopColor.Assign(val);
 end;
 
+//----------------------------------------------------------------------------
 procedure TGLSkyDomeBand.SetSlices(const val: Integer);
 begin
   if val < 3 then
@@ -1034,6 +1049,7 @@ begin
   TGLSkyDomeBands(Collection).NotifyChange;
 end;
 
+//----------------------------------------------------------------------------
 procedure TGLSkyDomeBand.SetStacks(const val: Integer);
 begin
   if val < 1 then
@@ -1043,17 +1059,20 @@ begin
   TGLSkyDomeBands(Collection).NotifyChange;
 end;
 
+//----------------------------------------------------------------------------
 procedure TGLSkyDomeBand.OnColorChange(sender: TObject);
 begin
   TGLSkyDomeBands(Collection).NotifyChange;
 end;
 
-//----------------------------------------------------------------------
+//----------------------------------------------------------------------------
 procedure TGLSkyDomeBand.BuildList(var rci: TGLRenderContextInfo);
 // coordinates system note: X is forward, Y is left and Z is up
 // always rendered as sphere of radius 1
-
-  procedure RenderBand(start, stop: Single;
+var
+  n: Integer;
+  t, t2: Single;
+  (*sub*)procedure RenderBand(start, stop: Single;
     const colStart, colStop: TGLColorVector);
   var
     i: Integer;
@@ -1114,9 +1133,6 @@ procedure TGLSkyDomeBand.BuildList(var rci: TGLRenderContextInfo);
     end;
   end;
 
-var
-  n: Integer;
-  t, t2: Single;
 begin
   if StartAngle = StopAngle then
     Exit;
@@ -1139,38 +1155,44 @@ begin
   inherited Create(TGLSkyDomeBand);
 end;
 
+//----------------------------------------------------------------------------
 function TGLSkyDomeBands.GetOwner: TPersistent;
 begin
   Result := owner;
 end;
 
-//----------------------------------------------------------------------
+//----------------------------------------------------------------------------
 procedure TGLSkyDomeBands.SetItems(index: Integer; const val: TGLSkyDomeBand);
 begin
   inherited Items[index] := val;
 end;
 
+//----------------------------------------------------------------------------
 function TGLSkyDomeBands.GetItems(index: Integer): TGLSkyDomeBand;
 begin
   Result := TGLSkyDomeBand(inherited Items[index]);
 end;
 
+//----------------------------------------------------------------------------
 function TGLSkyDomeBands.Add: TGLSkyDomeBand;
 begin
   Result := (inherited Add) as TGLSkyDomeBand;
 end;
 
+//----------------------------------------------------------------------------
 function TGLSkyDomeBands.FindItemID(ID: Integer): TGLSkyDomeBand;
 begin
   Result := (inherited FindItemID(ID)) as TGLSkyDomeBand;
 end;
 
+//----------------------------------------------------------------------------
 procedure TGLSkyDomeBands.NotifyChange;
 begin
   if Assigned(owner) and (owner is TGLBaseSceneObject) then
     TGLBaseSceneObject(owner).StructureChanged;
 end;
 
+//----------------------------------------------------------------------------
 procedure TGLSkyDomeBands.BuildList(var rci: TGLRenderContextInfo);
 var
   i: Integer;
@@ -1187,11 +1209,13 @@ begin
   inherited Create(Collection);
 end;
 
+//----------------------------------------------------------------------------
 destructor TGLSkyDomeStar.Destroy;
 begin
   inherited Destroy;
 end;
 
+//----------------------------------------------------------------------------
 procedure TGLSkyDomeStar.Assign(Source: TPersistent);
 begin
   if Source is TGLSkyDomeStar then
@@ -1205,7 +1229,7 @@ begin
   inherited Destroy;
 end;
 
-//----------------------------------------------------------------------
+//----------------------------------------------------------------------------
 function TGLSkyDomeStar.GetDisplayName: string;
 begin
   Result := Format('RA: %5.1f / Dec: %5.1f', [RA, DEC]);
@@ -1220,32 +1244,37 @@ begin
   inherited Create(TGLSkyDomeStar);
 end;
 
+//----------------------------------------------------------------------------
 function TGLSkyDomeStars.GetOwner: TPersistent;
 begin
   Result := owner;
 end;
 
+//----------------------------------------------------------------------------
 procedure TGLSkyDomeStars.SetItems(index: Integer; const val: TGLSkyDomeStar);
 begin
   inherited Items[index] := val;
 end;
 
+//----------------------------------------------------------------------------
 function TGLSkyDomeStars.GetItems(index: Integer): TGLSkyDomeStar;
 begin
   Result := TGLSkyDomeStar(inherited Items[index]);
 end;
 
+//----------------------------------------------------------------------------
 function TGLSkyDomeStars.Add: TGLSkyDomeStar;
 begin
   Result := (inherited Add) as TGLSkyDomeStar;
 end;
 
+//----------------------------------------------------------------------------
 function TGLSkyDomeStars.FindItemID(ID: Integer): TGLSkyDomeStar;
 begin
   Result := (inherited FindItemID(ID)) as TGLSkyDomeStar;
 end;
 
-//----------------------------------------------------------------------
+//----------------------------------------------------------------------------
 procedure TGLSkyDomeStars.PrecomputeCartesianCoordinates;
 var
   i: Integer;
@@ -1264,7 +1293,7 @@ begin
   end;
 end;
 
-//----------------------------------------------------------------------
+//----------------------------------------------------------------------------
 procedure TGLSkyDomeStars.BuildList(var rci: TGLRenderContextInfo;
   twinkle: Boolean);
 var
@@ -1344,7 +1373,7 @@ begin
   rci.GLStates.SetGLAlphaFunction(cfGreater, 0);
 end;
 
-//----------------------------------------------------------------------
+//----------------------------------------------------------------------------
 procedure TGLSkyDomeStars.AddRandomStars(const nb: Integer; const Color: TColor;
   const LimitToTopDome: Boolean = False);
 var
@@ -1370,21 +1399,20 @@ begin
   end;
 end;
 
-//-----------------------------------------------------------------------
+//----------------------------------------------------------------------------
 procedure TGLSkyDomeStars.AddRandomStars(const nb: Integer;
   const ColorMin, ColorMax: TVector3b;
   const Magnitude_min, Magnitude_max: Single;
   const LimitToTopDome: Boolean = False);
-
-  function RandomTT(Min, Max: Byte): Byte;
-  begin
-    Result := Min + Random(Max - Min);
-  end;
-
 var
   i: Integer;
   coord: TAffineVector;
   star: TGLSkyDomeStar;
+
+  (*sub*)function RandomTT(Min, Max: Byte): Byte;
+  begin
+    Result := Min + Random(Max - Min);
+  end;
 
 begin
   for i := 1 to nb do
@@ -1406,7 +1434,7 @@ begin
   end;
 end;
 
-//----------------------------------------------------------------------
+//----------------------------------------------------------------------------
 procedure TGLSkyDomeStars.LoadStarsFile(const starsFileName: string);
 var
   fs: TFileStream;
@@ -1462,6 +1490,7 @@ begin
   FStars := TGLSkyDomeStars.Create(Self);
 end;
 
+//----------------------------------------------------------------------------
 destructor TGLSkyDome.Destroy;
 begin
   FStars.Free;
@@ -1469,7 +1498,7 @@ begin
   inherited Destroy;
 end;
 
-//----------------------------------------------------------------------
+//----------------------------------------------------------------------------
 procedure TGLSkyDome.Assign(Source: TPersistent);
 begin
   if Source is TGLSkyDome then
@@ -1480,13 +1509,14 @@ begin
   inherited;
 end;
 
-//----------------------------------------------------------------------
+//----------------------------------------------------------------------------
 procedure TGLSkyDome.SetBands(const val: TGLSkyDomeBands);
 begin
   FBands.Assign(val);
   StructureChanged;
 end;
 
+//----------------------------------------------------------------------------
 procedure TGLSkyDome.SetStars(const val: TGLSkyDomeStars);
 begin
   FStars.Assign(val);
@@ -1510,7 +1540,7 @@ begin
   end;
 end;
 
-//----------------------------------------------------------------------
+//----------------------------------------------------------------------------
 procedure TGLSkyDome.BuildList(var rci: TGLRenderContextInfo);
 var
   f: Single;
@@ -1526,10 +1556,8 @@ begin
     DepthWriteMask := False;
     PolygonMode := pmFill;
   end;
-
   f := rci.rcci.farClippingDistance * 0.90;
   gl.Scalef(f, f, f);
-
   Bands.BuildList(rci);
   Stars.BuildList(rci, (sdoTwinkle in FOptions));
 end;
@@ -1559,7 +1587,7 @@ begin
   PreCalculate;
 end;
 
-//----------------------------------------------------------------------
+//----------------------------------------------------------------------------
 destructor TGLEarthSkyDome.Destroy;
 begin
   FSunZenithColor.Free;
@@ -1571,7 +1599,7 @@ begin
   inherited Destroy;
 end;
 
-//----------------------------------------------------------------------
+//----------------------------------------------------------------------------
 procedure TGLEarthSkyDome.Assign(Source: TPersistent);
 begin
   if Source is TGLSkyDome then
@@ -1590,13 +1618,14 @@ begin
   inherited;
 end;
 
+//----------------------------------------------------------------------------
 procedure TGLEarthSkyDome.Loaded;
 begin
   inherited;
   PreCalculate;
 end;
 
-//----------------------------------------------------------------------
+//----------------------------------------------------------------------------
 procedure TGLEarthSkyDome.SetSunElevation(const val: Single);
 var
   newVal: Single;
@@ -1609,48 +1638,56 @@ begin
   end;
 end;
 
+//----------------------------------------------------------------------------
 procedure TGLEarthSkyDome.SetTurbidity(const val: Single);
 begin
   FTurbidity := ClampValue(val, 1, 120);
   PreCalculate;
 end;
 
+//----------------------------------------------------------------------------
 procedure TGLEarthSkyDome.SetSunZenithColor(const val: TGLColor);
 begin
   FSunZenithColor.Assign(val);
   PreCalculate;
 end;
 
+//----------------------------------------------------------------------------
 procedure TGLEarthSkyDome.SetSunDawnColor(const val: TGLColor);
 begin
   FSunDawnColor.Assign(val);
   PreCalculate;
 end;
 
+//----------------------------------------------------------------------------
 procedure TGLEarthSkyDome.SetHazeColor(const val: TGLColor);
 begin
   FHazeColor.Assign(val);
   PreCalculate;
 end;
 
+//----------------------------------------------------------------------------
 procedure TGLEarthSkyDome.SetSkyColor(const val: TGLColor);
 begin
   FSkyColor.Assign(val);
   PreCalculate;
 end;
 
+//----------------------------------------------------------------------------
 procedure TGLEarthSkyDome.SetNightColor(const val: TGLColor);
 begin
   FNightColor.Assign(val);
   PreCalculate;
 end;
 
+//----------------------------------------------------------------------------
 procedure TGLEarthSkyDome.SetDeepColor(const val: TGLColor);
 begin
   FDeepColor.Assign(val);
   PreCalculate;
 end;
 
+//----------------------------------------------------------------------------
 procedure TGLEarthSkyDome.SetSlices(const val: Integer);
 begin
   if val > 6 then
@@ -1660,6 +1697,7 @@ begin
   StructureChanged;
 end;
 
+//----------------------------------------------------------------------------
 procedure TGLEarthSkyDome.SetStacks(const val: Integer);
 begin
   if val > 1 then
@@ -1669,7 +1707,7 @@ begin
   StructureChanged;
 end;
 
-//----------------------------------------------------------------------
+//----------------------------------------------------------------------------
 procedure TGLEarthSkyDome.BuildList(var rci: TGLRenderContextInfo);
 var
   f: Single;
@@ -1693,24 +1731,22 @@ begin
     DepthWriteMask := False;
     PolygonMode := pmFill;
   end;
-
   f := rci.rcci.farClippingDistance * 0.95;
   gl.Scalef(f, f, f);
-
   RenderDome;
   Bands.BuildList(rci);
   Stars.BuildList(rci, (sdoTwinkle in FOptions));
-
   // restore
   rci.GLStates.DepthWriteMask := true;
 end;
 
+//----------------------------------------------------------------------------
 procedure TGLEarthSkyDome.OnColorChanged(sender: TObject);
 begin
   PreCalculate;
 end;
 
-//----------------------------------------------------------------------
+//----------------------------------------------------------------------------
 procedure TGLEarthSkyDome.SetSunAtTime(HH, MM: Single);
 const
   cHourToElevation1: array [0 .. 23] of Single = (-45, -67.5, -90, -57.5, -45,
@@ -1763,7 +1799,6 @@ begin
   if esoFadeStarsWithSun in ExtendedOptions then
     for i := 0 to Stars.Count - 1 do
       Stars[i].Color := Color;
-
   if esoRotateOnTwelveHours in ExtendedOptions then // spining around blue orb
   begin
     if (HH >= 14) and (FMorning) then
@@ -1773,7 +1808,6 @@ begin
         Stars[i].RA := Stars[i].RA + 180;
       FMorning := False;
     end;
-
     if (HH >= 2) and (HH < 14) and (not FMorning) then
     begin
       roll(180);
@@ -1785,7 +1819,7 @@ begin
   StructureChanged;
 end;
 
-//----------------------------------------------------------------------
+//----------------------------------------------------------------------------
 procedure TGLEarthSkyDome.PreCalculate;
 var
   ts: Single;
@@ -1803,7 +1837,6 @@ begin
   // Precalculate Turbidity factors
   FCurHazeTurbid := -sqrt(121 - Turbidity) * 2;
   FCurSunSkyTurbid := -(121 - Turbidity);
-
   // fade stars if required
   if SunElevation > -40 then
     ts := PowerInteger(1 - (SunElevation + 40) / 90, 11)
@@ -1813,7 +1846,6 @@ begin
   if esoFadeStarsWithSun in ExtendedOptions then
     for i := 0 to Stars.Count - 1 do
       Stars[i].Color := Color;
-
   if esoRotateOnTwelveHours in ExtendedOptions then
   begin
     if SunElevation = 90 then
@@ -1832,7 +1864,7 @@ begin
   StructureChanged;
 end;
 
-//----------------------------------------------------------------------
+//----------------------------------------------------------------------------
 function TGLEarthSkyDome.CalculateColor(const theta, cosGamma: Single)
   : TGLColorVector;
 var
@@ -1847,13 +1879,15 @@ begin
     ClampValue(exp(FCurSunSkyTurbid * cosGamma * (1 + t)) * 1.1, 0, 1), Result);
 end;
 
-//----------------------------------------------------------------------
+//----------------------------------------------------------------------------
 procedure TGLEarthSkyDome.RenderDome;
 var
   ts: Single;
   steps: Integer;
   sunPos: TAffineVector;
   sinTable, cosTable: PFloatArray;
+  n, i, sdiv2: Integer;
+  t, t2, p, fs: Single;
 
   (*sub*)function CalculateCosGamma(const p: TGLVector): Single;
   begin
@@ -1940,9 +1974,6 @@ var
     end;
   end;
 
-var
-  n, i, sdiv2: Integer;
-  t, t2, p, fs: Single;
 begin
   ts := DegToRadian(90 - SunElevation);
   SetVector(sunPos, sin(ts), 0, cos(ts));

@@ -3,22 +3,22 @@ program MaterialsD;
 uses
   Vcl.Forms,
   fdMaterials in 'fdMaterials.pas' {FormMaterials},
-  fCubemapD in 'cubemap\fCubemapD.pas' {FormCubeMap},
-  fCustomQuadD in 'customquad\fCustomQuadD.pas' {FormCustomQuad},
-  fDynTextureD in 'dynamictexture\fDynTextureD.pas' {FormDynamicTexture},
-  fDynCubemapD in 'dyncubemap\fDynCubemapD.pas' {FormDynCubeMap},
-  fMatScriptD in 'MaterialScript\fMatScriptD.pas' {FormMatScript},
-  fMirrorD in 'mirror\fMirrorD.pas' {FormMirror},
-  fMultiMaterialD in 'multimaterial\fMultiMaterialD.pas' {FormMultiMat},
-  fMultiPassD in 'multipass\fMultiPassD.pas' {FormMultiPass},
-  fMultiTextureD in 'multitexture\fMultiTextureD.pas' {FormMultiTexture},
-  fObjMaterialD in 'objmaterial\fObjMaterialD.pas' {FormMO},
-  fProcCloudsD in 'proceduralclouds\fProcCloudsD.pas' {FormClouds},
-  fTexAnimD in 'texanim\fTexAnimD.pas' {FormTexAnim},
-  fTexCombineD in 'texcombine\fTexCombineD.pas' {FormTexCombine},
-  fTexFormatD in 'texformat\fTexFormatD.pas' {FormTexFormat},
-  fTransparAdvD in 'TransparAdv\fTransparAdvD.pas' {FormTransparAdv},
-  fTransparencyD in 'transparency\fTransparencyD.pas' {FormTransparency};
+  fdCubemap in 'cubemap\fdCubemap.pas' {FormCubeMap},
+  fdCustomQuad in 'customquad\fdCustomQuad.pas' {FormCustomQuad},
+  fdDynTexture in 'dynamictexture\fdDynTexture.pas' {FormDynamicTexture},
+  fdDynCubemap in 'dyncubemap\fdDynCubemap.pas' {FormDynCubeMap},
+  fdMatScript in 'MaterialScript\fdMatScript.pas' {FormMatScript},
+  fdMirror in 'mirror\fdMirror.pas' {FormMirror},
+  fdMultiMaterial in 'multimaterial\fdMultiMaterial.pas' {FormMultiMat},
+  fdMultiPass in 'multipass\fdMultiPass.pas' {FormMultiPass},
+  fdMultiTexture in 'multitexture\fdMultiTexture.pas' {FormMultiTexture},
+  fdObjMaterial in 'objmaterial\fdObjMaterial.pas' {FormMO},
+  fdProcClouds in 'proceduralclouds\fdProcClouds.pas' {FormClouds},
+  fdTexAnim in 'texanim\fdTexAnim.pas' {FormTexAnim},
+  fdTexCombine in 'texcombine\fdTexCombine.pas' {FormTexCombine},
+  fdTexFormat in 'texformat\fdTexFormat.pas' {FormTexFormat},
+  fdTransparAdv in 'TransparAdv\fdTransparAdv.pas' {FormTransparAdv},
+  fdTransparency in 'transparency\fdTransparency.pas' {FormTransparency};
 
 {$R *.res}
 

@@ -15,7 +15,7 @@ program ManualD;
 
 uses
   Forms,
-  fManualD in 'fManualD.pas' {FormManual};
+  fdManual in 'fdManual.pas' {FormManual};
 
 {$R *.RES}
 

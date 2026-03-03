@@ -1,13 +1,9 @@
 object FormObjmove: TFormObjmove
   Left = 87
   Top = 128
-  Margins.Left = 5
-  Margins.Top = 5
-  Margins.Right = 5
-  Margins.Bottom = 5
   Caption = 'Moving Objects with Mouse'
-  ClientHeight = 926
-  ClientWidth = 1325
+  ClientHeight = 529
+  ClientWidth = 757
   Color = clBtnFace
   ParentFont = True
   KeyPreview = True
@@ -16,20 +12,15 @@ object FormObjmove: TFormObjmove
   OnKeyPress = FormKeyPress
   OnKeyUp = FormKeyUp
   OnMouseWheel = FormMouseWheel
-  PixelsPerInch = 168
-  TextHeight = 30
+  TextHeight = 15
   object Scene: TGLSceneViewer
     Left = 0
     Top = 0
-    Width = 1325
-    Height = 826
-    Margins.Left = 5
-    Margins.Top = 5
-    Margins.Right = 5
-    Margins.Bottom = 5
+    Width = 757
+    Height = 472
     Camera = Camera
     Buffer.BackgroundColor = clBackground
-    FieldOfView = 48.448417663574220000
+    FieldOfView = 28.836986541748050000
     PenAsTouch = False
     Align = alClient
     OnMouseDown = SceneMouseDown
@@ -38,37 +29,28 @@ object FormObjmove: TFormObjmove
   end
   object Panel1: TPanel
     Left = 0
-    Top = 826
-    Width = 1325
-    Height = 68
-    Margins.Left = 5
-    Margins.Top = 5
-    Margins.Right = 5
-    Margins.Bottom = 5
+    Top = 472
+    Width = 757
+    Height = 39
     Align = alBottom
     BevelOuter = bvNone
     TabOrder = 1
+    ExplicitTop = 447
+    ExplicitWidth = 749
     object GroupBox1: TGroupBox
       Left = 0
-      Top = -6
-      Width = 1325
-      Height = 74
-      Margins.Left = 5
-      Margins.Top = 5
-      Margins.Right = 5
-      Margins.Bottom = 5
+      Top = -3
+      Width = 757
+      Height = 42
       Align = alBottom
       Caption = 'Options'
       TabOrder = 0
+      ExplicitWidth = 749
       object ShowAxes: TCheckBox
-        Left = 9
-        Top = 32
-        Width = 254
-        Height = 29
-        Margins.Left = 5
-        Margins.Top = 5
-        Margins.Right = 5
-        Margins.Bottom = 5
+        Left = 5
+        Top = 18
+        Width = 145
+        Height = 17
         Caption = 'Show selection axes'
         Checked = True
         State = cbChecked
@@ -76,26 +58,18 @@ object FormObjmove: TFormObjmove
         OnClick = ShowAxesClick
       end
       object Button1: TButton
-        Left = 1026
-        Top = 30
-        Width = 271
-        Height = 44
-        Margins.Left = 5
-        Margins.Top = 5
-        Margins.Right = 5
-        Margins.Bottom = 5
+        Left = 586
+        Top = 17
+        Width = 155
+        Height = 25
         Caption = 'Near: (0,0) Eye -> Obj'
         TabOrder = 1
       end
       object ButtonReset: TButton
-        Left = 308
-        Top = 28
-        Width = 120
-        Height = 36
-        Margins.Left = 5
-        Margins.Top = 5
-        Margins.Right = 5
-        Margins.Bottom = 5
+        Left = 176
+        Top = 16
+        Width = 69
+        Height = 21
         Caption = 'Reset'
         TabOrder = 2
         OnClick = ButtonResetClick
@@ -104,20 +78,18 @@ object FormObjmove: TFormObjmove
   end
   object StatusBar1: TStatusBar
     Left = 0
-    Top = 894
-    Width = 1325
-    Height = 32
-    Margins.Left = 5
-    Margins.Top = 5
-    Margins.Right = 5
-    Margins.Bottom = 5
+    Top = 511
+    Width = 757
+    Height = 18
     Panels = <
       item
         Text = 
           'Select and move cubes with mouse. Default movement is on the XY ' +
           'plane. Shift + Drag moves on the XZ plane.'
-        Width = 50
+        Width = 29
       end>
+    ExplicitTop = 486
+    ExplicitWidth = 749
   end
   object GLScene1: TGLScene
     Left = 226

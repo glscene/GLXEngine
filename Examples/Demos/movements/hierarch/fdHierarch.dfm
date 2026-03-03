@@ -40,6 +40,7 @@ object FormHierarchy: TFormHierarchy
     Anchors = [akLeft, akBottom]
     Caption = 'Play'
     TabOrder = 1
+    ExplicitTop = -7
   end
   object GLScene1: TGLScene
     Left = 80

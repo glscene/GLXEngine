@@ -10,7 +10,7 @@ program PongD;
 
 uses
   Forms,
-  fPongD in 'fPongD.pas' {FormPong};
+  fdPong in 'fdPong.pas' {FormPong};
 
 {$R *.RES}
 

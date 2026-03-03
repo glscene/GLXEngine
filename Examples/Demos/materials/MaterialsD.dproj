@@ -127,69 +127,53 @@
             <Form>FormMaterials</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="cubemap\fCubemapD.pas">
+        <DCCReference Include="cubemap\fdCubemap.pas">
             <Form>FormCubeMap</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="customquad\fCustomQuadD.pas">
+        <DCCReference Include="customquad\fdCustomQuad.pas">
             <Form>FormCustomQuad</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="dynamictexture\fDynTextureD.pas">
+        <DCCReference Include="dynamictexture\fdDynTexture.pas">
             <Form>FormDynamicTexture</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="dyncubemap\fDynCubemapD.pas">
+        <DCCReference Include="dyncubemap\fdDynCubemap.pas">
             <Form>FormDynCubeMap</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="MaterialScript\fMatScriptD.pas">
+        <DCCReference Include="MaterialScript\fdMatScript.pas">
             <Form>FormMatScript</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="mirror\fMirrorD.pas">
+        <DCCReference Include="mirror\fdMirror.pas">
             <Form>FormMirror</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="multimaterial\fMultiMaterialD.pas">
+        <DCCReference Include="multimaterial\fdMultiMaterial.pas">
             <Form>FormMultiMat</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="multipass\fMultiPassD.pas">
+        <DCCReference Include="multipass\fdMultiPass.pas">
             <Form>FormMultiPass</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="multitexture\fMultiTextureD.pas">
+        <DCCReference Include="multitexture\fdMultiTexture.pas">
             <Form>FormMultiTexture</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="objmaterial\fObjMaterialD.pas">
+        <DCCReference Include="objmaterial\fdObjMaterial.pas">
             <Form>FormMO</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="proceduralclouds\fProcCloudsD.pas">
+        <DCCReference Include="proceduralclouds\fdProcClouds.pas">
             <Form>FormClouds</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="texanim\fTexAnimD.pas">
+        <DCCReference Include="texanim\fdTexAnim.pas">
             <Form>FormTexAnim</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="texcombine\fTexCombineD.pas">
+        <DCCReference Include="texcombine\fdTexCombine.pas">
             <Form>FormTexCombine</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="texformat\fTexFormatD.pas">
+        <DCCReference Include="texformat\fdTexFormat.pas">
             <Form>FormTexFormat</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="TransparAdv\fTransparAdvD.pas">
+        <DCCReference Include="TransparAdv\fdTransparAdv.pas">
             <Form>FormTransparAdv</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="transparency\fTransparencyD.pas">
+        <DCCReference Include="transparency\fdTransparency.pas">
             <Form>FormTransparency</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>

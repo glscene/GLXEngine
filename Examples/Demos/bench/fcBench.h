@@ -19,7 +19,7 @@
 
 
 //---------------------------------------------------------------------------
-class TFirmBench : public TForm
+class TFormBench : public TForm
 {
 __published:	// IDE-managed Components
 	TPanel *PanelLeft;
@@ -31,14 +31,13 @@ __published:	// IDE-managed Components
 	TTabSheet *tsSmoking;
 	TTabSheet *tsVolcano;
 	TTabSheet *tsWhirlwind;
-	void __fastcall FormCreate(TObject *Sender);
 	void __fastcall tvBenchClick(TObject *Sender);
 	void __fastcall FormShow(TObject *Sender);
 private:	// User declarations
 public:		// User declarations
-	__fastcall TFirmBench(TComponent* Owner);
+	__fastcall TFormBench(TComponent* Owner);
 };
 //---------------------------------------------------------------------------
-extern PACKAGE TFirmBench *FirmBench;
+extern PACKAGE TFormBench *FormBench;
 //---------------------------------------------------------------------------
 #endif

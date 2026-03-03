@@ -12,7 +12,7 @@ program TweeningD;
 
 uses
   Forms,
-  fTweeningD in 'fTweeningD.pas' {FormTweening};
+  fdTweening in 'fdTweening.pas' {FormTweening};
 
 {$R *.res}
 

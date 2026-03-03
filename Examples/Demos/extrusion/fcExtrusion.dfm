@@ -1,47 +1,35 @@
 object FormExtrusion: TFormExtrusion
   Left = 0
   Top = 0
-  Margins.Left = 5
-  Margins.Top = 5
-  Margins.Right = 5
-  Margins.Bottom = 5
   Caption = 'Extrusion'
-  ClientHeight = 947
-  ClientWidth = 1306
+  ClientHeight = 541
+  ClientWidth = 746
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
-  Font.Height = -21
+  Font.Height = -12
   Font.Name = 'Segoe UI'
   Font.Style = []
   Menu = MainMenu
   Position = poScreenCenter
   OnCreate = FormCreate
   OnShow = FormShow
-  PixelsPerInch = 168
-  TextHeight = 30
+  TextHeight = 15
   object PanelLeft: TPanel
     Left = 0
     Top = 0
-    Width = 226
-    Height = 947
-    Margins.Left = 5
-    Margins.Top = 5
-    Margins.Right = 5
-    Margins.Bottom = 5
+    Width = 129
+    Height = 541
     Align = alLeft
     TabOrder = 0
+    ExplicitHeight = 516
     object tvExtrusion: TTreeView
       Left = 1
       Top = 1
-      Width = 224
-      Height = 945
-      Margins.Left = 5
-      Margins.Top = 5
-      Margins.Right = 5
-      Margins.Bottom = 5
+      Width = 127
+      Height = 539
       Align = alClient
-      Indent = 33
+      Indent = 19
       TabOrder = 0
       OnClick = tvExtrusionClick
       Items.NodeData = {
@@ -54,60 +42,39 @@ object FormExtrusion: TFormExtrusion
         000000000000000000FFFFFFFFFFFFFFFF000000000000000000000000000104
         5000610077006E000000310000000000000000000000FFFFFFFFFFFFFFFF0000
         00000000000000000000000109540065006E007400610063006C0065007300}
+      ExplicitHeight = 514
     end
   end
   object PageControl: TPageControl
-    Left = 226
+    Left = 129
     Top = 0
-    Width = 1080
-    Height = 947
-    Margins.Left = 5
-    Margins.Top = 5
-    Margins.Right = 5
-    Margins.Bottom = 5
+    Width = 617
+    Height = 541
     ActivePage = tsTentacles
     Align = alClient
     TabOrder = 1
+    ExplicitWidth = 609
+    ExplicitHeight = 516
     object tsBending: TTabSheet
-      Margins.Left = 5
-      Margins.Top = 5
-      Margins.Right = 5
-      Margins.Bottom = 5
       Caption = 'Bending'
       TabVisible = False
     end
     object tsCutoutStar: TTabSheet
-      Margins.Left = 5
-      Margins.Top = 5
-      Margins.Right = 5
-      Margins.Bottom = 5
       Caption = 'CutoutStar'
       ImageIndex = 1
       TabVisible = False
     end
     object tsNutsnBolts: TTabSheet
-      Margins.Left = 5
-      Margins.Top = 5
-      Margins.Right = 5
-      Margins.Bottom = 5
       Caption = 'NutsnBolts'
       ImageIndex = 2
       TabVisible = False
     end
     object tsPawn: TTabSheet
-      Margins.Left = 5
-      Margins.Top = 5
-      Margins.Right = 5
-      Margins.Bottom = 5
       Caption = 'Pawn'
       ImageIndex = 3
       TabVisible = False
     end
     object tsTentacles: TTabSheet
-      Margins.Left = 5
-      Margins.Top = 5
-      Margins.Right = 5
-      Margins.Bottom = 5
       Caption = 'Tentacles'
       ImageIndex = 4
       TabVisible = False

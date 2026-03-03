@@ -15,9 +15,10 @@ begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TFormGraph, FormGraph);
+  Application.CreateForm(TFormProjection, FormProjection);
+  Application.CreateForm(TFormFxy, FormFxy);
   Application.CreateForm(TFormHeightField, FormHeightField);
   Application.CreateForm(TFormPoints, FormPoints);
-  Application.CreateForm(TFormProjection, FormProjection);
   Application.CreateForm(TFormSplines, FormSplines);
   Application.Run;
 end.

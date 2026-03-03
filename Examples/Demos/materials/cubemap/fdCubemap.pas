@@ -51,10 +51,11 @@ type
 var
   FormCubeMap: TFormCubeMap;
 
-implementation
+implementation //=============================================================
 
 {$R *.dfm}
 
+//----------------------------------------------------------------------------
 procedure TFormCubeMap.FormShow(Sender: TObject);
 begin
   // Our cube map images are here
@@ -62,11 +63,13 @@ begin
   SetCurrentDir(Path);
 end;
 
+//----------------------------------------------------------------------------
 procedure TFormCubeMap.GLSceneViewer1BeforeRender(Sender: TObject);
 begin
   GLSceneViewer1.BeforeRender := nil;
 end;
 
+//----------------------------------------------------------------------------
 procedure TFormCubeMap.btnApplyClick(Sender: TObject);
 begin
   with Teapot1.Material.Texture do
@@ -107,7 +110,9 @@ begin
   btnApply.Visible := False;
 end;
 
+//----------------------------------------------------------------------------
 // standard issue handlers for mouse movement
+//----------------------------------------------------------------------------
 procedure TFormCubeMap.GLSceneViewer1MouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
@@ -115,6 +120,7 @@ begin
   my := Y;
 end;
 
+//----------------------------------------------------------------------------
 procedure TFormCubeMap.GLSceneViewer1MouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
 begin
   if Shift <> [] then
@@ -128,4 +134,5 @@ begin
   end;
 end;
 
+//----------------------------------------------------------------------------
 end.

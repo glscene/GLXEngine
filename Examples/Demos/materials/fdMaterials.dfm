@@ -1,34 +1,25 @@
 object FormMaterials: TFormMaterials
   Left = 0
   Top = 0
-  Margins.Left = 5
-  Margins.Top = 5
-  Margins.Right = 5
-  Margins.Bottom = 5
   Caption = 'Materials'
-  ClientHeight = 776
-  ClientWidth = 1309
+  ClientHeight = 443
+  ClientWidth = 748
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
-  Font.Height = -21
+  Font.Height = -12
   Font.Name = 'Segoe UI'
   Font.Style = []
   Position = poScreenCenter
   OnShow = FormShow
-  PixelsPerInch = 168
-  TextHeight = 30
+  TextHeight = 15
   object tvMaterials: TTreeView
     Left = 0
     Top = 0
-    Width = 211
-    Height = 776
-    Margins.Left = 5
-    Margins.Top = 5
-    Margins.Right = 5
-    Margins.Bottom = 5
+    Width = 121
+    Height = 443
     Align = alLeft
-    Indent = 33
+    Indent = 19
     TabOrder = 0
     OnClick = tvMaterialsClick
     Items.NodeData = {
@@ -62,5 +53,6 @@ object FormMaterials: TFormMaterials
       00000000000000010B5400720061006E00730070006100720041006400760000
       00370000000000000000000000FFFFFFFFFFFFFFFF0000000000000000000000
       0000010C7400720061006E00730070006100720065006E0063007900}
+    ExplicitHeight = 418
   end
 end

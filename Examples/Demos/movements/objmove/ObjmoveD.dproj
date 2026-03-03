@@ -124,7 +124,7 @@
         <DelphiCompile Include="$(MainSource)">
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
-        <DCCReference Include="fObjmoveD.pas">
+        <DCCReference Include="fdObjmove.pas">
             <Form>FormObjmove</Form>
         </DCCReference>
         <BuildConfiguration Include="Base">

@@ -13,7 +13,7 @@ program ObjmoveD;
 
 uses
   Forms,
-  fObjmoveD in 'fObjmoveD.pas' {FormObjmove};
+  fdObjmove in 'fdObjmove.pas' {FormObjmove};
 
 {$R *.RES}
 

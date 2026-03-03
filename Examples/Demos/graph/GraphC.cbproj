@@ -183,13 +183,12 @@
             <DependentOn>points\fcPoints.h</DependentOn>
             <BuildOrder>6</BuildOrder>
         </CppCompile>
-        <None Include="projection\fcProjection.cpp">
-            <Exclude>True</Exclude>
+        <CppCompile Include="projection\fcProjection.cpp">
             <Form>FormProjection</Form>
             <FormType>dfm</FormType>
             <DependentOn>projection\fcProjection.h</DependentOn>
             <BuildOrder>6</BuildOrder>
-        </None>
+        </CppCompile>
         <CppCompile Include="splines\fсSplines.cpp">
             <Form>FormSplines</Form>
             <FormType>dfm</FormType>
@@ -197,11 +196,11 @@
             <BuildOrder>6</BuildOrder>
         </CppCompile>
         <FormResources Include="points\fcPoints.dfm"/>
-        <FormResources Include="projection\fcProjection.dfm"/>
         <FormResources Include="splines\fсSplines.dfm"/>
         <FormResources Include="heightfield\fсHeightfield.dfm"/>
         <FormResources Include="fcGraph.dfm"/>
         <FormResources Include="fxy\fcFxy.dfm"/>
+        <FormResources Include="projection\fcProjection.dfm"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

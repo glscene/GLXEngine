@@ -34,7 +34,6 @@ type
     tsSmoking: TTabSheet;
     tsVolcano: TTabSheet;
     tsWhirlwind: TTabSheet;
-    procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure tvBenchClick(Sender: TObject);
   private
@@ -48,59 +47,49 @@ implementation //==============================================================
 
 {$R *.dfm}
 
-procedure TFormBench.FormCreate(Sender: TObject);
+//----------------------------------------------------------------------
+
+procedure TFormBench.FormShow(Sender: TObject);
 begin
-   // Canvas
-  FormCanvas := TFormCanvas.Create(tsCanvas);
+  // Canvas
   FormCanvas.Parent := tsCanvas;
   FormCanvas.Align := alClient;
   FormCanvas.BorderStyle := bsNone;
-  FormCanvas.GLSceneViewer.Height := 256;
-  FormCanvas.GLSceneViewer.Width := 256;
+  FormCanvas.RBPenWidth2.Checked := True;
   FormCanvas.Show;
 
   // Megacube
-  FormMegacube := TFormMegacube.Create(tsMegacube);
   FormMegacube.Parent := tsMegacube;
   FormMegacube.Align := alClient;
   FormMegacube.BorderStyle := bsNone;
   FormMegacube.Show;
 
   // Megaglasscube
-  FormMegaglasscube := TFormMegaglasscube.Create(tsMegaglasscube);
   FormMegaglasscube.Parent := tsMegaglasscube;
   FormMegaglasscube.Align := alClient;
   FormMegaglasscube.BorderStyle := bsNone;
   FormMegaglasscube.Show;
 
    // Smoking
-  FormSmoking := TFormSmoking.Create(tsSmoking);
   FormSmoking.Parent := tsSmoking;
   FormSmoking.Align := alClient;
   FormSmoking.BorderStyle := bsNone;
   FormSmoking.Show;
 
   // Volcano
-  FormVolcano := TFormVolcano.Create(tsVolcano);
   FormVolcano.Parent := tsVolcano;
   FormVolcano.Align := alClient;
   FormVolcano.BorderStyle := bsNone;
   FormVolcano.Show;
 
   // Whirlwind
-  FormWhirl := TFormWhirl.Create(tsWhirlwind);
   FormWhirl.Parent := tsWhirlwind;
   FormWhirl.Align := alClient;
   FormWhirl.BorderStyle := bsNone;
   FormWhirl.Show;
 
-end;
-
-//----------------------------------------------------------------------
-
-procedure TFormBench.FormShow(Sender: TObject);
-begin
-   PageControl.ActivePage := tsCanvas;
+  tvBench.Select(tvBench.Items[3]);  // goto to column 0
+  tvBenchClick(Sender);
 end;
 
 //----------------------------------------------------------------------

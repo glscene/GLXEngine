@@ -14,22 +14,22 @@ uses
   Vcl.Dialogs,
   Vcl.ComCtrls,
 
-  fCubemapD,
-  fCustomquadD,
-  fDynTextureD,
-  fDynCubemapD,
-  fMatScriptD,
-  fMirrorD,
-  fMultiMaterialD,
-  fMultiPassD,
-  fMultiTextureD,
-  fObjMaterialD,
-  fProcCloudsD,
-  fTexAnimD,
-  fTexCombineD,
-  fTexFormatD,
-  fTransparAdvD,
-  fTransparencyD;
+  fdCubemap,
+  fdCustomquad,
+  fdDynTexture,
+  fdDynCubemap,
+  fdMatScript,
+  fdMirror,
+  fdMultiMaterial,
+  fdMultiPass,
+  fdMultiTexture,
+  fdObjMaterial,
+  fdProcClouds,
+  fdTexAnim,
+  fdTexCombine,
+  fdTexFormat,
+  fdTransparAdv,
+  fdTransparency;
 
 type
   TFormMaterials = class(TForm)
@@ -43,10 +43,11 @@ type
 var
   FormMaterials: TFormMaterials;
 
-implementation //--------------------------------------------------------------
+implementation //==============================================================
 
 {$R *.dfm}
 
+//-----------------------------------------------------------------------------
 procedure TFormMaterials.FormShow(Sender: TObject);
 begin
   tvMaterials.Select(tvMaterials.Items[0]);  // goto to column 0
@@ -54,13 +55,13 @@ begin
   tvMaterialsClick(Self);
 end;
 
+//-----------------------------------------------------------------------------
 procedure TFormMaterials.tvMaterialsClick(Sender: TObject);
 begin
   tvMaterials.Items[0].DropHighlighted := False;
   case tvMaterials.Selected.Index of
     0:
       begin // Cubemap
-        FormCubemap := TFormCubemap.Create(FormMaterials);
         FormCubemap.Parent := FormMaterials;
         FormCubemap.Align := alClient;
         FormCubemap.BorderStyle := bsNone;
@@ -68,7 +69,6 @@ begin
       end;
     1:
       begin // Customquad
-        FormCustomquad := TFormCustomquad.Create(FormMaterials);
         FormCustomquad.Parent := FormMaterials;
         FormCustomquad.Align := alClient;
         FormCustomquad.BorderStyle := bsNone;
@@ -76,7 +76,6 @@ begin
       end;
     2:
       begin // FormDynamictexture
-        FormDynamicTexture := TFormDynamicTexture.Create(FormMaterials);
         FormDynamicTexture.Parent := FormMaterials;
         FormDynamicTexture.Align := alClient;
         FormDynamicTexture.BorderStyle := bsNone;
@@ -84,7 +83,6 @@ begin
       end;
     3:
       begin // DynCubemap
-        FormDynCubemap := TFormDynCubemap.Create(FormMaterials);
         FormDynCubemap.Parent := FormMaterials;
         FormDynCubemap.Align := alClient;
         FormDynCubemap.BorderStyle := bsNone;
@@ -93,7 +91,6 @@ begin
     4:
       begin
         // MatScript
-        FormMatScript := TFormMatScript.Create(FormMaterials);
         FormMatScript.Parent := FormMaterials;
         FormMatScript.Align := alClient;
         FormMatScript.BorderStyle := bsNone;
@@ -102,7 +99,6 @@ begin
     5:
       begin
         // Mirror
-        FormMirror := TFormMirror.Create(FormMaterials);
         FormMirror.Parent := FormMaterials;
         FormMirror.Align := alClient;
         FormMirror.BorderStyle := bsNone;
@@ -111,7 +107,6 @@ begin
     6:
       begin
         // MultiMat
-        FormMultiMat := TFormMultiMat.Create(FormMaterials);
         FormMultiMat.Parent := FormMaterials;
         FormMultiMat.Align := alClient;
         FormMultiMat.BorderStyle := bsNone;
@@ -120,7 +115,6 @@ begin
     7:
       begin
         // MultiPass
-        FormMultiPass := TFormMultiPass.Create(FormMaterials);
         FormMultiPass.Parent := FormMaterials;
         FormMultiPass.Align := alClient;
         FormMultiPass.BorderStyle := bsNone;
@@ -129,7 +123,6 @@ begin
     8:
       begin
         // MultiTexture
-        FormMultiTexture := TFormMultiTexture.Create(FormMaterials);
         FormMultiTexture.Parent := FormMaterials;
         FormMultiTexture.Align := alClient;
         FormMultiTexture.BorderStyle := bsNone;
@@ -138,7 +131,6 @@ begin
     9:
       begin
         // ObjMaterial
-        FormMO := TFormMO.Create(FormMaterials);
         FormMO.Parent := FormMaterials;
         FormMO.Align := alClient;
         FormMO.BorderStyle := bsNone;
@@ -147,7 +139,6 @@ begin
     10:
       begin
         // Clouds
-        FormClouds := TFormClouds.Create(FormMaterials);
         FormClouds.Parent := FormMaterials;
         FormClouds.Align := alClient;
         FormClouds.BorderStyle := bsNone;
@@ -156,7 +147,6 @@ begin
     11:
       begin
         // TexAnim
-        FormTexAnim := TFormTexAnim.Create(FormMaterials);
         FormTexAnim.Parent := FormMaterials;
         FormTexAnim.Align := alClient;
         FormTexAnim.BorderStyle := bsNone;
@@ -165,7 +155,6 @@ begin
     12:
       begin
         // TexCombine
-        FormTexCombine := TFormTexCombine.Create(FormMaterials);
         FormTexCombine.Parent := FormMaterials;
         FormTexCombine.Align := alClient;
         FormTexCombine.BorderStyle := bsNone;
@@ -174,7 +163,6 @@ begin
     13:
       begin
         // TexFormat
-        FormTexFormat := TFormTexFormat.Create(FormMaterials);
         FormTexFormat.Parent := FormMaterials;
         FormTexFormat.Align := alClient;
         FormTexFormat.BorderStyle := bsNone;
@@ -183,7 +171,6 @@ begin
     14:
       begin
         // TransparAdv
-        FormTransparAdv := TFormTransparAdv.Create(FormMaterials);
         FormTransparAdv.Parent := FormMaterials;
         FormTransparAdv.Align := alClient;
         FormTransparAdv.BorderStyle := bsNone;
@@ -192,7 +179,6 @@ begin
     15:
       begin
         // Transparency
-        FormTransparency := TFormTransparency.Create(FormMaterials);
         FormTransparency.Parent := FormMaterials;
         FormTransparency.Align := alClient;
         FormTransparency.BorderStyle := bsNone;
@@ -201,4 +187,5 @@ begin
   end;
 end;
 
+//-----------------------------------------------------------------------------
 end.

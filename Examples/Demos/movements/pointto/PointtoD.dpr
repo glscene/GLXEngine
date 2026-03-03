@@ -11,7 +11,7 @@ program PointtoD;
 
 uses
   Forms,
-  fPointtoD in 'fPointtoD.pas' {FormPointto};
+  fdPointto in 'fdPointto.pas' {FormPointto};
 
 {$R *.RES}
 

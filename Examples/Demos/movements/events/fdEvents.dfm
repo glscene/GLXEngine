@@ -1,58 +1,46 @@
 object FormEvents: TFormEvents
   Left = 209
   Top = 106
-  Margins.Left = 5
-  Margins.Top = 5
-  Margins.Right = 5
-  Margins.Bottom = 5
   Caption = 'Events'
-  ClientHeight = 529
-  ClientWidth = 894
+  ClientHeight = 302
+  ClientWidth = 511
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
-  Font.Height = -19
+  Font.Height = -11
   Font.Name = 'MS Sans Serif'
   Font.Style = []
   Position = poScreenCenter
-  PixelsPerInch = 168
-  TextHeight = 24
+  TextHeight = 13
   object GLSceneViewer1: TGLSceneViewer
     Left = 0
     Top = 0
-    Width = 894
-    Height = 504
-    Margins.Left = 5
-    Margins.Top = 5
-    Margins.Right = 5
-    Margins.Bottom = 5
+    Width = 511
+    Height = 288
     Camera = Camera1
     Buffer.BackgroundColor = clSilver
-    FieldOfView = 157.555084228515600000
+    FieldOfView = 141.703720092773400000
     PenAsTouch = False
     Align = alClient
     TabOrder = 0
-    ExplicitHeight = 509
   end
   object StatusBar: TStatusBar
     Left = 0
-    Top = 504
-    Width = 894
-    Height = 25
-    Margins.Left = 5
-    Margins.Top = 5
-    Margins.Right = 5
-    Margins.Bottom = 5
+    Top = 288
+    Width = 511
+    Height = 14
     Panels = <
       item
-        Width = 50
+        Width = 29
       end
       item
-        Width = 50
+        Width = 29
       end
       item
-        Width = 50
+        Width = 29
       end>
+    ExplicitTop = 263
+    ExplicitWidth = 503
   end
   object GLScene1: TGLScene
     Left = 40

@@ -59,8 +59,14 @@ void __fastcall TFormExtrusion::FormCreate(TObject *Sender)
   FormTentacles->Show();
 
 }
-//---------------------------------------------------------------------------
 
+//---------------------------------------------------------------------------
+void __fastcall TFormExtrusion::FormShow(TObject *Sender)
+{
+  PageControl->ActivePage = tsBending;
+}
+
+//---------------------------------------------------------------------------
 void __fastcall TFormExtrusion::tvExtrusionClick(TObject *Sender)
 {
    switch (tvExtrusion->Selected->Index) {
@@ -83,12 +89,6 @@ void __fastcall TFormExtrusion::tvExtrusionClick(TObject *Sender)
 	  PageControl->ActivePage = tsBending; break;
 	}
    }
-}
-//---------------------------------------------------------------------------
-
-void __fastcall TFormExtrusion::FormShow(TObject *Sender)
-{
-  PageControl->ActivePage = tsBending;
 }
 //---------------------------------------------------------------------------
 

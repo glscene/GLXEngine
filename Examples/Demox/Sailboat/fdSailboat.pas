@@ -1125,7 +1125,7 @@ begin
           // dont remove dummies. These are design time characters
           begin
             OceanSurface.RemoveObject(aControl);
-            aControl.DisposeOf;
+            aControl.Free ;
           end;
 
           n := Random(50);
@@ -1133,7 +1133,7 @@ begin
           if not(aControl is TDummy) then
           begin
             OceanSurface.RemoveObject(aControl);
-            aControl.DisposeOf;
+            aControl.Free ;
           end;
 
           n := Random(20); // dispose older
@@ -1141,7 +1141,7 @@ begin
           if not(aControl is TDummy) then
           begin
             OceanSurface.RemoveObject(aControl);
-            aControl.DisposeOf;
+            aControl.Free ;
           end;
         end;
       end;

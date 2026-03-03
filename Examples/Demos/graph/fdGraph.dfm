@@ -12,7 +12,7 @@ object FormGraph: TFormGraph
   Font.Style = []
   Menu = MainMenu
   Position = poScreenCenter
-  OnCreate = FormCreate
+  OnShow = FormShow
   TextHeight = 15
   object PanelLeft: TPanel
     Left = 0

@@ -24,7 +24,7 @@ object FormManual: TFormManual
     Width = 585
     Height = 404
     Camera = Camera
-    Buffer.BackgroundColor = clSilver
+    Buffer.BackgroundColor = clBlack
     FieldOfView = 127.324623107910200000
     PenAsTouch = False
     Align = alClient
@@ -66,30 +66,32 @@ object FormManual: TFormManual
   object Scene: TGLScene
     Left = 120
     Top = 16
-    object CubeSun: TGLCube
-      Material.FrontProperties.Ambient.Color = {0000000000000000000000000000803F}
-      Material.FrontProperties.Diffuse.Color = {0000000000000000000000000000803F}
-      Material.FrontProperties.Emission.Color = {0000803F0000803F000000000000803F}
-    end
-    object CubeEarth: TGLCube
-      Material.FrontProperties.Diffuse.Color = {8786063F8786063F0000803F0000803F}
-      Material.FrontProperties.Emission.Color = {0000000000000000A1A0203F0000803F}
-      Position.Coordinates = {0000404000000000000000000000803F}
-      CubeSize = {0000003F0000003F0000003F}
-    end
-    object CubeMoon: TGLCube
-      Position.Coordinates = {000040400000803F000000000000803F}
-      CubeSize = {CDCC4C3ECDCC4C3ECDCC4C3E}
+    object Camera: TGLCamera
+      DepthOfView = 100.000000000000000000
+      FocalLength = 100.000000000000000000
+      TargetObject = dcSol
+      Position.Coordinates = {000020410000A040000020410000803F}
     end
     object LightSource: TGLLightSource
       ConstAttenuation = 1.000000000000000000
       SpotCutOff = 180.000000000000000000
     end
-    object Camera: TGLCamera
-      DepthOfView = 100.000000000000000000
-      FocalLength = 100.000000000000000000
-      TargetObject = CubeSun
-      Position.Coordinates = {000020410000A040000020410000803F}
+    object dcSol: TGLDummyCube
+      CubeSize = 1.000000000000000000
+      object sfSun: TGLSphere
+        Material.FrontProperties.Emission.Color = {0000803F0000803F000000000000803F}
+        Radius = 0.699999988079071000
+      end
+      object sfEarth: TGLSphere
+        Material.FrontProperties.Emission.Color = {00000000000000000000803F0000803F}
+        Position.Coordinates = {0000404000000000000000000000803F}
+        Radius = 0.300000011920929000
+      end
+      object sfMoon: TGLSphere
+        Material.FrontProperties.Emission.Color = {BEC0403FBEC0403FBEC0403F0000803F}
+        Position.Coordinates = {000040400000803F000000000000803F}
+        Radius = 0.100000001490116100
+      end
     end
   end
   object Cadencer: TGLCadencer

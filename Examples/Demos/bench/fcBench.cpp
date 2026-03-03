@@ -15,22 +15,21 @@
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma resource "*.dfm"
-TFirmBench *FirmBench;
+TFormBench *FormBench;
 //---------------------------------------------------------------------------
-__fastcall TFirmBench::TFirmBench(TComponent* Owner)
+__fastcall TFormBench::TFormBench(TComponent* Owner)
 	: TForm(Owner)
 {
 }
 //---------------------------------------------------------------------------
-void __fastcall TFirmBench::FormCreate(TObject *Sender)
+
+void __fastcall TFormBench::FormShow(TObject *Sender)
 {
    // Canvas
   FormCanvas = new TFormCanvas(tsCanvas);
   FormCanvas->Parent = tsCanvas;
   FormCanvas->Align = alClient;
   FormCanvas->BorderStyle = bsNone;
-  FormCanvas->GLSceneViewer->Height = 256;
-  FormCanvas->GLSceneViewer->Width = 256;
   FormCanvas->Show();
 
   // Megacube
@@ -68,18 +67,14 @@ void __fastcall TFirmBench::FormCreate(TObject *Sender)
   FormWhirl->BorderStyle = bsNone;
   FormWhirl->Show();
 
+
+  PageControl->ActivePage = tsMegacube;
+  // tvBench->Select(tvBench->Items[2]);  // goto to node 2
 }
 
 //---------------------------------------------------------------------------
 
-void __fastcall TFirmBench::FormShow(TObject *Sender)
-{
-  PageControl->ActivePage = tsCanvas;
-}
-
-//---------------------------------------------------------------------------
-
-void __fastcall TFirmBench::tvBenchClick(TObject *Sender)
+void __fastcall TFormBench::tvBenchClick(TObject *Sender)
 {
    switch (tvBench->Selected->Index) {
 	case 0: {

@@ -11,7 +11,6 @@ object FormBench: TFormBench
   Font.Name = 'Segoe UI'
   Font.Style = []
   Position = poScreenCenter
-  OnCreate = FormCreate
   OnShow = FormShow
   TextHeight = 15
   object PanelLeft: TPanel

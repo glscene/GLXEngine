@@ -1,4 +1,4 @@
-unit fSmoothNaviD;
+unit fdSmoothNavi;
 
 interface
 
@@ -12,19 +12,17 @@ uses
   Vcl.ExtCtrls, 
   Vcl.StdCtrls,
 
+  Stage.VectorGeometry,
   Stage.Keyboard,
   GLS.Coordinates,
   GLS.BaseClasses,
   GLS.XCollection,
-  Stage.VectorGeometry,
-
   GLS.Cadencer,
   GLS.SceneViewer,
   GLS.GeomObjects,
   GLS.Scene,
   GLS.Objects,
   GLS.Graph,
-
   GLS.SmoothNavigator,
   GLS.Screen;
 
@@ -78,10 +76,11 @@ type
 var
   FormSmoothnavi: TFormSmoothnavi;
 
-implementation
+implementation //==============================================================
 
 {$R *.dfm}
 
+//----------------------------------------------------------------------------
 procedure TFormSmoothnavi.FormCreate(Sender: TObject);
 begin
   Navigator := TGLSmoothNavigator.Create(Self);
@@ -105,6 +104,7 @@ begin
   UI.SmoothNavigator := Navigator;
 end;
 
+//----------------------------------------------------------------------------
 procedure TFormSmoothnavi.CheckControls(DeltaTime, newtime: Double);
 var
   NeedToAccelerate: Boolean;
@@ -121,6 +121,7 @@ begin
 end;
 
 
+//----------------------------------------------------------------------------
 procedure TFormSmoothnavi.GLCadencer1Progress(Sender: TObject; const DeltaTime, newTime: Double);
 begin
   GLSceneViewer1.Invalidate;
@@ -149,6 +150,7 @@ begin
   end;
 end;
 
+//----------------------------------------------------------------------------
 procedure TFormSmoothnavi.FPSTimerTimer(Sender: TObject);
 begin
   Caption := 'Smooth Navigator  -  ' + GLSceneViewer1.FramesPerSecondText;
@@ -156,6 +158,7 @@ begin
   GLSceneViewer1.ResetPerformanceMonitor;
 end;
 
+//----------------------------------------------------------------------------
 procedure TFormSmoothnavi.MouseLookCheckBoxClick(Sender: TObject);
 begin
   if MouseLookCheckBox.Checked then
@@ -178,6 +181,7 @@ begin
   end;
 end;
 
+//----------------------------------------------------------------------------
 procedure TFormSmoothnavi.FormKeyPress(Sender: TObject; var Key: Char);
 begin
   if Key = Char(VK_SPACE) then
@@ -186,6 +190,7 @@ begin
     Close;
 end;
 
+//----------------------------------------------------------------------------
 procedure TFormSmoothnavi.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   GLSceneViewer1.Enabled := False;
@@ -197,21 +202,25 @@ begin
   GLShowCursor(True);
 end;
 
+//----------------------------------------------------------------------------
 procedure TFormSmoothnavi.RadioButton6Click(Sender: TObject);
 begin
   GLCadencer1.FixedDeltaTime := 0;
 end;
 
+//----------------------------------------------------------------------------
 procedure TFormSmoothnavi.RadioButton7Click(Sender: TObject);
 begin
   GLCadencer1.FixedDeltaTime := 0.01;
 end;
 
+//----------------------------------------------------------------------------
 procedure TFormSmoothnavi.RadioButton8Click(Sender: TObject);
 begin
   GLCadencer1.FixedDeltaTime := 0.1;
 end;
 
+//----------------------------------------------------------------------------
 procedure TFormSmoothnavi.GLSceneViewer1MouseMove(Sender: TObject;
   Shift: TShiftState; X, Y: Integer);
 begin
@@ -220,6 +229,7 @@ begin
   NewYY := Y;
 end;
 
+//----------------------------------------------------------------------------
 procedure TFormSmoothnavi.GLSceneViewer1MouseDown(Sender: TObject;
   Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
 begin
@@ -227,6 +237,7 @@ begin
   yy := y;
 end;
 
+//----------------------------------------------------------------------------
 procedure TFormSmoothnavi.FormMouseWheel(Sender: TObject; Shift: TShiftState;
   WheelDelta: Integer; MousePos: TPoint; var Handled: Boolean);
 begin

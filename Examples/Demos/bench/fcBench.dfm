@@ -1,46 +1,33 @@
-object FirmBench: TFirmBench
+object FormBench: TFormBench
   Left = 0
   Top = 0
-  Margins.Left = 5
-  Margins.Top = 5
-  Margins.Right = 5
-  Margins.Bottom = 5
   Caption = 'Bench'
-  ClientHeight = 999
-  ClientWidth = 1103
+  ClientHeight = 571
+  ClientWidth = 630
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
-  Font.Height = -21
+  Font.Height = -12
   Font.Name = 'Segoe UI'
   Font.Style = []
   Position = poScreenCenter
-  OnCreate = FormCreate
   OnShow = FormShow
-  PixelsPerInch = 168
-  TextHeight = 30
+  TextHeight = 15
   object PanelLeft: TPanel
     Left = 0
     Top = 0
-    Width = 226
-    Height = 999
-    Margins.Left = 5
-    Margins.Top = 5
-    Margins.Right = 5
-    Margins.Bottom = 5
+    Width = 129
+    Height = 571
     Align = alLeft
     TabOrder = 0
+    ExplicitHeight = 546
     object tvBench: TTreeView
       Left = 1
       Top = 1
-      Width = 224
-      Height = 997
-      Margins.Left = 5
-      Margins.Top = 5
-      Margins.Right = 5
-      Margins.Bottom = 5
+      Width = 127
+      Height = 569
       Align = alClient
-      Indent = 33
+      Indent = 19
       TabOrder = 0
       OnClick = tvBenchClick
       Items.NodeData = {
@@ -55,70 +42,42 @@ object FirmBench: TFirmBench
         FFFFFFFF00000000000000000000000000010756006F006C00630061006E006F
         000000310000000000000000000000FFFFFFFFFFFFFFFF000000000000000000
         00000000010957006800690072006C00770069006E006400}
+      ExplicitHeight = 544
     end
   end
   object PageControl: TPageControl
-    Left = 226
+    Left = 129
     Top = 0
-    Width = 877
-    Height = 999
-    Margins.Left = 5
-    Margins.Top = 5
-    Margins.Right = 5
-    Margins.Bottom = 5
+    Width = 501
+    Height = 571
     ActivePage = tsCanvas
     Align = alClient
     TabOrder = 1
-    ExplicitWidth = 1244
     object tsCanvas: TTabSheet
-      Margins.Left = 5
-      Margins.Top = 5
-      Margins.Right = 5
-      Margins.Bottom = 5
       Caption = 'Canvas'
       TabVisible = False
     end
     object tsMegacube: TTabSheet
-      Margins.Left = 5
-      Margins.Top = 5
-      Margins.Right = 5
-      Margins.Bottom = 5
       Caption = 'Megacube'
       ImageIndex = 1
       TabVisible = False
     end
     object tsMegaglasscube: TTabSheet
-      Margins.Left = 5
-      Margins.Top = 5
-      Margins.Right = 5
-      Margins.Bottom = 5
       Caption = 'Megaglasscube'
       ImageIndex = 2
       TabVisible = False
     end
     object tsSmoking: TTabSheet
-      Margins.Left = 5
-      Margins.Top = 5
-      Margins.Right = 5
-      Margins.Bottom = 5
       Caption = 'Smoking'
       ImageIndex = 3
       TabVisible = False
     end
     object tsVolcano: TTabSheet
-      Margins.Left = 5
-      Margins.Top = 5
-      Margins.Right = 5
-      Margins.Bottom = 5
       Caption = 'Volcano'
       ImageIndex = 4
       TabVisible = False
     end
     object tsWhirlwind: TTabSheet
-      Margins.Left = 5
-      Margins.Top = 5
-      Margins.Right = 5
-      Margins.Bottom = 5
       Caption = 'Whirlwind'
       ImageIndex = 5
       TabVisible = False

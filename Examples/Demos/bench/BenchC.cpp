@@ -4,13 +4,13 @@
 #pragma hdrstop
 #include <tchar.h>
 //---------------------------------------------------------------------------
+USEFORM("megaglasscube\fMegaglassC.cpp", FormMegaglasscube);
 USEFORM("smoking\fSmokingC.cpp", FormSmoking);
 USEFORM("volcano\fVolcanoC.cpp", FormVolcano);
 USEFORM("whirlwind\fWhirlC.cpp", FormWhirl);
 USEFORM("canvas\fCanvasC.cpp", FormCanvas);
-USEFORM("fcBench.cpp", FirmBench);
+USEFORM("fcBench.cpp", FormBench);
 USEFORM("megacube\fMegaCubeC.cpp", Form1);
-USEFORM("megaglasscube\fMegaglassC.cpp", FormMegaglasscube);
 //---------------------------------------------------------------------------
 int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 {
@@ -18,8 +18,7 @@ int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 	{
 		Application->Initialize();
 		Application->MainFormOnTaskBar = true;
-		Application->CreateForm(__classid(TFirmBench), &FirmBench);
-		Application->CreateForm(__classid(TFormCanvas), &FormCanvas);
+		Application->CreateForm(__classid(TFormBench), &FormBench);
 		Application->Run();
 	}
 	catch (Exception &exception)

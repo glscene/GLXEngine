@@ -27,8 +27,6 @@ object FormPong: TFormPong
     Align = alClient
     OnMouseMove = GLSceneViewer1MouseMove
     TabOrder = 0
-    ExplicitWidth = 666
-    ExplicitHeight = 666
   end
   object GLScene1: TGLScene
     Left = 32

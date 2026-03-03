@@ -12,7 +12,7 @@ program SmoothNaviD;
 
 uses
   Forms,
-  fSmoothNaviD in 'fSmoothNaviD.pas' {FormSmoothnavi};
+  fdSmoothNavi in 'fdSmoothNavi.pas' {FormSmoothnavi};
 
 {$R *.res}
 

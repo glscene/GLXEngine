@@ -10,7 +10,7 @@
 #pragma link "fñHeightField"
 #pragma link "fcPoints"
 #pragma link "fñSplines"
-///#pragma link "fñProjection"
+#pragma link "fñProjection"
 
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
@@ -62,14 +62,14 @@ void __fastcall TFormGraph::tvGraphClick(TObject* Sender)
 			FormPoints->Show();
 			break;
 		}
-		case 3: { // Projection
-/*
+		case 3:  // Projection
+
 			FormProjection = new TFormProjection(FormGraph);
 			FormProjection->Parent = FormGraph;
 			FormProjection->Align = alClient;
 			FormProjection->BorderStyle = bsNone;
 			FormProjection->Show();
-*/
+/**/
 			break;
 		}
 		case 4: { // Splines

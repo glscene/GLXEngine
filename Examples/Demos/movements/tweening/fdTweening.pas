@@ -1,4 +1,4 @@
-unit fTweeningD;
+unit fdTweening;
 
 interface
 
@@ -17,16 +17,15 @@ uses
   Vcl.ExtCtrls,
   Vcl.Samples.Spin,
   
-  GLS.Scene,
   Stage.VectorTypes,
+  Stage.VectorGeometry,
+  Stage.AnimationUtils,
+  GLS.Scene,
   GLS.Objects,
   GLS.Coordinates,
   GLS.SceneViewer,
-
   GLS.BaseClasses,
   GLS.Cadencer,
-  Stage.AnimationUtils,
-  Stage.VectorGeometry,
   GLS.BitmapFont,
   GLS.WindowsFont;
 
@@ -100,22 +99,25 @@ type
 var
   FormTweening: TFormTweening;
 
-implementation
+implementation  //============================================================
 
 {$R *.dfm}
 
+//----------------------------------------------------------------------------
 procedure TFormTweening.Button1Click(Sender: TObject);
 begin
   FGLPlane1AnimationData.State := asGoToStateA;
   FGLPlane1AnimationData.Init := True;
 end;
 
+//----------------------------------------------------------------------------
 procedure TFormTweening.Button2Click(Sender: TObject);
 begin
   FGLPlane1AnimationData.State := asGoToStateB;
   FGLPlane1AnimationData.Init := True;
 end;
 
+//----------------------------------------------------------------------------
 procedure TFormTweening.FormCreate(Sender: TObject);
 var
   EaseName: string;
@@ -133,6 +135,7 @@ begin
   EaseTypeB.ItemIndex := Ord(etLinear);
 end;
 
+//----------------------------------------------------------------------------
 procedure TFormTweening.GLPlane1Progress(Sender: TObject; const deltaTime, newTime: Double);
 begin
 
@@ -189,9 +192,9 @@ begin
         State := asWaiting;
     end;
   end;
-
 end;
 
+//----------------------------------------------------------------------------
 procedure TFormTweening.GLSceneViewer1MouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
 begin
   if ssCtrl in Shift then

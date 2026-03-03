@@ -2,8 +2,8 @@ object FormViewer: TFormViewer
   Left = 0
   Top = 0
   Caption = 'GLSViewer'
-  ClientHeight = 595
-  ClientWidth = 930
+  ClientHeight = 677
+  ClientWidth = 1045
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -15,8 +15,8 @@ object FormViewer: TFormViewer
   TextHeight = 15
   object StatusBar: TStatusBar
     Left = 0
-    Top = 576
-    Width = 930
+    Top = 658
+    Width = 1045
     Height = 19
     Panels = <
       item
@@ -35,32 +35,33 @@ object FormViewer: TFormViewer
         Text = 'Model'
         Width = 40
       end>
-    ExplicitTop = 551
-    ExplicitWidth = 777
+    ExplicitTop = 576
+    ExplicitWidth = 930
   end
   object snViewer: TGLSceneViewer
     Left = 153
     Top = 54
-    Width = 777
-    Height = 522
+    Width = 892
+    Height = 604
     Camera = Camera
     Buffer.BackgroundColor = clGray
     Buffer.ContextOptions = [roDoubleBuffer, roRenderToWindow, roTwoSideLighting]
     Buffer.FaceCulling = False
-    FieldOfView = 158.310379028320300000
+    FieldOfView = 161.198440551757800000
     PenAsTouch = False
     Align = alClient
     TabOrder = 1
-    ExplicitWidth = 632
+    ExplicitWidth = 778
+    ExplicitHeight = 522
   end
   object ControlBar: TControlBar
     Left = 0
     Top = 25
-    Width = 930
+    Width = 1045
     Height = 29
     Align = alTop
     TabOrder = 2
-    ExplicitWidth = 777
+    ExplicitWidth = 930
     object atbTools: TActionToolBar
       Left = 333
       Top = 2
@@ -127,9 +128,8 @@ object FormViewer: TFormViewer
   object amMenuBar: TActionMainMenuBar
     Left = 0
     Top = 0
-    Width = 930
+    Width = 1045
     Height = 25
-    UseSystemFont = False
     ActionManager = ActionManager
     Caption = 'ActionMainMenuBar'
     Color = clMenuBar
@@ -138,26 +138,26 @@ object FormViewer: TFormViewer
     ColorMap.BtnSelectedFont = clBlack
     ColorMap.UnusedColor = clWhite
     Font.Charset = DEFAULT_CHARSET
-    Font.Color = clBlack
-    Font.Height = -11
-    Font.Name = 'MS Sans Serif'
+    Font.Color = clWindowText
+    Font.Height = -21
+    Font.Name = 'Segoe UI'
     Font.Style = []
     Spacing = 0
-    ExplicitWidth = 777
+    ExplicitWidth = 930
   end
   object PanelLeft: TPanel
     Left = 0
     Top = 54
     Width = 153
-    Height = 522
+    Height = 604
     Align = alLeft
     TabOrder = 4
-    ExplicitHeight = 497
+    ExplicitHeight = 522
     object tvScene: TTreeView
       Left = 1
       Top = 1
       Width = 151
-      Height = 520
+      Height = 602
       Align = alClient
       Images = ImageListObjects
       Indent = 19
@@ -359,7 +359,8 @@ object FormViewer: TFormViewer
         6D0070007500740069006E0067000000410000005E0000005E000000FFFFFFFF
         FFFFFFFF0000000000000000000000000001114300550044004100470065006E
         006500720061007400650064004D00650073006800}
-      ExplicitHeight = 495
+      ExplicitLeft = 2
+      ExplicitTop = 25
     end
   end
   object Scene: TGLScene
