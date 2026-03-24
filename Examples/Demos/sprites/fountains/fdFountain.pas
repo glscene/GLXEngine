@@ -1,4 +1,4 @@
-unit fFountainD;
+unit fdFountain;
 
 interface
 
@@ -32,15 +32,16 @@ uses
   GLS.BaseClasses,
 
 
-  uFountainD, GLS.Material;
+  GLS.Fountain,
+  GLS.Material;
 
 type
-  TForm1 = class( TForm )
+  TFormFontain = class( TForm )
     GLScene1: TGLScene;
     GLSceneViewer1: TGLSceneViewer;
     GLCadencer1: TGLCadencer;
-    Cam: TGLCamera;
-    Scene: TGLDummyCube;
+    Camera: TGLCamera;
+    dcScene: TGLDummyCube;
     Light: TGLLightSource;
     Timer1: TTimer;
     Panel1: TPanel;
@@ -55,7 +56,7 @@ type
     MainMenu1: TMainMenu;
     File1: TMenuItem;
     PageControl1: TPageControl;
-    TabSheet1: TTabSheet;
+    tsSetting: TTabSheet;
     EdPSizeMax: TEdit;
     Label14: TLabel;
     EdPSizeMin: TEdit;
@@ -81,7 +82,7 @@ type
     CheckActived: TCheckBox;
     CheckBound: TCheckBox;
     Close1: TMenuItem;
-    TabSheet2: TTabSheet;
+    tsStyle: TTabSheet;
     Panel3: TPanel;
     RadioButton1: TRadioButton;
     RadioButton2: TRadioButton;
@@ -128,27 +129,26 @@ type
   end;
 
 var
-  GLFountainDummy : TGLFountainDummy;
+  GLFountain : TGLFountainDummy;
 
 var
-  Form1: TForm1;
+  FormFontain: TFormFontain;
 
-implementation
+implementation //=============================================================
 
 {$R *.dfm}
 
-procedure TForm1.FormCreate( Sender: TObject );
+//----------------------------------------------------------------------------
+procedure TFormFontain.FormCreate( Sender: TObject );
 begin
   SetCurrentDir( ExtractFilePath( ParamStr(0) ) );
   path := ExtractFilePath( ParamStr(0) );
 
-
   OpenPictureDialog1.InitialDir := path + 'Textures\';
-
 //  GLPlane1.Material.Texture.Disabled := False;
 
-  GLFountainDummy := TGLFountainDummy(Scene.AddNewChild(TGLFountainDummy));
-  with GLFountainDummy do
+  GLFountain := TGLFountainDummy(dcScene.AddNewChild(TGLFountainDummy));
+  with GLFountain do
   begin
     Material.Texture.Image.LoadFromFile( path + 'Textures\Par1.bmp' );
     Scale.X := 0.15; Scale.Y := 0.15; Scale.Z := 0.15;
@@ -172,59 +172,66 @@ begin
     ColorEnd := PEndColor.Color;
   end;
   TrackBar1.OnChange( self );
-
-   PStartColor.Color := clRed;
+  PStartColor.Color := clRed;
 end;
 
-procedure TForm1.GLCadencer1Progress( Sender: TObject; const deltaTime, newTime: Double );
+//----------------------------------------------------------------------------
+procedure TFormFontain.GLCadencer1Progress( Sender: TObject; const deltaTime, newTime: Double );
 begin
   GLSceneViewer1.Invalidate;
 end;
 
-procedure TForm1.GLSceneViewer1MouseDown( Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer );
+//----------------------------------------------------------------------------
+procedure TFormFontain.GLSceneViewer1MouseDown( Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer );
 begin
   my := y;
   mx := x;
 end;
 
-procedure TForm1.GLSceneViewer1MouseMove( Sender: TObject; Shift: TShiftState; X, Y: Integer );
+//----------------------------------------------------------------------------
+procedure TFormFontain.GLSceneViewer1MouseMove( Sender: TObject; Shift: TShiftState; X, Y: Integer );
 begin
   if ssright in shift then
-    Cam.MoveAroundTarget( my-y, mx-x );
+    Camera.MoveAroundTarget( my-y, mx-x );
   my := y;
   mx := x;
 end;
 
-procedure TForm1.Timer1Timer( Sender: TObject );
+//----------------------------------------------------------------------------
+procedure TFormFontain.Timer1Timer( Sender: TObject );
 begin
   Caption:=Format('%.2f FPS Fountain Particles', [GLSceneViewer1.FramesPerSecond]);
   GLSceneViewer1.ResetPerformanceMonitor;
 end;
 
-procedure TForm1.FormMouseWheel( Sender: TObject; Shift: TShiftState; WheelDelta: Integer; MousePos: TPoint; var Handled: Boolean );
+//----------------------------------------------------------------------------
+procedure TFormFontain.FormMouseWheel( Sender: TObject; Shift: TShiftState; WheelDelta: Integer; MousePos: TPoint; var Handled: Boolean );
 begin
-  Cam.AdjustDistanceToTarget( Power( 1.1, WheelDelta / 120 ) );
+  Camera.AdjustDistanceToTarget( Power( 1.1, WheelDelta / 120 ) );
 end;
 
-procedure TForm1.PStartColorClick(Sender: TObject);
+//----------------------------------------------------------------------------
+procedure TFormFontain.PStartColorClick(Sender: TObject);
 begin
   if ColorDialog1.Execute then
   begin
-    GLFountainDummy.ColorStart := ColorDialog1.Color;
+    GLFountain.ColorStart := ColorDialog1.Color;
     PStartColor.Color := ColorDialog1.Color;
   end;
 end;
 
-procedure TForm1.PEndColorClick(Sender: TObject);
+//----------------------------------------------------------------------------
+procedure TFormFontain.PEndColorClick(Sender: TObject);
 begin
   if ColorDialog1.Execute then
   begin
     PEndColor.Color := ColorDialog1.Color;
-    GLFountainDummy.ColorEnd := ColorDialog1.Color;
+    GLFountain.ColorEnd := ColorDialog1.Color;
   end;
 end;
 
-procedure TForm1.PBackColorClick(Sender: TObject);
+//----------------------------------------------------------------------------
+procedure TFormFontain.PBackColorClick(Sender: TObject);
 begin
   if ColorDialog1.Execute then
   begin
@@ -233,81 +240,94 @@ begin
   end;
 end;
 
-//------------------------------------------------
+//----------------------------------------------------------------------------
 // Activate
-//------------------------------------------------
-procedure TForm1.CheckActivedClick(Sender: TObject);
+//----------------------------------------------------------------------------
+procedure TFormFontain.CheckActivedClick(Sender: TObject);
 begin
   if CheckActived.Checked then
-    GLFountainDummy.Actived := True else
-    GLFountainDummy.Actived := False;
+    GLFountain.Actived := True else
+    GLFountain.Actived := False;
 end;
 
-procedure TForm1.CheckBoundClick(Sender: TObject);
+//----------------------------------------------------------------------------
+procedure TFormFontain.CheckBoundClick(Sender: TObject);
 begin
   if CheckBound.Checked then
-    GLFountainDummy.Bounding := True else
-    GLFountainDummy.Bounding := False;
+    GLFountain.Bounding := True else
+    GLFountain.Bounding := False;
 end;
 
-procedure TForm1.EdMassChange(Sender: TObject);
+//----------------------------------------------------------------------------
+procedure TFormFontain.EdMassChange(Sender: TObject);
 begin
-  GLFountainDummy.ParticleMass := StrToFloat( EdMass.Text );
+  GLFountain.ParticleMass := StrToFloat( EdMass.Text );
 end;
 
-procedure TForm1.EdBoundChange(Sender: TObject);
+//----------------------------------------------------------------------------
+procedure TFormFontain.EdBoundChange(Sender: TObject);
 begin
-  GLFountainDummy.BoundingFactor := StrToFloat( EdBound.Text );
+  GLFountain.BoundingFactor := StrToFloat( EdBound.Text );
 end;
 
-procedure TForm1.EdFloorChange(Sender: TObject);
+//----------------------------------------------------------------------------
+procedure TFormFontain.EdFloorChange(Sender: TObject);
 begin
-  GLFountainDummy.Floor := StrToFloat( EdFloor.Text );
+  GLFountain.Floor := StrToFloat( EdFloor.Text );
 end;
 
-procedure TForm1.EdMaxPChange(Sender: TObject);
+//----------------------------------------------------------------------------
+procedure TFormFontain.EdMaxPChange(Sender: TObject);
 begin
-  GLFountainDummy.MaxParticles := StrToInt( EdMaxP.Text );
+  GLFountain.MaxParticles := StrToInt( EdMaxP.Text );
 end;
 
-procedure TForm1.EdVelMinChange(Sender: TObject);
+//----------------------------------------------------------------------------
+procedure TFormFontain.EdVelMinChange(Sender: TObject);
 begin
-  GLFountainDummy.VelocityMin := StrToInt( EdVelMin.Text );
+  GLFountain.VelocityMin := StrToInt( EdVelMin.Text );
 end;
 
-procedure TForm1.EdVelMaxChange(Sender: TObject);
+//----------------------------------------------------------------------------
+procedure TFormFontain.EdVelMaxChange(Sender: TObject);
 begin
-  GLFountainDummy.VelocityMax := StrToInt( EdVelMax.Text );
+  GLFountain.VelocityMax := StrToInt( EdVelMax.Text );
 end;
 
-procedure TForm1.EdAngleStartChange(Sender: TObject);
+//----------------------------------------------------------------------------
+procedure TFormFontain.EdAngleStartChange(Sender: TObject);
 begin
-  GLFountainDummy.AngleInit := StrToInt( EdAngleStart.Text );
+  GLFountain.AngleInit := StrToInt( EdAngleStart.Text );
 end;
 
-procedure TForm1.EdLifeFactChange(Sender: TObject);
+//----------------------------------------------------------------------------
+procedure TFormFontain.EdLifeFactChange(Sender: TObject);
 begin
-  GLFountainDummy.LifeFactor := StrToFloat( EdLifeFact.Text );
+  GLFountain.LifeFactor := StrToFloat( EdLifeFact.Text );
 end;
 
-procedure TForm1.EdTimesFactChange(Sender: TObject);
+//----------------------------------------------------------------------------
+procedure TFormFontain.EdTimesFactChange(Sender: TObject);
 begin
-  GLFountainDummy.TimesFactor := StrToFloat( EdTimesFact.Text );
+  GLFountain.TimesFactor := StrToFloat( EdTimesFact.Text );
 end;
 
-procedure TForm1.EdPSizeMinChange(Sender: TObject);
+//----------------------------------------------------------------------------
+procedure TFormFontain.EdPSizeMinChange(Sender: TObject);
 begin
-  GLFountainDummy.ParticlesSizeMin := StrToInt( EdPSizeMin.Text );
+  GLFountain.ParticlesSizeMin := StrToInt( EdPSizeMin.Text );
 end;
 
-procedure TForm1.EdPSizeMaxChange(Sender: TObject);
+//----------------------------------------------------------------------------
+procedure TFormFontain.EdPSizeMaxChange(Sender: TObject);
 begin
-  GLFountainDummy.ParticlesSizeMax := StrToInt( EdPSizeMax.Text );
+  GLFountain.ParticlesSizeMax := StrToInt( EdPSizeMax.Text );
 end;
 
-procedure TForm1.TrackBar1Change(Sender: TObject);
+//----------------------------------------------------------------------------
+procedure TFormFontain.TrackBar1Change(Sender: TObject);
 begin
-  with GLFountainDummy do
+  with GLFountain do
   begin
     Scale.X := TrackBar1.Position / 10;
     Scale.Y := TrackBar1.Position / 10;
@@ -315,22 +335,23 @@ begin
   end;
 end;
 
-procedure TForm1.Texture1Click(Sender: TObject);
+//----------------------------------------------------------------------------
+procedure TFormFontain.Texture1Click(Sender: TObject);
 begin
   if OpenPictureDialog1.Execute then
   begin
     if ( OpenPictureDialog1.FileName <> '' ) then
     begin
-      GLFountainDummy.Material.Texture.Image.LoadFromFile( OpenPictureDialog1.FileName );
+      GLFountain.Material.Texture.Image.LoadFromFile( OpenPictureDialog1.FileName );
     end;
   end;
   SetCurrentDir( ExtractFilePath( ParamStr(0) ) );
 end;
 
-//---------------------------------------------------
+//----------------------------------------------------------------------------
 // Particle Styles
-//---------------------------------------------------
-procedure TForm1.RadioButtonClick(Sender: TObject);
+//----------------------------------------------------------------------------
+procedure TFormFontain.RadioButtonClick(Sender: TObject);
 var
   val: integer;
 begin
@@ -343,7 +364,7 @@ begin
     val := 2;
   case val of
     0: begin
-         with GLFountainDummy do
+         with GLFountain do
          begin
            Material.Texture.Image.LoadFromFile( path + 'Textures\Par1.bmp' );
            Position.Z := -3;
@@ -367,7 +388,7 @@ begin
          end;
        end;
     1: begin
-         with GLFountainDummy do
+         with GLFountain do
          begin
            Material.Texture.Image.LoadFromFile( path + 'Textures\Par2.bmp' );
            Position.Z := -3;
@@ -391,7 +412,7 @@ begin
          end;
        end;
     2: begin
-         with GLFountainDummy do
+         with GLFountain do
          begin
            Material.Texture.Image.LoadFromFile( path + 'Textures\Par3.bmp' );
            Position.Z := -3;
@@ -417,9 +438,11 @@ begin
      end;
 end;
 
-procedure TForm1.Close1Click(Sender: TObject);
+//----------------------------------------------------------------------------
+procedure TFormFontain.Close1Click(Sender: TObject);
 begin
   Close;
 end;
 
+//----------------------------------------------------------------------------
 end.

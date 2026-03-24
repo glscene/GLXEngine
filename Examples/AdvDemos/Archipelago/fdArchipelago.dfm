@@ -1,9 +1,9 @@
-object Form1: TForm1
+object FormArchipelag: TFormArchipelag
   Left = 155
   Top = 126
   Align = alClient
   BorderStyle = bsNone
-  Caption = 'Form1'
+  Caption = 'FormArchipelag'
   ClientHeight = 459
   ClientWidth = 633
   Color = clBtnFace

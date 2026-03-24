@@ -5,7 +5,7 @@
 
 #pragma hdrstop
 
-#include "fImposterC.h"
+#include "fcImposter.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma link "GLS.BaseClasses"

@@ -1,4 +1,4 @@
-unit fImposterD;
+unit fdImposter;
 
 interface
 
@@ -13,13 +13,14 @@ uses
   Vcl.StdCtrls,
   Vcl.ExtCtrls,
 
+  Stage.VectorTypes,
+  Stage.VectorGeometry,
+
   GLS.Scene,
   GLS.Context,
-  Stage.VectorTypes,
   GLS.GeomObjects,
   GLS.Objects,
   GLS.SceneViewer,
-  Stage.VectorGeometry,
   GLS.Texture,
   GLS.Cadencer,
   GLS.Imposter,
@@ -66,10 +67,11 @@ type
 var
   FormImposter: TFormImposter;
 
-implementation
+implementation //=============================================================
 
 {$R *.dfm}
 
+//----------------------------------------------------------------------------
 procedure TFormImposter.FormCreate(Sender: TObject);
 // var
 // x, y : Integer;
@@ -90,6 +92,7 @@ begin
   impBuilder.RequestImposterFor(GLTeapot1);
 end;
 
+//----------------------------------------------------------------------------
 procedure TFormImposter.GLDirectOpenGL1Render(Sender: TObject; var rci: TGLRenderContextInfo);
 var
   camPos, pos: TGLVector;
@@ -111,11 +114,13 @@ begin
   imp.EndRender(rci);
 end;
 
+//----------------------------------------------------------------------------
 procedure TFormImposter.GLCadencer1Progress(Sender: TObject; const deltaTime, newTime: Double);
 begin
   GLSceneViewer1.Invalidate;
 end;
 
+//----------------------------------------------------------------------------
 procedure TFormImposter.Timer1Timer(Sender: TObject);
 begin
   LabelFPS.Caption := GLSceneViewer1.FramesPerSecondText;
@@ -125,9 +130,9 @@ begin
 
   LabelTexSize.Caption := Format('%d x %d - %.1f%%', [impBuilder.TextureSize.X,
     impBuilder.TextureSize.Y, impBuilder.TextureFillRatio * 100]);
-
 end;
 
+//----------------------------------------------------------------------------
 procedure TFormImposter.GLSceneViewer1MouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
 begin
   if ssLeft in Shift then
@@ -138,6 +143,7 @@ begin
   my := Y;
 end;
 
+//----------------------------------------------------------------------------
 procedure TFormImposter.CBSampleSizeChange(Sender: TObject);
 var
   s: Integer;
@@ -151,14 +157,17 @@ begin
   end;
 end;
 
+//----------------------------------------------------------------------------
 procedure TFormImposter.CBShowImposterClick(Sender: TObject);
 begin
   GLDirectOpenGL1.Visible := CBShowImposter.Checked;
 end;
 
+//----------------------------------------------------------------------------
 procedure TFormImposter.CBShowTeapotClick(Sender: TObject);
 begin
   GLTeapot1.Visible := CBShowTeapot.Checked;
 end;
 
+//----------------------------------------------------------------------------
 end.

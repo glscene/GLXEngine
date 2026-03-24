@@ -1,4 +1,4 @@
-object Form1: TForm1
+object FormArchipelag: TFormArchipelag
   Left = 0
   Top = 0
   Align = alClient
@@ -104,7 +104,7 @@ object Form1: TForm1
       HeightDataSource = GLCustomHDS1
       TileSize = 32
       TilesPerTexture = 1.000000000000000000
-      MaterialLibrary = MaterialLibrary
+      MaterialLibrary = MLTerrain
       CLODPrecision = 5
       OnHeightDataPostRender = TerrainRendererHeightDataPostRender
       ContourWidth = 0
@@ -151,13 +151,11 @@ object Form1: TForm1
     Left = 112
     Top = 32
   end
-  object MaterialLibrary: TGLMaterialLibrary
+  object MLTerrain: TGLMaterialLibrary
     Materials = <
       item
         Name = 'detail'
         Tag = 0
-        Material.Texture.ImageClassName = 'TGLPicFileImage'
-        Material.Texture.Image.PictureFileName = 'detail.jpg'
         Material.Texture.TextureMode = tmModulate
         Material.Texture.TextureFormat = tfLuminance
         Material.Texture.Compression = tcStandard
@@ -169,8 +167,6 @@ object Form1: TForm1
         Name = 'water'
         Tag = 0
         Material.BlendingMode = bmTransparency
-        Material.Texture.ImageClassName = 'TGLPicFileImage'
-        Material.Texture.Image.PictureFileName = '035eau.jpg'
         Material.Texture.TextureMode = tmModulate
         Material.Texture.MappingSCoordinates.Coordinates = {CDCC4C3D000000000000000000000000}
         Material.Texture.MappingTCoordinates.Coordinates = {00000000CDCC4C3D0000000000000000}
@@ -180,8 +176,6 @@ object Form1: TForm1
       item
         Name = 'wake'
         Tag = 0
-        Material.Texture.ImageClassName = 'TGLPicFileImage'
-        Material.Texture.Image.PictureFileName = 'wake.bmp'
         Material.Texture.TextureMode = tmModulate
         Material.Texture.Disabled = False
         Texture2Name = 'wake'
@@ -190,7 +184,7 @@ object Form1: TForm1
     Top = 96
   end
   object GLHeightTileFileHDS1: TGLHeightTileFileHDS
-    HTFFileName = 'Data\\Islands.htf'
+    HTFFileName = 'data\\Islands.htf'
     InfiniteWrap = False
     MaxPoolSize = 0
     Left = 200

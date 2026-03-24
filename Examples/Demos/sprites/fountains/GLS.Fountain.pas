@@ -1,4 +1,4 @@
-unit uFountainD;
+unit GLS.Fountain;
 
 interface
 
@@ -188,13 +188,11 @@ type
     property ColorEnd: longint read GetColorEnd write SetColorEnd;
   end;
 
-// ================================================================
-implementation
-// ================================================================
+implementation // =============================================================
 
-// ---------------------------------------------------------------
+//-----------------------------------------------------------------------------
 // TListSPTR
-// ---------------------------------------------------------------
+//-----------------------------------------------------------------------------
 constructor TListSPTR.Create(_SizeInfo: Cardinal);
 begin
   inherited Create;
@@ -202,12 +200,14 @@ begin
   SizeInfo := _SizeInfo;
 end;
 
+//-----------------------------------------------------------------------------
 destructor TListSPTR.Destroy;
 begin
   inherited Destroy;
   Clear;
 end;
 
+//-----------------------------------------------------------------------------
 function TListSPTR.Add(New: Pointer): Boolean;
 var
   p: TpNode;
@@ -231,6 +231,7 @@ begin
   end
 end;
 
+//-----------------------------------------------------------------------------
 function TListSPTR.CurrentModify(Modification: Pointer): Boolean;
 begin
   Result := (Current <> nil) and (Modification <> nil);
@@ -238,6 +239,7 @@ begin
     Move(Modification^, Current^.Info^, SizeInfo);
 end;
 
+//-----------------------------------------------------------------------------
 function TListSPTR.DeleteCurrent: Boolean;
 var
   p: TpNode;
@@ -272,6 +274,7 @@ Begin
   end;
 end;
 
+//-----------------------------------------------------------------------------
 function TListSPTR.DeleteIf(FctCondition: TFctCondition): integer;
 var
   p, GCurrent: TpNode;
@@ -294,6 +297,7 @@ begin
   Current := GCurrent;
 end;
 
+//-----------------------------------------------------------------------------
 procedure TListSPTR.Clear;
 var
   pAClean: TpNode;
@@ -314,11 +318,13 @@ begin
   Count := 0;
 end;
 
+//-----------------------------------------------------------------------------
 function TListSPTR.GetNbCount: Cardinal;
 begin
   Result := Count;
 end;
 
+//-----------------------------------------------------------------------------
 function TListSPTR.GetCurrent(Information: Pointer): Boolean;
 Begin
   Result := (Head <> nil) and (Information <> nil) and (Current <> nil);
@@ -326,6 +332,7 @@ Begin
     Move(Current^.Info^, Information^, SizeInfo);
 end;
 
+//-----------------------------------------------------------------------------
 function TListSPTR.GetFirst(Information: Pointer): Boolean;
 begin
   Result := (Head <> nil) and (Information <> nil);
@@ -336,6 +343,7 @@ begin
   end;
 end;
 
+//-----------------------------------------------------------------------------
 function TListSPTR.GetLast(Information: Pointer): Boolean;
 begin
   Result := (Final <> nil) and (Information <> nil);
@@ -346,6 +354,7 @@ begin
   end;
 end;
 
+//-----------------------------------------------------------------------------
 function TListSPTR.GetNext(Information: Pointer): Boolean;
 begin
   Result := (Count > 0) and (Current^.Next <> nil) and (Information <> nil);
@@ -356,9 +365,9 @@ begin
   end;
 end;
 
-// -------------------------------------------------
+//-----------------------------------------------------------------------------
 // TGLFountainDummy
-// -------------------------------------------------
+//-----------------------------------------------------------------------------
 constructor TGLFountainDummy.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
@@ -384,6 +393,7 @@ begin
   initFountain;
 end;
 
+//-----------------------------------------------------------------------------
 procedure TGLFountainDummy.initFountain;
 var
   i: integer;
@@ -397,6 +407,7 @@ begin
   LsParticles := TListSPTR.Create(SIZE_STR_PARTICLE);
 end;
 
+//-----------------------------------------------------------------------------
 procedure TGLFountainDummy.UpdateFountain;
 begin
   FNbParticles := 0;
@@ -406,6 +417,7 @@ begin
   NotifyChange(self);
 end;
 
+//-----------------------------------------------------------------------------
 function TGLFountainDummy.AddParticle: Boolean;
 var
   PTime: TParticle;
@@ -440,6 +452,7 @@ begin
   end;
 end;
 
+//-----------------------------------------------------------------------------
 procedure TGLFountainDummy.DeleteParticle;
   function LifeCheckParticle(const Particle: Pointer): Boolean;
   begin
@@ -451,6 +464,7 @@ begin
     FNbParticles := FNbParticles - LsParticles.DeleteIf(@LifeCheckParticle);
 end;
 
+//-----------------------------------------------------------------------------
 procedure TGLFountainDummy.CalculBoundPosParticles;
 var
   RoadParticle: TParticle;
@@ -491,6 +505,7 @@ begin
   end;
 end;
 
+//-----------------------------------------------------------------------------
 procedure TGLFountainDummy.CalculPosParticles;
 var
   RoadParticle: TParticle;
@@ -518,6 +533,7 @@ begin
   end;
 end;
 
+//-----------------------------------------------------------------------------
 procedure TGLFountainDummy.DrawParticles(rci: TGLRenderContextInfo);
 var
   RoadParticle: TParticle;
@@ -555,6 +571,7 @@ begin
     Until Not LsParticles.GetNext(@RoadParticle);
 end;
 
+//-----------------------------------------------------------------------------
 procedure TGLFountainDummy.Animation(rci: TGLRenderContextInfo);
 begin
   AddParticle;
@@ -581,38 +598,45 @@ begin
   glPopMatrix;
 end;
 
+//-----------------------------------------------------------------------------
 function TGLFountainDummy.GetActived: Boolean;
 begin
   Result := FActived;
 end;
 
+//-----------------------------------------------------------------------------
 procedure TGLFountainDummy.SetActived(const Activ: Boolean);
 begin
   FActived := Activ;
   UpdateFountain;
 end;
 
+//-----------------------------------------------------------------------------
 function TGLFountainDummy.GetNbParticles: integer;
 begin
   Result := FNbParticles;
 end;
 
+//-----------------------------------------------------------------------------
 function TGLFountainDummy.GetMaxParticles: integer;
 begin
   Result := FMaxParticles;
 end;
 
+//-----------------------------------------------------------------------------
 procedure TGLFountainDummy.SetMaxParticles(const Max: integer);
 begin
   FMaxParticles := Max;
   UpdateFountain;
 end;
 
+//-----------------------------------------------------------------------------
 function TGLFountainDummy.GetVelocityMax: integer;
 begin
   Result := FVelocityMax;
 end;
 
+//-----------------------------------------------------------------------------
 procedure TGLFountainDummy.SetVelocityMax(const VeloMax: integer);
 begin
   if (VeloMax > FVelocityMin) then
@@ -622,11 +646,13 @@ begin
   UpdateFountain;
 end;
 
+//-----------------------------------------------------------------------------
 function TGLFountainDummy.GetVelocityMin: integer;
 begin
   Result := FVelocityMin;
 end;
 
+//-----------------------------------------------------------------------------
 procedure TGLFountainDummy.SetVelocityMin(const VeloMin: integer);
 begin
   if (VeloMin < FVelocityMax) then
@@ -636,11 +662,13 @@ begin
   UpdateFountain;
 end;
 
+//-----------------------------------------------------------------------------
 function TGLFountainDummy.GetAngleStart: integer;
 begin
   Result := FVelocityMin;
 end;
 
+//-----------------------------------------------------------------------------
 procedure TGLFountainDummy.SetAngleStart(const AngleS: integer);
 begin
   if (AngleS >= 0) and (AngleS <= 360) then
@@ -650,33 +678,39 @@ begin
   UpdateFountain;
 end;
 
+//-----------------------------------------------------------------------------
 function TGLFountainDummy.GetFloor: single;
 begin
   Result := FFloor;
 end;
 
+//-----------------------------------------------------------------------------
 procedure TGLFountainDummy.SetFloor(const TheFloor: single);
 begin
   FFloor := TheFloor;
   UpdateFountain;
 end;
 
+//-----------------------------------------------------------------------------
 function TGLFountainDummy.GetFountainSize: single;
 begin
   Result := FFountainSize;
 end;
 
+//-----------------------------------------------------------------------------
 procedure TGLFountainDummy.SetFountainSize(const FountainSize: single);
 begin
   FFountainSize := FountainSize;
   UpdateFountain;
 end;
 
+//-----------------------------------------------------------------------------
 function TGLFountainDummy.GetParticlesSizeMax: integer;
 begin
   Result := FParticlesSizeMax;
 end;
 
+//-----------------------------------------------------------------------------
 procedure TGLFountainDummy.SetParticlesSizeMax(const PartMax: integer);
 begin
   if (PartMax > FParticlesSizeMin) then
@@ -686,11 +720,13 @@ begin
   UpdateFountain;
 end;
 
+//-----------------------------------------------------------------------------
 function TGLFountainDummy.GetParticlesSizeMin: integer;
 begin
   Result := FParticlesSizeMin;
 end;
 
+//-----------------------------------------------------------------------------
 procedure TGLFountainDummy.SetParticlesSizeMin(const PartMin: integer);
 begin
   if (PartMin < FParticlesSizeMax) then
@@ -700,11 +736,13 @@ begin
   UpdateFountain;
 end;
 
+//-----------------------------------------------------------------------------
 function TGLFountainDummy.GetBoundingFact: single;
 begin
   Result := FBoundingFactor;
 end;
 
+//-----------------------------------------------------------------------------
 procedure TGLFountainDummy.SetBoundingFact(const BoundSize: single);
 begin
   if (BoundSize >= 0) and (BoundSize <= 100) then
@@ -714,33 +752,39 @@ begin
   UpdateFountain;
 end;
 
+//-----------------------------------------------------------------------------
 function TGLFountainDummy.GetParticlesMass: single;
 begin
   Result := FParticleMass;
 end;
 
+//-----------------------------------------------------------------------------
 procedure TGLFountainDummy.SetParticlesMass(const Mass: single);
 begin
   FParticleMass := Mass;
   UpdateFountain;
 end;
 
+//-----------------------------------------------------------------------------
 function TGLFountainDummy.GetTimesFactor: double;
 begin
   Result := FTimesFactor;
 end;
 
+//-----------------------------------------------------------------------------
 procedure TGLFountainDummy.SetTimesFactor(const TimesFact: double);
 begin
   FTimesFactor := TimesFact;
   UpdateFountain;
 end;
 
+//-----------------------------------------------------------------------------
 function TGLFountainDummy.GetLifeFactor: single;
 begin
   Result := FLifeFactor;
 end;
 
+//-----------------------------------------------------------------------------
 procedure TGLFountainDummy.SetLifeFactor(const LifeFact: single);
 begin
   if LifeFact > 0 then
@@ -750,22 +794,26 @@ begin
   UpdateFountain;
 end;
 
+//-----------------------------------------------------------------------------
 function TGLFountainDummy.GetBounding: Boolean;
 begin
   Result := FBounding;
 end;
 
+//-----------------------------------------------------------------------------
 procedure TGLFountainDummy.SetBounding(const Bound: Boolean);
 begin
   FBounding := Bound;
   UpdateFountain;
 end;
 
+//-----------------------------------------------------------------------------
 function TGLFountainDummy.GetColorStart: longint;
 begin
   Result := FColorStart;
 end;
 
+//-----------------------------------------------------------------------------
 procedure TGLFountainDummy.SetColorStart(const ColStart: longint);
 begin
   FColorStart := ColStart;
@@ -775,11 +823,13 @@ begin
   UpdateFountain;
 end;
 
+//-----------------------------------------------------------------------------
 function TGLFountainDummy.GetColorEnd: longint;
 begin
   Result := FColorEnd;
 end;
 
+//-----------------------------------------------------------------------------
 procedure TGLFountainDummy.SetColorEnd(const ColEnd: longint);
 begin
   FColorEnd := ColEnd;
@@ -789,6 +839,7 @@ begin
   UpdateFountain;
 end;
 
+//-----------------------------------------------------------------------------
 procedure TGLFountainDummy.DoRender(var rci: TGLRenderContextInfo;
   renderSelf, renderChildren: Boolean);
 begin
@@ -797,6 +848,7 @@ begin
     self.renderChildren(0, Count - 1, rci);
 end;
 
+//-----------------------------------------------------------------------------
 destructor TGLFountainDummy.Destroy;
 begin
   FNbParticles := 0;
@@ -805,10 +857,7 @@ begin
   inherited Destroy;
 end;
 
-// -----------------------------------------------------------------------------
-initialization
-
-// ---------------------------------------------------------------------
+initialization //==============================================================
 
 RegisterClass(TGLFountainDummy);
 

@@ -159,7 +159,7 @@ object FormAtmosphere: TFormAtmosphere
   object GLScene1: TGLScene
     Left = 176
     Top = 16
-    object GLSkyDome1: TGLSkyDome
+    object SkyDome: TGLSkyDome
       Bands = <
         item
           StartColor.Color = {0000803F0000803F0000803F0000803F}
@@ -175,7 +175,7 @@ object FormAtmosphere: TFormAtmosphere
         item
           RA = 12.000000000000000000
           DEC = -15.000000000000000000
-          Magnitude = -1.000000000000000000
+          Magnitude = -10.000000000000000000
           Color = clRed
         end
         item

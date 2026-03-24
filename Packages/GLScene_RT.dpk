@@ -222,6 +222,7 @@ contains
   GLS.TerrainRenderer in '..\Source\GLS.TerrainRenderer.pas',
   GLS.TexLensFlare in '..\Source\GLS.TexLensFlare.pas',
   GLS.Texture in '..\Source\GLS.Texture.pas',
+  GLS.Texture3D in '..\Source\GLS.Texture3D.pas',
   GLS.TextureCombiners in '..\Source\GLS.TextureCombiners.pas',
   GLS.TextureImageEditors in '..\Source\GLS.TextureImageEditors.pas',
   GLS.TexturedHDS in '..\Source\GLS.TexturedHDS.pas',
@@ -242,6 +243,7 @@ contains
   GLS.InitOpenGL in '..\Source\GLS.InitOpenGL.pas',
   GLS.VectorLists in '..\Source\GLS.VectorLists.pas',
   GLS.VectorFileObjects in '..\Source\GLS.VectorFileObjects.pas',
+  GLS.Vehicles in '..\Source\GLS.Vehicles.pas',
   GLS.VerletTypes in '..\Source\GLS.VerletTypes.pas',
   GLS.VerletClothify in '..\Source\GLS.VerletClothify.pas',
   GLS.OpenGLAdapter in '..\Source\GLS.OpenGLAdapter.pas',
@@ -267,8 +269,7 @@ contains
   Stage.Utils in '..\Src\Stage.Utils.pas',
   Stage.VectorGeometry in '..\Src\Stage.VectorGeometry.pas',
   Stage.VectorTypes in '..\Src\Stage.VectorTypes.pas',
-  Stage.VectorTypesExt in '..\Src\Stage.VectorTypesExt.pas',
-  GLS.Vehicles in '..\Source\GLS.Vehicles.pas';
+  Stage.VectorTypesExt in '..\Src\Stage.VectorTypesExt.pas';
 
 end.
 

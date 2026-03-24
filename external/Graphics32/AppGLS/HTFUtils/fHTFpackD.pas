@@ -125,12 +125,10 @@ type
     procedure EDZFilterChange(Sender: TObject);
     procedure EDZScaleChange(Sender: TObject);
   private
-
     sources: array of TSrc;
     defaultZ: SmallInt;
     filterZ: SmallInt;
     zScale: Single;
-
     procedure Parse;
     procedure Cleanup;
     procedure SrcExtractFlip(src: PSrc; relX, relY, len: Integer;
@@ -138,7 +136,6 @@ type
     procedure SrcExtract(src: PSrc; relX, relY, len: Integer; dest: PSmallInt;
       DiagFlip: Boolean = false);
     procedure WorldExtract(x, y, len: Integer; dest: PSmallInt);
-
   public
 
   end;
@@ -146,13 +143,14 @@ type
 var
   MainForm: TMainForm;
 
-implementation
+implementation //=============================================================
 
 uses
   fViewerD;
 
 {$R *.dfm}
 
+//----------------------------------------------------------------------------
 procedure TMainForm.FormCreate(Sender: TObject);
 var
   i: Integer;
@@ -178,16 +176,19 @@ begin
   zScale := 1;
 end;
 
+//----------------------------------------------------------------------------
 procedure TMainForm.FormDestroy(Sender: TObject);
 begin
   Cleanup;
 end;
 
+//----------------------------------------------------------------------------
 procedure TMainForm.ACExitExecute(Sender: TObject);
 begin
   Close;
 end;
 
+//----------------------------------------------------------------------------
 procedure TMainForm.BUDEMPathClick(Sender: TObject);
 begin
   ODPath.InitialDir := EDDEMPath.Text;
@@ -196,6 +197,7 @@ begin
     EDDEMPath.Text := ExtractFilePath(ODPath.FileName);
 end;
 
+//----------------------------------------------------------------------------
 procedure TMainForm.BUPickHTFClick(Sender: TObject);
 begin
   SDHTF.FileName := EDHTFName.Text;
@@ -203,23 +205,27 @@ begin
     EDHTFName.Text := SDHTF.FileName;
 end;
 
+//----------------------------------------------------------------------------
 procedure TMainForm.MIAboutClick(Sender: TObject);
 begin
   ShowMessage(Caption + #13#10#13#10 + 'HTF Generation Utility'#13#10 +
-    'Part of GLScene library.'#13#10#13#10 + 'http://glscene.org');
+    'Part of GLScene library.'#13#10#13#10 + 'http://github.com/glscene');
 end;
 
+//----------------------------------------------------------------------------
 procedure TMainForm.ActionListUpdate(Action: TBasicAction;
   var Handled: Boolean);
 begin
   ACRemoveDEM.Enabled := (StringGrid.RowCount > 2);
 end;
 
+//----------------------------------------------------------------------------
 procedure TMainForm.ACNewDEMExecute(Sender: TObject);
 begin
   StringGrid.RowCount := StringGrid.RowCount + 1;
 end;
 
+//----------------------------------------------------------------------------
 procedure TMainForm.ACRemoveDEMExecute(Sender: TObject);
 var
   i: Integer;
@@ -241,6 +247,7 @@ begin
   end;
 end;
 
+//----------------------------------------------------------------------------
 procedure TMainForm.StringGridSelectCell(Sender: TObject; ACol, ARow: Integer;
   var CanSelect: Boolean);
 
@@ -290,12 +297,14 @@ begin
   end;
 end;
 
+//----------------------------------------------------------------------------
 procedure TMainForm.CBTypeChange(Sender: TObject);
 begin
   with StringGrid do
     Cells[Col, Row] := (Sender as TComboBox).Text;
 end;
 
+//----------------------------------------------------------------------------
 procedure TMainForm.ACSaveExecute(Sender: TObject);
 var
   i: Integer;
@@ -327,6 +336,7 @@ begin
   end;
 end;
 
+//----------------------------------------------------------------------------
 procedure TMainForm.ACOpenExecute(Sender: TObject);
 var
   i: Integer;
@@ -360,6 +370,7 @@ begin
   end;
 end;
 
+//----------------------------------------------------------------------------
 procedure TMainForm.EDDEMPathChange(Sender: TObject);
 var
   f: TSearchRec;
@@ -376,6 +387,7 @@ begin
   FindClose(f);
 end;
 
+//----------------------------------------------------------------------------
 procedure TMainForm.EDDefaultZChange(Sender: TObject);
 begin
   defaultZ := StrToIntDef(EDDefaultZ.Text, 0);
@@ -383,16 +395,19 @@ begin
     filterZ := defaultZ;
 end;
 
+//----------------------------------------------------------------------------
 procedure TMainForm.EDZFilterChange(Sender: TObject);
 begin
   filterZ := StrToIntDef(EDZFilter.Text, defaultZ);
 end;
 
+//----------------------------------------------------------------------------
 procedure TMainForm.EDZScaleChange(Sender: TObject);
 begin
   zScale := StrToFloatDef(EDZScale.Text, 1.0);
 end;
 
+//----------------------------------------------------------------------------
 procedure TMainForm.Parse;
 var
   i, p: Integer;
@@ -417,6 +432,7 @@ begin
   end;
 end;
 
+//----------------------------------------------------------------------------
 procedure TMainForm.Cleanup;
 var
   i: Integer;
@@ -426,6 +442,7 @@ begin
   SetLength(sources, 0);
 end;
 
+//----------------------------------------------------------------------------
 procedure TMainForm.SrcExtractFlip(src: PSrc; relX, relY, len: Integer;
   dest: PSmallInt);
 var
@@ -467,6 +484,7 @@ begin
   end;
 end;
 
+//----------------------------------------------------------------------------
 procedure TMainForm.SrcExtract(src: PSrc; relX, relY, len: Integer;
   dest: PSmallInt; DiagFlip: Boolean = false);
 var
@@ -558,6 +576,7 @@ begin
   end;
 end;
 
+//----------------------------------------------------------------------------
 procedure TMainForm.WorldExtract(x, y, len: Integer; dest: PSmallInt);
 var
   i, n, rx, ry: Integer;
@@ -609,6 +628,7 @@ begin
   end;
 end;
 
+//----------------------------------------------------------------------------
 procedure TMainForm.ACProcessExecute(Sender: TObject);
 var
   x, y, wx, wy, ts, tx, ty, i, j, overlap: Integer;
@@ -618,7 +638,6 @@ var
   f: file of Byte;
 begin
   Screen.Cursor := crHourGlass;
-
   wx := StrToInt(EDSizeX.Text);
   wy := StrToInt(EDSizeY.Text);
   ts := StrToInt(EDTileSize.Text);
@@ -697,6 +716,7 @@ begin
     ' bytes in file'#13#10 + '(' + IntToStr(wx * wy * 2) + ' raw bytes)');
 end;
 
+//----------------------------------------------------------------------------
 procedure TMainForm.ACViewerExecute(Sender: TObject);
 var
   viewer: TViewerForm;
@@ -705,7 +725,6 @@ begin
   try
     viewer.htf := TGLHeightTileFile.Create(EDHTFName.Text); // R
     viewer.Caption := 'HTFViewer - ' + ExtractFileName(EDHTFName.Text); // R
-
     viewer.ShowModal;
   finally
     viewer.Free;

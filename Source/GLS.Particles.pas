@@ -2,9 +2,9 @@
 // The graphics GaLaXy Engine. The unit of GLScene
 //
 unit GLS.Particles;
-
-(* Particle systems, based on replication of full-featured scene objects. *)
-
+(*
+  Particle systems, based on replication of full-featured scene objects.
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -14,12 +14,12 @@ uses
   System.Classes,
   System.SysUtils,
 
+  Stage.VectorGeometry,
+  Stage.OpenGLTokens,
   Stage.VectorTypes,
   GLS.Scene,
   GLS.XCollection,
   GLS.PersistentClasses,
-  Stage.VectorGeometry,
-  Stage.OpenGLTokens,
   GLS.Context,
   GLS.Color,
   GLS.BaseClasses,
@@ -79,8 +79,7 @@ type
     (* Request creation of a new particle.
      Particle will be either created or retrieved from the particlePool. *)
     function CreateParticle: TGLBaseSceneObject;
-    (* Kill given particle.
-       If particlePool is not full, particle will be sent to the pool,
+    (* Kill given particle. If particlePool is not full, particle will be sent to the pool,
        if not, it will be freed. *)
     procedure KillParticle(aParticle: TGLBaseSceneObject);
     // Kill all particles.
@@ -110,14 +109,10 @@ type
     property OnAfterRenderParticles: TGLDirectRenderEvent read FOnAfterRenderParticles write FOnAfterRenderParticles;
   end;
 
-// ------------------------------------------------------------------
-implementation
-// ------------------------------------------------------------------
+implementation //==============================================================
 
 
-//----------------- TGLParticles -----------------------------------------------------
-
- 
+//----------------- TGLParticles ----------------------------------------------
 constructor TGLParticles.Create(AOwner: TComponent);
 begin
   inherited;
@@ -128,7 +123,8 @@ begin
   particlePool := TList.Create;
 end;
 
- 
+
+//-----------------------------------------------------------------------------
 destructor TGLParticles.Destroy;
 begin
   FEdgeColor.Free;
@@ -137,6 +133,7 @@ begin
   inherited;
 end;
 
+//-----------------------------------------------------------------------------
 procedure TGLParticles.Assign(Source: TPersistent);
 begin
   if Source is TGLParticles then
@@ -154,6 +151,7 @@ begin
   inherited Assign(Source);
 end;
 
+//-----------------------------------------------------------------------------
 procedure TGLParticles.ClearParticlePool;
 var
   particle: TGLBaseSceneObject;
@@ -174,7 +172,7 @@ begin
   particlePool.Clear;
 end;
 
-
+//-----------------------------------------------------------------------------
 procedure TGLParticles.BuildList(var ARci: TGLRenderContextInfo);
 var
   mi, ma: Single;
@@ -219,7 +217,7 @@ begin
   gl.End_;
 end;
 
-
+//-----------------------------------------------------------------------------
 procedure TGLParticles.DoRender(var ARci: TGLRenderContextInfo;
   ARenderSelf, ARenderChildren: Boolean);
 begin
@@ -243,7 +241,7 @@ begin
     FOnAfterRenderParticles(Self, ARci);
 end;
 
-
+//-----------------------------------------------------------------------------
 procedure TGLParticles.DoProgress(const progressTime: TGLProgressTimes);
 var
   i: Integer;
@@ -256,7 +254,7 @@ begin
       OnProgress(Self, deltaTime, newTime);
 end;
 
-
+//-----------------------------------------------------------------------------
 procedure TGLParticles.SetCubeSize(const val: TGLFloat);
 begin
   if val <> FCubeSize then
@@ -266,7 +264,7 @@ begin
   end;
 end;
 
-
+//-----------------------------------------------------------------------------
 procedure TGLParticles.SetEdgeColor(const val: TGLColor);
 begin
   if val <> FEdgeColor then
@@ -276,7 +274,7 @@ begin
   end;
 end;
 
-
+//-----------------------------------------------------------------------------
 procedure TGLParticles.SetVisibleAtRunTime(const val: Boolean);
 begin
   if val <> FVisibleAtRunTime then
@@ -286,7 +284,7 @@ begin
   end;
 end;
 
-
+//-----------------------------------------------------------------------------
 procedure TGLParticles.SetParticlePoolSize(val: Integer);
 var
   particle: TGLBaseSceneObject;
@@ -308,7 +306,7 @@ begin
   end;
 end;
 
-
+//-----------------------------------------------------------------------------
 function TGLParticles.CreateParticle: TGLBaseSceneObject;
 begin
   if Count > 0 then
@@ -334,7 +332,7 @@ begin
     Result := nil;
 end;
 
-
+//-----------------------------------------------------------------------------
 procedure TGLParticles.KillParticle(aParticle: TGLBaseSceneObject);
 begin
   Assert(aParticle.Parent = Self, 'KillParticle : particle is not mine !');
@@ -353,16 +351,16 @@ begin
   end;
 end;
 
-
+//-----------------------------------------------------------------------------
 procedure TGLParticles.KillParticles;
 begin
   while Count > 1 do
     KillParticle(Children[Count - 1]);
 end;
 
-// ------------------------------------------------------------------
+//-----------------------------------------------------------------------------
 initialization
-// ------------------------------------------------------------------
+//-----------------------------------------------------------------------------
 
   RegisterClass(TGLParticles);
 

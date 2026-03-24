@@ -22,7 +22,7 @@ program CaterpillarD;
 
 uses
   Forms,
-  fCaterpillarD in 'fCaterpillarD.pas' {FormCaterpillar};
+  fdCaterpillar in 'fdCaterpillar.pas' {FormCaterpillar};
 
 {$R *.RES}
 

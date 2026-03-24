@@ -4,14 +4,14 @@
 #pragma hdrstop
 #include <tchar.h>
 //---------------------------------------------------------------------------
-USEFORM("fcArchipelago.cpp", Form1);
+USEFORM("fcArchipelago.cpp", FormArchipelag);
 //---------------------------------------------------------------------------
 int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 {
 	try
 	{
 		Application->Initialize();
-		Application->CreateForm(__classid(TForm1), &Form1);
+		Application->CreateForm(__classid(TFormArchipelag), &FormArchipelag);
 		Application->Run();
 	}
 	catch (Exception &exception)

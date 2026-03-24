@@ -22,13 +22,13 @@ program ArchipelagoD;
 
 uses
   Forms,
-  fdArchipelago in 'fdArchipelago.pas' {Form1};
+  fdArchipelago in 'fdArchipelago.pas' {FormArchipelag};
 
 {$R *.res}
 
 begin
   Application.Initialize;
   Application.Title := 'Archipelago';
-  Application.CreateForm(TForm1, Form1);
+  Application.CreateForm(TFormArchipelag, FormArchipelag);
   Application.Run;
 end.

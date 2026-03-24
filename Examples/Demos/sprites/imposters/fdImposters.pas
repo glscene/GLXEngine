@@ -1,4 +1,4 @@
-unit fImpostersD;
+unit fdImposters;
 
 interface
 
@@ -17,6 +17,10 @@ uses
   Vcl.ExtCtrls,
   Vcl.StdCtrls,
 
+  Stage.VectorTypes,
+  Stage.VectorGeometry,
+  Stage.Utils,
+
   GLS.Scene,
   GLS.Objects,
   GLS.Cadencer,
@@ -24,17 +28,15 @@ uses
   GLS.XCollection,
   GLS.VectorFileObjects,
   GLS.RenderContextInfo,
-  Stage.Utils,
   GLS.FileDDS,
   GLS.Context,
-  Stage.VectorGeometry,
   GLS.AsyncTimer,
   GLS.Coordinates,
   GLS.BaseClasses,
   GLS.Material,
   GLS.CompositeImage,
   GLS.VectorLists,
-  Stage.VectorTypes, GLS.SimpleNavigation;
+  GLS.SimpleNavigation;
 
 type
 
@@ -66,15 +68,17 @@ var
   glsl: TGLProgramHandle;
   InitDGL: boolean;
 
-implementation
+implementation //=============================================================
 
 {$R *.dfm}
 
+//----------------------------------------------------------------------------
 function GetNewPos: TGLVector;
 begin
   SetVector(Result, Random * 20 - 10, 0, Random * 20 - 10);
 end;
 
+//----------------------------------------------------------------------------
 procedure TFormImposters.GenFreeForm;
 var
   i: integer;
@@ -131,29 +135,34 @@ begin
   ff.StructureChanged;
 end;
 
+//----------------------------------------------------------------------------
 procedure TFormImposters.FormCreate(Sender: TObject);
 begin
   GenFreeForm;
   ff.Material.Texture.Image.LoadFromFile('halo.dds');
 end;
 
+//----------------------------------------------------------------------------
 procedure TFormImposters.ÑadencerProgress(Sender: TObject; const deltaTime, newTime: Double);
 begin
   Camera.MoveAroundTarget(0, deltaTime * 5);
 end;
 
+//----------------------------------------------------------------------------
 procedure TFormImposters.GLAsyncTimer1Timer(Sender: TObject);
 begin
   caption := 'Imposters FF › ' + vp.FramesPerSecondText(2);
   vp.ResetPerformanceMonitor;
 end;
 
+//----------------------------------------------------------------------------
 procedure TFormImposters.Timer1Timer(Sender: TObject);
 begin
 //  caption := 'FFImposters › ' + vp.FramesPerSecondText(2);
 //  vp.ResetPerformanceMonitor;
 end;
 
+//----------------------------------------------------------------------------
 procedure TFormImposters.dirOGLRender(Sender: TObject; var rci: TGLRenderContextInfo);
 begin
   // init shader
@@ -180,4 +189,5 @@ begin
   end;
 end;
 
+//----------------------------------------------------------------------------
 end.

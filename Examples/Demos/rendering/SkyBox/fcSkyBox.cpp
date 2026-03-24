@@ -3,7 +3,7 @@
 #include <vcl.h>
 #pragma hdrstop
 
-#include "fSkyBoxC.h"
+#include "fcSkyBox.h"
 // ---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma link "GLS.BaseClasses"

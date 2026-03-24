@@ -1,94 +1,69 @@
-object FormImposter: TFormImposter
-  Left = 110
-  Top = 65
-  Margins.Left = 5
-  Margins.Top = 5
-  Margins.Right = 5
-  Margins.Bottom = 5
+object Form1: TForm1
+  Left = 0
+  Top = 0
   Caption = 'Imposter'
-  ClientHeight = 583
-  ClientWidth = 954
+  ClientHeight = 355
+  ClientWidth = 486
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
-  Font.Height = -19
-  Font.Name = 'MS Sans Serif'
+  Font.Height = -11
+  Font.Name = 'Tahoma'
   Font.Style = []
   Position = poScreenCenter
   OnCreate = FormCreate
-  PixelsPerInch = 168
-  TextHeight = 24
+  OnMouseWheel = FormMouseWheel
+  OnResize = FormResize
+  TextHeight = 13
   object GLSceneViewer1: TGLSceneViewer
     Left = 0
     Top = 0
-    Width = 697
-    Height = 583
-    Margins.Left = 5
-    Margins.Top = 5
-    Margins.Right = 5
-    Margins.Bottom = 5
+    Width = 339
+    Height = 355
     Camera = GLCamera1
     Buffer.ContextOptions = [roDoubleBuffer, roRenderToWindow, roDestinationAlpha]
-    FieldOfView = 152.993667602539100000
+    FieldOfView = 135.120773315429700000
     PenAsTouch = False
     Align = alClient
+    OnMouseDown = GLSceneViewer1MouseDown
     OnMouseMove = GLSceneViewer1MouseMove
     TabOrder = 0
+    ExplicitWidth = 347
   end
   object Panel1: TPanel
-    Left = 697
+    Left = 339
     Top = 0
-    Width = 257
-    Height = 583
-    Margins.Left = 5
-    Margins.Top = 5
-    Margins.Right = 5
-    Margins.Bottom = 5
+    Width = 147
+    Height = 355
     Align = alRight
     BevelOuter = bvLowered
     TabOrder = 1
     object LabelTexSize: TLabel
-      Left = 14
-      Top = 14
-      Width = 69
-      Height = 24
-      Margins.Left = 5
-      Margins.Top = 5
-      Margins.Right = 5
-      Margins.Bottom = 5
+      Left = 8
+      Top = 8
+      Width = 37
+      Height = 13
       Caption = 'TexSize'
     end
     object Label2: TLabel
-      Left = 14
-      Top = 140
-      Width = 105
-      Height = 24
-      Margins.Left = 5
-      Margins.Top = 5
-      Margins.Right = 5
-      Margins.Bottom = 5
+      Left = 8
+      Top = 80
+      Width = 56
+      Height = 13
       Caption = 'Sample Size'
     end
     object LabelFPS: TLabel
-      Left = 11
-      Top = 210
-      Width = 36
-      Height = 24
-      Margins.Left = 5
-      Margins.Top = 5
-      Margins.Right = 5
-      Margins.Bottom = 5
+      Left = 6
+      Top = 120
+      Width = 18
+      Height = 13
       Caption = 'FPS'
     end
     object CBShowTeapot: TCheckBox
-      Left = 14
-      Top = 56
-      Width = 170
-      Height = 30
-      Margins.Left = 5
-      Margins.Top = 5
-      Margins.Right = 5
-      Margins.Bottom = 5
+      Left = 8
+      Top = 32
+      Width = 97
+      Height = 17
       Caption = 'Show Teapot'
       Checked = True
       State = cbChecked
@@ -96,14 +71,10 @@ object FormImposter: TFormImposter
       OnClick = CBShowTeapotClick
     end
     object CBShowImposter: TCheckBox
-      Left = 14
-      Top = 91
-      Width = 170
-      Height = 30
-      Margins.Left = 5
-      Margins.Top = 5
-      Margins.Right = 5
-      Margins.Bottom = 5
+      Left = 8
+      Top = 52
+      Width = 97
+      Height = 17
       Caption = 'Show Imposters'
       Checked = True
       State = cbChecked
@@ -111,19 +82,14 @@ object FormImposter: TFormImposter
       OnClick = CBShowImposterClick
     end
     object CBSampleSize: TComboBox
-      Left = 126
-      Top = 133
-      Width = 86
-      Height = 32
-      Margins.Left = 5
-      Margins.Top = 5
-      Margins.Right = 5
-      Margins.Bottom = 5
+      Left = 72
+      Top = 76
+      Width = 49
+      Height = 21
       Style = csDropDownList
       ItemIndex = 3
       TabOrder = 2
       Text = '64'
-      OnChange = CBSampleSizeChange
       Items.Strings = (
         '8'
         '16'

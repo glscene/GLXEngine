@@ -14,6 +14,10 @@
 #include <Vcl.ExtCtrls.hpp>
 #include <Vcl.Imaging.Jpeg.hpp>
 
+#include "Stage.Utils.hpp"
+#include "Stage.VectorGeometry.hpp"
+#include "Stage.Keyboard.hpp"
+
 #include "GLS.Scene.hpp"
 #include "GLS.Objects.hpp"
 #include "GLS.Cadencer.hpp"
@@ -31,12 +35,9 @@
 #include "GLS.FileMD2.hpp"
 #include "GLS.BaseClasses.hpp"
 #include "GLS.RenderContextInfo.hpp"
-#include "Stage.Keyboard.hpp"
-#include "GLS.State.hpp"
-#include "Stage.VectorGeometry.hpp"
 #include "GLS.Context.hpp"
 #include "GLS.EllipseCollision.hpp"
-#include "Stage.Utils.hpp"
+#include "GLS.State.hpp"
 #include "GLS.DCE.hpp"
 #include "GLS.SimpleNavigation.hpp"
 

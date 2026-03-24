@@ -3,7 +3,7 @@ object MainForm: TMainForm
   Top = 328
   Caption = 'Terrain Pack v1.1'
   ClientHeight = 412
-  ClientWidth = 581
+  ClientWidth = 664
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -18,7 +18,7 @@ object MainForm: TMainForm
   object StringGrid: TStringGrid
     Left = 0
     Top = 282
-    Width = 581
+    Width = 664
     Height = 110
     Align = alClient
     BorderStyle = bsNone
@@ -30,18 +30,21 @@ object MainForm: TMainForm
     PopupMenu = PopupMenu
     TabOrder = 0
     OnSelectCell = StringGridSelectCell
+    ExplicitWidth = 573
+    ExplicitHeight = 85
   end
   object Panel1: TPanel
     Left = 0
     Top = 173
-    Width = 581
+    Width = 664
     Height = 109
     Align = alTop
     BevelInner = bvRaised
     BevelOuter = bvLowered
     TabOrder = 1
+    ExplicitWidth = 573
     DesignSize = (
-      581
+      664
       109)
     object Label1: TLabel
       Left = 8
@@ -111,22 +114,24 @@ object MainForm: TMainForm
     object EDHTFName: TEdit
       Left = 72
       Top = 8
-      Width = 473
+      Width = 548
       Height = 21
       Anchors = [akLeft, akTop, akRight]
       TabOrder = 0
+      ExplicitWidth = 457
     end
     object EDDEMPath: TEdit
       Left = 72
       Top = 80
-      Width = 473
+      Width = 548
       Height = 21
       Anchors = [akLeft, akTop, akRight]
       TabOrder = 1
       OnChange = EDDEMPathChange
+      ExplicitWidth = 457
     end
     object BUDEMPath: TButton
-      Left = 547
+      Left = 622
       Top = 80
       Width = 24
       Height = 21
@@ -134,9 +139,10 @@ object MainForm: TMainForm
       Caption = '...'
       TabOrder = 2
       OnClick = BUDEMPathClick
+      ExplicitLeft = 531
     end
     object BUPickHTF: TButton
-      Left = 547
+      Left = 622
       Top = 8
       Width = 24
       Height = 21
@@ -144,6 +150,7 @@ object MainForm: TMainForm
       Caption = '...'
       TabOrder = 3
       OnClick = BUPickHTFClick
+      ExplicitLeft = 531
     end
     object EDSizeX: TEdit
       Left = 72
@@ -223,7 +230,7 @@ object MainForm: TMainForm
   object ToolBar: TToolBar
     Left = 0
     Top = 0
-    Width = 581
+    Width = 664
     Height = 173
     AutoSize = True
     BorderWidth = 1
@@ -232,6 +239,8 @@ object MainForm: TMainForm
     Caption = 'ToolBar'
     Images = ImageList
     TabOrder = 2
+    ExplicitWidth = 573
+    ExplicitHeight = 350
     object ToolButton1: TToolButton
       Left = 0
       Top = 0
@@ -320,21 +329,24 @@ object MainForm: TMainForm
   object PanelFoot: TPanel
     Left = 0
     Top = 392
-    Width = 581
+    Width = 664
     Height = 20
     Align = alBottom
     BevelOuter = bvNone
     BorderWidth = 3
     TabOrder = 5
+    ExplicitTop = 367
+    ExplicitWidth = 573
     object ProgressBar: TProgressBar
       Left = 3
       Top = 3
-      Width = 575
+      Width = 658
       Height = 14
       Align = alClient
       Smooth = True
       Step = 1
       TabOrder = 0
+      ExplicitWidth = 567
     end
   end
   object CBFlipRotate: TComboBox
@@ -361,8 +373,8 @@ object MainForm: TMainForm
   end
   object MainMenu: TMainMenu
     Images = ImageList
-    Left = 64
-    Top = 232
+    Left = 264
+    Top = 16
     object File1: TMenuItem
       Caption = 'File'
       object Open1: TMenuItem

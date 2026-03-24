@@ -1,4 +1,4 @@
-unit fSkyBoxD;
+unit fdSkyBox;
 
 interface
 
@@ -74,6 +74,7 @@ implementation  // ============================================================
 
 {$R *.dfm}
 
+//-----------------------------------------------------------------------------
 function TFormSkybox.LoadTexture(Matname, Filename: string): TGLLibMaterial;
 begin
   Result := GLMatLibCubeMap.AddTextureMaterial(Matname, Filename);
@@ -81,8 +82,7 @@ begin
   Result.Material.Texture.TextureMode := tmDecal;
 end;
 
-//------------------------------------------------
-
+//-----------------------------------------------------------------------------
 procedure TFormSkybox.FormCreate(Sender: TObject);
 begin
   PathToAssets := GetCurrentAssetPath();
@@ -145,8 +145,7 @@ begin
   //GLUserInterface1.MouseLookActive := true;
 end;
 
-//------------------------------------------------
-
+//-----------------------------------------------------------------------------
 procedure TFormSkybox.GLCadencer1Progress(Sender: TObject;
   const deltaTime, newTime: Double);
 begin
@@ -167,8 +166,7 @@ begin
   GLSceneViewer1.Invalidate();
 end;
 
-//------------------------------------------------
-
+//-----------------------------------------------------------------------------
 procedure TFormSkybox.HandleKeys(d: Double);
 begin
   if IsKeyDown('W') or IsKeyDown('Z') then
@@ -184,4 +182,5 @@ begin
     Close;
 end;
 
+//-----------------------------------------------------------------------------
 end.

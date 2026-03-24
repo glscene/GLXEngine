@@ -1,60 +1,59 @@
-object Form1: TForm1
-  Left = 0
-  Top = 0
+object FormImposter: TFormImposter
+  Left = 110
+  Top = 65
   Caption = 'Imposter'
-  ClientHeight = 355
-  ClientWidth = 486
+  ClientHeight = 333
+  ClientWidth = 545
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -11
-  Font.Name = 'Tahoma'
+  Font.Name = 'MS Sans Serif'
   Font.Style = []
   Position = poScreenCenter
   OnCreate = FormCreate
-  OnMouseWheel = FormMouseWheel
-  OnResize = FormResize
   TextHeight = 13
   object GLSceneViewer1: TGLSceneViewer
     Left = 0
     Top = 0
-    Width = 339
-    Height = 355
+    Width = 398
+    Height = 333
     Camera = GLCamera1
     Buffer.ContextOptions = [roDoubleBuffer, roRenderToWindow, roDestinationAlpha]
-    FieldOfView = 135.120773315429700000
+    FieldOfView = 134.394241333007800000
     PenAsTouch = False
     Align = alClient
-    OnMouseDown = GLSceneViewer1MouseDown
     OnMouseMove = GLSceneViewer1MouseMove
     TabOrder = 0
   end
   object Panel1: TPanel
-    Left = 339
+    Left = 398
     Top = 0
     Width = 147
-    Height = 355
+    Height = 333
     Align = alRight
     BevelOuter = bvLowered
     TabOrder = 1
+    ExplicitLeft = 390
+    ExplicitHeight = 308
     object LabelTexSize: TLabel
       Left = 8
       Top = 8
-      Width = 37
+      Width = 38
       Height = 13
       Caption = 'TexSize'
     end
     object Label2: TLabel
       Left = 8
       Top = 80
-      Width = 56
+      Width = 58
       Height = 13
       Caption = 'Sample Size'
     end
     object LabelFPS: TLabel
       Left = 6
       Top = 120
-      Width = 18
+      Width = 20
       Height = 13
       Caption = 'FPS'
     end
@@ -89,6 +88,7 @@ object Form1: TForm1
       ItemIndex = 3
       TabOrder = 2
       Text = '64'
+      OnChange = CBSampleSizeChange
       Items.Strings = (
         '8'
         '16'

@@ -2,7 +2,7 @@ program ImposterD;
 
 uses
   Forms,
-  fImposterD in 'fImposterD.pas' {FormImposter};
+  fdImposter in 'fdImposter.pas' {FormImposter};
 
 {$R *.res}
 

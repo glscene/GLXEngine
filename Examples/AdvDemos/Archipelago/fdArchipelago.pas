@@ -50,7 +50,7 @@ uses
   GLS.Navigator;
 
 type
-  TForm1 = class(TForm)
+  TFormArchipelag = class(TForm)
     GLSceneViewer1: TGLSceneViewer;
     GLScene1: TGLScene;
     Camera: TGLCamera;
@@ -108,9 +108,9 @@ type
   end;
 
 var
-  Form1: TForm1;
+  FormArchipelag: TFormArchipelag;
 
-implementation
+implementation  //=============================================================
 
 {$R *.DFM}
 
@@ -119,14 +119,15 @@ const
   cWaterOpaqueDepth = 2000;
   cWaveAmplitude = 120;
 
-procedure TForm1.FormCreate(Sender: TObject);
+//-----------------------------------------------------------------------------
+procedure TFormArchipelag.FormCreate(Sender: TObject);
 var
   i, j: Integer;
   name: string;
   libMat: TGLLibMaterial;
 begin
   DataPath := ExtractFilePath(ParamStr(0));
-  DataPath := DataPath + 'Data\';
+  DataPath := DataPath + 'data\';
   SetCurrentDir(DataPath);
   MLTerrain.TexturePaths := DataPath;
   MLSailBoat.TexturePaths := DataPath;
@@ -171,7 +172,7 @@ begin
   AssetPath := GetCurrentAssetPath() + '\model';
   SetCurrentDir(AssetPath);
   FFSailBoat.LoadFromFile('boat.3ds');
-  FFSailBoat.Position.SetPoint(-125 * TerrainRenderer.Scale.X, 0, -100 * TerrainRenderer.Scale.Z);
+  FFSailBoat.Position.SetPoint(-120 * TerrainRenderer.Scale.X, 0, -100 * TerrainRenderer.Scale.Z);
   FFSailBoat.TurnAngle := -30;
   // boost ambient
   for i := 0 to MLSailBoat.Materials.Count - 1 do
@@ -196,17 +197,18 @@ begin
     Screen.Height div 2 - 150, 0);
   HelpOpacity := 4;
   GLSceneViewer1.Cursor := crNone;
-
   SetCurrentDir(DataPath);
 end;
 
-procedure TForm1.ResetMousePos;
+//-----------------------------------------------------------------------------
+procedure TFormArchipelag.ResetMousePos;
 begin
   if GLSceneViewer1.Cursor = crNone then
     SetCursorPos(Screen.Width div 2, Screen.Height div 2);
 end;
 
-procedure TForm1.GLCadencerProgress(Sender: TObject; const deltaTime,
+//-----------------------------------------------------------------------------
+procedure TFormArchipelag.GLCadencerProgress(Sender: TObject; const deltaTime,
   newTime: Double);
 var
   speed, alpha, f: Single;
@@ -326,8 +328,8 @@ begin
   FFSailBoat.Move(deltaTime * 2);
 end;
 
-
-procedure TForm1.TerrainRendererHeightDataPostRender(
+//-----------------------------------------------------------------------------
+procedure TFormArchipelag.TerrainRendererHeightDataPostRender(
   var rci: TGLRenderContextInfo; var HeightDatas: TList);
 var
   i, x, y, s, s2: Integer;
@@ -412,16 +414,18 @@ begin
   until not MLTerrain.UnApplyMaterial(rci);
 end;
 
-procedure TForm1.Timer1Timer(Sender: TObject);
+//-----------------------------------------------------------------------------
+procedure TFormArchipelag.Timer1Timer(Sender: TObject);
 begin
-  htFPS.Text := Format('%.1f FPS - %d - %d',
+  htFPS.Text := format('%.1f FPS - %d - %d',
     [GLSceneViewer1.FramesPerSecond,
     TerrainRenderer.LastTriangleCount,
       WaterPolyCount]);
   GLSceneViewer1.ResetPerformanceMonitor;
 end;
 
-procedure TForm1.FormKeyPress(Sender: TObject; var Key: Char);
+//-----------------------------------------------------------------------------
+procedure TFormArchipelag.FormKeyPress(Sender: TObject; var Key: Char);
 var
   i: Integer;
   pm: TGLPolygonMode;
@@ -455,18 +459,21 @@ begin
   Key := #0;
 end;
 
-procedure TForm1.FormShow(Sender: TObject);
+//-----------------------------------------------------------------------------
+procedure TFormArchipelag.FormShow(Sender: TObject);
 begin
   TerrainRenderer.Up.SetVector(0, 0, 1);
   TerrainRenderer.Direction.SetVector(0, 1, 0);
 end;
 
-procedure TForm1.GLCustomHDS1MarkDirtyEvent(const area: TRect);
+//-----------------------------------------------------------------------------
+procedure TFormArchipelag.GLCustomHDS1MarkDirtyEvent(const area: TRect);
 begin
   GLHeightTileFileHDS1.MarkDirty(area);
 end;
 
-procedure TForm1.GLCustomHDS1StartPreparingData(heightData: TGLHeightData);
+//-----------------------------------------------------------------------------
+procedure TFormArchipelag.GLCustomHDS1StartPreparingData(heightData: TGLHeightData);
 var
   htfHD: TGLHeightData;
   i, j, n: Integer;
@@ -504,7 +511,8 @@ begin
   GLHeightTileFileHDS1.Release(htfHD);
 end;
 
-procedure TForm1.GLSceneViewerBeforeRender(Sender: TObject);
+//-----------------------------------------------------------------------------
+procedure TFormArchipelag.GLSceneViewerBeforeRender(Sender: TObject);
 var
   i, n: Integer;
 begin
@@ -526,13 +534,14 @@ begin
   end;
 end;
 
-
-function TForm1.WaterPhase(const px, py: Single): Single;
+//-----------------------------------------------------------------------------
+function TFormArchipelag.WaterPhase(const px, py: Single): Single;
 begin
   Result := GLCadencer.CurrentTime * 1 + px * 0.16 + py * 0.09;
 end;
 
-function TForm1.WaterHeight(const px, py: Single): Single;
+//-----------------------------------------------------------------------------
+function TFormArchipelag.WaterHeight(const px, py: Single): Single;
 var
   alpha: Single;
 begin
@@ -541,7 +550,8 @@ begin
   Result := (cWaterLevel + Sin(alpha) * cWaveAmplitude) * (TerrainRenderer.Scale.Z * (1 / 128));
 end;
 
-procedure TForm1.doWakeProgress(Sender: TObject; const deltaTime,
+//-----------------------------------------------------------------------------
+procedure TFormArchipelag.doWakeProgress(Sender: TObject; const deltaTime,
   newTime: Double);
 var
   i: Integer;
@@ -592,7 +602,8 @@ begin
   end;
 end;
 
-procedure TForm1.doWakeRender(Sender: TObject; var rci: TGLRenderContextInfo);
+//-----------------------------------------------------------------------------
+procedure TFormArchipelag.doWakeRender(Sender: TObject; var rci: TGLRenderContextInfo);
 var
   i: Integer;
   p: PAffineVector;
@@ -603,7 +614,6 @@ begin
     Exit;
   if (not FFSailBoat.Visible) or (not WaterPlane) then
     Exit;
-
   MLTerrain.ApplyMaterial('wake', rci);
   repeat
     with rci.GLStates do
@@ -618,10 +628,8 @@ begin
       Enable(stStencilTest);
       SetStencilOp(soKeep, soKeep, soKeep);
       Disable(stDepthTest);
-
       if not WasAboveWater then
         InvertFrontFace;
-
       glBegin(GL_TRIANGLE_STRIP);
       for i := 0 to WakeVertices.Count - 1 do
       begin
@@ -638,14 +646,13 @@ begin
         glVertex3f(p.X, WaterHeight(sbp.X, sbp.Y), p.Z);
       end;
       glEnd;
-
       if not WasAboveWater then
         InvertFrontFace;
       Disable(stStencilTest);
     end;
-
   until not MLTerrain.UnApplyMaterial(rci);
 end;
 
+//-----------------------------------------------------------------------------
 end.
 

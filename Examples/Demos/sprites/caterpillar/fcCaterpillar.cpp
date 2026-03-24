@@ -5,7 +5,7 @@
 
 #pragma hdrstop
 
-#include "fCaterpillarC.h"
+#include "fcCaterpillar.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma link "GLS.BaseClasses"

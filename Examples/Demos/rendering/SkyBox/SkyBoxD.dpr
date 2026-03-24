@@ -18,7 +18,7 @@ program SkyBoxD;
 
 uses
   Forms,
-  fSkyBoxD in 'fSkyBoxD.pas' {FormSkybox};
+  fdSkyBox in 'fdSkyBox.pas' {FormSkybox};
 
 {$R *.res}
 

@@ -77,21 +77,21 @@ var
   ViewerForm: TViewerForm;
   heightColor: array [Low(SmallInt) .. High(SmallInt)] of TColor32;
 
-implementation //----------------------------------------------------------
+implementation //=============================================================
 
 {$R *.dfm}
 
 uses
   fNavD;
 
+//----------------------------------------------------------------------------
 (*
   Quick'n dirty parser for palette file format '.pal', in which each line defines
   nodes in the color ramp palette:
-
   value:red,green,blue
-
   color is then interpolated between node values (ie. between each line in the file)
 *)
+//----------------------------------------------------------------------------
 procedure PreparePal(const fileName: String);
 
   procedure ParseLine(buf: String; var n: Integer; var c: TAffineVector);
@@ -152,8 +152,8 @@ begin
   end;
 end;
 
-// ----------------------------------------------------------------
 
+//----------------------------------------------------------------------------
 procedure TViewerForm.FormCreate(Sender: TObject);
 var
   i: Integer;
@@ -161,10 +161,8 @@ var
   mi: TMenuItem;
   sl: TStringList;
   AppDir: TFileName;
-
 begin
   bmpTile := TBitmap32.Create;
-
   AppDir := ExtractFilePath(ParamStr(0));
 
   PreparePal(AppDir + 'Blue-Green-Red.pal');
@@ -191,23 +189,20 @@ begin
   end;
 end;
 
-// ----------------------------------------------------------------
-
+//----------------------------------------------------------------------------
 procedure TViewerForm.FormDestroy(Sender: TObject);
 begin
   htf.Free;
   bmpTile.Free;
 end;
 
-// ----------------------------------------------------------------
-
+//----------------------------------------------------------------------------
 procedure TViewerForm.ACExitExecute(Sender: TObject);
 begin
   Close;
 end;
 
-// ----------------------------------------------------------------
-
+//----------------------------------------------------------------------------
 procedure TViewerForm.ACOpenExecute(Sender: TObject);
 var
   i: Integer;
@@ -226,8 +221,7 @@ begin
   end;
 end;
 
-// ----------------------------------------------------------------
-
+//----------------------------------------------------------------------------
 procedure TViewerForm.PrepareBitmap;
 var
   i, sx, tx, ty: Integer;
@@ -292,12 +286,14 @@ begin
     [htf.SizeX, htf.SizeY, 1000 * htfTime / freq, 1000 * drawTime / freq]);
 end;
 
+//----------------------------------------------------------------------------
 procedure TViewerForm.PaintBoxResize(Sender: TObject);
 begin
   if Assigned(htf) then
     PrepareBitmap;
 end;
 
+//----------------------------------------------------------------------------
 procedure TViewerForm.PaintBoxMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState;
   X, Y: Integer);
 begin
@@ -306,16 +302,14 @@ begin
   Screen.Cursor := crSizeAll;
 end;
 
-//----------------------------------------------------------------
-
+//----------------------------------------------------------------------------
 procedure TViewerForm.PaintBoxMouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState;
   X, Y: Integer);
 begin
   Screen.Cursor := crDefault;
 end;
 
-//----------------------------------------------------------------
-
+//----------------------------------------------------------------------------
 procedure TViewerForm.PaintBoxMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
 var
   tileIdx, n: Integer;
@@ -358,16 +352,14 @@ begin
   end;
 end;
 
-//----------------------------------------------------------------
-
+//----------------------------------------------------------------------------
 procedure TViewerForm.TBGridClick(Sender: TObject);
 begin
   PrepareBitmap;
   PaintBox.Invalidate;
 end;
 
-//----------------------------------------------------------------
-
+//----------------------------------------------------------------------------
 procedure TViewerForm.ACNavMapExecute(Sender: TObject);
 begin
   if NavForm.Execute(htf) then
@@ -379,15 +371,13 @@ begin
   end;
 end;
 
-//----------------------------------------------------------------
-
+//----------------------------------------------------------------------------
 procedure TViewerForm.ACNavMapUpdate(Sender: TObject);
 begin
   ACNavMap.Enabled := Assigned(htf);
 end;
 
-//----------------------------------------------------------------
-
+//----------------------------------------------------------------------------
 procedure TViewerForm.ACPaletteExecute(Sender: TObject);
 begin
   if Sender is TMenuItem then

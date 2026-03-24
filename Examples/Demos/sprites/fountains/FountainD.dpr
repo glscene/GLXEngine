@@ -4,17 +4,17 @@
     2005-06-09 - original code using four textures by Dave Gravel
 *)
 
- program FountainParticlesD;
+ program FountainD;
 
 uses
   Forms,
-  fFountainD in 'fFountainD.pas' {Form1},
-  uFountainD in 'uFountainD.pas';
+  fdFountain in 'fdFountain.pas' {FormFontain},
+  GLS.Fountain in 'GLS.Fountain.pas';
 
 {$R *.res}
 
 begin
   Application.Initialize;
-  Application.CreateForm(TForm1, Form1);
+  Application.CreateForm(TFormFontain, FormFontain);
   Application.Run;
 end.

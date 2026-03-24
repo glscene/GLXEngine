@@ -8,7 +8,7 @@ unit GLS.Graphics;
 
    Note: TGLBitmap32 = TGLImage has support for Alex Denissov's Graphics32 library
    (http://www.g32.org), just make sure the USE_GRAPHICS32 conditionnal
-   is active in GLScene.inc and recompile.
+   is active in Stage.Defines.inc and recompile.
 *)
 interface
 
@@ -24,6 +24,7 @@ uses
   System.Math,
   VCL.Graphics,
   VCL.Imaging.Pngimage,
+  VCL.Imaging.jpeg,
   VCL.Consts,
 
   {$IFDEF USE_GRAPHICS32} GR32, {$ENDIF}
@@ -372,7 +373,7 @@ procedure HackTPictureRegisteredFormats(destList: TStrings);
 var
   vVerticalFlipDDS: Boolean = True;
 
-implementation // ------------------------------------------------------------
+implementation //==============================================================
 
 var
   vRasterFileFormats: TGLRasterFileFormatsList;
@@ -564,6 +565,7 @@ begin
   end;
 end;
 
+//----------------------------------------------------------------------------
 procedure Div2(var Value: Integer);
 begin
   Value := Value div 2;
@@ -571,6 +573,7 @@ begin
     Inc(Value);
 end;
 
+//----------------------------------------------------------------------------
 function GetImageLodNumber(w, h, d: integer; IsVolume: Boolean): Integer;
 var
   L: Integer;
@@ -588,13 +591,15 @@ begin
   Result := L;
 end;
 
+//----------------------------------------------------------------------------
 procedure CalcImagePiramid(var APiramid: TGLImagePiramid);
 begin
   //
 end;
 
-// -------------------- RGBA Utils
-
+//----------------------------------------------------------------------------
+//                                RGBA Utils
+//----------------------------------------------------------------------------
 procedure GammaCorrectRGBArray(base: Pointer; pixelCount: Integer;
   gamma: Single);
 var
@@ -622,6 +627,7 @@ begin
   end;
 end;
 
+//----------------------------------------------------------------------------
 procedure GammaCorrectRGBAArray(base: Pointer; pixelCount: Integer;
   gamma: Single);
 var
@@ -655,6 +661,7 @@ begin
   end;
 end;
 
+//----------------------------------------------------------------------------
 procedure BrightenRGBArray(base: Pointer; pixelCount: Integer; factor: Single);
 var
   vBrightnessLUT: array[0..255] of Byte;
@@ -681,6 +688,7 @@ begin
   end;
 end;
 
+//----------------------------------------------------------------------------
 procedure BrightenRGBAArray(base: Pointer; pixelCount: Integer; factor: Single);
 var
   vBrightnessLUT: array[0..255] of Byte;
@@ -714,6 +722,7 @@ begin
   end;
 end;
 
+//----------------------------------------------------------------------------
 procedure BGR24ToRGB24(src, dest: Pointer; pixelCount: Integer); register;
 begin
   while pixelCount > 0 do
@@ -727,6 +736,7 @@ begin
   end;
 end;
 
+//----------------------------------------------------------------------------
 procedure BGR24ToRGBA32(src, dest: Pointer; pixelCount: Integer);
 begin
   while pixelCount > 0 do
@@ -741,6 +751,7 @@ begin
   end;
 end;
 
+//----------------------------------------------------------------------------
 procedure RGB24ToRGBA32(src, dest: Pointer; pixelCount: Integer);
 begin
   while pixelCount > 0 do
@@ -755,6 +766,7 @@ begin
   end;
 end;
 
+//----------------------------------------------------------------------------
 procedure BGRA32ToRGBA32(src, dest: Pointer; pixelCount: Integer);
 begin
   while pixelCount > 0 do
@@ -773,7 +785,6 @@ end;
 // ------------------
 // ------------------ TGLBaseImage ------------------
 // ------------------
-
 constructor TGLBaseImage.Create;
 begin
   inherited Create(Self);
@@ -1125,6 +1136,7 @@ begin
   Result := True;
 end;
 
+//----------------------------------------------------------------------------
 procedure TGLBaseImage.SetErrorImage;
 const
 cTextureError: array[0..12287] of Byte = (
@@ -3062,9 +3074,9 @@ end;
 {$ENDIF}
 
 
-//---------------------------------------------------
+//----------------------------------------------------------------------------
 initialization
-//---------------------------------------------------
+//----------------------------------------------------------------------------
 
 finalization
 

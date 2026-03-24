@@ -16,40 +16,39 @@
 #include <Vcl.Forms.hpp>
 #include <Vcl.Imaging.jpeg.hpp>
 
-#include "GLS.BaseClasses.hpp"
-#include "GLS.BitmapFont.hpp"
+#include "Stage.VectorTypes.hpp"
+#include "Stage.VectorGeometry.hpp"
+#include "Stage.TextureFormat.hpp"
+#include "Stage.Keyboard.hpp"
+
+#include "GLS.Scene.hpp"
 #include "GLS.Cadencer.hpp"
+#include "GLS.SceneViewer.hpp"
+#include "GLS.BaseClasses.hpp"
+#include "GLS.Objects.hpp"
+#include "GLS.BitmapFont.hpp"
 #include "GLS.Coordinates.hpp"
 #include "GLS.HeightData.hpp"
 #include "GLS.HeightTileFileHDS.hpp"
 #include "GLS.HUDObjects.hpp"
 #include "GLS.Material.hpp"
 
-#include "GLS.Objects.hpp"
-#include "GLS.Scene.hpp"
-#include "GLS.SceneViewer.hpp"
 #include "GLS.SkyDome.hpp"
 #include "GLS.TerrainRenderer.hpp"
 
 #include "GLS.VectorLists.hpp"
-#include "Stage.VectorTypes.hpp"
-#include "Stage.VectorGeometry.hpp"
 #include "GLS.VectorFileObjects.hpp"
 #include "GLS.WindowsFont.hpp"
-
-//---------------------------------------------------------------------------
 
 #include "GLS.RoamPatch.hpp"
 #include "GLS.RenderContextInfo.hpp"
 
-#include "Stage.Keyboard.hpp"
 #include "GLS.Context.hpp"
 #include "GLS.State.hpp"
-#include "Stage.TextureFormat.hpp"
 #include "GLS.File3DS.hpp"
 
 //---------------------------------------------------------------------------
-class TForm1 : public TForm
+class TFormArchipelag : public TForm
 {
 __published:	// IDE-managed Components
 	TGLSceneViewer *GLSceneViewer;
@@ -68,7 +67,7 @@ __published:	// IDE-managed Components
 	TGLHUDText *HTHelp;
 	TTimer *Timer1;
 	TGLCadencer *GLCadencer;
-	TGLMaterialLibrary *MaterialLibrary;
+	TGLMaterialLibrary *MLTerrain;
 	TGLHeightTileFileHDS *GLHeightTileFileHDS1;
 	TGLWindowsBitmapFont *BFSmall;
 	TGLCustomHDS *GLCustomHDS1;
@@ -87,7 +86,7 @@ __published:	// IDE-managed Components
 
 private:	// User declarations
 public:		// User declarations
-	__fastcall TForm1(TComponent* Owner);
+	__fastcall TFormArchipelag(TComponent* Owner);
 	bool FullScreen;
 	float CamHeight;
 	int WaterPolyCount;
@@ -104,6 +103,6 @@ public:		// User declarations
 	void IssuePoint(TGLHeightData *hd, int x, int y, int s2, float t, int rx, int ry);
 };
 //---------------------------------------------------------------------------
-extern PACKAGE TForm1 *Form1;
+extern PACKAGE TFormArchipelag *FormArchipelag;
 //---------------------------------------------------------------------------
 #endif

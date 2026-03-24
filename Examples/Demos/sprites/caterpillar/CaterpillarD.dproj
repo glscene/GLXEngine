@@ -124,7 +124,7 @@
         <DelphiCompile Include="$(MainSource)">
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
-        <DCCReference Include="fCaterpillarD.pas">
+        <DCCReference Include="fdCaterpillar.pas">
             <Form>FormCaterpillar</Form>
         </DCCReference>
         <BuildConfiguration Include="Base">

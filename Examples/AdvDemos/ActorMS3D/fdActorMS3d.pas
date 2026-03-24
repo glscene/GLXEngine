@@ -117,10 +117,11 @@ var
   FInvCameraMatrix2: TGLMatrix;
   FEyeToLightMatrix2: TGLMatrix;
 
-implementation
+implementation //==============================================================
 
 {$R *.dfm}
 
+//----------------------------------------------------------------------------
 procedure TFormActorms3d.LoadArchiveTexture(const AName: string; const ext: string);
 var
   img: TGLCompositeImage;
@@ -131,6 +132,7 @@ begin
   img.LoadFromStream(strm);
 end;
 
+//----------------------------------------------------------------------------
 procedure TFormActorms3d.FormCreate(Sender: TObject);
 begin
   // Loading an archive, to edit it you can use  ..\utilities\ArchiveEdit
@@ -161,7 +163,6 @@ begin
   // Loading a lightspot image
   MatLib.AddTextureMaterial('Lightspot','Flare1.bmp');
   // MatLib.TextureByName('LightSpot').Image.LoadFromFile('Flare1.bmp');
-
   Actor1.AnimationMode := aamNone;
   Actor1.Scale.SetVector(0.1, 0.1, 0.1, 0);
   Chair1.Scale.SetVector(0.35, 0.35, 0.35, 0);
@@ -224,7 +225,6 @@ begin
 
   FBiasMatrix := CreateScaleAndTranslationMatrix(VectorMake(0.5, 0.5, 0.5),
     VectorMake(0.5, 0.5, 0.5));
-
   // Loading shaders for shadows
   SetCurrentDir(Path + '\shader');
   GLSLShader1.VertexProgram.LoadFromFile('shadowmap_vp.glsl');
@@ -235,19 +235,20 @@ begin
   Chair1.Material.Texture.Disabled := False;
 end;
 
+//----------------------------------------------------------------------------
 procedure TFormActorms3d.FormShow(Sender: TObject);
 begin
   aniBox.ItemIndex := 0;
   aniBoxSelect(Sender);
 end;
 
+//----------------------------------------------------------------------------
 procedure TFormActorms3d.GLCadencer1Progress(Sender: TObject; const deltaTime, newTime: Double);
 var
   af, af2, pv, pv2: TAffineVector;
 begin
   // This is used to always keep the spotlight pointed at the model during
   // animation translations.
-
   GLCamera2.Position.Rotate(VectorMake(0, 1, 0), deltaTime * 0.1);
   af := Actor1.Skeleton.CurrentFrame.Position[0];
   scalevector(af, Actor1.Scale.AsAffineVector);
@@ -257,6 +258,7 @@ begin
   GLCamera2.Direction.AsAffineVector := pv;
 end;
 
+//----------------------------------------------------------------------------
 procedure TFormActorms3d.Actor1EndFrameReached(Sender: TObject);
 begin
   if (Actor1.AnimationMode = aamNone) then
@@ -267,6 +269,7 @@ begin
   end;
 end;
 
+//----------------------------------------------------------------------------
 procedure TFormActorms3d.aniBoxSelect(Sender: TObject);
 begin
   Actor1.AnimationMode := aamNone;
@@ -276,27 +279,28 @@ begin
     Timer1.Enabled := False;
     aniPos.Enabled := False;
     Actor1.SwitchToAnimation(aniBox.ItemIndex + 1, False);
-
     aniPos.Min := 0;
     aniPos.Max := Actor1.EndFrame - Actor1.StartFrame;
     aniPos.Position := 0;
     aniPos.Enabled := True;
     btnStartStop.Caption := 'Start';
   end;
-
 end;
 
+//----------------------------------------------------------------------------
 procedure TFormActorms3d.aniPosChange(Sender: TObject);
 begin
   if (aniPos.Enabled) then
     Actor1.CurrentFrame := Actor1.StartFrame + aniPos.Position;
 end;
 
+//----------------------------------------------------------------------------
 procedure TFormActorms3d.Button2Click(Sender: TObject);
 begin
   Actor1.NextFrame;
 end;
 
+//----------------------------------------------------------------------------
 procedure TFormActorms3d.btnStartStopClick(Sender: TObject);
 begin
   if (Actor1.AnimationMode = aamNone) then
@@ -317,17 +321,20 @@ begin
   end;
 end;
 
+//----------------------------------------------------------------------------
 procedure TFormActorms3d.Button4Click(Sender: TObject);
 begin
   Actor1.PrevFrame;
 end;
 
+//----------------------------------------------------------------------------
 procedure TFormActorms3d.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
 begin
   Actor1.AnimationMode := aamNone;
   GLCadencer1.Enabled := False;
 end;
 
+//----------------------------------------------------------------------------
 procedure TFormActorms3d.GLDirectOpenGL1Render(Sender: TObject; var rci: TGLRenderContextInfo);
 begin
   // prepare shadow mapping matrix
@@ -340,11 +347,13 @@ begin
   FEyeToLightMatrix := MatrixMultiply(FEyeToLightMatrix, FBiasMatrix);
 end;
 
+//----------------------------------------------------------------------------
 procedure TFormActorms3d.GLFrameBufferAfterRender(Sender: TObject; var rci: TGLRenderContextInfo);
 begin
   CurrentGLContext.GLStates.Disable(stPolygonOffsetFill);
 end;
 
+//----------------------------------------------------------------------------
 procedure TFormActorms3d.GLFrameBufferBeforeRender(Sender: TObject; var rci: TGLRenderContextInfo);
 begin
   with CurrentGLContext.PipelineTransformation do
@@ -361,6 +370,7 @@ begin
   end;
 end;
 
+//----------------------------------------------------------------------------
 procedure TFormActorms3d.GLSLShader1Apply(Shader: TGLCustomGLSLShader);
 begin
    with Shader, MatLib do
@@ -374,6 +384,7 @@ begin
   end;
 end;
 
+//----------------------------------------------------------------------------
 procedure TFormActorms3d.GLSLShader1Initialize(Shader: TGLCustomGLSLShader);
 begin
   with Shader, MatLib do
@@ -384,14 +395,17 @@ begin
   end;
 end;
 
+//----------------------------------------------------------------------------
 procedure TFormActorms3d.SetAppPath(const Value: string);
 begin
   FAppPath := Value;
 end;
 
+//----------------------------------------------------------------------------
 procedure TFormActorms3d.Timer1Timer(Sender: TObject);
 begin
   aniPos.Position := Actor1.CurrentFrame - Actor1.Animations[aniBox.ItemIndex + 1].StartFrame;
 end;
 
+//----------------------------------------------------------------------------
 end.

@@ -124,7 +124,7 @@
         <DelphiCompile Include="$(MainSource)">
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
-        <DCCReference Include="fParticlesD.pas">
+        <DCCReference Include="fdParticles.pas">
             <Form>FormParticles</Form>
         </DCCReference>
         <BuildConfiguration Include="Base">

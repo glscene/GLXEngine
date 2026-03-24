@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 
-#ifndef fImposterCH
-#define fImposterCH
+#ifndef fcImposterH
+#define fcImposterH
 //---------------------------------------------------------------------------
 #include <System.Classes.hpp>
 #include <Vcl.Controls.hpp>

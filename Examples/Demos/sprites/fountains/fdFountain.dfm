@@ -1,4 +1,4 @@
-object Form1: TForm1
+object FormFontain: TFormFontain
   Left = 216
   Top = 3
   Caption = 'Fountain Particles'
@@ -20,7 +20,7 @@ object Form1: TForm1
     Top = 0
     Width = 678
     Height = 626
-    Camera = Cam
+    Camera = Camera
     VSync = vsmSync
     Buffer.FogEnvironment.FogStart = 25.000000000000000000
     Buffer.FogEnvironment.FogEnd = 25.000000000000000000
@@ -41,6 +41,8 @@ object Form1: TForm1
     Align = alRight
     BevelOuter = bvNone
     TabOrder = 1
+    ExplicitLeft = 670
+    ExplicitHeight = 601
     object Panel2: TPanel
       Left = 0
       Top = 545
@@ -48,6 +50,7 @@ object Form1: TForm1
       Height = 81
       Align = alBottom
       TabOrder = 0
+      ExplicitTop = 520
       object Label1: TLabel
         Left = 6
         Top = 6
@@ -127,7 +130,7 @@ object Form1: TForm1
       Top = 0
       Width = 208
       Height = 545
-      ActivePage = TabSheet1
+      ActivePage = tsSetting
       Align = alClient
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
@@ -136,8 +139,8 @@ object Form1: TForm1
       Font.Style = [fsBold]
       ParentFont = False
       TabOrder = 1
-      object TabSheet1: TTabSheet
-        Caption = 'Fontaine Setting'
+      object tsSetting: TTabSheet
+        Caption = 'Fontain Setting'
         object Label14: TLabel
           Left = 8
           Top = 472
@@ -438,8 +441,8 @@ object Form1: TForm1
           OnChange = TrackBar1Change
         end
       end
-      object TabSheet2: TTabSheet
-        Caption = 'Fontaine Style'
+      object tsStyle: TTabSheet
+        Caption = 'Fontain Style'
         ImageIndex = 1
         object Panel3: TPanel
           Left = 0
@@ -448,7 +451,6 @@ object Form1: TForm1
           Height = 517
           Align = alClient
           TabOrder = 0
-          ExplicitHeight = 513
           object RadioButton1: TRadioButton
             Left = 8
             Top = 16
@@ -488,11 +490,13 @@ object Form1: TForm1
     Width = 886
     Height = 19
     Panels = <>
+    ExplicitTop = 601
+    ExplicitWidth = 878
   end
   object GLScene1: TGLScene
     Left = 32
     Top = 36
-    object Scene: TGLDummyCube
+    object dcScene: TGLDummyCube
       CubeSize = 1.000000000000000000
       object GLTorus1: TGLTorus
         Material.MaterialLibrary = GLMatlibColors
@@ -519,10 +523,10 @@ object Form1: TForm1
       SpotCutOff = 180.000000000000000000
       SpotDirection.Coordinates = {000000000000803F0000000000000000}
     end
-    object Cam: TGLCamera
+    object Camera: TGLCamera
       DepthOfView = 1000.000000000000000000
       FocalLength = 90.000000000000000000
-      TargetObject = Scene
+      TargetObject = dcScene
       Position.Coordinates = {0000000000007041000040400000803F}
       Direction.Coordinates = {000000000000803F0000000000000000}
       Up.Coordinates = {00000000000000000000803F00000000}

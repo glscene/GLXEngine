@@ -15,13 +15,7 @@
         <Projects Include="Packages\GXScene_Physics_RT.dproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="Packages\GXScene_GPU_RT.dproj">
-            <Dependencies/>
-        </Projects>
         <Projects Include="packages\GXScene_GBE_DTRT.dproj">
-            <Dependencies/>
-        </Projects>
-        <Projects Include="packages\GXScene_DT.dproj">
             <Dependencies/>
         </Projects>
     </ItemGroup>
@@ -68,15 +62,6 @@
     <Target Name="GXScene_Physics_RT:Make">
         <MSBuild Projects="Packages\GXScene_Physics_RT.dproj" Targets="Make"/>
     </Target>
-    <Target Name="GXScene_GPU_RT">
-        <MSBuild Projects="Packages\GXScene_GPU_RT.dproj"/>
-    </Target>
-    <Target Name="GXScene_GPU_RT:Clean">
-        <MSBuild Projects="Packages\GXScene_GPU_RT.dproj" Targets="Clean"/>
-    </Target>
-    <Target Name="GXScene_GPU_RT:Make">
-        <MSBuild Projects="Packages\GXScene_GPU_RT.dproj" Targets="Make"/>
-    </Target>
     <Target Name="GXScene_GBE_DTRT">
         <MSBuild Projects="packages\GXScene_GBE_DTRT.dproj"/>
     </Target>
@@ -86,23 +71,14 @@
     <Target Name="GXScene_GBE_DTRT:Make">
         <MSBuild Projects="packages\GXScene_GBE_DTRT.dproj" Targets="Make"/>
     </Target>
-    <Target Name="GXScene_DT">
-        <MSBuild Projects="packages\GXScene_DT.dproj"/>
-    </Target>
-    <Target Name="GXScene_DT:Clean">
-        <MSBuild Projects="packages\GXScene_DT.dproj" Targets="Clean"/>
-    </Target>
-    <Target Name="GXScene_DT:Make">
-        <MSBuild Projects="packages\GXScene_DT.dproj" Targets="Make"/>
-    </Target>
     <Target Name="Build">
-        <CallTarget Targets="GXScene_RT;GXScene_Sounds_RT;GXScene_Cg_RT;GXScene_Physics_RT;GXScene_GPU_RT;GXScene_GBE_DTRT;GXScene_DT"/>
+        <CallTarget Targets="GXScene_RT;GXScene_Sounds_RT;GXScene_Cg_RT;GXScene_Physics_RT;GXScene_GBE_DTRT"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="GXScene_RT:Clean;GXScene_Sounds_RT:Clean;GXScene_Cg_RT:Clean;GXScene_Physics_RT:Clean;GXScene_GPU_RT:Clean;GXScene_GBE_DTRT:Clean;GXScene_DT:Clean"/>
+        <CallTarget Targets="GXScene_RT:Clean;GXScene_Sounds_RT:Clean;GXScene_Cg_RT:Clean;GXScene_Physics_RT:Clean;GXScene_GBE_DTRT:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="GXScene_RT:Make;GXScene_Sounds_RT:Make;GXScene_Cg_RT:Make;GXScene_Physics_RT:Make;GXScene_GPU_RT:Make;GXScene_GBE_DTRT:Make;GXScene_DT:Make"/>
+        <CallTarget Targets="GXScene_RT:Make;GXScene_Sounds_RT:Make;GXScene_Cg_RT:Make;GXScene_Physics_RT:Make;GXScene_GBE_DTRT:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

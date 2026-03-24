@@ -2,7 +2,7 @@
 
 #include <vcl.h>
 #pragma hdrstop
-USEFORM("fParticlesC.cpp", FormStars);
+USEFORM("fcParticles.cpp", FormStars);
 //---------------------------------------------------------------------------
 WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 {

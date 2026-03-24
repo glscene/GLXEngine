@@ -28,28 +28,28 @@
 #pragma link "GLS.File3DS"
 
 #pragma resource "*.dfm"
-TForm1 *Form1;
+TFormArchipelag *FormArchipelag;
 
 #define cWaterLevel -10000
 #define cWaterOpaqueDepth 2000
 #define cWaveAmplitude 120
 
 // ---------------------------------------------------------------------------
-__fastcall TForm1::TForm1(TComponent* Owner) : TForm(Owner) {
+__fastcall TFormArchipelag::TFormArchipelag(TComponent* Owner) : TForm(Owner) {
 }
 
 // ---------------------------------------------------------------------------
 
-void __fastcall TForm1::FormCreate(TObject *Sender) {
+void __fastcall TFormArchipelag::FormCreate(TObject *Sender) {
 	int i, j;
 	String name;
 	TGLLibMaterial *libMat;
 	String DataPath;
 
 	DataPath = ExtractFilePath(ParamStr(0));
-  	DataPath += "data\\";
+  	DataPath += "data";
 	SetCurrentDir(DataPath);
-	MaterialLibrary->TexturePaths = DataPath;
+	MLTerrain->TexturePaths = DataPath;
 
 	GLCustomHDS1->MaxPoolSize = 8 * 1024 * 1024;
 	GLCustomHDS1->DefaultHeight = cWaterLevel;
@@ -65,7 +65,7 @@ void __fastcall TForm1::FormCreate(TObject *Sender) {
 				Application->Terminate();
 				Abort();
 			}
-			libMat = MaterialLibrary->AddTextureMaterial(name, name, false);
+			libMat = MLTerrain->AddTextureMaterial(name, name, false);
 			libMat->Material->Texture->TextureMode = tmReplace;
 			libMat->Material->Texture->TextureWrap = twNone;
 			// comment out to turn off texture compression
@@ -86,7 +86,11 @@ void __fastcall TForm1::FormCreate(TObject *Sender) {
 	FFSailBoat->LoadFromFile("sailboat.glsm");
 	MLSailBoat->LoadFromFile("sailboat.glml");
 	*/
-	FFSailBoat->LoadFromFile("boat.3DS");
+
+	TFileName AssetPath = GetCurrentAssetPath() + "\\model";
+	SetCurrentDir(AssetPath);
+	FFSailBoat->LoadFromFile("boat.3ds");
+
 	FFSailBoat->Position->SetPoint(-125*TerrainRenderer->Scale->X, 0,
 		-100*TerrainRenderer->Scale->Z);
 	FFSailBoat->TurnAngle = -30;
@@ -118,13 +122,13 @@ void __fastcall TForm1::FormCreate(TObject *Sender) {
 }
 
 // ---------------------------------------------------------------------------
-void TForm1::ResetMousePos(void) {
+void TFormArchipelag::ResetMousePos(void) {
 	if (GLSceneViewer->Cursor == crNone)
 		SetCursorPos(Screen->Width / 2, Screen->Height / 2);
 }
 
 // ---------------------------------------------------------------------------
-void __fastcall TForm1::GLCadencerProgress(TObject *Sender,
+void __fastcall TFormArchipelag::GLCadencerProgress(TObject *Sender,
 	const double deltaTime, const double newTime) {
 	float Speed, Alpha, f;
 	float TerrainHeight, SurfaceHeight;
@@ -243,26 +247,26 @@ void __fastcall TForm1::GLCadencerProgress(TObject *Sender,
 }
 
 // ---------------------------------------------------------------------------
-void __fastcall TForm1::Timer1Timer(TObject *Sender) {
+void __fastcall TFormArchipelag::Timer1Timer(TObject *Sender) {
 	HTFPS->Text = GLSceneViewer->FramesPerSecondText(0) + ", " + TerrainRenderer->LastTriangleCount + ", " + WaterPolyCount;
 	GLSceneViewer->ResetPerformanceMonitor();
 }
 
 // ---------------------------------------------------------------------------
-void __fastcall TForm1::FormKeyPress(TObject *Sender, System::WideChar &Key) {
+void __fastcall TFormArchipelag::FormKeyPress(TObject *Sender, System::WideChar &Key) {
 	int i;
 	TGLPolygonMode pm;
 
 	switch (Key) {
 	case 'w':
 	case 'W': {
-		if (MaterialLibrary->Materials->Items[0]->Material->PolygonMode ==
+		if (MLTerrain->Materials->Items[0]->Material->PolygonMode ==
 			pmLines)
 			pm = pmFill;
 		else
 			pm = pmLines;
-		for (i = 0; i < MaterialLibrary->Materials->Count; i++)
-			MaterialLibrary->Materials->Items[i]
+		for (i = 0; i < MLTerrain->Materials->Count; i++)
+			MLTerrain->Materials->Items[i]
 				->Material->PolygonMode = pm;
 
 		for (i = 0; i < MLSailBoat->Materials->Count; i++)
@@ -293,12 +297,12 @@ void __fastcall TForm1::FormKeyPress(TObject *Sender, System::WideChar &Key) {
 }
 
 // ---------------------------------------------------------------------------
-void __fastcall TForm1::GLCustomHDS1MarkDirtyEvent(const TRect &area) {
+void __fastcall TFormArchipelag::GLCustomHDS1MarkDirtyEvent(const TRect &area) {
 	GLHeightTileFileHDS1->MarkDirty(area);
 }
-// ---------------------------------------------------------------------------
 
-void __fastcall TForm1::GLCustomHDS1StartPreparingData(TGLHeightData *heightData)
+// ---------------------------------------------------------------------------
+void __fastcall TFormArchipelag::GLCustomHDS1StartPreparingData(TGLHeightData *heightData)
 {
 	TGLHeightData *htfHD;
 	int i, j, n;
@@ -314,7 +318,7 @@ void __fastcall TForm1::GLCustomHDS1StartPreparingData(TGLHeightData *heightData
 		j = (heightData->YTop / 128);
 		if ((Cardinal(i) < 4) & (Cardinal(j) < 4)) {
 			heightData->MaterialName =
-				Format("Tex_%d_%d.bmp", ARRAYOFCONST((i, j)));
+				Format("data\\Tex_%d_%d.bmp", ARRAYOFCONST((i, j)));
 			heightData->TextureCoordinatesMode = tcmLocal;
 			n = ((heightData->XLeft / 32) & 3);
 			offset.S = n * 0.25;
@@ -338,17 +342,17 @@ void __fastcall TForm1::GLCustomHDS1StartPreparingData(TGLHeightData *heightData
 }
 
 // ---------------------------------------------------------------------------
-void __fastcall TForm1::GLSceneViewerBeforeRender(TObject *Sender) {
+void __fastcall TFormArchipelag::GLSceneViewerBeforeRender(TObject *Sender) {
 	int i, n;
 
 	PAProgress->Left = (Width - PAProgress->Width) / 2;
 	PAProgress->Visible = true;
-	n = MaterialLibrary->Materials->Count;
+	n = MLTerrain->Materials->Count;
 	ProgressBar->Max = n - 1;
 	try {
 		for (i = 0; i < n; i++) {
 			ProgressBar->Position = i;
-			MaterialLibrary->Materials->Items[i]->Material->Texture->Handle;
+			MLTerrain->Materials->Items[i]->Material->Texture->Handle;
 			PAProgress->Repaint();
 		}
 	}
@@ -360,12 +364,12 @@ void __fastcall TForm1::GLSceneViewerBeforeRender(TObject *Sender) {
 }
 
 // ---------------------------------------------------------------------------
-float TForm1::WaterPhase(const float px, const float py) {
+float TFormArchipelag::WaterPhase(const float px, const float py) {
 	return GLCadencer->CurrentTime * 1.0 + px * 0.16 + py * 0.09;
 }
 
 // ---------------------------------------------------------------------------
-float TForm1::WaterHeight(const float px, const float py) {
+float TFormArchipelag::WaterHeight(const float px, const float py) {
 	float alpha;
 	alpha = WaterPhase(px + TerrainRenderer->TileSize * 0.5,
 		py + TerrainRenderer->TileSize * 0.5);
@@ -374,7 +378,7 @@ float TForm1::WaterHeight(const float px, const float py) {
 }
 
 // ---------------------------------------------------------------------------
-void TForm1::IssuePoint(TGLHeightData *hd, int x, int y, int s2, float t, int rx,
+void TFormArchipelag::IssuePoint(TGLHeightData *hd, int x, int y, int s2, float t, int rx,
 	int ry) {
 	const float r = 0.75;
 	const float g = 0.75;
@@ -403,7 +407,7 @@ void TForm1::IssuePoint(TGLHeightData *hd, int x, int y, int s2, float t, int rx
 }
 
 // ---------------------------------------------------------------------------
-void __fastcall TForm1::TerrainRendererHeightDataPostRender
+void __fastcall TFormArchipelag::TerrainRendererHeightDataPostRender
 	(TGLRenderContextInfo &rci, TList *&HeightDatas) {
 	int i, x, y, s, s2;
 	float t;
@@ -411,7 +415,7 @@ void __fastcall TForm1::TerrainRendererHeightDataPostRender
 
 	if (WaterPlane) {
 		t = GLCadencer->CurrentTime;
-		MaterialLibrary->ApplyMaterial("water", rci);
+		MLTerrain->ApplyMaterial("water", rci);
 		do {
 			if (!WasAboveWater)
 				rci.GLStates->InvertFrontFace();
@@ -457,12 +461,12 @@ void __fastcall TForm1::TerrainRendererHeightDataPostRender
 				rci.GLStates->InvertFrontFace();
 			WaterPolyCount = HeightDatas->Count * 8;
 		}
-		while (MaterialLibrary->UnApplyMaterial(rci));
+		while (MLTerrain->UnApplyMaterial(rci));
 	}
 }
 
 // ---------------------------------------------------------------------------
-void __fastcall TForm1::DOWakeProgress(TObject *Sender, const double deltaTime,
+void __fastcall TFormArchipelag::DOWakeProgress(TObject *Sender, const double deltaTime,
 	const double newTime) {
 	int i;
 	TGLVector sbp, sbr;
@@ -508,14 +512,14 @@ void __fastcall TForm1::DOWakeProgress(TObject *Sender, const double deltaTime,
 }
 
 // ---------------------------------------------------------------------------
-void __fastcall TForm1::DOWakeRender(TObject *Sender, TGLRenderContextInfo &rci) {
+void __fastcall TFormArchipelag::DOWakeRender(TObject *Sender, TGLRenderContextInfo &rci) {
 	int i, n;
 	Vectortypes::TVector3f p;
 	TGLVector sbp;
 	float c;
 
 	if (!(WakeVertices) && (!((FFSailBoat->Visible) || (WaterPlane)))) {
-		MaterialLibrary->ApplyMaterial("wake", rci);
+		MLTerrain->ApplyMaterial("wake", rci);
 		do {
 			glPushAttrib(GL_ENABLE_BIT);
 
@@ -556,7 +560,7 @@ void __fastcall TForm1::DOWakeRender(TObject *Sender, TGLRenderContextInfo &rci)
 			glPopAttrib();
 			glDisable(stStencilTest);
 		}
-		while (MaterialLibrary->UnApplyMaterial(rci));
+		while (MLTerrain->UnApplyMaterial(rci));
 	}
 }
 // ---------------------------------------------------------------------------

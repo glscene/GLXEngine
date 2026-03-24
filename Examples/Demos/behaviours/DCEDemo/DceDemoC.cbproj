@@ -97,14 +97,14 @@
     <PropertyGroup Condition="'$(Base_Win32)'!=''">
         <UWP_CppLogo44>$(BDS)\bin\Artwork\Windows\UWP\cppreg_UwpDefault_44.png</UWP_CppLogo44>
         <UWP_CppLogo150>$(BDS)\bin\Artwork\Windows\UWP\cppreg_UwpDefault_150.png</UWP_CppLogo150>
-        <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
         <IncludePath>$(BDSINCLUDE)\windows\vcl;$(IncludePath)</IncludePath>
         <PackageImports>IndyIPClient;GLScene_Sounds_RT;frx17;fs17;GLScene_Physics_RT;GLScene_Cg_RT;bindcompfmx;GR32_RSXE3;DBXSqliteDriver;vcldbx;GLScene_Physics_RT;fmx;rtl;dbrtl;DbxClientDriver;IndySystem;TeeDB;bindcomp;inetdb;inetdbbde;vclib;DBXInterBaseDriver;DataSnapClient;DataSnapCommon;DBXOdbcDriver;DataSnapServer;Tee;GLScene_RT;DataSnapProviderClient;xmlrtl;DBXSybaseASEDriver;ibxpress;DbxCommonDriver;vclimg;IndyProtocols;DBXMySQLDriver;dbxcds;MetropolisUILiveTile;bindengine;vclactnband;vcldb;soaprtl;bindcompdbx;vcldsnap;bindcompvcl;FMXTee;TeeUI;vclie;GR32_DSGN_RSXE3;DBXDb2Driver;vcltouch;bcbsmp;websnap;DBXOracleDriver;CustomIPTransport;vclribbon;VclSmp;dsnap;DBXInformixDriver;IndyIPServer;fmxase;vcl;DataSnapConnectors;IndyCore;GLScene_Sounds_RT;DBXMSSQLDriver;CodeSiteExpressPkg;CloudService;DBXFirebirdDriver;dsnapcon;frxDB17;inet;fsDB17;fmxobj;IndyIPCommon;FmxTeeUI;vclx;frxe17;inetdbxpress;webdsnap;DBXSybaseASADriver;fmxdae;bdertl;dbexpress;DataSnapIndy10ServerTransport;adortl;bcbie;$(PackageImports)</PackageImports>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
         <VerInfo_Locale>1033</VerInfo_Locale>
-        <VerInfo_Keys>CompanyName=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductVersion=1.0.0.0;Comments=;ProgramID=com.embarcadero.$(ModuleName);FileDescription=$(ModuleName);ProductName=$(ModuleName)</VerInfo_Keys>
+        <VerInfo_Keys>CompanyName=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductVersion=1.0.0.0;Comments=;ProgramID=com.embarcadero.$(MSBuildProjectName);FileDescription=$(MSBuildProjectName);ProductName=$(MSBuildProjectName)</VerInfo_Keys>
         <DCC_Namespace>Winapi;System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;Bde;$(DCC_Namespace)</DCC_Namespace>
+        <AppDPIAwarenessMode>none</AppDPIAwarenessMode>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win64)'!=''">
         <UWP_CppLogo44>$(BDS)\bin\Artwork\Windows\UWP\cppreg_UwpDefault_44.png</UWP_CppLogo44>
@@ -155,6 +155,8 @@
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <FinalOutputDir>.</FinalOutputDir>
         <LinkPackageImports>rtl.bpi;vcl.bpi;fmx.bpi;xmlrtl.bpi;vclimg.bpi;GLScene_RT.bpi;vclactnband.bpi;vclx.bpi;VclSmp.bpi;GLScene_Cg_RT.bpi</LinkPackageImports>
+        <VerInfo_Keys>CompanyName=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductVersion=1.0.0.0;Comments=;ProgramID=com.embarcadero.$(MSBuildProjectName);FileDescription=$(MSBuildProjectName);ProductName=$(MSBuildProjectName)</VerInfo_Keys>
+        <AppDPIAwarenessMode>none</AppDPIAwarenessMode>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win64)'!=''">
         <Defines>_DEBUG;$(Defines)</Defines>
@@ -240,7 +242,12 @@
                     <VersionInfoKeys Name="CFBundleAllowMixedLocalizations"/>
                     <VersionInfoKeys Name="CFBundleExecutable"/>
                 </VersionInfoKeys>
-                <Excluded_Packages/>
+                <Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\bcboffice2k370.bpl">Embarcadero C++Builder Office 2000 Servers Package</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\bcbofficexp370.bpl">Embarcadero C++Builder Office XP Servers Package</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\dcloffice2k370.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\dclofficexp370.bpl">Microsoft Office XP Sample Automation Server Wrapper Components</Excluded_Packages>
+                </Excluded_Packages>
                 <ProjectProperties>
                     <ProjectProperties Name="AutoShowDeps">False</ProjectProperties>
                     <ProjectProperties Name="ManagePaths">True</ProjectProperties>

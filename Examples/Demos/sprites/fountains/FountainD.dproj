@@ -1,7 +1,7 @@
 ﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     <PropertyGroup>
         <ProjectGuid>{3C6D63FF-228C-4E49-AD7A-C670FFC34935}</ProjectGuid>
-        <MainSource>FountainParticlesD.dpr</MainSource>
+        <MainSource>FountainD.dpr</MainSource>
         <Base>True</Base>
         <Config Condition="'$(Config)'==''">Debug</Config>
         <TargetedPlatforms>1</TargetedPlatforms>
@@ -9,7 +9,7 @@
         <FrameworkType>VCL</FrameworkType>
         <ProjectVersion>20.3</ProjectVersion>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
-        <ProjectName Condition="'$(ProjectName)'==''">FountainParticlesD</ProjectName>
+        <ProjectName Condition="'$(ProjectName)'==''">FountainD</ProjectName>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Config)'=='Base' or '$(Base)'!=''">
         <Base>true</Base>
@@ -53,7 +53,7 @@
         <VerInfo_Locale>1049</VerInfo_Locale>
         <DCC_E>false</DCC_E>
         <DCC_F>false</DCC_F>
-        <SanitizedProjectName>FountainParticlesD</SanitizedProjectName>
+        <SanitizedProjectName>FountainD</SanitizedProjectName>
         <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=;CFBundleName=</VerInfo_Keys>
         <DCC_ImageBase>00400000</DCC_ImageBase>
         <DCC_Namespace>Vcl;Vcl.Imaging;Vcl.Touch;Vcl.Samples;Vcl.Shell;System;Xml;Data;Datasnap;Web;Soap;$(DCC_Namespace)</DCC_Namespace>
@@ -100,10 +100,10 @@
         <DelphiCompile Include="$(MainSource)">
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
-        <DCCReference Include="fFountainD.pas">
-            <Form>Form1</Form>
+        <DCCReference Include="fdFountain.pas">
+            <Form>FormFontain</Form>
         </DCCReference>
-        <DCCReference Include="uFountainD.pas"/>
+        <DCCReference Include="GLS.Fountain.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
@@ -122,7 +122,7 @@
         <BorlandProject>
             <Delphi.Personality>
                 <Source>
-                    <Source Name="MainSource">FountainParticlesD.dpr</Source>
+                    <Source Name="MainSource">FountainD.dpr</Source>
                 </Source>
                 <Excluded_Packages>
                     <Excluded_Packages Name="$(BDSBIN)\bcboffice2k280.bpl">Embarcadero C++Builder Office 2000 Servers Package</Excluded_Packages>
@@ -136,6 +136,12 @@
                 <Platform value="Win64">False</Platform>
             </Platforms>
             <Deployment Version="5">
+                <DeployFile LocalName="FountainD.exe" Configuration="Debug" Class="ProjectOutput">
+                    <Platform Name="Win32">
+                        <RemoteName>FountainD.exe</RemoteName>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
                 <DeployFile LocalName="FountainParticlesD.exe" Configuration="Debug" Class="ProjectOutput"/>
                 <DeployClass Name="AdditionalDebugSymbols">
                     <Platform Name="iOSSimulator">

@@ -144,7 +144,7 @@ void _fastcall TFormDancer::LoadTexture(String AName, String ext)
 	img->LoadFromStream(strm);
 }
 
-// ---------------------------------------------------------------------------
+// -------------------------- Create ------------------------------------------
 void __fastcall TFormDancer::FormCreate(TObject* Sender)
 {
 	TFileName Path = GetCurrentAssetPath();
@@ -164,7 +164,7 @@ void __fastcall TFormDancer::FormCreate(TObject* Sender)
 	Actor1->Material->LibMaterialName = MatLib->Materials->Items[4]->Name;  //"Woman4_skin";
 
 	// Loading map for the earth
-	SetCurrentDir(Path + "//map");
+	SetCurrentDir(Path + "//map//");
 	Globus->Material->Texture->Image->LoadFromFile("earth.jpg");
 
 	// Loading other textures as assets directly to objects
