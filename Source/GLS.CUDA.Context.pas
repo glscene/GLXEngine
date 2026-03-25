@@ -182,7 +182,7 @@ type
     property Contexts[i: Integer]: TCUDAContext read GetContext;
   end;
 
-implementation //--------------------------------------------------------------
+implementation //==============================================================
 
 threadvar
   vStackIndex: Cardinal;
@@ -190,7 +190,6 @@ threadvar
 // ------------------
 // ------------------ TCUDADimensions ------------------
 // ------------------
-
 constructor TCUDADimensions.Create(AOwner: TPersistent);
 const
   cXYZone: TDim3 = (1, 1, 1);
@@ -202,6 +201,7 @@ begin
   FMaxXYZ := cXYZmax;
 end;
 
+//-----------------------------------------------------------------------------
 procedure TCUDADimensions.Assign(Source: TPersistent);
 begin
   if Source is TCUDADimensions then
@@ -217,11 +217,13 @@ begin
   inherited Assign(Source);
 end;
 
+//-----------------------------------------------------------------------------
 function TCUDADimensions.GetDimComponent(index: Integer): Integer;
 begin
   Result := FXYZ[index];
 end;
 
+//-----------------------------------------------------------------------------
 procedure TCUDADimensions.SetDimComponent(index: Integer; Value: Integer);
 var
   v: LongWord;
@@ -244,6 +246,7 @@ begin
   Result := FMaxXYZ[index];
 end;
 
+//----------------------------------------------------------------------------
 procedure TCUDADimensions.SetMaxDimComponent(index: Integer; Value: Integer);
 begin
   if not FReadOnly then
@@ -261,7 +264,6 @@ end;
 // ------------------
 // ------------------ TCUDADevice ------------------
 // ------------------
-
 constructor TCUDADevice.Create;
 begin
   fMaxThreadsDim := TCUDADimensions.Create(Self);
@@ -314,6 +316,7 @@ begin
   inherited;
 end;
 
+//----------------------------------------------------------------------------
 procedure TCUDADevice.Assign(Source: TPersistent);
 var
   dev: TCUDADevice;
@@ -428,6 +431,7 @@ begin
   end;
 end;
 
+//----------------------------------------------------------------------------
 class procedure CUDAContextManager.Done;
 var
   I, J: Integer;
@@ -446,12 +450,12 @@ begin
     end;
     FContextStacks[I].Destroy;
   end;
-
   fDeviceList.Free;
   fContextList.Free;
   CloseCUDA;
 end;
 
+//----------------------------------------------------------------------------
 class procedure CUDAContextManager.RegisterContext(aContext: TCUDAContext);
 begin
   if fContextList.IndexOf(aContext) >= 0 then
@@ -463,6 +467,7 @@ begin
     fContextList.Add(aContext);
 end;
 
+//----------------------------------------------------------------------------
 class procedure CUDAContextManager.UnRegisterContext(aContext: TCUDAContext);
 begin
   if fContextList.IndexOf(aContext) < 0 then
@@ -500,6 +505,7 @@ begin
     Result := fContextList[i];
 end;
 
+//----------------------------------------------------------------------------
 class procedure CUDAContextManager.FillUnusedDeviceList(var AList: TStringList);
 var
   i: Integer;
@@ -513,6 +519,7 @@ begin
       AList.Add(fDeviceList[i].name);
 end;
 
+//----------------------------------------------------------------------------
 class function CUDAContextManager.GetDeviceByName(const AName: string)
   : TCUDADevice;
 var
@@ -534,6 +541,7 @@ begin
   end;
 end;
 
+//----------------------------------------------------------------------------
 class function CUDAContextManager.GetMaxGflopsDevice: TCUDADevice;
 var
   max_gflops: Integer;
@@ -553,6 +561,7 @@ begin
   Result := Device;
 end;
 
+//----------------------------------------------------------------------------
 class function CUDAContextManager.GetNextUnusedDevice: TCUDADevice;
 var
   i: Integer;
@@ -570,6 +579,7 @@ begin
   end;
 end;
 
+//----------------------------------------------------------------------------
 class procedure CUDAContextManager.CreateContext(aContext: TCUDAContext);
 var
   status: TCUresult;
@@ -645,6 +655,7 @@ begin
     cuCtxPushCurrent(cuOldContext);
 end;
 
+//----------------------------------------------------------------------------
 class procedure CUDAContextManager.CreateContextOf(ADevice: TCUDADevice);
 var
   i: Integer;
@@ -657,6 +668,7 @@ begin
   end;
 end;
 
+//----------------------------------------------------------------------------
 class procedure CUDAContextManager.DestroyContext(aContext: TCUDAContext);
 begin
   if aContext.IsValid then
@@ -668,6 +680,7 @@ begin
   end;
 end;
 
+//----------------------------------------------------------------------------
 class procedure CUDAContextManager.DestroyContextOf(ADevice: TCUDADevice);
 var
   i: Integer;
@@ -680,6 +693,7 @@ begin
   end;
 end;
 
+//----------------------------------------------------------------------------
 class function CUDAContextManager.GetThreadStack: TCUDAContextList;
 begin
   if vStackIndex = 0 then
@@ -691,6 +705,7 @@ begin
   Result := FContextStacks[vStackIndex-1];
 end;
 
+//----------------------------------------------------------------------------
 class function CUDAContextManager.GetCurrentThreadContext: TCUDAContext;
 begin
   if GetThreadStack.Count > 0 then
@@ -699,6 +714,7 @@ begin
     Result := nil;
 end;
 
+//----------------------------------------------------------------------------
 class procedure CUDAContextManager.PushContext(aContext: TCUDAContext);
 var
   LContext: TCUDAContext;
@@ -726,6 +742,7 @@ begin
   GetThreadStack.Add(aContext);
 end;
 
+//----------------------------------------------------------------------------
 class function CUDAContextManager.PopContext: TCUDAContext;
 var
   C: Integer;
@@ -765,17 +782,15 @@ end;
 // ------------------
 // ------------------ TCUDAHandlesMaster ------------------
 // ------------------
-
 procedure TCUDAHandlesMaster.AllocateHandles;
-var
-  LList: TCUDAHandleList.TLockableList;
 begin
-  LList := GetContext.FHandleList.LockList;
+  var LList := GetContext.FHandleList.LockList;
   if LList.IndexOf(Self) < 0 then
     LList.Add(Self);
   GetContext.FHandleList.UnlockList;
 end;
 
+//----------------------------------------------------------------------------
 procedure TCUDAHandlesMaster.DestroyHandles;
 begin
   GetContext.FHandleList.Remove(Self);
@@ -784,7 +799,6 @@ end;
 // ------------------
 // ------------------ TCUDAContext ------------------
 // ------------------
-
 constructor TCUDAContext.Create;
 begin
   inherited Create;
@@ -801,6 +815,7 @@ begin
   inherited;
 end;
 
+//-----------------------------------------------------------------------------
 procedure TCUDAContext.SetDevice(ADevice: TCUDADevice);
 begin
   if FDevice <> ADevice then
@@ -810,6 +825,7 @@ begin
   end;
 end;
 
+//-----------------------------------------------------------------------------
 procedure TCUDAContext.Requires;
 begin
   if not IsValid then
@@ -825,14 +841,15 @@ begin
   CUDAContextManager.PopContext;
 end;
 
+//-----------------------------------------------------------------------------
 procedure TCUDAContext.DestroyAllHandles;
 var
   i: Integer;
-  LList: TCUDAHandleList.TLockableList;
+//  LList: TCUDAHandleList.TLockableList;  // obsolete for old versions ?
 begin
   Requires;
-  LList := FHandleList.LockList;
   try
+    var LList := FHandleList.LockList; // added
     for i := LList.Count - 1 downto 0 do
       LList[i].DestroyHandles;
   finally
