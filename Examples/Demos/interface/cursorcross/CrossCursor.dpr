@@ -2,7 +2,7 @@ program CrossCursor;
 
 uses
   Forms,
-  fCrossCursor in 'fCrossCursor.pas' {Form1};
+  fdCrossCursor in 'fdCrossCursor.pas' {Form1};
 
 {$R *.res}
 

@@ -8,13 +8,13 @@ uses
   System.Types,
   System.Math.Vectors,
   System.RTLConsts,
+  System.Math,
 
   FMX.Types,
   FMX.Types3D,
   FMX.Controls3D,
   FMX.Objects3D,
   FMX.Graphics,
-  Math,
   uGBEUtils3D;
 
 type
@@ -52,7 +52,7 @@ type
 
 procedure Register;
 
-implementation //--------------------------------------------------------------
+implementation //==============================================================
 
 // TGBETerrain
 
@@ -61,14 +61,14 @@ begin
   var
   total := 0.0;
   var
-  d := Math.Power(2, fOctaves - 1);
+  d := Power(2, fOctaves - 1);
 
   for var i := 0 to fOctaves - 1 do
   begin
     var
-    freq := Math.Power(2, i) / d;
+    freq := Power(2, i) / d;
     var
-    amp := Math.Power(fRoughness, i) * fAmplitude;
+    amp := Power(fRoughness, i) * fAmplitude;
     total := total + GetInterpolatedNoise((X + fXOffset) * freq,
       (Z + fZOffset) * freq) * amp;
   end;

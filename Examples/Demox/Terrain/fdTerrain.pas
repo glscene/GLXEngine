@@ -35,7 +35,7 @@ type
   TFormTerrain = class(TForm)
     Viewport3D1: TViewport3D;
     Layout1: TLayout;
-    Button1: TButton;
+    ButtonTerrain: TButton;
     Label1: TLabel;
     nbAmplitude: TNumberBox;
     Label2: TLabel;
@@ -59,20 +59,21 @@ type
     cbWater: TCheckBox;
     pWater: TPlane;
     ColorMaterialSource2: TColorMaterialSource;
-    Label7: TLabel;
+    LabelSeaLevel: TLabel;
     nbSeaRise: TNumberBox;
     dmyScene: TDummy;
     Cylinder1: TCylinder;
     Cylinder2: TCylinder;
     FloatAnimation2: TFloatAnimation;
     FloatAnimation3: TFloatAnimation;
-    procedure Button1Click(Sender: TObject);
+    procedure ButtonTerrainClick(Sender: TObject);
     procedure rbTextureClick(Sender: TObject);
     procedure rbRampChange(Sender: TObject);
     procedure GBETerrainRender(Sender: TObject; Context: TContext3D);
     procedure nbSeaRiseChange(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FloatAnimation2Process(Sender: TObject);
+    procedure FormShow(Sender: TObject);
   private
     procedure GenerateTerrain;
   public
@@ -82,20 +83,11 @@ type
 var
   FormTerrain: TFormTerrain;
 
-implementation  //------------------------------------------------------------
+implementation  //============================================================
 
 {$R *.fmx}
 
-procedure TFormTerrain.Button1Click(Sender: TObject);
-begin
-  GenerateTerrain;
-end;
-
-procedure TFormTerrain.FloatAnimation2Process(Sender: TObject);
-begin
-  Cylinder1.Position.Y := GBETerrain.GetHeight(Cylinder1.Position.Point);
-end;
-
+//----------------------------------------------------------------------------
 procedure TFormTerrain.FormCreate(Sender: TObject);
 begin
   GBETerrain := TGBETerrain.Create(dmyScene);
@@ -109,12 +101,32 @@ begin
   Cylinder1.Parent := GBETerrain;
 end;
 
+//----------------------------------------------------------------------------
+procedure TFormTerrain.FormShow(Sender: TObject);
+begin
+  rbTextureClick(nil);
+end;
+
+//----------------------------------------------------------------------------
+procedure TFormTerrain.ButtonTerrainClick(Sender: TObject);
+begin
+  GenerateTerrain;
+end;
+
+//----------------------------------------------------------------------------
+procedure TFormTerrain.FloatAnimation2Process(Sender: TObject);
+begin
+  Cylinder1.Position.Y := GBETerrain.GetHeight(Cylinder1.Position.Point);
+end;
+
+//----------------------------------------------------------------------------
 procedure TFormTerrain.GBETerrainRender(Sender: TObject; Context: TContext3D);
 begin
   if cbShowLines.IsChecked then Context.DrawLines(GBETerrain.Data.VertexBuffer, GBETerrain.Data.IndexBuffer, TMaterialSource.ValidMaterial(ColorMaterialSource1), 1);
   pWater.Visible := cbWater.IsChecked;
 end;
 
+//----------------------------------------------------------------------------
 procedure TFormTerrain.GenerateTerrain;
 begin
   layout2.Visible := true;
@@ -132,11 +144,13 @@ begin
   layout2.Visible := false;
 end;
 
+//----------------------------------------------------------------------------
 procedure TFormTerrain.nbSeaRiseChange(Sender: TObject);
 begin
   pWater.Position.Y := nbSeaRise.Value;
 end;
 
+//----------------------------------------------------------------------------
 procedure TFormTerrain.rbRampChange(Sender: TObject);
 begin
   GBETerrain.MaterialSource := tmsRamp;
@@ -144,6 +158,7 @@ begin
   generateTerrain;
 end;
 
+//----------------------------------------------------------------------------
 procedure TFormTerrain.rbTextureClick(Sender: TObject);
 begin
   GBETerrain.MaterialSource := tmsTexture;
@@ -151,4 +166,5 @@ begin
   GenerateTerrain;
 end;
 
+//----------------------------------------------------------------------------
 end.

@@ -97,7 +97,7 @@ type
     // Outer radius for the disk. If you leave InnerRadius at 0, this is the disk radius
     property OuterRadius: Single read FOuterRadius write SetOuterRadius;
     // Number of mesh slices. For instance, if Slices=6, your disk will look like an hexagon
-    property Slices: Integer read FSlices write SetSlices default 16;
+    property Slices: Integer read FSlices write SetSlices default 32;
     property StartAngle: Single read FStartAngle write SetStartAngle;
     property SweepAngle: Single read FSweepAngle write SetSweepAngle;
   end;
@@ -126,7 +126,7 @@ type
   published
     property BottomRadius: Single read FBottomRadius write SetBottomRadius;
     property Height: Single read FHeight write SetHeight;
-    property Slices: Integer read FSlices write SetSlices default 16;
+    property Slices: Integer read FSlices write SetSlices default 32;
     property Stacks: Integer read FStacks write SetStacks default 4;
     //  Number of concentric rings for top/bottom disk(s).
     property Loops: Integer read FLoops write SetLoops default 1;

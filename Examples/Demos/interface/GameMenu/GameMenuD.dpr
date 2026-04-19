@@ -9,7 +9,7 @@ program GameMenuD;
 
 uses
   Forms,
-  fGameMenuD in 'fGameMenuD.pas' {FormGameMenu};
+  fdGameMenu in 'fdGameMenu.pas' {FormGameMenu};
 
 {$R *.res}
 

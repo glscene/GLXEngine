@@ -44,7 +44,7 @@ program GuiPaintD;
 
 uses
   Forms,
-  fGuiPaintD in 'fGuiPaintD.pas' {FormGuiPaint};
+  fdGuiPaint in 'fdGuiPaint.pas' {FormGuiPaint};
 
 {$R *.RES}
 

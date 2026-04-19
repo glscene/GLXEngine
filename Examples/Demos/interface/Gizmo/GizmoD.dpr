@@ -20,7 +20,7 @@ program GizmoD;
 
 uses
   Forms,
-  fGizmoD in 'fGizmoD.pas' {FormGizmo};
+  fdGizmo in 'fdGizmo.pas' {FormGizmo};
 
 {$R *.res}
 

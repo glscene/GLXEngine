@@ -29,16 +29,17 @@ uses
   System.SysUtils,
   System.Math,
 
-  GLS.OpenGLAdapter,
   Stage.OpenGLTokens,
   Stage.VectorGeometry,
   Stage.VectorTypes,
+  Stage.Spline,
+  Stage.PipelineTransform,
+
+  GLS.OpenGLAdapter,
   GLS.PersistentClasses,
   GLS.BaseClasses,
   GLS.Coordinates,
-  Stage.Spline,
   GLS.VectorLists,
-  Stage.PipelineTransform,
   GLS.Scene,
   GLS.Context,
   GLS.Silhouette,
@@ -52,7 +53,6 @@ const
   cDefaultPointSize: Single = 1.0;
 
 type
-
   TGLVisibilityDeterminationEvent = function(Sender: TObject;
     var rci: TGLRenderContextInfo): Boolean of object;
 
@@ -592,8 +592,8 @@ type
     property BottomCap: TGLCapType read FBottomCap write SetBottomCap
       default ctNone;
     property Radius: TGLFloat read FRadius write SetRadius;
-    property Slices: TGLInt read FSlices write SetSlices default 16;
-    property Stacks: TGLInt read FStacks write SetStacks default 16;
+    property Slices: TGLInt read FSlices write SetSlices default 32;
+    property Stacks: TGLInt read FStacks write SetStacks default 32;
     property Start: TGLAngleLimit360 read FStart write SetStart default 0;
     property Stop: TGLAngleLimit360 read FStop write SetStop default 360;
     property Top: TGLAngleLimit180 read FTop write SetTop default 90;
@@ -672,8 +672,8 @@ type
     property Radius: TGLFloat read FRadius write SetRadius;
     property VCurve: TGLFloat read FVCurve write SetVCurve;
     property HCurve: TGLFloat read FHCurve write SetHCurve;
-    property Slices: TGLInt read FSlices write SetSlices default 16;
-    property Stacks: TGLInt read FStacks write SetStacks default 16;
+    property Slices: TGLInt read FSlices write SetSlices default 32;
+    property Stacks: TGLInt read FStacks write SetStacks default 32;
     property Start: TGLAngleLimit360 read FStart write SetStart default 0;
     property Stop: TGLAngleLimit360 read FStop write SetStop default 360;
     property Top: TGLAngleLimit180 read FTop write SetTop default 90;
@@ -688,9 +688,7 @@ const
   TangentAttributeName: PAnsiChar = 'Tangent';
   BinormalAttributeName: PAnsiChar = 'Binormal';
 
-// -------------------------------------------------------------
-implementation
-// -------------------------------------------------------------
+implementation //==============================================================
 
 procedure CubeWireframeBuildList(var rci: TGLRenderContextInfo; Size: TGLFloat;
   Stipple: Boolean; const Color: TGLColorVector);
@@ -747,7 +745,6 @@ end;
 // ------------------
 // ------------------ TGLDummyCube ------------------
 // ------------------
-
 constructor TGLDummyCube.Create(AOwner: TComponent);
 begin
   inherited;
@@ -891,7 +888,6 @@ end;
 // ------------------
 // ------------------ TGLPlane ------------------
 // ------------------
-
 constructor TGLPlane.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
@@ -1272,7 +1268,6 @@ end;
 // ------------------
 // ------------------ TGLSprite ------------------
 // ------------------
-
 constructor TGLSprite.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
@@ -1440,7 +1435,6 @@ end;
 // ------------------
 // ------------------ TGLPointParameters ------------------
 // ------------------
-
 constructor TGLPointParameters.Create(AOwner: TPersistent);
 begin
   inherited Create(AOwner);
@@ -1575,7 +1569,6 @@ end;
 // ------------------
 // ------------------ TGLPoints ------------------
 // ------------------
-
 constructor TGLPoints.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
@@ -1759,7 +1752,6 @@ end;
 // ------------------
 // ------------------ TGLLineBase ------------------
 // ------------------
-
 constructor TGLLineBase.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
@@ -1876,7 +1868,6 @@ end;
 // ------------------
 // ------------------ TGLLinesNode ------------------
 // ------------------
-
 constructor TGLLinesNode.Create(Collection: TCollection);
 begin
   inherited Create(Collection);
@@ -1918,7 +1909,6 @@ end;
 // ------------------
 // ------------------ TGLLinesNodes ------------------
 // ------------------
-
 constructor TGLLinesNodes.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner, TGLLinesNode);
@@ -1933,7 +1923,6 @@ end;
 // ------------------
 // ------------------ TGLNodedLines ------------------
 // ------------------
-
 constructor TGLNodedLines.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
@@ -2080,7 +2069,6 @@ end;
 // ------------------
 // ------------------ TGLLines ------------------
 // ------------------
-
 constructor TGLLines.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
@@ -2308,7 +2296,6 @@ end;
 // ------------------
 // ------------------ TGLCube ------------------
 // ------------------
-
 constructor TGLCube.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
@@ -2632,7 +2619,6 @@ end;
 // ------------------
 // ------------------ TGLQuadricObject ------------------
 // ------------------
-
 constructor TGLQuadricObject.Create(AOwner: TComponent);
 begin
   inherited;
@@ -2699,7 +2685,6 @@ end;
 // ------------------
 // ------------------ TGLSphere ------------------
 // ------------------
-
 constructor TGLSphere.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
@@ -3052,7 +3037,6 @@ end;
 // ------------------
 // ------------------ TGLPolygonBase ------------------
 // ------------------
-
 constructor TGLPolygonBase.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
@@ -3629,10 +3613,7 @@ begin
   Result.W := 0;
 end;
 
-// -------------------------------------------------------------
-initialization
-
-// -------------------------------------------------------------
+initialization //==============================================================
 
 RegisterClasses([TGLSphere, TGLCube, TGLPlane, TGLSprite, TGLPoints,
   TGLDummyCube, TGLLines, TGLSuperellipsoid]);

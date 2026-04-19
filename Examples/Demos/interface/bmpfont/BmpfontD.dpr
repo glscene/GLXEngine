@@ -18,7 +18,7 @@ program BmpfontD;
 
 uses
   Forms,
-  fBmpfontD in 'fBmpfontD.pas' {FormBmpFont};
+  fdBmpfont in 'fdBmpfont.pas' {FormBmpFont};
 
 {$R *.RES}
 

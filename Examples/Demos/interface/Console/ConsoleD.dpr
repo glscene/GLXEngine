@@ -9,7 +9,7 @@ program ConsoleD;
 
 uses
   Forms,
-  fConsoleD in 'fConsoleD.pas' {FormConsole};
+  fdConsole in 'fdConsole.pas' {FormConsole};
 
 {$R *.RES}
 

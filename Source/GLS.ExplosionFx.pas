@@ -81,14 +81,11 @@ type
     property Direction: TGLCoordinates read FDirection write SetDirection;
   end;
 
-//-------------------------------------------------------------------------
-implementation
-//-------------------------------------------------------------------------
+implementation //==============================================================
 
 //----------------------------------
 // TGLBExplosionFx
 //----------------------------------
-
 constructor TGLBExplosionFx.Create(aOwner: TXCollection);
 begin
   inherited Create(AOwner);
@@ -99,6 +96,7 @@ begin
   FDirection := TGLCoordinates.CreateInitialized(Self, NullHmgVector, csPoint);
 end;
 
+//-----------------------------------------------------------------------------
 destructor TGLBExplosionFX.Destroy;
 begin
   FEnabled := False;
@@ -110,47 +108,56 @@ begin
   inherited Destroy;
 end;
 
+//-----------------------------------------------------------------------------
 class function TGLBExplosionFX.FriendlyName: string;
 begin
   Result := 'ExplosionFx';
 end;
 
+//-----------------------------------------------------------------------------
 class function TGLBExplosionFX.FriendlyDescription: string;
 begin
   Result := 'Explosion FX';
 end;
 
+//-----------------------------------------------------------------------------
 procedure TGLBExplosionFx.SetTriList(Value: TGLAffineVectorList);
 begin
   FTriList.Assign(Value);
 end;
 
+//-----------------------------------------------------------------------------
 procedure TGLBExplosionFx.SetRotList(Value: TGLAffineVectorList);
 begin
   FRotList.Assign(Value);
 end;
 
+//-----------------------------------------------------------------------------
 procedure TGLBExplosionFx.SetDirList(Value: TGLAffineVectorList);
 begin
   FDirList.Assign(Value);
 end;
 
+//-----------------------------------------------------------------------------
 procedure TGLBExplosionFx.SetPosList(Value: TGLAffineVectorList);
 begin
   FPosList.Assign(Value);
 end;
 
+//-----------------------------------------------------------------------------
 procedure TGLBExplosionFx.SetDirection(Value: TGLCoordinates);
 begin
   Value.Normalize;
   FDirection.Assign(Value);
 end;
 
+//-----------------------------------------------------------------------------
 procedure TGLBExplosionFx.SetEnabled(Value: boolean);
 begin
   FEnabled := Value;
 end;
 
+//-----------------------------------------------------------------------------
 procedure TGLBExplosionFx.Reset;
 begin
   FEnabled := False;
@@ -162,6 +169,7 @@ begin
   FFaceCount := 0;
 end;
 
+//-----------------------------------------------------------------------------
 procedure TGLBExplosionFx.CacheInfo;
 var
   Face: integer;
@@ -215,6 +223,7 @@ begin
   TGLBaseMesh(OwnerBaseSceneObject).StructureChanged;
 end;
 
+//-----------------------------------------------------------------------------
 procedure TGLBExplosionFX.Render(var rci : TGLRenderContextInfo);
 var
   Face: integer;
@@ -279,10 +288,10 @@ begin
   end;
 end;
 
-//-------------------------------
+//-----------------------------------------------------------------------------
 initialization
-//-------------------------------
-	
+//-----------------------------------------------------------------------------
+
 	RegisterXCollectionItemClass(TGLBExplosionFX);
 
 finalization

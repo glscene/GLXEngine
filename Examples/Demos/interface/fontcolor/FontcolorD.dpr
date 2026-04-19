@@ -10,7 +10,7 @@ program FontcolorD;
 
 uses
   Forms,
-  fFontColorD in 'fFontColorD.pas' {FormFontColor};
+  fdFontColor in 'fdFontColor.pas' {FormFontColor};
 
 {$R *.res}
 

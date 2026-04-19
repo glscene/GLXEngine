@@ -18,6 +18,9 @@
         <Projects Include="cursor\CursorD.dproj">
             <Dependencies/>
         </Projects>
+        <Projects Include="cursorcross\CrossCursor.dproj">
+            <Dependencies/>
+        </Projects>
         <Projects Include="fontcolor\FontcolorD.dproj">
             <Dependencies/>
         </Projects>
@@ -100,6 +103,15 @@
     </Target>
     <Target Name="CursorD:Make">
         <MSBuild Projects="cursor\CursorD.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="CrossCursor">
+        <MSBuild Projects="cursorcross\CrossCursor.dproj"/>
+    </Target>
+    <Target Name="CrossCursor:Clean">
+        <MSBuild Projects="cursorcross\CrossCursor.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="CrossCursor:Make">
+        <MSBuild Projects="cursorcross\CrossCursor.dproj" Targets="Make"/>
     </Target>
     <Target Name="FontcolorD">
         <MSBuild Projects="fontcolor\FontcolorD.dproj"/>
@@ -192,13 +204,13 @@
         <MSBuild Projects="WinFont\WinfontD.dproj" Targets="Make"/>
     </Target>
     <Target Name="Build">
-        <CallTarget Targets="BmpfontD;CameraD;CameraControllerD;ConsoleD;CursorD;FontcolorD;GameMenuD;GizmoD;GizmoExD;GuidemoD;GuiPaintD;HFpickD;PickD;SimpleNaviD;WinfontD"/>
+        <CallTarget Targets="BmpfontD;CameraD;CameraControllerD;ConsoleD;CursorD;CrossCursor;FontcolorD;GameMenuD;GizmoD;GizmoExD;GuidemoD;GuiPaintD;HFpickD;PickD;SimpleNaviD;WinfontD"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="BmpfontD:Clean;CameraD:Clean;CameraControllerD:Clean;ConsoleD:Clean;CursorD:Clean;FontcolorD:Clean;GameMenuD:Clean;GizmoD:Clean;GizmoExD:Clean;GuidemoD:Clean;GuiPaintD:Clean;HFpickD:Clean;PickD:Clean;SimpleNaviD:Clean;WinfontD:Clean"/>
+        <CallTarget Targets="BmpfontD:Clean;CameraD:Clean;CameraControllerD:Clean;ConsoleD:Clean;CursorD:Clean;CrossCursor:Clean;FontcolorD:Clean;GameMenuD:Clean;GizmoD:Clean;GizmoExD:Clean;GuidemoD:Clean;GuiPaintD:Clean;HFpickD:Clean;PickD:Clean;SimpleNaviD:Clean;WinfontD:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="BmpfontD:Make;CameraD:Make;CameraControllerD:Make;ConsoleD:Make;CursorD:Make;FontcolorD:Make;GameMenuD:Make;GizmoD:Make;GizmoExD:Make;GuidemoD:Make;GuiPaintD:Make;HFpickD:Make;PickD:Make;SimpleNaviD:Make;WinfontD:Make"/>
+        <CallTarget Targets="BmpfontD:Make;CameraD:Make;CameraControllerD:Make;ConsoleD:Make;CursorD:Make;CrossCursor:Make;FontcolorD:Make;GameMenuD:Make;GizmoD:Make;GizmoExD:Make;GuidemoD:Make;GuiPaintD:Make;HFpickD:Make;PickD:Make;SimpleNaviD:Make;WinfontD:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

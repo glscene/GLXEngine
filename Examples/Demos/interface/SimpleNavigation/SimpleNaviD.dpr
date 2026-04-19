@@ -3,7 +3,7 @@ program SimpleNaviD;
 
 uses
   Forms,
-  fSimpleNaviD in 'fSimpleNaviD.pas' {FormSimpleNavigation};
+  fdSimpleNavi in 'fdSimpleNavi.pas' {FormSimpleNavigation};
 
 {$R *.res}
 

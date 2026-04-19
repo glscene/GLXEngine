@@ -16,8 +16,8 @@ program WinfontD;
 
 uses
   Forms,
-  fWinFontD in 'fWinFontD.pas' {FormWinFont},
-  fWinTextureD in 'fWinTextureD.pas' {FormFontTexture};
+  fdWinFont in 'fdWinFont.pas' {FormWinFont},
+  fdWinTexture in 'fdWinTexture.pas' {FormFontTexture};
 
 {$R *.RES}
 

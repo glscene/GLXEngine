@@ -861,3 +861,4 @@ initialization
   RegisterClasses([TGLLensFlare]);
 
 end.
+

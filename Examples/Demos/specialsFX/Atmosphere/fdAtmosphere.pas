@@ -35,7 +35,7 @@ type
     GLLensFlare1: TGLLensFlare;
     GLCadencer1: TGLCadencer;
     GLLightSource1: TGLLightSource;
-    Planet: TGLSphere;
+    sfPlanet: TGLSphere;
     dcPlanet: TGLDummyCube;
     sfPlanetoid: TGLSphere;
     CameraTarget: TGLDummyCube;
@@ -88,7 +88,7 @@ procedure TFormAtmosphere.FormCreate(Sender: TObject);
 begin
   AtmosphereLower := TGLAtmosphere.CreateAsChild(dcPlanet);
   AtmosphereLower.Sun := GLLensFlare1;
-  AtmosphereLower.SetOptimalAtmosphere(Planet.Radius);
+  AtmosphereLower.SetOptimalAtmosphere(sfPlanet.Radius);
 
   SkyDome.Bands.Clear;
   SkyDome.Stars.AddRandomStars(5000, ConvertColorVector(clrWhite), False);
@@ -180,7 +180,7 @@ end;
 procedure TFormAtmosphere.GLCadencer1Progress(Sender: TObject; const deltaTime,
   newTime: Double);
 begin
-  Planet.Turn(deltaTime *20);
+  sfPlanet.Turn(deltaTime *20);
   GLSceneViewer1.Invalidate;
 end;
 

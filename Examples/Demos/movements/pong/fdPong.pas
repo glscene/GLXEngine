@@ -59,7 +59,7 @@ type
 var
   FormPong: TFormPong;
 
-implementation
+implementation //==============================================================
 
 {$R *.DFM}
 

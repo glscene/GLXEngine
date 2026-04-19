@@ -19,6 +19,7 @@ uses
 
   GLS.Coordinates,
   GLS.BaseClasses,
+  GLS.VectorLists,
   GLS.SimpleNavigation;
 
 type

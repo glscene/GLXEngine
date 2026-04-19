@@ -21,7 +21,7 @@ object FormAtmosphere: TFormAtmosphere
     Height = 680
     Camera = GLCamera1
     Buffer.BackgroundColor = clBlack
-    FieldOfView = 169.915100097656300000
+    FieldOfView = 163.268234252929700000
     PenAsTouch = False
     Align = alClient
     TabOrder = 0
@@ -185,8 +185,8 @@ object FormAtmosphere: TFormAtmosphere
         end>
     end
     object GLCamera1: TGLCamera
-      DepthOfView = 10000.000000000000000000
-      FocalLength = 30.000000000000000000
+      DepthOfView = 1000.000000000000000000
+      FocalLength = 50.000000000000000000
       TargetObject = CameraTarget
       CameraStyle = csInfinitePerspective
       Position.Coordinates = {0000A0400000803F000020410000803F}
@@ -199,12 +199,6 @@ object FormAtmosphere: TFormAtmosphere
     end
     object World: TGLDummyCube
       CubeSize = 1.000000000000000000
-      object sfPlanetoid: TGLSphere
-        Material.FrontProperties.Diffuse.Color = {E6E5653F8F8E8E3ECDCC4C3F0000803F}
-        Position.Coordinates = {0000000000007041000000C00000803F}
-        Visible = False
-        Radius = 3.000000000000000000
-      end
       object dcPlanet: TGLDummyCube
         ObjectsSorting = osNone
         Position.Coordinates = {0000204100000040000040400000803F}
@@ -215,7 +209,7 @@ object FormAtmosphere: TFormAtmosphere
           AtmosphereRadius = 4.000000000000000000
           PlanetRadius = 3.500000000000000000
         end
-        object Planet: TGLSphere
+        object sfPlanet: TGLSphere
           Material.FrontProperties.Ambient.Color = {9796963E9796963E8F8E8E3E022B473F}
           Material.FrontProperties.Diffuse.Color = {CDCC4C3FCDCC4C3FCDCC4C3F48E13A3F}
           Material.FrontProperties.Emission.Color = {0000803F0000803F0000803F0000803F}
@@ -3082,6 +3076,11 @@ object FormAtmosphere: TFormAtmosphere
           Radius = 3.500000000000000000
           Slices = 64
           Stacks = 64
+          object sfPlanetoid: TGLSphere
+            Material.FrontProperties.Diffuse.Color = {E6E5653F8F8E8E3ECDCC4C3F0000803F}
+            Position.Coordinates = {0000000000007041000000C00000803F}
+            Radius = 0.500000000000000000
+          end
         end
       end
       object GLLensFlare1: TGLLensFlare

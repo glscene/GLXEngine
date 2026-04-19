@@ -37,7 +37,7 @@ program GuidemoD;
 
 uses
   Forms,
-  fGuiDemoD in 'fGuiDemoD.pas' {FormGuidemo};
+  fdGuiDemo in 'fdGuiDemo.pas' {FormGuidemo};
 
 {$R *.RES}
 

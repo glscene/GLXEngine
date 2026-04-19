@@ -416,6 +416,10 @@ const
     wVar: 1.38374E-5; aConst: 0.723330; aVar: 0.0; // (AU)
     eConst: 0.006773; eVar: - 1.302E-9; MConst: 48.0052; MVar: 1.6021302244);
 
+  // heliocentric earth elements
+  cEarthRadius = 6371; // average earth radius in kilometers
+  cAUToKilometers = 149.6E6; // astronomical units to kilometers
+
   // heliocentric mars elements
   cMarsOrbitalElements: TOrbitalElementsData = (NConst: 49.5574;
     NVar: 2.11081E-5; iConst: 1.8497; iVar: - 1.78E-8; wConst: 286.5016;
@@ -450,9 +454,6 @@ const
     NVar: 3.0173E-5; iConst: 1.7700; iVar: - 2.55E-7; wConst: 272.8461;
     wVar: - 6.027E-6; aConst: 30.05826; aVar: 3.313E-8; // (AU)
     eConst: 0.008606; EVar: 2.15E-9; MConst: 260.2471; MVar: 0.005995147);
-
-  cAUToKilometers = 149.6E6; // astronomical units to kilometers
-  cEarthRadius = 6371; // average earth radius in kilometers
 
 // Converts a TDateTime (GMT+0) into the Julian day used for computations.
 function GMTDateTimeToJulianDay(const dt: TDateTime): Double;
