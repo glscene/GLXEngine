@@ -2,4 +2,5 @@
 *.cpp linguist-vendored=false
 *.h linguist-language=Delphi
 *.cpp linguist-language=Delphi
-generated/*.cbproj linguist-generated=true
+*.pas linguist-language=Delphi
+generated/*.dproj linguist-generated=true
