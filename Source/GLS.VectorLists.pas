@@ -1202,10 +1202,16 @@ begin
 end;
 
 function TGLAffineVectorList.Add(const item: TAffineVector): Integer;
+var LItem: TAffineVector;
 begin
   Result := FCount;
   if Result = FCapacity then
+  begin
+    LItem := item; 
     SetCapacity(FCapacity + FGrowthDelta);
+	FList^[Result] := LItem;
+  end
+  else
   FList^[Result] := Item;
   Inc(FCount);
   Inc(FRevision);
