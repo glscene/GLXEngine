@@ -28,7 +28,7 @@ package GXScene_Physics_RT;
 {$IMAGEBASE $400000}
 {$DEFINE DEBUG}
 {$ENDIF IMPLICITBUILDING}
-{$DESCRIPTION 'GXScene Physics Managers'}
+{$DESCRIPTION 'GLSceneVKS Physics Managers'}
 {$RUNONLY}
 {$IMPLICITBUILD ON}
 
