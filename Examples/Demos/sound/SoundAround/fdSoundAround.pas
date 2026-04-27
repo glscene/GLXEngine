@@ -1,4 +1,4 @@
-unit fSoundAroundD;
+unit fdSoundAround;
 
 interface
 
@@ -81,10 +81,11 @@ type
 var
   FormSoundAround: TFormSoundAround;
 
-implementation
+implementation //==============================================================
 
 {$R *.DFM}
 
+//-----------------------------------------------------------------------------
 procedure TFormSoundAround.FormCreate(Sender: TObject);
 begin
   Path := GetCurrentAssetPath() + '\audio';
@@ -95,6 +96,7 @@ begin
   GLSoundLibrary.Samples.AddFile('howl.mp3', 'howl.mp3');
 end;
 
+//-----------------------------------------------------------------------------
 procedure TFormSoundAround.SphereProgress(Sender: TObject;
   const deltaTime, newTime: Double);
 var
@@ -105,6 +107,7 @@ begin
   TGLSphere(Sender).Position.SetPoint(sin(alpha) * 2, 0.5, cos(alpha) * 5);
 end;
 
+//-----------------------------------------------------------------------------
 procedure TFormSoundAround.TrackBarChange(Sender: TObject);
 begin
   // Rotate the listener around the vertical axis
@@ -112,6 +115,7 @@ begin
   Application.ProcessMessages;
 end;
 
+//-----------------------------------------------------------------------------
 procedure TFormSoundAround.TrackBar1Change(Sender: TObject);
 begin
   // Move the listener forward/back
@@ -119,6 +123,7 @@ begin
   Application.ProcessMessages;
 end;
 
+//-----------------------------------------------------------------------------
 procedure TFormSoundAround.Button1Click(Sender: TObject);
 begin
   with TGLBSoundEmitter.Create(Sphere.Behaviours) do
@@ -129,6 +134,7 @@ begin
   end;
 end;
 
+//-----------------------------------------------------------------------------
 procedure TFormSoundAround.TimerTimer(Sender: TObject);
 var
   mngName: String;
@@ -151,6 +157,7 @@ begin
   GLSceneViewer.ResetPerformanceMonitor;
 end;
 
+//-----------------------------------------------------------------------------
 procedure TFormSoundAround.RBFMODClick(Sender: TObject);
 var
   newManager: TGLSoundManager;
@@ -185,6 +192,7 @@ begin
   end;
 end;
 
+//-----------------------------------------------------------------------------
 procedure TFormSoundAround.btnHowlClick(Sender: TObject);
 begin
   with TGLBSoundEmitter.Create(Sphere.Behaviours) do
@@ -195,4 +203,5 @@ begin
   end;
 end;
 
+//-----------------------------------------------------------------------------
 end.

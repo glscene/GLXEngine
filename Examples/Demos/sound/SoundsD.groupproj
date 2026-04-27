@@ -6,15 +6,6 @@
         <Projects Include="SoundAround\SoundAroundD.dproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="SoundBASS\SoundBASS.dproj">
-            <Dependencies/>
-        </Projects>
-        <Projects Include="SoundFMOD\SoundFMOD.dproj">
-            <Dependencies/>
-        </Projects>
-        <Projects Include="SoundOpenAL\SoundOpenAL.dproj">
-            <Dependencies/>
-        </Projects>
         <Projects Include="SoundWaveOut\SoundWaveOut.dproj">
             <Dependencies/>
         </Projects>
@@ -35,33 +26,6 @@
     <Target Name="SoundAroundD:Make">
         <MSBuild Projects="SoundAround\SoundAroundD.dproj" Targets="Make"/>
     </Target>
-    <Target Name="SoundBASS">
-        <MSBuild Projects="SoundBASS\SoundBASS.dproj"/>
-    </Target>
-    <Target Name="SoundBASS:Clean">
-        <MSBuild Projects="SoundBASS\SoundBASS.dproj" Targets="Clean"/>
-    </Target>
-    <Target Name="SoundBASS:Make">
-        <MSBuild Projects="SoundBASS\SoundBASS.dproj" Targets="Make"/>
-    </Target>
-    <Target Name="SoundFMOD">
-        <MSBuild Projects="SoundFMOD\SoundFMOD.dproj"/>
-    </Target>
-    <Target Name="SoundFMOD:Clean">
-        <MSBuild Projects="SoundFMOD\SoundFMOD.dproj" Targets="Clean"/>
-    </Target>
-    <Target Name="SoundFMOD:Make">
-        <MSBuild Projects="SoundFMOD\SoundFMOD.dproj" Targets="Make"/>
-    </Target>
-    <Target Name="SoundOpenAL">
-        <MSBuild Projects="SoundOpenAL\SoundOpenAL.dproj"/>
-    </Target>
-    <Target Name="SoundOpenAL:Clean">
-        <MSBuild Projects="SoundOpenAL\SoundOpenAL.dproj" Targets="Clean"/>
-    </Target>
-    <Target Name="SoundOpenAL:Make">
-        <MSBuild Projects="SoundOpenAL\SoundOpenAL.dproj" Targets="Make"/>
-    </Target>
     <Target Name="SoundWaveOut">
         <MSBuild Projects="SoundWaveOut\SoundWaveOut.dproj"/>
     </Target>
@@ -72,13 +36,13 @@
         <MSBuild Projects="SoundWaveOut\SoundWaveOut.dproj" Targets="Make"/>
     </Target>
     <Target Name="Build">
-        <CallTarget Targets="SoundAroundD;SoundBASS;SoundFMOD;SoundOpenAL;SoundWaveOut"/>
+        <CallTarget Targets="SoundAroundD;SoundWaveOut"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="SoundAroundD:Clean;SoundBASS:Clean;SoundFMOD:Clean;SoundOpenAL:Clean;SoundWaveOut:Clean"/>
+        <CallTarget Targets="SoundAroundD:Clean;SoundWaveOut:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="SoundAroundD:Make;SoundBASS:Make;SoundFMOD:Make;SoundOpenAL:Make;SoundWaveOut:Make"/>
+        <CallTarget Targets="SoundAroundD:Make;SoundWaveOut:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

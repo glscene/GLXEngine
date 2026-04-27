@@ -3,7 +3,7 @@
 #include <vcl.h>
 #pragma hdrstop
 
-#include "fSoundAroundC.h"
+#include "fcSoundAround.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma link "GLS.BaseClasses"
@@ -22,12 +22,12 @@
 #pragma link "GLS.Sounds.FMOD"
 #pragma link "GLS.Sounds.OpenAL"
 #pragma resource "*.dfm"
-TForm1* Form1;
+TFormSoundAround* FormSoundAround;
 int mx, my;
 //---------------------------------------------------------------------------
-__fastcall TForm1::TForm1(TComponent* Owner) : TForm(Owner) {}
+__fastcall TFormSoundAround::TFormSoundAround(TComponent* Owner) : TForm(Owner) {}
 //---------------------------------------------------------------------------
-void __fastcall TForm1::FormCreate(TObject* Sender)
+void __fastcall TFormSoundAround::FormCreate(TObject* Sender)
 {
     TFileName Path = GetCurrentAssetPath() + "\\audio";
     SetCurrentDir(Path);
@@ -38,7 +38,7 @@ void __fastcall TForm1::FormCreate(TObject* Sender)
     GLSoundLibrary->Samples->AddFile("howl.mp3", "howl.mp3");
 }
 //---------------------------------------------------------------------------
-void __fastcall TForm1::SphereProgress(
+void __fastcall TFormSoundAround::SphereProgress(
     TObject* Sender, const double deltaTime, const double newTime)
 
 {
@@ -49,21 +49,21 @@ void __fastcall TForm1::SphereProgress(
         ->Position->SetPoint(sin(alpha) * 2, 0.5, cos(alpha) * 5);
 }
 //---------------------------------------------------------------------------
-void __fastcall TForm1::TrackBar1Change(TObject* Sender)
+void __fastcall TFormSoundAround::TrackBar1Change(TObject* Sender)
 {
     // Move the listener forward/back
     Mickey->Position->Z = TrackBar1->Position / 10;
     Application->ProcessMessages();
 }
 //---------------------------------------------------------------------------
-void __fastcall TForm1::TrackBarChange(TObject* Sender)
+void __fastcall TFormSoundAround::TrackBarChange(TObject* Sender)
 {
     // Rotate the listener around the vertical axis
     DummyCube->TurnAngle = TrackBar->Position;
     Application->ProcessMessages();
 }
 //---------------------------------------------------------------------------
-void __fastcall TForm1::Button1Click(TObject* Sender)
+void __fastcall TFormSoundAround::Button1Click(TObject* Sender)
 {
     TGLBSoundEmitter* se = new TGLBSoundEmitter(Sphere->Behaviours);
     se->Source->SoundLibrary = GLSoundLibrary;
@@ -71,7 +71,7 @@ void __fastcall TForm1::Button1Click(TObject* Sender)
     se->Playing = True;
 }
 //---------------------------------------------------------------------------
-void __fastcall TForm1::btnHowlClick(TObject* Sender)
+void __fastcall TFormSoundAround::btnHowlClick(TObject* Sender)
 {
     TGLBSoundEmitter* se = new TGLBSoundEmitter(Sphere->Behaviours);
     se->Source->SoundLibrary = GLSoundLibrary;
@@ -79,7 +79,7 @@ void __fastcall TForm1::btnHowlClick(TObject* Sender)
     se->Playing = True;
 }
 //---------------------------------------------------------------------------
-void __fastcall TForm1::TimerTimer(TObject* Sender)
+void __fastcall TFormSoundAround::TimerTimer(TObject* Sender)
 {
     String mngName;
 	TGLSoundManager* sm;
@@ -103,7 +103,7 @@ void __fastcall TForm1::TimerTimer(TObject* Sender)
     GLSceneViewer->ResetPerformanceMonitor();
 }
 //---------------------------------------------------------------------------
-void __fastcall TForm1::RBFMODClick(TObject* Sender)
+void __fastcall TFormSoundAround::RBFMODClick(TObject* Sender)
 {
     TGLSoundManager *newManager, *sm;
 
@@ -127,7 +127,7 @@ void __fastcall TForm1::RBFMODClick(TObject* Sender)
     }
 }
 //---------------------------------------------------------------------------
-void __fastcall TForm1::GLSceneViewerMouseMove(
+void __fastcall TFormSoundAround::GLSceneViewerMouseMove(
     TObject* Sender, TShiftState Shift, int X, int Y)
 {
     if (Shift.Contains(ssLeft))
@@ -138,7 +138,7 @@ void __fastcall TForm1::GLSceneViewerMouseMove(
     my = Y;
 }
 //---------------------------------------------------------------------------
-void __fastcall TForm1::GLSceneViewerMouseDown(
+void __fastcall TFormSoundAround::GLSceneViewerMouseDown(
     TObject* Sender, TMouseButton Button, TShiftState Shift, int X, int Y)
 {
     mx = X;

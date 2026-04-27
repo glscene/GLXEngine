@@ -49,7 +49,7 @@ program SoundAroundD;
 
 uses
   Forms,
-  fSoundAroundD in 'fSoundAroundD.pas' {FormSoundAround};
+  fdSoundAround in 'fdSoundAround.pas' {FormSoundAround};
 
 {$R *.RES}
 

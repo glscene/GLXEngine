@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 
-#ifndef fSoundAroundCH
-#define fSoundAroundCH
+#ifndef fcSoundAroundH
+#define fcSoundAroundH
 //---------------------------------------------------------------------------
 #include <System.Classes.hpp>
 #include <Vcl.Controls.hpp>
@@ -27,7 +27,7 @@
 #include "GLS.Sounds.OpenAL.hpp"
 
 //---------------------------------------------------------------------------
-class TForm1 : public TForm
+class TFormSoundAround : public TForm
 {
 __published:	// IDE-managed Components
 	TGLSceneViewer *GLSceneViewer;
@@ -74,9 +74,9 @@ __published:	// IDE-managed Components
 
 private:	// User declarations
 public:		// User declarations
-	__fastcall TForm1(TComponent* Owner);
+	__fastcall TFormSoundAround(TComponent* Owner);
 };
 //---------------------------------------------------------------------------
-extern PACKAGE TForm1 *Form1;
+extern PACKAGE TFormSoundAround *FormSoundAround;
 //---------------------------------------------------------------------------
 #endif

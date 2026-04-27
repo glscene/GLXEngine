@@ -1,149 +1,125 @@
-object FormSoundFMOD: TFormSoundFMOD
+object FormSoundWaveout: TFormSoundWaveout
   Left = 209
   Top = 92
-  Margins.Left = 5
-  Margins.Top = 5
-  Margins.Right = 5
-  Margins.Bottom = 5
-  Caption = 'Sound FMOD'
-  ClientHeight = 653
-  ClientWidth = 956
+  Caption = 'Sound WaveOut'
+  ClientHeight = 424
+  ClientWidth = 599
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
-  Font.Height = -19
+  Font.Height = -11
   Font.Name = 'MS Sans Serif'
   Font.Style = []
+  Position = poScreenCenter
   OnCreate = FormCreate
-  PixelsPerInch = 168
-  TextHeight = 24
+  TextHeight = 13
   object GLSceneViewer: TGLSceneViewer
     Left = 0
-    Top = 116
-    Width = 956
-    Height = 490
-    Margins.Left = 5
-    Margins.Top = 5
-    Margins.Right = 5
-    Margins.Bottom = 5
+    Top = 66
+    Width = 599
+    Height = 331
     Camera = GLCamera1
     Buffer.BackgroundColor = clBlack
     Buffer.AntiAliasing = aaNone
-    FieldOfView = 156.930755615234400000
+    FieldOfView = 146.379318237304700000
     PenAsTouch = False
     Align = alClient
     TabOrder = 0
   end
   object TrackBar: TTrackBar
     Left = 0
-    Top = 606
-    Width = 956
-    Height = 47
-    Margins.Left = 5
-    Margins.Top = 5
-    Margins.Right = 5
-    Margins.Bottom = 5
+    Top = 397
+    Width = 599
+    Height = 27
     Align = alBottom
     Max = 180
     Min = -180
     PageSize = 45
     Frequency = 45
     TabOrder = 1
-    ThumbLength = 18
+    ThumbLength = 10
     TickMarks = tmBoth
     OnChange = TrackBarChange
+    ExplicitTop = 372
+    ExplicitWidth = 591
   end
   object TrackBar1: TTrackBar
     Left = 0
-    Top = 58
-    Width = 956
-    Height = 58
-    Margins.Left = 5
-    Margins.Top = 5
-    Margins.Right = 5
-    Margins.Bottom = 5
+    Top = 33
+    Width = 599
+    Height = 33
     Align = alTop
     Max = 50
     Min = -50
     PageSize = 45
     Frequency = 10
     TabOrder = 2
-    ThumbLength = 18
+    ThumbLength = 10
     TickMarks = tmBoth
     OnChange = TrackBar1Change
+    ExplicitWidth = 591
   end
   object Panel1: TPanel
     Left = 0
     Top = 0
-    Width = 956
-    Height = 58
-    Margins.Left = 5
-    Margins.Top = 5
-    Margins.Right = 5
-    Margins.Bottom = 5
+    Width = 599
+    Height = 33
     Align = alTop
     BevelOuter = bvNone
     TabOrder = 3
+    ExplicitWidth = 591
     DesignSize = (
-      956
-      58)
+      599
+      33)
     object LabelFPS: TLabel
-      Left = 14
-      Top = 25
-      Width = 36
-      Height = 24
-      Margins.Left = 5
-      Margins.Top = 5
-      Margins.Right = 5
-      Margins.Bottom = 5
+      Left = 8
+      Top = 7
+      Width = 20
+      Height = 13
       Caption = 'FPS'
     end
-    object Button1: TButton
-      Left = 782
-      Top = 7
-      Width = 146
-      Height = 44
-      Margins.Left = 5
-      Margins.Top = 5
-      Margins.Right = 5
-      Margins.Bottom = 5
+    object ButtonChimes: TButton
+      Left = 505
+      Top = 4
+      Width = 83
+      Height = 25
       Anchors = [akTop, akRight]
       Caption = 'Chimes (WAV)'
       TabOrder = 0
-      OnClick = Button1Click
+      OnClick = ButtonChimesClick
+      ExplicitLeft = 497
     end
     object btnHowl: TButton
-      Left = 627
-      Top = 7
-      Width = 145
-      Height = 44
-      Margins.Left = 5
-      Margins.Top = 5
-      Margins.Right = 5
-      Margins.Bottom = 5
+      Left = 416
+      Top = 2
+      Width = 83
+      Height = 25
       Anchors = [akTop, akRight]
-      Caption = 'Howl (MP3)'
+      Caption = 'Howl (WAV)'
       TabOrder = 1
       OnClick = btnHowlClick
+      ExplicitLeft = 408
     end
   end
-  object GLSMFMOD: TGLSMFMOD
+  object GLSMWaveOut: TGLSMWaveOut
     Active = True
+    MaxChannels = 32
     MasterVolume = 1.000000000000000000
     Listener = Mickey
     Sources = <>
+    UpdateFrequency = 1.000000000000000000
     Cadencer = GLCadencer1
-    Left = 352
-    Top = 72
+    Left = 248
+    Top = 64
   end
   object GLSoundLibrary: TGLSoundLibrary
     Samples = <>
-    Left = 264
-    Top = 72
+    Left = 160
+    Top = 64
   end
   object GLScene: TGLScene
-    Left = 24
-    Top = 72
+    Left = 8
+    Top = 64
     object DummyCube: TGLDummyCube
       CubeSize = 1.000000000000000000
       object Torus1: TGLTorus
@@ -209,7 +185,7 @@ object FormSoundFMOD: TFormSoundFMOD
         00000200020002000200050000000000000080FF3F050000000000000080FF3F
         0500000000000000C805400500000000000000B407400500000000000000B407
         400500000000000000000000060E474C536F756E644C696272617279060C6472
-        756D6C6F6F702E7761760808020309}
+        756D6C6F6F702E7761760808026309}
       object Disk1: TGLDisk
         Direction.Coordinates = {000000000000803F2EBD3BB300000000}
         Position.Coordinates = {00000000000080BF000000000000803F}
@@ -236,12 +212,12 @@ object FormSoundFMOD: TFormSoundFMOD
   object GLCadencer1: TGLCadencer
     Scene = GLScene
     SleepLength = 1
-    Left = 88
-    Top = 72
+    Left = 72
+    Top = 64
   end
   object Timer: TTimer
     OnTimer = TimerTimer
-    Left = 56
-    Top = 152
+    Left = 336
+    Top = 64
   end
 end

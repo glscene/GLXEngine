@@ -1,4 +1,4 @@
-unit fSoundWaveout;
+unit fdSoundWaveout;
 
 interface
 
@@ -61,15 +61,13 @@ type
     procedure ButtonChimesClick(Sender: TObject);
     procedure btnHowlClick(Sender: TObject);
   private
-
   public
-
   end;
 
 var
   FormSoundWaveout: TFormSoundWaveout;
 
-implementation
+implementation //==============================================================
 
 {$R *.DFM}
 
