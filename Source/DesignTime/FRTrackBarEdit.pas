@@ -1,5 +1,5 @@
 //
-// The graphics GaLaXy Engine. The unit of GLScene
+// GLScene Graphics Engine
 //
 {
    Frame combining a TrackBar and an Edit. 

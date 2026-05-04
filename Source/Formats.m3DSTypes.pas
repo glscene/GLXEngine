@@ -1,5 +1,5 @@
 //
-// The graphics GaLaXy Engine. The unit of GLScene
+// GLScene Graphics Engine
 //
 unit Formats.m3DSTypes;
 

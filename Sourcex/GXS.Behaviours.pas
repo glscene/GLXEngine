@@ -1,6 +1,6 @@
 //
 //
-// The graphics GaLaXy Engine. The unit of GXScene
+// GXScene Graphics Engine
 //
 //
 

@@ -1,5 +1,5 @@
 //
-// The graphics engine GLXEngine
+// GXStage Graphics Engine
 //
 (*
    Conversion of cg NVIDIA header files to cg.pas

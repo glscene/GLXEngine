@@ -1,5 +1,5 @@
 //
-// The graphics engine GLXEngine
+// GXStage Graphics Engine
 //
 unit FMOD.Import;
 

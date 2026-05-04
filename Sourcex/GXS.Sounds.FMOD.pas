@@ -1,5 +1,5 @@
 //
-// The graphics GaLaXy Engine. The unit of GXScene
+// GXScene Graphics Engine
 //
 (*==========================================================================================
  FMOD Main header file. Copyright (c), FireLight Technologies Pty, Ltd. 1999-2003.

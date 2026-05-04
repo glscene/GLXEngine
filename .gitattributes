@@ -1,0 +1,8 @@
+* text=auto
+*.pas linguist-language=Delphi
+*.dpr linguist-language=Delphi
+*.dpk linguist-language=Delphi
+*.dproj linguist-language=Delphi
+*.h linguist-language=C++
+*.cpp linguist-language=C++
+*.cbproj linguist-language=C++

@@ -1,5 +1,5 @@
 //
-// The graphics engine GLXEngine
+// GXStage Graphics Engine
 //
 unit Stage.Utils;
 

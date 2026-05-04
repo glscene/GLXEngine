@@ -1,5 +1,5 @@
 //
-// The graphics GaLaXy Engine. The unit of GXScene
+// GXScene Graphics Engine
 //
 unit Formatx.Q3MD3;
 
