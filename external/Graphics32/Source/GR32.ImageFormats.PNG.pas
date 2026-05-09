@@ -51,6 +51,9 @@ uses
 {$else FPC}
 
 uses
+{$if defined(DynArrayOps)}
+  SysUtils,
+{$ifend}
   Classes,
   PngImage,
   Graphics,
@@ -58,8 +61,13 @@ uses
   GR32.ImageFormats;
 
 const
-  PngSignature: AnsiString        = #$89#$50#$4e#$47#$0d#$0a#$1a#$0a;
-  PngSignatureMask: AnsiString    = #$ff#$ff#$ff#$ff#$ff#$ff#$ff#$ff;
+{$if defined(DynArrayOps)}
+  FileSignaturePNG: TBytes                  = [$89, $50, $4e, $47, $0d, $0a, $1a, $0a];
+  FileSignaturePNGMask: TBytes              = [$ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff];
+{$else}
+  FileSignaturePNG: array[0..7] of byte     = ($89, $50, $4e, $47, $0d, $0a, $1a, $0a);
+  FileSignaturePNGMask: array[0..7] of byte = ($ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff);
+{$ifend}
 
 //------------------------------------------------------------------------------
 //
@@ -231,7 +239,11 @@ end;
 
 function TImageFormatAdapterPNG.ImageFormatFileTypes: TFileTypes;
 begin
+{$if defined(DynArrayOps)}
   Result := ['png'];
+{$else}
+  Result := MakeFileTypes(['png']);
+{$ifend}
 end;
 
 function TImageFormatAdapterPNG.ImageFormatDescription: string;
@@ -287,16 +299,19 @@ end;
 //------------------------------------------------------------------------------
 //------------------------------------------------------------------------------
 //------------------------------------------------------------------------------
-{$endif FPC}
 
 var
   ImageFormatHandle: integer = 0;
+
+{$endif FPC}
 
 initialization
 {$ifndef FPC}
   ImageFormatHandle := ImageFormatManager.RegisterImageFormat(TImageFormatAdapterPNG.Create, ImageFormatPriorityWorse);
 {$endif FPC}
 finalization
+{$ifndef FPC}
   ImageFormatManager.UnregisterImageFormat(ImageFormatHandle);
+{$endif FPC}
 end.
 

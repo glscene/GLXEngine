@@ -7,7 +7,7 @@
         <MainSource>Mandelbrot.dpr</MainSource>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
         <ProjectGuid>{cac2b97d-fdb0-4828-9d81-81a496ac4654}</ProjectGuid>
-        <ProjectVersion>20.3</ProjectVersion>
+        <ProjectVersion>20.4</ProjectVersion>
         <TargetedPlatforms>3</TargetedPlatforms>
         <ProjectName Condition="'$(ProjectName)'==''">Mandelbrot</ProjectName>
     </PropertyGroup>

@@ -41,6 +41,7 @@ implementation
 uses
   Classes,
   Graphics,
+  SysUtils,
 {$ifndef FPC}
   Windows,
 {$else FPC}
@@ -51,8 +52,13 @@ uses
   GR32.ImageFormats;
 
 const
-  FileSignatureBMP : AnsiString    = #$42#$4d;//#$00#$00#$00#$00#$00#$00#$00#$00;  // BM...and then some
-  FileSignatureBMPMask: AnsiString = #$ff#$ff;//#$00#$00#$00#$00#$ff#$ff#$ff#$ff;
+{$if defined(DynArrayOps)}
+  FileSignatureBMP: TBytes                  = [$42, $4d];  // 'BM'
+  FileSignatureBMPMask: TBytes              = [$ff, $ff];
+{$else}
+  FileSignatureBMP: array[0..1] of byte     = ($42, $4d);  // 'BM'
+  FileSignatureBMPMask: array[0..1] of byte = ($ff, $ff);
+{$ifend}
 
 resourcestring
   sImageFormatBMPName = 'Bitmaps';
@@ -102,7 +108,11 @@ type
 
 function TImageFormatAdapterBMP.ImageFormatFileTypes: TFileTypes;
 begin
+{$if defined(DynArrayOps)}
   Result := ['bmp', 'dib', 'rle'];
+{$else}
+  MakeFileTypes(['bmp', 'dib', 'rle']);
+{$ifend}
 end;
 
 function TImageFormatAdapterBMP.ImageFormatDescription: string;
@@ -121,7 +131,7 @@ end;
 function TImageFormatAdapterBMP.LoadFromStream(ADest: TCustomBitmap32; AStream: TStream): boolean;
 begin
   // Use LoadFromBMPStream instead of LoadFromStream to avoid recursion
-  Result := TBitmap32Cracker(ADest).LoadFromBMPStream(AStream, AStream.Size);
+  Result := TBitmap32Cracker(ADest).LoadFromBMPStream(AStream, AStream.Size - AStream.Position);
 end;
 
 //------------------------------------------------------------------------------
@@ -161,7 +171,7 @@ end;
 function TImageFormatAdapterBMP.LoadFromResource(ADest: TCustomBitmap32; AResourceType: TResourceType;
   AStream: TStream): boolean;
 begin
-  Result := TBitmap32Cracker(ADest).LoadFromDIBStream(AStream, AStream.Size);
+  Result := TBitmap32Cracker(ADest).LoadFromDIBStream(AStream, AStream.Size - AStream.Position);
 end;
 
 //------------------------------------------------------------------------------

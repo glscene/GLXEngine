@@ -1,7 +1,7 @@
 program Image32Background;
 
 {$R 'Media.res' 'Media.rc'}
-{$R '..\manifest.res'}
+{$R '..\..\manifest.res'}
 
 uses
   Forms,

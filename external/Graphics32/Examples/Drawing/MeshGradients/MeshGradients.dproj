@@ -7,7 +7,7 @@
         <MainSource>MeshGradients.dpr</MainSource>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
         <ProjectGuid>{9325ac8c-1748-4718-a9d2-df2344d9074b}</ProjectGuid>
-        <ProjectVersion>20.3</ProjectVersion>
+        <ProjectVersion>20.4</ProjectVersion>
         <TargetedPlatforms>3</TargetedPlatforms>
         <ProjectName Condition="'$(ProjectName)'==''">MeshGradients</ProjectName>
     </PropertyGroup>

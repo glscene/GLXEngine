@@ -7,7 +7,7 @@
         <MainSource>CubicSpline.dpr</MainSource>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
         <ProjectGuid>{6d801fac-172c-4b7c-8a45-04d0f9fa7f2a}</ProjectGuid>
-        <ProjectVersion>20.3</ProjectVersion>
+        <ProjectVersion>20.4</ProjectVersion>
         <TargetedPlatforms>3</TargetedPlatforms>
         <ProjectName Condition="'$(ProjectName)'==''">CubicSpline</ProjectName>
     </PropertyGroup>

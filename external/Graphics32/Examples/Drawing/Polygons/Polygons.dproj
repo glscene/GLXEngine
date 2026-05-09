@@ -7,7 +7,7 @@
         <MainSource>Polygons.dpr</MainSource>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
         <ProjectGuid>{7da691b9-12f2-43ad-89a3-ae6b7ddb1b57}</ProjectGuid>
-        <ProjectVersion>20.3</ProjectVersion>
+        <ProjectVersion>20.4</ProjectVersion>
         <TargetedPlatforms>3</TargetedPlatforms>
         <ProjectName Condition="'$(ProjectName)'==''">Polygons</ProjectName>
     </PropertyGroup>

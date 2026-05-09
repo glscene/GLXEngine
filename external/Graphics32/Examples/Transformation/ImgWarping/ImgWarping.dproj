@@ -7,7 +7,7 @@
         <MainSource>ImgWarping.dpr</MainSource>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
         <ProjectGuid>{316e8b16-74f4-4f77-a047-e7bcfb7e18f1}</ProjectGuid>
-        <ProjectVersion>20.3</ProjectVersion>
+        <ProjectVersion>20.4</ProjectVersion>
         <TargetedPlatforms>3</TargetedPlatforms>
         <ProjectName Condition="'$(ProjectName)'==''">ImgWarping</ProjectName>
     </PropertyGroup>

@@ -7,7 +7,7 @@
         <MainSource>Rotate.dpr</MainSource>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
         <ProjectGuid>{f2b86ef0-9616-49a4-beb1-10671e0840e1}</ProjectGuid>
-        <ProjectVersion>20.3</ProjectVersion>
+        <ProjectVersion>20.4</ProjectVersion>
         <TargetedPlatforms>3</TargetedPlatforms>
         <ProjectName Condition="'$(ProjectName)'==''">Rotate</ProjectName>
     </PropertyGroup>

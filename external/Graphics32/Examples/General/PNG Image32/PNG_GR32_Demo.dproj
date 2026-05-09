@@ -7,7 +7,7 @@
         <MainSource>PNG_GR32_Demo.dpr</MainSource>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
         <ProjectGuid>{18A3AB46-E5AA-4A9F-9C15-55E2005627FC}</ProjectGuid>
-        <ProjectVersion>20.3</ProjectVersion>
+        <ProjectVersion>20.4</ProjectVersion>
         <TargetedPlatforms>1</TargetedPlatforms>
         <ProjectName Condition="'$(ProjectName)'==''">PNG_GR32_Demo</ProjectName>
     </PropertyGroup>

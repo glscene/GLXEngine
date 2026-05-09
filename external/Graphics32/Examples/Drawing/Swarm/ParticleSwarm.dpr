@@ -8,7 +8,7 @@ uses
   MainUnit in 'MainUnit.pas' {FormMain},
   HelpUnit in 'HelpUnit.pas' {FormHelp};
 
-{$R '..\manifest.res'}
+{$R '..\..\manifest.res'}
 
 begin
   Application.Initialize;

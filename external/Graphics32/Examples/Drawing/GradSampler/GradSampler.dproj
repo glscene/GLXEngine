@@ -7,7 +7,7 @@
         <MainSource>GradSampler.dpr</MainSource>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
         <ProjectGuid>{31324203-1e49-4bee-9056-7a6064f2c223}</ProjectGuid>
-        <ProjectVersion>20.3</ProjectVersion>
+        <ProjectVersion>20.4</ProjectVersion>
         <TargetedPlatforms>3</TargetedPlatforms>
         <ProjectName Condition="'$(ProjectName)'==''">GradSampler</ProjectName>
     </PropertyGroup>

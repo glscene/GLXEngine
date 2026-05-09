@@ -4,12 +4,11 @@ program NestedSampling;
 
 uses
   Forms,
-  SimplePropEdit in 'SimplePropEdit.pas',
-  MainUnit in 'MainUnit.pas' {MainForm};
+  MainUnit in 'MainUnit.pas',
+  SimplePropEdit in 'SimplePropEdit.pas';
 
 begin
   Application.Initialize;
-  Application.CreateForm(TMainForm, MainForm);
   Application.CreateForm(TMainForm, MainForm);
   Application.Run;
 end.

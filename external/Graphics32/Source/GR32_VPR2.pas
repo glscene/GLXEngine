@@ -168,13 +168,13 @@ begin
     Exit;
 {$endif}
 
-{$ifndef FPC}
+{$if defined(FloatCast)}
   dY := Double(Y2) - Double(Y1);
   dX := Double(X2) - Double(X1);
 {$else}
   dY := Y2 - Y1;
   dX := X2 - X1;
-{$endif}
+{$ifend}
 
   X := PolyFloor(X1);
   Y := PolyFloor(Y1);

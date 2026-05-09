@@ -12,6 +12,7 @@ object FormRenderText: TFormRenderText
   Font.Height = -12
   Font.Name = 'Segoe UI'
   Font.Style = []
+  ShowHint = True
   OnCreate = FormCreate
   TextHeight = 15
   object Image: TImage32
@@ -19,12 +20,14 @@ object FormRenderText: TFormRenderText
     Top = 61
     Width = 566
     Height = 146
+    Hint = 'For TCanvas32: Click to display/hide font outline vertices'
     Align = alClient
     Bitmap.ResamplerClassName = 'TNearestResampler'
     BitmapAlign = baTopLeft
     Scale = 1.000000000000000000
     ScaleMode = smNormal
     TabOrder = 1
+    OnClick = ImageClick
     OnResize = ImageResize
   end
   object PanelTop: TPanel
@@ -64,6 +67,7 @@ object FormRenderText: TFormRenderText
       Top = 4
       Width = 5
       Height = 51
+      Anchors = [akTop, akRight]
       Shape = bsLeftLine
     end
     object EditText: TEdit
@@ -78,9 +82,9 @@ object FormRenderText: TFormRenderText
       OnChange = Changed
     end
     object ButtonBenchmark: TButton
-      Left = 224
+      Left = 252
       Top = 32
-      Width = 145
+      Width = 117
       Height = 21
       Caption = 'Run Benchmark'
       TabOrder = 4
@@ -89,17 +93,21 @@ object FormRenderText: TFormRenderText
     object CheckBoxAntiAlias: TCheckBox
       Left = 4
       Top = 34
-      Width = 97
+      Width = 69
       Height = 17
+      Hint = 'Enable anti-aliasing.'#13#10'TCanvas32 is always anti-aliased'
       Caption = 'Anti-alias'
       TabOrder = 2
       OnClick = Changed
     end
     object CheckBoxCanvas32: TCheckBox
-      Left = 124
+      Left = 79
       Top = 34
-      Width = 97
+      Width = 74
       Height = 17
+      Hint = 
+        'Displays the text using TCanvas32.RenderText.'#13#10'Otherwise uses TB' +
+        'itmap32.RenderText'
       Caption = 'TCanvas32'
       TabOrder = 3
       OnClick = CheckBoxCanvas32Click
@@ -131,6 +139,18 @@ object FormRenderText: TFormRenderText
       Anchors = [akTop, akRight]
       Caption = 'Italic'
       TabOrder = 6
+      OnClick = Changed
+    end
+    object CheckBoxMeasureText: TCheckBox
+      Left = 163
+      Top = 34
+      Width = 83
+      Height = 17
+      Hint = 
+        'Displays the text bounding rectangle as returned by the MeasureT' +
+        'ext function'
+      Caption = 'MeasureText'
+      TabOrder = 7
       OnClick = Changed
     end
   end

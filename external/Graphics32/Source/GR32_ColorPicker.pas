@@ -583,7 +583,7 @@ var
 begin
   DC := GetWindowDC(GetDesktopWindow);
   try
-    Result := Color32(GetPixel(DC, x, y));
+    Result := SetAlpha(RGBAToColor32(GetPixel(DC, x, y)), 255);
   finally
     ReleaseDC(GetDesktopWindow, DC);
   end;
@@ -2039,10 +2039,16 @@ begin
 
   // Don't use BuildPolyPolyline to build HueBand; We need both inner and outer
   // polygons to be free of self-intersections as we use them to draw the border.
+{$if defined(DynArrayOps)}
   HueBand := [
                               Circle(FCenter, FRadius,      FCircleSteps),
                ReversePolygon(Circle(FCenter, FInnerRadius, FCircleSteps))
              ];
+{$else}
+  SetLength(HueBand, 2);
+  HueBand[0] :=                Circle(FCenter, FRadius,      FCircleSteps);
+  HueBand[1] := ReversePolygon(Circle(FCenter, FInnerRadius, FCircleSteps));
+{$ifend}
 
   HueFiller := THueCirclePolygonFiller.Create(FCenter, FWebSafe);
   try

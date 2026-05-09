@@ -2,6 +2,8 @@ unit UnitMain;
 
 interface
 
+{$include GR32.inc}
+
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
@@ -96,7 +98,11 @@ begin
 
   // Create a bitmap layer we can paint on.
   // We could also just have painted directly on the TImage32.Bitmap
+{$if defined(GenericMethods)}
   FPaintLayer := Image32.Layers.Add<TBitmapLayer>;
+{$else}
+  FPaintLayer := TBitmapLayer.Create(Image32.Layers);
+{$ifend}
   FPaintLayer.Location := FloatRect(Image32.BoundsRect);
   FPaintLayer.Bitmap.SetSize(Image32.Width, Image32.Height);
   FPaintLayer.Bitmap.DrawMode := dmBlend;

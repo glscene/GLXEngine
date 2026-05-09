@@ -303,17 +303,27 @@ type
   private
     FSampler: TCustomSampler;
     FGetSample: TGetSampleInt;
+    FOwnsSampler: boolean;
+    FBlendOpaque: boolean;
     procedure SetSampler(const Value: TCustomSampler);
   protected
     procedure SamplerChanged; virtual;
     function GetFillLine: TFillLineEvent; override;
-    procedure SampleLineOpaque(Dst: PColor32; DstX, DstY, Length: Integer;
-      AlphaValues: PColor32; CombineMode: TCombineMode);
+    procedure SampleLineOpaque(Dst: PColor32; DstX, DstY, Length: Integer; AlphaValues: PColor32; CombineMode: TCombineMode);
+    procedure SampleLineBlend(Dst: PColor32; DstX, DstY, Length: Integer; AlphaValues: PColor32; CombineMode: TCombineMode);
+
+    property GetSample: TGetSampleInt read FGetSample write FGetSample;
   public
-    constructor Create(Sampler: TCustomSampler = nil); reintroduce; virtual;
+    constructor Create(Sampler: TCustomSampler = nil); reintroduce; overload; virtual;
+    constructor Create(Sampler: TCustomSampler; AOwnsSampler: boolean); overload;
+    destructor Destroy; override;
+
     procedure BeginRendering; override;
     procedure EndRendering; override;
+
     property Sampler: TCustomSampler read FSampler write SetSampler;
+    property OwnsSampler: boolean read FOwnsSampler write FOwnsSampler;
+    property BlendOpaque: boolean read FBlendOpaque write FBlendOpaque;
   end;
 
 
@@ -480,14 +490,30 @@ procedure FillBitmap(Bitmap: TCustomBitmap32; Filler: TCustomPolygonFiller);
 procedure RegisterPolygonRenderer(PolygonRendererClass: TCustomPolygonRendererClass);
 procedure UnregisterPolygonRenderer(PolygonRendererClass: TCustomPolygonRendererClass);
 
+type
+{$if defined(NO_GENERIC_METACLASS_LISTS)}
+  TCustomPolygonRendererList = class(TClassList)
+  public
+    function Find(const AClassName: string): TCustomPolygonRendererClass;
+  end;
+
+  TPolygonRendererList = class(TClassList)
+  public
+    function Find(const AClassName: string): TPolygonRenderer32Class;
+  end;
+{$else}
+  TCustomPolygonRendererList = TCustomClassList<TCustomPolygonRendererClass>;
+  TPolygonRendererList = TCustomClassList<TPolygonRenderer32Class>;
+{$ifend}
+
 var
   // CustomPolygonRendererList contains all registered renderers.
   // It corresponds to the old PolygonRendererList prior to that
   // being changed to only contain TPolygonRenderer32 classes.
-  CustomPolygonRendererList: TCustomClassList<TCustomPolygonRendererClass>;
+  CustomPolygonRendererList: TCustomPolygonRendererList;
 
   // PolygonRendererList contains only renderers that inherit from TPolygonRenderer32
-  PolygonRendererList: TCustomClassList<TPolygonRenderer32Class>;
+  PolygonRendererList: TPolygonRendererList;
   DefaultPolygonRendererClass: TPolygonRenderer32Class = TPolygonRenderer32VPR;
 
 
@@ -540,10 +566,10 @@ type
 procedure RegisterPolygonRenderer(PolygonRendererClass: TCustomPolygonRendererClass);
 begin
   if (CustomPolygonRendererList = nil) then
-    CustomPolygonRendererList := TCustomClassList<TCustomPolygonRendererClass>.Create;
+    CustomPolygonRendererList := TCustomPolygonRendererList.Create;
 
   if (PolygonRendererList = nil) then
-    PolygonRendererList := TCustomClassList<TPolygonRenderer32Class>.Create;
+    PolygonRendererList := TPolygonRendererList.Create;
 
   CustomPolygonRendererList.Add(PolygonRendererClass);
 
@@ -2754,7 +2780,22 @@ constructor TSamplerFiller.Create(Sampler: TCustomSampler = nil);
 begin
   inherited Create;
   FSampler := Sampler;
+  FBlendOpaque := True;
   SamplerChanged;
+end;
+
+constructor TSamplerFiller.Create(Sampler: TCustomSampler; AOwnsSampler: boolean);
+begin
+  Create(Sampler);
+  FOwnsSampler := AOwnsSampler;
+end;
+
+destructor TSamplerFiller.Destroy;
+begin
+  if (FOwnsSampler) then
+    FSampler.Free;
+
+  inherited;
 end;
 
 procedure TSamplerFiller.EndRendering;
@@ -2765,8 +2806,22 @@ begin
   inherited;
 end;
 
-procedure TSamplerFiller.SampleLineOpaque(Dst: PColor32; DstX, DstY,
-  Length: Integer; AlphaValues: PColor32; CombineMode: TCombineMode);
+procedure TSamplerFiller.SampleLineBlend(Dst: PColor32; DstX, DstY, Length: Integer; AlphaValues: PColor32; CombineMode: TCombineMode);
+var
+  X: Integer;
+  BlendMemEx: TBlendMemEx;
+begin
+  BlendMemEx := BLEND_MEM_EX[CombineMode]^;
+
+  for X := DstX to DstX + Length - 1 do
+  begin
+    BlendMemEx(FGetSample(X, DstY), Dst^, AlphaValues^);
+    Inc(Dst);
+    Inc(AlphaValues);
+  end;
+end;
+
+procedure TSamplerFiller.SampleLineOpaque(Dst: PColor32; DstX, DstY, Length: Integer; AlphaValues: PColor32; CombineMode: TCombineMode);
 var
   X: Integer;
   BlendMemEx: TBlendMemEx;
@@ -2783,7 +2838,9 @@ end;
 procedure TSamplerFiller.SamplerChanged;
 begin
   if (FSampler <> nil) then
-    FGetSample := FSampler.GetSampleInt;
+    FGetSample := FSampler.GetSampleInt
+  else
+    FGetSample := nil;
 end;
 
 procedure TSamplerFiller.BeginRendering;
@@ -2796,7 +2853,10 @@ end;
 
 function TSamplerFiller.GetFillLine: TFillLineEvent;
 begin
-  Result := SampleLineOpaque;
+  if (BlendOpaque) then
+    Result := SampleLineOpaque
+  else
+    Result := SampleLineBlend;
 end;
 
 procedure TSamplerFiller.SetSampler(const Value: TCustomSampler);
@@ -3165,6 +3225,24 @@ end;
 
 //------------------------------------------------------------------------------
 //
+//      NO_GENERIC_METACLASS_LISTS
+//
+//------------------------------------------------------------------------------
+{$if defined(NO_GENERIC_METACLASS_LISTS)}
+function TCustomPolygonRendererList.Find(const AClassName: string): TCustomPolygonRendererClass;
+begin
+  Result := TCustomPolygonRendererClass(inherited Find(AClassName));
+end;
+
+function TPolygonRendererList.Find(const AClassName: string): TPolygonRenderer32Class;
+begin
+  Result := TPolygonRenderer32Class(inherited Find(AClassName));
+end;
+{$ifend}
+
+
+//------------------------------------------------------------------------------
+//
 //      Bindings
 //
 //------------------------------------------------------------------------------
@@ -3201,7 +3279,7 @@ begin
   PolygonsRegistry[@@MakeAlphaEvenOddUP].Add(   @MakeAlphaEvenOddUP_Pas,        [isPascal]).Name := 'MakeAlphaEvenOddUP_Pas';
 {$if (not defined(PUREPASCAL)) and (not defined(OMIT_SSE2))}
   PolygonsRegistry[@@MakeAlphaEvenOddUP].Add(   @MakeAlphaEvenOddUP_SSE2,       [isSSE2]).Name := 'MakeAlphaEvenOddUP_SSE2';
-  PolygonsRegistry[@@MakeAlphaEvenOddUP].Add(   @MakeAlphaEvenOddUP_SSE41,      [isSSE2]).Name := 'MakeAlphaEvenOddUP_SSE41';
+  PolygonsRegistry[@@MakeAlphaEvenOddUP].Add(   @MakeAlphaEvenOddUP_SSE41,      [isSSE41]).Name := 'MakeAlphaEvenOddUP_SSE41';
 {$ifend}
 
   // NonZeroUP
@@ -3220,6 +3298,7 @@ end;
 //------------------------------------------------------------------------------
 //------------------------------------------------------------------------------
 //------------------------------------------------------------------------------
+
 
 initialization
 

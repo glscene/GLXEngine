@@ -32,10 +32,6 @@ unit GR32.ImageFormats.JPG;
  *
  * ***** END LICENSE BLOCK ***** *)
 
-// WEAKPACKAGEUNIT so we can include the unit in the GR32 design time
-// package in order to have the design time editor support the various formats.
-{$WEAKPACKAGEUNIT ON}
-
 interface
 
 {$include GR32.inc}
@@ -43,6 +39,10 @@ interface
 implementation
 
 uses
+  Classes,
+{$if defined(DynArrayOps)}
+  SysUtils,
+{$ifend}
 {$ifdef FPC}
   Graphics,
 {$else FPC}
@@ -52,18 +52,71 @@ uses
   GR32.ImageFormats,
   GR32.ImageFormats.TGraphic;
 
+const
+{$if defined(DynArrayOps)}
+  FileSignatureJPEG: TBytes = [
+                                $FF, $D8,               // SOI marker
+                                $FF, $E0,               // JFIF-APP0 marker
+                                $00, $00,               // Length (masked out)
+                                $4A, $46, $49, $46, $00,// 'JFIF'#0
+                                $01];                   // Major version: 1
+
+  FileSignatureJPEGMask: TBytes = [
+                                $ff, $ff,
+                                $ff, $ff,
+                                $00, $00,
+                                $ff, $ff, $ff, $ff, $ff,
+                                $ff];
+{$else}
+  FileSignatureJPEG: array[0..11] of byte = (
+                                $FF, $D8,               // SOI marker
+                                $FF, $E0,               // JFIF-APP0 marker
+                                $00, $00,               // Length (masked out)
+                                $4A, $46, $49, $46, $00,// 'JFIF'#0
+                                $01);                   // Major version: 1
+
+  FileSignatureJPEGMask: array[0..11] of byte = (
+                                $ff, $ff,
+                                $ff, $ff,
+                                $00, $00,
+                                $ff, $ff, $ff, $ff, $ff,
+                                $ff);
+{$ifend}
+
 {$ifdef FPC}
 resourcestring
   sJPEGImageFile = 'JPEG Image File';
 {$endif FPC}
 
+type
+  TImageFormatAdapterJPEG = class(TImageFormatReaderWriterTGraphic)
+  strict protected
+    // IImageFormatReader
+    function CanLoadFromStream(AStream: TStream): boolean; override;
+  end;
+
+function TImageFormatAdapterJPEG.CanLoadFromStream(AStream: TStream): boolean;
+begin
+{$ifdef LOADFROMSTREAM}
+  Result := inherited;
+{$else LOADFROMSTREAM}
+  Result := CheckFileSignature(AStream, FileSignatureJPEG, FileSignatureJPEGMask);
+{$endif LOADFROMSTREAM}
+end;
+
+
 //------------------------------------------------------------------------------
 //------------------------------------------------------------------------------
 //------------------------------------------------------------------------------
 
+var
+  ImageFormatHandle: integer = 0;
+
 initialization
-  ImageFormatManager.RegisterImageFormat(
-    TImageFormatReaderWriterTGraphic.Create(TJPEGImage, sJPEGImageFile, ['jpg', 'jpeg']),
+  ImageFormatHandle := ImageFormatManager.RegisterImageFormat(
+    TImageFormatAdapterJPEG.Create(TJPEGImage, sJPEGImageFile, ['jpg', 'jpeg']),
     ImageFormatPriorityNormal);
+finalization
+  ImageFormatManager.UnregisterImageFormat(ImageFormatHandle);
 end.
 

@@ -100,7 +100,7 @@ uses
 // Combine
 //------------------------------------------------------------------------------
 //
-// The Combine operation performs linear interpolation, commonly refered to as
+// The Combine operation performs linear interpolation, commonly referred to as
 // "Lerp", between two colors (X and Y), given a weight (W):
 //
 //   Result Z = W * X + (1 - W) * Y
@@ -218,7 +218,7 @@ var
 // Misc
 //------------------------------------------------------------------------------
   LightenReg: TLightenReg;
-  Lighten: TLightenReg absolute LightenReg; // Lighten is an alias for LigthenReg
+  Lighten: TLightenReg absolute LightenReg; // Lighten is an alias for LightenReg
   ScaleMems: TScaleMems;
 
 
@@ -330,6 +330,11 @@ var
   //
   //   Color = DivMul255Table[Alpha, PremultColor] = PremultColor / Alpha
   //
+  {$REGION 'Documentation'}
+  /// <summary>
+  /// DivMul255Table[a, b] = Round(b * 255 / a)
+  /// </summary>
+  {$ENDREGION}
   DivMul255Table: TLUT88;
 
   //
@@ -346,6 +351,11 @@ var
   //
   //   PremultColor = MulDiv255Table[Color, Alpha] = Color * Alpha
   //
+  {$REGION 'Documentation'}
+  /// <summary>
+  /// MulDiv255Table[a, b] = Round(a * b / 255)
+  /// </summary>
+  {$ENDREGION}
   MulDiv255Table: TLUT88;
 
 
@@ -399,6 +409,7 @@ implementation
 
 uses
   GR32_System,
+  GR32_LowLevel,
 {$IFNDEF PUREPASCAL}
   GR32.Blend.Assembler,
 {$IFNDEF OMIT_SSE2}
@@ -407,6 +418,9 @@ uses
 {$ENDIF}
   GR32.Blend.Pascal;
 
+
+const
+  OneOver255x255 = 1 / (255 * 255);
 
 //------------------------------------------------------------------------------
 //
@@ -508,6 +522,7 @@ asm
   EMMS
 end;
 {$ifend}
+
 
 //------------------------------------------------------------------------------
 //

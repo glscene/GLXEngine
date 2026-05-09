@@ -278,7 +278,7 @@ begin
   Bdy := B2.Y - B1.Y;
   t := (Bdy * Adx) - (Bdx * Ady);
 
-  if t = 0 then Exit; // lines are parallell
+  if t = 0 then Exit; // lines are parallel
 
   ABx := A1.X - B1.X;
   ABy := A1.Y - B1.Y;
@@ -305,7 +305,7 @@ begin
   Bdy := B2.Y - B1.Y;
   t := (Bdy * Adx) - (Bdx * Ady);
 
-  if t = 0 then Exit; // lines are parallell
+  if t = 0 then Exit; // lines are parallel
 
   ABx := A1.X - B1.X;
   ABy := A1.Y - B1.Y;
@@ -1161,7 +1161,7 @@ var
   AbsRadius: TFloat;
 begin
   AbsRadius := Abs(Radius);
-  Result := Trunc(Pi / (ArcCos(AbsRadius / (AbsRadius + 0.125))));
+  Result := Max(2, Trunc(Pi / (ArcCos(AbsRadius / (AbsRadius + 0.125)))));
 end;
 
 function Circle(const P: TFloatPoint; const Radius: TFloat;
@@ -1171,7 +1171,7 @@ var
   M: TFloat;
   C, D: TFloatPoint;
 begin
-  if Steps <= 0 then
+  if Steps <= 1 then
     Steps := CalculateCircleSteps(Radius);
 
   SetLength(Result, Steps);

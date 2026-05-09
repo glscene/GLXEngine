@@ -7,7 +7,7 @@
         <MainSource>Image32.dpr</MainSource>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
         <ProjectGuid>{ae3e247b-018e-42ca-b7fd-1d91575b5d61}</ProjectGuid>
-        <ProjectVersion>20.3</ProjectVersion>
+        <ProjectVersion>20.4</ProjectVersion>
         <TargetedPlatforms>3</TargetedPlatforms>
         <ProjectName Condition="'$(ProjectName)'==''">Image32</ProjectName>
     </PropertyGroup>

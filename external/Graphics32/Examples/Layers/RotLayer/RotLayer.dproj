@@ -7,7 +7,7 @@
         <MainSource>RotLayer.dpr</MainSource>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
         <ProjectGuid>{b4e55d6a-44e8-467c-876b-5e5217a88cea}</ProjectGuid>
-        <ProjectVersion>20.3</ProjectVersion>
+        <ProjectVersion>20.4</ProjectVersion>
         <TargetedPlatforms>3</TargetedPlatforms>
         <ProjectName Condition="'$(ProjectName)'==''">RotLayer</ProjectName>
     </PropertyGroup>

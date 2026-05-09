@@ -12,7 +12,7 @@ object MainForm: TMainForm
   Font.Name = 'Tahoma'
   Font.Style = []
   Menu = MainMenu
-  Position = poScreenCenter
+  Position = poDesktopCenter
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   TextHeight = 13
@@ -24,7 +24,6 @@ object MainForm: TMainForm
     Align = alLeft
     BevelOuter = bvNone
     TabOrder = 0
-    ExplicitHeight = 556
     object Splitter1: TSplitter
       Left = 0
       Top = 250
@@ -59,38 +58,38 @@ object MainForm: TMainForm
         Style = tbsDropDown
       end
       object tbSplitter2: TToolButton
-        Left = 52
+        Left = 38
         Top = 0
         Width = 8
         ImageIndex = 1
         Style = tbsSeparator
       end
       object tbCut: TToolButton
-        Left = 60
+        Left = 46
         Top = 0
         ImageIndex = 1
         OnClick = Cut1Click
       end
       object tbCopy: TToolButton
-        Left = 83
+        Left = 69
         Top = 0
         ImageIndex = 2
         OnClick = Copy2Click
       end
       object tbPaste: TToolButton
-        Left = 106
+        Left = 92
         Top = 0
         ImageIndex = 3
         OnClick = Paste1Click
       end
       object tbDelete: TToolButton
-        Left = 129
+        Left = 115
         Top = 0
         ImageIndex = 4
         OnClick = tbDeleteClick
       end
       object tbSplitter1: TToolButton
-        Left = 152
+        Left = 138
         Top = 0
         Width = 8
         ImageIndex = 5
@@ -98,14 +97,14 @@ object MainForm: TMainForm
       end
       object tbUp: TToolButton
         Tag = -1
-        Left = 160
+        Left = 146
         Top = 0
         ImageIndex = 5
         OnClick = tbUpDownClick
       end
       object tbDown: TToolButton
         Tag = 1
-        Left = 183
+        Left = 169
         Top = 0
         ImageIndex = 6
         OnClick = tbUpDownClick
@@ -252,8 +251,6 @@ object MainForm: TMainForm
     ScrollBars.Size = 16
     OverSize = 0
     TabOrder = 1
-    ExplicitWidth = 605
-    ExplicitHeight = 556
   end
   object EnabledImages: TImageList
     Left = 216

@@ -245,7 +245,11 @@ begin
         Filler.OffsetX := Bounds.Left;
         Filler.OffsetY := Bounds.Top;
 
+{$if defined(DynArrayOps)} // XE7
         Points := [Region];
+{$else}
+        Points := PolyPolygon(Region);
+{$ifend}
         PolyPolygonFS(Bitmap, Points, Filler);
       finally
         Filler.Free;
@@ -261,7 +265,11 @@ begin
       try
         Filler.Pattern := Dest;
 
+{$if defined(DynArrayOps)} // XE7
         Points := [Region];
+{$else}
+        Points := PolyPolygon(Region);
+{$ifend}
         PolyPolygonFS(Bitmap, Points, Filler);
       finally
         Filler.Free;
@@ -274,7 +282,7 @@ begin
 end;
 
 //------------------------------------------------------------------------------
-// Abstract blur of rectagular area.
+// Abstract blur of rectangular area.
 // Handles both with and without gamma via delegates.
 //------------------------------------------------------------------------------
 procedure BlurRect32(Bitmap: TBitmap32; Radius: TFloat; const Bounds: TRect; BlurDelegate: TBlur32Proc; BlurInplaceDelegate: TBlurInplace32Proc);

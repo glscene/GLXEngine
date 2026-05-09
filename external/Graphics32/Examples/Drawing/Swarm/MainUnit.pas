@@ -224,10 +224,15 @@ procedure TFormMain.MsgAfterShow(var Msg: TMessage);
 var
   r: TRect;
 begin
+{$if defined(ClientToScreenRect)}
   r := ClientToScreen(ClientRect);
+{$else}
+  r.TopLeft := ClientToScreen(ClientRect.TopLeft);
+  r.BottomRight := ClientToScreen(ClientRect.BottomRight);
+{$ifend}
 
   FFormHelp.Top := r.Top;
-  FFormHelp.left := r.Right - FFormHelp.Width;
+  FFormHelp.Left := r.Right - FFormHelp.Width;
 
   ShowWindow(FFormHelp.Handle, SW_SHOWNA);
   FFormHelp.Visible := True;

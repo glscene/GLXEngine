@@ -64,7 +64,6 @@ contains
   GR32_VectorMaps in '..\Source\GR32_VectorMaps.pas',
   GR32_VectorUtils in '..\Source\GR32_VectorUtils.pas',
   GR32_VPR in '..\Source\GR32_VPR.pas',
-  GR32_XPThemes in '..\Source\GR32_XPThemes.pas',
   GR32.Blend.Assembler in '..\Source\GR32.Blend.Assembler.pas',
   GR32.Blend.SSE2 in '..\Source\GR32.Blend.SSE2.pas',
   GR32_Polygons.AggLite in '..\Source\GR32_Polygons.AggLite.pas',

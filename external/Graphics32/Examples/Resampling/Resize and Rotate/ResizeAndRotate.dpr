@@ -6,7 +6,7 @@ uses
   Vcl.Forms,
   UnitMain in 'UnitMain.pas' {FormMain};
 
-{$R '..\manifest.res'}
+{$R '..\..\manifest.res'}
 
 begin
   Application.Initialize;

@@ -100,7 +100,7 @@ implementation
 
 {$R *.dfm}
 
-{.$R data.res}
+{$R data.res}
 
 uses
   GR32_Math,

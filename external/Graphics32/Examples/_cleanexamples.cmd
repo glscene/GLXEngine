@@ -20,11 +20,13 @@ del *.rsm /s
 del *.drc /s
 del *.vrc /s
 del *.local /s
+del *.dsv /s
 del *.res /s
 
 rem Lazarus
 del *.lpi /s
 del *.lpr /s
+del *.lfm /s
 
 
 rem delete more files

@@ -52,14 +52,15 @@ type
     procedure SetValue(X, Y: Integer; const Value: Boolean);
   protected
     FBits: PByteArray;
-    procedure ChangeSize(var Width, Height: Integer; NewWidth, NewHeight: Integer); override;
+    procedure ChangeSize(var Width, Height: Integer; NewWidth, NewHeight: Integer; ClearBuffer: Boolean = True); override;
   public
     constructor Create; overload; override;
     destructor Destroy; override;
 
     function Empty: Boolean; override;
-    procedure Clear(FillValue: Boolean = False); overload;
-    procedure Clear(FillValue: Byte); overload;
+    procedure Clear; overload; override;
+    procedure Clear(FillValue: Boolean); reintroduce; overload;
+    procedure Clear(FillValue: Byte); reintroduce; overload;
     procedure ToggleBit(X, Y: Integer);
 
     property Value[X, Y: Integer]: Boolean read GetValue write SetValue; default;
@@ -75,14 +76,15 @@ type
   protected
     FBits: PByteArray;
     procedure AssignTo(Dst: TPersistent); override;
-    procedure ChangeSize(var Width, Height: Integer; NewWidth, NewHeight: Integer); override;
+    procedure ChangeSize(var Width, Height: Integer; NewWidth, NewHeight: Integer; ClearBuffer: Boolean = True); override;
   public
     constructor Create; overload; override;
     destructor Destroy; override;
 
     procedure Assign(Source: TPersistent); override;
     function Empty: Boolean; override;
-    procedure Clear(FillValue: Byte);
+    procedure Clear; overload; override;
+    procedure Clear(FillValue: Byte); reintroduce; overload;
 
     procedure Multiply(Value: Byte);
     procedure Add(Value: Byte);
@@ -120,14 +122,15 @@ type
     function GetScanline(Y: Integer): PWordArray;
   protected
     FBits: PWordArray;
-    procedure ChangeSize(var Width, Height: Integer; NewWidth, NewHeight: Integer); override;
+    procedure ChangeSize(var Width, Height: Integer; NewWidth, NewHeight: Integer; ClearBuffer: Boolean = True); override;
   public
     constructor Create; overload; override;
     destructor Destroy; override;
 
     procedure Assign(Source: TPersistent); override;
     function Empty: Boolean; override;
-    procedure Clear(FillValue: Word);
+    procedure Clear; overload; override;
+    procedure Clear(FillValue: Word); reintroduce; overload;
 
     property ValPtr[X, Y: Integer]: PWord read GetValPtr;
     property Value[X, Y: Integer]: Word read GetValue write SetValue; default;
@@ -145,14 +148,15 @@ type
     function GetScanline(Y: Integer): PIntegerArray;
   protected
     FBits: PIntegerArray;
-    procedure ChangeSize(var Width, Height: Integer; NewWidth, NewHeight: Integer); override;
+    procedure ChangeSize(var Width, Height: Integer; NewWidth, NewHeight: Integer; ClearBuffer: Boolean = True); override;
   public
     constructor Create; overload; override;
     destructor Destroy; override;
 
     procedure Assign(Source: TPersistent); override;
     function Empty: Boolean; override;
-    procedure Clear(FillValue: Integer = 0);
+    procedure Clear; overload; override;
+    procedure Clear(FillValue: Integer); reintroduce; overload;
 
     property ValPtr[X, Y: Integer]: PInteger read GetValPtr;
     property Value[X, Y: Integer]: Integer read GetValue write SetValue; default;
@@ -170,14 +174,15 @@ type
     function GetScanline(Y: Integer): PCardinalArray;
   protected
     FBits: PCardinalArray;
-    procedure ChangeSize(var Width, Height: Integer; NewWidth, NewHeight: Integer); override;
+    procedure ChangeSize(var Width, Height: Integer; NewWidth, NewHeight: Integer; ClearBuffer: Boolean = True); override;
   public
     constructor Create; overload; override;
     destructor Destroy; override;
 
     procedure Assign(Source: TPersistent); override;
     function Empty: Boolean; override;
-    procedure Clear(FillValue: Cardinal = 0);
+    procedure Clear; overload; override;
+    procedure Clear(FillValue: Cardinal); reintroduce; overload;
 
     property ValPtr[X, Y: Cardinal]: PCardinal read GetValPtr;
     property Value[X, Y: Cardinal]: Cardinal read GetValue write SetValue; default;
@@ -195,15 +200,15 @@ type
     function GetScanline(Y: Integer): PFloatArray;
   protected
     FBits: PFloatArray;
-    procedure ChangeSize(var Width, Height: Integer; NewWidth, NewHeight: Integer); override;
+    procedure ChangeSize(var Width, Height: Integer; NewWidth, NewHeight: Integer; ClearBuffer: Boolean = True); override;
   public
     constructor Create; overload; override;
     destructor Destroy; override;
 
     procedure Assign(Source: TPersistent); override;
     function Empty: Boolean; override;
-    procedure Clear; overload;
-    procedure Clear(FillValue: TFloat); overload;
+    procedure Clear; overload; override;
+    procedure Clear(FillValue: TFloat); reintroduce; overload;
 
     property ValPtr[X, Y: Integer]: PFloat read GetValPtr;
     property Value[X, Y: Integer]: TFloat read GetValue write SetValue; default;
@@ -220,15 +225,15 @@ type
     procedure SetValue(X, Y: Integer; const Value: T); {$IFDEF USEINLINING} inline; {$ENDIF}
   protected
     FBits: Pointer;
-    procedure ChangeSize(var Width, Height: Integer; NewWidth, NewHeight: Integer); override;
+    procedure ChangeSize(var Width, Height: Integer; NewWidth, NewHeight: Integer; ClearBuffer: Boolean = True); override;
   public
     constructor Create; overload; override;
     destructor Destroy; override;
 
     procedure Assign(Source: TPersistent); override;
     function Empty: Boolean; override;
-    procedure Clear; overload;
-    procedure Clear(FillValue: T); overload;
+    procedure Clear; overload; override;
+    procedure Clear(FillValue: T); reintroduce; overload;
 
     property Value[X, Y: Integer]: T read GetValue write SetValue; default;
     property Bits: Pointer read FBits;
@@ -256,12 +261,23 @@ begin
   inherited Create;
 end;
 
-procedure TBooleanMap.ChangeSize(var Width, Height: Integer; NewWidth,
-  NewHeight: Integer);
+procedure TBooleanMap.ChangeSize(var Width, Height: Integer; NewWidth, NewHeight: Integer; ClearBuffer: Boolean);
+var
+  Size: integer;
 begin
-  ReallocMem(FBits, Bytes(NewWidth * NewHeight));
+  Size := Bytes(NewWidth * NewHeight);
+
+  ReallocMem(FBits, Size);
+  if (ClearBuffer) then
+    FillChar(FBits^, Size, 0);
+
   Width := NewWidth;
   Height := NewHeight;
+end;
+
+procedure TBooleanMap.Clear;
+begin
+  Clear(0);
 end;
 
 procedure TBooleanMap.Clear(FillValue: Boolean);
@@ -275,6 +291,7 @@ end;
 procedure TBooleanMap.Clear(FillValue: Byte);
 begin
   FillChar(FBits^, Bytes(Width * Height), FillValue);
+  Changed;
 end;
 
 destructor TBooleanMap.Destroy;
@@ -394,13 +411,17 @@ procedure TByteMap.Downsample(Dest: TByteMap; Factor: Byte);
   begin
     // clone destination and downsample inplace
     Temp := TByteMap.Create;
-    Temp.Assign(Self);
-    Temp.Downsample(Factor);
+    try
+      Temp.Assign(Self);
+      Temp.Downsample(Factor);
 
-    // copy downsampled result
-    Dest.SetSize(Width div Factor, Height div Factor);
-    for Y := 0 to Dest.Height - 1 do
-      Move(Temp.Scanline[Y]^, Dest.Scanline[Y]^, Dest.Width);
+      // copy downsampled result
+      Dest.SetSize(Width div Factor, Height div Factor);
+      for Y := 0 to Dest.Height - 1 do
+        Move(Temp.Scanline[Y]^, Dest.Scanline[Y]^, Dest.Width);
+    finally
+      Temp.Free;
+    end;
   end;
 
 begin
@@ -417,12 +438,14 @@ begin
         Dest.SetSize(Width div 2, Height div 2);
         DownsampleByteMap2x(Self, Dest);
       end;
+
     3:
       begin
         // downsample directly
         Dest.SetSize(Width div 3, Height div 3);
         DownsampleByteMap3x(Self, Dest);
       end;
+
     4:
       begin
         // downsample directly
@@ -436,32 +459,48 @@ procedure TByteMap.Assign(Source: TPersistent);
 begin
   BeginUpdate;
   try
+
     if Source is TByteMap then
     begin
       inherited SetSize(TByteMap(Source).Width, TByteMap(Source).Height);
       Move(TByteMap(Source).Bits[0], Bits[0], Width * Height);
-    end
-    else if Source is TBitmap32 then
+    end else
+    if Source is TBitmap32 then
       ReadFrom(TBitmap32(Source), ctWeightedRGB)
     else
       inherited;
+
+    Changed;
   finally
     EndUpdate;
-    Changed;
   end;
 end;
 
 procedure TByteMap.AssignTo(Dst: TPersistent);
 begin
-  if Dst is TBitmap32 then WriteTo(TBitmap32(Dst), ctUniformRGB)
-  else inherited;
+  if Dst is TBitmap32 then
+    WriteTo(TBitmap32(Dst), ctUniformRGB)
+  else
+    inherited;
 end;
 
-procedure TByteMap.ChangeSize(var Width, Height: Integer; NewWidth, NewHeight: Integer);
+procedure TByteMap.ChangeSize(var Width, Height: Integer; NewWidth, NewHeight: Integer; ClearBuffer: Boolean);
+var
+  Size: integer;
 begin
-  ReallocMem(FBits, NewWidth * NewHeight);
+  Size := NewWidth * NewHeight;
+
+  ReallocMem(FBits, Size);
+  if (ClearBuffer) then
+    FillChar(FBits^, Size, 0);
+
   Width := NewWidth;
   Height := NewHeight;
+end;
+
+procedure TByteMap.Clear;
+begin
+  Clear(0);
 end;
 
 procedure TByteMap.Clear(FillValue: Byte);
@@ -687,33 +726,50 @@ end;
 
 procedure TByteMap.Rotate180(Dst: TByteMap);
 var
-  Src: PByteArray;
+  Count: NativeInt;
   S, D: PByte;
-  X, Y: Integer;
   T: Byte;
 begin
+  // Validate inputs
+  if (FBits = nil) or (Width = 0) or (Height = 0) then
+    Exit;
+
+  // Total number of pixels (bytes)
+  Count := Width * Height;
+  if (Count <= 1) then
+    Exit; // nothing to do for 0 or 1 pixels
+
   if (Dst = nil) or (Dst = Self) then
   begin
-    for Y := 0 to FHeight - 1 do
-    begin
-      Src := Scanline[Y];
-      for X := 0 to (FWidth div 2) - 1 do
-      begin
-        T := Src^[X];
-        Src^[X] := Src^[Width - 1 - X];
-        Src^[Width - 1 - X] := T;
-      end;
-    end;
-  end
-  else
-  begin
+    // Set pointers to the first and last byte and swap inwards
     S := PByte(FBits);
-    D := PByte(@Dst.Bits[FHeight * FWidth - 1]);
-    for X := 0 to FHeight * FWidth - 1 do
+    D := S + Count-1;
+
+    // Swap until pointers meet or cross
+    while (S < D) do
+    begin
+      T := S^;
+      S^ := D^;
+      D^ := T;
+
+      Inc(S); // move forward one byte
+      Dec(D); // move backward one byte
+    end;
+
+  end else
+  begin
+    Dst.SetSize(Width, Height);
+
+    S := PByte(FBits);
+    D := PByte(Dst.Bits) + Count-1;
+
+    while (Count > 0) do
     begin
       D^ := S^;
-      Dec(D);
+
       Inc(S);
+      Dec(D);
+      Dec(Count);
     end;
   end;
 end;
@@ -1009,12 +1065,23 @@ begin
   inherited;
 end;
 
-procedure TWordMap.ChangeSize(var Width, Height: Integer; NewWidth,
-  NewHeight: Integer);
+procedure TWordMap.ChangeSize(var Width, Height: Integer; NewWidth, NewHeight: Integer; ClearBuffer: Boolean = True);
+var
+  Size: integer;
 begin
-  ReallocMem(FBits, NewWidth * NewHeight * SizeOf(Word));
+  Size := NewWidth * NewHeight * SizeOf(Word);
+
+  ReallocMem(FBits, Size);
+  if (ClearBuffer) then
+    FillChar(FBits^, Size, 0);
+
   Width := NewWidth;
   Height := NewHeight;
+end;
+
+procedure TWordMap.Clear;
+begin
+  Clear(0);
 end;
 
 procedure TWordMap.Clear(FillValue: Word);
@@ -1026,25 +1093,27 @@ end;
 procedure TWordMap.Assign(Source: TPersistent);
 begin
   BeginUpdate;
-    try
-      if Source is TWordMap then
-      begin
-        inherited SetSize(TWordMap(Source).Width, TWordMap(Source).Height);
-        Move(TWordMap(Source).Bits[0], Bits[0], Width * Height * SizeOf(Word));
-      end
-      //else if Source is TBitmap32 then
-      //  ReadFrom(TBitmap32(Source), ctWeightedRGB)
-      else
-        inherited;
-    finally
-      EndUpdate;
-      Changed;
-    end;
+  try
+
+    if Source is TWordMap then
+    begin
+      inherited SetSize(TWordMap(Source).Width, TWordMap(Source).Height);
+      Move(TWordMap(Source).Bits[0], Bits[0], Width * Height * SizeOf(Word));
+    end
+    //else if Source is TBitmap32 then
+    //  ReadFrom(TBitmap32(Source), ctWeightedRGB)
+    else
+      inherited;
+
+    Changed;
+  finally
+    EndUpdate;
+  end;
 end;
 
 function TWordMap.Empty: Boolean;
 begin
-  Result := not Assigned(FBits);
+  Result := (Width = 0) or (Height = 0) or (FBits = nil);
 end;
 
 function TWordMap.GetScanline(Y: Integer): PWordArray;
@@ -1082,12 +1151,23 @@ begin
   inherited;
 end;
 
-procedure TIntegerMap.ChangeSize(var Width, Height: Integer; NewWidth,
-  NewHeight: Integer);
+procedure TIntegerMap.ChangeSize(var Width, Height: Integer; NewWidth, NewHeight: Integer; ClearBuffer: Boolean);
+var
+  Size: integer;
 begin
-  ReallocMem(FBits, NewWidth * NewHeight * SizeOf(Integer));
+  Size := NewWidth * NewHeight * SizeOf(Integer);
+
+  ReallocMem(FBits, Size);
+  if (ClearBuffer) then
+    FillChar(FBits^, Size, 0);
+
   Width := NewWidth;
   Height := NewHeight;
+end;
+
+procedure TIntegerMap.Clear;
+begin
+  Clear(0);
 end;
 
 procedure TIntegerMap.Clear(FillValue: Integer);
@@ -1100,6 +1180,7 @@ procedure TIntegerMap.Assign(Source: TPersistent);
 begin
   BeginUpdate;
   try
+
     if Source is TIntegerMap then
     begin
       inherited SetSize(TIntegerMap(Source).Width, TIntegerMap(Source).Height);
@@ -1109,15 +1190,16 @@ begin
     //  ReadFrom(TBitmap32(Source), ctWeightedRGB)
     else
       inherited;
+
+    Changed;
   finally
     EndUpdate;
-    Changed;
   end;
 end;
 
 function TIntegerMap.Empty: Boolean;
 begin
-  Result := not Assigned(FBits);
+  Result := (Width = 0) or (Height = 0) or (FBits = nil);
 end;
 
 function TIntegerMap.GetScanline(Y: Integer): PIntegerArray;
@@ -1159,6 +1241,7 @@ procedure TCardinalMap.Assign(Source: TPersistent);
 begin
   BeginUpdate;
   try
+
     if Source is TCardinalMap then
     begin
       inherited SetSize(TCardinalMap(Source).Width, TCardinalMap(Source).Height);
@@ -1168,18 +1251,30 @@ begin
     //  ReadFrom(TBitmap32(Source), ctWeightedRGB)
     else
       inherited;
+
+    Changed;
   finally
     EndUpdate;
-    Changed;
   end;
 end;
 
-procedure TCardinalMap.ChangeSize(var Width, Height: Integer; NewWidth,
-  NewHeight: Integer);
+procedure TCardinalMap.ChangeSize(var Width, Height: Integer; NewWidth, NewHeight: Integer; ClearBuffer: Boolean);
+var
+  Size: integer;
 begin
-  ReallocMem(FBits, NewWidth * NewHeight * SizeOf(Cardinal));
+  Size := NewWidth * NewHeight * SizeOf(Cardinal);
+
+  ReallocMem(FBits, Size);
+  if (ClearBuffer) then
+    FillChar(FBits^, Size, 0);
+
   Width := NewWidth;
   Height := NewHeight;
+end;
+
+procedure TCardinalMap.Clear;
+begin
+  Clear(0);
 end;
 
 procedure TCardinalMap.Clear(FillValue: Cardinal);
@@ -1190,7 +1285,7 @@ end;
 
 function TCardinalMap.Empty: Boolean;
 begin
-  Result := not Assigned(FBits);
+  Result := (Width = 0) or (Height = 0) or (FBits = nil);
 end;
 
 function TCardinalMap.GetScanline(Y: Integer): PCardinalArray;
@@ -1232,6 +1327,7 @@ procedure TFloatMap.Assign(Source: TPersistent);
 begin
   BeginUpdate;
   try
+
     if Source is TFloatMap then
     begin
       inherited SetSize(TFloatMap(Source).Width, TFloatMap(Source).Height);
@@ -1241,16 +1337,23 @@ begin
     //  ReadFrom(TBitmap32(Source), ctWeightedRGB)
     else
       inherited;
+
+    Changed;
   finally
     EndUpdate;
-    Changed;
   end;
 end;
 
-procedure TFloatMap.ChangeSize(var Width, Height: Integer; NewWidth,
-  NewHeight: Integer);
+procedure TFloatMap.ChangeSize(var Width, Height: Integer; NewWidth, NewHeight: Integer; ClearBuffer: Boolean);
+var
+  Size: integer;
 begin
-  ReallocMem(FBits, NewWidth * NewHeight * SizeOf(TFloat));
+  Size := NewWidth * NewHeight * SizeOf(TFloat);
+
+  ReallocMem(FBits, Size);
+  if (ClearBuffer) then
+    FillChar(FBits^, Size, 0);
+
   Width := NewWidth;
   Height := NewHeight;
 end;
@@ -1272,7 +1375,7 @@ end;
 
 function TFloatMap.Empty: Boolean;
 begin
-  Result := not Assigned(FBits);
+  Result := (Width = 0) or (Height = 0) or (FBits = nil);
 end;
 
 function TFloatMap.GetScanline(Y: Integer): PFloatArray;
@@ -1312,31 +1415,27 @@ end;
 
 procedure TGenericMap<T>.Assign(Source: TPersistent);
 begin
-  BeginUpdate;
-  try
-(*
-    if Source is TFloatMap then
-    begin
-      inherited SetSize(TFloatMap(Source).Width, TFloatMap(Source).Height);
-      Move(TFloatMap(Source).Bits[0], Bits[0], Width * Height * SizeOf(TFloat));
-    end
-    //else if Source is TBitmap32 then
-    //  ReadFrom(TBitmap32(Source), ctWeightedRGB)
-    else
-      inherited;
-*)
-  finally
-    EndUpdate;
-    Changed;
-  end;
+  inherited;
 end;
 
-procedure TGenericMap<T>.ChangeSize(var Width, Height: Integer; NewWidth,
-  NewHeight: Integer);
+procedure TGenericMap<T>.ChangeSize(var Width, Height: Integer; NewWidth, NewHeight: Integer; ClearBuffer: Boolean = True);
+var
+  Size: integer;
 begin
-  ReallocMem(FBits, NewWidth * NewHeight * SizeOf(T));
+  Size := NewWidth * NewHeight * SizeOf(T);
+
+  ReallocMem(FBits, Size);
+  if (ClearBuffer) then
+    FillChar(FBits^, Size, 0);
+
   Width := NewWidth;
   Height := NewHeight;
+end;
+
+procedure TGenericMap<T>.Clear;
+begin
+  FillChar(FBits^, Width * Height * SizeOf(T), 0);
+  Changed;
 end;
 
 procedure TGenericMap<T>.Clear(FillValue: T);
@@ -1348,15 +1447,9 @@ begin
   Changed;
 end;
 
-procedure TGenericMap<T>.Clear;
-begin
-  FillChar(FBits^, Width * Height * SizeOf(T), 0);
-  Changed;
-end;
-
 function TGenericMap<T>.Empty: Boolean;
 begin
-  Result := not Assigned(FBits);
+  Result := (Width = 0) or (Height = 0) or (FBits = nil);
 end;
 
 function TGenericMap<T>.GetValue(X, Y: Integer): T;

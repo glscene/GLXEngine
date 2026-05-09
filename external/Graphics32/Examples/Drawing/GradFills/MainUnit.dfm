@@ -26,7 +26,7 @@ object MainForm: TMainForm
     Align = alLeft
     ParentBackground = False
     TabOrder = 0
-    ExplicitHeight = 464
+    ExplicitHeight = 561
     object LblColorStopsTop: TLabel
       Left = 14
       Top = 15
@@ -140,8 +140,8 @@ object MainForm: TMainForm
     OnMouseDown = ImgView32MouseDown
     OnMouseMove = ImgView32MouseMove
     OnMouseUp = ImgView32MouseUp
-    ExplicitWidth = 418
-    ExplicitHeight = 464
+    ExplicitWidth = 542
+    ExplicitHeight = 561
   end
   object MainMenu: TMainMenu
     Left = 193

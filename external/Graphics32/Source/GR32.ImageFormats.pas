@@ -38,6 +38,7 @@ interface
 
 uses
   Classes,
+  SysUtils,
   Generics.Defaults,
   Generics.Collections,
 {$ifdef FPC}
@@ -347,6 +348,8 @@ type
 //------------------------------------------------------------------------------
 type
   TCustomImageFormat = class abstract(TInterfacedObject, IImageFormat)
+  strict protected
+    function MakeFileTypes(const Values: array of string): TFileTypes; {$if defined(DynArrayOps)} deprecated 'Just return a dynamic array'; {$ifend}
   end;
 
 
@@ -383,16 +386,27 @@ function ImageFormatManager: IImageFormatManager;
 //      File signature utilities
 //
 //------------------------------------------------------------------------------
-function CheckFileSignature(Stream: TStream; const Signature, Mask: AnsiString; Offset: int64 = 0): boolean; overload;
-function CheckFileSignature(Stream: TStream; const Signature: AnsiString; Offset: int64 = 0): boolean; overload;
+// Open array (bytes)
+function CheckFileSignature(Stream: TStream; const Signature, Mask: array of byte; Offset: int64 = 0): boolean; overload;
+function CheckFileSignature(Stream: TStream; const Signature: array of byte; Offset: int64 = 0): boolean; overload;
 
+// Dynamic array (bytes)
+function CheckFileSignature(Stream: TStream; const Signature, Mask: TBytes; Offset: int64 = 0): boolean; overload;
+function CheckFileSignature(Stream: TStream; const Signature: TBytes; Offset: int64 = 0): boolean; overload;
+
+// AnsiString; Deprecated in order to avoid encoding problems with the signatures. See issue #367
+function CheckFileSignature(Stream: TStream; const Signature, Mask: AnsiString; Offset: int64 = 0): boolean; overload; deprecated 'Use array variants instead';
+function CheckFileSignature(Stream: TStream; const Signature: AnsiString; Offset: int64 = 0): boolean; overload; deprecated 'Use array variants instead';
+
+// Bytes
 function CheckFileSignature(Stream: TStream; const Signature; Size: Cardinal; const Mask; MaskSize: Cardinal; Offset: int64 = 0): boolean; overload;
 function CheckFileSignature(Stream: TStream; const Signature; Size: Cardinal; Offset: int64): boolean; overload;
 
-function CheckFileSignatureWide(Stream: TStream; const Signature: UnicodeString; Offset: int64 = 0): boolean;
+// Byte pairs packaged into WideChars
+function CheckFileSignatureWide(Stream: TStream; const Signature: UnicodeString; Offset: int64 = 0): boolean; deprecated;
 
 // Unicode string: For each WideChar in the string, lower byte contains value, upper byte contains mask
-function CheckFileSignatureComposite(Stream: TStream; const Signature: UnicodeString; Offset: int64 = 0): boolean;
+function CheckFileSignatureComposite(Stream: TStream; const Signature: UnicodeString; Offset: int64 = 0): boolean; deprecated;
 
 //------------------------------------------------------------------------------
 
@@ -425,7 +439,6 @@ uses
   Windows,
 {$endif FPC}
   ClipBrd,
-  SysUtils,
   GR32_Clipboard;
 
 //------------------------------------------------------------------------------
@@ -477,7 +490,7 @@ begin
 
   SavePos := Stream.Position;
   try
-    Stream.Position := Offset;
+    Stream.Position := SavePos + Offset;
 
     if (Stream.Read(Buffer[0], Size) = Int64(Size)) then
     begin
@@ -520,6 +533,26 @@ begin
   Result := CheckFileSignature(Stream, Signature[1], Length(Signature), Offset);
 end;
 
+function CheckFileSignature(Stream: TStream; const Signature, Mask: array of byte; Offset: int64): boolean;
+begin
+  Result := CheckFileSignature(Stream, Signature[Low(Signature)], Length(Signature), Mask[1], Length(Mask), Offset);
+end;
+
+function CheckFileSignature(Stream: TStream; const Signature: array of byte; Offset: int64): boolean;
+begin
+  Result := CheckFileSignature(Stream, Signature[Low(Signature)], Length(Signature), Offset);
+end;
+
+function CheckFileSignature(Stream: TStream; const Signature, Mask: TBytes; Offset: int64): boolean;
+begin
+  Result := CheckFileSignature(Stream, Signature[Low(Signature)], Length(Signature), Mask[1], Length(Mask), Offset);
+end;
+
+function CheckFileSignature(Stream: TStream; const Signature: TBytes; Offset: int64): boolean;
+begin
+  Result := CheckFileSignature(Stream, Signature[Low(Signature)], Length(Signature), Offset);
+end;
+
 function CheckFileSignatureWide(Stream: TStream; const Signature: UnicodeString; Offset: int64): boolean;
 begin
   Result := CheckFileSignature(Stream, Signature[1], Length(Signature)*SizeOf(WideChar), nil^, 0, Offset);
@@ -527,15 +560,15 @@ end;
 
 function CheckFileSignatureComposite(Stream: TStream; const Signature: UnicodeString; Offset: int64 = 0): boolean;
 var
-  Values: AnsiString;
-  Mask: AnsiString;
+  Values: TBytes;
+  Mask: TBytes;
   i: integer;
-  p: PAnsiChar;
+  p: PByte;
 begin
   SetLength(Values, Length(Signature));
   SetLength(Mask, Length(Signature));
   p := @(Signature[1]);
-  for i := 1 to Length(Signature) do
+  for i := 0 to Length(Signature)-1 do
   begin
     Values[i] := p^;
     inc(p);
@@ -543,6 +576,20 @@ begin
     inc(p);
   end;
   Result := CheckFileSignature(Stream, Values, Mask, Offset);
+end;
+
+//------------------------------------------------------------------------------
+//
+//      TCustomImageFormat
+//
+//------------------------------------------------------------------------------
+function TCustomImageFormat.MakeFileTypes(const Values: array of string): TFileTypes;
+var
+  i: integer;
+begin
+  SetLength(Result, Length(Values));
+  for i := 0 to High(Values) do
+    Result[i] := Values[i];
 end;
 
 //------------------------------------------------------------------------------
@@ -870,12 +917,12 @@ begin
     if (Supports(Item.ImageFormat, IImageFormatReader, Reader)) then
     begin
       if (Reader.CanLoadFromStream(AStream)) then
-      begin
-        AStream.Position := SavePos;
-        exit(Reader);
-      end;
+        Result := Reader;
 
       AStream.Position := SavePos;
+
+      if (Result <> nil) then
+        break;
     end;
 end;
 

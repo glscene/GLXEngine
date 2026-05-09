@@ -416,6 +416,9 @@ type
 //      TConicGradientSampler
 //
 //------------------------------------------------------------------------------
+// Counter-clockwise progressing circular gradient.
+// The Angle property specifies the angle of gradient offset 0.
+//------------------------------------------------------------------------------
 type
   TConicGradientSampler = class(TCustomCenterLutGradientSampler)
   private
@@ -428,6 +431,33 @@ type
     function GetSampleFloat(X, Y: TFloat): TColor32; override;
 
     property Angle: TFloat read FAngle write FAngle;
+  end;
+
+
+//------------------------------------------------------------------------------
+//
+//      TSweepGradientSampler
+//
+//------------------------------------------------------------------------------
+// Counter-clockwise progressing circular gradient.
+// The StartAngle property specifies the angle of gradient offset 0.
+// The EndAngle property specifies the angle of gradient offset 1.
+//------------------------------------------------------------------------------
+type
+  TSweepGradientSampler = class(TCustomCenterLutGradientSampler)
+  private
+    FScale: TFloat;
+    FDelta: TFloat;
+    FStartAngle: TFloat;
+    FEndAngle: TFloat;
+  protected
+    procedure AssignTo(Dest: TPersistent); override;
+    procedure UpdateInternals; override;
+  public
+    function GetSampleFloat(X, Y: TFloat): TColor32; override;
+
+    property StartAngle: TFloat read FStartAngle write FStartAngle;
+    property EndAngle: TFloat read FEndAngle write FEndAngle;
   end;
 
 
@@ -671,8 +701,6 @@ type
     function GetFillLine: TFillLineEvent; override;
     procedure FillLine(Dst: PColor32; DstX, DstY, Length: Integer;
       AlphaValues: PColor32; CombineMode: TCombineMode);
-    class function Linear3PointInterpolation(A, B, C: TColor32;
-      WeightA, WeightB, WeightC: Single): TColor32;
   public
     procedure BeginRendering; override;
 
@@ -1751,7 +1779,10 @@ begin
 
     // eventually recalculate scale
     if RecalculateScale then
+    begin
       Scale := 1 / (FGradientColors[StopIndex].Offset - FGradientColors[StopIndex - 1].Offset);
+      RecalculateScale := False;
+    end;
 
     // calculate current color
     LocalFraction := (Fraction - FGradientColors[StopIndex - 1].Offset) * Scale;
@@ -3005,10 +3036,14 @@ end;
 
 procedure TCustomGradientSampler.SetGradient(const Value: TColor32Gradient);
 begin
-  if not Assigned(Value) then
+  if (Value = FGradient) then
+    exit;
+
+  if (Value = nil) then
     FGradient.ClearColorStops
   else
     Value.AssignTo(Self);
+
   GradientSamplerChanged;
 end;
 
@@ -3132,19 +3167,72 @@ begin
 end;
 
 function TConicGradientSampler.GetSampleFloat(X, Y: TFloat): TColor32;
+var
+  RelativeAngle: TFloat;
+  Index: integer;
 begin
   Transform(X, Y);
-  Result := FLutPtr^[FWrapProc(Round(FScale * Abs(FAngle + ArcTan2(Y, X))),
-    FLutMask)];
+
+  RelativeAngle := -ArcTan2(Y, X) - FAngle;
+
+  // Note: In reality all the wrap procs produce the same result
+  Index := Round(FScale * RelativeAngle);
+  Index := FWrapProc(Index, LutMask);
+
+  Result := FLutPtr^[Index];
 end;
 
 procedure TConicGradientSampler.UpdateInternals;
 begin
   inherited;
-  FLutMask := FGradientLUT.Mask;
-  FScale := FLutMask / Pi;
+  FScale := (LutMask + 1) / (2 * PI);
 end;
 
+{ TSweepGradientSampler }
+
+procedure TSweepGradientSampler.AssignTo(Dest: TPersistent);
+begin
+  inherited;
+
+  if Dest is TSweepGradientSampler then
+  begin
+    TSweepGradientSampler(Dest).FStartAngle := Self.FStartAngle;
+    TSweepGradientSampler(Dest).FEndAngle := Self.FEndAngle;
+  end;
+end;
+
+function TSweepGradientSampler.GetSampleFloat(X, Y: TFloat): TColor32;
+var
+  RelativeAngle: TFloat;
+  Index: integer;
+begin
+  Transform(X, Y);
+
+  RelativeAngle := -ArcTan2(Y, X) - FStartAngle;
+  RelativeAngle := RelativeAngle - 2 * Pi * Floor(RelativeAngle / (2 * Pi));
+
+  if (FDelta < 0) then
+    RelativeAngle := RelativeAngle - 2 * Pi;
+
+  Index := Round(FScale * RelativeAngle);
+  Index := FWrapProc(Index, FLutMask);
+
+  Result := FLutPtr^[Index];
+end;
+
+procedure TSweepGradientSampler.UpdateInternals;
+begin
+  inherited;
+
+  FDelta := FEndAngle - FStartAngle;
+
+  if Abs(FDelta) < 1E-8 then
+  begin
+    FDelta := 2 * Pi;
+    FScale := (LutMask + 1) / FDelta;
+  end else
+    FScale := LutMask / FDelta;
+end;
 
 { TCustomCenterRadiusLutGradientSampler }
 
@@ -3401,8 +3489,9 @@ function TXGradientSampler.GetEndPoint: TFloatPoint;
 var
   X, Y: TFloat;
 begin
-  GR32_Math.SinCos(Angle - 0.5 * Pi, X, Y);
-  Result := FloatPoint(FCenter.X + X, FCenter.Y + Y);
+  // Angle is perpendicular to StartPoint->EndPoint
+  GR32_Math.SinCos(Angle + 0.5 * Pi, Radius, Y, X);
+  Result := FloatPoint(FCenter.X + X, FCenter.Y - Y);
 end;
 
 procedure TXGradientSampler.SetEndPoint(const Value: TFloatPoint);
@@ -3414,7 +3503,8 @@ procedure TXGradientSampler.SetPoints(const StartPoint, EndPoint: TFloatPoint);
 begin
   FCenter := StartPoint;
   Radius := Distance(EndPoint, StartPoint);
-  Angle := 0.5 * Pi + GetAngleOfPt2FromPt1(EndPoint, StartPoint);
+  // Angle is perpendicular to StartPoint->EndPoint
+  Angle := 0.5 * Pi + GetAngleOfPt2FromPt1(StartPoint, EndPoint);
 end;
 
 procedure TXGradientSampler.SetStartPoint(const Value: TFloatPoint);
@@ -3438,7 +3528,10 @@ end;
 procedure TXGradientSampler.UpdateInternals;
 begin
   inherited;
-  FScale := FLutMask / FRadius;
+  if FRadius > 0 then
+    FScale := FLutMask / FRadius
+  else
+    FScale := 0;
 end;
 
 
@@ -3453,7 +3546,10 @@ end;
 procedure TXYGradientSampler.UpdateInternals;
 begin
   inherited;
-  FScale := FLutMask / Sqr(FRadius);
+  if FRadius > 0 then
+    FScale := FLutMask / Sqr(FRadius)
+  else
+    FScale := 0;
 end;
 
 
@@ -3468,7 +3564,10 @@ end;
 procedure TXYSqrtGradientSampler.UpdateInternals;
 begin
   inherited;
-  FScale := FLutMask / FRadius;
+  if FRadius > 0 then
+    FScale := FLutMask / FRadius
+  else
+    FScale := 0;
 end;
 
 
@@ -3622,12 +3721,6 @@ begin
     Result := FColorPoints[Index].Point
   else
     raise Exception.CreateFmt(RCStrIndexOutOfBounds, [Index]);
-end;
-
-class function TBarycentricGradientPolygonFiller.Linear3PointInterpolation(
-  A, B, C: TColor32; WeightA, WeightB, WeightC: Single): TColor32;
-begin
-  Result := Linear3PointInterpolation(A, B, C, WeightA, WeightB, WeightC);
 end;
 
 procedure TBarycentricGradientPolygonFiller.SetColor(Index: Integer;
@@ -4111,12 +4204,19 @@ begin
 end;
 
 procedure TCustomLinearGradientPolygonFiller.UpdateIncline;
+var
+  dx, dy: TFloat;
 begin
-  if (FEndPoint.X - FStartPoint.X) <> 0 then
-    FIncline := (FEndPoint.Y - FStartPoint.Y) / (FEndPoint.X - FStartPoint.X)
+  dx := FEndPoint.X - FStartPoint.X;
+  dy := FEndPoint.Y - FStartPoint.Y;
+
+  if Abs(dx) > 1e-6 then
+    FIncline := dy / dx
   else
-  if (FEndPoint.Y - FStartPoint.Y) <> 0 then
-    FIncline := 1 / (FEndPoint.Y - FStartPoint.Y);
+  if Abs(dy) > 1e-6 then
+    FIncline := 1 / dy
+  else
+    FIncline := 0;
 end;
 
 
@@ -4195,12 +4295,13 @@ begin
     begin
       if (FWrapMode = wmClamp) then
       begin
-        if FStartPoint.X = FEndPoint.X then
-          if FStartPoint.Y = FEndPoint.Y then
+        if Abs(FStartPoint.X - FEndPoint.X) < 1e-6 then
+        begin
+          if Abs(FStartPoint.Y - FEndPoint.Y) < 1e-6 then
             Result := FillLineVerticalPadExtreme
           else
-            Result := FillLineVerticalPad
-        else
+            Result := FillLineVerticalPad;
+        end else
         if FStartPoint.X < FEndPoint.X then
           Result := FillLineHorizontalPadPos
         else
@@ -4208,7 +4309,7 @@ begin
       end else
       // wmMirror, wmRepeat, wmReflect
       begin
-        if FStartPoint.X = FEndPoint.X then
+        if Abs(FStartPoint.X - FEndPoint.X) < 1e-6 then
           Result := FillLineVerticalWrap
         else
         if FStartPoint.X < FEndPoint.X then
@@ -4217,9 +4318,9 @@ begin
           Result := FillLineHorizontalWrapNeg;
       end;
     end else
-    if FStartPoint.X = FEndPoint.X then
+    if Abs(FStartPoint.X - FEndPoint.X) < 1e-6 then
     begin
-      if FStartPoint.Y = FEndPoint.Y then
+      if Abs(FStartPoint.Y - FEndPoint.Y) < 1e-6 then
         Result := FillLineVerticalExtreme
       else
         Result := FillLineVertical;
@@ -4274,12 +4375,14 @@ procedure TLinearGradientPolygonFiller.FillLinePositive(Dst: PColor32; DstX,
   DstY, Length: Integer; AlphaValues: PColor32; CombineMode: TCombineMode);
 var
   X, Index: Integer;
-  IntScale, IntValue: Integer;
+  IntScale, IntValue: Cardinal;
   Colors: array [0..1] of TColor32;
   Scale: TFloat;
   XOffset: array [0..1] of TFloat;
   XPos: array [0..2] of Integer;
   BlendMemEx: TBlendMemEx;
+const
+  nMaxInt: TFloat = $7FFFFFFF;
 begin
   BlendMemEx := BLEND_MEM_EX[CombineMode]^;
 
@@ -4320,8 +4423,8 @@ begin
     if XPos[1] > XPos[0] then
     begin
       Scale := 1 / (XOffset[1] - XOffset[0]);
-      IntScale := Round($7FFFFFFF * Scale);
-      IntValue := Round($7FFFFFFF * (XPos[0] - XOffset[0]) * Scale);
+      IntScale := Round(nMaxInt * Scale);
+      IntValue := Round(nMaxInt * (XPos[0] - XOffset[0]) * Scale);
 
       for X := XPos[0] to XPos[1] - 1 do
       begin
@@ -4356,12 +4459,14 @@ procedure TLinearGradientPolygonFiller.FillLineNegative(Dst: PColor32; DstX,
   DstY, Length: Integer; AlphaValues: PColor32; CombineMode: TCombineMode);
 var
   X, Index: Integer;
-  IntScale, IntValue: Integer;
+  IntScale, IntValue: Cardinal;
   Colors: array [0..1] of TColor32;
   Scale: TFloat;
   XOffset: array [0..1] of TFloat;
   XPos: array [0..2] of Integer;
   BlendMemEx: TBlendMemEx;
+const
+  nMaxInt: TFloat = $7FFFFFFF;
 begin
   BlendMemEx := BLEND_MEM_EX[CombineMode]^;
   Index := FGradient.GradientCount - 1;
@@ -4403,8 +4508,8 @@ begin
     if XPos[1] > XPos[0] then
     begin
       Scale := 1 / (XOffset[1] - XOffset[0]);
-      IntScale := Round($7FFFFFFF * Scale);
-      IntValue := Round($7FFFFFFF * (XPos[0] - XOffset[0]) * Scale);
+      IntScale := Round(nMaxInt * Scale);
+      IntValue := Round(nMaxInt * (XPos[0] - XOffset[0]) * Scale);
 
       for X := XPos[0] to XPos[1] - 1 do
       begin

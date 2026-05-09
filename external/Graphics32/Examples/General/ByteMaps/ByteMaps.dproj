@@ -7,7 +7,7 @@
         <MainSource>ByteMaps.dpr</MainSource>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
         <ProjectGuid>{a5b9632c-e86c-4c20-bfd7-9cd8e8c3ee8a}</ProjectGuid>
-        <ProjectVersion>20.3</ProjectVersion>
+        <ProjectVersion>20.4</ProjectVersion>
         <TargetedPlatforms>3</TargetedPlatforms>
         <ProjectName Condition="'$(ProjectName)'==''">ByteMaps</ProjectName>
     </PropertyGroup>

@@ -40,7 +40,10 @@ uses
   ComponentEditors,
 {$ELSE}
   Windows, ExtDlgs, ToolWin, Registry, ImgList, Consts, DesignIntf,
-  DesignEditors, VCLEditors, Actions, System.ImageList,
+  DesignEditors, VCLEditors, Actions,
+{$if defined(NeedImageList)}
+  ImageList,
+{$ifend}
 {$ENDIF}
   Forms, Controls, ComCtrls, ExtCtrls, StdCtrls, Graphics, Dialogs, Menus,
   SysUtils, Classes, Clipbrd, ActnList,
@@ -508,8 +511,6 @@ begin
 end;
 
 procedure TPictureEditorForm.ResetZoomAndCenter(Image: TImage32);
-var
-  Size: TSize;
 begin
   Image.BeginUpdate;
   try
@@ -517,9 +518,7 @@ begin
     Image.Scale := 1;
 
     // ...and Center image
-    Size := Image.GetBitmapSize;
-    Image.OffsetHorz := (Image.Width-Size.cx) div 2;
-    Image.OffsetVert := (Image.Height-Size.cy) div 2;
+    Image.ScrollToCenter;
   finally
     Image.EndUpdate;
   end;

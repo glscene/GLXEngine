@@ -441,7 +441,7 @@ type
     X, Y: TFloat;
   public
   {$IFDEF RECORD_CONSTRUCTORS}
-    constructor Create(P: TPoint); overload;
+    constructor Create(const P: TPoint); overload;
     constructor Create(X, Y: Integer); overload;
     constructor Create(X, Y: Single); overload;
   {$ENDIF}
@@ -451,10 +451,14 @@ type
     class operator NotEqual(const Lhs, Rhs: TFloatPoint): Boolean;
     class operator Add(const Lhs, Rhs: TFloatPoint): TFloatPoint;
     class operator Subtract(const Lhs, Rhs: TFloatPoint): TFloatPoint;
-    class operator Explicit(A: TPointF): TFloatPoint;
-    class operator Implicit(A: TPointF): TFloatPoint;
+    class operator Explicit(const A: TPointF): TFloatPoint;
+    class operator Implicit(const A: TPointF): TFloatPoint;
+    class operator Implicit(const A: TPoint): TFloatPoint;
 
     class function Zero: TFloatPoint; inline; static;
+
+    function Distance(const APoint: TFloatPoint): Single;
+    function Length: Single;
   end;
 
 {$ifend}
@@ -480,7 +484,7 @@ type
     X, Y: TFixed;
   public
 {$IFDEF RECORD_CONSTRUCTORS}
-    constructor Create(P: TFloatPoint); overload;
+    constructor Create(const P: TFloatPoint); overload;
     constructor Create(X, Y: TFixed); overload;
     constructor Create(X, Y: Integer); overload;
     constructor Create(X, Y: TFloat); overload;
@@ -642,6 +646,7 @@ type
   TRectRounding = (rrClosest, rrOutside, rrInside);
 
 function MakeRect(const L, T, R, B: Integer): TRect; overload; {$IFDEF USEINLINING} inline; {$ENDIF}
+function MakeRect(const L, T, R, B: TFloat; Rounding: TRectRounding = rrClosest): TRect; overload; {$IFDEF USEINLINING} inline; {$ENDIF}
 function MakeRect(const FR: TFloatRect; Rounding: TRectRounding = rrClosest): TRect; overload;
 function MakeRect(const FXR: TFixedRect; Rounding: TRectRounding = rrClosest): TRect; overload;
 function FixedRect(const L, T, R, B: TFixed): TFixedRect; overload; {$IFDEF USEINLINING} inline; {$ENDIF}
@@ -762,7 +767,7 @@ type
   end;
 
   { TCustomMap }
-  { An ancestor for bitmaps and similar 2D distributions wich have width and
+  { An ancestor for bitmaps and similar 2D distributions which have width and
     height properties }
   TCustomMap = class(TThreadPersistent)
   protected
@@ -772,16 +777,17 @@ type
     FOnResize: TNotifyEvent;
     procedure SetHeight(NewHeight: Integer); virtual;
     procedure SetWidth(NewWidth: Integer); virtual;
-    procedure ChangeSize(var Width, Height: Integer; NewWidth, NewHeight: Integer); virtual;
+    procedure ChangeSize(var Width, Height: Integer; NewWidth, NewHeight: Integer; ClearBuffer: Boolean = True); virtual;
   public
     constructor Create(Width, Height: Integer); reintroduce; overload;
     destructor Destroy; override;
 
     procedure Delete; virtual;
     function  Empty: Boolean; virtual;
+    procedure Clear; virtual;
     procedure Resized; virtual;
-    function SetSizeFrom(Source: TPersistent): Boolean;
-    function SetSize(NewWidth, NewHeight: Integer): Boolean; virtual;
+    function SetSizeFrom(Source: TPersistent; ClearBuffer: Boolean = True): Boolean;
+    function SetSize(NewWidth, NewHeight: Integer; ClearBuffer: Boolean = True): Boolean; virtual;
 
     property Height: Integer read FHeight write SetHeight;
     property Width: Integer read FWidth write SetWidth;
@@ -877,7 +883,7 @@ type
     BlendProc: Pointer;
     RasterX, RasterY: Integer;
     RasterXF, RasterYF: TFixed;
-    procedure ChangeSize(var Width, Height: Integer; NewWidth, NewHeight: Integer); override;
+    procedure ChangeSize(var Width, Height: Integer; NewWidth, NewHeight: Integer; ClearBuffer: Boolean = True); override;
     function  Equal(B: TCustomBitmap32): Boolean;
     procedure ReadData(Stream: TStream); virtual;
     procedure WriteData(Stream: TStream); virtual;
@@ -941,9 +947,12 @@ type
     procedure SetPixelXS(X, Y: TFixed; Value: TColor32);
     procedure SetPixelXW(X, Y: TFixed; Value: TColor32);
   public
-    constructor Create(ABackendClass: TCustomBackendClass); reintroduce; overload; virtual;
-    constructor Create; reintroduce; overload; virtual;
-    constructor Create(Width, Height: Integer); reintroduce; overload; virtual;
+    // Create with specified backend
+    constructor Create(ABackendClass: TCustomBackendClass); overload; virtual;
+    // Create with platform default backend
+    constructor Create; overload; override;
+    // Create with platform default backend, and allocate bitmap of specified size
+    constructor Create(Width, Height: Integer); overload; virtual;
     destructor Destroy; override;
 
     class function GetPlatformBackendClass: TCustomBackendClass; virtual;
@@ -955,8 +964,8 @@ type
     procedure Assign(Source: TPersistent); override;
     function  BoundsRect: TRect;
     function  Empty: Boolean; override;
-    procedure Clear; overload;
-    procedure Clear(FillColor: TColor32); overload;
+    procedure Clear; overload; override;
+    procedure Clear(FillColor: TColor32); reintroduce; overload;
     procedure Delete; override;
 
     procedure BeginMeasuring(const Callback: TAreaChangedEvent);
@@ -998,7 +1007,7 @@ type
     procedure SetStipple(const NewStipple: TArrayOfColor32); overload;
     procedure SetStipple(const NewStipple: array of TColor32); overload;
     procedure AdvanceStippleCounter(LengthPixels: Single);
-    function  GetStippleColor: TColor32;
+    function  GetStippleColor(Advance: Boolean = True): TColor32;
 
     procedure HorzLine(X1, Y, X2: Integer; Value: TColor32);
     procedure HorzLineS(X1, Y, X2: Integer; Value: TColor32);
@@ -1294,7 +1303,7 @@ function GeneralRegistry: TFunctionRegistry;
 resourcestring
   RCStrUnmatchedReferenceCounting = 'Unmatched reference counting.';
   RCStrCannotSetSize = 'Can''t set size from ''%s''';
-  RCStrInpropriateBackend = 'Inappropriate Backend';
+  RCStrInappropriateBackend = 'Inappropriate Backend';
 
 implementation
 
@@ -1793,7 +1802,7 @@ end;
 
 function HSLtoRGB(H, S, L: Single; A: Integer): TColor32;
 const
-  OneOverThree = 1 / 3;
+  OneOverThree: Single = 1 / 3;
 var
   M1, M2: Single;
 
@@ -2111,7 +2120,7 @@ end;
 
 {$if not defined(HAS_TPOINTF)}
 {$IFDEF RECORD_CONSTRUCTORS}
-constructor TFloatPoint.Create(P: TPoint);
+constructor TFloatPoint.Create(const P: TPoint);
 begin
   Self.X := P.X;
   Self.Y := P.Y;
@@ -2153,13 +2162,19 @@ begin
   Result.Y := Lhs.Y - Rhs.Y;
 end;
 
-class operator TFloatPoint.Explicit(A: TPointF): TFloatPoint;
+class operator TFloatPoint.Explicit(const A: TPointF): TFloatPoint;
 begin
   Result.X := A.X;
   Result.Y := A.Y;
 end;
 
-class operator TFloatPoint.Implicit(A: TPointF): TFloatPoint;
+class operator TFloatPoint.Implicit(const A: TPointF): TFloatPoint;
+begin
+  Result.X := A.X;
+  Result.Y := A.Y;
+end;
+
+class operator TFloatPoint.Implicit(const A: TPoint): TFloatPoint;
 begin
   Result.X := A.X;
   Result.Y := A.Y;
@@ -2169,6 +2184,17 @@ class function TFloatPoint.Zero: TFloatPoint;
 begin
   Result := Default(TFloatPoint);
 end;
+
+function TFloatPoint.Distance(const APoint: TFloatPoint): Single;
+begin
+  Result := GR32_Math.Hypot(APoint.X - X, APoint.Y - Y);
+end;
+
+function TFloatPoint.Length: Single;
+begin
+  Result := GR32_Math.Hypot(X, Y);
+end;
+
 {$ifend}
 
 
@@ -2176,7 +2202,7 @@ end;
 // TFixedPoint
 //------------------------------------------------------------------------------
 {$IFDEF RECORD_CONSTRUCTORS}
-constructor TFixedPoint.Create(P: TFloatPoint);
+constructor TFixedPoint.Create(const P: TFloatPoint);
 begin
   Self.X := Fixed(P.X);
   Self.Y := Fixed(P.Y);
@@ -2264,6 +2290,37 @@ begin
     Top := T;
     Right := R;
     Bottom := B;
+  end;
+end;
+
+function MakeRect(const L, T, R, B: TFloat; Rounding: TRectRounding = rrClosest): TRect;
+begin
+  case Rounding of
+    rrClosest:
+      begin
+        Result.Left := System.Round(L);
+        Result.Top := System.Round(T);
+        Result.Right := System.Round(R);
+        Result.Bottom := System.Round(B);
+      end;
+
+    rrInside:
+      begin
+        Result.Left := Ceil(L);
+        Result.Top := Ceil(T);
+        Result.Right := Floor(R);
+        Result.Bottom := Floor(B);
+        if Result.Right < Result.Left then Result.Right := Result.Left;
+        if Result.Bottom < Result.Top then Result.Bottom := Result.Top;
+      end;
+
+    rrOutside:
+      begin
+        Result.Left := Floor(L);
+        Result.Top := Floor(T);
+        Result.Right := Ceil(R);
+        Result.Bottom := Ceil(B);
+      end;
   end;
 end;
 
@@ -2411,6 +2468,40 @@ end;
 
 function IntersectRect(out Dst: TRect; const R1, R2: TRect): Boolean;
 begin
+  (*
+      Note that, for historic reasons and due to poor documentation of the
+      Win32 IntersectRect, there is a difference in what the GR32 and Win32
+      IntersectRect implementations considers an empty rect.
+
+      See issue #77.
+
+      The Win32 IntersectRect is, literally (but transcribed in Pascal),
+      implemented as:
+
+        Dst.Left  := Max(R1.Left, R2.Left);
+        Dst.Right := Min(R1.Right, R2.Right);
+
+        // check for empty rect
+        if (Dst.Left < Dst.Right) then
+        begin
+          Dst.Top    := Max(R1.Top, R2.Top);
+          Dst.Bottom := Min(R1.Bottom, R2.Bottom);
+
+          // check for empty rect
+          if (Dst.Top < Dst.Bottom) then
+            Exit(True); // not empty
+        end;
+
+        // empty rect
+        Dst := Default(TRect);
+        Result := False;
+
+      So Win32 IntersectRect considers an intersection that produces a zero
+      area rect (Left=Right) or (Top=Bottom) as a non-intersection, while the
+      GR32 implementation considers the same rect as an intersection.
+
+  *)
+
   if R1.Left >= R2.Left then
     Dst.Left := R1.Left
   else
@@ -2873,7 +2964,7 @@ end;
 
 constructor TCustomMap.Create(Width, Height: Integer);
 begin
-  inherited Create;
+  Create;
   SetSize(Width, Height);
 end;
 
@@ -2883,7 +2974,7 @@ begin
   inherited;
 end;
 
-procedure TCustomMap.ChangeSize(var Width, Height: Integer; NewWidth, NewHeight: Integer);
+procedure TCustomMap.ChangeSize(var Width, Height: Integer; NewWidth, NewHeight: Integer; ClearBuffer: Boolean);
 begin
   Width := NewWidth;
   Height := NewHeight;
@@ -2891,7 +2982,11 @@ end;
 
 procedure TCustomMap.Delete;
 begin
-  SetSize(0, 0);
+  SetSize(0, 0, False);
+end;
+
+procedure TCustomMap.Clear;
+begin
 end;
 
 function TCustomMap.Empty: Boolean;
@@ -2910,7 +3005,7 @@ begin
   SetSize(Width, NewHeight);
 end;
 
-function TCustomMap.SetSize(NewWidth, NewHeight: Integer): Boolean;
+function TCustomMap.SetSize(NewWidth, NewHeight: Integer; ClearBuffer: Boolean): Boolean;
 begin
   if NewWidth < 0 then
     NewWidth := 0;
@@ -2923,34 +3018,36 @@ begin
   begin
     BeginUpdate;
     try
-      ChangeSize(FWidth, FHeight, NewWidth, NewHeight);
+      ChangeSize(FWidth, FHeight, NewWidth, NewHeight, ClearBuffer);
       Changed;
     finally
       EndUpdate;
     end;
     Resized;
-  end;
+  end else
+  if (ClearBuffer) then
+    Clear;
 end;
 
-function TCustomMap.SetSizeFrom(Source: TPersistent): Boolean;
+function TCustomMap.SetSizeFrom(Source: TPersistent; ClearBuffer: Boolean): Boolean;
 begin
   if Source is TCustomMap then
-    Result := SetSize(TCustomMap(Source).Width, TCustomMap(Source).Height)
+    Result := SetSize(TCustomMap(Source).Width, TCustomMap(Source).Height, ClearBuffer)
   else
 {$ifndef FRAMEWORK_FMX}
   if Source is TGraphic then
-    Result := SetSize(TGraphic(Source).Width, TGraphic(Source).Height)
+    Result := SetSize(TGraphic(Source).Width, TGraphic(Source).Height, ClearBuffer)
   else
 {$else}
   if Source is TBitmap then
-    Result := SetSize(TBitmap(Source).Width, TBitmap(Source).Height)
+    Result := SetSize(TBitmap(Source).Width, TBitmap(Source).Height, ClearBuffer)
   else
 {$endif}
   if Source is TControl then
-    Result := SetSize(TControl(Source).Width, TControl(Source).Height)
+    Result := SetSize(TControl(Source).Width, TControl(Source).Height, ClearBuffer)
   else
   if Source = nil then
-    Result := SetSize(0, 0)
+    Result := SetSize(0, 0, ClearBuffer)
   else
     raise Exception.CreateFmt(RCStrCannotSetSize, [Source.ClassName]);
 end;
@@ -2984,6 +3081,12 @@ end;
 constructor TCustomBitmap32.Create;
 begin
   Create(GetPlatformBackendClass);
+end;
+
+constructor TCustomBitmap32.Create(Width, Height: Integer);
+begin
+  Create;
+  SetSize(Width, Height);
 end;
 
 destructor TCustomBitmap32.Destroy;
@@ -3112,11 +3215,11 @@ begin
     Result := inherited QueryInterface(IID, Obj);
 end;
 
-procedure TCustomBitmap32.ChangeSize(var Width, Height: Integer; NewWidth, NewHeight: Integer);
+procedure TCustomBitmap32.ChangeSize(var Width, Height: Integer; NewWidth, NewHeight: Integer; ClearBuffer: Boolean);
 begin
-  if (Int64(Width) * Int64(Height) * SizeOf(DWORD) > MaxInt) then
-    raise EOutOfResources.CreateFmt('Unsupported bitmap size: %d x %d x 4 = %.8X', [Width, Height, Int64(Width) * Int64(Height) * SizeOf(DWORD)]);
-  FBackend.ChangeSize(Width, Height, NewWidth, NewHeight);
+  if (Int64(NewWidth) * Int64(NewHeight) * SizeOf(DWORD) > MaxInt) then
+    raise EOutOfResources.CreateFmt('Unsupported bitmap size: %d x %d x 4 = $%.8X bytes', [NewWidth, NewHeight, Int64(NewWidth) * Int64(NewHeight) * SizeOf(DWORD)]);
+  FBackend.ChangeSize(Width, Height, NewWidth, NewHeight, ClearBuffer);
 end;
 
 procedure TCustomBitmap32.BackendChangingHandler(Sender: TObject);
@@ -3137,7 +3240,7 @@ end;
 
 procedure TCustomBitmap32.Clear;
 begin
-  Clear(clBlack32);
+  Clear(0); // Clear to fully transparent. See issue #394
 end;
 
 procedure TCustomBitmap32.Clear(FillColor: TColor32);
@@ -3173,7 +3276,7 @@ begin
   try
 
     if (Source = nil) then
-      SetSize(0, 0)
+      Self.Delete
     else
     if (Source is TCustomBitmap32) then
     begin
@@ -3193,7 +3296,7 @@ procedure TCustomBitmap32.CopyMapTo(Dst: TCustomBitmap32);
 begin
   Dst.BeginUpdate;
   try
-    Dst.SetSize(Width, Height);
+    Dst.SetSize(Width, Height, False);
     if not Empty then
       MoveLongword(Bits[0], Dst.Bits[0], Width * Height);
 
@@ -3214,12 +3317,6 @@ begin
   Dst.ResamplerClassName := ResamplerClassName;
   if (Dst.Resampler <> nil) and (Resampler <> nil) then
     Dst.Resampler.Assign(Resampler);
-end;
-
-constructor TCustomBitmap32.Create(Width, Height: Integer);
-begin
-  Create;
-  SetSize(Width, Height);
 end;
 
 {$IFDEF BITS_GETTER}
@@ -3313,14 +3410,12 @@ end;
 
 procedure TCustomBitmap32.DrawTo(Dst: TCustomBitmap32);
 begin
-  BlockTransfer(Dst, 0, 0, Dst.ClipRect, Self, BoundsRect, DrawMode,
-    FOnPixelCombine);
+  BlockTransfer(Dst, 0, 0, Dst.ClipRect, Self, BoundsRect, DrawMode, FOnPixelCombine);
 end;
 
 procedure TCustomBitmap32.DrawTo(Dst: TCustomBitmap32; DstX, DstY: Integer);
 begin
-  BlockTransfer(Dst, DstX, DstY, Dst.ClipRect, Self, BoundsRect, DrawMode,
-    FOnPixelCombine);
+  BlockTransfer(Dst, DstX, DstY, Dst.ClipRect, Self, BoundsRect, DrawMode, FOnPixelCombine);
 end;
 
 procedure TCustomBitmap32.DrawTo(Dst: TCustomBitmap32; DstX, DstY: Integer;
@@ -3864,7 +3959,7 @@ end;
 
 {$ifend}
 
-function TCustomBitmap32.GetStippleColor: TColor32;
+function TCustomBitmap32.GetStippleColor(Advance: Boolean): TColor32;
 var
   L: Integer;
   NextIndex, PrevIndex: Integer;
@@ -3878,9 +3973,7 @@ begin
     Exit;
   end;
   WrapMem(FStippleCounter, L);
-  // Was: PrevIndex := Round(FStippleCounter - 0.5);
   PrevIndex := FastTrunc(FStippleCounter);
-  // Was: PrevWeight= $FF - Round($FF * (FStippleCounter - PrevIndex));
   PrevWeight := $FF - FastPrevWeight(FStippleCounter, PrevIndex);
   if PrevIndex < 0 then
     FStippleCounter := L - 1;
@@ -3896,7 +3989,8 @@ begin
       FStipplePattern[NextIndex],
       PrevWeight);
 
-  FStippleCounter := FStippleCounter + FStippleStep;
+  if Advance then
+    AdvanceStippleCounter(1.0);
 end;
 
 procedure TCustomBitmap32.HorzLine(X1, Y, X2: Integer; Value: TColor32);
@@ -3992,11 +4086,17 @@ begin
       if X2 >= X1 then
       begin
         for I := X1 to X2 do
-          SetPixelT(I, Y, GetStippleColor);
+        begin
+          SetPixelT(I, Y, GetStippleColor(False));
+          AdvanceStippleCounter(1.0);
+        end;
       end else
       begin
         for I := X1 downto X2 do
-          SetPixelT(I, Y, GetStippleColor);
+        begin
+          SetPixelT(I, Y, GetStippleColor(False));
+          AdvanceStippleCounter(1.0);
+        end;
       end;
     end;
 
@@ -4203,11 +4303,17 @@ begin
       if Y2 >= Y1 then
       begin
         for I := Y1 to Y2 do
-          SetPixelT(X, I, GetStippleColor)
+        begin
+          SetPixelT(X, I, GetStippleColor(False));
+          AdvanceStippleCounter(1.0);
+        end;
       end else
       begin
         for I := Y1 downto Y2 do
-          SetPixelT(X, I, GetStippleColor);
+        begin
+          SetPixelT(X, I, GetStippleColor(False));
+          AdvanceStippleCounter(1.0);
+        end;
       end;
     end;
 
@@ -5147,14 +5253,16 @@ begin
       ny := Round(ny / hyp * 65536);
       for i := 0 to n - 1 do
       begin
-        C := GetStippleColor;
+        C := GetStippleColor(False);
+        AdvanceStippleCounter(1.0);
         SET_T256(X1 shr 8, Y1 shr 8, C);
         X1 := X1 + nx;
         Y1 := Y1 + ny;
       end;
     end;
 
-    C := GetStippleColor;
+    C := GetStippleColor(False);
+    AdvanceStippleCounter((hypl - n shl 16) / 65536.0);
     A := C shr 24;
     hyp := hypl - n shl 16;
     A := A * Longword(hyp) shl 8 and $FF000000;
@@ -5170,11 +5278,10 @@ begin
 end;
 
 procedure TCustomBitmap32.LineXSP(X1, Y1, X2, Y2: TFixed; L: Boolean);
-const
-  StippleInc: array [Boolean] of Integer = (0, 1);
 var
   n, i: Integer;
   sx, sy, ex, ey, nx, ny, hyp, hypl: Integer;
+  FullLength: TFloat;
   A, C: TColor32;
   ChangedRect: TRect;
 begin
@@ -5183,13 +5290,14 @@ begin
   if not FMeasuringMode then
   begin
     sx := X1; sy := Y1; ex := X2; ey := Y2;
+    FullLength := GR32_Math.Hypot(integer(ex - sx), ey - sy) + (Integer(L) * FixedOne); // Note: Integer cast in hypot for the benefit of FPC. Pfft!
 
     // Check for visibility and clip the coordinates
     if not ClipLine(Integer(X1), Integer(Y1), Integer(X2), Integer(Y2),
       FFixedClipRect.Left - $10000, FFixedClipRect.Top - $10000,
       FFixedClipRect.Right, FFixedClipRect.Bottom) then
     begin
-      AdvanceStippleCounter(GR32_Math.Hypot(Integer((X2 - X1) shr 16), Integer((Y2 - Y1) shr 16) - StippleInc[L]));
+      AdvanceStippleCounter(FullLength / 65536.0);
       Exit;
     end;
 
@@ -5204,11 +5312,13 @@ begin
        (Y2 > FFixedClipRect.Top) and (Y2 < FFixedClipRect.Bottom - $20000) then
     begin
       LineXP(X1, Y1, X2, Y2, L);
+      // LineXP already advanced by its hypl. Now advance for whatever was clipped at start and end.
+      AdvanceStippleCounter((FullLength - (GR32_Math.Hypot(integer(X2 - X1), Y2 - Y1) + (Integer(L) * FixedOne))) / 65536.0);
       Exit;
     end;
 
     if (sx <> X1) or (sy <> Y1) then
-      AdvanceStippleCounter(GR32_Math.Hypot(Integer((X1 - sx) shr 16), Integer((Y1 - sy) shr 16)));
+      AdvanceStippleCounter(GR32_Math.Hypot(integer(X1 - sx), Y1 - sy) / 65536.0);
 
     // if we are still here, it means that the line touches one or several bitmap
     // boundaries. Use the safe version of antialiased pixel routine
@@ -5217,11 +5327,18 @@ begin
 
     hyp := GR32_Math.Hypot(nx, ny);
     if hyp = 0 then
+    begin
+      // If hyp is 0, we still might need to advance for what's left
+      AdvanceStippleCounter((FullLength - GR32_Math.Hypot(integer(X1 - 127 - sx), Y1 - 127 - sy)) / 65536.0);
       Exit;
+    end;
 
     hypl := hyp + (Integer(L) * FixedOne);
     if hypl < 256 then
+    begin
+      AdvanceStippleCounter((FullLength - GR32_Math.Hypot(integer(X1 - 127 - sx), Y1 - 127 - sy)) / 65536.0);
       Exit;
+    end;
 
     n := hypl shr 16;
     if n > 0 then
@@ -5229,21 +5346,22 @@ begin
       nx := Round(nx / hyp * 65536); ny := Round(ny / hyp * 65536);
       for i := 0 to n - 1 do
       begin
-        C := GetStippleColor;
+        C := GetStippleColor(False);
+        AdvanceStippleCounter(1.0);
         SET_TS256(SAR_8(X1), SAR_8(Y1), C);
         X1 := X1 + nx;
         Y1 := Y1 + ny;
       end;
     end;
 
-    C := GetStippleColor;
+    C := GetStippleColor(False);
+    AdvanceStippleCounter((hypl - n shl 16) / 65536.0);
     A := C shr 24;
     hyp := hypl - n shl 16;
     A := A * Longword(hyp) shl 8 and $FF000000;
     SET_TS256(SAR_9(X1 + X2 - nx), SAR_9(Y1 + Y2 - ny), C and $00FFFFFF + A);
 
-    if (ex <> X2) or (ey <> Y2) then
-      AdvanceStippleCounter(GR32_Math.Hypot(Integer((X2 - ex) shr 16), Integer((Y2 - ey) shr 16) - StippleInc[L]));
+    AdvanceStippleCounter((FullLength - (GR32_Math.Hypot(integer(X2 - sx), Y2 - sy) + (Integer(L) * FixedOne))) / 65536.0);
   end;
 
   Changed(ChangedRect, AREAINFO_LINE + 2); // +1 for AA
@@ -5883,7 +6001,8 @@ begin
     begin
       if Y1 = Y2 then
       begin
-        SetPixelT(X1, Y1, GetStippleColor);
+        SetPixelT(X1, Y1, GetStippleColor(False));
+        AdvanceStippleCounter(1.0);
         Changed(MakeRect(X1, Y1, X1 + 1, Y1 + 1));
       end else
         VertLineTSP(X1, Y1, Y2)
@@ -6006,7 +6125,7 @@ function TCustomBitmap32.LoadFromDIBStream(Stream: TStream; Size: Int64): boolea
     // Since the alpha channel of this format isn't defined we can either assume
     // that all pixels have Alpha=255 or we can assume that the alpha is
     // specified in the source pixel data.
-    // Instead of just chosing one of these and hoping for the best we make a
+    // Instead of just choosing one of these and hoping for the best we make a
     // choice based on the actual alpha values: If the bitmap contains alpha
     // values then we leave it as is. If it doesn't contain alpha values then
     // we reset the alpha of the whole bitmap to 255.
@@ -6175,7 +6294,7 @@ begin
           if (Stream.Read(BitmapHeader.V2Header.bV2RedMask, ChunkSize) <> ChunkSize) then
             exit;
         end else
-          Stream.Seek(ChunkSize, soFromCurrent);
+          Stream.Seek(ChunkSize, soCurrent);
       end;
     end;
 
@@ -6383,7 +6502,7 @@ begin
   StartPos := Stream.Position;
 
   // Skip past file header. We will write it once the DIB has been written.
-  Stream.Seek(SizeOf(TBitmapFileHeader), soFromCurrent);
+  Stream.Seek(SizeOf(TBitmapFileHeader), soCurrent);
 
   // Save the DIB
   SaveToDIBStream(Stream, SaveTopDown, InfoHeaderVersion, IncludeColorTable);
@@ -7327,7 +7446,9 @@ begin
           StretchTransfer(Buffer, R, ClipRect, Self, SrcRect, Resampler, DrawMode, OnPixelCombine);
 
           DeviceContextSupport.DrawTo(hDst,
-            MakeRect(X + DstRect.Left, Y + DstRect.Top, X + DstRect.Left+ClipRect.Right, Y + DstRect.Top+ClipRect.Bottom),
+            // GR32.MakeRect(integer(), ...) is because FPC confuses integer and float... *sigh*
+            {$if defined(FPC) or (CompilerVersion > 25.0)}GR32.{$ifend} // XE4 cannot resolve GR32 to itself *groan*
+            MakeRect(integer(X + DstRect.Left), Y + DstRect.Top, X + DstRect.Left+ClipRect.Right, Y + DstRect.Top+ClipRect.Bottom),
             Buffer.BoundsRect
           );
         end;
@@ -7542,20 +7663,20 @@ begin
   { TODO : Optimize Clipping here }
   B := TBitmap32.Create;
   try
-    Sz := Self.TextExtent(Text) + Self.TextExtent(' ');
-    B.SetSize(Sz.cX, Sz.cY);
+    Sz := Self.TextExtent(Text);
+    B.SetSize(Sz.cX + 2, Sz.cY + 2); // (+2, +2) = Make room for AA
     B.Font.Assign(Font);
     B.Clear(0);
     B.Font.Color := clWhite;
 
-    B.Textout(0, 0, Text);
+    B.Textout(1, 1, Text); // (1,1) = offset for AA
     TextBlueToAlpha(B, Color);
 
     B.DrawMode := dmBlend;
     B.MasterAlpha := Alpha;
     B.CombineMode := CombineMode;
 
-    B.DrawTo(Self, X, Y);
+    B.DrawTo(Self, X-1, Y-1); // (-1, -1) = Offset for AA
   finally
     B.Free;
   end;

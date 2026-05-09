@@ -2,6 +2,8 @@
 
 interface
 
+{$include GR32.inc}
+
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls,
@@ -136,14 +138,23 @@ begin
   ImageSource.Scale := 0.5;
   ImageDest.Scale := 0.5;
 
+{$if defined(GenericMethods)}
   FLayers[sdSource] := ImageSource.Layers.Add<TPolygonRubberbandLayer>;
   FLayers[sdDest] := ImageDest.Layers.Add<TPolygonRubberbandLayer>;
+{$else}
+  FLayers[sdSource] := TPolygonRubberbandLayer.Create(ImageSource.Layers);
+  FLayers[sdDest] := TPolygonRubberbandLayer.Create(ImageDest.Layers);
+{$ifend}
 
   for SourceDest := Low(TSourceDest) to High(TSourceDest) do
   begin
     FLayers[SourceDest].Scaled := True;
     FLayers[SourceDest].Cursor := crSizeAll;
+{$if defined(DynArrayOps)} // XE7
     FLayers[SourceDest].FrameStipple := [clWhite32, clWhite32, clWhite32, clWhite32, clBlack32, clBlack32, clBlack32, clBlack32];
+{$else}
+    FLayers[SourceDest].FrameStipple := ArrayOfColor32([clWhite32, clWhite32, clWhite32, clWhite32, clBlack32, clBlack32, clBlack32, clBlack32]);
+{$ifend}
     FLayers[SourceDest].HandleSize := 5;
     FLayers[SourceDest].OnHandleClicked := LayerHandleClicked;
     FLayers[SourceDest].OnHandleMove := LayerHandleMove;
@@ -605,7 +616,7 @@ function TFormMain.SortCorners(SourceDest: TSourceDest): boolean;
 
   procedure FindTopLeft;
   var
-    MinSum: TFLoat;
+    Sum, MinSum: TFloat;
     MinIndex: integer;
     i: integer;
     Temp: TFloatQuadrilateral;
@@ -614,7 +625,7 @@ function TFormMain.SortCorners(SourceDest: TSourceDest): boolean;
     MinIndex := 0;
     for i := 1 to 3 do
     begin
-      var Sum := FCorners[SourceDest, i].X + FCorners[SourceDest, i].Y;
+      Sum := FCorners[SourceDest, i].X + FCorners[SourceDest, i].Y;
       if (Sum < MinSum) then
       begin
         MinSum := Sum;

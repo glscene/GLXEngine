@@ -10,7 +10,9 @@ object FormMain: TFormMain
   Font.Height = -12
   Font.Name = 'Segoe UI'
   Font.Style = []
+  KeyPreview = True
   WindowState = wsMaximized
+  OnKeyDown = FormKeyDown
   OnResize = FormResize
   OnShow = FormShow
   TextHeight = 15
@@ -28,11 +30,20 @@ object FormMain: TFormMain
     OnMouseUp = PaintBox32MouseUp
     OnMouseWheel = PaintBox32MouseWheel
     OnPaintBuffer = PaintBox32PaintBuffer
+    ExplicitWidth = 1025
+    ExplicitHeight = 694
   end
   object TimerRotate: TTimer
     Interval = 200
     OnTimer = TimerRotateTimer
     Left = 492
     Top = 244
+  end
+  object TimerMove: TTimer
+    Enabled = False
+    Interval = 200
+    OnTimer = TimerMoveTimer
+    Left = 492
+    Top = 300
   end
 end

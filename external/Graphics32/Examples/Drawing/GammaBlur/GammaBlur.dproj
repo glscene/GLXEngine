@@ -7,7 +7,7 @@
         <MainSource>GammaBlur.dpr</MainSource>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
         <ProjectGuid>{e76047c7-32d7-426d-bac0-e8ba53e24c47}</ProjectGuid>
-        <ProjectVersion>20.3</ProjectVersion>
+        <ProjectVersion>20.4</ProjectVersion>
         <TargetedPlatforms>3</TargetedPlatforms>
         <ProjectName Condition="'$(ProjectName)'==''">GammaBlur</ProjectName>
     </PropertyGroup>

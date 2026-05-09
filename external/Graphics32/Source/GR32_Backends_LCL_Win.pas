@@ -132,7 +132,7 @@ type
     property OnFontChange: TNotifyEvent read FOnFontChange write FOnFontChange;
 
     { ITextToPathSupport }
-    procedure TextToPath(Path: TCustomPath; const X, Y: TFloat; const Text: string); overload;
+    procedure TextToPath(Path: TCustomPath; const X, Y: TFloat; const Text: string; Flags: Cardinal); overload;
     procedure TextToPath(Path: TCustomPath; const DstRect: TFloatRect; const Text: string; Flags: Cardinal); overload;
     function MeasureText(const DstRect: TFloatRect; const Text: string; Flags: Cardinal): TFloatRect;
 
@@ -540,24 +540,24 @@ end;
 { ITextToPathSupport }
 
 procedure TLCLBackend.TextToPath(Path: TCustomPath; const X, Y: TFloat;
-  const Text: string);
+  const Text: string; Flags: Cardinal);
 var
   R: TFloatRect;
 begin
-  R := FloatRect(X, Y, X, Y);
-  TextToolsWin.TextToPath(Font.Handle, Path, R, Text, 0);
+  R := FloatRect(X, Y, MaxInt, MaxInt);
+  TextToolsWin.TextToPath(FFont.Handle, Path, R, Text, Flags);
 end;
 
 procedure TLCLBackend.TextToPath(Path: TCustomPath; const DstRect: TFloatRect;
   const Text: string; Flags: Cardinal);
 begin
-  TextToolsWin.TextToPath(Font.Handle, Path, DstRect, Text, Flags);
+  TextToolsWin.TextToPath(FFont.Handle, Path, DstRect, Text, Flags);
 end;
 
 function TLCLBackend.MeasureText(const DstRect: TFloatRect;
   const Text: string; Flags: Cardinal): TFloatRect;
 begin
-  Result := TextToolsWin.MeasureText(Font.Handle, DstRect, Text, Flags);
+  Result := TextToolsWin.MeasureText(FFont.Handle, DstRect, Text, Flags);
 end;
 
 procedure TLCLBackend.DrawTo(hDst: HDC; DstX, DstY: Integer);

@@ -7,7 +7,7 @@
         <MainSource>TextureBlend.dpr</MainSource>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
         <ProjectGuid>{c5891a1b-574d-49da-af0e-bf7134183e73}</ProjectGuid>
-        <ProjectVersion>20.3</ProjectVersion>
+        <ProjectVersion>20.4</ProjectVersion>
         <TargetedPlatforms>3</TargetedPlatforms>
         <ProjectName Condition="'$(ProjectName)'==''">TextureBlend</ProjectName>
     </PropertyGroup>

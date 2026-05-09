@@ -7,7 +7,7 @@
         <MainSource>Grow.dpr</MainSource>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
         <ProjectGuid>{df38204c-9381-46e3-b185-4a1c66830847}</ProjectGuid>
-        <ProjectVersion>20.3</ProjectVersion>
+        <ProjectVersion>20.4</ProjectVersion>
         <TargetedPlatforms>3</TargetedPlatforms>
         <ProjectName Condition="'$(ProjectName)'==''">Grow</ProjectName>
     </PropertyGroup>

@@ -1,4 +1,4 @@
-unit GR32.ImageFormats.PSD.Writer;
+﻿unit GR32.ImageFormats.PSD.Writer;
 
 (* ***** BEGIN LICENSE BLOCK *****
  * Version: MPL 1.1 or LGPL 2.1 with linking exception
@@ -43,26 +43,28 @@ interface
 
 uses
   Classes,
-  GR32.ImageFormats.PSD;
+  GR32.ImageFormats.PSD,
+  GR32.ImageFormats.PSD.Model;
 
 
 //------------------------------------------------------------------------------
 //
-//      TPhotoshopDocumentWriter
+//      PhotoshopDocumentWriter
 //
 //------------------------------------------------------------------------------
 // Writes a PSD document to a stream
 //------------------------------------------------------------------------------
 type
-  TPhotoshopDocumentWriter = class abstract
+  PhotoshopDocumentWriter = record
   public
-    class procedure SaveToStream(ADocument: TPhotoshopDocument; AStream: TStream);
+    class procedure SaveToStream(ADocument: TPhotoshopDocument; AStream: TStream); static;
   end;
 
 
 //------------------------------------------------------------------------------
 //------------------------------------------------------------------------------
 //------------------------------------------------------------------------------
+
 implementation
 
 uses
@@ -80,7 +82,6 @@ uses
   GR32.ImageFormats.PSD.Types;
 
 type
-  TBytesArray = array of byte;
   TPhotoshopLayerCracker = class(TCustomPhotoshopLayer);
 
 //------------------------------------------------------------------------------
@@ -111,6 +112,15 @@ const
   // The PSD channels in "planar" order
   PSDPlanarOrder: array[0..PSD_CHANNELS-1] of TColor32Component = (ccRed, ccGreen, ccBlue, ccAlpha);
 
+const
+  cPSDCompression: array[TPSDLayerCompression] of Word = (
+    PSD_COMPRESSION_NONE,       // lcRAW
+    PSD_COMPRESSION_RLE,        // lcRLE
+    PSD_COMPRESSION_ZIP,        // lcZIP
+    PSD_COMPRESSION_ZIP_PRED    // lcPredictedZIP
+  );
+
+
 //------------------------------------------------------------------------------
 // RAW compression (i.e. no compression)
 //------------------------------------------------------------------------------
@@ -139,18 +149,13 @@ end;
 
 class procedure CompressionRAW.WriteBitmap(AStream: TStream; ALayer: TCustomPhotoshopLayer);
 var
-  ScanLineBuffer: TBytesArray;
+  ScanLineBuffer: TBytes;
   Channel: TColor32Component;
-  i: integer;
 begin
   SetLength(ScanLineBuffer, ALayer.Width);
 
   for Channel in PSDPlanarOrder do
-    for i := 0 to ALayer.Height - 1 do
-    begin
-      TPhotoshopLayerCracker(ALayer).GetChannelScanLine(Channel, i, ScanLineBuffer[0]);
-      WriteScanline(AStream, ScanLineBuffer[0], ALayer.Width);
-    end;
+    WriteChannel(AStream, Channel, ALayer, ScanLineBuffer[0]);
 end;
 
 //------------------------------------------------------------------------------
@@ -241,6 +246,8 @@ begin
         Inc(RunCount);
         if (RunCount = MaxRun) then
           Break;
+        if (Index = Count) then
+          Break;
         RunValue := TByteArray(Buffer)[Index];
       end;
 
@@ -269,7 +276,7 @@ begin
   RowTablePos := AStream.Position;
 
   // Make room for row table
-  AStream.Seek(ALayer.Height * SizeOf(Smallint), soFromCurrent);
+  AStream.Seek(ALayer.Height * SizeOf(Word), soFromCurrent);
   SetLength(RowTable, ALayer.Height);
 
   RLEStream := TPackBitsStream.Create(AStream);
@@ -297,7 +304,7 @@ end;
 
 class procedure CompressionRLE.WriteBitmap(AStream: TStream; ALayer: TCustomPhotoshopLayer);
 var
-  ScanLineBuffer: TBytesArray;
+  ScanLineBuffer: TBytes;
   Channel: TColor32Component;
   i: integer;
   RowTablePos: Int64;
@@ -370,7 +377,7 @@ end;
 
 class procedure CompressionZIP.WriteBitmap(AStream: TStream; ALayer: TCustomPhotoshopLayer);
 var
-  ScanLineBuffer: TBytesArray;
+  ScanLineBuffer: TBytes;
   Stream: TStream;
   Channel: TColor32Component;
   i: integer;
@@ -383,6 +390,67 @@ begin
       for i := 0 to ALayer.Height - 1 do
       begin
         TPhotoshopLayerCracker(ALayer).GetChannelScanLine(Channel, i, ScanLineBuffer[0]);
+        Stream.Write(ScanLineBuffer[0], Length(ScanLineBuffer));
+      end;
+  finally
+    Stream.Free;
+  end;
+end;
+
+//------------------------------------------------------------------------------
+// ZIP compression with prediction
+//------------------------------------------------------------------------------
+type
+  CompressionZIPPredict = record
+    class procedure DeltaEncode(var Buffer; Width: integer); static;
+    class procedure WriteChannel(AStream: TStream; AChannel: TColor32Component; ALayer: TCustomPhotoshopLayer; var ABuffer); static;
+    class procedure WriteBitmap(AStream: TStream; ALayer: TCustomPhotoshopLayer); static;
+  end;
+
+class procedure CompressionZIPPredict.DeltaEncode(var Buffer; Width: integer);
+var
+  i: integer;
+  P: PByteArray;
+begin
+  P := @Buffer;
+  for i := Width - 1 downto 1 do
+    P[i] := Byte(P[i] - P[i - 1]);
+end;
+
+class procedure CompressionZIPPredict.WriteChannel(AStream: TStream; AChannel: TColor32Component; ALayer: TCustomPhotoshopLayer; var ABuffer);
+var
+  i: integer;
+  Stream: TStream;
+begin
+  Stream := TCompressionStream.Create(clDefault, AStream);
+  try
+    for i := 0 to ALayer.Height - 1 do
+    begin
+      TPhotoshopLayerCracker(ALayer).GetChannelScanLine(AChannel, i, ABuffer);
+      DeltaEncode(ABuffer, ALayer.Width);
+      Stream.Write(ABuffer, ALayer.Width);
+    end;
+  finally
+    Stream.Free;
+  end;
+end;
+
+class procedure CompressionZIPPredict.WriteBitmap(AStream: TStream; ALayer: TCustomPhotoshopLayer);
+var
+  ScanLineBuffer: TBytes;
+  Stream: TStream;
+  Channel: TColor32Component;
+  i: integer;
+begin
+  SetLength(ScanLineBuffer, ALayer.Width);
+
+  Stream := TCompressionStream.Create(clDefault, AStream);
+  try
+    for Channel in PSDPlanarOrder do
+      for i := 0 to ALayer.Height - 1 do
+      begin
+        TPhotoshopLayerCracker(ALayer).GetChannelScanLine(Channel, i, ScanLineBuffer[0]);
+        DeltaEncode(ScanLineBuffer[0], ALayer.Width);
         Stream.Write(ScanLineBuffer[0], ALayer.Width);
       end;
   finally
@@ -401,6 +469,9 @@ begin
     lcZIP:
       Result := CompressionZIP.WriteChannel;
 
+    lcPredictedZIP:
+      Result := CompressionZIPPredict.WriteChannel;
+
     lcRAW:
       Result := CompressionRAW.WriteChannel;
   else
@@ -417,6 +488,9 @@ begin
     lcZIP:
       Result := CompressionZIP.WriteBitmap;
 
+    lcPredictedZIP:
+      Result := CompressionZIPPredict.WriteBitmap;
+
     lcRAW:
       Result := CompressionRAW.WriteBitmap;
   else
@@ -427,10 +501,10 @@ end;
 
 //------------------------------------------------------------------------------
 //
-//      TPhotoshopDocumentWriter
+//      PhotoshopDocumentWriter
 //
 //------------------------------------------------------------------------------
-class procedure TPhotoshopDocumentWriter.SaveToStream(ADocument: TPhotoshopDocument; AStream: TStream);
+class procedure PhotoshopDocumentWriter.SaveToStream(ADocument: TPhotoshopDocument; AStream: TStream);
 var
   SectionsCaptures: TStack<Int64>;
 
@@ -468,16 +542,17 @@ var
     Result := WriteRawAnsiString(AText) + 1;
   end;
 
-  function WriteUnicodeText(const AText: string): Cardinal;
+  function WriteUnicodeText(const AText: UnicodeString): Cardinal;
+  // Note: We use UnicodeString and WideChar for Lazarus support
   var
-    c: Char;
+    c: WideChar;
   begin
     BigEndian.WriteCardinal(AStream, Length(AText));
     for c in AText do
       BigEndian.WriteWord(AStream, Ord(c));
     c := #0;
-    AStream.Write(c, SizeOf(Char));
-    Result := (Length(AText)+1) * SizeOf(Char) + SizeOf(Cardinal);
+    AStream.Write(c, SizeOf(WideChar));
+    Result := (Length(AText)+1) * SizeOf(WideChar) + SizeOf(Cardinal);
   end;
 
   procedure WriteBeginSection;
@@ -587,27 +662,33 @@ var
     LayerWriter: TPSDChannelWriterDelegate;
     Size: Cardinal;
     Channel: TColor32Component;
-    ChannelsInfo: array[TColor32Component] of TPSDChannelInfo;
-    ScanLineBuffer: TBytesArray;
+    ChannelsInfo: array[0..PSD_CHANNELS-1] of TPSDChannelInfo;
+    ChannelIndex: integer;
+    ScanLineBuffer: TBytes;
     SavePos: Int64;
   begin
     SetLength(ScanLineBuffer, ALayer.Width);
 
+    // The PSD format supports different compression schemes per channel
+    // but we only support it per layer. Hence we use the same writer
+    // for all channels in the layer.
     LayerWriter := GetLayerWriter(ALayer);
 
     ALayer.BeginScan;
     begin
-      for Channel := Low(TColor32Component) to High(TColor32Component) do
+      ChannelIndex := 0;
+      for Channel in PSDPlanarOrder do
       begin
         SavePos := AStream.Position;
 
-        BigEndian.WriteWord(AStream, Ord(ALayer.Compression));
+        BigEndian.WriteWord(AStream, cPSDCompression[ALayer.Compression]);
         LayerWriter(AStream, Channel, ALayer, ScanLineBuffer[0]);
 
         Size := AStream.Position - SavePos;
 
-        ChannelsInfo[Channel].ChannelID := Swap16(Word(PSD_CHANNELS_IDS[Channel]));
-        ChannelsInfo[Channel].ChannelSize := Swap32(Size);
+        ChannelsInfo[ChannelIndex].ChannelID := SmallInt(Swap16(Word(PSD_CHANNELS_IDS[Channel])));
+        ChannelsInfo[ChannelIndex].ChannelSize := Swap32(Size);
+        Inc(ChannelIndex);
       end;
     end;
     ALayer.EndScan;
@@ -630,7 +711,7 @@ var
   procedure WriteLayerBeginExtraInfo(const AKey: AnsiString);
   begin
     if Length(AKey) <> 4 then
-       raise EPhotoshopDocument.CreateFmt('Invalid layer info key: "%s"',[string(AKey)]);
+      raise EPhotoshopDocument.CreateFmt('Invalid layer info key: "%s"',[string(AKey)]);
     WriteRawAnsiString('8BIM'); // Signature
     WriteRawAnsiString(AKey); // Key
     WriteBeginSection; // Size field
@@ -679,7 +760,7 @@ var
       WriteLayerName(AnsiString(ALayer.Name), 4);
 
       // *Layer extra info '8BIM' sequences
-      WriteLayerBeginExtraInfo('luni');
+      WriteLayerBeginExtraInfo(PSD_KEY_UnicodeLayerName);
       begin
         WriteUnicodeText(ALayer.Name); // unicode layer name sequence
       end;
@@ -717,7 +798,7 @@ var
     WriteEndSection(4);
   end;
 
-  procedure WriteLayer;
+  procedure WriteLayers;
   begin
     if ADocument.Layers.Count = 0 then
     begin
@@ -745,7 +826,7 @@ var
 
     ADocument.Background.BeginScan;
     begin
-      BigEndian.WriteWord(AStream, Ord(ADocument.Background.Compression));
+      BigEndian.WriteWord(AStream, cPSDCompression[ADocument.Background.Compression]);
       BitmapWriter(AStream, ADocument.Background);
     end;
     ADocument.Background.EndScan;
@@ -764,23 +845,23 @@ begin
   BigEndian.WriteWord(AStream, 8);// bit depth
   BigEndian.WriteWord(AStream, PSD_RGB);// color mode RGB = 3
 
-  // color mode Table
+  // Color mode table
   BigEndian.WriteCardinal(AStream, 0);
 
-  // resources
+  // Resources
   BigEndian.WriteCardinal(AStream, 0);
 
   SectionsCaptures := TStack<Int64>.Create;
   try
 
-    // layer
-    WriteLayer;
+    // Layers
+    WriteLayers;
 
   finally
     SectionsCaptures.Free;
   end;
 
-  //Image
+  // Image
   if (ADocument.Background = nil) then
     WriteEmptyImage
   else

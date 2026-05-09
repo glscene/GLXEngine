@@ -7,7 +7,7 @@
         <MainSource>ColorPicker.dpr</MainSource>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
         <ProjectGuid>{f7ea2779-8c17-4e7e-bfb7-1662c01302b3}</ProjectGuid>
-        <ProjectVersion>20.3</ProjectVersion>
+        <ProjectVersion>20.4</ProjectVersion>
         <TargetedPlatforms>3</TargetedPlatforms>
         <ProjectName Condition="'$(ProjectName)'==''">ColorPicker</ProjectName>
     </PropertyGroup>

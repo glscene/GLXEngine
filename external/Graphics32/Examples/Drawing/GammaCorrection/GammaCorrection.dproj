@@ -7,7 +7,7 @@
         <MainSource>GammaCorrection.dpr</MainSource>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
         <ProjectGuid>{c376a6ff-5848-458a-8eb2-e2307d6c6673}</ProjectGuid>
-        <ProjectVersion>20.3</ProjectVersion>
+        <ProjectVersion>20.4</ProjectVersion>
         <TargetedPlatforms>3</TargetedPlatforms>
         <ProjectName Condition="'$(ProjectName)'==''">GammaCorrection</ProjectName>
     </PropertyGroup>

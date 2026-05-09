@@ -286,7 +286,11 @@ begin
   FBrushDash := TDashedBrush(FCurveBrushes.Brushes.Add(TDashedBrush));
   FBrushDash.FillColor := clWhite32;
   FBrushDash.StrokeWidth := 6;
+{$if defined(DynArrayOps)}
   FBrushDash.DashArray := [10, 5];
+{$else}
+  FBrushDash.SetDashArray([10, 5]);
+{$ifend}
   FBrushDash.Visible := False;
 
   FBrushDot := TDotBrush(FCurveBrushes.Brushes.Add(TDotBrush));

@@ -7,7 +7,7 @@
         <MainSource>AntiAliasing.dpr</MainSource>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
         <ProjectGuid>{82a87652-f3f1-4f83-ac48-d4efb65a125c}</ProjectGuid>
-        <ProjectVersion>20.3</ProjectVersion>
+        <ProjectVersion>20.4</ProjectVersion>
         <TargetedPlatforms>3</TargetedPlatforms>
         <ProjectName Condition="'$(ProjectName)'==''">AntiAliasing</ProjectName>
     </PropertyGroup>

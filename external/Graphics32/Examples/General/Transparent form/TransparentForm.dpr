@@ -1,7 +1,7 @@
 program TransparentForm;
 
 {$R 'Media.res' 'Media.rc'}
-{$R '..\manifest.res'}
+{$R '..\..\manifest.res'}
 
 uses
   Vcl.Forms,
