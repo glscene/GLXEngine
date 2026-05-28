@@ -2,7 +2,7 @@ program InvarianceD;
 
 uses
   Forms,
-  fInvarianceD in 'fInvarianceD.pas' {FormInvariance};
+  fdInvariance in 'fdInvariance.pas' {FormInvariance};
 
 {$R *.res}
 

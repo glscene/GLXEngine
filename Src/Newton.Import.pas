@@ -26,19 +26,11 @@ unit Newton.Import;
 interface
  const
 {$IFDEF WIN32}
-  {$IFDEF USE_DOUBLE_PRECISION}
-   NEWTON_API = 'newton32d.dll';
-  {$ELSE}
-   NEWTON_API = 'newton32s.dll';
-  {$ENDIF}
+   NEWTON_API = 'newton32.dll';
 {$ENDIF}
 
 {$IFDEF WIN64}
-  {$IFDEF USE_DOUBLE_PRECISION}
-   NEWTON_API = 'newton64d.dll';
-  {$ELSE}
-   NEWTON_API = 'newton64s.dll';
- {$ENDIF}
+   NEWTON_API = 'newton64.dll';
 {$ENDIF}
 
 type

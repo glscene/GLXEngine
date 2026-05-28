@@ -1,10 +1,10 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit FRFaceEditor;
-
-(* Editor frame for a TGLFaceProperties. *)
-
+(*
+  Editor frame for a TGLFaceProperties
+*)
 interface
 
 {$I Stage.Defines.inc}

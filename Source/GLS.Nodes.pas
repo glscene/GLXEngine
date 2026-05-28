@@ -1,10 +1,10 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.Nodes;
-
-(* Nodes are used to describe lines, polygons + more. *)
-
+(*
+  Nodes are used to describe lines, polygons + more
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -16,10 +16,10 @@ uses
   Stage.OpenGLTokens,
   Stage.VectorTypes,
   Stage.VectorGeometry,
+  Stage.Spline,
   GLS.OpenGLAdapter,
   GLS.Context,
   GLS.BaseClasses,
-  Stage.Spline,
   GLS.Coordinates;
 
 type
@@ -108,9 +108,7 @@ type
 
   TGLNodesClass = class of TGLNodes;
 
-// --------------------------------------------------------------
-implementation
-//---------------------------------------------------------------
+implementation //==============================================================
 
 uses
   SysUtils,

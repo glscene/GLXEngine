@@ -4,8 +4,8 @@
 #pragma hdrstop
 #include <tchar.h>
 //---------------------------------------------------------------------------
-USEFORM("fToBitmapImgC.cpp", Form2);
-USEFORM("fToBitmapC.cpp", Form1);
+USEFORM("fcToBitmapImg.cpp", Form2);
+USEFORM("fcToBitmap.cpp", Form1);
 //---------------------------------------------------------------------------
 int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 {

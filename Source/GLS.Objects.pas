@@ -1,8 +1,7 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.Objects;
-
 (*
   Implementation of basic scene objects plus some management routines.
   All objects declared in this unit are only simple objects
@@ -16,7 +15,6 @@ unit GLS.Objects;
     [TGLSphere, TGLCube, TGLPlane, TGLSprite, TGLPoints,
     TGLDummyCube, TGLLines, TGLSuperellipsoid]
 *)
-
 interface
 
 {$I Stage.Defines.inc}

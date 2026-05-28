@@ -25,7 +25,7 @@
 
 #include <vcl.h>
 #pragma hdrstop
-USEFORM("fCullingC.cpp", Form1);
+USEFORM("fcCulling.cpp", Form1);
 //---------------------------------------------------------------------------
 WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 {

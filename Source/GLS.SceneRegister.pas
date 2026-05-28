@@ -1,6 +1,6 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.SceneRegister;
 (*
   Registration unit for library components, property editors and IDE experts.
@@ -270,9 +270,7 @@ procedure Register;
 // Auto-create for object manager
 function ObjectManager: TGLObjectManager;
 
-// ------------------------------------------------------------------
-implementation
-// ------------------------------------------------------------------
+implementation //==============================================================
 
 uses
   FmLibMaterialPicker,
@@ -1715,7 +1713,7 @@ begin
   end;
 end;
 
-initialization // ------------------------------------------------------------
+initialization //==============================================================
 
   SplashScreenServices.AddPluginBitmap(GetGLSceneVersion, LoadBitmap(HInstance, 'TGLScene'),
     False, 'MPL 2.0 license', 'VCL version');
@@ -1853,7 +1851,7 @@ begin
   RegisterSceneObject(TGLFBORenderer, 'OpenGL FrameBuffer', '', HInstance);
 end;
 
-finalization // ------------------------------------------------------------------
+finalization //================================================================
 
 ObjectManager.Free;
 

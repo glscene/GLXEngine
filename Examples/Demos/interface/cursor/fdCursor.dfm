@@ -35,8 +35,6 @@ object FormCursor: TFormCursor
     Align = alClient
     OnMouseMove = GLSceneViewer1MouseMove
     TabOrder = 0
-    ExplicitWidth = 387
-    ExplicitHeight = 291
   end
   object StatusBar1: TStatusBar
     Left = 0
@@ -44,8 +42,8 @@ object FormCursor: TFormCursor
     Width = 382
     Height = 19
     Panels = <>
-    ExplicitTop = 268
-    ExplicitWidth = 379
+    ExplicitTop = 296
+    ExplicitWidth = 374
   end
   object GLScene1: TGLScene
     ObjectsSorting = osNone

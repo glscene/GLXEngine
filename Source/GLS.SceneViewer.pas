@@ -1,10 +1,10 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.SceneViewer;
-
-(* Component for windows specific Scene viewer *)
-
+(*
+  Component for windows specific Scene viewer
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -162,9 +162,7 @@ type
 
 procedure SetupVSync(const AVSyncMode : TGLVSyncMode);
 
-// ------------------------------------------------------------------
-implementation
-// ------------------------------------------------------------------
+implementation //==============================================================
 
 procedure SetupVSync(const AVSyncMode : TGLVSyncMode);
 var
@@ -535,9 +533,7 @@ begin
   end;
 end;
 
-// ------------------------------------------------------------------
-initialization
-// ------------------------------------------------------------------
+initialization //==============================================================
 
   RegisterClass(TGLSceneViewer);
 end.

@@ -39,7 +39,7 @@ unit OpenCL.Import;
 interface
 
 uses
-  Winapi.Windows,
+//  Winapi.Windows,
   OpenCL.Platform;
 
 const
@@ -1534,41 +1534,46 @@ var
 
 function GetProcAddressOpenCL(ProcName: PAnsiChar): Pointer;
 begin
-  result := GetProcAddress(Cardinal(CLHandle), ProcName);
+///  result := GetProcAddress(Cardinal(CLHandle), ProcName);
 end;
 
 function InitOpenCL: Boolean;
 begin
+(*
   if CLHandle = INVALID_MODULEHANDLE then
     Result := InitFromLibraryOpenCL(LibOpenCL)
   else
     Result := True;
+*)
 end;
 
 procedure CloseOpenCL;
 begin
+(*
   if CLHandle <> INVALID_MODULEHANDLE then
   begin
     FreeLibrary(Cardinal(CLHandle));
     CLHandle := INVALID_MODULEHANDLE;
   end;
+*)
 end;
 
 function InitFromLibraryOpenCL(const CLName: WideString): Boolean;
 begin
   Result := False;
   CloseOpenCL;
+(*
   CLHandle := LoadLibraryW(PWideChar(CLName));
   if CLHandle = INVALID_MODULEHANDLE then
     Exit;
-
+*)
 
   Result := True;
 end;
 
 function IsInitializedOpenCL: Boolean;
 begin
-  Result := (CLHandle <> INVALID_MODULEHANDLE);
+///  Result := (CLHandle <> INVALID_MODULEHANDLE);
 end;
 
 end.

@@ -1,10 +1,10 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit FmSceneEditor;
-
-(* Scene Editor, for adding + removing scene objects *)
-
+(*
+  Scene Editor, for adding + removing scene objects
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -14,8 +14,8 @@ uses
   System.Classes,
   System.SysUtils,
   System.Win.Registry,
-  System.ImageList, 
-  System.Actions, 
+  System.ImageList,
+  System.Actions,
   VCL.ActnList,
   VCL.Controls,
   VCL.Forms,
@@ -31,13 +31,12 @@ uses
   DesignIntf,
   VCLEditors,
 
+  Stage.Strings,
+  Stage.Utils,
   GLS.Scene,
   GLS.SceneViewer,
-  Stage.Strings,
   FmInfo,
   GLS.XCollection,
-
-  Stage.Utils,
   GLS.SceneRegister;
 
 const
@@ -204,9 +203,7 @@ type
 function GLSceneEditorForm: TGLSceneEditorForm;
 procedure ReleaseGLSceneEditorForm;
 
-// ------------------------------------------------------------------
-implementation
-// ------------------------------------------------------------------
+implementation //==============================================================
 
 {$R *.dfm}
 
@@ -287,7 +284,7 @@ begin
   end;
 end;
 
-// ----------------- TGLSceneEditorForm ---------------------------------------------------------------------------------
+// ----------------- TGLSceneEditorForm --------------------------------------
 
 procedure TGLSceneEditorForm.SetScene(Scene: TGLScene; Designer: IDesigner);
 begin
@@ -1510,9 +1507,7 @@ begin
   end;
 end;
 
-//--------------------------------------------------------------
-initialization
-//--------------------------------------------------------------
+initialization //==============================================================
 
 finalization
 

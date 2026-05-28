@@ -1,12 +1,11 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit FmShaderMemo;
 (*
   Shader code editor.
-// TODO: need to decide how to load templates from external file
-//       and update it without package recompilation
-
+  TODO: need to decide how to load templates from external file
+  and update it without package recompilation
 *)
 interface
 
@@ -19,6 +18,7 @@ uses
   System.Variants,
   System.Classes,
   System.Win.Registry,
+  System.ImageList,
   VCL.Controls,
   VCL.Forms,
   VCL.ComCtrls,
@@ -30,8 +30,7 @@ uses
   VCL.ExtCtrls,
   VCL.StdCtrls,
   VCL.Graphics,
-   
-  GLS.Memo, System.ImageList;
+  GLS.Memo;
 
 type
 
@@ -100,9 +99,7 @@ type
 function GLShaderEditorForm: TShaderMemoForm;
 procedure ReleaseGLShaderEditor;
 
-//------------------------------------------------------------------
-implementation
-//------------------------------------------------------------------
+implementation //==============================================================
 
 {$R *.dfm}
 
@@ -1021,9 +1018,7 @@ begin
     FOnCheck(Self);
 end;
 
-//-----------------------------------------------
-initialization
-//-----------------------------------------------
+initialization //==============================================================
 
 finalization
 

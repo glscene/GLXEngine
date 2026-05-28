@@ -1,10 +1,10 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit FmLibMaterialPicker;
-
-(* Allows choosing a material in a material library *)
-
+(*
+  Allows choosing a material in a material library
+*)
 interface
 
 {$I Stage.Defines.inc}

@@ -1,10 +1,10 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit FmMaterialEditor;
-
-(* Editor window for a material (with preview) *)
-
+(*
+  Editor window for a material (with preview)
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -54,10 +54,7 @@ type
 function GLMaterialEditorForm: TGLMaterialEditorForm;
 procedure ReleaseMaterialEditorForm;
 
-// ----------------------------------------------
-implementation
-
-// ----------------------------------------------
+implementation //=============================================================
 
 {$R *.dfm}
 
@@ -138,10 +135,7 @@ begin
 
 end;
 
-// ------------------------------------------------------------------
-initialization
-
-// ------------------------------------------------------------------
+initialization //=============================================================
 
 finalization
 

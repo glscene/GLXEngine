@@ -79,10 +79,11 @@ type
 var
   FormCursor: TFormCursor;
 
-implementation
+implementation //==============================================================
 
 {$R *.DFM}
 
+//-----------------------------------------------------------------------------
 procedure TFormCursor.FormCreate(Sender: TObject);
 begin
   var Path: TFileName := GetCurrentAssetPath();
@@ -94,6 +95,7 @@ begin
     Material.Texture.Image.LoadFromFile('cursor.bmp');
 end;
 
+//-----------------------------------------------------------------------------
 procedure TFormCursor.MILoadImageClick(Sender: TObject);
 begin
   if OpenPictureDialog1.Execute then
@@ -114,6 +116,7 @@ begin
   end;
 end;
 
+//-----------------------------------------------------------------------------
 procedure TFormCursor.GLSceneViewer1MouseMove(Sender: TObject; Shift: TShiftState;
   X, Y: Integer);
 var
@@ -137,17 +140,20 @@ begin
   GLCadencer1.Progress();
 end;
 
+//-----------------------------------------------------------------------------
 procedure TFormCursor.GLSceneViewer1AfterRender(Sender: TObject);
 begin
   handleMouseMoves := True;
 end;
 
+//-----------------------------------------------------------------------------
 procedure TFormCursor.GLCadencer1Progress(Sender: TObject;
   const deltaTime, newTime: Double);
 begin
   GLSceneViewer1.Invalidate();
 end;
 
+//-----------------------------------------------------------------------------
 procedure TFormCursor.HSParticleProgress(Sender: TObject;
   const deltaTime, newTime: Double);
 begin
@@ -163,6 +169,7 @@ begin
   end;
 end;
 
+//-----------------------------------------------------------------------------
 procedure TFormCursor.GLParticles1ActivateParticle(Sender: TObject;
   particle: TGLBaseSceneObject);
 begin
@@ -175,6 +182,7 @@ begin
   end;
 end;
 
+//-----------------------------------------------------------------------------
 procedure TFormCursor.Timer1Timer(Sender: TObject);
 begin
   // update FPS and sprite count
@@ -183,15 +191,17 @@ begin
   GLSceneViewer1.ResetPerformanceMonitor;
 end;
 
+//-----------------------------------------------------------------------------
 procedure TFormCursor.MITrailClick(Sender: TObject);
 begin
   // turn trails on/off
   MITrail.Checked := not MITrail.Checked;
 end;
 
+//-----------------------------------------------------------------------------
 procedure TFormCursor.MIExitClick(Sender: TObject);
 begin
   Close;
 end;
-
+//-----------------------------------------------------------------------------
 end.

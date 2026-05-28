@@ -1,10 +1,10 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit FRMaterialPreview;
-
-(* Material Preview frame *)
-
+(*
+  Material Preview frame
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -67,9 +67,7 @@ type
     property LibMaterial: TGLAbstractLibMaterial read GetLibMaterial write SetLibMaterial;
   end;
 
-// ------------------------------------------------------------------
-implementation
-// ------------------------------------------------------------------
+implementation //==============================================================
 
 {$R *.dfm}
 

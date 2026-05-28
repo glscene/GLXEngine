@@ -1,9 +1,10 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit FRColorEditor;
-
-(* RGB+Alpha color editor. *)
+(*
+  RGB + Alpha color editor
+*)
 
 interface
 
@@ -77,9 +78,7 @@ type
     property OnChange : TNotifyEvent read FOnChange write FOnChange;
   end;
 
-//--------------------------------------------------------------------
-implementation
-//--------------------------------------------------------------------
+implementation //==============================================================
 
 {$R *.dfm}
 

@@ -45,6 +45,9 @@
         <Projects Include="SkyBox\SkyBoxC.cbproj">
             <Dependencies/>
         </Projects>
+        <Projects Include="TerraNavi\TerraNaviC.cbproj">
+            <Dependencies/>
+        </Projects>
         <Projects Include="tobitmap\ToBitmapC.cbproj">
             <Dependencies/>
         </Projects>
@@ -182,6 +185,15 @@
     <Target Name="SkyBoxC:Make">
         <MSBuild Projects="SkyBox\SkyBoxC.cbproj" Targets="Make"/>
     </Target>
+    <Target Name="TerraNaviC">
+        <MSBuild Projects="TerraNavi\TerraNaviC.cbproj"/>
+    </Target>
+    <Target Name="TerraNaviC:Clean">
+        <MSBuild Projects="TerraNavi\TerraNaviC.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="TerraNaviC:Make">
+        <MSBuild Projects="TerraNavi\TerraNaviC.cbproj" Targets="Make"/>
+    </Target>
     <Target Name="ToBitmapC">
         <MSBuild Projects="tobitmap\ToBitmapC.cbproj"/>
     </Target>
@@ -192,13 +204,13 @@
         <MSBuild Projects="tobitmap\ToBitmapC.cbproj" Targets="Make"/>
     </Target>
     <Target Name="Build">
-        <CallTarget Targets="BlurC;BlurAdvancedC;CelshadingC;CullingC;FogC;FullScreenC;InvarianceC;MemviewerC;MultiproxyC;MultiTexturesC;OctreeRenderC;PhongC;RenderToTexC;SkyBoxC;ToBitmapC"/>
+        <CallTarget Targets="BlurC;BlurAdvancedC;CelshadingC;CullingC;FogC;FullScreenC;InvarianceC;MemviewerC;MultiproxyC;MultiTexturesC;OctreeRenderC;PhongC;RenderToTexC;SkyBoxC;TerraNaviC;ToBitmapC"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="BlurC:Clean;BlurAdvancedC:Clean;CelshadingC:Clean;CullingC:Clean;FogC:Clean;FullScreenC:Clean;InvarianceC:Clean;MemviewerC:Clean;MultiproxyC:Clean;MultiTexturesC:Clean;OctreeRenderC:Clean;PhongC:Clean;RenderToTexC:Clean;SkyBoxC:Clean;ToBitmapC:Clean"/>
+        <CallTarget Targets="BlurC:Clean;BlurAdvancedC:Clean;CelshadingC:Clean;CullingC:Clean;FogC:Clean;FullScreenC:Clean;InvarianceC:Clean;MemviewerC:Clean;MultiproxyC:Clean;MultiTexturesC:Clean;OctreeRenderC:Clean;PhongC:Clean;RenderToTexC:Clean;SkyBoxC:Clean;TerraNaviC:Clean;ToBitmapC:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="BlurC:Make;BlurAdvancedC:Make;CelshadingC:Make;CullingC:Make;FogC:Make;FullScreenC:Make;InvarianceC:Make;MemviewerC:Make;MultiproxyC:Make;MultiTexturesC:Make;OctreeRenderC:Make;PhongC:Make;RenderToTexC:Make;SkyBoxC:Make;ToBitmapC:Make"/>
+        <CallTarget Targets="BlurC:Make;BlurAdvancedC:Make;CelshadingC:Make;CullingC:Make;FogC:Make;FullScreenC:Make;InvarianceC:Make;MemviewerC:Make;MultiproxyC:Make;MultiTexturesC:Make;OctreeRenderC:Make;PhongC:Make;RenderToTexC:Make;SkyBoxC:Make;TerraNaviC:Make;ToBitmapC:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

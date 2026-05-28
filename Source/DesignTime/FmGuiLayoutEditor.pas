@@ -1,6 +1,6 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit FmGuiLayoutEditor;
 
 interface
@@ -23,7 +23,7 @@ uses
   Vcl.ExtCtrls,
   Vcl.Samples.Spin,
   Vcl.Grids,
-  
+
   GLS.BaseClasses,
   GLS.ImageUtils,
   GLS.Gui,
@@ -88,7 +88,7 @@ type
     procedure BitBtn6Click(Sender: TObject);
     procedure elements_gridDblClick(Sender: TObject);
   private
-     
+
     procedure SyncImages;
     procedure DrawCurrentElement;
     procedure RefreshComponentBox;
@@ -102,9 +102,7 @@ type
 function GUILayoutEditorForm: TGLLayoutEditorForm;
 procedure ReleaseGUILayoutEditorForm;
 
-//-------------------------------------------------
-implementation
-//-------------------------------------------------
+implementation //==============================================================
 
 {$R *.dfm}
 
@@ -533,9 +531,7 @@ begin
     AGUILayout.Assign(GLGuiLayout1);
 end;
 
-//-------------------------------------
-initialization
-//-------------------------------------
+initialization //==============================================================
 
 finalization
 

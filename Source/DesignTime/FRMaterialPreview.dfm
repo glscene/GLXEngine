@@ -135,6 +135,8 @@ object RMaterialPreview: TRMaterialPreview
         Material.MaterialLibrary = GLMaterialLibrary
         Material.LibMaterialName = 'LibMaterial'
         Radius = 0.800000011920929000
+        Slices = 16
+        Stacks = 16
       end
       object Teapot: TGLTeapot
         Material.MaterialLibrary = GLMaterialLibrary
@@ -150,6 +152,8 @@ object RMaterialPreview: TRMaterialPreview
         Material.FrontProperties.Ambient.Color = {A3A2223FCDCC4C3ECDCC4C3E0000803F}
         Material.FrontProperties.Emission.Color = {D3D2523FA1A0203F000000000000803F}
         Radius = 0.300000011920929000
+        Slices = 16
+        Stacks = 16
       end
     end
     object Camera: TGLCamera

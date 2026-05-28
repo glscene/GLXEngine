@@ -1,15 +1,13 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.MultiSampleImage;
-
 (*
     This unit provides support for two new types of "multisample
     textures" - two-dimensional and two-dimensional array - as well as
     mechanisms to fetch a specific sample from such a texture in a shader,
     and to attach such textures to FBOs for rendering.
 *)
-
 interface
 
 {$I Stage.Defines.inc}
@@ -68,9 +66,7 @@ type
       SetFixedSamplesLocation;
   end;
 
-//----------------------------------
-implementation
-//----------------------------------
+implementation //==============================================================
 
 // ------------------
 // ------------------ TGLMultisampleImage ------------------

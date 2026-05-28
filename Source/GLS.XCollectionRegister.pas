@@ -1,10 +1,10 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.XCollectionRegister;
-
-(* Register TXCollection property editor *)
-
+(*
+  Register TXCollection property editor
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -25,9 +25,7 @@ type
 
 procedure Register;
 
-// ------------------------------------------------------------------
-implementation
-// ------------------------------------------------------------------
+implementation //==============================================================
 
 uses
   FmXCollectionEditor;
@@ -54,9 +52,7 @@ begin
   RegisterPropertyEditor(TypeInfo(TXCollection), nil, '', TXCollectionProperty);
 end;
 
-// ------------------------------------------------------------------
-initialization
-// ------------------------------------------------------------------
+initialization //==============================================================
 
 // class registrations
 

@@ -65,6 +65,7 @@ type
     procedure GLCadencer1Progress(Sender: TObject; const deltaTime, newTime: Double);
     procedure Timer1Timer(Sender: TObject);
     procedure OctreeRendererRender(Sender: TObject; var rci: TGLRenderContextInfo);
+    procedure cbShowOctreeClick(Sender: TObject);
   public
     mx, my: Integer;
     VerletWorld: TGLVerletWorld;
@@ -268,6 +269,15 @@ begin
   glVertex3f(AABB.max.X, AABB.min.Y, AABB.min.Z);
   glVertex3f(AABB.max.X, AABB.min.Y, AABB.max.Z);
   glEnd;
+end;
+
+//----------------------------------------------------------------------------
+procedure TFormClothActor.cbShowOctreeClick(Sender: TObject);
+var
+  rci: TGLRenderContextInfo;
+begin
+  OctreeRendererRender(Self, rci);
+  GLSceneViewer1.Invalidate;
 end;
 
 //----------------------------------------------------------------------------

@@ -5,7 +5,7 @@ program BlurAdvancedD;
 
 uses
   Forms,
-  fBlurAdvancedD in 'fBlurAdvancedD.pas' {FormBlurAdvanced};
+  fdBlurAdvanced in 'fdBlurAdvanced.pas' {FormBlurAdvanced};
 
 {$R *.res}
 

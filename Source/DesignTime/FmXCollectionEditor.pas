@@ -1,11 +1,10 @@
-//
-// GLScene Graphics Engine
-//
-
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit FmXCollectionEditor;
-
-(* Edits a TXCollection *)
-
+(*
+  Edits a TXCollection
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -85,9 +84,7 @@ type
 function XCollectionEditorForm: TXCollectionEditorForm;
 procedure ReleaseXCollectionEditor;
 
-// ------------------------------------------------------------------
-implementation
-// ------------------------------------------------------------------
+implementation //==============================================================
 
 {$R *.dfm}
 

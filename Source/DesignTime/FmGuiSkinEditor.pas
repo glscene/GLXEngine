@@ -1,10 +1,10 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit FmGuiSkinEditor;
-
-(*  Editor for Gui skin. *)
-
+(*
+  Editor for Gui skin
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -174,9 +174,7 @@ var
 
 function GUIComponentDialog(GuiComponent: TGLGuiElementList): Boolean;
 
-//--------------------------------------------------------------------
-implementation
-//--------------------------------------------------------------------
+implementation //=============================================================
 
 {$R *.dfm}
 
@@ -336,8 +334,7 @@ begin
       Bitmap.Free;
       Image.Free;
     end;
-
-    //    imgFull.Canvas.StretchDraw(Rect(Round((1-sbarHorizontal.position)*Zoom),Round((1-sbarVertical.position)*Zoom),Round((1-sbarHorizontal.position+(Tex.Image as TGLPersistentImage).Width)*Zoom),Round((1-sbarVertical.position+(Tex.Image as TGLPersistentImage).Height)*Zoom)),Bitmap);{}
+  // imgFull.Canvas.StretchDraw(Rect(Round((1-sbarHorizontal.position)*Zoom),Round((1-sbarVertical.position)*Zoom),Round((1-sbarHorizontal.position+(Tex.Image as TGLPersistentImage).Width)*Zoom),Round((1-sbarVertical.position+(Tex.Image as TGLPersistentImage).Height)*Zoom)),Bitmap);{}
   end
   else
   begin

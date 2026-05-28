@@ -3537,7 +3537,6 @@ object GLInfoForm: TGLInfoForm
         ReadOnly = True
         ScrollBars = ssVertical
         TabOrder = 0
-        ExplicitWidth = 452
       end
     end
     object TabSheetAbout: TTabSheet

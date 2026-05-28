@@ -1,4 +1,4 @@
-object Form1: TForm1
+object FormCursor: TFormCursor
   Left = 0
   Top = 0
   Caption = 'Cursor'
@@ -42,6 +42,8 @@ object Form1: TForm1
     Width = 404
     Height = 19
     Panels = <>
+    ExplicitTop = 294
+    ExplicitWidth = 396
   end
   object GLScene1: TGLScene
     ObjectsSorting = osNone

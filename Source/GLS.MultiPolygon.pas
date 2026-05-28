@@ -1,8 +1,7 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.MultiPolygon;
-
 (* Object with support for complex polygons.
    The registered class is:
       [TGLMultiPolygon]
@@ -16,7 +15,6 @@ unit GLS.MultiPolygon;
    If anyone feels responsible: it would be fine to have a method ImportFromFile (dxf?) in
    the TGLContour and TGLMultiPolygonBase objects...
 *)
-
 interface
 
 {$I Stage.Defines.inc}
@@ -792,9 +790,7 @@ begin
     (GetOwner as TGLContour).Changed(False);
 end;
 
-//-------------------------------------------------------------
-initialization
-//-------------------------------------------------------------
+initialization //==============================================================
 
   RegisterClass(TGLMultiPolygon);
 

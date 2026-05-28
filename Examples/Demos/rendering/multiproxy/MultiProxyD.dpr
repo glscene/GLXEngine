@@ -11,7 +11,7 @@ program MultiProxyD;
 
 uses
   Forms,
-  fMultiProxyD in 'fMultiProxyD.pas' {FormMultiProxy};
+  fdMultiProxy in 'fdMultiProxy.pas' {FormMultiProxy};
 
 {$R *.res}
 

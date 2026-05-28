@@ -1,23 +1,17 @@
 //
 // GLScene Graphics Engine
 //
-
 unit GLS.SmoothNavigator;
-
 (*
-   An extention of TGLNavigator, which allows to move objects with inertia
-   Note: it is not completely FPS-independant. Only Moving code is, but
+   An extension of TGLNavigator, which allows to move objects with inertia
+   Note: it is not completely FPS independent. Only Moving code is, but
    MoveAroundTarget, Turn[Vertical/Horizontal] and AdjustDistanceTo[..] is not.
-     Don't know why, but when I make their code identical, these function stop
+     Don't know why, but when we make their code identical, these function stop
    working completely. So you probably have to call the AutoScaleParameters
-   procedure once in a while for it to adjust to the current framerate.
-   If someone knows a better way to solve this issue, please contact me via
-   glscene newsgroups. 
-
-    TODO:
-      1) Scale "Old values" too, when callin the Scale parameter procedure to
-         avoid the temporary "freeze" of controls.
-      2) AddImpulse procedures.
+   procedure once in a while for it to adjust to the current frame rate.
+   Something needs to be improved.
+   1) When calling the Scale parameter procedure, it is also necessary to scale the "old values" to avoid temporarily "freezing" the controls.
+   2) Add Impulse procedures.
 *)
 
 interface
@@ -38,7 +32,6 @@ uses
   GLS.XCollection;
 
 type
-
   (* Includes a basic set of parameters
      that control the smoothness of movement. *)
   TGLNavigatorAbstractParameters = class(TPersistent)
@@ -51,7 +44,6 @@ type
   protected
     function StoreInertia: Boolean; virtual;
     function StoreSpeed: Boolean; virtual;
-      
     function GetOwner: TPersistent; override;
   public
     constructor Create(AOwner: TPersistent); virtual;
@@ -65,8 +57,7 @@ type
 
   TGLSmoothNavigator = class;
 
-  (* Includes a basic set of parameters
-     that control the smoothness of movement. *)
+  (*Includes a basic set of parameters that control the smoothness of movement*)
   TGLNavigatorSmoothChangeItem = class(TXCollectionItem)
   private
     FInertia: Single;
@@ -200,10 +191,8 @@ type
   TGLNavigatorInertiaParameters = class(TPersistent)
   private
     FOwner: TPersistent;
-
     OldTurnHorizontalAngle: Single;
     OldTurnVerticalAngle: Single;
-
     OldMoveForwardDistance: Single;
     OldStrafeHorizontalDistance: Single;
     OldStrafeVerticalDistance: Single;
@@ -269,8 +258,8 @@ type
     FOldTurnInertiaAngle  : Single;
     FPitchSpeed : Single;
     FTurnSpeed  : Single;
-    FInertia          : Single;
-    FMaxAngle         : Single;
+    FInertia    : Single;
+    FMaxAngle   : Single;
     FCutoff: Double;
     function StoreInertia: Boolean;
     function StoreMaxAngle: Boolean;
@@ -297,7 +286,7 @@ type
      classes based on it, this includes all the objects from the Scene Editor.
      It uses complex smoothing algorithms, most of which are FPS-dependant.
      Make sure your limit your FPS and set MaxExpectedDeltaTime to a value
-     that is aproximatly 5 times less than your usual deltatime. *)
+     that is approximately 5 times less than your usual deltatime *)
   TGLSmoothNavigator = class(TGLNavigator)
   private
     FMaxExpectedDeltaTime: Double;
@@ -319,7 +308,6 @@ type
   protected
     procedure Notification(AComponent: TComponent; Operation: TOperation); override;
   public
-    // Constructors-destructors.
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
     // From TGLNavigator. Probably, should not be public.
@@ -397,9 +385,7 @@ type
     property OriginalMousePos: TGLCoordinates2 read FOriginalMousePos write SetOriginalMousePos;
   end;
 
-//----------------------------------------------------
-implementation
-//----------------------------------------------------
+implementation //==================================================================
 
 const
   EPS =  0.001;
@@ -409,7 +395,6 @@ const
 (*******************************************
  TGLSmoothNavigator
 *******************************************)
-
 constructor TGLSmoothNavigator.Create(AOwner: TComponent);
 begin
   inherited;
@@ -480,7 +465,6 @@ begin
   if (Abs(FinalAngle) > EPS) then
     inherited TurnVertical(FinalAngle);
 end;
-
 
 procedure TGLSmoothNavigator.MoveForward(const Plus, Minus: Boolean; ADeltaTime: Double; const Accelerate: Boolean = False);
 var
@@ -1622,16 +1606,15 @@ begin
   FTargetValue.Assign(Value);
 end;
 
-//==========================================================
+//=============================================================================
 initialization
-//==========================================================
+//=============================================================================
 
-  RegisterClasses([
-      TGLSmoothNavigator, TGLSmoothUserInterface,
+  RegisterClasses([TGLSmoothNavigator, TGLSmoothUserInterface,
       TGLNavigatorInertiaParameters, TGLNavigatorGeneralParameters,
       TGLNavigatorMoveAroundParameters,
-      TGLNavigatorAdjustDistanceParameters, TGLNavigatorAdjustDistanceParametersEx
-                   ]);
+      TGLNavigatorAdjustDistanceParameters,
+      TGLNavigatorAdjustDistanceParametersEx]);
 
   RegisterXCollectionItemClass(TGLNavigatorSmoothChangeSingle);
   RegisterXCollectionItemClass(TGLNavigatorSmoothChangeVector);

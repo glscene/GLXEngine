@@ -1,11 +1,11 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit FRTextureEdit;
-
-(* Basic editing frame for TGLTexture *)
-// TODO : Replace STImageClass with a dropdown (polymorphism) 
-
+(*
+  Basic editing frame for TGLTexture
+  TODO : Replace STImageClass with a dropdown (polymorphism)
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -65,9 +65,7 @@ type
     property OnChange: TNotifyEvent read FOnChange write FOnChange;
   end;
 
-//-------------------------------------------------------------
-implementation
-//-------------------------------------------------------------
+implementation //=============================================================
 
 {$R *.dfm}
 
@@ -151,8 +149,6 @@ begin
   DoOnChange;
 end;
 
-// CBMagFilterChange
-//
 procedure TRTextureEdit.CBMagFilterChange(Sender: TObject);
 begin
   FTexture.MagFilter := TGLMagFilter(CBMagFilter.ItemIndex);

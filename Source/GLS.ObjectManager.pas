@@ -1,8 +1,7 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.ObjectManager;
-
 (*
   The object manager is used for registering classes together with a category,
   description + icon, so that they can be displayed visually.  This can then
@@ -12,7 +11,6 @@ unit GLS.ObjectManager;
   TODO: add some notification code, so that when a scene object is registered/
   unregistered, any editor that is using the object manager can be notified.
 *)
-
 interface
 
 {$I Stage.Defines.inc}
@@ -79,9 +77,7 @@ type
     property ObjectRootIndex: Integer read FObjectRootIndex;
   end;
 
-// ------------------------------------------------------------------
-implementation
-// ------------------------------------------------------------------
+implementation //==============================================================
 
 constructor TGLObjectManager.Create(AOwner: TComponent);
 begin
@@ -376,9 +372,6 @@ begin
   end;
 end;
 
-// -------------------------------------------
-initialization
-
-// -------------------------------------------
+initialization //==============================================================
 
 end.

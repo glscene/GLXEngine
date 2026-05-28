@@ -177,7 +177,7 @@
             <BuildOrder>0</BuildOrder>
         </CppCompile>
         <CppCompile Include="fсCursor.cpp">
-            <Form>Form1</Form>
+            <Form>FormCursor</Form>
             <FormType>dfm</FormType>
             <DependentOn>fсCursor.h</DependentOn>
             <BuildOrder>2</BuildOrder>

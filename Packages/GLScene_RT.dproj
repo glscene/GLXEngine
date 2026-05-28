@@ -408,6 +408,7 @@
         <DCCReference Include="..\Src\Stage.VectorGeometry.pas"/>
         <DCCReference Include="..\Src\Stage.VectorTypes.pas"/>
         <DCCReference Include="..\Src\Stage.VectorTypesExt.pas"/>
+        <DCCReference Include="..\Source\GLS.Terrainer.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
@@ -429,10 +430,7 @@
                     <Source Name="MainSource">GLScene_RT.dpk</Source>
                 </Source>
                 <Excluded_Packages>
-                    <Excluded_Packages Name="$(BDSBIN)\bcboffice2k370.bpl">Embarcadero C++Builder Office 2000 Servers Package</Excluded_Packages>
-                    <Excluded_Packages Name="$(BDSBIN)\bcbofficexp370.bpl">Embarcadero C++Builder Office XP Servers Package</Excluded_Packages>
-                    <Excluded_Packages Name="$(BDSBIN)\dcloffice2k370.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
-                    <Excluded_Packages Name="$(BDSBIN)\dclofficexp370.bpl">Microsoft Office XP Sample Automation Server Wrapper Components</Excluded_Packages>
+                    <Excluded_Packages Name="C:\Users\Public\Documents\Embarcadero\Studio\37.0\Bpl\Win64\GLScene_DT.bpl">GLScene Engine</Excluded_Packages>
                 </Excluded_Packages>
             </Delphi.Personality>
             <Platforms>

@@ -25,7 +25,7 @@
 #include "GLS.SceneViewer.hpp"
 #include "Stage.Utils.hpp"
 //---------------------------------------------------------------------------
-class TForm1 : public TForm
+class TFormCursor : public TForm
 {
 __published:	// IDE-managed Components
 	TBevel *Bevel1;
@@ -66,9 +66,9 @@ __published:	// IDE-managed Components
 private:	// User declarations
 	bool handleMouseMoves;
 public:		// User declarations
-	__fastcall TForm1(TComponent* Owner);
+	__fastcall TFormCursor(TComponent* Owner);
 };
 //---------------------------------------------------------------------------
-extern PACKAGE TForm1 *Form1;
+extern PACKAGE TFormCursor *FormCursor;
 //---------------------------------------------------------------------------
 #endif

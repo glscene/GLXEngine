@@ -24,7 +24,7 @@ program MemViewerD;
 
 uses
   Forms,
-  fMemViewerD in 'fMemViewerD.pas' {FormMemViewer};
+  fdMemViewer in 'fdMemViewer.pas' {FormMemViewer};
 
 {$R *.res}
 

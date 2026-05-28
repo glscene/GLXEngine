@@ -10,7 +10,7 @@ program PhongD;
 
 uses
   Forms,
-  fPhongD in 'fPhongD.pas' {Form1};
+  fdPhong in 'fdPhong.pas' {Form1};
 
 {$R *.res}
 

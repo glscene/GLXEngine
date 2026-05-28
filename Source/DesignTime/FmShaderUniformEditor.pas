@@ -1,10 +1,10 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit FmShaderUniformEditor;
-
-(* Uniform editor for shaders *)
-
+(*
+  Uniform editor for shaders
+*)
 interface
 
 {$I Stage.Defines.inc}

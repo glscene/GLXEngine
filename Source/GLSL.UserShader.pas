@@ -1,16 +1,14 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLSL.UserShader;
-
 (*
    A shader that passes control of the DoApply and DoUnApply
-   methods through published events. This component is 
-   designed to make it a little easier to implement a 
+   methods through published events. This component is
+   designed to make it a little easier to implement a
    customized shader. Be sure to keep the shader balanced
-   by returning the OpenGL state to how you found it. 
+   by returning the OpenGL state to how you found it.
 *)
-
 interface
 
 uses
@@ -37,9 +35,7 @@ type
       property ShaderStyle;
   end;
 
-// ------------------------------------------------------------------
-implementation
-// ------------------------------------------------------------------
+implementation //==============================================================
 
 // ------------------
 // ------------------ TGLUserShader ------------------

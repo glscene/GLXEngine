@@ -1,10 +1,10 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit FmVectorEditor;
-
-(* Editor for a vector *)
-
+(*
+  Editor for a vector
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -72,9 +72,7 @@ type
 function GLVectorEditorForm: TGLVectorEditorForm;
 procedure ReleaseVectorEditorForm;
 
-// ------------------------------------------------------------------
-implementation
-// ------------------------------------------------------------------
+implementation //==============================================================
 
 {$R *.dfm}
 
@@ -229,9 +227,7 @@ begin
   EDz.Text := FloatToStr(v.z);
 end;
 
-// ------------------------------------------------------------------
-initialization
-// ------------------------------------------------------------------
+initialization //==============================================================
 
 finalization
 

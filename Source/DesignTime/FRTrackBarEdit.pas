@@ -1,11 +1,10 @@
-//
-// GLScene Graphics Engine
-//
-{
-   Frame combining a TrackBar and an Edit. 
-}
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit FRTrackBarEdit;
-
+(*
+   Frame combining a TrackBar and an Edit
+*)
 interface
 
 {$I Stage.Defines.inc}

@@ -1,8 +1,7 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.SpaceText;
-
 (*
   3D Text component.
 
@@ -12,7 +11,6 @@ unit GLS.SpaceText;
 
   Also extents are valid only when SpaceText has one line.
 *)
-
 interface
 
 {$I Stage.Defines.inc}
@@ -32,11 +30,11 @@ uses
 
   Stage.VectorTypes,
   Stage.OpenGLTokens,
+  Stage.VectorGeometry,
+  Stage.Strings,
   GLS.Scene,
   GLS.Texture,
   GLS.Context,
-  Stage.VectorGeometry,
-  Stage.Strings,
   GLS.RenderContextInfo,
   GLS.State;
 
@@ -177,9 +175,7 @@ procedure ReleaseFontManager;
 var
   vFontManagerMsgID: Cardinal;
 
-// ------------------------------------------------------------------
-implementation
-// ------------------------------------------------------------------
+implementation //==============================================================
 
 const
   cFontManagerMsg = 'FontManagerMessage';
@@ -845,9 +841,7 @@ begin
     TObject(Clients[i]).DefaultHandler(hMsg);
 end;
 
-// -------------------------------------------------------------
-initialization
-// -------------------------------------------------------------
+initialization //==============================================================
 
 vFontManagerMsgID := RegisterWindowMessage(cFontManagerMsg);
 RegisterClass(TGLSpaceText);

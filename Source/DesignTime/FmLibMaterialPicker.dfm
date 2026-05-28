@@ -180,6 +180,8 @@ object GLLibMaterialPickerForm: TGLLibMaterialPickerForm
       end
       object Sphere1: TGLSphere
         Radius = 1.000000000000000000
+        Slices = 16
+        Stacks = 16
       end
       object Teapot1: TGLTeapot
         Position.Coordinates = {00000000000000BF000000000000803F}
@@ -197,6 +199,8 @@ object GLLibMaterialPickerForm: TGLLibMaterialPickerForm
       object FireSphere1: TGLSphere
         Visible = False
         Radius = 0.500000000000000000
+        Slices = 16
+        Stacks = 16
       end
     end
     object Camera1: TGLCamera

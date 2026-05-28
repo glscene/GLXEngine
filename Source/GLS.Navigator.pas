@@ -1,10 +1,10 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.Navigator;
-
-(* Unit for navigating GLBaseObjects and GLSceneViewer. *)
-
+(*
+  Unit for navigating GLBaseObjects in GLSceneViewer
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -185,9 +185,7 @@ type
 var
   sW2, sH2: integer;
 
-// -------------------------------------------------------------
-implementation
-// -------------------------------------------------------------
+implementation //==============================================================
 
 constructor TGLNavigator.Create(AOwner: TComponent);
 begin
@@ -942,9 +940,7 @@ begin
     FHud.Position.SetPoint(FViewer.Width - 80, 50, 0);
 end;
 
-// ------------------------------------------------
-initialization
-// ------------------------------------------------
+initialization //==============================================================
 
 sW2 := Screen.Width div 2;
 sH2 := Screen.Height div 2;

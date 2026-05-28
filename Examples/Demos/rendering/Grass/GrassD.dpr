@@ -2,7 +2,7 @@ program GrassD;
 
 uses
   Forms,
-  fGrassD in 'fGrassD.pas' {FormGrass};
+  fdGrass in 'fdGrass.pas' {FormGrass};
 
 {$R *.res}
 

@@ -1,14 +1,12 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.TerrainRenderer;
-
 (*
   Brute-force terrain renderer.
   NOTA : multi-materials terrain support is not yet optimized to minimize
   texture switches (in case of resued tile textures).
 *)
-
 interface
 
 {$I Stage.Defines.inc}
@@ -213,9 +211,7 @@ type
       write FContourWidth default 1;
   end;
 
-// ------------------------------------------------------------------
-implementation
-// ------------------------------------------------------------------
+implementation //==============================================================
 
 function HashKey(const XLeft, YTop: Integer): Integer;
 begin
@@ -1054,9 +1050,7 @@ begin
   end;
 end;
 
-// ------------------------------------------------------------------
-initialization
-// ------------------------------------------------------------------
+initialization //==============================================================
 
 RegisterClass(TGLTerrainRenderer);
 

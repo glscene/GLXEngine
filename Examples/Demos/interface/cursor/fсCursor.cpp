@@ -18,14 +18,14 @@
 #pragma link "GLS.Scene"
 #pragma link "GLS.SceneViewer"
 #pragma resource "*.dfm"
-TForm1 *Form1;
+TFormCursor *FormCursor;
 //---------------------------------------------------------------------------
-__fastcall TForm1::TForm1(TComponent* Owner)
+__fastcall TFormCursor::TFormCursor(TComponent* Owner)
 	: TForm(Owner)
 {
 }
 //---------------------------------------------------------------------------
-void __fastcall TForm1::FormCreate(TObject *Sender)
+void __fastcall TFormCursor::FormCreate(TObject *Sender)
 {
    TFileName Path = GetCurrentAssetPath();
    SetCurrentDir(Path  + "\\button");
@@ -35,7 +35,7 @@ void __fastcall TForm1::FormCreate(TObject *Sender)
    GLMaterialLibrary1->Materials->Items[0]->Material->Texture->Image->LoadFromFile("cursor.bmp");
 }
 //---------------------------------------------------------------------------
-void __fastcall TForm1::MILoadImageClick(TObject *Sender)
+void __fastcall TFormCursor::MILoadImageClick(TObject *Sender)
 {
    if (OpenPictureDialog1->Execute())
    {
@@ -52,7 +52,7 @@ void __fastcall TForm1::MILoadImageClick(TObject *Sender)
    }
 }
 //---------------------------------------------------------------------------
-void __fastcall TForm1::GLSceneViewer1MouseMove(TObject *Sender, TShiftState Shift,
+void __fastcall TFormCursor::GLSceneViewer1MouseMove(TObject *Sender, TShiftState Shift,
           int X, int Y)
 {
    TColor color;
@@ -73,19 +73,19 @@ void __fastcall TForm1::GLSceneViewer1MouseMove(TObject *Sender, TShiftState Shi
    GLCadencer1->Progress();
 }
 //---------------------------------------------------------------------------
-void __fastcall TForm1::GLSceneViewer1AfterRender(TObject *Sender)
+void __fastcall TFormCursor::GLSceneViewer1AfterRender(TObject *Sender)
 {
   handleMouseMoves = true;
 }
 //---------------------------------------------------------------------------
-void __fastcall TForm1::GLCadencer1Progress(TObject *Sender, const double deltaTime,
+void __fastcall TFormCursor::GLCadencer1Progress(TObject *Sender, const double deltaTime,
 		  const double newTime)
 {
    GLSceneViewer1->Invalidate();
 }
 //---------------------------------------------------------------------------
 
-void __fastcall TForm1::HSParticleProgress(TObject *Sender, const double deltaTime,
+void __fastcall TFormCursor::HSParticleProgress(TObject *Sender, const double deltaTime,
 		  const double newTime)
 {
 	  // decrease life time / alpha
@@ -97,7 +97,7 @@ void __fastcall TForm1::HSParticleProgress(TObject *Sender, const double deltaTi
 	  HSParticle->AlphaChannel = HSParticle->TagFloat*0.2;
 }
 //---------------------------------------------------------------------------
-void __fastcall TForm1::GLParticles1ActivateParticle(TObject *Sender, TGLBaseSceneObject *particle)
+void __fastcall TFormCursor::GLParticles1ActivateParticle(TObject *Sender, TGLBaseSceneObject *particle)
 {
 //   with (particle as TGLHUDSprite) do begin
 	  // we are cadencing real-time, so these are 5 seconds
@@ -106,7 +106,7 @@ void __fastcall TForm1::GLParticles1ActivateParticle(TObject *Sender, TGLBaseSce
 	  particle->Position->AsVector = HSCursor->Position->AsVector;
 }
 //---------------------------------------------------------------------------
-void __fastcall TForm1::Timer1Timer(TObject *Sender)
+void __fastcall TFormCursor::Timer1Timer(TObject *Sender)
 {
    // update FPS and sprite count
    miFPS->Caption = Format("%.1f FPS - %d Cursor Sprites",
@@ -114,15 +114,14 @@ void __fastcall TForm1::Timer1Timer(TObject *Sender)
    GLSceneViewer1->ResetPerformanceMonitor();
 }
 //---------------------------------------------------------------------------
-void __fastcall TForm1::MITrailClick(TObject *Sender)
+void __fastcall TFormCursor::MITrailClick(TObject *Sender)
 {
    // turn trails on/off
    MITrail->Checked = !MITrail->Checked;
 }
 //---------------------------------------------------------------------------
-void __fastcall TForm1::MIExitClick(TObject *Sender)
+void __fastcall TFormCursor::MIExitClick(TObject *Sender)
 {
   Close();
-
 }
 //---------------------------------------------------------------------------

@@ -10,7 +10,7 @@
 
 #include <vcl.h>
 #pragma hdrstop
-USEFORM("fPhongC.cpp", Form1);
+USEFORM("fcPhong.cpp", Form1);
 //---------------------------------------------------------------------------
 WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 {

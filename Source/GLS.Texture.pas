@@ -1,5 +1,5 @@
 //
-// The GaLaXy Engine graphics. The unit of GLScene
+// GLScene Graphics Engine
 //
 unit GLS.Texture;
 (* 

@@ -5,7 +5,7 @@ program MultiTexturesD;
 
 uses
   Forms,
-  fMultiTexturesD in 'fMultiTexturesD.pas' {FormMultiSampleTextures};
+  fdMultiTextures in 'fdMultiTextures.pas' {FormMultiSampleTextures};
 
 {$R *.res}
 

@@ -293,7 +293,6 @@ object GLSceneEditorForm: TGLSceneEditorForm
       Indent = 19
       TabOrder = 0
       OnChange = TreeAllChange
-      ExplicitHeight = 471
     end
   end
   object PATree: TPanel
@@ -324,8 +323,6 @@ object GLSceneEditorForm: TGLSceneEditorForm
       OnKeyDown = TreeKeyDown
       OnMouseDown = TreeMouseDown
       OnMouseMove = TreeMouseMove
-      ExplicitWidth = 275
-      ExplicitHeight = 248
     end
     object PABehaviours: TPanel
       Left = 1

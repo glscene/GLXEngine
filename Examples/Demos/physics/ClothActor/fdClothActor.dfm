@@ -37,6 +37,7 @@ object FormClothActor: TFormClothActor
     Height = 17
     Caption = 'Show Octree'
     TabOrder = 1
+    OnClick = cbShowOctreeClick
   end
   object StaticTextFPS: TStaticText
     Left = 16
@@ -120,7 +121,6 @@ object FormClothActor: TFormClothActor
       end
     end
     object OctreeRenderer: TGLDirectOpenGL
-      Visible = False
       OnProgress = GLCadencer1Progress
       UseBuildList = False
       OnRender = OctreeRendererRender

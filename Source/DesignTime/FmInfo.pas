@@ -1,10 +1,10 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit FmInfo;
-
-(* Informations on OpenGL driver and contributions *)
-
+(*
+  Informations about OpenGL drivers and contributions
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -25,11 +25,11 @@ uses
   Vcl.Imaging.jpeg,
 
   Stage.OpenGLTokens,
+  Stage.Utils,
   GLS.OpenGLAdapter,
   GLS.Scene,
   GLS.SceneViewer,
-  GLS.Context,
-  Stage.Utils;
+  GLS.Context;
 
 type
 
@@ -128,9 +128,7 @@ type
     procedure GetInfoFrom(aSceneBuffer: TGLSceneBuffer);
   end;
 
-//======================================================================
-implementation
-//======================================================================
+implementation //=============================================================
 
 {$R *.dfm}
 

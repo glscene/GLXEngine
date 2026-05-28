@@ -14,7 +14,7 @@ program BlurD;
 
 uses
   Forms,
-  fBlurD in 'fBlurD.pas' {FormBlur};
+  fdBlur in 'fdBlur.pas' {FormBlur};
 
 {$R *.res}
 

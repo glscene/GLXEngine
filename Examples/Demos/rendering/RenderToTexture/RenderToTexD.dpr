@@ -5,7 +5,7 @@ program RenderToTexD;
 
 uses
   Forms,
-  fRenderToTexD in 'fRenderToTexD.pas' {Form1};
+  fdRenderToTex in 'fdRenderToTex.pas' {Form1};
 
 {$R *.res}
 
