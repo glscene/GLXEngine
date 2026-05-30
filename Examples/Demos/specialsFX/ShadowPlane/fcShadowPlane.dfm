@@ -1,60 +1,42 @@
-object Form1: TForm1
+object FormShadowPlane: TFormShadowPlane
   Left = 0
   Top = 0
-  Margins.Left = 5
-  Margins.Top = 5
-  Margins.Right = 5
-  Margins.Bottom = 5
   Caption = 'Shadow Plane'
-  ClientHeight = 774
-  ClientWidth = 1108
+  ClientHeight = 527
+  ClientWidth = 747
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
-  Font.Height = -19
+  Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
   Position = poScreenCenter
-  WindowState = wsMaximized
   OnCreate = FormCreate
-  PixelsPerInch = 168
-  TextHeight = 23
+  TextHeight = 13
   object GLSceneViewer1: TGLSceneViewer
     Left = 0
     Top = 0
-    Width = 1108
-    Height = 774
-    Margins.Left = 5
-    Margins.Top = 5
-    Margins.Right = 5
-    Margins.Bottom = 5
+    Width = 747
+    Height = 527
     Camera = GLCamera1
     Buffer.BackgroundColor = 8421440
     Buffer.ContextOptions = [roDoubleBuffer, roStencilBuffer, roRenderToWindow]
-    FieldOfView = 165.276458740234400000
+    FieldOfView = 158.511352539062500000
     PenAsTouch = False
     Align = alClient
     TabOrder = 0
   end
   object Panel1: TPanel
-    Left = 14
-    Top = 14
-    Width = 212
-    Height = 100
-    Margins.Left = 5
-    Margins.Top = 5
-    Margins.Right = 5
-    Margins.Bottom = 5
+    Left = 8
+    Top = 8
+    Width = 121
+    Height = 57
     TabOrder = 1
     object CBShadows: TCheckBox
-      Left = 28
-      Top = 14
-      Width = 170
-      Height = 30
-      Margins.Left = 5
-      Margins.Top = 5
-      Margins.Right = 5
-      Margins.Bottom = 5
+      Left = 16
+      Top = 8
+      Width = 97
+      Height = 17
       Caption = 'Shadows'
       Checked = True
       State = cbChecked
@@ -62,14 +44,10 @@ object Form1: TForm1
       OnClick = CBShadowsClick
     end
     object CBStencil: TCheckBox
-      Left = 28
-      Top = 56
-      Width = 170
-      Height = 30
-      Margins.Left = 5
-      Margins.Top = 5
-      Margins.Right = 5
-      Margins.Bottom = 5
+      Left = 16
+      Top = 32
+      Width = 97
+      Height = 17
       Caption = 'Stencil Buffer'
       Checked = True
       State = cbChecked
@@ -90,6 +68,8 @@ object Form1: TForm1
       object Sphere1: TGLSphere
         Position.Coordinates = {000000000000803F0000C0BF0000803F}
         Radius = 0.200000002980232200
+        Slices = 16
+        Stacks = 16
       end
       object Torus1: TGLTorus
         Direction.Coordinates = {00000000B28F703F441DAF3E00000000}
@@ -125,7 +105,6 @@ object Form1: TForm1
       object GLCamera1: TGLCamera
         DepthOfView = 100.000000000000000000
         FocalLength = 50.000000000000000000
-        SceneScale = 2.000000000000000000
         TargetObject = DCCameraTarget
         Position.Coordinates = {0000A04000008040000040400000803F}
       end
@@ -187,13 +166,10 @@ object Form1: TForm1
         Name = 'Marble'
         Tag = 0
         Material.FrontProperties.Emission.Color = {CDCC4C3ECDCC4C3ECDCC4C3E0000803F}
-        Material.Texture.ImageClassName = 'TGLPicFileImage'
-        Material.Texture.Image.PictureFileName = 'BeigeMarble.jpg'
         Material.Texture.TextureMode = tmModulate
         Material.Texture.Disabled = False
         TextureScale.Coordinates = {0000003F0000003F0000803F00000000}
       end>
-    TexturePaths = '..\\..\\..\\..\\media'
     Left = 192
     Top = 8
   end

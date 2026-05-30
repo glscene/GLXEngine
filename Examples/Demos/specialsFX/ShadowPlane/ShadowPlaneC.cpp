@@ -1,10 +1,12 @@
-//---------------------------------------------------------------------------
 
+/*****************************************************************************
+						  GLScene Graphics Engine
+******************************************************************************/
 #include <vcl.h>
 #pragma hdrstop
 #include <tchar.h>
 //---------------------------------------------------------------------------
-USEFORM("fShadowPlaneC.cpp", Form1);
+USEFORM("fcShadowPlane.cpp", FormShadowPlane);
 //---------------------------------------------------------------------------
 int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 {
@@ -12,7 +14,7 @@ int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 	{
 		Application->Initialize();
 		Application->MainFormOnTaskBar = true;
-		Application->CreateForm(__classid(TForm1), &Form1);
+		Application->CreateForm(__classid(TFormShadowPlane), &FormShadowPlane);
 		Application->Run();
 	}
 	catch (Exception &exception)

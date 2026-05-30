@@ -1,11 +1,13 @@
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
+program ShadowsD;
 (*
   Shadow casting with GLzBuffer by Rene Lindsay.
 *)
-program ShadowsD;
-
 uses
   Forms,
-  fShadowsD in 'fShadowsD.pas' {FormShadows};
+  fdShadows in 'fdShadows.pas' {FormShadows};
 
 {$R *.RES}
 

@@ -1,3 +1,7 @@
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
+program ShadowPlaneD;
 (* Simple projective shadows.
 
    The TGLShadowPlane component allows to render simple projective shadows.
@@ -14,11 +18,9 @@
    is computed per-vertex, this changes increase drastically the number of
    vertices that make up the planes, thus allowing for better lighting.
 *)
-program ShadowPlaneD;
-
 uses
   Forms,
-  fShadowPlaneD in 'fShadowPlaneD.pas' {FormShadowPlane};
+  fdShadowPlane in 'fdShadowPlane.pas' {FormShadowPlane};
 
 {$R *.res}
 

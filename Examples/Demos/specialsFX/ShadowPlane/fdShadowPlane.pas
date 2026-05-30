@@ -1,4 +1,4 @@
-unit fShadowPlaneD;
+unit fdShadowPlane;
 
 interface
 
@@ -14,19 +14,18 @@ uses
   Vcl.ExtCtrls,
   Vcl.Imaging.Jpeg,
 
+  Stage.VectorGeometry,
+  Stage.Utils,
   GLS.ShadowPlane,
   GLS.Scene,
   GLS.SceneViewer,
   GLS.Objects,
   GLS.Cadencer,
-  Stage.VectorGeometry,
   GLS.Texture,
   GLS.GeomObjects,
- 
   GLS.Material,
   GLS.Coordinates,
-  GLS.BaseClasses,
-  Stage.Utils;
+  GLS.BaseClasses;
 
 type
   TFormShadowPlane = class(TForm)
@@ -57,18 +56,17 @@ type
     procedure CBShadowsClick(Sender: TObject);
     procedure CBStencilClick(Sender: TObject);
   private
-     
   public
-     
   end;
 
 var
   FormShadowPlane: TFormShadowPlane;
 
-implementation
+implementation //============================================================
 
 {$R *.dfm}
 
+//---------------------------------------------------------------------------
 procedure TFormShadowPlane.FormCreate(Sender: TObject);
 begin
   var Path: TFileName := GetCurrentAssetPath();
@@ -78,6 +76,7 @@ begin
   GLMaterialLibrary.Materials[0].Material.Texture.Image.LoadFromFile('BeigeMarble.jpg');
 end;
 
+//---------------------------------------------------------------------------
 procedure TFormShadowPlane.GLCadencer1Progress(Sender: TObject; const deltaTime,
   newTime: Double);
 begin
@@ -85,6 +84,7 @@ begin
    DCShadowing.TurnAngle:=newTime*10;
 end;
 
+//---------------------------------------------------------------------------
 procedure TFormShadowPlane.CBShadowsClick(Sender: TObject);
 begin
    if CBShadows.Checked then
@@ -94,6 +94,7 @@ begin
    GLShadowPlane3.ShadowedLight:=GLShadowPlane1.ShadowedLight;
 end;
 
+//---------------------------------------------------------------------------
 procedure TFormShadowPlane.CBStencilClick(Sender: TObject);
 begin
    if CBStencil.Checked then
@@ -103,6 +104,7 @@ begin
    GLShadowPlane3.ShadowOptions:=GLShadowPlane1.ShadowOptions;
 end;
 
+//---------------------------------------------------------------------------
 procedure TFormShadowPlane.Timer1Timer(Sender: TObject);
 begin
    Caption := 'Shadow Plane - ' + Format('%.1f FPS',
@@ -110,4 +112,5 @@ begin
    GLSceneViewer1.ResetPerformanceMonitor;
 end;
 
+//---------------------------------------------------------------------------
 end.

@@ -1,14 +1,12 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.zBuffer;
-
 (*
-   ZBuffer retrieval and computations. 
+   ZBuffer retrieval and computations.
    See readme.txt in the Demos/SpecialsFX/Shadows directory.
-   By René Lindsay. 
+   By René Lindsay.
 *)
-
    //--------These formulas are the key to making use of the z-Buffer--------
    //
    // dst (d): world distance
@@ -178,9 +176,7 @@ type
     function CastShadow: boolean;
   end;
 
-//--------------------------------------------------------------------
-implementation
-//--------------------------------------------------------------------
+implementation //==============================================================
 
 constructor TGLzBuffer.Create;
 begin

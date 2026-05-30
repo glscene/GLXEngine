@@ -1,83 +1,70 @@
 object FormShadows: TFormShadows
   Left = 135
   Top = 57
+  Margins.Left = 2
+  Margins.Top = 2
+  Margins.Right = 2
+  Margins.Bottom = 2
   AutoSize = True
   Caption = 'Shadows'
-  ClientHeight = 551
-  ClientWidth = 691
+  ClientHeight = 441
+  ClientWidth = 553
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
-  Font.Height = -14
+  Font.Height = -11
   Font.Name = 'MS Sans Serif'
   Font.Style = []
   OnCreate = FormCreate
-  PixelsPerInch = 120
-  TextHeight = 16
+  TextHeight = 13
   object Label1: TLabel
     Left = 0
     Top = 0
-    Width = 341
-    Height = 16
-    Margins.Left = 4
-    Margins.Top = 4
-    Margins.Right = 4
-    Margins.Bottom = 4
+    Width = 273
+    Height = 13
     Alignment = taCenter
     AutoSize = False
     Caption = 'Main View'
     Color = 16099723
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
-    Font.Height = -14
+    Font.Height = -11
     Font.Name = 'MS Sans Serif'
     Font.Style = [fsBold]
     ParentColor = False
     ParentFont = False
   end
   object Label2: TLabel
-    Left = 350
+    Left = 280
     Top = 0
-    Width = 341
-    Height = 16
-    Margins.Left = 4
-    Margins.Top = 4
-    Margins.Right = 4
-    Margins.Bottom = 4
+    Width = 273
+    Height = 13
     Alignment = taCenter
     AutoSize = False
     Caption = 'Lightsource Point of view'
     Color = 16099723
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
-    Font.Height = -14
+    Font.Height = -11
     Font.Name = 'MS Sans Serif'
     Font.Style = [fsBold]
     ParentColor = False
     ParentFont = False
   end
   object Panel2: TPanel
-    Left = 350
-    Top = 20
-    Width = 341
-    Height = 341
-    Margins.Left = 4
-    Margins.Top = 4
-    Margins.Right = 4
-    Margins.Bottom = 4
+    Left = 280
+    Top = 16
+    Width = 273
+    Height = 273
     TabOrder = 0
     object Caster: TGLSceneViewer
-      Left = 10
-      Top = 10
-      Width = 320
-      Height = 320
-      Margins.Left = 4
-      Margins.Top = 4
-      Margins.Right = 4
-      Margins.Bottom = 4
+      Left = 8
+      Top = 8
+      Width = 256
+      Height = 256
       Camera = GLCamera2
       Buffer.FaceCulling = False
-      FieldOfView = 145.291946411132800000
+      FieldOfView = 137.326278686523400000
       PenAsTouch = False
       OnMouseDown = CasterMouseDown
       OnMouseMove = CasterMouseMove
@@ -87,25 +74,17 @@ object FormShadows: TFormShadows
   end
   object Panel1: TPanel
     Left = 0
-    Top = 20
-    Width = 341
-    Height = 341
-    Margins.Left = 4
-    Margins.Top = 4
-    Margins.Right = 4
-    Margins.Bottom = 4
+    Top = 16
+    Width = 273
+    Height = 273
     TabOrder = 1
     object Viewer: TGLSceneViewer
-      Left = 10
-      Top = 10
-      Width = 320
-      Height = 320
-      Margins.Left = 4
-      Margins.Top = 4
-      Margins.Right = 4
-      Margins.Bottom = 4
+      Left = 8
+      Top = 8
+      Width = 256
+      Height = 256
       Camera = GLCamera1
-      FieldOfView = 145.291946411132800000
+      FieldOfView = 137.326278686523400000
       PenAsTouch = False
       OnMouseDown = ViewerMouseDown
       OnMouseMove = ViewerMouseMove
@@ -115,58 +94,42 @@ object FormShadows: TFormShadows
   end
   object Panel3: TPanel
     Left = 0
-    Top = 370
-    Width = 341
-    Height = 51
-    Margins.Left = 4
-    Margins.Top = 4
-    Margins.Right = 4
-    Margins.Bottom = 4
+    Top = 296
+    Width = 273
+    Height = 41
     TabOrder = 2
     object Label4: TLabel
-      Left = 31
-      Top = 8
-      Width = 81
-      Height = 13
-      Margins.Left = 4
-      Margins.Top = 4
-      Margins.Right = 4
-      Margins.Bottom = 4
+      Left = 25
+      Top = 6
+      Width = 72
+      Height = 11
       Caption = 'Camera Distance'
       Font.Charset = ANSI_CHARSET
       Font.Color = clWindowText
-      Font.Height = -11
+      Font.Height = -9
       Font.Name = 'Small Fonts'
       Font.Style = []
       ParentFont = False
     end
     object TimeLbl: TLabel
-      Left = 285
-      Top = 34
-      Width = 23
-      Height = 13
-      Margins.Left = 4
-      Margins.Top = 4
-      Margins.Right = 4
-      Margins.Bottom = 4
+      Left = 228
+      Top = 27
+      Width = 21
+      Height = 11
       Caption = 'Time'
       Font.Charset = ANSI_CHARSET
       Font.Color = clWindowText
-      Font.Height = -11
+      Font.Height = -9
       Font.Name = 'Small Fonts'
       Font.Style = []
       ParentFont = False
     end
     object DistanceBar: TTrackBar
-      Left = 8
-      Top = 20
-      Width = 143
-      Height = 20
+      Left = 6
+      Top = 16
+      Width = 115
+      Height = 16
       Hint = 'Moves the main camera closer/further from the teapot'
-      Margins.Left = 4
-      Margins.Top = 4
-      Margins.Right = 4
-      Margins.Bottom = 4
       Max = 30
       Min = 1
       ParentShowHint = False
@@ -176,80 +139,60 @@ object FormShadows: TFormShadows
       ShowHint = True
       TabOrder = 0
       TabStop = False
-      ThumbLength = 13
+      ThumbLength = 10
       OnChange = DistanceBarChange
     end
     object CastBtn: TButton
-      Left = 260
-      Top = 10
-      Width = 71
-      Height = 21
+      Left = 208
+      Top = 8
+      Width = 57
+      Height = 17
       Hint = 
         'Measure the time it takes in s/100 to render the lightsource z-b' +
         'uffer, generate the shadow texture and render the main view. '
-      Margins.Left = 4
-      Margins.Top = 4
-      Margins.Right = 4
-      Margins.Bottom = 4
       Caption = 'Cast'
       TabOrder = 1
       OnClick = CastBtnClick
     end
   end
   object Panel4: TPanel
-    Left = 350
-    Top = 370
-    Width = 341
-    Height = 51
-    Margins.Left = 4
-    Margins.Top = 4
-    Margins.Right = 4
-    Margins.Bottom = 4
+    Left = 280
+    Top = 296
+    Width = 273
+    Height = 41
     TabOrder = 3
     object Label3: TLabel
-      Left = 31
-      Top = 8
-      Width = 81
-      Height = 13
-      Margins.Left = 4
-      Margins.Top = 4
-      Margins.Right = 4
-      Margins.Bottom = 4
+      Left = 25
+      Top = 6
+      Width = 72
+      Height = 11
       Caption = 'Camera Distance'
       Font.Charset = ANSI_CHARSET
       Font.Color = clWindowText
-      Font.Height = -11
+      Font.Height = -9
       Font.Name = 'Small Fonts'
       Font.Style = []
       ParentFont = False
     end
     object Label5: TLabel
-      Left = 241
-      Top = 8
-      Width = 29
-      Height = 13
-      Margins.Left = 4
-      Margins.Top = 4
-      Margins.Right = 4
-      Margins.Bottom = 4
+      Left = 193
+      Top = 6
+      Width = 27
+      Height = 11
       Caption = 'Focus'
       Font.Charset = ANSI_CHARSET
       Font.Color = clWindowText
-      Font.Height = -11
+      Font.Height = -9
       Font.Name = 'Small Fonts'
       Font.Style = []
       ParentFont = False
     end
     object DistanceBar2: TTrackBar
-      Left = 8
-      Top = 20
-      Width = 143
-      Height = 20
+      Left = 6
+      Top = 16
+      Width = 115
+      Height = 16
       Hint = 'Moves the light closer/further from the teapot.'
-      Margins.Left = 4
-      Margins.Top = 4
-      Margins.Right = 4
-      Margins.Bottom = 4
       Max = 30
       Min = 1
       ParentShowHint = False
@@ -259,21 +202,17 @@ object FormShadows: TFormShadows
       ShowHint = True
       TabOrder = 0
       TabStop = False
-      ThumbLength = 13
+      ThumbLength = 10
       OnChange = DistanceBar2Change
     end
     object Focal: TTrackBar
-      Left = 188
-      Top = 21
-      Width = 143
-      Height = 20
+      Left = 150
+      Top = 17
+      Width = 115
+      Height = 16
       Hint = 
         'Adjust the Focal length of the lightsource camera, to adjust the' +
         ' lightbeam width'
-      Margins.Left = 4
-      Margins.Top = 4
-      Margins.Right = 4
-      Margins.Bottom = 4
       Max = 300
       Min = 1
       ParentShowHint = False
@@ -282,29 +221,21 @@ object FormShadows: TFormShadows
       ShowHint = True
       TabOrder = 1
       TabStop = False
-      ThumbLength = 13
+      ThumbLength = 10
       OnChange = FocalChange
     end
   end
   object Panel5: TPanel
     Left = 0
-    Top = 430
-    Width = 151
-    Height = 121
-    Margins.Left = 4
-    Margins.Top = 4
-    Margins.Right = 4
-    Margins.Bottom = 4
+    Top = 344
+    Width = 121
+    Height = 97
     TabOrder = 4
     object FrustBox: TCheckBox
-      Left = 10
-      Top = 30
-      Width = 131
-      Height = 21
-      Margins.Left = 4
-      Margins.Top = 4
-      Margins.Right = 4
-      Margins.Bottom = 4
+      Left = 8
+      Top = 24
+      Width = 105
+      Height = 17
       Caption = 'Frustrum Shadow'
       Checked = True
       State = cbChecked
@@ -312,14 +243,10 @@ object FormShadows: TFormShadows
       OnClick = FrustBoxClick
     end
     object RotateBox: TCheckBox
-      Left = 10
-      Top = 90
-      Width = 131
-      Height = 21
-      Margins.Left = 4
-      Margins.Top = 4
-      Margins.Right = 4
-      Margins.Bottom = 4
+      Left = 8
+      Top = 72
+      Width = 105
+      Height = 17
       Caption = 'Rotate the Torus'
       Checked = True
       State = cbChecked
@@ -327,14 +254,10 @@ object FormShadows: TFormShadows
       OnClick = RotateBoxClick
     end
     object ShadowOnBox: TCheckBox
-      Left = 10
-      Top = 10
-      Width = 121
-      Height = 21
-      Margins.Left = 4
-      Margins.Top = 4
-      Margins.Right = 4
-      Margins.Bottom = 4
+      Left = 8
+      Top = 8
+      Width = 97
+      Height = 17
       Caption = 'Shadows On'
       Checked = True
       State = cbChecked
@@ -342,17 +265,13 @@ object FormShadows: TFormShadows
       OnClick = ShadowOnBoxClick
     end
     object SoftBox: TCheckBox
-      Left = 10
-      Top = 70
-      Width = 91
-      Height = 21
+      Left = 8
+      Top = 56
+      Width = 73
+      Height = 17
       Hint = 
         'Tests 4 pixels on the lightsource z-buffer, in stead of 1, to ca' +
         'lculate shadow brightness, and give soft edges to shadows.'
-      Margins.Left = 4
-      Margins.Top = 4
-      Margins.Right = 4
-      Margins.Bottom = 4
       Caption = 'Soft Edges'
       ParentShowHint = False
       ShowHint = True
@@ -360,59 +279,43 @@ object FormShadows: TFormShadows
       OnClick = SoftBoxClick
     end
     object SkyShadBox: TCheckBox
-      Left = 10
-      Top = 50
-      Width = 121
-      Height = 21
-      Margins.Left = 4
-      Margins.Top = 4
-      Margins.Right = 4
-      Margins.Bottom = 4
+      Left = 8
+      Top = 40
+      Width = 97
+      Height = 17
       Caption = 'Sky Shadow'
       TabOrder = 4
       OnClick = SkyShadBoxClick
     end
   end
   object Panel6: TPanel
-    Left = 540
-    Top = 430
-    Width = 151
-    Height = 121
-    Margins.Left = 4
-    Margins.Top = 4
-    Margins.Right = 4
-    Margins.Bottom = 4
+    Left = 432
+    Top = 344
+    Width = 121
+    Height = 97
     TabOrder = 5
     object Label9: TLabel
-      Left = 35
-      Top = 80
-      Width = 69
-      Height = 13
-      Margins.Left = 4
-      Margins.Top = 4
-      Margins.Right = 4
-      Margins.Bottom = 4
+      Left = 28
+      Top = 64
+      Width = 59
+      Height = 11
       Caption = 'Shadow Alpha'
       Font.Charset = ANSI_CHARSET
       Font.Color = clWindowText
-      Font.Height = -11
+      Font.Height = -9
       Font.Name = 'Small Fonts'
       Font.Style = []
       ParentFont = False
     end
     object FadeBox: TCheckBox
-      Left = 10
-      Top = 10
-      Width = 121
-      Height = 21
-      Margins.Left = 4
-      Margins.Top = 4
-      Margins.Right = 4
-      Margins.Bottom = 4
+      Left = 8
+      Top = 8
+      Width = 97
+      Height = 17
       Caption = 'Depth of view fade'
       Font.Charset = ANSI_CHARSET
       Font.Color = clWindowText
-      Font.Height = -11
+      Font.Height = -9
       Font.Name = 'Small Fonts'
       Font.Style = []
       ParentFont = False
@@ -422,15 +325,11 @@ object FormShadows: TFormShadows
       OnClick = FadeBoxClick
     end
     object dovBar: TTrackBar
-      Left = 3
-      Top = 26
-      Width = 143
-      Height = 20
+      Left = 2
+      Top = 21
+      Width = 115
+      Height = 16
       Hint = 'Adjust depth of view'
-      Margins.Left = 4
-      Margins.Top = 4
-      Margins.Right = 4
-      Margins.Bottom = 4
       Max = 100
       Min = 1
       ParentShowHint = False
@@ -441,19 +340,15 @@ object FormShadows: TFormShadows
       ShowHint = True
       TabOrder = 1
       TabStop = False
-      ThumbLength = 13
+      ThumbLength = 10
       OnChange = dovBarChange
     end
     object AlphaBar: TTrackBar
-      Left = 3
-      Top = 93
-      Width = 143
-      Height = 20
+      Left = 2
+      Top = 74
+      Width = 115
+      Height = 16
       Hint = 'Adjust the darkness of shadows'
-      Margins.Left = 4
-      Margins.Top = 4
-      Margins.Right = 4
-      Margins.Bottom = 4
       Max = 256
       Min = 1
       ParentShowHint = False
@@ -464,22 +359,18 @@ object FormShadows: TFormShadows
       ShowHint = True
       TabOrder = 2
       TabStop = False
-      ThumbLength = 13
+      ThumbLength = 10
       OnChange = AlphaBarChange
     end
   end
   object Memo1: TMemo
-    Left = 160
-    Top = 430
-    Width = 371
-    Height = 121
-    Margins.Left = 4
-    Margins.Top = 4
-    Margins.Right = 4
-    Margins.Bottom = 4
+    Left = 128
+    Top = 344
+    Width = 297
+    Height = 97
     Font.Charset = ANSI_CHARSET
     Font.Color = clWindowText
-    Font.Height = -11
+    Font.Height = -9
     Font.Name = 'Small Fonts'
     Font.Style = []
     Lines.Strings = (

@@ -1,4 +1,4 @@
-unit fShadowsD;
+unit fdShadows;
 
 interface
 
@@ -26,7 +26,7 @@ uses
   GLS.Graphics, 
   GLS.HUDObjects,
   GLS.zBuffer, 
-  GLS.Cadencer, 
+  GLS.Cadencer,
   GLS.AsyncTimer, 
   GLS.SceneViewer, 
   GLS.GeomObjects,
@@ -110,7 +110,7 @@ type
     procedure GLCadencer1Progress(Sender: TObject;
       const deltaTime, newTime: Double);
   private
-     
+
   public
     mx, my: Integer;
     mx2, my2: Integer;
@@ -120,26 +120,25 @@ type
 var
   FormShadows: TFormShadows;
 
-implementation
+implementation //============================================================
 
 {$R *.DFM}
 
+//---------------------------------------------------------------------------
 procedure TFormShadows.FormCreate(Sender: TObject);
 begin
   var Path: TFileName := GetCurrentAssetPath();
   SetCurrentDir(Path  + '\texture');
-
-  GLMaterialLibrary1.Materials[2].Material.texture.Image.loadFromFile
+  GLMaterialLibrary1.Materials[2].Material.texture.Image.LoadFromFile
     ('marbletiles.jpg');
-  GLMaterialLibrary1.Materials[2].Material.texture.disabled := false;
-
-  GLMaterialLibrary1.Materials[3].Material.texture.Image.loadFromFile
+  GLMaterialLibrary1.Materials[2].Material.texture.Disabled := False;
+  GLMaterialLibrary1.Materials[3].Material.texture.Image.LoadFromFile
     ('beigemarble.jpg');
-  GLMaterialLibrary1.Materials[3].Material.texture.disabled := false;
-
+  GLMaterialLibrary1.Materials[3].Material.texture.Disabled := False;
   RotateBoxClick(Sender);
 end;
 
+//---------------------------------------------------------------------------
 procedure TFormShadows.ViewerMouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
@@ -148,6 +147,7 @@ begin
   ActiveControl := DistanceBar;
 end;
 
+//---------------------------------------------------------------------------
 procedure TFormShadows.ViewerMouseMove(Sender: TObject; Shift: TShiftState;
   X, Y: Integer);
 begin
@@ -160,6 +160,7 @@ begin
   Caster.Refresh;
 end;
 
+//---------------------------------------------------------------------------
 procedure TFormShadows.CasterMouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
@@ -168,6 +169,7 @@ begin
   ActiveControl := DistanceBar2;
 end;
 
+//---------------------------------------------------------------------------
 procedure TFormShadows.CasterMouseMove(Sender: TObject; Shift: TShiftState;
   X, Y: Integer);
 begin
@@ -184,6 +186,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TFormShadows.DistanceBarChange(Sender: TObject);
 var
   Dist, NewDist: Single;
@@ -197,6 +200,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TFormShadows.DistanceBar2Change(Sender: TObject);
 var
   Dist, NewDist: Single;
@@ -212,6 +216,7 @@ begin
   Caster.Refresh;
 end;
 
+//---------------------------------------------------------------------------
 procedure TFormShadows.CastBtnClick(Sender: TObject);
 var
   RefTime: Double;
@@ -223,61 +228,72 @@ begin
     1000.00));
 end;
 
+//---------------------------------------------------------------------------
 procedure TFormShadows.ViewerMouseUp(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
   Viewer.Visible := True;
 end;
 
+//---------------------------------------------------------------------------
 procedure TFormShadows.CasterMouseUp(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
   Shadows1.CastShadow;
 end;
 
+//---------------------------------------------------------------------------
 procedure TFormShadows.FadeBoxClick(Sender: TObject);
 begin
   Shadows1.DepthFade := FadeBox.Checked;
 end;
 
+//---------------------------------------------------------------------------
 procedure TFormShadows.HeightField1GetHeight(const X, Y: Single; var z: Single;
   var color: TVector4f; var texPoint: TTexPoint);
 begin
   z := 0;
 end;
 
+//---------------------------------------------------------------------------
 procedure TFormShadows.FrustBoxClick(Sender: TObject);
 begin
   Shadows1.FrustShadow := FrustBox.Checked;
 end;
 
+//---------------------------------------------------------------------------
 procedure TFormShadows.AsyncTimer1Timer(Sender: TObject);
 begin
   Caption := 'Shadows ' + Format('%.2f FPS', [Viewer.FramesPerSecond]);
   Viewer.ResetPerformanceMonitor;
 end;
 
+//---------------------------------------------------------------------------
 procedure TFormShadows.RotateBoxClick(Sender: TObject);
 begin
   // AsyncTimer1.Enabled:=RotateBox.checked;
   GLCadencer1.Enabled := RotateBox.Checked;
 end;
 
+//---------------------------------------------------------------------------
 procedure TFormShadows.ShadowOnBoxClick(Sender: TObject);
 begin
   Shadows1.Visible := ShadowOnBox.Checked;
 end;
 
+//---------------------------------------------------------------------------
 procedure TFormShadows.SoftBoxClick(Sender: TObject);
 begin
   Shadows1.Soft := SoftBox.Checked;
 end;
 
+//---------------------------------------------------------------------------
 procedure TFormShadows.SkyShadBoxClick(Sender: TObject);
 begin
   Shadows1.SkyShadow := SkyShadBox.Checked;
 end;
 
+//---------------------------------------------------------------------------
 procedure TFormShadows.FocalChange(Sender: TObject);
 begin
   GLCamera2.FocalLength := Focal.Position;
@@ -287,6 +303,7 @@ begin
   Viewer.Refresh;
 end;
 
+//---------------------------------------------------------------------------
 procedure TFormShadows.dovBarChange(Sender: TObject);
 begin
   GLCamera2.DepthOfView := dovBar.Position;
@@ -296,15 +313,18 @@ begin
   Viewer.Refresh;
 end;
 
+//---------------------------------------------------------------------------
 procedure TFormShadows.AlphaBarChange(Sender: TObject);
 begin
   Shadows1.color.Alpha := AlphaBar.Position / 256;
 end;
 
+//---------------------------------------------------------------------------
 procedure TFormShadows.GLCadencer1Progress(Sender: TObject;
   const deltaTime, newTime: Double);
 begin
   Shadows1.CastShadow;
 end;
 
+//---------------------------------------------------------------------------
 end.

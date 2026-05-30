@@ -57,9 +57,9 @@ type
     DirectOpenGL: TGLDirectOpenGL;
     GLCadencer: TGLCadencer;
     Timer: TTimer;
-    sfMoon: TGLSphere;
+    sfLuna: TGLSphere;
     dcEarth: TGLDummyCube;
-    dcMoon: TGLDummyCube;
+    dcLuna: TGLDummyCube;
     LensFlareSun: TGLLensFlare;
     GLPlanetMaps: TGLMaterialLibrary;
     GLEarthCombiner: TGLTexCombineShader;
@@ -84,27 +84,10 @@ type
     miConstLines: TMenuItem;
     VirtPlanetSymbols: TVirtualImageList;
     PlanetSymbols: TImageCollection;
-    sfMercury: TGLSphere;
     dcSolarSystem: TGLDummyCube;
-    sfSun: TGLSphere;
-    sfVenus: TGLSphere;
-    sfMars: TGLSphere;
-    sfJupiter: TGLSphere;
-    sfSaturn: TGLSphere;
-    sfNeptune: TGLSphere;
-    sfUranus: TGLSphere;
-    sfPluto: TGLSphere;
-    sfCharon: TGLSphere;
-    sfEnceladus: TGLSphere;
-    sfTitan: TGLSphere;
-    sfIo: TGLSphere;
-    sfEuropa: TGLSphere;
-    sfCallisto: TGLSphere;
-    sfGanymede: TGLSphere;
-    sfDeimos: TGLSphere;
-    sfPhobos: TGLSphere;
     diskSaturnUp: TGLDisk;
     diskSaturnDn: TGLDisk;
+    sfGlobe: TGLSphere;
     procedure FormCreate(Sender: TObject);
     procedure DirectOpenGLRender(Sender: TObject; var rci: TGLRenderContextInfo);
     procedure TimerTimer(Sender: TObject);
@@ -123,6 +106,7 @@ type
     procedure miConstBoundariesClick(Sender: TObject);
     procedure Hide1Click(Sender: TObject);
     procedure Show1Click(Sender: TObject);
+    procedure FormShow(Sender: TObject);
   public
     ConstellationsAlpha: Single;
     TimeMultiplier: Single;
@@ -158,6 +142,7 @@ implementation //==============================================================
 
 {$R *.dfm}
 
+//-----------------------------------------------------------------------------
 procedure TFormEarth.FormCreate(Sender: TObject);
 begin
   Path := GetCurrentAssetPath();
@@ -177,8 +162,13 @@ begin
   SetCurrentDir(Path + '\map');
 end;
 
-//--------------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
+procedure TFormEarth.FormShow(Sender: TObject);
+begin
+   miConstLinesClick(Sender);
+end;
 
+//-----------------------------------------------------------------------------
 procedure TFormEarth.GLSceneViewerBeforeRender(Sender: TObject);
 begin
   LensFlareSun.PreRender(Sender as TGLSceneBuffer);
@@ -187,8 +177,7 @@ begin
   GLPlanetMaps.Materials[0].Texture2Name := 'earthNight';
 end;
 
-//--------------------------------------------------------------------------------
-
+//-----------------------------------------------------------------------------
 function TFormEarth.AtmosphereColor(const rayStart, rayEnd: TGLVector): TGLColorVector;
 var
   i, n: Integer;
@@ -234,7 +223,7 @@ begin
   Result.W := n * contrib * cOpacity * 0.1;
 end;
 
-//-----------------------------------------------------------------------
+//-----------------------------------------------------------------------------
 function TFormEarth.ComputeColor(var rayDest: TGLVector; mayHitGround: Boolean): TGLColorVector;
 var
   ai1, ai2, pi1, pi2: TGLVector;
@@ -262,9 +251,9 @@ begin
     Result := clrTransparent;
 end;
 
-//------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
 // DirectOpenGLRender for atmosphere
-//------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
 procedure TFormEarth.DirectOpenGLRender(Sender: TObject; var rci: TGLRenderContextInfo);
 
 const
@@ -359,9 +348,9 @@ begin
   FreeMem(pColor);
 end;
 
-//-------------------------------------------------
+//-----------------------------------------------------------------------------
 // Constellation Lines
-//-------------------------------------------------
+//-----------------------------------------------------------------------------
 procedure TFormEarth.LoadConstellationLines;
 var
   sl, line: TStrings;
@@ -384,12 +373,13 @@ begin
   line.Free;
 end;
 
-//----------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
 procedure TFormEarth.miConstLinesClick(Sender: TObject);
 begin
   ConstellationsAlpha := 0.5 - ConstellationsAlpha;
 end;
 
+//-----------------------------------------------------------------------------
 procedure TFormEarth.miConstBoundariesClick(Sender: TObject);
 begin
   ConstellationsAlpha := 0.5 - ConstellationsAlpha;
@@ -403,89 +393,96 @@ begin
   GLSceneViewer.ResetPerformanceMonitor;
 end;
 
-//---------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
 procedure TFormEarth.tvPlanetsClick(Sender: TObject);
 var
   I: Integer;
 begin
-  for I := 0 to dcSolarSystem.Count - 1 do
-    dcSolarSystem.Children[I].Visible := False;
+  diskSaturnUp.Visible := False;
+  diskSaturnDn.Visible := False;
+  Camera.MoveTo(dcSolarSystem); // sfEarth
+  Cameracontroller.MoveTo(dcSolarSystem); //sfEarth
+  Camera.TargetObject := sfEarth;
+  Cameracontroller.TargetObject := sfEarth;
+  LensFlareSun.Visible := True;
+
+//  for I := 0 to dcSolarSystem.Count - 1 do
+//    dcSolarSystem.Children[I].Visible := False;
   case tvPlanets.Selected.StateIndex of
-     0: begin
-          sfSun.Visible := True;
+     0: begin // star sun
+          sfGlobe.Material.LibMaterialName := 'sun';
+          LensFlareSun.Visible := False;
         end;
-     1: begin
-          sfMercury.Visible := True;
+     1: begin // planet mercury
+          sfGlobe.Material.LibMaterialName := 'mercury';
         end;
-     2: begin
-          sfVenus.Visible := True;
+     2: begin // planet venus
+          sfGlobe.Material.LibMaterialName := 'venus';
         end;
-     3: begin
-          Camera.MoveTo(sfEarth);
-          Cameracontroller.MoveTo(sfEarth);
-          Camera.TargetObject := sfEarth;
-          Cameracontroller.TargetObject := sfEarth;
+     3: begin // planet earth
+          sfGlobe.Material.LibMaterialName := 'earthDay';
         end;
-       4: begin
-            Camera.MoveTo(sfMoon);
-            Cameracontroller.MoveTo(sfMoon);
-            Camera.TargetObject := sfMoon;
-            Cameracontroller.TargetObject := sfMoon;
-          end;
-     5: begin
-          sfMars.Visible := True;
+     4: begin // moon Luna
+           sfLuna.Material.LibMaterialName := 'moon';
+           Camera.MoveTo(sfLuna);
+           Cameracontroller.MoveTo(sfLuna);
+           Camera.TargetObject := sfLuna;
+           Cameracontroller.TargetObject := sfLuna;
         end;
-     6: begin
+     5: begin // planet Mars
+          sfGlobe.Material.LibMaterialName := 'mars';
+        end;
+     6: begin // deimos
           // to be replaced with ffDeimos
-          sfDeimos.Visible := True;
+          sfGlobe.Material.LibMaterialName := 'deimos';
         end;
-     7: begin
+     7: begin // phobos
           // to be replaced with ffPhobos
-          sfPhobos.Visible := True;
+          sfGlobe.Material.LibMaterialName := 'phobos';
         end;
-     8: begin
-          sfJupiter.Visible := True;
+     8: begin // planet Jupiter
+          sfGlobe.Material.LibMaterialName := 'jupiter';
         end;
-     9: begin
-          sfIo.Visible := True;
+     9: begin // moon Io
+          sfGlobe.Material.LibMaterialName := 'io';
         end;
-     10: begin
-          sfEuropa.Visible := True;
+     10: begin // moon Europa
+          sfGlobe.Material.LibMaterialName := 'europa';
         end;
-     11: begin
-          sfCallisto.Visible := True;
+     11: begin // moon Callisto
+          sfGlobe.Material.LibMaterialName := 'callisto';
         end;
-     12: begin
-          sfGanymede.Visible := True;
+     12: begin // Ganymede
+          sfGlobe.Material.LibMaterialName := 'ganymede';
         end;
-     13: begin
+     13: begin // planet Saturn
+          sfGlobe.Material.LibMaterialName := 'saturn';
           // with rings
-          sfSaturn.Visible := True;
           diskSaturnUp.Visible := True;
           diskSaturnDn.Visible := True;
         end;
-     14: begin
-          sfEnceladus.Visible := True;
+     14: begin // moon Enceladus
+          sfGlobe.Material.LibMaterialName := 'enceladus';
         end;
-     15: begin
-          sfTitan.Visible := True;
+     15: begin // moon Titan
+          sfGlobe.Material.LibMaterialName := 'titan';
         end;
-     16: begin
-          sfUranus.Visible := True;
+     16: begin // planet Uranus
+          sfGlobe.Material.LibMaterialName := 'uranus';
         end;
-     17: begin
-          sfNeptune.Visible := True;
+     17: begin // planet Neptune
+          sfGlobe.Material.LibMaterialName := 'neptune';
         end;
-     18: begin
-          sfPluto.Visible := True;
+     18: begin // planet Pluto
+          sfGlobe.Material.LibMaterialName := 'pluto';
         end;
-     19: begin
-          sfCharon.Visible := True;
+     19: begin // moon Charon
+          sfGlobe.Material.LibMaterialName := 'charon';
         end;
   end;
 end;
 
-//--------------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
 procedure TFormEarth.GLCadencerProgress(Sender: TObject; const deltaTime, newTime: Double);
 var
   d : Double;
@@ -503,8 +500,8 @@ begin
    p := ComputePlanetPosition(cMoonOrbitalElements, d);
     ScaleVector(p, 0.5*cAUToKilometers*(1/cEarthRadius));
 
-  dcMoon.TurnAngle := dcMoon.TurnAngle + deltaTime * TimeMultiplier / 29.5;
-  sfMoon.TurnAngle := 180 - dcMoon.TurnAngle;
+  dcLuna.TurnAngle := dcLuna.TurnAngle + deltaTime * TimeMultiplier / 29.5;
+  sfLuna.TurnAngle := 180 - dcLuna.TurnAngle;
 
   // Honour camera movements
   if (dmy <> 0) or (dmx <> 0) then
@@ -531,7 +528,7 @@ begin
   end;
 end;
 
-//--------------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
 procedure TFormEarth.GLSceneViewerMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState;
   X, Y: Integer);
 begin
@@ -539,7 +536,7 @@ begin
   my := Y;
 end;
 
-//---------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
 procedure TFormEarth.GLSceneViewerMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
 begin
   if Shift = [ssLeft] then
@@ -553,18 +550,23 @@ begin
   my := Y;
 end;
 
-//---------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
 procedure TFormEarth.Hide1Click(Sender: TObject);
 begin
   PanelLeft.Visible := False;
+  dcEarth.Visible := False;
+  dcSolarSystem.Visible := False;
 end;
 
+//-----------------------------------------------------------------------------
 procedure TFormEarth.Show1Click(Sender: TObject);
 begin
   PanelLeft.Visible := True;
+  dcEarth.Visible := True;
+  dcSolarSystem.Visible := True;
 end;
 
-//--------------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
 procedure TFormEarth.FormMouseWheel(Sender: TObject; Shift: TShiftState; WheelDelta: Integer;
   MousePos: TPoint; var Handled: Boolean);
 var
@@ -578,7 +580,7 @@ begin
   Handled := True;
 end;
 
-//--------------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
 procedure TFormEarth.GLSceneViewerDblClick(Sender: TObject);
 begin
   GLSceneViewer.OnMouseMove := nil;
@@ -595,7 +597,7 @@ begin
   GLSceneViewer.OnMouseMove := GLSceneViewerMouseMove;
 end;
 
-//---------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
 procedure TFormEarth.LoadHighResTexture(LibMat: TGLLibMaterial; const FileName: string);
 begin
   if FileExists(FileName) then
@@ -605,7 +607,7 @@ begin
   end;
 end;
 
-//---------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
 procedure TFormEarth.FormKeyPress(Sender: TObject; var Key: Char);
 begin
   case Key of
@@ -613,10 +615,10 @@ begin
       FormEarth.Close;
     'm', 'M':
       begin
-        Camera.MoveTo(sfMoon);
-        Cameracontroller.MoveTo(sfMoon);
-        Camera.TargetObject := sfMoon;
-        Cameracontroller.TargetObject := sfMoon;
+        Camera.MoveTo(sfLuna);
+        Cameracontroller.MoveTo(sfLuna);
+        Camera.TargetObject := sfLuna;
+        Cameracontroller.TargetObject := sfLuna;
       end;
     'e', 'E':
       begin
@@ -646,10 +648,11 @@ begin
   end;
 end;
 
-//---------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
 procedure TFormEarth.Exit1Click(Sender: TObject);
 begin
   Close;
 end;
 
+//-----------------------------------------------------------------------------
 end.

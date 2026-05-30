@@ -3,7 +3,7 @@
 #include <vcl.h>
 #pragma hdrstop
 
-#include "fShadowsC.h"
+#include "fcShadows.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma link "GLS.AsyncTimer"
@@ -20,36 +20,32 @@
 #pragma link "GLS.SceneViewer"
 #pragma link "GLS.zBuffer"
 #pragma resource "*.dfm"
-TForm1 *Form1;
+TFormShadows *FormShadows;
 //---------------------------------------------------------------------------
-__fastcall TForm1::TForm1(TComponent* Owner)
+__fastcall TFormShadows::TFormShadows(TComponent* Owner)
 	: TForm(Owner)
 {
 }
 //---------------------------------------------------------------------------
-void __fastcall TForm1::FormCreate(TObject *Sender)
+void __fastcall TFormShadows::FormCreate(TObject *Sender)
 {
  TFileName Path = GetCurrentAssetPath();
  SetCurrentDir(Path  + "\\texture");
-
-
  GLMaterialLibrary1->Materials->Items[2]->Material->Texture->Image->LoadFromFile("marbletiles.jpg");
  GLMaterialLibrary1->Materials->Items[2]->Material->Texture->Disabled = false;
-
  GLMaterialLibrary1->Materials->Items[3]->Material->Texture->Image->LoadFromFile("beigemarble.jpg");
  GLMaterialLibrary1->Materials->Items[3]->Material->Texture->Disabled = false;
-
  RotateBoxClick(Sender);
 }
 //---------------------------------------------------------------------------
-void __fastcall TForm1::ViewerMouseDown(TObject *Sender, TMouseButton Button, TShiftState Shift,
+void __fastcall TFormShadows::ViewerMouseDown(TObject *Sender, TMouseButton Button, TShiftState Shift,
           int X, int Y)
 {
  mx = X; my = Y;
  ActiveControl = DistanceBar;
 }
 //---------------------------------------------------------------------------
-void __fastcall TForm1::ViewerMouseMove(TObject *Sender, TShiftState Shift, int X,
+void __fastcall TFormShadows::ViewerMouseMove(TObject *Sender, TShiftState Shift, int X,
 		  int Y)
 {
    if (Shift.Contains(ssLeft) || Shift.Contains(ssRight))
@@ -60,14 +56,14 @@ void __fastcall TForm1::ViewerMouseMove(TObject *Sender, TShiftState Shift, int 
    Caster->Refresh();
 }
 //---------------------------------------------------------------------------
-void __fastcall TForm1::CasterMouseDown(TObject *Sender, TMouseButton Button, TShiftState Shift,
+void __fastcall TFormShadows::CasterMouseDown(TObject *Sender, TMouseButton Button, TShiftState Shift,
 		  int X, int Y)
 {
  mx2 = X; my2 = Y;
  ActiveControl = DistanceBar2;
 }
 //---------------------------------------------------------------------------
-void __fastcall TForm1::CasterMouseMove(TObject *Sender, TShiftState Shift, int X,
+void __fastcall TFormShadows::CasterMouseMove(TObject *Sender, TShiftState Shift, int X,
 		  int Y)
 {
    if (Shift.Contains(ssLeft) || Shift.Contains(ssRight))
@@ -82,14 +78,14 @@ void __fastcall TForm1::CasterMouseMove(TObject *Sender, TShiftState Shift, int 
    }
 }
 //---------------------------------------------------------------------------
-void __fastcall TForm1::DistanceBarChange(TObject *Sender)
+void __fastcall TFormShadows::DistanceBarChange(TObject *Sender)
 {
   float Dist = GLCamera1->DistanceToTarget();
   float  NewDist = ((float)DistanceBar->Position/4)*((float)DistanceBar->Position/4)+1;
   GLCamera1->Position->AsAffineVector = VectorScale(GLCamera1->Position->AsAffineVector, (float)NewDist/Dist);
 }
 //---------------------------------------------------------------------------
-void __fastcall TForm1::DistanceBar2Change(TObject *Sender)
+void __fastcall TFormShadows::DistanceBar2Change(TObject *Sender)
 {
   float Dist = GLCamera2->DistanceToTarget();
   float  NewDist = ((float)DistanceBar2->Position/4)*((float)DistanceBar2->Position/4)+1;
@@ -98,7 +94,7 @@ void __fastcall TForm1::DistanceBar2Change(TObject *Sender)
   Caster->Refresh();
 }
 //---------------------------------------------------------------------------
-void __fastcall TForm1::CastBtnClick(TObject *Sender)
+void __fastcall TFormShadows::CastBtnClick(TObject *Sender)
 {
  double RefTime = GLCadencer1->GetCurrenttime();
  Shadows1->CastShadow();
@@ -107,65 +103,66 @@ void __fastcall TForm1::CastBtnClick(TObject *Sender)
 
 }
 //---------------------------------------------------------------------------
-void __fastcall TForm1::ViewerMouseUp(TObject *Sender, TMouseButton Button, TShiftState Shift,
+void __fastcall TFormShadows::ViewerMouseUp(TObject *Sender, TMouseButton Button, TShiftState Shift,
           int X, int Y)
 {
   Viewer->Visible = true;
 }
 //---------------------------------------------------------------------------
-void __fastcall TForm1::CasterMouseUp(TObject *Sender, TMouseButton Button, TShiftState Shift,
-          int X, int Y)
+void __fastcall TFormShadows::CasterMouseUp(TObject *Sender, TMouseButton Button, TShiftState Shift,
+		  int X, int Y)
 {
  Shadows1->CastShadow();
 }
 //---------------------------------------------------------------------------
-void __fastcall TForm1::FadeBoxClick(TObject *Sender)
+void __fastcall TFormShadows::FadeBoxClick(TObject *Sender)
 {
   Shadows1->DepthFade = FadeBox->Checked;
 }
-//---------------------------------------------------------------------------
 
-void __fastcall TForm1::HeightField1GetHeight(const float x, const float y, float &z,
-          TVector4f &Color, TTexPoint &TexPoint)
+//---------------------------------------------------------------------------
+void __fastcall TFormShadows::HeightField1GetHeight2(TObject *Sender, const float x, const float y,
+		  float &z, TGLColorVector &Color, TTexPoint &TexPoint)
 {
   z = 0;
 }
+
 //---------------------------------------------------------------------------
 
-void __fastcall TForm1::FrustBoxClick(TObject *Sender)
+void __fastcall TFormShadows::FrustBoxClick(TObject *Sender)
 {
   Shadows1->FrustShadow = FrustBox->Checked;
 }
 //---------------------------------------------------------------------------
-void __fastcall TForm1::AsyncTimer1Timer(TObject *Sender)
+void __fastcall TFormShadows::AsyncTimer1Timer(TObject *Sender)
 {
   Caption = "Shadows " + Format("%.2f FPS",
 	ARRAYOFCONST ((Viewer->FramesPerSecond())));
   Viewer->ResetPerformanceMonitor();
 }
 //---------------------------------------------------------------------------
-void __fastcall TForm1::RotateBoxClick(TObject *Sender)
+void __fastcall TFormShadows::RotateBoxClick(TObject *Sender)
 {
 //GLAsyncTimer1->Enabled =RotateBox->Checked;
   GLCadencer1->Enabled = RotateBox->Checked;
 }
 //---------------------------------------------------------------------------
-void __fastcall TForm1::ShadowOnBoxClick(TObject *Sender)
+void __fastcall TFormShadows::ShadowOnBoxClick(TObject *Sender)
 {
   Shadows1->Visible = ShadowOnBox->Checked;
 }
 //---------------------------------------------------------------------------
-void __fastcall TForm1::SoftBoxClick(TObject *Sender)
+void __fastcall TFormShadows::SoftBoxClick(TObject *Sender)
 {
  Shadows1->Soft = SoftBox->Checked;
 }
 //---------------------------------------------------------------------------
-void __fastcall TForm1::SkyShadBoxClick(TObject *Sender)
+void __fastcall TFormShadows::SkyShadBoxClick(TObject *Sender)
 {
  Shadows1->SkyShadow = SkyShadBox->Checked;
 }
 //---------------------------------------------------------------------------
-void __fastcall TForm1::FocalChange(TObject *Sender)
+void __fastcall TFormShadows::FocalChange(TObject *Sender)
 {
  GLCamera2->FocalLength = Focal->Position;
  MemView->Render();
@@ -175,7 +172,7 @@ void __fastcall TForm1::FocalChange(TObject *Sender)
 }
 //---------------------------------------------------------------------------
 
-void __fastcall TForm1::dovBarChange(TObject *Sender)
+void __fastcall TFormShadows::dovBarChange(TObject *Sender)
 {
  GLCamera2->DepthOfView = dovBar->Position;
  MemView->Render();
@@ -184,14 +181,15 @@ void __fastcall TForm1::dovBarChange(TObject *Sender)
  Viewer->Refresh();
 }
 //---------------------------------------------------------------------------
-void __fastcall TForm1::AlphaBarChange(TObject *Sender)
+void __fastcall TFormShadows::AlphaBarChange(TObject *Sender)
 {
   Shadows1->Color->Alpha = (float)AlphaBar->Position/256;
 }
 //---------------------------------------------------------------------------
-void __fastcall TForm1::GLCadencer1Progress(TObject *Sender, const double deltaTime,
-          const double newTime)
+void __fastcall TFormShadows::GLCadencer1Progress(TObject *Sender, const double deltaTime,
+		  const double newTime)
 {
    Shadows1->CastShadow();
 }
 //---------------------------------------------------------------------------
+

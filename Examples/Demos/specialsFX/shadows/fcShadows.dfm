@@ -1,4 +1,4 @@
-object Form1: TForm1
+object FormShadows: TFormShadows
   Left = 0
   Top = 0
   Caption = 'Shadows'
@@ -408,7 +408,7 @@ object Form1: TForm1
         YSamplingScale.Max = 1.000000000000000000
         YSamplingScale.Step = 0.070000000298023220
         Options = [hfoTextureCoordinates]
-        OnGetHeight = HeightField1GetHeight
+        OnGetHeight2 = HeightField1GetHeight2
       end
       object Cube1: TGLCube
         Material.MaterialLibrary = GLMaterialLibrary1

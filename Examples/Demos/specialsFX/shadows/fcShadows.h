@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 
-#ifndef fShadowsCH
-#define fShadowsCH
+#ifndef fcShadowsH
+#define fcShadowsH
 //---------------------------------------------------------------------------
 #include <tchar.h>
 #include <System.Classes.hpp>
@@ -28,7 +28,7 @@
 
 
 //---------------------------------------------------------------------------
-class TForm1 : public TForm
+class TFormShadows : public TForm
 {
 __published:	// IDE-managed Components
 	TLabel *Label1;
@@ -88,8 +88,6 @@ __published:	// IDE-managed Components
 	void __fastcall CasterMouseUp(TObject *Sender, TMouseButton Button, TShiftState Shift,
           int X, int Y);
 	void __fastcall FadeBoxClick(TObject *Sender);
-	void __fastcall HeightField1GetHeight(const float x, const float y, float &z, TVector4f &Color,
-          TTexPoint &TexPoint);
 	void __fastcall FrustBoxClick(TObject *Sender);
 	void __fastcall AsyncTimer1Timer(TObject *Sender);
 	void __fastcall RotateBoxClick(TObject *Sender);
@@ -100,6 +98,8 @@ __published:	// IDE-managed Components
 	void __fastcall dovBarChange(TObject *Sender);
 	void __fastcall AlphaBarChange(TObject *Sender);
 	void __fastcall GLCadencer1Progress(TObject *Sender, const double deltaTime, const double newTime);
+	void __fastcall HeightField1GetHeight2(TObject *Sender, const float x, const float y,
+          float &z, TGLColorVector &Color, TTexPoint &TexPoint);
 
 
 
@@ -109,9 +109,9 @@ private:	// User declarations
 	TGLzBuffer *zViewer;
 	TGLzBuffer *zCaster;
 public:		// User declarations
-	__fastcall TForm1(TComponent* Owner);
+	__fastcall TFormShadows(TComponent* Owner);
 };
 //---------------------------------------------------------------------------
-extern PACKAGE TForm1 *Form1;
+extern PACKAGE TFormShadows *FormShadows;
 //---------------------------------------------------------------------------
 #endif

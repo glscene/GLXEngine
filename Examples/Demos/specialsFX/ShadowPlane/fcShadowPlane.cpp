@@ -3,7 +3,7 @@
 #include <vcl.h>
 #pragma hdrstop
 
-#include "fShadowPlaneC.h"
+#include "fcShadowPlane.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma link "GLS.BaseClasses"
@@ -17,23 +17,22 @@
 #pragma link "GLS.ShadowPlane"
 #pragma link "GLS.SceneViewer"
 #pragma resource "*.dfm"
-TForm1 *Form1;
+TFormShadowPlane *FormShadowPlane;
 //---------------------------------------------------------------------------
-__fastcall TForm1::TForm1(TComponent* Owner)
+__fastcall TFormShadowPlane::TFormShadowPlane(TComponent* Owner)
 	: TForm(Owner)
 {
 }
 //---------------------------------------------------------------------------
-void __fastcall TForm1::FormCreate(TObject *Sender)
+void __fastcall TFormShadowPlane::FormCreate(TObject *Sender)
 {
-  TFileName Path = GetCurrentAssetPath() + "\\texture\\";
-  SetCurrentDir(Path);   //!!!
-  GLMaterialLibrary->TexturePaths = Path;
+  TFileName Path = GetCurrentAssetPath();
+  SetCurrentDir(Path  + "\\texture");
   GLMaterialLibrary->Materials->Items[0]->Material->Texture->Image->LoadFromFile("beigemarble.jpg");
 }
 //---------------------------------------------------------------------------
 
-void __fastcall TForm1::GLCadencer1Progress(TObject *Sender, const double deltaTime,
+void __fastcall TFormShadowPlane::GLCadencer1Progress(TObject *Sender, const double deltaTime,
 		  const double newTime)
 {
    DCLight->PitchAngle = Sin(newTime)*60;
@@ -42,7 +41,7 @@ void __fastcall TForm1::GLCadencer1Progress(TObject *Sender, const double deltaT
 }
 //---------------------------------------------------------------------------
 
-void __fastcall TForm1::CBShadowsClick(TObject *Sender)
+void __fastcall TFormShadowPlane::CBShadowsClick(TObject *Sender)
 {
    if (CBShadows->Checked)
 	  GLShadowPlane1->ShadowedLight = GLLightSource1;
@@ -54,7 +53,7 @@ void __fastcall TForm1::CBShadowsClick(TObject *Sender)
 }
 //---------------------------------------------------------------------------
 
-void __fastcall TForm1::CBStencilClick(TObject *Sender)
+void __fastcall TFormShadowPlane::CBStencilClick(TObject *Sender)
 {
    if (CBStencil->Checked)
 	 GLShadowPlane1->ShadowOptions = GLShadowPlane1->ShadowOptions << spoUseStencil, spoScissor;
@@ -65,7 +64,7 @@ void __fastcall TForm1::CBStencilClick(TObject *Sender)
 }
 //---------------------------------------------------------------------------
 
-void __fastcall TForm1::Timer1Timer(TObject *Sender)
+void __fastcall TFormShadowPlane::Timer1Timer(TObject *Sender)
 {
   Caption  = "Shadow Plane - " + Format("%.1f FPS",
 	ARRAYOFCONST ((GLSceneViewer1->FramesPerSecond())));
