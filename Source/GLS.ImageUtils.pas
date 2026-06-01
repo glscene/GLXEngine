@@ -1,9 +1,11 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.ImageUtils;
-
-(* Main purpose is as a fallback in cases where there is no other way to process images *)
+(*
+  Main purpose is as a fallback in cases where there is no other way
+  to process images
+*)
 
 // TODO: Complite InfToXXX
 // TODO: BPTC decompression
@@ -130,7 +132,7 @@ function SavePictureDialog(var aFileName: string;
 function OpenPictureDialog(var aFileName: string;
   const aTitle: string = ''): Boolean;
 
-implementation // -------------------------------------------------------------
+implementation //==============================================================
 
 const
   cSuperBlack: TIntermediateFormat = (R: 0.0; G: 0.0; B: 0.0; A: 0.0);

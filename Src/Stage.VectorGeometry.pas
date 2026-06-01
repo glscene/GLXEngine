@@ -1,6 +1,6 @@
-//
-// GXStage Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit Stage.VectorGeometry;
 
 (*
@@ -6372,7 +6372,6 @@ begin
 
   if isSphereCenterInsideBox then
   begin
-
     MinDistance := l.X - Abs(T.X);
     mini := 0;
     for i := 1 to 2 do
@@ -6639,8 +6638,7 @@ begin
   result := QuaternionToMatrix(Q);
 end;
 
-//**********************************************************************
-
+//****************************************************************************
 function Vector2fMake(const X, Y: Single): TVector2f;
 begin
   result.X := X;

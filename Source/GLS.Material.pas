@@ -1,10 +1,10 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.Material;
-
-(* Handles all the material + material library stuff *)
-
+(*
+  Handles all the material + material library stuff
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -647,27 +647,32 @@ type
     property TexturePaths;
   end;
 
-// ------------------------------------------------------------------------------
-implementation
-// ------------------------------------------------------------------------------
+implementation //============================================================
 
+//---------------------------------------------------------------------------
 procedure TGLShader.DoApply(var Rci: TGLRenderContextInfo; Sender: TObject);
 begin
+  //
 end;
 
+//---------------------------------------------------------------------------
 function TGLShader.DoUnApply(var Rci: TGLRenderContextInfo): Boolean;
 begin
   Result := True;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLAbstractLibMaterial.Loaded;
 begin
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLAbstractLibMaterial.Apply(var ARci: TGLRenderContextInfo);
 begin
+  //
 end;
 
+//---------------------------------------------------------------------------
 function TGLAbstractLibMaterial.UnApply(var ARci: TGLRenderContextInfo): Boolean;
 begin
   Result := True;
@@ -676,7 +681,6 @@ end;
 // ------------------
 // ------------------ TGLFaceProperties ------------------
 // ------------------
-
 constructor TGLFaceProperties.Create(aOwner: TPersistent);
 begin
   inherited;
@@ -688,6 +692,7 @@ begin
   FShininess := 0;
 end;
 
+//---------------------------------------------------------------------------
 destructor TGLFaceProperties.Destroy;
 begin
   FAmbient.Free;
@@ -697,6 +702,7 @@ begin
   inherited Destroy;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLFaceProperties.Apply(var rci: TGLRenderContextInfo;
   aFace: TGLCullFaceMode);
 begin
@@ -707,12 +713,14 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLFaceProperties.ApplyNoLighting(var rci: TGLRenderContextInfo;
   aFace: TGLCullFaceMode);
 begin
   gl.Color4fv(Diffuse.AsAddress);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLFaceProperties.Assign(Source: TPersistent);
 begin
   if Assigned(Source) and (Source is TGLFaceProperties) then
@@ -726,30 +734,35 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLFaceProperties.SetAmbient(AValue: TGLColor);
 begin
   FAmbient.DirectColor := AValue.Color;
   NotifyChange(Self);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLFaceProperties.SetDiffuse(AValue: TGLColor);
 begin
   FDiffuse.DirectColor := AValue.Color;
   NotifyChange(Self);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLFaceProperties.SetEmission(AValue: TGLColor);
 begin
   FEmission.DirectColor := AValue.Color;
   NotifyChange(Self);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLFaceProperties.SetSpecular(AValue: TGLColor);
 begin
   FSpecular.DirectColor := AValue.Color;
   NotifyChange(Self);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLFaceProperties.SetShininess(AValue: TGLShininess);
 begin
   if FShininess <> AValue then
@@ -762,7 +775,6 @@ end;
 // ------------------
 // ------------------ TGLDepthProperties ------------------
 // ------------------
-
 constructor TGLDepthProperties.Create(AOwner: TPersistent);
 begin
   inherited Create(AOwner);
@@ -774,6 +786,7 @@ begin
   FDepthClamp := False;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLDepthProperties.Apply(var rci: TGLRenderContextInfo);
 begin
   with rci.GLStates do
@@ -793,6 +806,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLDepthProperties.Assign(Source: TPersistent);
 begin
   if Assigned(Source) and (Source is TGLDepthProperties) then
@@ -806,6 +820,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLDepthProperties.SetZNear(Value: Single);
 begin
   Value := ClampValue(Value, 0, 1);
@@ -816,6 +831,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLDepthProperties.SetZFar(Value: Single);
 begin
   Value := ClampValue(Value, 0, 1);
@@ -826,6 +842,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLDepthProperties.SetCompareFunc(Value: TGLDepthFunction);
 begin
   if Value <> FCompareFunc then
@@ -835,6 +852,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLDepthProperties.SetDepthTest(Value: boolean);
 begin
   if Value <> FDepthTest then
@@ -844,6 +862,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLDepthProperties.SetDepthWrite(Value: boolean);
 begin
   if Value <> FDepthWrite then
@@ -853,6 +872,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLDepthProperties.SetDepthClamp(Value: boolean);
 begin
   if Value <> FDepthClamp then
@@ -862,6 +882,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 function TGLDepthProperties.StoreZNear: Boolean;
 begin
   Result := FZNear <> 0.0;
@@ -875,7 +896,6 @@ end;
 // ------------------
 // ------------------ TGLShader ------------------
 // ------------------
-
 constructor TGLShader.Create(AOwner: TComponent);
 begin
   FLibMatUsers := TList.Create;
@@ -888,6 +908,7 @@ begin
   inherited;
 end;
 
+//---------------------------------------------------------------------------
 destructor TGLShader.Destroy;
 var
   i: Integer;
@@ -904,6 +925,7 @@ begin
   FVirtualHandle.Free;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLShader.NotifyChange(Sender: TObject);
 var
   i: Integer;
@@ -916,11 +938,13 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLShader.BeginUpdate;
 begin
   Inc(FUpdateCount);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLShader.EndUpdate;
 begin
   Dec(FUpdateCount);
@@ -928,21 +952,25 @@ begin
     NotifyChange(Self);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLShader.DoInitialize(var rci: TGLRenderContextInfo; Sender: TObject);
 begin
   // nothing here
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLShader.DoFinalize;
 begin
   // nothing here
 end;
 
+//---------------------------------------------------------------------------
 function TGLShader.GetShaderInitialized: Boolean;
 begin
   Result := (FVirtualHandle.Handle <> 0);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLShader.InitializeShader(var rci: TGLRenderContextInfo; Sender:
   TObject);
 begin
@@ -954,29 +982,30 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
  procedure TGLShader.FinalizeShader;
 begin
   FVirtualHandle.NotifyChangesOfData;
   DoFinalize;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLShader.Apply(var rci: TGLRenderContextInfo; Sender: TObject);
 begin
 {$IFNDEF USE_MULTITHREAD}
-  Assert(not FShaderActive, 'Unbalanced shader application.');
+  Assert(not FShaderActive, 'Unbalanced shader application');
 {$ENDIF}
   // Need to check it twice, because shader may refuse to initialize
   // and choose to disable itself during initialization.
   if FEnabled then
     if FVirtualHandle.IsDataNeedUpdate then
       InitializeShader(rci, Sender);
-
   if FEnabled then
     DoApply(rci, Sender);
-
   FShaderActive := True;
 end;
 
+//---------------------------------------------------------------------------
 function TGLShader.UnApply(var rci: TGLRenderContextInfo): Boolean;
 begin
 {$IFNDEF USE_MULTITHREAD}
@@ -995,22 +1024,25 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLShader.OnVirtualHandleDestroy(sender: TGLVirtualHandle; var handle:
   Cardinal);
 begin
   handle := 0;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLShader.OnVirtualHandleAllocate(sender: TGLVirtualHandle; var
   handle: Cardinal);
 begin
   handle := 1;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLShader.SetEnabled(val: Boolean);
 begin
 {$IFNDEF USE_MULTITHREAD}
-  Assert(not FShaderActive, 'Shader is active.');
+  Assert(not FShaderActive, 'Shader is active');
 {$ENDIF}
   if val <> FEnabled then
   begin
@@ -1019,6 +1051,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLShader.RegisterUser(libMat: TGLLibMaterial);
 var
   i: Integer;
@@ -1028,12 +1061,14 @@ begin
     FLibMatUsers.Add(libMat);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLShader.UnRegisterUser(libMat: TGLLibMaterial);
 begin
   if Assigned(FLibMatUsers) then
     FLibMatUsers.Remove(libMat);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLShader.Assign(Source: TPersistent);
 begin
   if Source is TGLShader then
@@ -1046,16 +1081,18 @@ begin
     inherited Assign(Source); //to the pit of doom ;)
 end;
 
+//---------------------------------------------------------------------------
 function TGLShader.ShaderSupported: Boolean;
 begin
   Result := True;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLShader.HandleFailedInitialization(const LastErrorMessage: string =
   '');
 begin
   case FailedInitAction of
-    fiaSilentdisable: ; // Do nothing ;)
+    fiaSilentdisable: ; // Do nothing
     fiaRaiseHandledException:
       try
         raise EGLShaderException.Create(GetStardardNotSupportedMessage);
@@ -1077,6 +1114,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 function TGLShader.GetStardardNotSupportedMessage: string;
 begin
   if Name <> '' then
@@ -1101,6 +1139,7 @@ begin
   FDepthProperties := TGLDepthProperties.Create(Self)
 end;
 
+//---------------------------------------------------------------------------
 destructor TGLMaterial.Destroy;
 begin
   if Assigned(currentLibMaterial) then
@@ -1114,34 +1153,40 @@ begin
   inherited Destroy;
 end;
 
+//---------------------------------------------------------------------------
 function TGLMaterial.GetMaterialLibrary: TGLAbstractMaterialLibrary;
 begin
   Result := FMaterialLibrary;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMaterial.SetBackProperties(Values: TGLFaceProperties);
 begin
   FBackProperties.Assign(Values);
   NotifyChange(Self);
 end;
 
+//---------------------------------------------------------------------------
 function TGLMaterial.GetBackProperties: TGLFaceProperties;
 begin
   Result := FBackProperties;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMaterial.SetFrontProperties(Values: TGLFaceProperties);
 begin
   FFrontProperties.Assign(Values);
   NotifyChange(Self);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMaterial.SetDepthProperties(Values: TGLDepthProperties);
 begin
   FDepthProperties.Assign(Values);
   NotifyChange(Self);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMaterial.SetBlendingMode(const val: TGLBlendingMode);
 begin
   if val <> FBlendingMode then
@@ -1151,6 +1196,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMaterial.SetMaterialOptions(const val: TGLMaterialOptions);
 begin
   if val <> FMaterialOptions then
@@ -1160,6 +1206,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 function TGLMaterial.GetTexture: TGLTexture;
 begin
   if not Assigned(FTexture) then
@@ -1167,6 +1214,7 @@ begin
   Result := FTexture;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMaterial.SetTexture(aTexture: TGLTexture);
 begin
   if Assigned(aTexture) then
@@ -1175,6 +1223,7 @@ begin
     FreeAndNil(FTexture);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMaterial.SetFaceCulling(const val: TGLFaceCulling);
 begin
   if val <> FFaceCulling then
@@ -1184,12 +1233,14 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMaterial.SetMaterialLibrary(const val: TGLAbstractMaterialLibrary);
 begin
   FMaterialLibrary := val;
   SetLibMaterialName(LibMaterialName);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMaterial.SetLibMaterialName(const val: TGLLibMaterialName);
 var
   oldLibrary: TGLMaterialLibrary;
@@ -1228,7 +1279,7 @@ begin
     if MaterialLoopFrom(TGLLibMaterial(newLibMaterial)) then
     begin
       if IsDesignTime then
-        InformationDlg(Format(strCyclicRefMat, [val]))   
+        InformationDlg(Format(strCyclicRefMat, [val]))
       else
         GLSLogger.LogErrorFmt(strCyclicRefMat, [val]);
       exit;
@@ -1250,6 +1301,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 function TGLMaterial.GetTextureEx: TGLTextureEx;
 begin
   if not Assigned(FTextureEx) then
@@ -1257,23 +1309,27 @@ begin
   Result := FTextureEx;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMaterial.SetTextureEx(const Value: TGLTextureEx);
 begin
   if Assigned(Value) or Assigned(FTextureEx) then
     TextureEx.Assign(Value);
 end;
 
+//---------------------------------------------------------------------------
 function TGLMaterial.StoreTextureEx: Boolean;
 begin
   Result := (Assigned(FTextureEx) and (TextureEx.Count > 0));
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMaterial.SetBlendingParams(const Value: TGLBlendingParameters);
 begin
   FBlendingParams.Assign(Value);
   NotifyChange(Self);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMaterial.NotifyLibMaterialDestruction;
 begin
   FMaterialLibrary := nil;
@@ -1281,6 +1337,7 @@ begin
   currentLibMaterial := nil;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMaterial.Loaded;
 begin
   inherited;
@@ -1288,17 +1345,20 @@ begin
     TextureEx.Loaded;
 end;
 
+//---------------------------------------------------------------------------
 function TGLMaterial.StoreMaterialProps: Boolean;
 begin
   Result := not Assigned(currentLibMaterial);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMaterial.PrepareBuildList;
 begin
   if Assigned(FTexture) and (not FTexture.Disabled) then
     FTexture.PrepareBuildList;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMaterial.Apply(var rci: TGLRenderContextInfo);
 begin
   if Assigned(currentLibMaterial) then
@@ -1391,7 +1451,6 @@ begin
             FBlendingParams.Apply(rci);
           end;
       end;
-
     // Fog switch
     if (moIgnoreFog in MaterialOptions) or not rci.bufferFog then
       Disable(stFog)
@@ -1410,13 +1469,13 @@ begin
       else if FTextureEx.Count > 0 then
         FTextureEx.Apply(rci);
     end;
-
     // Apply depth properties
     if not rci.ignoreDepthRequests then
       FDepthProperties.Apply(rci);
   end;
 end;
 
+//---------------------------------------------------------------------------
 function TGLMaterial.UnApply(var rci: TGLRenderContextInfo): Boolean;
 begin
   if Assigned(currentLibMaterial) then
@@ -1432,6 +1491,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMaterial.Assign(Source: TPersistent);
 begin
   if Assigned(Source) and (Source is TGLMaterial) then
@@ -1459,6 +1519,7 @@ begin
     inherited;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMaterial.NotifyChange(Sender: TObject);
 var
   intf: IGLNotifyAble;
@@ -1467,6 +1528,7 @@ begin
     intf.NotifyChange(Self);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMaterial.NotifyTexMapChange(Sender: TObject);
 var
   intf: IGLTextureNotifyAble;
@@ -1477,23 +1539,25 @@ begin
     NotifyChange(Self);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMaterial.DestroyHandles;
 begin
   if Assigned(FTexture) then
     FTexture.DestroyHandles;
 end;
 
+//---------------------------------------------------------------------------
 function TGLMaterial.Blended: Boolean;
 begin
   if Assigned(currentLibMaterial) then
   begin
-
     Result := currentLibMaterial.Blended
   end
   else
     Result := not (BlendingMode in [bmOpaque, bmAlphaTest50, bmAlphaTest100, bmCustom]);
 end;
 
+//---------------------------------------------------------------------------
 function TGLMaterial.HasSecondaryTexture: Boolean;
 begin
   Result := Assigned(currentLibMaterial)
@@ -1501,11 +1565,13 @@ begin
     and Assigned(TGLLibMaterial(currentLibMaterial).libMatTexture2);
 end;
 
+//---------------------------------------------------------------------------
 function TGLMaterial.MaterialIsLinkedToLib: Boolean;
 begin
   Result := Assigned(currentLibMaterial);
 end;
 
+//---------------------------------------------------------------------------
 function TGLMaterial.GetActualPrimaryTexture: TGLTexture;
 begin
   if Assigned(currentLibMaterial) and (currentLibMaterial is TGLLibMaterial) then
@@ -1514,6 +1580,7 @@ begin
     Result := Texture;
 end;
 
+//---------------------------------------------------------------------------
 function TGLMaterial.GetActualPrimaryMaterial: TGLMaterial;
 begin
   if Assigned(currentLibMaterial) and (currentLibMaterial is TGLLibMaterial) then
@@ -1522,6 +1589,7 @@ begin
     Result := Self;
 end;
 
+//---------------------------------------------------------------------------
 function TGLMaterial.GetLibMaterial: TGLLibMaterial;
 begin
   if Assigned(currentLibMaterial) and (currentLibMaterial is TGLLibMaterial) then
@@ -1530,12 +1598,12 @@ begin
     Result := nil;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMaterial.QuickAssignMaterial(const MaterialLibrary:
   TGLMaterialLibrary; const Material: TGLLibMaterial);
 begin
   FMaterialLibrary := MaterialLibrary;
   FLibMaterialName := Material.FName;
-
   if Material <> CurrentLibMaterial then
   begin
     // unregister from old
@@ -1545,11 +1613,11 @@ begin
     // register with new
     if Assigned(CurrentLibMaterial) then
       CurrentLibMaterial.RegisterUser(Self);
-
     NotifyTexMapChange(Self);
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMaterial.SetPolygonMode(AValue: TGLPolygonMode);
 begin
   if AValue <> FPolygonMode then
@@ -1562,7 +1630,6 @@ end;
 // ------------------
 // ------------------ TGLAbstractLibMaterial ------------------
 // ------------------
-
 constructor TGLAbstractLibMaterial.Create(ACollection: TCollection);
 begin
   inherited Create(ACollection);
@@ -1574,12 +1641,14 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 destructor TGLAbstractLibMaterial.Destroy;
 begin
   FUserList.Free;
   inherited Destroy;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLAbstractLibMaterial.Assign(Source: TPersistent);
 begin
   if Source is TGLAbstractLibMaterial then
@@ -1592,6 +1661,7 @@ begin
     inherited; // Raise AssignError
 end;
 
+//---------------------------------------------------------------------------
 function TGLAbstractLibMaterial.QueryInterface(const IID: TGUID; out Obj): HResult; stdcall;
 begin
   if GetInterface(IID, Obj) then
@@ -1600,54 +1670,64 @@ begin
     Result := E_NOINTERFACE;
 end;
 
+//---------------------------------------------------------------------------
 function TGLAbstractLibMaterial._AddRef: Integer; stdcall;
 begin
   Result := -1; //ignore
 end;
 
+//---------------------------------------------------------------------------
 function TGLAbstractLibMaterial._Release: Integer; stdcall;
 begin
   Result := -1; //ignore
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLAbstractLibMaterial.RegisterUser(obj: TGLUpdateAbleObject);
 begin
   Assert(FUserList.IndexOf(obj) < 0);
   FUserList.Add(obj);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLAbstractLibMaterial.UnRegisterUser(obj: TGLUpdateAbleObject);
 begin
   FUserList.Remove(obj);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLAbstractLibMaterial.RegisterUser(comp: TGLUpdateAbleComponent);
 begin
   Assert(FUserList.IndexOf(comp) < 0);
   FUserList.Add(comp);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLAbstractLibMaterial.UnRegisterUser(comp: TGLUpdateAbleComponent);
 begin
   FUserList.Remove(comp);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLAbstractLibMaterial.RegisterUser(libMaterial: TGLLibMaterial);
 begin
   Assert(FUserList.IndexOf(libMaterial) < 0);
   FUserList.Add(libMaterial);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLAbstractLibMaterial.UnRegisterUser(libMaterial: TGLLibMaterial);
 begin
   FUserList.Remove(libMaterial);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLAbstractLibMaterial.NotifyChange(Sender: TObject);
 begin
   NotifyUsers();
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLAbstractLibMaterial.NotifyUsers;
 var
   i: Integer;
@@ -1675,16 +1755,19 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 function TGLAbstractLibMaterial.IsUsed: Boolean;
 begin
   Result := Assigned(Self) and (FUserlist.Count > 0);
 end;
 
+//---------------------------------------------------------------------------
 function TGLAbstractLibMaterial.GetDisplayName: string;
 begin
   Result := Name;
 end;
 
+//---------------------------------------------------------------------------
 function TGLAbstractLibMaterial.GetMaterialLibrary: TGLAbstractMaterialLibrary;
 var
   LOwner: TPersistent;
@@ -1698,11 +1781,13 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 function TGLAbstractLibMaterial.Blended: Boolean;
 begin
   Result := False;
 end;
 
+//---------------------------------------------------------------------------
 class function TGLAbstractLibMaterial.ComputeNameHashKey(const name: string): Integer;
 var
   i, n: Integer;
@@ -1713,6 +1798,7 @@ begin
     Result := (Result shl 1) + Byte(name[i]);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLAbstractLibMaterial.SetName(const val: TGLLibMaterialName);
 begin
   if val <> FName then
@@ -1735,7 +1821,6 @@ end;
 // ------------------
 // ------------------ TGLLibMaterial ------------------
 // ------------------
-
 constructor TGLLibMaterial.Create(ACollection: TCollection);
 begin
   inherited Create(ACollection);
@@ -1750,6 +1835,7 @@ begin
   FTextureMatrixIsIdentity := True;
 end;
 
+//---------------------------------------------------------------------------
 destructor TGLLibMaterial.Destroy;
 var
   i: Integer;
@@ -1774,6 +1860,7 @@ begin
   inherited;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLLibMaterial.Assign(Source: TPersistent);
 begin
   if Source is TGLLibMaterial then
@@ -1790,17 +1877,20 @@ begin
   inherited;
 end;
 
+//---------------------------------------------------------------------------
 function TGLLibMaterial.Blended: Boolean;
 begin
   Result := Material.Blended;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLLibMaterial.PrepareBuildList;
 begin
   if Assigned(Self) then
     Material.PrepareBuildList;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLLibMaterial.Apply(var ARci: TGLRenderContextInfo);
 var
   multitextured: Boolean;
@@ -1866,9 +1956,8 @@ begin
       xgl.MapTexCoordToSecond
     else
       xgl.MapTexCoordToMain;
-
   end;
- 
+
   if Assigned(FShader) then
   begin
     case Shader.ShaderStyle of
@@ -1878,6 +1967,7 @@ begin
   xgl.EndUpdate;
 end;
 
+//---------------------------------------------------------------------------
 function TGLLibMaterial.UnApply(var ARci: TGLRenderContextInfo): Boolean;
 begin
   Result := False;
@@ -1892,7 +1982,6 @@ begin
         end;
     end;
   end;
-
   if not Result then
   begin
     if Assigned(libMatTexture2) and GL.ARB_multitexture and (not
@@ -1915,11 +2004,13 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLLibMaterial.NotifyTexMapChange(Sender: TObject);
 begin
   NotifyUsersOfTexMapChange();
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLLibMaterial.NotifyUsersOfTexMapChange;
 var
   i: Integer;
@@ -1946,29 +2037,34 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLLibMaterial.Loaded;
 begin
   CalculateTextureMatrix;
   Material.Loaded;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLLibMaterial.SetMaterial(const val: TGLMaterial);
 begin
   FMaterial.Assign(val);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLLibMaterial.SetTextureOffset(const val: TGLCoordinates);
 begin
   FTextureOffset.AsVector := val.AsVector;
   CalculateTextureMatrix;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLLibMaterial.SetTextureScale(const val: TGLCoordinates);
 begin
   FTextureScale.AsVector := val.AsVector;
   CalculateTextureMatrix;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLLibMaterial.SetTextureMatrix(const Value: TGLMatrix);
 begin
   FTextureMatrixIsIdentity := CompareMem(@Value.V[0], @IdentityHmgMatrix.V[0], SizeOf(TGLMatrix));
@@ -1977,6 +2073,7 @@ begin
   NotifyUsers;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLLibMaterial.SetTextureRotate(Value: Single);
 begin
   if Value <> FTextureRotate then
@@ -1986,11 +2083,13 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 function TGLLibMaterial.StoreTextureRotate: Boolean;
 begin
   Result := Abs(FTextureRotate) > EPSILON;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLLibMaterial.SetTexture2Name(const val: TGLLibMaterialName);
 begin
   if val <> Texture2Name then
@@ -2005,6 +2104,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLLibMaterial.SetShader(const val: TGLShader);
 begin
   if val <> FShader then
@@ -2018,6 +2118,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLLibMaterial.CalculateTextureMatrix;
 begin
   if TextureOffset.Equals(NullHmgVector)
@@ -2038,6 +2139,7 @@ begin
   NotifyUsers;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLLibMaterial.DestroyHandles;
 var
   libMat: TGLLibMaterial;
@@ -2051,11 +2153,13 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLLibMaterial.OnNotifyChange(Sender: TObject);
 begin
   CalculateTextureMatrix;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLLibMaterial.DoOnTextureNeeded(Sender: TObject; var textureFileName:
   string);
 var
@@ -2095,7 +2199,6 @@ end;
 // ------------------
 // ------------------ TGLLibMaterials ------------------
 // ------------------
-
 function TGLAbstractLibMaterials.GetMaterial(const AName: TGLLibMaterialName):
   TGLAbstractLibMaterial;
 var
@@ -2115,6 +2218,7 @@ begin
   Result := nil;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLAbstractLibMaterials.Loaded;
 var
   I: Integer;
@@ -2123,6 +2227,7 @@ begin
     TGLAbstractLibMaterial(Items[I]).Loaded;
 end;
 
+//---------------------------------------------------------------------------
 function TGLAbstractLibMaterials.MakeUniqueName(const nameRoot: TGLLibMaterialName):
   TGLLibMaterialName;
 var
@@ -2137,21 +2242,25 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 constructor TGLLibMaterials.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner, TGLLibMaterial);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLLibMaterials.SetItems(index: Integer; const val: TGLLibMaterial);
 begin
   inherited Items[index] := val;
 end;
 
+//---------------------------------------------------------------------------
 function TGLLibMaterials.GetItems(index: Integer): TGLLibMaterial;
 begin
   Result := TGLLibMaterial(inherited Items[index]);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLLibMaterials.DestroyHandles;
 var
   i: Integer;
@@ -2160,21 +2269,25 @@ begin
     Items[i].DestroyHandles;
 end;
 
+//---------------------------------------------------------------------------
 function TGLLibMaterials.Owner: TPersistent;
 begin
   Result := GetOwner;
 end;
 
+//---------------------------------------------------------------------------
 function TGLLibMaterials.Add: TGLLibMaterial;
 begin
   Result := (inherited Add) as TGLLibMaterial;
 end;
 
+//---------------------------------------------------------------------------
 function TGLLibMaterials.FindItemID(ID: Integer): TGLLibMaterial;
 begin
   Result := (inherited FindItemID(ID)) as TGLLibMaterial;
 end;
 
+//---------------------------------------------------------------------------
 function TGLLibMaterials.GetLibMaterialByName(const AName: TGLLibMaterialName):
   TGLLibMaterial;
 var
@@ -2187,6 +2300,7 @@ begin
     Result := nil;
 end;
 
+//---------------------------------------------------------------------------
 function TGLLibMaterials.GetTextureIndex(const Texture: TGLTexture): Integer;
 var
   I: Integer;
@@ -2201,6 +2315,7 @@ begin
   Result := -1;
 end;
 
+//---------------------------------------------------------------------------
 function TGLLibMaterials.GetMaterialIndex(const Material: TGLMaterial): Integer;
 var
   I: Integer;
@@ -2215,6 +2330,7 @@ begin
   Result := -1;
 end;
 
+//---------------------------------------------------------------------------
 function TGLLibMaterials.GetNameOfTexture(const Texture: TGLTexture):
   TGLLibMaterialName;
 var
@@ -2227,6 +2343,7 @@ begin
     Result := '';
 end;
 
+//---------------------------------------------------------------------------
 function TGLLibMaterials.GetNameOfLibMaterial(const Material: TGLLibMaterial):
   TGLLibMaterialName;
 var
@@ -2239,6 +2356,7 @@ begin
     Result := '';
 end;
 
+//---------------------------------------------------------------------------
 function TGLLibMaterials.IndexOf(const Item: TGLLibMaterial): Integer;
 var
   I: Integer;
@@ -2253,6 +2371,7 @@ begin
       end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLLibMaterials.PrepareBuildList;
 var
   i: Integer;
@@ -2261,6 +2380,7 @@ begin
     TGLLibMaterial(inherited Items[i]).PrepareBuildList;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLLibMaterials.DeleteUnusedMaterials;
 var
   i: Integer;
@@ -2281,11 +2401,9 @@ begin
   EndUpdate;
 end;
 
- 
 //--------------------------------------------------------
 // ---------------------TGLAbstractMaterialLibrary
 //--------------------------------------------------------
-
 procedure TGLAbstractMaterialLibrary.SetTexturePaths(const val: string);
 var
   i, lp: Integer;
@@ -2324,6 +2442,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 function TGLAbstractMaterialLibrary.ApplyMaterial(const AName: string;
   var ARci: TGLRenderContextInfo): Boolean;
 begin
@@ -2333,6 +2452,7 @@ begin
     FLastAppliedMaterial.Apply(ARci);
 end;
 
+//---------------------------------------------------------------------------
 function TGLAbstractMaterialLibrary.UnApplyMaterial(
   var ARci: TGLRenderContextInfo): Boolean;
 begin
@@ -2346,6 +2466,7 @@ begin
     Result := False;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLAbstractMaterialLibrary.SetNamesToTStrings(AStrings: TStrings);
 var
   i: Integer;
@@ -2364,6 +2485,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLAbstractMaterialLibrary.Loaded;
 begin
   inherited;
@@ -2373,13 +2495,13 @@ end;
 // ------------------
 // ------------------ TGLMaterialLibrary ------------------
 // ------------------
-
 constructor TGLMaterialLibrary.Create(AOwner: TComponent);
 begin
   inherited;
   FMaterials := TGLLibMaterials.Create(Self);
 end;
 
+//---------------------------------------------------------------------------
 destructor TGLMaterialLibrary.Destroy;
 begin
   Assert(FLastAppliedMaterial = nil, 'Unbalanced material application');
@@ -2389,22 +2511,26 @@ begin
   inherited;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMaterialLibrary.DestroyHandles;
 begin
   if Assigned(FMaterials) then
     Materials.DestroyHandles;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMaterialLibrary.SetMaterials(const val: TGLLibMaterials);
 begin
   FMaterials.Assign(val);
 end;
 
+//---------------------------------------------------------------------------
 function TGLMaterialLibrary.StoreMaterials: Boolean;
 begin
   Result := (FMaterials.Count > 0);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMaterialLibrary.WriteToFiler(writer: TGLVirtualWriter);
 var
   i, j: Integer;
@@ -2575,6 +2701,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMaterialLibrary.ReadFromFiler(reader: TGLVirtualReader);
 var
   archiveVersion: Integer;
@@ -2745,6 +2872,7 @@ begin
     RaiseFilerException(Self.ClassType, archiveVersion);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMaterialLibrary.SaveToStream(aStream: TStream);
 var
   wr: TGLBinaryWriter;
@@ -2757,6 +2885,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMaterialLibrary.LoadFromStream(aStream: TStream);
 var
   rd: TGLBinaryReader;
@@ -2769,6 +2898,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMaterialLibrary.AddMaterialsFromStream(aStream: TStream);
 begin
   FDoNotClearMaterialsOnLoad := True;
@@ -2779,6 +2909,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMaterialLibrary.SaveToFile(const fileName: string);
 var
   fs: TStream;
@@ -2791,6 +2922,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMaterialLibrary.LoadFromFile(const fileName: string);
 var
   fs: TStream;
@@ -2803,6 +2935,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMaterialLibrary.AddMaterialsFromFile(const fileName: string);
 var
   fs: TStream;
@@ -2815,6 +2948,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 function TGLMaterialLibrary.AddTextureMaterial(const materialName, fileName:
   string;
   persistent: Boolean = True): TGLLibMaterial;
@@ -2844,6 +2978,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 function TGLMaterialLibrary.AddTextureMaterial(const materialName: string;
   graphic: TGraphic): TGLLibMaterial;
 begin
@@ -2862,6 +2997,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 function TGLMaterialLibrary.LibMaterialByName(const AName: TGLLibMaterialName):
   TGLLibMaterial;
 begin
@@ -2871,6 +3007,7 @@ begin
     Result := nil;
 end;
 
+//---------------------------------------------------------------------------
 function TGLMaterialLibrary.TextureByName(const LibMatName: TGLLibMaterialName):
   TGLTexture;
 var
@@ -2891,6 +3028,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 function TGLMaterialLibrary.GetNameOfTexture(const Texture: TGLTexture):
   TGLLibMaterialName;
 begin
@@ -2900,11 +3038,13 @@ begin
     Result := Materials.GetNameOfTexture(Texture);
 end;
 
+//---------------------------------------------------------------------------
 function TGLMaterialLibrary.GetMaterials: TGLLibMaterials;
 begin
   Result := TGLLibMaterials(FMaterials);
 end;
 
+//---------------------------------------------------------------------------
 function TGLMaterialLibrary.GetNameOfLibMaterial(const LibMat: TGLLibMaterial):
   TGLLibMaterialName;
 begin
@@ -2914,7 +3054,7 @@ begin
     Result := Materials.GetNameOfLibMaterial(LibMat);
 end;
 
- 
+//---------------------------------------------------------------------------
 procedure TGLBlendingParameters.Apply(var rci: TGLRenderContextInfo);
 begin
   if FUseAlphaFunc then
@@ -2937,6 +3077,7 @@ begin
     rci.GLStates.Disable(stBlend);
 end;
 
+//---------------------------------------------------------------------------
 constructor TGLBlendingParameters.Create(AOwner: TPersistent);
 begin
   inherited;
@@ -2952,6 +3093,7 @@ begin
   FAlphaBlendFuncDFactor := bfOneMinusSrcAlpha;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLBlendingParameters.SetAlphaFuncRef(const Value: Single);
 begin
   if (FAlphaFuncRef <> Value) then
@@ -2961,6 +3103,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLBlendingParameters.SetAlphaFuncType(
   const Value: TGlAlphaFunc);
 begin
@@ -2971,6 +3114,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLBlendingParameters.SetBlendFuncDFactor(
   const Value: TGLBlendFunction);
 begin
@@ -2983,6 +3127,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLBlendingParameters.SetBlendFuncSFactor(
   const Value: TGLBlendFunction);
 begin
@@ -2995,6 +3140,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLBlendingParameters.SetAlphaBlendFuncDFactor(const Value: TGLBlendFunction);
 begin
   if FSeparateBlendFunc and (FAlphaBlendFuncDFactor <> Value) then
@@ -3004,6 +3150,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLBlendingParameters.SetAlphaBlendFuncSFactor(const Value: TGLBlendFunction);
 begin
   if FSeparateBlendFunc and (FAlphaBlendFuncSFactor <> Value) then
@@ -3013,6 +3160,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLBlendingParameters.SetUseAlphaFunc(const Value: Boolean);
 begin
   if (FUseAlphaFunc <> Value) then
@@ -3022,6 +3170,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLBlendingParameters.SetUseBlendFunc(const Value: Boolean);
 begin
   if (FUseBlendFunc <> Value) then
@@ -3031,6 +3180,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLBlendingParameters.SetSeparateBlendFunc(const Value: Boolean);
 begin
   if (FSeparateBlendFunc <> Value) then
@@ -3045,14 +3195,13 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 function TGLBlendingParameters.StoreAlphaFuncRef: Boolean;
 begin
   Result := (Abs(AlphaFuncRef) > 0.001);
 end;
 
-//-----------------------------------------------
-initialization
-//-----------------------------------------------
+initialization //============================================================
 
   RegisterClasses([TGLMaterialLibrary, TGLMaterial, TGLShader]);
 

@@ -1,6 +1,6 @@
-//
-// GXStage Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit Stage.PipelineTransform;
 
 (* Pipeline transformations *)
@@ -95,7 +95,7 @@ type
     property LoadMatricesEnabled: Boolean read FLoadMatricesEnabled write FLoadMatricesEnabled;
   end;
 
-implementation //------------------------------------------------------------
+implementation //==============================================================
 
 constructor TGTransformation.Create;
 begin

@@ -1,6 +1,6 @@
-//
-// GXStage Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit Stage.Utils;
 
 (* Miscellaneous support utilities & classes *)
@@ -144,7 +144,7 @@ function GLStrToFloatDef(const S: string; const Default: Extended)
   : Extended; overload;
 function GLStrToFloatDef(const S: string): Extended; overload;
 
-implementation //--------------------------------------------------------------
+implementation //==============================================================
 
 var
   vSqrt255: TSqrt255Array;

@@ -1,9 +1,8 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.State;
 (*  Tools for managing an application-side cache of OpenGL state. *)
-
 (*
  TODO: Proper client-side pushing + popping of state, in OpenGL 3+ contexts,
  rather than using glPushAttrib + glPopAttrib.
@@ -18,7 +17,6 @@ unit GLS.State;
  DONE: remove stTexture1D, 2D, etc from TGLState if possible, since they are
  per texture-unit + also deprecated in OpenGL 3+
  *)
-
 interface
 
 {$I Stage.Defines.inc}
@@ -994,16 +992,14 @@ const
   cGLBufferBindingTarget: array[TGLBufferBindingTarget] of Cardinal =
     (GL_UNIFORM_BUFFER, GL_TRANSFORM_FEEDBACK_BUFFER);
 
-implementation //------------------------------------------------------
+implementation //==============================================================
 
 uses
   GLS.Context;
 
-
 // ------------------
 // ------------------ TGLStateCache ------------------
 // ------------------
-
 procedure TGLStateCache.BeginQuery(const target: TGLQueryType; const Value: Cardinal);
 begin
   Assert(FCurrentQuery[target] = 0, 'Can only have one query (of each type)' + ' running at a time');

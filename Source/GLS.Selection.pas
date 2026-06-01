@@ -1,10 +1,10 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.Selection;
-
-(* Picking and selection of objects *)
-
+(*
+  Picking and selection of objects
+*)
 interface
 
 {$I Stage.Defines.inc}

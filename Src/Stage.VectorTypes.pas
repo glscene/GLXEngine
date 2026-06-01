@@ -1,6 +1,6 @@
-//
-// GXStage Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit Stage.VectorTypes;
 (*
    Defines base vector types for use in VectorGeometry unit

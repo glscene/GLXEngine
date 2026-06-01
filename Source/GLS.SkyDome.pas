@@ -1,6 +1,6 @@
-﻿//
-// GLScene Graphics Engine
-//
+﻿(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.SkyDome;
 (*
   Skydome classes with celestial grids and routine functions

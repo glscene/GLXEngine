@@ -1,10 +1,10 @@
-//
-// GXStage Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit Stage.TextureFormat;
-
-(* Texture formats and functions *)
-
+(*
+  Texture formats and functions
+*)
 interface
 
 uses
@@ -253,7 +253,7 @@ function EncodeGLTextureTarget(const glTarget: Cardinal): TGLTextureTarget;
 function IsTargetSupportMipmap(const TextureTarget: TGLTextureTarget): Boolean; overload;
 function IsTargetSupportMipmap(const glTarget: Cardinal): Boolean; overload;
 
-implementation //-------------------------------------------------------------
+implementation //==============================================================
 
 type
   TFormatDesc = record

@@ -1,6 +1,6 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.Graphics;
 (*
    Utility class and functions to manipulate a bitmap in OpenGL's default

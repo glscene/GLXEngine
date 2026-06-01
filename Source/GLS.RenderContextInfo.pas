@@ -1,10 +1,10 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.RenderContextInfo;
-
-(* Stores contextual info useful during rendering methods *)
-
+(*
+  Stores contextual info useful during rendering methods
+*)
 interface
 
 {$I Stage.Defines.inc}

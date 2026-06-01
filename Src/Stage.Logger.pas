@@ -1,14 +1,12 @@
-//
-// GXStage Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit Stage.Logger;
-
 (*
   Activate USE_LOGGING in "GLS.inc" to turn on inner Scene logger.
   You may have only one instance of TGLSLogger
   To obtain it, call UserLog() function from any unit.
 *)
-
 interface
 
 {$I Stage.Defines.inc}
@@ -1235,9 +1233,7 @@ begin
   end;
 end;
 
-// -----------------------------------------------
-initialization
-// -----------------------------------------------
+initialization //==============================================================
 
 finalization
 
