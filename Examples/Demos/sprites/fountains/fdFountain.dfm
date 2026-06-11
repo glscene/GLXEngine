@@ -139,6 +139,7 @@ object FormFontain: TFormFontain
       Font.Style = [fsBold]
       ParentFont = False
       TabOrder = 1
+      ExplicitHeight = 520
       object tsSetting: TTabSheet
         Caption = 'Fontain Setting'
         object Label14: TLabel

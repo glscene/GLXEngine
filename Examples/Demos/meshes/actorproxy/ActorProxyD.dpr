@@ -11,7 +11,7 @@ program ActorProxyD;
 
 uses
   Forms,
-  fActorProxyD in 'fActorProxyD.pas' {FormActorProxy};
+  fdActorProxy in 'fdActorProxy.pas' {FormActorProxy};
 
 {$R *.res}
 

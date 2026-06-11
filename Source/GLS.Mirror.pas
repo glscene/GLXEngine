@@ -1,6 +1,6 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.Mirror;
 (*
    Implements a basic, stencil-based mirror (as in Mark Kilgard's demo).
@@ -106,7 +106,7 @@ type
     property OnEndRenderingMirrors: TNotifyEvent read FOnEndRenderingMirrors
       write FOnEndRenderingMirrors;
     property Radius: Single read FRadius write SetRadius; //ORL
-    property Slices: Integer read FSlices write SetSlices default 16; //ORL
+    property Slices: Integer read FSlices write SetSlices default 32; //ORL
     property Shape: TMirrorShapes read FShape write SetShape default msRect;
     //ORL
   end;

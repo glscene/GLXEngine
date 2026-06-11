@@ -622,7 +622,6 @@ end;
 initialization
 // ------------------------------------------------------------------
 
-// class registrations
 RegisterXCollectionItemClass(TGLBThorFX);
 
 finalization

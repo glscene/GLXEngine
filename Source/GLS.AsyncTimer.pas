@@ -1,6 +1,6 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.AsyncTimer;
 (*
    Asynchronous timer component (actual 1 ms resolution).
@@ -55,9 +55,7 @@ type
       write SetThreadPriority default tpTimeCritical;
   end;
 
-// ------------------------------------------------------------------
-implementation
-// ------------------------------------------------------------------
+implementation //============================================================
 
 type
   TTimerThread = class(TThread)
@@ -70,11 +68,13 @@ type
     constructor Create(CreateSuspended: Boolean); virtual;
   end;
 
+//---------------------------------------------------------------------------
 constructor TTimerThread.Create(CreateSuspended: Boolean);
 begin
   inherited Create(CreateSuspended);
 end;
 
+//---------------------------------------------------------------------------
 procedure TTimerThread.Execute;
 var
   lastTick, nextTick, curTick, perfFreq: Int64;
@@ -111,7 +111,6 @@ end;
 //-----------------------------------------
 // TGLAsyncTimer
 //-----------------------------------------
-
 constructor TGLAsyncTimer.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
@@ -129,6 +128,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 destructor TGLAsyncTimer.Destroy;
 begin
   Enabled := False;
@@ -142,12 +142,14 @@ begin
   inherited Destroy;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLAsyncTimer.DoTimer;
 begin
   if Enabled and Assigned(FOnTimer) then
     FOnTimer(Self);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLAsyncTimer.SetEnabled(Value: Boolean);
 begin
   if Value <> FEnabled then
@@ -164,11 +166,13 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 function TGLAsyncTimer.GetInterval: Word;
 begin
   Result := TTimerThread(FTimerThread).FInterval;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLAsyncTimer.SetInterval(Value: Word);
 begin
   if Value <> TTimerThread(FTimerThread).FInterval then
@@ -177,21 +181,20 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 function TGLAsyncTimer.GetThreadPriority: TThreadPriority;
 begin
   Result := FTimerThread.Priority;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLAsyncTimer.SetThreadPriority(Value: TThreadPriority);
 begin
   FTimerThread.Priority := Value;
 end;
 
-//-----------------------------------------------------------
-initialization
-//-----------------------------------------------------------
+initialization //============================================================
 
   RegisterClass(TGLAsyncTimer);
-
 
 end.

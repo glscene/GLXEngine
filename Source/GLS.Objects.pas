@@ -2687,8 +2687,8 @@ constructor TGLSphere.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
   FRadius := 0.5;
-  FSlices := 16;
-  FStacks := 16;
+  FSlices := 32;
+  FStacks := 32;
   FTop := 90;
   FBottom := -90;
   FStart := 0;
@@ -3145,8 +3145,8 @@ begin
   FRadius := 0.5;
   FVCurve := 1.0;
   FHCurve := 1.0;
-  FSlices := 16;
-  FStacks := 16;
+  FSlices := 32;
+  FStacks := 32;
   FTop := 90;
   FBottom := -90;
   FStart := 0;

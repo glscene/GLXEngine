@@ -27,7 +27,7 @@ program ActorD;
 
 uses
   Forms,
-  fActorD in 'fActorD.pas';
+  fdActor in 'fdActor.pas' {FormActor};
 
 {$R *.RES}
 

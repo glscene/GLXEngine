@@ -19,7 +19,7 @@ program PortalD;
 
 uses
   Forms,
-  fPortalD in 'fPortalD.pas' {FormPortal};
+  fdPortal in 'fdPortal.pas' {FormPortal};
 
 {$R *.RES}
 

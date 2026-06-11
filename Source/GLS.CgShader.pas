@@ -1238,7 +1238,6 @@ end;
 initialization
 // ------------------------------------------------------------------
 
-// class registrations
 RegisterClasses([TCgShader, TCustomCgShader, TCadencableCustomCgShader,
   TCgFragmentProgram, TCgVertexProgram, TCgProgram]);
 

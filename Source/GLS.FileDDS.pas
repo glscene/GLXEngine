@@ -1,10 +1,10 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.FileDDS;
-
-(* DDS File support - Direct Draw Surface *)
-
+(*
+  DDS File support - Direct Draw Surface
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -56,10 +56,10 @@ function GetOrCreateLibMaterial(aMaterialLibrary: TGLMaterialLibrary;
 function LibMat(aMatLib: TGLMaterialLibrary; aMatName: string): TGLLibMaterial;
 
 // load DDS to texture
-{
+(*
 function DDStex(aMatLib: TGLMaterialLibrary; aTexName, aDDSFileName: string;
   aSecondTexName: string = ''; aDDSLevel: integer = 0): TGLLibMaterial; overload;
-}
+*)
 function DDStex(aMatLib: TGLMaterialLibrary; aTexName, aDDSFileName: string;
   aSecondTexName: string = ''; aDDSLevel: integer = 0): TGLLibMaterial; overload;
 
@@ -77,12 +77,12 @@ var
      low - skipped the first two levels. *)
   vDDSDetailLevel: TGLDDSDetailLevels = ddsHighDet;
 
-implementation //====================================================
+implementation //============================================================
 
 uses
   Formats.DXTC;
 
-// --------------------------------------------------------------------
+// --------------------------------------------------------------------------
 function GetOrCreateLibMaterial(aMaterialLibrary: TGLMaterialLibrary;
   aMaterialName: string): TGLLibMaterial;
 begin
@@ -97,7 +97,7 @@ begin
   end;
 end;
 
-// ---------------------------------------------------------------------
+// --------------------------------------------------------------------------
 function LibMat(aMatLib: TGLMaterialLibrary; aMatName: string): TGLLibMaterial;
 begin
   if aMatLib = nil then
@@ -110,8 +110,9 @@ begin
   end;
 end;
 
+// --------------------------------------------------------------------------
 // DDStex
-// --------------------------------------------------------------------
+// --------------------------------------------------------------------------
 function DDStex(aMatLib: TGLMaterialLibrary; aTexName, aDDSFileName: string;
   aSecondTexName: string = ''; aDDSLevel: integer = 0): TGLLibMaterial;
 begin
@@ -121,8 +122,8 @@ begin
 end;
 
 
-// ---------------------------------------------------------------------
-{
+// --------------------------------------------------------------------------
+(*
 function DDStex(aMatLib: TGLMaterialLibrary; aTexName, aDDSFileName: string;
   aSecondTexName: string = ''; aDDSLevel: integer = 0): TGLLibMaterial;
 var
@@ -147,10 +148,11 @@ begin
   end;
   vDDSDetailLevel := Level;
 end;
-}
+*)
 
+// --------------------------------------------------------------------------
 // DDStex
-// --------------------------------------------------------------------
+// --------------------------------------------------------------------------
 function DDStex(aTextureEx: TGLTextureExItem; aDDSFileName: string;
   aDDSLevel: integer = 0): TGLTextureExItem;
 begin
@@ -158,8 +160,9 @@ begin
   result := aTextureEx;
 end;
 
+// --------------------------------------------------------------------------
 // DDStex
-// --------------------------------------------------------------------
+// --------------------------------------------------------------------------
 function DDStex(aTexture: TGLTexture; aDDSFileName: string;
   aDDSLevel: integer = 0): TGLTexture;
 var
@@ -188,7 +191,6 @@ end;
 // ------------------
 // ------------------ TGLDDSImage ------------------
 // ------------------
-
 procedure TGLDDSImage.LoadFromFile(const Filename: string);
 var
   fs: TStream;
@@ -207,6 +209,7 @@ begin
     raise EInvalidRasterFile.CreateFmt(strFileNotFound, [filename]);
 end;
 
+// --------------------------------------------------------------------------
 procedure TGLDDSImage.SaveToFile(const Filename: string);
 var
   fs: TStream;
@@ -220,6 +223,7 @@ begin
   ResourceName := filename;
 end;
 
+// --------------------------------------------------------------------------
 procedure TGLDDSImage.LoadFromStream(Stream: TStream);
 var
   header: TDDSHeader;
@@ -372,6 +376,7 @@ begin
   end; // for level
 end;
 
+// --------------------------------------------------------------------------
 procedure TGLDDSImage.SaveToStream(Stream: TStream);
 const
   Magic: array[0..3] of AnsiChar = 'DDS ';
@@ -475,6 +480,7 @@ begin
   end;
 end;
 
+// --------------------------------------------------------------------------
 procedure TGLDDSImage.AssignFromTexture(TextureContext: TGLContext;
   const textureHandle: Cardinal;
   textureTarget: TGLTextureTarget;
@@ -638,6 +644,7 @@ begin
   end;
 end;
 
+// --------------------------------------------------------------------------
 procedure TGLDDSImage.FlipSurface(ChangeData: PGLubyte; W, H, D: integer);
 var
   LineSize: integer;
@@ -722,14 +729,13 @@ begin
   end;
 end;
 
+// --------------------------------------------------------------------------
 class function TGLDDSImage.Capabilities: TGLDataFileCapabilities;
 begin
   Result := [dfcRead, dfcWrite];
 end;
 
-//----------------------------------------------
-initialization
-//----------------------------------------------
+initialization //============================================================
 
   RegisterRasterFormat('dds', 'Direct Draw Surface', TGLDDSImage);
 

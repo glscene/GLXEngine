@@ -1,10 +1,10 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.HUDObjects;
-
-(* GLScene objects that get rendered in 2D coordinates *)
-
+(*
+   The objects that get rendered in 2D coordinates
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -147,9 +147,7 @@ type
     constructor Create(AOwner: TComponent); override;
   end;
 
-// ------------------------------------------------------------------
-implementation
-// ------------------------------------------------------------------
+implementation //============================================================
 
 uses
   GLS.Context,
@@ -159,7 +157,6 @@ uses
 // ------------------
 // ------------------ TGLHUDSprite ------------------
 // ------------------
-
 constructor TGLHUDSprite.Create(AOwner: TComponent);
 begin
   inherited;
@@ -290,7 +287,6 @@ end;
 // ------------------
 // ------------------ TGLHUDText ------------------
 // ------------------
-
 constructor TGLHUDText.Create(AOwner: TComponent);
 begin
   inherited;
@@ -404,7 +400,6 @@ end;
 // ------------------
 // ------------------ TGLResolutionIndependantHUDText ------------------
 // ------------------
-
 constructor TGLResolutionIndependantHUDText.Create(AOwner: TComponent);
 begin
   inherited;
@@ -424,7 +419,6 @@ end;
 // ------------------
 // ------------------ TGLAbsoluteHUDText ------------------
 // ------------------
-
 procedure TGLAbsoluteHUDText.DoRender(var rci: TGLRenderContextInfo;
   renderSelf, renderChildren: Boolean);
 var
@@ -437,9 +431,7 @@ begin
     Self.renderChildren(0, Count - 1, rci);
 end;
 
-// ------------------------------------------------------------------
-initialization
-// ------------------------------------------------------------------
+initialization //============================================================
 
 RegisterClasses([TGLHUDText, TGLHUDSprite, TGLResolutionIndependantHUDText,
   TGLAbsoluteHUDText]);

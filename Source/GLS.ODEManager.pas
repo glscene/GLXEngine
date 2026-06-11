@@ -2971,8 +2971,8 @@ begin
   FBottom := -90;
   FStart := 0;
   FStop := 360;
-  FSlices := 16;
-  FStacks := 16;
+  FSlices := 32;
+  FStacks := 32;
 
   AngTop := DegToRad(FTop);
   AngBottom := DegToRad(FBottom);
@@ -3117,7 +3117,7 @@ begin
   gl.MultMatrixf(@FLocalMatrix);
 
   Stacks := 8;
-  Slices := 16;
+  Slices := 32;
 
   // Middle horizontal circles
   for J := 0 to Stacks - 1 do
@@ -3284,7 +3284,7 @@ begin
   gl.PushMatrix;
   gl.MultMatrixf(@FLocalMatrix);
   Stacks := 8;
-  Slices := 16;
+  Slices := 32;
 
   // Middle horizontal circles
   for J := 0 to Stacks - 1 do

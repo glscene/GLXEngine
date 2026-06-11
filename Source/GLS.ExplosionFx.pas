@@ -1,8 +1,7 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.ExplosionFx;
-
 (*
   Description: this effect explodes a mesh object into triangles
   that fly over. You can define a default direction, in wich case
@@ -18,7 +17,6 @@ unit GLS.ExplosionFx;
   so if you'll need the mesh after exploding it, you'll have to save the
   MeshObjects property of the mesh, OR load it again.
 *)
-
 interface
 
 {$I Stage.Defines.inc}
@@ -83,9 +81,9 @@ type
 
 implementation //==============================================================
 
-//----------------------------------
+//-----------------------------------------------------------------------------
 // TGLBExplosionFx
-//----------------------------------
+//-----------------------------------------------------------------------------
 constructor TGLBExplosionFx.Create(aOwner: TXCollection);
 begin
   inherited Create(AOwner);
@@ -288,9 +286,7 @@ begin
   end;
 end;
 
-//-----------------------------------------------------------------------------
-initialization
-//-----------------------------------------------------------------------------
+initialization //==============================================================
 
 	RegisterXCollectionItemClass(TGLBExplosionFX);
 

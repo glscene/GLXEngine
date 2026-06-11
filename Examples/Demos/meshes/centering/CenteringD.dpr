@@ -7,7 +7,7 @@ program CenteringD;
 
 uses
   Forms,
-  fCenteringD in 'fCenteringD.pas' {FormCentering};
+  fdCentering in 'fdCentering.pas' {FormCentering};
 
 {$R *.RES}
 

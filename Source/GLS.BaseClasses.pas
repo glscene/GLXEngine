@@ -1,10 +1,10 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.BaseClasses;
-
-(* Base classes *)
-
+(*
+  Base classes
+*)
 interface
 
 uses
@@ -76,7 +76,7 @@ type
     property OnNotifyChange: TNotifyEvent read FOnNotifyChange write FOnNotifyChange;
   end;
 
-implementation //---------------------------------------------------------------
+implementation //==============================================================
 
 constructor TGLUpdateAbleObject.Create(AOwner: TPersistent);
 begin

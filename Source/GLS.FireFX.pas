@@ -1,10 +1,10 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.FireFX;
-
-(*  Fire special effect *)
-
+(*
+  Fire special effect
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -180,9 +180,7 @@ function GetOrCreateFireFX(effects: TGLEffects): TGLBFireFX; overload;
    This helper function is convenient way to access a TGLBFireFX. *)
 function GetOrCreateFireFX(obj: TGLBaseSceneObject): TGLBFireFX; overload;
 
-// ------------------------------------------------------------------
-implementation
-// ------------------------------------------------------------------
+implementation //============================================================
 
 function GetOrCreateFireFX(effects: TGLEffects): TGLBFireFX;
 var
@@ -711,14 +709,11 @@ begin
   rci.PipelineTransformation.Pop;
 end;
 
-// ------------------------------------------------------------------
-initialization
-// ------------------------------------------------------------------
+initialization //============================================================
 
-   // class registrations
   RegisterXCollectionItemClass(TGLBFireFX);
 
-finalization
+finalization //==============================================================
 
   UnregisterXCollectionItemClass(TGLBFireFX);
 

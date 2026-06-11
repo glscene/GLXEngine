@@ -1,10 +1,10 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.BitmapFont;
-
-(* Bitmap Fonts management classes *)
-
+(*
+  Bitmap Fonts management classes
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -286,9 +286,7 @@ type
     property Options: TGLFlatTextOptions read FOptions write SetOptions;
   end;
 
-// ------------------------------------------------------------------
-implementation
-// ------------------------------------------------------------------
+implementation //============================================================
 
 // ------------------
 // ------------------ TGLBitmapFontRange ------------------
@@ -1248,9 +1246,7 @@ begin
   inherited Assign(Source);
 end;
 
-// ------------------------------------------------------------------
-initialization
-// ------------------------------------------------------------------
+initialization //============================================================
 
 RegisterClasses([TGLBitmapFont, TGLFlatText]);
 

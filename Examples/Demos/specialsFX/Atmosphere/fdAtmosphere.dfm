@@ -175,12 +175,13 @@ object FormAtmosphere: TFormAtmosphere
         item
           RA = 12.000000000000000000
           DEC = -15.000000000000000000
-          Magnitude = -10.000000000000000000
+          Magnitude = -5.000000000000000000
           Color = clRed
         end
         item
           RA = 25.000000000000000000
           DEC = -20.000000000000000000
+          Magnitude = -1.000000000000000000
           Color = clYellow
         end>
     end

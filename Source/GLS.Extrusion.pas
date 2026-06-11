@@ -1,6 +1,6 @@
-﻿//
-// GLScene Graphics Engine
-//
+﻿(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.Extrusion;
 (*
   Extrusion objects are solids defined by the surface described by a moving curve.
@@ -95,7 +95,7 @@ type
     property YOffsetPerTurn: Single read FYOffsetPerTurn write
       SetYOffsetPerTurn;
     // Number of slices per turn (360deg).
-    property Slices: Integer read FSlices write SetSlices default 16;
+    property Slices: Integer read FSlices write SetSlices default 32;
 
     property Normals: TGLNormalSmoothing read FNormals write SetNormals default
       nsFlat;
@@ -262,7 +262,7 @@ begin
   inherited Create(AOwner);
   FStartAngle := 0;
   FStopAngle := 360;
-  FSlices := 16;
+  FSlices := 32;
   FNormals := nsFlat;
   FNormalDirection := ndOutside;
   FParts := [rspOutside];
@@ -781,7 +781,7 @@ end;
 constructor TGLPipe.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
-  FSlices := 16;
+  FSlices := 32;
   FParts := [ppOutside];
   FRadius := 1.0;
   FTriangleCount := 0;

@@ -717,7 +717,7 @@ begin
   inherited Create(AOwner);
   FOuterRadius := 0.5;
   FInnerRadius := 0;
-  FSlices := 16;
+  FSlices := 32;
   FLoops := 2;
   FStartAngle := 0;
   FSweepAngle := 360;
@@ -867,7 +867,7 @@ begin
   inherited Create(AOwner);
   FBottomRadius := 0.5;
   FHeight := 1;
-  FSlices := 16;
+  FSlices := 32;
   FStacks := 4;
   FLoops := 1;
 end;
@@ -2569,7 +2569,7 @@ end;
 constructor TGLArrowArc.Create(AOwner: TComponent);
 begin
   inherited;
-  FStacks := 16;
+  FStacks := 32;
   fArcRadius := 0.5;
   FStartAngle := 0;
   FStopAngle := 360;

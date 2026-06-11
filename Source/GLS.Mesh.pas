@@ -1,6 +1,6 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.Mesh;
 (*
   The unit is for simple meshes and legacy support, while GLS.VectorFileObjects
@@ -759,9 +759,7 @@ begin
   inherited;
 end;
 
-// ------------------------------------------------------------------
-initialization
-// ------------------------------------------------------------------
+initialization //============================================================
 
   RegisterClasses([TGLMesh]);
 

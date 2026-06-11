@@ -1,13 +1,11 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.CompositeImage;
-
 (*
   This class is required for loading images such classes as TGLDDSImage,
   TGLO3TCImage, TGLHDRImage etc.
 *)
-
 interface
 
 uses
@@ -51,8 +49,9 @@ type
     property Depth: Integer read GetDepth write SetDepth;
   end;
 
-implementation //-------------------------------------------------------------
+implementation //============================================================
 
+// --------------------------------------------------------------------------
 constructor TGLCompositeImage.Create(AOwner: TPersistent);
 begin
   inherited;
@@ -61,13 +60,14 @@ begin
   FDepth := 0;
 end;
 
-
+// --------------------------------------------------------------------------
 destructor TGLCompositeImage.Destroy;
 begin
   ReleaseBitmap32;
   inherited Destroy;
 end;
 
+// --------------------------------------------------------------------------
 procedure TGLCompositeImage.Assign(Source: TPersistent);
 begin
   if Assigned(Source) then
@@ -94,6 +94,7 @@ begin
     inherited;
 end;
 
+// --------------------------------------------------------------------------
 procedure TGLCompositeImage.SetWidth(val: Integer);
 begin
   if val <> FWidth then
@@ -105,11 +106,13 @@ begin
   end;
 end;
 
+// --------------------------------------------------------------------------
 function TGLCompositeImage.GetWidth: Integer;
 begin
   Result := FWidth;
 end;
 
+// --------------------------------------------------------------------------
 procedure TGLCompositeImage.SetHeight(val: Integer);
 begin
   if val <> FHeight then
@@ -121,11 +124,13 @@ begin
   end;
 end;
 
+// --------------------------------------------------------------------------
 function TGLCompositeImage.GetHeight: Integer;
 begin
   Result := FHeight;
 end;
 
+// --------------------------------------------------------------------------
 procedure TGLCompositeImage.SetDepth(val: Integer);
 begin
   if val <> FDepth then
@@ -137,11 +142,13 @@ begin
   end;
 end;
 
+// --------------------------------------------------------------------------
 function TGLCompositeImage.GetDepth: Integer;
 begin
   Result := FDepth;
 end;
 
+// --------------------------------------------------------------------------
 function TGLCompositeImage.GetBitmap32: TGLBitmap32;
 begin
   if not Assigned(FBitmap) then
@@ -158,6 +165,7 @@ begin
   Result := FBitmap;
 end;
 
+// --------------------------------------------------------------------------
 procedure TGLCompositeImage.ReleaseBitmap32;
 begin
   if Assigned(FBitmap) then
@@ -167,6 +175,7 @@ begin
   end;
 end;
 
+// --------------------------------------------------------------------------
 procedure TGLCompositeImage.SaveToFile(const fileName: string);
 var
   BaseImageClass: TGLBaseImageClass;
@@ -194,6 +203,7 @@ begin
   end;
 end;
 
+// --------------------------------------------------------------------------
 procedure TGLCompositeImage.LoadFromFile(const fileName: string);
 var
   BaseImageClass: TGLBaseImageClass;
@@ -221,6 +231,7 @@ begin
   end;
 end;
 
+// --------------------------------------------------------------------------
 procedure TGLCompositeImage.LoadFromStream(const AStream: TStream);
 var
   tempImage: TGLBaseImage;
@@ -245,12 +256,13 @@ begin
   end;
 end;
 
- 
+// --------------------------------------------------------------------------
 class function TGLCompositeImage.FriendlyName: string;
 begin
   Result := 'Composite Image';
 end;
 
+// --------------------------------------------------------------------------
 class function TGLCompositeImage.FriendlyDescription: string;
 begin
   Result := 'Image contained any internal formats of OpenGL textures';
@@ -264,7 +276,7 @@ begin
     Result := ttNoShape;
 end;
 
-initialization //-------------------------------------------------
+initialization //===========================================================
 
   RegisterGLTextureImageClass(TGLCompositeImage);
 

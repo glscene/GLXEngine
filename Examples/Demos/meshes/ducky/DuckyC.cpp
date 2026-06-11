@@ -2,7 +2,7 @@
 
 #include <vcl.h>
 #pragma hdrstop
-USEFORM("fDuckyC.cpp", Form1);
+USEFORM("fcDucky.cpp", Form1);
 //---------------------------------------------------------------------------
 WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 {

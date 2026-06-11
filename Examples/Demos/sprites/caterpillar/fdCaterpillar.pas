@@ -1,3 +1,6 @@
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit fdCaterpillar;
 
 interface
@@ -61,13 +64,11 @@ type
 var
   FormCaterpillar: TFormCaterpillar;
 
-  // --------------------------------
-implementation
-
-// --------------------------------
+implementation //============================================================
 
 {$R *.DFM}
 
+//---------------------------------------------------------------------------
 procedure TFormCaterpillar.FormCreate(Sender: TObject);
 begin
   var
@@ -82,6 +83,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TFormCaterpillar.GLCadencer1Progress(Sender: TObject; const deltaTime, newTime: Double);
 var
   i: Cardinal;
@@ -109,6 +111,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TFormCaterpillar.FormResize(Sender: TObject);
 begin
   GLCamera1.FocalLength := Width * 50 / 333;

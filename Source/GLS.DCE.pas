@@ -1351,7 +1351,6 @@ end;
 initialization
 // ------------------------------------------------------------------
 
-// class registrations
 RegisterXCollectionItemClass(TGLDCEStatic);
 RegisterXCollectionItemClass(TGLDCEDynamic);
 

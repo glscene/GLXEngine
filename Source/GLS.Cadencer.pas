@@ -1,10 +1,10 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.Cadencer;
-
-(* The cadencer component (ease Progress processing) *)
-
+(*
+  The cadencer component (ease Progress processing)
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -21,7 +21,6 @@ uses
   GLS.BaseClasses;
 
 type
-
   (* Determines how the TGLCadencer operates.
    - cmManual : you must trigger progress manually (in your code)
    - cmASAP : progress is triggered As Soon As Possible after a previous
@@ -43,7 +42,7 @@ type
   (* This component allows auto-progression of animation.
    Basicly dropping this component and linking it to your TGLScene will send
    it real-time progression events (time will be measured in seconds) while
-   keeping the CPU 100% busy if possible (ie. if things change in your scene). 
+   keeping the CPU 100% busy if possible (ie. if things change in your scene).
    The progression time (the one you'll see in you progression events)
    is calculated using  (CurrentTime-OriginTime)*TimeMultiplier,
    CurrentTime being either manually or automatically updated using
@@ -86,21 +85,21 @@ type
      Time stuff is handled automatically.
      If cadencer is disabled, this functions does nothing. *)
     procedure Progress;
-    // Adjusts CurrentTime if necessary, then returns its value. 
+    // Adjusts CurrentTime if necessary, then returns its value.
     function GetCurrenttime: Double; inline;
     (* Returns True if a "Progress" is underway.
      Be aware that as long as IsBusy is True, the Cadencer may be
      sending messages and progression calls to cadenceable components
      and scenes. *)
     function IsBusy: Boolean;
-    // Reset the time parameters and returns to zero. 
+    // Reset the time parameters and returns to zero.
     procedure Reset;
-    // Value soustracted to current time to obtain progression time. 
+    // Value soustracted to current time to obtain progression time.
     property OriginTime: Double read FOriginTime write FOriginTime;
-    // Current time (manually or automatically set, see TimeReference). 
+    // Current time (manually or automatically set, see TimeReference).
     property CurrentTime: Double read FCurrentTime write SetCurrentTime;
   published
-    // The TGLScene that will be cadenced (progressed). 
+    // The TGLScene that will be cadenced (progressed).
     property Scene: TGLScene read FScene write SetScene;
     (* Enables/Disables cadencing.
      Disabling won't cause a jump when restarting, it is working like
@@ -111,13 +110,13 @@ type
      Dynamically changeing the TimeReference may cause a "jump".  *)
     property TimeReference: TGLCadencerTimeReference read FTimeReference write
       SetTimeReference default cmPerformanceCounter;
-    (* Multiplier applied to the time reference. 
+    (* Multiplier applied to the time reference.
       Zero isn't an allowed value, and be aware that if negative values
       are accepted, they may not be supported by other GLScene objects.
      Changing the TimeMultiplier will alter OriginTime. *)
     property TimeMultiplier: Double read FTimeMultiplier write SetTimeMultiplier
       stored StoreTimeMultiplier;
-    (* Maximum value for deltaTime in progression events. 
+    (* Maximum value for deltaTime in progression events.
        If null or negative, no max deltaTime is defined, otherwise, whenever
        an event whose actual deltaTime would be superior to MaxDeltaTime
        occurs, deltaTime is clamped to this max, and the extra time is hidden
@@ -125,13 +124,13 @@ type
        This option allows to limit progression rate in simulations where
        high values would result in errors/random behaviour. *)
     property MaxDeltaTime: Double read FMaxDeltaTime write FMaxDeltaTime;
-    (* Minimum value for deltaTime in progression events. 
+    (* Minimum value for deltaTime in progression events.
        If superior to zero, this value specifies the minimum time step
        between two progression events.
        This option allows to limit progression rate in simulations where
        low values would result in errors/random behaviour. *)
     property MinDeltaTime: Double read FMinDeltaTime write FMinDeltaTime;
-    (* Fixed time-step value for progression events. 
+    (* Fixed time-step value for progression events.
        If superior to zero, progression steps will happen with that fixed
        delta time. The progression remains time based, so zero to N events
        may be fired depending on the actual deltaTime (if deltaTime is
@@ -141,19 +140,19 @@ type
        animation and rendering itself may happen at a lower or higher
        framerate). *)
     property FixedDeltaTime: Double read FFixedDeltaTime write FFixedDeltaTime;
-    // Adjusts how progression events are triggered. See TGLCadencerMode. 
+    // Adjusts how progression events are triggered. See TGLCadencerMode.
     property Mode: TGLCadencerMode read FMode write SetMode default cmASAP;
-    (* Allows relinquishing time to other threads/processes. 
+    (* Allows relinquishing time to other threads/processes.
      A "sleep" is issued BEFORE each progress if SleepLength>=0 (see
      help for the "sleep" procedure in delphi for details). *)
     property SleepLength: Integer read FSleepLength write FSleepLength default -1;
-    // Happens AFTER scene was progressed. 
+    // Happens AFTER scene was progressed.
     property OnProgress: TGLProgressEvent read FOnProgress write FOnProgress;
-    // Happens AFTER all iterations with fixed delta time. 
+    // Happens AFTER all iterations with fixed delta time.
     property OnTotalProgress : TGLProgressEvent read FOnTotalProgress write FOnTotalProgress;
   end;
 
-  // Adds a property to connect/subscribe to a cadencer.  
+  // Adds a property to connect/subscribe to a cadencer.
   TGLCustomCadencedComponent = class(TGLUpdateAbleComponent)
   private
     FCadencer: TGLCadencer;
@@ -171,9 +170,7 @@ type
     property Cadencer;
   end;
 
-// ---------------------------------------------------------------------
-implementation
-// ---------------------------------------------------------------------
+implementation //============================================================
 
 const
   cTickGLCadencer = 'TickGLCadencer';
@@ -196,6 +193,7 @@ var
   vHandler: TASAPHandler;
   vCounterFrequency: Int64;
 
+//---------------------------------------------------------------------------
 procedure RegisterASAPCadencer(aCadencer: TGLCadencer);
 begin
   if aCadencer.Mode = cmASAP then
@@ -213,7 +211,7 @@ begin
     Application.OnIdle := aCadencer.OnIdleEvent;
 end;
 
-
+//---------------------------------------------------------------------------
 procedure UnRegisterASAPCadencer(aCadencer: TGLCadencer);
 var
   i: Integer;
@@ -234,7 +232,6 @@ end;
 // ------------------
 // ------------------ TASAPHandler ------------------
 // ------------------
-
 constructor TASAPHandler.Create;
 begin
   inherited Create;
@@ -242,18 +239,19 @@ begin
   PostMessage(FWindowHandle, vWMTickCadencer, 0, 0);
 end;
 
+//---------------------------------------------------------------------------
 destructor TASAPHandler.Destroy;
 begin
   if FTimer <> 0 then
     KillTimer(FWindowHandle, FTimer);
   DeallocateHWnd(FWindowHandle);
-
   inherited Destroy;
 end;
 
 var
   vWndProcInLoop: Boolean;
 
+//---------------------------------------------------------------------------
 procedure TASAPHandler.WndProc(var Msg: TMessage);
 var
   i: Integer;
@@ -342,7 +340,6 @@ end;
 // ------------------
 // ------------------ TGLCadencer ------------------
 // ------------------
-
 constructor TGLCadencer.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
@@ -355,6 +352,7 @@ begin
   Enabled := True;
 end;
 
+//---------------------------------------------------------------------------
 destructor TGLCadencer.Destroy;
 begin
   Assert(FProgressing = 0);
@@ -364,6 +362,7 @@ begin
   inherited Destroy;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLCadencer.Subscribe(aComponent: TGLCadenceAbleComponent);
 begin
   if not Assigned(FSubscribedCadenceableComponents) then
@@ -375,6 +374,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLCadencer.UnSubscribe(aComponent: TGLCadenceAbleComponent);
 var
   i: Integer;
@@ -390,6 +390,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLCadencer.Notification(AComponent: TComponent; Operation:
   TOperation);
 begin
@@ -403,18 +404,21 @@ begin
   inherited;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLCadencer.Loaded;
 begin
   inherited Loaded;
   RestartASAP;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLCadencer.OnIdleEvent(Sender: TObject; var Done: Boolean);
 begin
   Progress;
   Done := False;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLCadencer.RestartASAP;
 begin
   if not (csLoading in ComponentState) then
@@ -428,6 +432,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLCadencer.SetEnabled(const val: Boolean);
 begin
   if FEnabled <> val then
@@ -444,6 +449,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLCadencer.SetScene(const val: TGLScene);
 begin
   if FScene <> val then
@@ -457,6 +463,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLCadencer.SetTimeMultiplier(const val: Double);
 var
   rawRef: Double;
@@ -489,11 +496,13 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 function TGLCadencer.StoreTimeMultiplier: Boolean;
 begin
   Result := (FTimeMultiplier <> 1);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLCadencer.SetMode(const val: TGLCadencerMode);
 begin
   if FMode <> val then
@@ -505,12 +514,14 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLCadencer.SetTimeReference(const val: TGLCadencerTimeReference);
 begin
   // nothing more, yet
   FTimeReference := val;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLCadencer.Progress;
 var
   deltaTime, newTime, totalDelta: Double;
@@ -603,6 +614,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 function TGLCadencer.GetRawReferenceTime: Double;
 var
   counter: Int64;
@@ -623,17 +635,20 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 function TGLCadencer.GetCurrenttime: Double;
 begin
   Result := (GetRawReferenceTime - FOriginTime) * FTimeMultiplier;
   FCurrentTime := Result;
 end;
 
+//---------------------------------------------------------------------------
 function TGLCadencer.IsBusy: Boolean;
 begin
   Result := (FProgressing <> 0);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLCadencer.Reset;
 begin
   LastTime := 0;
@@ -641,6 +656,7 @@ begin
   FOriginTime := downTime;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLCadencer.SetCurrentTime(const Value: Double);
 begin
   LastTime := Value - (FCurrentTime - LastTime);
@@ -651,13 +667,13 @@ end;
 // ------------------
 // ------------------ TGLCustomCadencedComponent ------------------
 // ------------------
-
 destructor TGLCustomCadencedComponent.Destroy;
 begin
   Cadencer := nil;
   inherited Destroy;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLCustomCadencedComponent.Notification(AComponent: TComponent;
   Operation: TOperation);
 begin
@@ -666,6 +682,7 @@ begin
   inherited;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLCustomCadencedComponent.SetCadencer(const val: TGLCadencer);
 begin
   if FCadencer <> val then
@@ -678,20 +695,16 @@ begin
   end;
 end;
 
-// ---------------------------------------------------------------------
-initialization
-// ---------------------------------------------------------------------
+initialization //============================================================
 
   RegisterClasses([TGLCadencer]);
-
   // Get our Windows message ID
   vWMTickCadencer := RegisterWindowMessage(cTickGLCadencer);
-
   // Preparation for high resolution timer
   if not QueryPerformanceFrequency(vCounterFrequency) then
     vCounterFrequency := 0;
 
-finalization
+finalization //==============================================================
 
   FreeAndNil(vHandler);
   FreeAndNil(vASAPCadencerList);

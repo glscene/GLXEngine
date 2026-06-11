@@ -1,13 +1,11 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.LensFlare;
-
 (*
   Lens flare object.
   Registered components: [TGLLensFlare]
 *)
-
 interface
 
 {$I Stage.Defines.inc}
@@ -20,20 +18,19 @@ uses
   System.Math,
 
   Stage.OpenGLTokens,
-  GLS.PersistentClasses,
   Stage.VectorGeometry,
-  GLS.BaseClasses,
   Stage.VectorTypes,
-
-  GLS.Scene,
   Stage.PipelineTransform,
+  Stage.Utils,
+  Stage.TextureFormat,
+  GLS.PersistentClasses,
+  GLS.BaseClasses,
+  GLS.Scene,
   GLS.Objects,
   GLS.Context,
   GLS.Color,
   GLS.RenderContextInfo,
-  GLS.State,
-  Stage.Utils,
-  Stage.TextureFormat;
+  GLS.State;
 
 type
 
@@ -192,14 +189,11 @@ type
     property Effects;
   end;
 
-// ------------------------------------------------------------------
-implementation
-// ------------------------------------------------------------------
+implementation //============================================================
 
 // ------------------
 // ------------------ TGLFlareGradient ------------------
 // ------------------
-
 constructor TGLFlareGradient.Create(AOwner: TPersistent);
 begin
   inherited;
@@ -207,6 +201,7 @@ begin
   FToColor := TGLColor.Create(Self);
 end;
 
+//---------------------------------------------------------------------------
 constructor TGLFlareGradient.CreateInitialized(AOwner: TPersistent;
   const fromColor, toColor: TGLColorVector);
 begin
@@ -215,6 +210,7 @@ begin
   FToColor.Initialize(toColor);
 end;
 
+//---------------------------------------------------------------------------
 destructor TGLFlareGradient.Destroy;
 begin
   FToColor.Free;
@@ -222,6 +218,7 @@ begin
   inherited;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLFlareGradient.Assign(Source: TPersistent);
 begin
   if Source is TGLFlareGradient then
@@ -232,11 +229,13 @@ begin
   inherited;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLFlareGradient.SetFromColor(const val: TGLColor);
 begin
   FFromColor.Assign(val);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLFlareGradient.SetToColor(const val: TGLColor);
 begin
   FToColor.Assign(val);
@@ -245,7 +244,6 @@ end;
 // ------------------
 // ------------------ TGLLensFlare ------------------
 // ------------------
-
 constructor TGLLensFlare.Create(AOwner: TComponent);
 begin
   inherited;
@@ -277,6 +275,7 @@ begin
   FTexRays := TGLTextureHandle.Create;
 end;
 
+//---------------------------------------------------------------------------
 destructor TGLLensFlare.Destroy;
 begin
   PreRenderPoint := nil;
@@ -290,6 +289,7 @@ begin
   inherited;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLLensFlare.Notification(AComponent: TComponent; Operation:
   TOperation);
 begin
@@ -298,6 +298,7 @@ begin
   inherited;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLLensFlare.SetupRenderingOptions(StateCache: TGLStateCache);
 begin
   StateCache.Disable(stLighting);
@@ -312,6 +313,7 @@ begin
   StateCache.PolygonMode := pmFill;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLLensFlare.RenderRays(StateCache: TGLStateCache; const size:
   Single);
 var
@@ -325,7 +327,6 @@ begin
   StateCache.LineWidth := 1;
   StateCache.Disable(stLineSmooth);
   StateCache.Disable(stLineStipple);
-
   gl.Begin_(GL_LINES);
   for i := 0 to Resolution * 20 - 1 do
   begin
@@ -341,6 +342,7 @@ begin
   gl.End_;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLLensFlare.RenderStreaks(StateCache: TGLStateCache);
 var
   i: Integer;
@@ -367,6 +369,7 @@ begin
   StateCache.Disable(stLineSmooth);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLLensFlare.RenderRing;
 var
   i: Integer;
@@ -403,6 +406,7 @@ begin
   gl.End_;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLLensFlare.RenderSecondaries(const posVector: TAffineVector);
 var
   i, j: Integer;
@@ -442,6 +446,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLLensFlare.BuildList(var rci: TGLRenderContextInfo);
 var
   i: Integer;
@@ -646,12 +651,14 @@ begin
     Self.RenderChildren(0, Count - 1, rci);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLLensFlare.DoProgress(const progressTime: TGLProgressTimes);
 begin
   inherited;
   FDeltaTime := progressTime.deltaTime;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLLensFlare.PreRender(activeBuffer: TGLSceneBuffer);
 var
   i, texSize, maxSize: Integer;
@@ -698,96 +705,108 @@ begin
   gl.TexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, i);
   gl.TexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
   gl.TexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
   gl.CopyTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 2, 2, texSize, texSize, 0);
-
   activeBuffer.RenderingContext.PipelineTransformation.Pop;
-
   gl.CheckError;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLLensFlare.SetGlowGradient(const val: TGLFlareGradient);
 begin
   FGlowGradient.Assign(val);
   StructureChanged;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLLensFlare.SetRingGradient(const val: TGLFlareGradient);
 begin
   FRingGradient.Assign(val);
   StructureChanged;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLLensFlare.SetStreaksGradient(const val: TGLFlareGradient);
 begin
   FStreaksGradient.Assign(val);
   StructureChanged;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLLensFlare.SetRaysGradient(const val: TGLFlareGradient);
 begin
   FRaysGradient.Assign(val);
   StructureChanged;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLLensFlare.SetSecondariesGradient(const val: TGLFlareGradient);
 begin
   FSecondariesGradient.Assign(val);
   StructureChanged;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLLensFlare.SetSize(aValue: Integer);
 begin
   FSize := aValue;
   StructureChanged;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLLensFlare.SetSeed(aValue: Integer);
 begin
   FSeed := aValue;
   StructureChanged;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLLensFlare.SetSqueeze(aValue: Single);
 begin
   FSqueeze := aValue;
   StructureChanged;
 end;
 
+//---------------------------------------------------------------------------
 function TGLLensFlare.StoreSqueeze: Boolean;
 begin
   Result := (FSqueeze <> 1);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLLensFlare.SetNumStreaks(aValue: Integer);
 begin
   FNumStreaks := aValue;
   StructureChanged;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLLensFlare.SetStreakWidth(aValue: Single);
 begin
   FStreakWidth := aValue;
   StructureChanged;
 end;
 
+//---------------------------------------------------------------------------
 function TGLLensFlare.StoreStreakWidth: Boolean;
 begin
   Result := (FStreakWidth <> 2);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLLensFlare.SetStreakAngle(aValue: Single);
 begin
   FStreakAngle := aValue;
   StructureChanged;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLLensFlare.SetNumSecs(aValue: Integer);
 begin
   FNumSecs := aValue;
   StructureChanged;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLLensFlare.SetResolution(aValue: Integer);
 begin
   if FResolution <> aValue then
@@ -803,6 +822,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLLensFlare.SetAutoZTest(aValue: Boolean);
 begin
   if FAutoZTest <> aValue then
@@ -812,6 +832,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLLensFlare.SetElements(aValue: TGLFlareElements);
 begin
   if FElements <> aValue then
@@ -821,6 +842,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLLensFlare.SetDynamic(aValue: Boolean);
 begin
   if aValue <> FDynamic then
@@ -830,6 +852,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLLensFlare.SetPreRenderPoint(const val: TGLRenderPoint);
 begin
   if val <> FPreRenderPoint then
@@ -843,6 +866,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLLensFlare.PreRenderEvent(Sender: TObject; var rci:
   TGLRenderContextInfo);
 begin
@@ -854,9 +878,7 @@ begin
   FPreRenderPoint := nil;
 end;
 
-// ------------------------------------------------------------------
-initialization
-// ------------------------------------------------------------------
+initialization //============================================================
 
   RegisterClasses([TGLLensFlare]);
 

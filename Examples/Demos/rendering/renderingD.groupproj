@@ -51,10 +51,10 @@
         <Projects Include="TerraNavi\TerraNaviD.dproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="tobitmap\TobitmapD.dproj">
+        <Projects Include="Terrainer\TerrainerD.dproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="Terrainer\Terrainer.dproj">
+        <Projects Include="tobitmap\TobitmapD.dproj">
             <Dependencies/>
         </Projects>
     </ItemGroup>
@@ -209,6 +209,15 @@
     <Target Name="TerraNaviD:Make">
         <MSBuild Projects="TerraNavi\TerraNaviD.dproj" Targets="Make"/>
     </Target>
+    <Target Name="TerrainerD">
+        <MSBuild Projects="Terrainer\TerrainerD.dproj"/>
+    </Target>
+    <Target Name="TerrainerD:Clean">
+        <MSBuild Projects="Terrainer\TerrainerD.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="TerrainerD:Make">
+        <MSBuild Projects="Terrainer\TerrainerD.dproj" Targets="Make"/>
+    </Target>
     <Target Name="TobitmapD">
         <MSBuild Projects="tobitmap\TobitmapD.dproj"/>
     </Target>
@@ -218,23 +227,14 @@
     <Target Name="TobitmapD:Make">
         <MSBuild Projects="tobitmap\TobitmapD.dproj" Targets="Make"/>
     </Target>
-    <Target Name="Terrainer">
-        <MSBuild Projects="Terrainer\Terrainer.dproj"/>
-    </Target>
-    <Target Name="Terrainer:Clean">
-        <MSBuild Projects="Terrainer\Terrainer.dproj" Targets="Clean"/>
-    </Target>
-    <Target Name="Terrainer:Make">
-        <MSBuild Projects="Terrainer\Terrainer.dproj" Targets="Make"/>
-    </Target>
     <Target Name="Build">
-        <CallTarget Targets="BlurD;BlurAdvancedD;CelShadingD;CullingD;GrassD;FogD;FullscreenD;InvarianceD;MemViewerD;MultiProxyD;MultiTexturesD;OctreeRenderD;PhongD;RenderToTexD;SkyBoxD;TerraNaviD;TobitmapD;Terrainer"/>
+        <CallTarget Targets="BlurD;BlurAdvancedD;CelShadingD;CullingD;GrassD;FogD;FullscreenD;InvarianceD;MemViewerD;MultiProxyD;MultiTexturesD;OctreeRenderD;PhongD;RenderToTexD;SkyBoxD;TerraNaviD;TerrainerD;TobitmapD"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="BlurD:Clean;BlurAdvancedD:Clean;CelShadingD:Clean;CullingD:Clean;GrassD:Clean;FogD:Clean;FullscreenD:Clean;InvarianceD:Clean;MemViewerD:Clean;MultiProxyD:Clean;MultiTexturesD:Clean;OctreeRenderD:Clean;PhongD:Clean;RenderToTexD:Clean;SkyBoxD:Clean;TerraNaviD:Clean;TobitmapD:Clean;Terrainer:Clean"/>
+        <CallTarget Targets="BlurD:Clean;BlurAdvancedD:Clean;CelShadingD:Clean;CullingD:Clean;GrassD:Clean;FogD:Clean;FullscreenD:Clean;InvarianceD:Clean;MemViewerD:Clean;MultiProxyD:Clean;MultiTexturesD:Clean;OctreeRenderD:Clean;PhongD:Clean;RenderToTexD:Clean;SkyBoxD:Clean;TerraNaviD:Clean;TerrainerD:Clean;TobitmapD:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="BlurD:Make;BlurAdvancedD:Make;CelShadingD:Make;CullingD:Make;GrassD:Make;FogD:Make;FullscreenD:Make;InvarianceD:Make;MemViewerD:Make;MultiProxyD:Make;MultiTexturesD:Make;OctreeRenderD:Make;PhongD:Make;RenderToTexD:Make;SkyBoxD:Make;TerraNaviD:Make;TobitmapD:Make;Terrainer:Make"/>
+        <CallTarget Targets="BlurD:Make;BlurAdvancedD:Make;CelShadingD:Make;CullingD:Make;GrassD:Make;FogD:Make;FullscreenD:Make;InvarianceD:Make;MemViewerD:Make;MultiProxyD:Make;MultiTexturesD:Make;OctreeRenderD:Make;PhongD:Make;RenderToTexD:Make;SkyBoxD:Make;TerraNaviD:Make;TerrainerD:Make;TobitmapD:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

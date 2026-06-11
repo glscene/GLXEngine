@@ -2,7 +2,7 @@
 
 #include <vcl.h>
 #pragma hdrstop
-USEFORM("fTerrainC.cpp", Form1);
+USEFORM("fcTerrain.cpp", Form1);
 //---------------------------------------------------------------------------
 WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 {

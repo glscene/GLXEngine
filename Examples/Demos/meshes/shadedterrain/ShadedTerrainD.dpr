@@ -2,7 +2,7 @@
 program ShadedTerrainD;
 uses
   Forms,
-  fShadedTerrainD in 'fShadedTerrainD.pas' {FormShadedTerrain};
+  fdShadedTerrain in 'fdShadedTerrain.pas' {FormShadedTerrain};
 
 {$R *.RES}
 begin

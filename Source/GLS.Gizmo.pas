@@ -526,7 +526,7 @@ begin
   _GZOTorusX := TGLGizmoPickTorus(_GZORootTorus.AddnewChild(TGLGizmoPickTorus));
   with _GZOTorusX do
   begin
-    Rings := 16;
+    Rings := 32;
     Sides := 4;
     MajorRadius := 0.6;
     MinorRadius := 0.03;
@@ -544,7 +544,7 @@ begin
   _GZOTorusY := TGLGizmoPickTorus(_GZORootTorus.AddnewChild(TGLGizmoPickTorus));
   with _GZOTorusY do
   begin
-    Rings := 16;
+    Rings := 32;
     Sides := 4;
     MajorRadius := 0.6;
     MinorRadius := 0.03;
@@ -561,7 +561,7 @@ begin
   _GZOTorusZ := TGLGizmoPickTorus(_GZORootTorus.AddnewChild(TGLGizmoPickTorus));
   with _GZOTorusZ do
   begin
-    Rings := 16;
+    Rings := 32;
     Sides := 4;
     MajorRadius := 0.6;
     MinorRadius := 0.03;

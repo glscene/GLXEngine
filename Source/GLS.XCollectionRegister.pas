@@ -54,6 +54,4 @@ end;
 
 initialization //==============================================================
 
-// class registrations
-
 end.

@@ -1,8 +1,7 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.HeightData;
-
 (*
   Classes for height data access.
 
@@ -16,7 +15,6 @@ unit GLS.HeightData;
   is basicly a square, power of two dimensionned raster heightfield, and
   holds the data a renderer needs.
 *)
-
 interface
 
 {$I Stage.Defines.inc}
@@ -502,14 +500,11 @@ type
   end;
 
 
-// ------------------------------------------------------------------
-implementation
-// ------------------------------------------------------------------
+implementation //============================================================
 
 // ------------------
 // ------------------ TGLHeightDataSourceThread ------------------
 // ------------------
-
 type
   TGLHeightDataSourceThread = class(TThread)
     FOwner: TGLHeightDataSource;
@@ -519,6 +514,7 @@ type
     procedure HDSIdle;
   end;
 
+//---------------------------------------------------------------------------
 procedure TGLHeightDataSourceThread.Execute;
 var
   i: Integer;
@@ -541,8 +537,8 @@ begin
         Inc(TdCtr);
       Inc(i);
     end;
-    // ------------------------
 
+    // ------------------------
     // --Find the queued tiles, and Start preparing them--
     i := 0;
     While ((i < lst.Count) and (TdCtr < max)) do
@@ -556,7 +552,6 @@ begin
       Inc(i);
     end;
     // ---------------------------------------------------
-
     FOwner.FData.UnlockList;
     if (TdCtr = 0) then
       synchronize(HDSIdle);
@@ -567,7 +562,9 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 // When Threading, wait a specified time, for the tile to finish preparing
+//---------------------------------------------------------------------------
 function TGLHeightDataSourceThread.WaitForTile(HD: TGLHeightData;
   seconds: Integer): boolean;
 var
@@ -582,9 +579,11 @@ begin
   Result := (HD.FThread = nil); // true if the thread has finished
 end;
 
+//---------------------------------------------------------------------------
 // When using threads, HDSIdle is called in the main thread,
 // whenever all HDS threads have finished, AND no queued tiles were found.
 // (GLS.AsyncHDS uses this for the OnIdle event.)
+//---------------------------------------------------------------------------
 procedure TGLHeightDataSourceThread.HDSIdle;
 begin
   self.FOwner.ThreadIsIdle;
@@ -593,7 +592,6 @@ end;
 // ------------------
 // ------------------ TGLHeightDataSource ------------------
 // ------------------
-
 constructor TGLHeightDataSource.Create(AOwner: TComponent);
 var
   i: Integer;
@@ -611,6 +609,7 @@ begin
     FThread.Start;
 end;
 
+//---------------------------------------------------------------------------
 destructor TGLHeightDataSource.Destroy;
 var
   i: Integer;
@@ -629,6 +628,7 @@ begin
     FDataHash[i].Free;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLHeightDataSource.Clear;
 var
   i: Integer;
@@ -654,13 +654,14 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 function TGLHeightDataSource.HashKey(XLeft, YTop: Integer): Integer;
 begin
   Result := (XLeft + (XLeft shr 8) + (YTop shl 1) + (YTop shr 7)) and
     High(FDataHash);
 end;
 
-
+//---------------------------------------------------------------------------
 function TGLHeightDataSource.FindMatchInList(XLeft, YTop, size: Integer;
   DataType: TGLHeightDataType): TGLHeightData;
 var
@@ -687,6 +688,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 function TGLHeightDataSource.GetData(XLeft, YTop, size: Integer;
   DataType: TGLHeightDataType): TGLHeightData;
 begin
@@ -706,6 +708,7 @@ begin
   // while not (Result.DataState in [hdsReady, hdsNone]) do Sleep(0);
 end;
 
+//---------------------------------------------------------------------------
 function TGLHeightDataSource.PreLoad(XLeft, YTop, size: Integer;
   DataType: TGLHeightDataType): TGLHeightData;
 begin
@@ -725,11 +728,13 @@ begin
     StartPreparingData(Result);
     AfterPreparingData(Result);
   end;
-  // ---------------------------------------------------------------
 end;
 
+//---------------------------------------------------------------------------
 // When Multi-threading, this queues a replacement for a dirty tile
-// The Terrain renderer will continue to use the dirty tile, until the replacement is complete
+// The Terrain renderer will continue to use the dirty tile,
+// until the replacement is complete
+//---------------------------------------------------------------------------
 procedure TGLHeightDataSource.PreloadReplacement(aHeightData: TGLHeightData);
 var
   HD: TGLHeightData;
@@ -752,11 +757,13 @@ begin
     end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLHeightDataSource.Release(aHeightData: TGLHeightData);
 begin
   // nothing, yet
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLHeightDataSource.MarkDirty(const Area: TRect);
 var
   i: Integer;
@@ -777,6 +784,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLHeightDataSource.MarkDirty(XLeft, YTop, xRight, yBottom: Integer);
 var
   r: TRect;
@@ -788,6 +796,7 @@ begin
   MarkDirty(r);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLHeightDataSource.MarkDirty;
 const
   m = MaxInt - 1;
@@ -795,6 +804,7 @@ begin
   MarkDirty(-m, -m, m, m);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLHeightDataSource.CleanUp;
 var
   packList: boolean;
@@ -893,6 +903,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLHeightDataSource.SetMaxThreads(const Val: Integer);
 begin
   if (Val <= 0) then
@@ -907,15 +918,19 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 // Called BEFORE StartPreparingData, but always from the MAIN thread.
 // Override this in subclasses, to prepare for Threading.
+//---------------------------------------------------------------------------
 procedure TGLHeightDataSource.BeforePreparingData(HeightData: TGLHeightData);
 begin
   //
 end;
 
+//---------------------------------------------------------------------------
 // When Threads are used, this runs from the sub-thread, so this MUST be thread-safe.
 // Any Non-thread-safe code should be placed in "BeforePreparingData"
+//---------------------------------------------------------------------------
 procedure TGLHeightDataSource.StartPreparingData(HeightData: TGLHeightData);
 begin
   // Only the tile Owner may set the preparing tile to ready
@@ -923,20 +938,25 @@ begin
     HeightData.FDataState := hdsReady;
 end;
 
+//---------------------------------------------------------------------------
 // Called AFTER StartPreparingData, but always from the MAIN thread.
 // Override this in subclasses, if needed.
+//---------------------------------------------------------------------------
 procedure TGLHeightDataSource.AfterPreparingData(HeightData: TGLHeightData);
 begin
   //
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLHeightDataSource.ThreadIsIdle;
 begin
   // TGLAsyncHDS overrides this
 end;
 
+//---------------------------------------------------------------------------
 // Calculates texture World texture coordinates for the current tile.
-// Use Stretch for OpenGL1.1, to hide the seams when using linear filtering.
+// Use Stretch to hide the seams when using linear filtering.
+//---------------------------------------------------------------------------
 procedure TGLHeightDataSource.TextureCoordinates(HeightData: TGLHeightData;
   Stretch: boolean = false);
 var
@@ -972,6 +992,7 @@ begin
   HD.FTCOffset.T := offsetT;
 end;
 
+//---------------------------------------------------------------------------
 function TGLHeightDataSource.InterpolatedHeight(x, y: Single;
   TileSize: Integer): Single;
 var
@@ -1024,7 +1045,6 @@ end;
 // ------------------
 // ------------------ TGLHeightData ------------------
 // ------------------
-
 constructor TGLHeightData.Create(AOwner: TGLHeightDataSource;
   aXLeft, aYTop, aSize: Integer; aDataType: TGLHeightDataType);
 begin
@@ -1046,6 +1066,7 @@ begin
   DontUse := False;
 end;
 
+//---------------------------------------------------------------------------
 destructor TGLHeightData.Destroy;
 begin
   Assert(Length(FUsers) = 0,
@@ -1097,19 +1118,18 @@ begin
     self.NewVersion.OldVersion := nil;
     self.NewVersion := nil;
   end;
-  // ------------------------------------------------------
-
-  // ----------------------
   inherited Destroy;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLHeightData.RegisterUse;
 begin
   Inc(FUseCounter);
 end;
 
+//---------------------------------------------------------------------------
 // Release
-//
+//---------------------------------------------------------------------------
 procedure TGLHeightData.Release;
 begin
   if FUseCounter > 0 then
@@ -1120,9 +1140,10 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 // Release Dirty tiles, unless threading, and the tile is being used.
 // In that case, start building a replacement tile instead.
-
+//---------------------------------------------------------------------------
 procedure TGLHeightData.MarkDirty;
 begin
   with Owner.Data.LockList do
@@ -1143,6 +1164,7 @@ begin
     end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLHeightData.Allocate(const Val: TGLHeightDataType);
 begin
   Assert(FDataSize = 0);
@@ -1171,16 +1193,19 @@ begin
   FDataType := Val;
 end;
 
+//---------------------------------------------------------------------------
 // WARNING: SetMaterialName does NOT register the tile as a user of this texture.
 // So, TGLLibMaterials.DeleteUnusedMaterials may see this material as unused, and delete it.
 // This may lead to AV's the next time this tile is rendered.
 // To be safe, rather assign the new TGLHeightData.LibMaterial property
+//---------------------------------------------------------------------------
 procedure TGLHeightData.SetMaterialName(const MaterialName: string);
 begin
   SetLibMaterial(nil);
   FMaterialName := MaterialName;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLHeightData.SetLibMaterial(LibMaterial: TGLLibMaterial);
 begin
   if Assigned(FLibMaterial) then
@@ -1195,6 +1220,7 @@ begin
     FMaterialName := '';
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLHeightData.SetDataType(const Val: TGLHeightDataType);
 begin
   if (Val <> FDataType) and (Val <> hdtDefault) then
@@ -1239,6 +1265,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLHeightData.BuildByteRaster;
 var
   i: Integer;
@@ -1248,6 +1275,7 @@ begin
     FByteRaster^[i] := @FByteData[i * size]
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLHeightData.BuildSmallIntRaster;
 var
   i: Integer;
@@ -1257,6 +1285,7 @@ begin
     FSmallIntRaster^[i] := @FSmallIntData[i * size]
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLHeightData.BuildSingleRaster;
 var
   i: Integer;
@@ -1266,6 +1295,7 @@ begin
     FSingleRaster^[i] := @FSingleData[i * size]
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLHeightData.ConvertByteToSmallInt;
 var
   i: Integer;
@@ -1281,6 +1311,7 @@ begin
   BuildSmallIntRaster;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLHeightData.ConvertByteToSingle;
 var
   i: Integer;
@@ -1296,6 +1327,7 @@ begin
   BuildSingleRaster;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLHeightData.ConvertSmallIntToByte;
 var
   i: Integer;
@@ -1311,6 +1343,7 @@ begin
   BuildByteRaster;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLHeightData.ConvertSmallIntToSingle;
 var
   i: Integer;
@@ -1326,6 +1359,7 @@ begin
   BuildSingleRaster;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLHeightData.ConvertSingleToByte;
 var
   i: Integer;
@@ -1341,6 +1375,7 @@ begin
   BuildByteRaster;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLHeightData.ConvertSingleToSmallInt;
 var
   i: Integer;
@@ -1356,24 +1391,28 @@ begin
   BuildSmallIntRaster;
 end;
 
+//---------------------------------------------------------------------------
 function TGLHeightData.ByteHeight(x, y: Integer): Byte;
 begin
   Assert((Cardinal(x) < Cardinal(size)) and (Cardinal(y) < Cardinal(size)));
   Result := ByteRaster^[y]^[x];
 end;
 
+//---------------------------------------------------------------------------
 function TGLHeightData.SmallIntHeight(x, y: Integer): SmallInt;
 begin
   Assert((Cardinal(x) < Cardinal(size)) and (Cardinal(y) < Cardinal(size)));
   Result := SmallIntRaster^[y]^[x];
 end;
 
+//---------------------------------------------------------------------------
 function TGLHeightData.SingleHeight(x, y: Integer): Single;
 begin
   Assert((Cardinal(x) < Cardinal(size)) and (Cardinal(y) < Cardinal(size)));
   Result := SingleRaster^[y]^[x];
 end;
 
+//---------------------------------------------------------------------------
 function TGLHeightData.InterpolatedHeight(x, y: Single): Single;
 var
   ix, iy, ixn, iyn: Integer;
@@ -1412,6 +1451,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 function TGLHeightData.Height(x, y: Integer): Single;
 begin
   case DataType of
@@ -1427,6 +1467,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 function TGLHeightData.GetHeightMin: Single;
 var
   i: Integer;
@@ -1473,6 +1514,7 @@ begin
   Result := FHeightMin;
 end;
 
+//---------------------------------------------------------------------------
 function TGLHeightData.GetHeightMax: Single;
 var
   i: Integer;
@@ -1519,7 +1561,9 @@ begin
   Result := FHeightMax;
 end;
 
+//---------------------------------------------------------------------------
 // Calculates the normal at a vertex
+//---------------------------------------------------------------------------
 function TGLHeightData.Normal(x, y: Integer; const scale: TAffineVector)
   : TAffineVector;
 var
@@ -1545,7 +1589,9 @@ begin
   NormalizeVector(Result);
 end;
 
+//---------------------------------------------------------------------------
 // Calculates the normal at a surface cell (Between vertexes)
+//---------------------------------------------------------------------------
 function TGLHeightData.NormalAtNode(x, y: Integer; const scale: TAffineVector)
   : TAffineVector;
 var
@@ -1562,6 +1608,7 @@ begin
   NormalizeVector(Result);
 end;
 
+//---------------------------------------------------------------------------
 function TGLHeightData.OverlapsArea(const Area: TRect): boolean;
 begin
   Result := (XLeft <= Area.Right) and (YTop <= Area.Bottom) and
@@ -1571,7 +1618,6 @@ end;
 // ------------------
 // ------------------ TGLHeightDataThread ------------------
 // ------------------
-
 destructor TGLHeightDataThread.Destroy;
 begin
   if Assigned(FHeightData) then
@@ -1582,7 +1628,6 @@ end;
 // ------------------
 // ------------------ TGLBitmapHDS ------------------
 // ------------------
-
 constructor TGLBitmapHDS.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
@@ -1592,6 +1637,7 @@ begin
   FInverted := True;
 end;
 
+//---------------------------------------------------------------------------
 destructor TGLBitmapHDS.Destroy;
 begin
   inherited Destroy;
@@ -1599,11 +1645,13 @@ begin
   FPicture.Free;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLBitmapHDS.SetPicture(const Val: TPicture);
 begin
   FPicture.Assign(Val);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLBitmapHDS.OnPictureChanged(sender: TObject);
 var
   oldPoolSize, size: Integer;
@@ -1620,6 +1668,7 @@ begin
     CreateMonochromeBitmap(size);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLBitmapHDS.SetInfiniteWrap(Val: boolean);
 begin
   if FInfiniteWrap <> Val then
@@ -1629,6 +1678,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLBitmapHDS.SetInverted(Val: boolean);
 begin
   if FInverted = Val then
@@ -1637,6 +1687,7 @@ begin
   MarkDirty;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLBitmapHDS.MarkDirty(const Area: TRect);
 begin
   inherited;
@@ -1645,6 +1696,7 @@ begin
     CreateMonochromeBitmap(Picture.Width);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLBitmapHDS.CreateMonochromeBitmap(size: Integer);
 type
   TPaletteEntryArray = array [0 .. 255] of TPaletteEntry;
@@ -1692,6 +1744,7 @@ begin
   SetLength(FScanLineCache, size);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLBitmapHDS.FreeMonochromeBitmap;
 begin
   SetLength(FScanLineCache, 0);
@@ -1699,6 +1752,7 @@ begin
   FBitmap := nil;
 end;
 
+//---------------------------------------------------------------------------
 function TGLBitmapHDS.GetScanLine(y: Integer): PByteArray;
 begin
   Result := FScanLineCache[y];
@@ -1709,6 +1763,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLBitmapHDS.StartPreparingData(HeightData: TGLHeightData);
 var
   y, x: Integer;
@@ -1761,6 +1816,7 @@ begin
   inherited;
 end;
 
+//---------------------------------------------------------------------------
 function TGLBitmapHDS.Width: Integer;
 begin
   if Assigned(self.FBitmap) then
@@ -1769,6 +1825,7 @@ begin
     Result := 0;
 end;
 
+//---------------------------------------------------------------------------
 function TGLBitmapHDS.Height: Integer;
 begin
   if Assigned(self.FBitmap) then
@@ -1777,21 +1834,21 @@ begin
     Result := 0;
 end;
 
-
 // ------------------
 // ------------------ TGLCustomHDS ------------------
 // ------------------
-
 constructor TGLCustomHDS.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
 end;
 
+//---------------------------------------------------------------------------
 destructor TGLCustomHDS.Destroy;
 begin
   inherited Destroy;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLCustomHDS.MarkDirty(const Area: TRect);
 begin
   inherited;
@@ -1799,6 +1856,7 @@ begin
     FOnMarkDirty(Area);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLCustomHDS.StartPreparingData(HeightData: TGLHeightData);
 begin
   if Assigned(FOnStartPreparingData) then
@@ -1810,17 +1868,18 @@ end;
 // ------------------
 // ------------------ TGLTerrainBaseHDS ------------------
 // ------------------
-
 constructor TGLTerrainBaseHDS.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
 end;
 
+//---------------------------------------------------------------------------
 destructor TGLTerrainBaseHDS.Destroy;
 begin
   inherited Destroy;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLTerrainBaseHDS.StartPreparingData(HeightData: TGLHeightData);
 const
   cTBWidth: Integer = 4320;
@@ -1867,25 +1926,27 @@ end;
 // ------------------
 // ------------------ TGLHeightDataSourceFilter ------------------
 // ------------------
-
 constructor TGLHeightDataSourceFilter.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
   FActive := True;
 end;
 
+//---------------------------------------------------------------------------
 destructor TGLHeightDataSourceFilter.Destroy;
 begin
   HeightDataSource := nil;
   inherited Destroy;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLHeightDataSourceFilter.Release(aHeightData: TGLHeightData);
 begin
   if Assigned(HeightDataSource) then
     HeightDataSource.Release(aHeightData);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLHeightDataSourceFilter.Notification(AComponent: TComponent;
   Operation: TOperation);
 begin
@@ -1897,6 +1958,7 @@ begin
   inherited;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLHeightDataSourceFilter.SetHDS(Val: TGLHeightDataSource);
 begin
   if Val = self then
@@ -1913,6 +1975,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 function TGLHeightDataSourceFilter.Width: Integer;
 begin
   if Assigned(FHDS) then
@@ -1921,6 +1984,7 @@ begin
     Result := 0;
 end;
 
+//---------------------------------------------------------------------------
 function TGLHeightDataSourceFilter.Height: Integer;
 begin
   if Assigned(FHDS) then
@@ -1929,6 +1993,7 @@ begin
     Result := 0;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLHeightDataSourceFilter.StartPreparingData(HeightData: TGLHeightData);
 begin
   // ---if there is no linked HDS then return an empty tile--
@@ -1956,11 +2021,8 @@ begin
   inherited; // HeightData.DataState:=hdsReady;
 end;
 
-// ------------------------------------------------------------------
-initialization
-// ------------------------------------------------------------------
+initialization //===========================================================
 
-// class registrations
 RegisterClasses([TGLBitmapHDS, TGLCustomHDS, TGLHeightDataSourceFilter]);
 
 end.

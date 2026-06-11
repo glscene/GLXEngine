@@ -1475,9 +1475,7 @@ var
     + 2 : use Intel SSE code (Pentium III, NOT IMPLEMENTED YET !) *)
   vSIMD: Byte = 0;
 
-// ==============================================================
-implementation
-// ==============================================================
+implementation //============================================================
 
 const
 {$IFDEF USE_ASM}
@@ -7825,9 +7823,7 @@ begin
     result := VectorAdd(AOriginalPosition, VectorScale(lDirection, ADistance))
 end;
 
-// --------------------------------------------------------------
-initialization
-// --------------------------------------------------------------
+initialization //============================================================
 
 vSIMD := 0;
 

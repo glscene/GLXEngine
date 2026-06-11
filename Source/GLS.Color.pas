@@ -1,6 +1,6 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.Color;
 (*
   All color types, constants and utilities
@@ -367,11 +367,13 @@ implementation //==============================================================
 var
   vColorManager: TGLColorManager;
 
+//----------------------------------------------------------------------------
 function RGB2Color(const r, g, b: Byte): TColor;
 begin
   Result := r or (g shl 8) or (b shl 16);
 end;
 
+//----------------------------------------------------------------------------
 function ColorManager: TGLColorManager;
 begin
   if not Assigned(vColorManager) then
@@ -383,7 +385,6 @@ begin
 end;
 
 //----------------------------------------------------------------------------
-
 function ConvertWinColor(aColor: TColor; alpha: Single = 1): TGLColorVector;
 var
   winColor: Integer;
@@ -397,21 +398,25 @@ begin
   Result.W := alpha;
 end;
 
+//----------------------------------------------------------------------------
 function GetRValue(rgb: DWORD): Byte;
 begin
   Result := Byte(rgb);
 end;
 
+//----------------------------------------------------------------------------
 function GetGValue(rgb: DWORD): Byte;
 begin
   Result := Byte(rgb shr 8);
 end;
 
+//----------------------------------------------------------------------------
 function GetBValue(rgb: DWORD): Byte;
 begin
   Result := Byte(rgb shr 16);
 end;
 
+//----------------------------------------------------------------------------
 procedure InitGLSceneColors;
 begin
   clrScrollBar := ConvertWinColor(TColorRec.cSCROLLBAR);
@@ -441,12 +446,14 @@ begin
   clrBackground := ConvertWinColor(clBackground);
 end;
 
+//----------------------------------------------------------------------------
 function ConvertColorVector(const aColor: TGLColorVector): TColor;
 begin
   Result := RGB2Color(Round(255 * aColor.X), Round(255 * aColor.Y),
     Round(255 * aColor.Z));
 end;
 
+//----------------------------------------------------------------------------
 function ConvertColorVector(const aColor: TGLColorVector;
   intensity: Single): TColor;
 begin
@@ -455,6 +462,7 @@ begin
     Round(intensity * aColor.Z));
 end;
 
+//----------------------------------------------------------------------------
 function ConvertRGBColor(const aColor: array of Byte): TGLColorVector;
 var
   n: Integer;
@@ -485,6 +493,7 @@ begin
   Initialize(clrBlack);
 end;
 
+//----------------------------------------------------------------------------
 constructor TGLColor.CreateInitialized(AOwner: TPersistent;
   const color: TGLColorVector; changeEvent: TNotifyEvent = nil);
 begin
@@ -493,6 +502,7 @@ begin
   OnNotifyChange := changeEvent;
 end;
 
+//----------------------------------------------------------------------------
 destructor TGLColor.Destroy;
 begin
   if Assigned(FPDefaultColor) then
@@ -500,6 +510,7 @@ begin
   inherited;
 end;
 
+//----------------------------------------------------------------------------
 procedure TGLColor.Initialize(const color: TGLColorVector);
 begin
   SetVector(FColor, color);
@@ -511,17 +522,20 @@ begin
   end;
 end;
 
+//----------------------------------------------------------------------------
 procedure TGLColor.SetColorVector(const aColor: TGLColorVector);
 begin
   SetVector(FColor, aColor);
   NotifyChange(Self);
 end;
 
+//----------------------------------------------------------------------------
 procedure TGLColor.SetDirectColorVector(const aColor: TGLColorVector);
 begin
   SetVector(FColor, aColor);
 end;
 
+//----------------------------------------------------------------------------
 procedure TGLColor.SetColorComponent(index: Integer; value: Single);
 begin
   if FColor.V[index] <> value then
@@ -531,22 +545,26 @@ begin
   end;
 end;
 
+//----------------------------------------------------------------------------
 procedure TGLColor.SetAsWinColor(const val: TColor);
 begin
   FColor := ConvertWinColor(val);
   NotifyChange(Self);
 end;
 
+//----------------------------------------------------------------------------
 function TGLColor.GetAsWinColor: TColor;
 begin
   Result := ConvertColorVector(FColor);
 end;
 
+//----------------------------------------------------------------------------
 function TGLColor.GetColorComponent(const index: Integer): Single;
 begin
   Result := FColor.V[Index];
 end;
 
+//----------------------------------------------------------------------------
 procedure TGLColor.Assign(Source: TPersistent);
 begin
   if Assigned(Source) and (Source is TGLColor) then
@@ -558,6 +576,7 @@ begin
     inherited;
 end;
 
+//----------------------------------------------------------------------------
 procedure TGLColor.DefineProperties(Filer: TFiler);
 begin
   inherited;
@@ -565,16 +584,19 @@ begin
     not(Assigned(FPDefaultColor) and VectorEquals(FColor, FPDefaultColor^)));
 end;
 
+//----------------------------------------------------------------------------
 procedure TGLColor.ReadData(Stream: TStream);
 begin
   Stream.Read(FColor, SizeOf(FColor));
 end;
 
+//----------------------------------------------------------------------------
 procedure TGLColor.WriteData(Stream: TStream);
 begin
   Stream.Write(FColor, SizeOf(FColor));
 end;
 
+//----------------------------------------------------------------------------
 procedure TGLColor.NotifyChange(Sender: TObject);
 var
   intf: IGLNotifyAble;
@@ -594,6 +616,7 @@ begin
   Result := @FColor;
 end;
 
+//----------------------------------------------------------------------------
 procedure TGLColor.RandomColor;
 begin
   Red := Random;
@@ -601,6 +624,7 @@ begin
   Blue := Random;
 end;
 
+//----------------------------------------------------------------------------
 procedure TGLColor.SetColor(Red, Green, Blue: Single; Alpha: Single = 1);
 begin
   FColor.X := Red;
@@ -610,6 +634,7 @@ begin
   NotifyChange(Self);
 end;
 
+//----------------------------------------------------------------------------
 function TGLColor.GetHSVA: TGLVector;
 var
   delta, min: Single;
@@ -646,6 +671,7 @@ begin
   Result.W := Alpha;
 end;
 
+//----------------------------------------------------------------------------
 procedure TGLColor.SetHSVA(const hsva: TGLVector);
 var
   f, hTemp, p, q, t: Single;
@@ -716,7 +742,6 @@ end;
 // ------------------
 // ------------------ TGLColorManager ------------------
 // ------------------
-
 function TGLColorManager.FindColor(const aName: String): TGLColorVector;
 var
   i: Integer;
@@ -730,6 +755,7 @@ begin
     end;
 end;
 
+//----------------------------------------------------------------------------
 function TGLColorManager.GetColor(const aName: String): TGLColorVector;
 var
   workCopy: String;
@@ -784,8 +810,7 @@ begin
   end;
 end;
 
-// ------------------------------------------------------------------------------
-
+//----------------------------------------------------------------------------
 function TGLColorManager.GetColorName(const aColor: TGLColorVector): String;
 
 const
@@ -809,8 +834,7 @@ begin
       aColor.W]);
 end;
 
-// ------------------------------------------------------------------------------
-
+//----------------------------------------------------------------------------
 destructor TGLColorManager.Destroy;
 var
   i: Integer;
@@ -820,8 +844,7 @@ begin
   inherited Destroy;
 end;
 
-// ------------------------------------------------------------------------------
-
+//----------------------------------------------------------------------------
 procedure TGLColorManager.AddColor(const aName: String;
   const aColor: TGLColorVector);
 var
@@ -838,6 +861,7 @@ begin
   Add(newEntry);
 end;
 
+//----------------------------------------------------------------------------
 procedure TGLColorManager.EnumColors(Proc: TGetStrProc);
 var
   i: Integer;
@@ -846,6 +870,7 @@ begin
     Proc(string(TGLColorEntry(Items[i]^).Name));
 end;
 
+//----------------------------------------------------------------------------
 procedure TGLColorManager.EnumColors(AValues: TStrings);
 var
   i: Integer;
@@ -854,6 +879,7 @@ begin
     AValues.Add(string(TGLColorEntry(Items[i]^).Name));
 end;
 
+//----------------------------------------------------------------------------
 procedure TGLColorManager.RegisterDefaultColors;
 begin
   Capacity := 150;
@@ -1012,6 +1038,7 @@ begin
   AddColor('clrInfoBk', clrInfoBk);
 end;
 
+//----------------------------------------------------------------------------
 procedure TGLColorManager.RemoveColor(const aName: String);
 var
   i: Integer;
@@ -1026,6 +1053,7 @@ begin
   end;
 end;
 
+//----------------------------------------------------------------------------
 procedure RegisterColor(const aName: String; const aColor: TGLColorVector);
 begin
   ColorManager.AddColor(aName, aColor);
@@ -1036,11 +1064,11 @@ begin
   ColorManager.RemoveColor(aName);
 end;
 
-initialization //-----------------------------------------------------------
+initialization //=============================================================
 
 InitGLSceneColors;
 
-finalization //-------------------------------------------------------------
+finalization //===============================================================
 
 vColorManager.Free;
 

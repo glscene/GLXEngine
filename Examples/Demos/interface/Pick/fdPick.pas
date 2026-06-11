@@ -10,6 +10,7 @@ uses
   Vcl.Forms,
 
   Stage.VectorTypes,
+  Stage.VectorGeometry,
   GLS.Scene,
   GLS.Objects,
   GLS.Texture,

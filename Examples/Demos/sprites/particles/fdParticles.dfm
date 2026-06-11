@@ -89,7 +89,7 @@ object FormParticles: TFormParticles
         ShiftState = [ssRight]
         Action = snaMoveAroundTarget
       end>
-    Left = 256
-    Top = 104
+    Left = 208
+    Top = 80
   end
 end

@@ -1804,7 +1804,6 @@ end;
 
 initialization // -------------------------------------------------------------
 
-	// class registrations
   RegisterClass(TGLPersistentObjectList);
 
 end.

@@ -16,7 +16,7 @@
 program TilesD;
 uses
   Forms,
-  fTilesD in 'fTilesD.pas' {FormTiles};
+  fdTiles in 'fdTiles.pas' {FormTiles};
 
 {$R *.res}
 begin

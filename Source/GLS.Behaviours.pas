@@ -1,6 +1,6 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.Behaviours;
 (*
 Standard TGLBehaviour subclasses
@@ -602,7 +602,6 @@ end;
 
 initialization // ------------------------------------------------------------
 
-// class registrations
   RegisterXCollectionItemClass(TGLBInertia);
   RegisterXCollectionItemClass(TGLBAcceleration);
 

@@ -1,3 +1,6 @@
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit fdParticles;
 
 interface
@@ -12,19 +15,19 @@ uses
   Vcl.Controls,
 
   
+  Stage.VectorTypes,
+  Stage.VectorGeometry,
+  Stage.Utils,
   GLS.Scene,
   GLS.Objects,
   GLS.Particles,
   GLS.Behaviours,
-  Stage.VectorGeometry,
   GLS.PersistentClasses,
   GLS.Cadencer,
-  Stage.VectorTypes,
   GLS.SceneViewer,
- 
   GLS.Coordinates,
   GLS.BaseClasses,
-  Stage.Utils, GLS.SimpleNavigation;
+  GLS.SimpleNavigation;
 
 type
   TFormParticles = class(TForm)
@@ -49,10 +52,11 @@ type
 var
   FormParticles: TFormParticles;
 
-implementation
+implementation  //===========================================================
 
 {$R *.DFM}
 
+//---------------------------------------------------------------------------
 procedure TFormParticles.FormCreate(Sender: TObject);
 begin
   var Path: TFileName := GetCurrentAssetPath() + '\texture\';
@@ -61,6 +65,7 @@ begin
   Randomize;
 end;
 
+//---------------------------------------------------------------------------
 procedure TFormParticles.GLParticles1ActivateParticle(Sender: TObject;
   particle: TGLBaseSceneObject);
 begin
@@ -73,6 +78,7 @@ begin
   TGLSprite(Particle).TagFloat := GLCadencer1.CurrentTime;
 end;
 
+//---------------------------------------------------------------------------
 procedure TFormParticles.Sprite1Progress(Sender: TObject;
   const deltaTime, newTime: Double);
 var
@@ -93,6 +99,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TFormParticles.Timer1Timer(Sender: TObject);
 begin
   // every timer, we create a particle at a random position
@@ -108,6 +115,7 @@ begin
   GLSceneViewer1.ResetPerformanceMonitor;
 end;
 
+//---------------------------------------------------------------------------
 procedure TFormParticles.FormResize(Sender: TObject);
 begin
   // change focal so the view will shrink and not just get clipped
