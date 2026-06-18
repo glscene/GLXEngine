@@ -1,10 +1,10 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.FileX;
-
-(* Support of X format files for Microsoft's favorite format *)
-
+(*
+  Support of X format files for Microsoft's favorite format
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -14,7 +14,7 @@ uses
   System.SysUtils,
 
   Stage.VectorTypes,
-  GLS.VectorLists,
+  Stage.VectorLists,
   Stage.VectorGeometry,
 
   GLS.VectorFileObjects,
@@ -27,13 +27,13 @@ uses
 type
   TGLXVectorFile = class(TGLVectorFile)
   public
-    class function Capabilities: TGLDataFileCapabilities; override;
+    class function Capabilities: TGSDataFileCapabilities; override;
     procedure LoadFromStream(aStream: TStream); override;
   end;
 
 implementation // -------------------------------------------------------------
 
-class function TGLXVectorFile.Capabilities: TGLDataFileCapabilities;
+class function TGLXVectorFile.Capabilities: TGSDataFileCapabilities;
 begin
   Result := [dfcRead];
 end;
@@ -46,7 +46,7 @@ var
   var
     i, j, k, l, vertcount: integer;
     mo: TGLMeshObject;
-    mat: TGLMatrix;
+    mat: TGSMatrix;
     libmat: TGLLibMaterial;
     fg: TFGVertexNormalTexIndexList;
     str: String;

@@ -20,8 +20,8 @@ uses
   GLS.Cadencer,
   GLS.BitmapFont,
   GLS.GeomObjects,
-  GLS.Coordinates,
-  GLS.BaseClasses,
+  Stage.Coordinates,
+  Stage.BaseClasses,
   GLS.SceneViewer;
 
 type

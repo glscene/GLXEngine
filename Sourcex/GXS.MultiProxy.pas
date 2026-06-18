@@ -12,13 +12,13 @@ uses
   System.Classes,
   System.SysUtils,
 
-  GXS.PersistentClasses,
+  Stage.PersistentClasses,
   GXS.Context,
   GXS.Scene,
   Stage.VectorGeometry,
-  GXS.Silhouette,
+  Stage.Silhouette,
   GXS.RenderContextInfo,
-  GXS.BaseClasses,
+  Stage.BaseClasses,
   Stage.VectorTypes;
 
 type
@@ -96,7 +96,7 @@ type
     function AxisAlignedDimensionsUnscaled: TVector4f; override;
     function RayCastIntersect(const rayStart, rayVector: TVector4f; intersectPoint: PVector4f = nil; intersectNormal: PVector4f = nil)
       : Boolean; override;
-    function GenerateSilhouette(const silhouetteParameters: TgxSilhouetteParameters): TgxSilhouette; override;
+    function GenerateSilhouette(const silhouetteParameters: TGSSilhouetteParameters): TGSSilhouette; override;
   published
     property MasterObjects: TgxMultiProxyMasters read FMasterObjects write SetMasterObjects;
     property ObjectsSorting;
@@ -264,8 +264,8 @@ end;
 
 procedure TgxMultiProxyMasters.NotifyChange;
 begin
-  if (UpdateCount = 0) and (GetOwner <> nil) and (GetOwner is TgxUpdateAbleComponent) then
-    TgxUpdateAbleComponent(GetOwner).NotifyChange(Self);
+  if (UpdateCount = 0) and (GetOwner <> nil) and (GetOwner is TGSUpdateAbleComponent) then
+    TGSUpdateAbleComponent(GetOwner).NotifyChange(Self);
 end;
 
 procedure TgxMultiProxyMasters.EndUpdate;
@@ -410,7 +410,7 @@ begin
     Result := False;
 end;
 
-function TgxMultiProxy.GenerateSilhouette(const silhouetteParameters: TgxSilhouetteParameters): TgxSilhouette;
+function TgxMultiProxy.GenerateSilhouette(const silhouetteParameters: TGSSilhouetteParameters): TGSSilhouette;
 var
   master: TgxBaseSceneObject;
 begin

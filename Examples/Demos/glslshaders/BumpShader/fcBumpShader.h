@@ -9,9 +9,9 @@
 #include <Vcl.Forms.hpp>
 #include <Vcl.ExtCtrls.hpp>
 #include <Vcl.Imaging.jpeg.hpp>
-#include "GLS.BaseClasses.hpp"
+#include "Stage.BaseClasses.hpp"
 #include "GLS.Cadencer.hpp"
-#include "GLS.Coordinates.hpp"
+#include "Stage.Coordinates.hpp"
 
 #include "GLSL.CustomShader.hpp"
 #include "GLS.GeomObjects.hpp"
@@ -29,7 +29,7 @@
 #include "GLS.FileMS3D.hpp"
 
 #include "Stage.Utils.hpp"
-#include "GLS.BaseClasses.hpp"
+#include "Stage.BaseClasses.hpp"
 #include "GLSL.Shader.hpp"
 #include "GLSL.BumpShaders.hpp"
 

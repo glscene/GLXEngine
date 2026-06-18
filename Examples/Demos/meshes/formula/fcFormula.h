@@ -20,10 +20,10 @@
 #include "GLS.Mesh.hpp"
 #include "GLS.SceneViewer.hpp"
 #include "GLS.State.hpp"
-#include "GLS.Color.hpp"
+#include "Stage.Color.hpp"
 
-#include "GLS.BaseClasses.hpp"
-#include "GLS.Coordinates.hpp"
+#include "Stage.BaseClasses.hpp"
+#include "Stage.Coordinates.hpp"
 
 
 //---------------------------------------------------------------------------
@@ -63,7 +63,7 @@ private:	// User declarations
 	void __fastcall AddTriangle(const TAffineVector p1,
 						  const TAffineVector p2,
 						  const TAffineVector p3,
-						  const TGLColorVector color);
+						  const TGSColorVector color);
 public:		// User declarations
 	__fastcall TForm1(TComponent* Owner);
 };

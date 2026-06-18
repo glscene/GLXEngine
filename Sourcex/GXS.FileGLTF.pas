@@ -1,28 +1,25 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.FileGLTF;
-
 (*
   glTF/GLB formats implementation.
   not yet implemented.
 *)
-
 interface
 
 uses
   System.Classes,
   System.SysUtils,
 
-  GXS.PersistentClasses,
+  Stage.VectorTypes,
+  Stage.VectorLists,
+  Stage.VectorGeometry,
+  Stage.PersistentClasses,
+
   GXS.VectorFileObjects,
   GXS.Texture,
   GXS.ApplicationFileIO,
-  Stage.VectorTypes,
-  GXS.VectorLists,
-  Stage.VectorGeometry,
-
-  PasGLTF,
   GXS.Material;
 
 type
@@ -35,19 +32,17 @@ type
     procedure SaveToStream(aStream: TStream); override;
   end;
 
-// ------------------------------------------------------------------
-implementation
-// ------------------------------------------------------------------
+implementation //============================================================
 
 // ------------------
 // ------------------ TGLTFVectorFile ------------------
 // ------------------
-
 class function TglTFVectorFile.Capabilities: TDataFileCapabilities;
 begin
   Result := [dfcRead, dfcWrite];
 end;
 
+//---------------------------------------------------------------------------
 procedure TglTFVectorFile.LoadFromStream(aStream: TStream);
 
   procedure AllocateMaterial(const name: String);
@@ -258,6 +253,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLTFVectorFile.SaveToStream(aStream: TStream);
 var
   str, nodes: TStrings;
@@ -346,14 +342,11 @@ begin
   end;
 end;
 
-// ------------------------------------------------------------------
-initialization
-// ------------------------------------------------------------------
+initialization //============================================================
 
 /// glTFUseEmbeddedColors := False;
 
 RegisterVectorFileFormat('gltf', 'ASCII glTF files', TglTFVectorFile);
 /// RegisterVectorFileFormat('glb', 'Binary glTF files', TglbVectorFile);
-
 
 end.

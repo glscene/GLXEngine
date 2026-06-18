@@ -20,8 +20,8 @@
 #include "GLS.SceneViewer.hpp"
 
 #include "GLS.Material.hpp"
-#include "GLS.Coordinates.hpp"
-#include "GLS.BaseClasses.hpp"
+#include "Stage.Coordinates.hpp"
+#include "Stage.BaseClasses.hpp"
 
 
 //---------------------------------------------------------------------------

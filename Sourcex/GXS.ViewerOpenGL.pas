@@ -1,10 +1,11 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.ViewerOpenGL;
-
-(* Viewer OpenGL for FMX *)
-
+(*
+  Viewer OpenGL for FMX
+  RegisterFmxClasses([TgxSceneViewport]);
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -75,12 +76,9 @@ type
     property SceneCamera: TgxCamera read GetSceneCamera write SetSceneCamera;
   end;
 
-//--------------------------------------------------------
-implementation
-//--------------------------------------------------------
+implementation //============================================================
 
 // TgxSceneViewport
-
 constructor TgxSceneViewport.Create(AOwner: TComponent);
 var
   FMXH: TFmxHandle;
@@ -263,9 +261,7 @@ begin
   FGLSBuffer.Camera := Value;
 end;
 
-//----------------------------------------------
-initialization
-//----------------------------------------------
+initialization //============================================================
 
 RegisterFmxClasses([TgxSceneViewport]);
 

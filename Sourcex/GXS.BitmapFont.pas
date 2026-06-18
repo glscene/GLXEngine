@@ -1,10 +1,10 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.BitmapFont;
-
-(* Bitmap Fonts management classes *)
-
+(*
+  Bitmap Fonts management classes
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -20,7 +20,7 @@ uses
   FMX.Types,
 
   GXS.XOpenGL,
-  GXS.PersistentClasses,
+  Stage.PersistentClasses,
   GXS.Scene,
   Stage.VectorGeometry,
   GXS.Context,
@@ -31,8 +31,8 @@ uses
   GXS.ImageUtils,
 
   GXS.Graphics,
-  GXS.Color,
-  GXS.BaseClasses,
+  Stage.Color,
+  Stage.BaseClasses,
   GXS.RenderContextInfo,
   Stage.TextureFormat,
   Stage.VectorTypes;
@@ -110,7 +110,7 @@ type
     dimensions should be close to a power of two, and have at least 1 pixel
     spacing between characters (horizontally and vertically) to avoid artefacts
     when rendering with linear filtering. *)
-  TgxCustomBitmapFont = class(TgxUpdateAbleComponent)
+  TgxCustomBitmapFont = class(TGSUpdateAbleComponent)
   private
     FRanges: TgxBitmapFontRanges;
     FGlyphs: TImage;
@@ -193,13 +193,13 @@ type
       Enable states are also possibly altered. *)
     procedure RenderString(var ARci: TgxRenderContextInfo;
       const aText: UnicodeString; aAlignment: TAlignment;
-      aLayout: TgxTextLayout; const aColor: TgxColorVector;
+      aLayout: TgxTextLayout; const aColor: TGSColorVector;
       aPosition: PVector4f = nil; aReverseY: boolean = False); overload; virtual;
     (* A simpler canvas-style TextOut helper for RenderString.
       The rendering is reversed along Y by default, to allow direct use
       with TgxCanvas *)
     procedure TextOut(var rci: TgxRenderContextInfo; X, Y: Single;
-      const Text: UnicodeString; const Color: TgxColorVector); overload;
+      const Text: UnicodeString; const Color: TGSColorVector); overload;
     procedure TextOut(var rci: TgxRenderContextInfo; X, Y: Single;
       const Text: UnicodeString; const Color: TColor); overload;
     function TextWidth(const Text: UnicodeString): Integer;
@@ -249,14 +249,14 @@ type
     FText: UnicodeString;
     FAlignment: TAlignment;
     FLayout: TgxTextLayout;
-    FModulateColor: TgxColor;
+    FModulateColor: TGSColor;
     FOptions: TgxFlatTextOptions;
   protected
     procedure SetBitmapFont(const val: TgxCustomBitmapFont);
     procedure SetText(const val: UnicodeString);
     procedure SetAlignment(const val: TAlignment);
     procedure SetLayout(const val: TgxTextLayout);
-    procedure SetModulateColor(const val: TgxColor);
+    procedure SetModulateColor(const val: TGSColor);
     procedure SetOptions(const val: TgxFlatTextOptions);
     procedure Notification(AComponent: TComponent;
       Operation: TOperation); override;
@@ -283,21 +283,18 @@ type
       Possible values : tlTop, tlCenter, tlBottom *)
     property Layout: TgxTextLayout read FLayout write SetLayout;
     // Color modulation, can be used for fade in/out too.
-    property ModulateColor: TgxColor read FModulateColor write SetModulateColor;
+    property ModulateColor: TGSColor read FModulateColor write SetModulateColor;
     (* Flat text options.
       ftoTwoSided : when set the text will be visible from its two
       sides even if faceculling is on (at the scene-level).  *)
     property Options: TgxFlatTextOptions read FOptions write SetOptions;
   end;
 
-// ------------------------------------------------------------------
-implementation
-// ------------------------------------------------------------------
+implementation //============================================================
 
 // ------------------
 // ------------------ TgxBitmapFontRange ------------------
 // ------------------
-
 constructor TgxBitmapFontRange.Create(Collection: TCollection);
 begin
   inherited Create(Collection);
@@ -838,7 +835,7 @@ end;
 
 procedure TgxCustomBitmapFont.RenderString(var ARci: TgxRenderContextInfo;
   const aText: UnicodeString; aAlignment: TAlignment; aLayout: TgxTextLayout;
-  const aColor: TgxColorVector; aPosition: PVector4f = nil;
+  const aColor: TGSColorVector; aPosition: PVector4f = nil;
   aReverseY: boolean = False);
 
   function AlignmentAdjustement(p: Integer): Single;
@@ -970,7 +967,7 @@ begin
 end;
 
 procedure TgxCustomBitmapFont.TextOut(var rci: TgxRenderContextInfo; X, Y: Single;
-  const Text: UnicodeString; const Color: TgxColorVector);
+  const Text: UnicodeString; const Color: TGSColorVector);
 var
   V: TVector4f;
 begin
@@ -1154,7 +1151,7 @@ constructor TgxFlatText.Create(AOwner: TComponent);
 begin
   inherited;
   ObjectStyle := ObjectStyle + [osDirectDraw, osNoVisibilityCulling];
-  FModulateColor := TgxColor.CreateInitialized(Self, clrWhite);
+  FModulateColor := TGSColor.CreateInitialized(Self, clrWhite);
 end;
 
 destructor TgxFlatText.Destroy;
@@ -1206,7 +1203,7 @@ begin
   StructureChanged;
 end;
 
-procedure TgxFlatText.SetModulateColor(const val: TgxColor);
+procedure TgxFlatText.SetModulateColor(const val: TGSColor);
 begin
   FModulateColor.Assign(val);
 end;

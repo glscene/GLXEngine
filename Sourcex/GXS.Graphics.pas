@@ -1,6 +1,6 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.Graphics;
 (*
    Utility class and functions to manipulate a bitmap in OpenGL's default
@@ -16,12 +16,13 @@ interface
 
 uses
   Winapi.Windows,
+
   System.Classes,
   System.SysUtils,
   System.SyncObjs,
   System.UITypes,
-
   System.Math,
+
   FMX.Graphics,
   FMX.Dialogs,
   FMX.Types,
@@ -36,12 +37,12 @@ uses
   Stage.Utils,
   Stage.TextureFormat,
   Stage.Strings,
+  Stage.PersistentClasses,
+  Stage.Color,
 
-  GXS.PersistentClasses,
   GXS.ApplicationFileIO,
   GXS.Context,
-  GXS.ImageUtils,
-  GXS.Color;
+  GXS.ImageUtils;
 
 type
   TgxPixel24 = packed record
@@ -322,7 +323,7 @@ type
   end;
 
   // Stores registered raster file Formatx.
-  TRasterFileFormatsList = class(TgxPersistentObjectList)
+  TRasterFileFormatsList = class(TGSPersistentObjectList)
   public
     destructor Destroy; override;
     procedure Add(const Ext, Desc: string; DescID: Integer; AClass: TgxBaseImageClass);
@@ -364,15 +365,12 @@ function GetImageLodNumber(w, h, d: integer; IsVolume: Boolean): Integer;
 var
   vVerticalFlipDDS: Boolean = True;
 
-// ------------------------------------------------------------------
-implementation
-// ------------------------------------------------------------------
+implementation //============================================================
 
 var
   vRasterFileFormats: TRasterFileFormatsList;
 
 // ------- Raster File Registries ------------------
-
 function GetRasterFileFormats: TRasterFileFormatsList;
 begin
   if not Assigned(vRasterFileFormats) then
@@ -380,6 +378,7 @@ begin
   Result := vRasterFileFormats;
 end;
 
+//---------------------------------------------------------------------------
 procedure RegisterRasterFormat(const AExtension, ADescription: string;
   AClass: TgxBaseImageClass);
 begin
@@ -404,7 +403,8 @@ begin
   inherited;
 end;
 
-procedure TRasterFileFormatsList.Add(const Ext, Desc: string; DescID: Integer; 
+//---------------------------------------------------------------------------
+procedure TRasterFileFormatsList.Add(const Ext, Desc: string; DescID: Integer;
   AClass: TgxBaseImageClass);
 var
   newRec: TRasterFileFormat;
@@ -437,6 +437,7 @@ begin
   Result := nil;
 end;
 
+//---------------------------------------------------------------------------
 function TRasterFileFormatsList.FindFromFileName(const fileName: string): TgxBaseImageClass;
 var
   Ext: string;
@@ -449,6 +450,7 @@ begin
       [Ext, 'GLFile' + UpperCase(Ext)]);
 end;
 
+//---------------------------------------------------------------------------
 function TRasterFileFormatsList.FindFromStream(const AStream: TStream): TgxBaseImageClass;
 var
   Ext: string;
@@ -476,6 +478,7 @@ begin
       [Ext, 'GLFile' + UpperCase(Ext)]);
 end;
 
+//---------------------------------------------------------------------------
 procedure TRasterFileFormatsList.Remove(AClass: TgxBaseImageClass);
 var
   i: Integer;
@@ -557,6 +560,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure Div2(var Value: Integer);
 begin
   Value := Value div 2;
@@ -564,6 +568,7 @@ begin
     Inc(Value);
 end;
 
+//---------------------------------------------------------------------------
 function GetImageLodNumber(w, h, d: integer; IsVolume: Boolean): Integer;
 var
   L: Integer;
@@ -613,6 +618,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure GammaCorrectRGBAArray(base: Pointer; pixelCount: Integer;
   gamma: Single);
 var
@@ -646,6 +652,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure BrightenRGBArray(base: Pointer; pixelCount: Integer; factor: Single);
 var
   vBrightnessLUT: array[0..255] of Byte;
@@ -672,6 +679,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure BrightenRGBAArray(base: Pointer; pixelCount: Integer; factor: Single);
 var
   vBrightnessLUT: array[0..255] of Byte;
@@ -705,6 +713,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure BGR24ToRGB24(src, dest: Pointer; pixelCount: Integer); register;
 begin
   while pixelCount > 0 do
@@ -718,6 +727,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure BGR24ToRGBA32(src, dest: Pointer; pixelCount: Integer);
 begin
   while pixelCount > 0 do
@@ -732,6 +742,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure RGB24ToRGBA32(src, dest: Pointer; pixelCount: Integer);
 begin
   while pixelCount > 0 do
@@ -746,6 +757,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure BGRA32ToRGBA32(src, dest: Pointer; pixelCount: Integer);
 begin
   while pixelCount > 0 do
@@ -763,7 +775,6 @@ end;
 // ------------------
 // ------------------ TgxBaseImage ------------------
 // ------------------
-
 constructor TgxBaseImage.Create;
 begin
   inherited Create(Self);
@@ -2980,11 +2991,10 @@ begin
   end;
 end;
 
-//---------------------------------------------------
-initialization
-//---------------------------------------------------
+initialization //============================================================
 
-finalization
+finalization //==============================================================
+
   FreeAndNil(vRasterFileFormats);
 
 end.

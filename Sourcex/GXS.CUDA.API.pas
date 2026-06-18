@@ -12,11 +12,11 @@ uses
   System.SysUtils,
   FMX.Dialogs,
 
-  GXS.PersistentClasses,
-  GXS.BaseClasses,
+  Stage.PersistentClasses,
+  Stage.BaseClasses,
   Stage.VectorGeometry,
   Stage.VectorTypes,
-  GXS.VectorLists,
+  Stage.VectorLists,
   Stage.Strings,
   Stage.Utils,
 
@@ -58,7 +58,7 @@ type
   TCUDAComponent = class(TCUDAHandlesMaster)
   private
     FMaster: TCUDAComponent;
-    FItems: TgxPersistentObjectList;
+    FItems: TGSPersistentObjectList;
     procedure SetMaster(AMaster: TCUDAComponent);
     function GetItem(const i: Integer): TCUDAComponent;
     function GetItemsCount: Integer;
@@ -1047,7 +1047,7 @@ end;
 procedure TCUDAComponent.AddItem(AItem: TCUDAComponent);
 begin
   if not Assigned(FItems) then
-    FItems := TgxPersistentObjectList.Create;
+    FItems := TGSPersistentObjectList.Create;
   FItems.Add(AItem);
 end;
 

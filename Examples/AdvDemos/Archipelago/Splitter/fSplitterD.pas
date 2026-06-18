@@ -45,7 +45,7 @@ implementation
 {$R *.dfm}
 
 uses
-  GLS.VectorLists;
+  Stage.VectorLists;
 
 procedure TForm1.Button1Click(Sender: TObject);
 var

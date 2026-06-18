@@ -25,12 +25,22 @@ uses
   DesignEditors,
   VCLEditors,
 
+  Stage.Color,
+  Stage.Strings,
+  Stage.VectorGeometry,
+  Stage.BaseClasses,
+  Stage.Coordinates,
+  Stage.Utils,
+  GLS.ScriptBase,
+  Stage.Logger,
+
+  GLS.ApplicationFileIO,
+  GLS.ArchiveManager,
+  GLS.Joystick,
   GLS.Context,
-  GLS.Scene,
-  GLS.Color,
   GLS.ImageUtils,
-  GLS.ObjectManager,
-  Stage.Strings;
+  GLS.ObjectManager
+;
 
 type
   TGLLibMaterialNameProperty = class(TStringProperty)
@@ -81,10 +91,10 @@ type
     procedure SetValue(const Value: string); override;
   end;
 
-  TGLColorProperty = class(TClassProperty, ICustomPropertyDrawing,
+  TGSColorProperty = class(TClassProperty, ICustomPropertyDrawing,
     ICustomPropertyListDrawing)
   protected
-    function ColorToBorderColor(aColor: TGLColorVector; selected: Boolean): TColor;
+    function ColorToBorderColor(aColor: TGSColorVector; selected: Boolean): TColor;
   public
     function GetAttributes: TPropertyAttributes; override;
     procedure GetValues(Proc: TGetStrProc); override;
@@ -113,7 +123,7 @@ type
     procedure GetValues(Proc: TGetStrProc); override;
   end;
 
-  TGLCoordinatesProperty = class(TClassProperty)
+  TGSCoordinatesProperty = class(TClassProperty)
   public
     function GetAttributes: TPropertyAttributes; override;
     procedure Edit; override;
@@ -183,7 +193,7 @@ type
   end;
 
   // Editor for Archive Manager
-  TGLSArchiveManagerEditor = class(TGLReuseableDefaultEditor, IDefaultEditor)
+  TGLArchiveManagerEditor = class(TGLReuseableDefaultEditor, IDefaultEditor)
   protected
     procedure EditProperty(const Prop: IProperty; var Continue: Boolean); override;
   public
@@ -281,16 +291,13 @@ uses
   FmVectorEditor,
   FmSceneEditor,
 
-  GLS.ApplicationFileIO,
-  Stage.VectorGeometry,
-  GLS.ScriptBase,
 
+  GLS.Scene,
+  GLS.AsyncTimer,
   GLS.AnimatedSprite,
   GLS.AsyncHDS,
-  GLS.AsyncTimer,
   GLS.Atmosphere,
   GLS.AVIRecorder,
-  GLS.BaseClasses,
   GLS.BitmapFont,
   GLS.Blur,
   GLS.BumpMapHDS,
@@ -299,7 +306,6 @@ uses
   GLS.Collision,
   GLS.CompositeImage,
   GLS.Console,
-  GLS.Coordinates,
   GLS.DCE,
   GLS.DynamicTexture,
   GLS.EParticleMasksManager,
@@ -345,10 +351,8 @@ uses
   GLS.SkyDome,
   GLS.ProxyObjects,
   GLS.RenderContextInfo,
-  GLS.ArchiveManager,
   GLS.Memo,
   GLS.SmoothNavigator,
-  Stage.Utils,
   GLSL.AsmShader,
   GLSL.BumpShaders,
   GLSL.ShapeShaders,
@@ -424,10 +428,8 @@ uses
   GLS.SoundManager,
   GLS.SoundFileObjects,
   GLS.SpaceText,
-  GLS.Joystick,
   GLS.ScreenSaver,
-  GLS.FullScreenViewer,
-  Stage.Logger;
+  GLS.FullScreenViewer;
 
 var
   vObjectManager: TGLObjectManager;
@@ -640,16 +642,16 @@ begin
   Modified;
 end;
 
-//----------------- TGLColorproperty --------------------------------------------------------------
+//----------------- TGSColorproperty --------------------------------------------------------------
 
-procedure TGLColorProperty.Edit;
+procedure TGSColorProperty.Edit;
 var
   colorDialog: TColorDialog;
-  GLColor: TGLColor;
+  GLColor: TGSColor;
 begin
   colorDialog := TColorDialog.Create(nil);
   try
-    GLColor := TGLColor(GetOrdValue);
+    GLColor := TGSColor(GetOrdValue);
     colorDialog.Options := [cdFullOpen];
     colorDialog.Color := ConvertColorVector(GLColor.Color);
     if colorDialog.Execute then
@@ -662,28 +664,28 @@ begin
   end;
 end;
 
-function TGLColorProperty.GetAttributes: TPropertyAttributes;
+function TGSColorProperty.GetAttributes: TPropertyAttributes;
 begin
   Result := [paSubProperties, paValueList, paDialog];
 end;
 
-procedure TGLColorProperty.GetValues(Proc: TGetStrProc);
+procedure TGSColorProperty.GetValues(Proc: TGetStrProc);
 begin
   ColorManager.EnumColors(Proc);
 end;
 
-function TGLColorProperty.GetValue: string;
+function TGSColorProperty.GetValue: string;
 begin
-  Result := ColorManager.GetColorName(TGLColor(GetOrdValue).Color);
+  Result := ColorManager.GetColorName(TGSColor(GetOrdValue).Color);
 end;
 
-procedure TGLColorProperty.SetValue(const Value: string);
+procedure TGSColorProperty.SetValue(const Value: string);
 begin
-  TGLColor(GetOrdValue).Color := ColorManager.GetColor(Value);
+  TGSColor(GetOrdValue).Color := ColorManager.GetColor(Value);
   Modified;
 end;
 
-function TGLColorProperty.ColorToBorderColor(aColor: TGLColorVector; selected: Boolean): TColor;
+function TGSColorProperty.ColorToBorderColor(aColor: TGSColorVector; selected: Boolean): TColor;
 begin
   if (aColor.X > 0.75) or (aColor.Y > 0.75) or (aColor.Z > 0.75) then
     Result := clBlack
@@ -693,7 +695,7 @@ begin
     Result := ConvertColorVector(aColor);
 end;
 
-procedure TGLColorProperty.PropDrawValue(ACanvas: TCanvas; const ARect: TRect;
+procedure TGSColorProperty.PropDrawValue(ACanvas: TCanvas; const ARect: TRect;
   ASelected: Boolean);
 begin
   if GetVisualValue <> '' then
@@ -702,12 +704,12 @@ begin
     DefaultPropertyDrawValue(Self, ACanvas, ARect);
 end;
 
-procedure TGLColorProperty.ListDrawValue(const Value: string; ACanvas: TCanvas;
+procedure TGSColorProperty.ListDrawValue(const Value: string; ACanvas: TCanvas;
   const ARect: TRect; ASelected: Boolean);
 var
   vRight: Integer;
   vOldPenColor, vOldBrushColor: TColor;
-  Color: TGLColorVector;
+  Color: TGSColorVector;
 begin
   vRight := (ARect.Bottom - ARect.Top) + ARect.Left;
   with ACanvas do
@@ -732,19 +734,19 @@ begin
     end;
 end;
 
-procedure TGLColorProperty.ListMeasureWidth(const Value: string;
+procedure TGSColorProperty.ListMeasureWidth(const Value: string;
   ACanvas: TCanvas; var AWidth: Integer);
 begin
   AWidth := AWidth + ACanvas.TextHeight('M');
 end;
 
-procedure TGLColorProperty.ListMeasureHeight(const Value: string;
+procedure TGSColorProperty.ListMeasureHeight(const Value: string;
   ACanvas: TCanvas; var AHeight: Integer);
 begin
   // Nothing
 end;
 
-procedure TGLColorProperty.PropDrawName(ACanvas: TCanvas; const ARect: TRect;
+procedure TGSColorProperty.PropDrawName(ACanvas: TCanvas; const ARect: TRect;
   ASelected: Boolean);
 begin
   DefaultPropertyDrawName(Self, ACanvas, ARect);
@@ -808,19 +810,19 @@ begin
         Proc(Samples[i].Name);
 end;
 
-//----------------- TGLCoordinatesProperty -------------------------------------
+//----------------- TGSCoordinatesProperty -------------------------------------
 
-function TGLCoordinatesProperty.GetAttributes: TPropertyAttributes;
+function TGSCoordinatesProperty.GetAttributes: TPropertyAttributes;
 begin
   Result := [paDialog, paSubProperties];
 end;
 
-procedure TGLCoordinatesProperty.Edit;
+procedure TGSCoordinatesProperty.Edit;
 var
-  glc: TGLCoordinates;
+  glc: TGSCoordinates;
   x, y, z: Single;
 begin
-  glc := TGLCoordinates(GetOrdValue);
+  glc := TGSCoordinates(GetOrdValue);
   x := glc.x;
   y := glc.y;
   z := glc.z;
@@ -1070,9 +1072,9 @@ begin
   end;
 end;
 
-//-------------------- TGLSArchiveManagerEditor -----------------------
+//-------------------- TGLArchiveManagerEditor -----------------------
 
-procedure TGLSArchiveManagerEditor.EditProperty(const Prop: IProperty;
+procedure TGLArchiveManagerEditor.EditProperty(const Prop: IProperty;
   var Continue: Boolean);
 begin
   if CompareText(Prop.GetName, 'ARCHIVES') = 0 then
@@ -1081,21 +1083,21 @@ begin
   end;
 end;
 
-procedure TGLSArchiveManagerEditor.ExecuteVerb(Index: Integer);
+procedure TGLArchiveManagerEditor.ExecuteVerb(Index: Integer);
 begin
   case Index of
     0: Edit;
   end;
 end;
 
-function TGLSArchiveManagerEditor.GetVerb(Index: Integer): string;
+function TGLArchiveManagerEditor.GetVerb(Index: Integer): string;
 begin
   case Index of
     0: Result := 'Show Archive Manager Editor';
   end;
 end;
 
-function TGLSArchiveManagerEditor.GetVerbCount: Integer;
+function TGLArchiveManagerEditor.GetVerbCount: Integer;
 begin
   Result := 1
 end;
@@ -1356,14 +1358,14 @@ begin
 
   // GLS.Scene
   RegisterPropertiesInCategory(strOpenGLCategoryName,
-    [TypeInfo(TGLObjectsSorting), TypeInfo(TGLProgressEvent),
+    [TypeInfo(TGLObjectsSorting), TypeInfo(TGSProgressEvent),
     TypeInfo(TGLBehaviours), TypeInfo(TGLEffects),
     TypeInfo(TGLDirectRenderEvent), TypeInfo(TGLCameraStyle),
     TypeInfo(TOnCustomPerspective), TypeInfo(TGLScene)]);
   RegisterPropertiesInCategory(strLayoutCategoryName,
     [TypeInfo(TGLObjectsSorting), TypeInfo(TGLNormalDirection)]);
   RegisterPropertiesInCategory(strVisualCategoryName,
-    [TypeInfo(TGLVisibilityCulling), TypeInfo(TGLLightStyle), TypeInfo(TGLColor),
+    [TypeInfo(TGLVisibilityCulling), TypeInfo(TGLLightStyle), TypeInfo(TGSColor),
     TypeInfo(TGLNormalDirection), TypeInfo(TGLCameraStyle)]);
   RegisterPropertiesInCategory(strVisualCategoryName, TGLBaseSceneObject,
     ['Rotation', 'Direction', 'Position', 'Up', 'Scale', '*Angle', 'ShowAxes', 'FocalLength']);
@@ -1557,7 +1559,7 @@ begin
 	TGLFPSMovementManager, TGLMaterialScripter, TGLUserInterface, TGLNavigator,
 	TGLSmoothNavigator, TGLSmoothUserInterface, TGLTimeEventsMGR,
 	TGLApplicationFileIO, TGLVfsPAK, TGLSimpleNavigation, TGLGizmo,
-	TGLCameraController, TGLSLogger, TGLSArchiveManager, TGLJoystick, TGLScreenSaver, TGLSSynHiMemo]);
+	TGLCameraController, TGSLogger, TGLArchiveManager, TGLJoystick, TGLScreenSaver, TGLSSynHiMemo]);
 
   RegisterComponents('GLScene Terrain', [TGLBitmapHDS, TGLCustomHDS,
     TGLHeightTileFileHDS, TGLBumpmapHDS, TGLPerlinHDS, TGLTexturedHDS,
@@ -1576,7 +1578,7 @@ begin
   RegisterComponentEditor(TGLScene, TGLSceneEditor);
   RegisterComponentEditor(TGLMaterialLibrary, TGLMaterialLibraryEditor);
   RegisterComponentEditor(TGLMaterialLibraryEx, TGLMaterialLibraryEditor);
-  RegisterComponentEditor(TGLSArchiveManager, TGLSArchiveManagerEditor);
+  RegisterComponentEditor(TGLArchiveManager, TGLArchiveManagerEditor);
 
   GLSceneRegisterPropertiesInCategories;
 
@@ -1586,8 +1588,8 @@ begin
   RegisterPropertyEditor(TypeInfo(string), TGLTexture, 'ImageClassName', TGLImageClassProperty);
   RegisterPropertyEditor(TypeInfo(TGLSoundFile), TGLSoundSample, '', TGLSoundFileProperty);
   RegisterPropertyEditor(TypeInfo(string), TGLBaseSoundSource, 'SoundName', TGLSoundNameProperty);
-  RegisterPropertyEditor(TypeInfo(TGLCoordinates), nil, '', TGLCoordinatesProperty);
-  RegisterPropertyEditor(TypeInfo(TGLColor), nil, '', TGLColorProperty);
+  RegisterPropertyEditor(TypeInfo(TGSCoordinates), nil, '', TGSCoordinatesProperty);
+  RegisterPropertyEditor(TypeInfo(TGSColor), nil, '', TGSColorProperty);
   RegisterPropertyEditor(TypeInfo(TGLMaterial), nil, '', TGLMaterialProperty);
   RegisterComponentEditor(TGLGuiLayout, TGLGUILayoutEditor);
 
@@ -1719,8 +1721,8 @@ initialization //==============================================================
     False, 'MPL 2.0 license', 'VCL version');
   Stage.Utils.IsDesignTime := True;
   Stage.Utils.vProjectTargetName := GetProjectTargetName;
-  GLS.Color.vUseDefaultColorSets := True;
-  GLS.Coordinates.vUseDefaultCoordinateSets := True;
+  Stage.Color.vUseDefaultColorSets := True;
+  Stage.Coordinates.vUseDefaultCoordinateSets := True;
   ReadVideoModes;
 
 with ObjectManager do
@@ -1836,7 +1838,7 @@ begin
 
   // Proxy objects.
   RegisterSceneObject(TGLProxyObject, 'ProxyObject', strOCProxyObjects, HInstance);
-  RegisterSceneObject(TGLColorProxy, 'ColorProxy', strOCProxyObjects, HInstance);
+  RegisterSceneObject(TGSColorProxy, 'ColorProxy', strOCProxyObjects, HInstance);
   RegisterSceneObject(TGLFreeFormProxy, 'FreeFormProxy', strOCProxyObjects, HInstance);
   RegisterSceneObject(TGLMaterialProxy, 'MaterialProxy', strOCProxyObjects, HInstance);
   RegisterSceneObject(TGLActorProxy, 'ActorProxy', strOCProxyObjects, HInstance);

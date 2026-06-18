@@ -1,11 +1,11 @@
-//
-// GLScene Graphics Engine
-//
-
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.ProcTextures;
-
-(* Procedural textures *)
-
+(*
+  Procedural textures
+  RegisterGLTextureImageClass(TGLProcTextureNoise);
+*)
 interface
 
 uses
@@ -71,10 +71,9 @@ type
     property NoiseRandSeed: Longint read FNoiseRandSeed write SetNoiseRandSeed;
   end;
 
-// ------------------------------------------------------------------
-implementation
-// ------------------------------------------------------------------
+implementation //============================================================
 
+//---------------------------------------------------------------------------
 constructor TGLProcTextureNoise.Create(AOwner: TPersistent);
 { PERM array Borrowed from Darwyn Peachey.
   The gradient table is indexed with an XYZ triplet, which is first turned
@@ -110,12 +109,14 @@ begin
   RandSeed := seedBackup;
 end;
 
+//---------------------------------------------------------------------------
 destructor TGLProcTextureNoise.Destroy;
 begin
   ReleaseBitmap32;
   inherited;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLProcTextureNoise.UpdateNoise;
 var
   X, Y, C: Integer;
@@ -182,6 +183,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 function TGLProcTextureNoise.GetBitmap32: TGLBitmap32;
 begin
   if not Assigned(FNoiseMap) then
@@ -195,18 +197,19 @@ begin
   Result := FNoiseMap;
 end;
 
- 
+//---------------------------------------------------------------------------
 class function TGLProcTextureNoise.FriendlyName: string;
 begin
   Result := 'Procedural Noise';
 end;
 
-
+//---------------------------------------------------------------------------
 class function TGLProcTextureNoise.FriendlyDescription: string;
 begin
   Result := 'Procedural Noise (Animated)';
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLProcTextureNoise.SetSeamless(const val: Boolean);
 begin
   if val <> FSeamless then
@@ -216,11 +219,13 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLProcTextureNoise.LoadFromFile(const fileName: string);
 begin
   Assert(False, 'TGLProcTextureNoise.LoadFromFile not implemented');
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLProcTextureNoise.ReleaseBitmap32;
 begin
   if Assigned(FNoiseMap) then
@@ -230,32 +235,37 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLProcTextureNoise.SaveToFile(const fileName: string);
 begin
-  {Nothing here}
+  // Nothing here
 end;
 
+//---------------------------------------------------------------------------
 function TGLProcTextureNoise.GetHeight: Integer;
 begin
   Result := FHeight;
 end;
 
+//---------------------------------------------------------------------------
 function TGLProcTextureNoise.GetWidth: Integer;
 begin
   Result := FWidth;
 end;
 
+//---------------------------------------------------------------------------
 function TGLProcTextureNoise.GetDepth: Integer;
 begin
   Result := 1;
 end;
 
-
+//---------------------------------------------------------------------------
 function TGLProcTextureNoise.GetTextureTarget: TGLTextureTarget;
 begin
   Result := ttTexture2D;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLProcTextureNoise.SetHeight(const val: Integer);
 begin
   if val <> FHeight then
@@ -267,6 +277,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLProcTextureNoise.SetWidth(const val: Integer);
 begin
   if val <> FWidth then
@@ -278,6 +289,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLProcTextureNoise.SetMinCut(const val: Byte);
 begin
   if val <> FMinCut then
@@ -287,6 +299,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLProcTextureNoise.SetNoiseSharpness(const val: Single);
 begin
   if val <> FNoiseSharpness then
@@ -298,6 +311,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLProcTextureNoise.SetNoiseRandSeed(const val: Longint);
 var
   i: Integer;
@@ -328,6 +342,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLProcTextureNoise.Assign(Source: TPersistent);
 begin
   if Assigned(Source) and (Source is TGLProcTextureNoise) then
@@ -343,12 +358,14 @@ begin
     inherited;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLProcTextureNoise.NoiseAnimate(speed: Single);
 begin
   FNoiseAnimate := FNoiseAnimate + speed;
   Invalidate;
 end;
 
+//---------------------------------------------------------------------------
 function TGLProcTextureNoise.Noise(x, y: Single): Single;
 var
   ix, iy, iz: Integer;
@@ -435,6 +452,7 @@ begin
   Result := Lerp(wz, vz0, vz1);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLProcTextureNoise.SetPermFromData(const inPERM: array of Byte);
 var
   I: Integer;
@@ -444,6 +462,7 @@ begin
   Invalidate;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLProcTextureNoise.SetPermToDefault;
 begin
   //225,155,210,108,175,199,221,144,203,116, 70,213, 69,158, 33,252,
@@ -720,11 +739,11 @@ begin
   PERM[255] := 52;
 end;
 
-initialization // ------------------------------------------------------------
+initialization //============================================================
 
   RegisterGLTextureImageClass(TGLProcTextureNoise);
 
-finalization // --------------------------------------------------------------
+finalization //==============================================================
 
 end.
 

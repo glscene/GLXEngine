@@ -6,16 +6,31 @@
         <Projects Include="Packages\GXScene_RT.dproj">
             <Dependencies/>
         </Projects>
+        <Projects Include="Packages\GXScene_DT.dproj">
+            <Dependencies/>
+        </Projects>
         <Projects Include="Packages\GXScene_Sounds_RT.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="Packages\GXScene_Sounds_DT.dproj">
             <Dependencies/>
         </Projects>
         <Projects Include="Packages\GXScene_Cg_RT.dproj">
             <Dependencies/>
         </Projects>
+        <Projects Include="Packages\GXScene_Cg_DT.dproj">
+            <Dependencies/>
+        </Projects>
         <Projects Include="Packages\GXScene_Physics_RT.dproj">
             <Dependencies/>
         </Projects>
+        <Projects Include="Packages\GXScene_Physics_DT.dproj">
+            <Dependencies/>
+        </Projects>
         <Projects Include="packages\GXScene_GBE_DTRT.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="Packages\GXScene_DTRT.dproj">
             <Dependencies/>
         </Projects>
     </ItemGroup>
@@ -35,6 +50,15 @@
     <Target Name="GXScene_RT:Make">
         <MSBuild Projects="Packages\GXScene_RT.dproj" Targets="Make"/>
     </Target>
+    <Target Name="GXScene_DT">
+        <MSBuild Projects="Packages\GXScene_DT.dproj"/>
+    </Target>
+    <Target Name="GXScene_DT:Clean">
+        <MSBuild Projects="Packages\GXScene_DT.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="GXScene_DT:Make">
+        <MSBuild Projects="Packages\GXScene_DT.dproj" Targets="Make"/>
+    </Target>
     <Target Name="GXScene_Sounds_RT">
         <MSBuild Projects="Packages\GXScene_Sounds_RT.dproj"/>
     </Target>
@@ -43,6 +67,15 @@
     </Target>
     <Target Name="GXScene_Sounds_RT:Make">
         <MSBuild Projects="Packages\GXScene_Sounds_RT.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="GXScene_Sounds_DT">
+        <MSBuild Projects="Packages\GXScene_Sounds_DT.dproj"/>
+    </Target>
+    <Target Name="GXScene_Sounds_DT:Clean">
+        <MSBuild Projects="Packages\GXScene_Sounds_DT.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="GXScene_Sounds_DT:Make">
+        <MSBuild Projects="Packages\GXScene_Sounds_DT.dproj" Targets="Make"/>
     </Target>
     <Target Name="GXScene_Cg_RT">
         <MSBuild Projects="Packages\GXScene_Cg_RT.dproj"/>
@@ -53,6 +86,15 @@
     <Target Name="GXScene_Cg_RT:Make">
         <MSBuild Projects="Packages\GXScene_Cg_RT.dproj" Targets="Make"/>
     </Target>
+    <Target Name="GXScene_Cg_DT">
+        <MSBuild Projects="Packages\GXScene_Cg_DT.dproj"/>
+    </Target>
+    <Target Name="GXScene_Cg_DT:Clean">
+        <MSBuild Projects="Packages\GXScene_Cg_DT.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="GXScene_Cg_DT:Make">
+        <MSBuild Projects="Packages\GXScene_Cg_DT.dproj" Targets="Make"/>
+    </Target>
     <Target Name="GXScene_Physics_RT">
         <MSBuild Projects="Packages\GXScene_Physics_RT.dproj"/>
     </Target>
@@ -61,6 +103,15 @@
     </Target>
     <Target Name="GXScene_Physics_RT:Make">
         <MSBuild Projects="Packages\GXScene_Physics_RT.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="GXScene_Physics_DT">
+        <MSBuild Projects="Packages\GXScene_Physics_DT.dproj"/>
+    </Target>
+    <Target Name="GXScene_Physics_DT:Clean">
+        <MSBuild Projects="Packages\GXScene_Physics_DT.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="GXScene_Physics_DT:Make">
+        <MSBuild Projects="Packages\GXScene_Physics_DT.dproj" Targets="Make"/>
     </Target>
     <Target Name="GXScene_GBE_DTRT">
         <MSBuild Projects="packages\GXScene_GBE_DTRT.dproj"/>
@@ -71,14 +122,23 @@
     <Target Name="GXScene_GBE_DTRT:Make">
         <MSBuild Projects="packages\GXScene_GBE_DTRT.dproj" Targets="Make"/>
     </Target>
+    <Target Name="GXScene_DTRT">
+        <MSBuild Projects="Packages\GXScene_DTRT.dproj"/>
+    </Target>
+    <Target Name="GXScene_DTRT:Clean">
+        <MSBuild Projects="Packages\GXScene_DTRT.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="GXScene_DTRT:Make">
+        <MSBuild Projects="Packages\GXScene_DTRT.dproj" Targets="Make"/>
+    </Target>
     <Target Name="Build">
-        <CallTarget Targets="GXScene_RT;GXScene_Sounds_RT;GXScene_Cg_RT;GXScene_Physics_RT;GXScene_GBE_DTRT"/>
+        <CallTarget Targets="GXScene_RT;GXScene_DT;GXScene_Sounds_RT;GXScene_Sounds_DT;GXScene_Cg_RT;GXScene_Cg_DT;GXScene_Physics_RT;GXScene_Physics_DT;GXScene_GBE_DTRT;GXScene_DTRT"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="GXScene_RT:Clean;GXScene_Sounds_RT:Clean;GXScene_Cg_RT:Clean;GXScene_Physics_RT:Clean;GXScene_GBE_DTRT:Clean"/>
+        <CallTarget Targets="GXScene_RT:Clean;GXScene_DT:Clean;GXScene_Sounds_RT:Clean;GXScene_Sounds_DT:Clean;GXScene_Cg_RT:Clean;GXScene_Cg_DT:Clean;GXScene_Physics_RT:Clean;GXScene_Physics_DT:Clean;GXScene_GBE_DTRT:Clean;GXScene_DTRT:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="GXScene_RT:Make;GXScene_Sounds_RT:Make;GXScene_Cg_RT:Make;GXScene_Physics_RT:Make;GXScene_GBE_DTRT:Make"/>
+        <CallTarget Targets="GXScene_RT:Make;GXScene_DT:Make;GXScene_Sounds_RT:Make;GXScene_Sounds_DT:Make;GXScene_Cg_RT:Make;GXScene_Cg_DT:Make;GXScene_Physics_RT:Make;GXScene_Physics_DT:Make;GXScene_GBE_DTRT:Make;GXScene_DTRT:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

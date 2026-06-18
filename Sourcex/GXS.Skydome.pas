@@ -1,10 +1,11 @@
-﻿//
-// GXScene Graphics Engine
-//
+﻿(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.Skydome;
-
-(* Skydome object *)
-
+(*
+  Skydome objects
+  RegisterClasses([TgxSkyDome, TgxEarthSkyDome]);
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -23,7 +24,7 @@ uses
   GXS.Context,
   GXS.State,
   GXS.Graphics,
-  GXS.Color,
+  Stage.Color,
   GXS.Material,
   GXS.RenderContextInfo;
 
@@ -94,16 +95,16 @@ TgxSkyBoxStyle = (sbsFull, sbsTopHalf, sbsBottomHalf, sbTopTwoThirds, sbsTopHalf
   private
     FStartAngle: Single;
     FStopAngle: Single;
-    FStartColor: TgxColor;
-    FStopColor: TgxColor;
+    FStartColor: TGSColor;
+    FStopColor: TGSColor;
     FSlices: Integer;
     FStacks: Integer;
   protected
     function GetDisplayName: string; override;
     procedure SetStartAngle(const val: Single);
-    procedure SetStartColor(const val: TgxColor);
+    procedure SetStartColor(const val: TGSColor);
     procedure SetStopAngle(const val: Single);
-    procedure SetStopColor(const val: TgxColor);
+    procedure SetStopColor(const val: TGSColor);
     procedure SetSlices(const val: Integer);
     procedure SetStacks(const val: Integer);
     procedure OnColorChange(sender: TObject);
@@ -114,9 +115,9 @@ TgxSkyBoxStyle = (sbsFull, sbsTopHalf, sbsBottomHalf, sbTopTwoThirds, sbsTopHalf
     procedure BuildList(var rci: TgxRenderContextInfo);
   published
     property StartAngle: Single read FStartAngle write SetStartAngle;
-    property StartColor: TgxColor read FStartColor write SetStartColor;
+    property StartColor: TGSColor read FStartColor write SetStartColor;
     property StopAngle: Single read FStopAngle write SetStopAngle;
-    property StopColor: TgxColor read FStopColor write SetStopColor;
+    property StopColor: TGSColor read FStopColor write SetStopColor;
     property Slices: Integer read FSlices write SetSlices default 12;
     property Stacks: Integer read FStacks write SetStacks default 1;
   end;
@@ -226,14 +227,14 @@ TgxSkyBoxStyle = (sbsFull, sbsTopHalf, sbsBottomHalf, sbTopTwoThirds, sbsTopHalf
   private
     FSunElevation: Single;
     FTurbidity: Single;
-    FCurSunColor, FCurSkyColor, FCurHazeColor: TgxColorVector;
+    FCurSunColor, FCurSkyColor, FCurHazeColor: TGSColorVector;
     FCurHazeTurbid, FCurSunSkyTurbid: Single;
-    FSunZenithColor: TgxColor;
-    FSunDawnColor: TgxColor;
-    FHazeColor: TgxColor;
-    FSkyColor: TgxColor;
-    FNightColor: TgxColor;
-    FDeepColor: TgxColor;
+    FSunZenithColor: TGSColor;
+    FSunDawnColor: TGSColor;
+    FHazeColor: TGSColor;
+    FSkyColor: TGSColor;
+    FNightColor: TGSColor;
+    FDeepColor: TGSColor;
     FSlices, FStacks: Integer;
     FExtendedOptions: TEarthSkydomeOptions;
     FMorning: Boolean;
@@ -241,18 +242,18 @@ TgxSkyBoxStyle = (sbsFull, sbsTopHalf, sbsBottomHalf, sbTopTwoThirds, sbsTopHalf
     procedure Loaded; override;
     procedure SetSunElevation(const val: Single);
     procedure SetTurbidity(const val: Single);
-    procedure SetSunZenithColor(const val: TgxColor);
-    procedure SetSunDawnColor(const val: TgxColor);
-    procedure SetHazeColor(const val: TgxColor);
-    procedure SetSkyColor(const val: TgxColor);
-    procedure SetNightColor(const val: TgxColor);
-    procedure SetDeepColor(const val: TgxColor);
+    procedure SetSunZenithColor(const val: TGSColor);
+    procedure SetSunDawnColor(const val: TGSColor);
+    procedure SetHazeColor(const val: TGSColor);
+    procedure SetSkyColor(const val: TGSColor);
+    procedure SetNightColor(const val: TGSColor);
+    procedure SetDeepColor(const val: TGSColor);
     procedure SetSlices(const val: Integer);
     procedure SetStacks(const val: Integer);
     procedure OnColorChanged(sender: TObject);
     procedure PreCalculate;
     procedure RenderDome;
-    function CalculateColor(const theta, cosGamma: Single): TgxColorVector;
+    function CalculateColor(const theta, cosGamma: Single): TGSColorVector;
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
@@ -264,12 +265,12 @@ TgxSkyBoxStyle = (sbsFull, sbsTopHalf, sbsBottomHalf, sbTopTwoThirds, sbsTopHalf
     property SunElevation: Single read FSunElevation write SetSunElevation;
     // Expresses the purity of air. Value range is from 1 (pure atmosphere) to 120 (very nebulous)
     property Turbidity: Single read FTurbidity write SetTurbidity;
-    property SunZenithColor: TgxColor read FSunZenithColor write SetSunZenithColor;
-    property SunDawnColor: TgxColor read FSunDawnColor write SetSunDawnColor;
-    property HazeColor: TgxColor read FHazeColor write SetHazeColor;
-    property SkyColor: TgxColor read FSkyColor write SetSkyColor;
-    property NightColor: TgxColor read FNightColor write SetNightColor;
-    property DeepColor: TgxColor read FDeepColor write SetDeepColor;
+    property SunZenithColor: TGSColor read FSunZenithColor write SetSunZenithColor;
+    property SunDawnColor: TGSColor read FSunDawnColor write SetSunDawnColor;
+    property HazeColor: TGSColor read FHazeColor write SetHazeColor;
+    property SkyColor: TGSColor read FSkyColor write SetSkyColor;
+    property NightColor: TGSColor read FNightColor write SetNightColor;
+    property DeepColor: TGSColor read FDeepColor write SetDeepColor;
     property ExtendedOptions: TEarthSkydomeOptions read FExtendedOptions write FExtendedOptions;
     property Slices: Integer read FSlices write SetSlices default 24;
     property Stacks: Integer read FStacks write SetStacks default 48;
@@ -282,9 +283,7 @@ function StarRecordPositionYUp(const starRecord: TgxStarRecord): TAffineVector;
 // Computes star color from BV index (RGB) and magnitude (alpha).
 function StarRecordColor(const starRecord: TgxStarRecord; bias: Single): TVector4f;
 
-// ------------------------------------------------------------------
-implementation
-// ------------------------------------------------------------------
+implementation //============================================================
 
 
 // ------------------
@@ -674,10 +673,10 @@ end;
 constructor TgxSkyDomeBand.Create(Collection: TCollection);
 begin
   inherited Create(Collection);
-  FStartColor := TgxColor.Create(Self);
+  FStartColor := TGSColor.Create(Self);
   FStartColor.Initialize(clrBlue);
   FStartColor.OnNotifyChange := OnColorChange;
-  FStopColor := TgxColor.Create(Self);
+  FStopColor := TGSColor.Create(Self);
   FStopColor.Initialize(clrBlue);
   FStopColor.OnNotifyChange := OnColorChange;
   FSlices := 12;
@@ -718,7 +717,7 @@ begin
   TgxSkyDomeBands(Collection).NotifyChange;
 end;
 
-procedure TgxSkyDomeBand.SetStartColor(const val: TgxColor);
+procedure TgxSkyDomeBand.SetStartColor(const val: TGSColor);
 begin
   FStartColor.Assign(val);
 end;
@@ -731,7 +730,7 @@ begin
   TgxSkyDomeBands(Collection).NotifyChange;
 end;
 
-procedure TgxSkyDomeBand.SetStopColor(const val: TgxColor);
+procedure TgxSkyDomeBand.SetStopColor(const val: TGSColor);
 begin
   FStopColor.Assign(val);
 end;
@@ -765,7 +764,7 @@ procedure TgxSkyDomeBand.BuildList(var rci: TgxRenderContextInfo);
 // always rendered as sphere of radius 1
 
   procedure RenderBand(start, stop: Single;
-    const colStart, colStop: TgxColorVector);
+    const colStart, colStop: TGSColorVector);
   var
     i: Integer;
     f, r, r2: Single;
@@ -982,7 +981,7 @@ var
   star: TgxSkyDomeStar;
   lastColor: TColor;
   lastPointSize10, pointSize10: Integer;
-  Color, twinkleColor: TgxColorVector;
+  Color, twinkleColor: TGSColorVector;
 
   procedure DoTwinkle;
   begin
@@ -1119,7 +1118,7 @@ procedure TgxSkyDomeStars.LoadStarsFile(const starsFileName: string);
 var
   fs: TFileStream;
   sr: TgxStarRecord;
-  colorVector: TgxColorVector;
+  colorVector: TGSColorVector;
 begin
   fs := TFileStream.Create(starsFileName, fmOpenRead + fmShareDenyWrite);
   try
@@ -1247,16 +1246,16 @@ begin
   Bands.Clear;
   FSunElevation := 75;
   FTurbidity := 15;
-  FSunZenithColor := TgxColor.CreateInitialized(Self, clrWhite, OnColorChanged);
-  FSunDawnColor := TgxColor.CreateInitialized(Self, Vectormake(1, 0.5, 0, 0),
+  FSunZenithColor := TGSColor.CreateInitialized(Self, clrWhite, OnColorChanged);
+  FSunDawnColor := TGSColor.CreateInitialized(Self, Vectormake(1, 0.5, 0, 0),
     OnColorChanged);
-  FHazeColor := TgxColor.CreateInitialized(Self, Vectormake(0.9, 0.95, 1, 0),
+  FHazeColor := TGSColor.CreateInitialized(Self, Vectormake(0.9, 0.95, 1, 0),
     OnColorChanged);
-  FSkyColor := TgxColor.CreateInitialized(Self, Vectormake(0.45, 0.6, 0.9, 0),
+  FSkyColor := TGSColor.CreateInitialized(Self, Vectormake(0.45, 0.6, 0.9, 0),
     OnColorChanged);
-  FNightColor := TgxColor.CreateInitialized(Self, clrTransparent,
+  FNightColor := TGSColor.CreateInitialized(Self, clrTransparent,
     OnColorChanged);
-  FDeepColor := TgxColor.CreateInitialized(Self, Vectormake(0, 0.2, 0.4, 0));
+  FDeepColor := TGSColor.CreateInitialized(Self, Vectormake(0, 0.2, 0.4, 0));
   FStacks := 24;
   FSlices := 48;
   PreCalculate;
@@ -1315,37 +1314,37 @@ begin
   PreCalculate;
 end;
 
-procedure TgxEarthSkyDome.SetSunZenithColor(const val: TgxColor);
+procedure TgxEarthSkyDome.SetSunZenithColor(const val: TGSColor);
 begin
   FSunZenithColor.Assign(val);
   PreCalculate;
 end;
 
-procedure TgxEarthSkyDome.SetSunDawnColor(const val: TgxColor);
+procedure TgxEarthSkyDome.SetSunDawnColor(const val: TGSColor);
 begin
   FSunDawnColor.Assign(val);
   PreCalculate;
 end;
 
-procedure TgxEarthSkyDome.SetHazeColor(const val: TgxColor);
+procedure TgxEarthSkyDome.SetHazeColor(const val: TGSColor);
 begin
   FHazeColor.Assign(val);
   PreCalculate;
 end;
 
-procedure TgxEarthSkyDome.SetSkyColor(const val: TgxColor);
+procedure TgxEarthSkyDome.SetSkyColor(const val: TGSColor);
 begin
   FSkyColor.Assign(val);
   PreCalculate;
 end;
 
-procedure TgxEarthSkyDome.SetNightColor(const val: TgxColor);
+procedure TgxEarthSkyDome.SetNightColor(const val: TGSColor);
 begin
   FNightColor.Assign(val);
   PreCalculate;
 end;
 
-procedure TgxEarthSkyDome.SetDeepColor(const val: TgxColor);
+procedure TgxEarthSkyDome.SetDeepColor(const val: TGSColor);
 begin
   FDeepColor.Assign(val);
   PreCalculate;
@@ -1531,7 +1530,7 @@ begin
 end;
 
 function TgxEarthSkyDome.CalculateColor(const theta, cosGamma: Single)
-  : TgxColorVector;
+  : TGSColorVector;
 var
   t: Single;
 begin
@@ -1564,7 +1563,7 @@ var
     i: Integer;
     r, thetaStart: Single;
     vertex1: TVector4f;
-    Color: TgxColorVector;
+    Color: TGSColorVector;
   begin
     r := 0;
     vertex1.W := 1;
@@ -1591,7 +1590,7 @@ var
     i: Integer;
     r, r2, thetaStart, thetaStop: Single;
     vertex1, vertex2: TVector4f;
-    Color: TgxColorVector;
+    Color: TGSColorVector;
   begin
     vertex1.W := 1;
     if stop = 90 then
@@ -1687,10 +1686,7 @@ begin
   FreeMem(cosTable);
 end;
 
-// -------------------------------------------------------------
-initialization
-
-// -------------------------------------------------------------
+initialization //===========================================================
 
 RegisterClasses([TgxSkyDome, TgxEarthSkyDome]);
 

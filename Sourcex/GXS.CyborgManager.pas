@@ -1,12 +1,13 @@
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.CyborgManager;
-
 (*
   The CyborgManager is a class that provides a way to manage
   AI smart objects and thier swarms or proxies at runtime.
   You need to have the model filename and it will load it
   into the list or return the already existing model
 *)
-
 interface
 
 uses
@@ -45,7 +46,7 @@ type
     property Path: string read FModelPath write SetPathToModel;
   end;
 
-implementation //-------------------------------------------------------------
+implementation //============================================================
 
 constructor TgxCyborgManager.Create(AMaster: TgxDummyCube; APath: string);
 begin
@@ -111,7 +112,7 @@ begin
       .LoadFromFile(FModelPath + FModelList.Strings[i]);
 end;
 
-initialization //-------------------------------------------------------------
+initialization //============================================================
 
 // RegisterClasses([TgxCyborgManager]);
 

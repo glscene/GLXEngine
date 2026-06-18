@@ -1,11 +1,11 @@
-//
-// GLScene Graphics Engine
-//
-
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.ScreenSaver;
-
-(* Component for making screen-savers an easy task *)
-
+(*
+  Component for making screen-savers an easy task
+  RegisterClasses([TGLScreenSaver]);
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -22,7 +22,6 @@ uses
   VCL.Extctrls;
 
 type
-
   (* Options d'automatisation du screen-saver.
     ssoAutoAdjustFormProperties : all relevant properties of main form
     will be auto-adjusted (form style, border style, form size and for
@@ -137,11 +136,11 @@ type
     May be invoked from your Properties/Configuration dialog. *)
 procedure SetScreenSaverPassword;
 
-// ---------------------------------------------------------------------
-implementation
-// ---------------------------------------------------------------------
+implementation //============================================================
 
+//---------------------------------------------------------------------------
 // Returns system path and makes sure there is a trailing '\'.
+//---------------------------------------------------------------------------
 function GetSystemDirectory: String;
 var
   newLength: Integer;
@@ -153,6 +152,7 @@ begin
     Result := Result + '\';
 end;
 
+//---------------------------------------------------------------------------
 procedure SetScreenSaverPassword;
 type
   TSetPwdFunc = function(a: PAnsiChar; ParentHandle: THandle; b, c: Integer)
@@ -175,7 +175,6 @@ end;
 // ------------------
 // ------------------ TScreenSaver ------------------
 // ------------------
-
 constructor TGLScreenSaver.Create(AOwner: TComponent);
 begin
   inherited;
@@ -224,6 +223,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLScreenSaver.ConfigureSaver;
 begin
   if Assigned(FOnPropertiesRequested) then
@@ -306,6 +306,7 @@ begin
     Application.Terminate;
 end;
 
+//---------------------------------------------------------------------------
 function TGLScreenSaver.CloseSaver: Boolean;
 type
   TPwdProc = function(Parent: THandle): Boolean; stdcall;
@@ -354,6 +355,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLScreenSaver.FormMouseMove(Sender: TObject; Shift: TShiftState;
   X, Y: Integer);
 begin
@@ -363,11 +365,13 @@ begin
     Dec(mouseEventsToIgnore);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLScreenSaver.FormKeyPress(Sender: TObject; var Key: Char);
 begin
   CloseSaver;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLScreenSaver.OnMouseTimer(Sender: TObject);
 var
   mousePos: TPoint;
@@ -381,7 +385,7 @@ begin
   lastMousePosition := mousePos;
 end;
 
-initialization
+initialization //============================================================
 
 RegisterClasses([TGLScreenSaver]);
 

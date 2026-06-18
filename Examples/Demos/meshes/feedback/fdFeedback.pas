@@ -21,8 +21,8 @@ uses
   GLS.Feedback,
   GLS.GeomObjects,
   GLS.VectorFileObjects,
-  GLS.Coordinates,
-  GLS.BaseClasses,
+  Stage.Coordinates,
+  Stage.BaseClasses,
   GLS.Objects;
 
 type

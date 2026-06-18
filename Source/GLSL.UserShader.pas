@@ -40,7 +40,6 @@ implementation //==============================================================
 // ------------------
 // ------------------ TGLUserShader ------------------
 // ------------------
-
 procedure TGLUserShader.DoApply(var rci: TGLRenderContextInfo; Sender : TObject);
 begin
   FPass:=1;

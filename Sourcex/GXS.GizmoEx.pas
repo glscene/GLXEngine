@@ -1,13 +1,11 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.GizmoEx;
-
 (*
    Invisible component for helping to Move, Rotate and Scale an Object
    This is an enhanced version of TgxGizmo usefull for an Editor.
 *)
-
 interface
 
 {$I Stage.Defines.inc}
@@ -28,17 +26,17 @@ uses
   Stage.PipelineTransform,
   Stage.Strings,
 
-  GXS.PersistentClasses,
-  GXS.GeometryBB,
+  Stage.PersistentClasses,
+  Stage.GeometryBB,
   GXS.Scene,
-  GXS.Color,
+  Stage.Color,
   GXS.Material,
   GXS.Objects,
   GXS.SceneViewer,
   GXS.GeomObjects,
   GXS.BitmapFont,
   GXS.VectorFileObjects,
-  GXS.Coordinates,
+  Stage.Coordinates,
   GXS.RenderContextInfo,
   GXS.Canvas,
   GXS.Screen,
@@ -266,10 +264,10 @@ type
     FSelAxis: TgxGizmoExAxis;
     fInfoLabelCoordType: TInfoLabelCoordType;
     FReferenceCoordSystem: TgxGizmoExReferenceCoordinateSystem;
-    FBoundingBoxColor: TgxColor;
-    FSelectedColor: TgxColor;
-    FVisibleInfoLabelsColor: TgxColor;
-    FSelectionRegionColor: TgxColor;
+    FBoundingBoxColor: TGSColor;
+    FSelectedColor: TGSColor;
+    FVisibleInfoLabelsColor: TGSColor;
+    FSelectionRegionColor: TGSColor;
     FVisibleInfoLabelsColorChanged: Boolean;
     FAutoZoom: Boolean;
     FExcludeObjects: Boolean;
@@ -320,10 +318,10 @@ type
     procedure SetRootObjects(const AValue: TgxBaseSceneObject);
     procedure SetGizmoTmpRoot(const AValue: TgxBaseSceneObject);
     procedure SetGizmoExVisibleInfoLabels(const AValue: TgxGizmoExVisibleInfoLabels);
-    procedure SetBoundingBoxColor(const AValue: TgxColor);
-    procedure SetSelectedColor(const AValue: TgxColor);
-    procedure SetVisibleInfoLabelsColor(const AValue: TgxColor);
-    procedure SetSelectionRegionColor(const AValue: TgxColor);
+    procedure SetBoundingBoxColor(const AValue: TGSColor);
+    procedure SetSelectedColor(const AValue: TGSColor);
+    procedure SetVisibleInfoLabelsColor(const AValue: TGSColor);
+    procedure SetSelectionRegionColor(const AValue: TGSColor);
     procedure SetCanChangeWithChildren(AValue: Boolean);
     procedure SetAALines(aValue: Boolean);
     procedure SetInfoLabelCoordType(aValue: TInfoLabelCoordType);
@@ -395,9 +393,9 @@ type
     //--------------------------------------------------------------------
   published
     property Viewer: TgxSceneViewer read FViewer write SetViewer;
-    property BoundingBoxColor: TgxColor read FBoundingBoxColor write SetBoundingBoxColor;
-    property SelectedColor: TgxColor read FSelectedColor write SetSelectedColor;
-    property SelectionRegionColor: TgxColor read FSelectionRegionColor write SetSelectionRegionColor;
+    property BoundingBoxColor: TGSColor read FBoundingBoxColor write SetBoundingBoxColor;
+    property SelectedColor: TGSColor read FSelectedColor write SetSelectedColor;
+    property SelectionRegionColor: TGSColor read FSelectionRegionColor write SetSelectionRegionColor;
     property SelectedObj: TgxBaseSceneObject read GetSelectedObj write SetSelectedObj;
     property SelectedObjects: TgxPickList read GetPickList write SetPickList;
     property OperationMode: TgxGizmoExOperationMode read FOperationMode write SetOperationMode default gomSelect;
@@ -406,7 +404,7 @@ type
     property ExcludeClassname: Boolean read FExcludeClassname write FExcludeClassname;
     property ExcludeClassnameList: TStrings read FExcludeClassnameList write SetExcludeClassnameList;
     property VisibleInfoLabels: TgxGizmoExVisibleInfoLabels read FVisibleVisibleInfoLabels write SetGizmoExVisibleInfoLabels;
-    property VisibleInfoLabelsColor: TgxColor read FVisibleInfoLabelsColor write SetVisibleInfoLabelsColor;
+    property VisibleInfoLabelsColor: TGSColor read FVisibleInfoLabelsColor write SetVisibleInfoLabelsColor;
     property AutoZoom: Boolean read FAutoZoom write FAutoZoom default True;
     property AutoZoomFactor: Single read FAutoZoomFactor write SetAutoZoomFactor;
     property ZoomFactor: Single read FZoomFactor write SetZoomFactor;
@@ -451,9 +449,7 @@ type
     property Visible: Boolean read GetVisible write SetVisible;
   end;
 
-//--------------------------------------------------------------------
-implementation
-//---------------------------------------------------------------------
+implementation //============================================================
 
 procedure RotateAroundArbitraryAxis(const anObject: TgxBaseSceneObject; const Axis, Origin: TAffineVector; const angle: Single);
 var
@@ -706,13 +702,13 @@ begin
   FMoveCoef := 0.1;
   FScaleCoef := 0.1;
 
-  FBoundingBoxColor := TgxColor.Create(Self);
+  FBoundingBoxColor := TGSColor.Create(Self);
   FBoundingBoxColor.Color := clrWhite;
-  FSelectionRegionColor := TgxColor.Create(Self);
+  FSelectionRegionColor := TGSColor.Create(Self);
   SelectionRegionColor.Color := clrBlack;
-  FSelectedColor := TgxColor.Create(Self);
+  FSelectedColor := TGSColor.Create(Self);
   FSelectedColor.Color := clrYellow;
-  FVisibleInfoLabelsColor := TgxColor.Create(Self);
+  FVisibleInfoLabelsColor := TGSColor.Create(Self);
   FVisibleInfoLabelsColor.Color := clrYellow;
   FVisibleInfoLabelsColorChanged := False;
 
@@ -2353,7 +2349,7 @@ begin
 
 end;
 
-procedure TgxGizmoEx.SetBoundingBoxColor(const AValue: TgxColor);
+procedure TgxGizmoEx.SetBoundingBoxColor(const AValue: TGSColor);
 begin
   if AValue <> FBoundingBoxColor then
   begin
@@ -2362,7 +2358,7 @@ begin
   end;
 end;
 
-procedure TgxGizmoEx.SetSelectedColor(const AValue: TgxColor);
+procedure TgxGizmoEx.SetSelectedColor(const AValue: TGSColor);
 begin
   if AValue <> FSelectedColor then
   begin
@@ -2722,7 +2718,7 @@ begin
 end;
 
 
-procedure TgxGizmoEx.SetVisibleInfoLabelsColor(const AValue: TgxColor);
+procedure TgxGizmoEx.SetVisibleInfoLabelsColor(const AValue: TGSColor);
 begin
   if AValue <> FSelectedColor then
   begin
@@ -2733,7 +2729,7 @@ begin
   end;
 end;
 
-procedure TgxGizmoEx.SetSelectionRegionColor(const AValue: TgxColor);
+procedure TgxGizmoEx.SetSelectionRegionColor(const AValue: TGSColor);
 begin
   if AValue <> FSelectionRegionColor then
   begin

@@ -24,9 +24,9 @@
 #include "GLS.Texture.hpp"
 #include "GLS.ParticleFX.hpp"
 #include "GLS.Material.hpp"
-#include "GLS.Coordinates.hpp"
+#include "Stage.Coordinates.hpp"
 
-#include "GLS.BaseClasses.hpp"
+#include "Stage.BaseClasses.hpp"
 #include "GLS.FileQ3MD3.hpp"
 
 
@@ -84,8 +84,8 @@ private:	// User declarations
 	TMD3TagList *TorsoTags;
 	TMD3TagList *WeaponTags;
 	void __fastcall BuildModel();
-	TGLMatrix __fastcall InterpolateMatrix(
-	       TGLMatrix m1, TGLMatrix m2, Single Delta);
+	TGSMatrix __fastcall InterpolateMatrix(
+	       TGSMatrix m1, TGSMatrix m2, Single Delta);
 public:		// User declarations
 	__fastcall TFormQuakeActor(TComponent* Owner);
 };

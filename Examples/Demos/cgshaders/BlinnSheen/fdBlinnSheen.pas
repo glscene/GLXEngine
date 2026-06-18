@@ -25,14 +25,14 @@ uses
   GLS.AsyncTimer,
   Stage.VectorGeometry,
   GLS.Material,
-  GLS.Coordinates,
+  Stage.Coordinates,
 
-  GLS.BaseClasses,
+  Stage.BaseClasses,
   GLS.Behaviours,
   GLS.FileMD2,
   GLS.FileTGA,
   GLS.File3DS,
-  GLS.PersistentClasses,
+  Stage.PersistentClasses,
   Stage.Utils,
 
   Cg.GL,

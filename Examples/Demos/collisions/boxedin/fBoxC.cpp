@@ -21,10 +21,10 @@
 #pragma link "GLS.File3DS"
 #pragma link "Stage.VectorGeometry"
 #pragma link "Stage.Keyboard"
-#pragma link "GLS.Coordinates"
+#pragma link "Stage.Coordinates"
 
-#pragma link "GLS.BaseClasses"
-#pragma link "GLS.Coordinates"
+#pragma link "Stage.BaseClasses"
+#pragma link "Stage.Coordinates"
 #pragma link "GLS.Cadencer"
 #pragma link "GLS.SceneViewer"
 #pragma resource "*.dfm"
@@ -60,10 +60,10 @@ void __fastcall TForm1::GLCadencer1Progress(TObject * Sender,
 											const double deltaTime,
 											const double newTime)
 {
-  TGLVector rayStart, rayVector;
+  TGSVector rayStart, rayVector;
   float velocity;
-  TGLVector pPoint;
-  TGLVector pNormal;
+  TGSVector pPoint;
+  TGSVector pNormal;
   __int64 t;
 
   if(IsKeyDown(VK_ESCAPE))
@@ -112,7 +112,7 @@ void __fastcall TForm1::GLCadencer1Progress(TObject * Sender,
 
 //---------------------------------------------------------------------------
 
-void TForm1::AddToTrail(const TGLVector & p)
+void TForm1::AddToTrail(const TGSVector & p)
 {
   int i, k;
   Lines1->Nodes->Last()->AsVector = p;

@@ -20,11 +20,11 @@ uses
   GLS.Cadencer,
   GLS.GeomObjects,
  
-  GLS.Coordinates,
+  Stage.Coordinates,
   Stage.Utils,
-  GLS.BaseClasses,
+  Stage.BaseClasses,
   Stage.VectorGeometry,
-  GLS.VectorLists,
+  Stage.VectorLists,
   GLS.File3DS;
 
 type
@@ -98,7 +98,7 @@ end;
 procedure TFormOctreedemo.GLSceneViewer2MouseDown(Sender: TObject;
   Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
 var
-   rayStart, rayVector, iPoint, iNormal : TGLVector;
+   rayStart, rayVector, iPoint, iNormal : TGSVector;
    t : Int64;
 begin
    SetVector(rayStart, GLCamera2.AbsolutePosition);

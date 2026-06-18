@@ -1,10 +1,11 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.MeshLines;
-
-(* Line implementation by means of a Triangle strip. *)
-
+(*
+  Line implementation by means of a Triangle strip.
+  RegisterClasses([TGLMeshLines]);
+*)
 interface
 
 uses
@@ -16,15 +17,15 @@ uses
   Stage.VectorTypes,
   Stage.VectorGeometry,
   Stage.Spline,
+  Stage.VectorLists,
+  Stage.Coordinates,
+  Stage.Color,
 
-  GLS.VectorLists,
   GLS.Scene,
   GLS.Objects,
   GLS.Texture,
-  GLS.Coordinates,
   GLS.Context,
   GLS.Material,
-  GLS.Color,
   GLS.State,
   GLS.Nodes,
   GLS.VectorFileObjects,
@@ -108,7 +109,7 @@ type
   published
   end;
 
-  TGLLightmapBounds = class(TGLCustomCoordinates)
+  TGLLightmapBounds = class(TGSCustomCoordinates)
   private
     function GetLeft: TGLFloat;
     function GetTop: TGLFloat;
@@ -149,8 +150,8 @@ type
       Tolerance: Single = 1): Boolean;
     function PointNearSegment(const StartNode, EndNode: TGLLineNode;
       const X, Z: Single; LineWidth: Single; Tolerance: Single = 1): Boolean;
-    procedure StitchStrips(idx: TGLIntegerList);
-    procedure AddStitchMarker(idx: TGLIntegerList);
+    procedure StitchStrips(idx: TGSIntegerList);
+    procedure AddStitchMarker(idx: TGSIntegerList);
     procedure SetShowNodes(const Value: Boolean);
     procedure SetNoZWrite(const Value: Boolean);
     procedure SetLightmapIndex(const Value: Integer);
@@ -624,7 +625,7 @@ end;
 
 procedure TGLMeshLines.DrawCircle(Radius: Single);
 var
-  Inner, Outer, p1, p2: TGLVector;
+  Inner, Outer, p1, p2: TGSVector;
   i: Integer;
   a: Single;
   lUp: TAffineVector;
@@ -806,7 +807,7 @@ begin
   result := sqrt(sqr(xt - X) + sqr(yt - Z)) <= lDist;
 end;
 
-procedure TGLMeshLines.StitchStrips(idx: TGLIntegerList);
+procedure TGLMeshLines.StitchStrips(idx: TGSIntegerList);
 var
   i: Integer;
   i0, i1, i2: Integer;
@@ -826,7 +827,7 @@ begin
   end;
 end;
 
-procedure TGLMeshLines.AddStitchMarker(idx: TGLIntegerList);
+procedure TGLMeshLines.AddStitchMarker(idx: TGSIntegerList);
 begin
   idx.Add(-1);
   idx.Add(-2);
@@ -1019,9 +1020,7 @@ begin
     lSpline.Free;
 end;
 
-// ---------------------------------
-initialization
-// ---------------------------------
+initialization //============================================================
 
 RegisterClasses([TGLMeshLines]);
 

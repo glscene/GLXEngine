@@ -163,6 +163,10 @@
     <PropertyGroup Condition="'$(Cfg_1_Win64x)'!=''">
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <VerInfo_Locale>1033</VerInfo_Locale>
+        <DCC_Description>GXScene DT Cg Shaders</DCC_Description>
+        <DCC_BpiOutput>..\lib\$(Platform)</DCC_BpiOutput>
+        <DCC_HppOutput>..\include\$(Platform)</DCC_HppOutput>
+        <DCC_ObjOutput>..\lib\$(Platform)</DCC_ObjOutput>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <DCC_LocalDebugSymbols>false</DCC_LocalDebugSymbols>
@@ -189,9 +193,9 @@
         </DelphiCompile>
         <DCCReference Include="rtl.dcp"/>
         <DCCReference Include="GXScene_RT.dcp"/>
-        <DCCReference Include="..\Sourcex\GXS.CgShader.pas"/>
-        <DCCReference Include="..\Sourcex\GXS.CgBombShader.pas"/>
-        <DCCReference Include="..\Sourcex\GXS.CgPostTransformationShader.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.Cg.Shader.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.Cg.BombShader.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.Cg.PostTransformationShader.pas"/>
         <DCCReference Include="..\Src\Cg.GL.pas"/>
         <DCCReference Include="..\Src\Cg.Import.pas"/>
         <BuildConfiguration Include="Base">
@@ -215,6 +219,7 @@
                     <Source Name="MainSource">GXScene_Cg_RT.dpk</Source>
                 </Source>
                 <Excluded_Packages>
+                    <Excluded_Packages Name="C:\Users\Public\Documents\Embarcadero\Studio\37.0\Bpl\rae.bpl">File C:\Users\Public\Documents\Embarcadero\Studio\37.0\Bpl\rae.bpl not found</Excluded_Packages>
                     <Excluded_Packages Name="$(BDSBIN)\bcboffice2k370.bpl">Embarcadero C++Builder Office 2000 Servers Package</Excluded_Packages>
                     <Excluded_Packages Name="$(BDSBIN)\bcbofficexp370.bpl">Embarcadero C++Builder Office XP Servers Package</Excluded_Packages>
                     <Excluded_Packages Name="$(BDSBIN)\dcloffice2k370.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>

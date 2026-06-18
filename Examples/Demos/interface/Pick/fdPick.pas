@@ -16,11 +16,11 @@ uses
   GLS.Texture,
   GLS.SceneViewer,
   GLS.GeomObjects,
-  GLS.Color,
+  Stage.Color,
 
-  GLS.Coordinates,
-  GLS.BaseClasses,
-  GLS.VectorLists,
+  Stage.Coordinates,
+  Stage.BaseClasses,
+  Stage.VectorLists,
   GLS.SimpleNavigation;
 
 type

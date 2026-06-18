@@ -1,10 +1,10 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.TextureImageEditors;
-
-(* Standard texture image editors for standard texture image classes *)
-
+(*
+  Standard texture image editors for standard texture image classes
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -18,7 +18,6 @@ uses
   GXS.ImageUtils;
 
 type
-
   TgxTextureImageEditor = class(TObject)
   public
     (* Request to edit a textureImage.
@@ -56,10 +55,7 @@ procedure RegisterTextureImageEditor(aTexImageClass: TgxTextureImageClass;
 procedure UnRegisterTextureImageEditor(texImageEditor
   : TgxTextureImageEditorClass);
 
-// ------------------------------------------------------------------------------
-implementation
-
-// ------------------------------------------------------------------------------
+implementation //============================================================
 
 var
   vTIEClass, vTIEEditor: TList;

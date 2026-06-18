@@ -28,10 +28,10 @@ uses
   GLS.Objects,
 
   GLS.Material,
-  GLS.Coordinates,
-  GLS.BaseClasses,
+  Stage.Coordinates,
+  Stage.BaseClasses,
   GLS.FileMD2,
-  GLS.XCollection,
+  Stage.XCollection,
   Stage.Utils,
   GLSL.ShapeShaders;
 

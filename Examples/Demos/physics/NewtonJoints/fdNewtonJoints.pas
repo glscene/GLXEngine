@@ -19,13 +19,13 @@ uses
   GLS.Scene,
   GLS.NGDManager,
   GLS.Objects,
-  GLS.Coordinates,
+  Stage.Coordinates,
   GLS.Cadencer,
   GLS.SceneViewer,
 
-  GLS.BaseClasses,
+  Stage.BaseClasses,
   GLS.SimpleNavigation,
-  GLS.XCollection,
+  Stage.XCollection,
   GLS.GeomObjects,
   GLS.HUDObjects,
   GLS.BitmapFont,
@@ -68,7 +68,7 @@ type
       X, Y: Integer);
     procedure FormCreate(Sender: TObject);
   private
-    point3d, FPaneNormal: TGLVector;
+    point3d, FPaneNormal: TGSVector;
   public
     PickJoint: TGLNGDJoint;
     MousePoint: TPoint;
@@ -89,7 +89,7 @@ end;
 procedure TFormNewtonJoints.GLCadencer1Progress(Sender: TObject;
   const deltaTime, newTime: Double);
 var
-  point2d, GotoPoint3d: TGLVector;
+  point2d, GotoPoint3d: TGSVector;
 begin
   GLNGDManager1.Step(deltaTime);
   if IsKeyDown(VK_LBUTTON) then

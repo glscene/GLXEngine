@@ -27,8 +27,8 @@ uses
   GLS.Graph,
   Stage.VectorTypes,
   GLS.SceneViewer,
-  GLS.Coordinates,
-  GLS.BaseClasses,
+  Stage.Coordinates,
+  Stage.BaseClasses,
   GLS.SimpleNavigation,
   Stage.Utils;
 

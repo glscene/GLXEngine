@@ -8,15 +8,15 @@
 #include "fcProjection.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
-#pragma link "GLS.BaseClasses"
-#pragma link "GLS.Coordinates"
+#pragma link "Stage.BaseClasses"
+#pragma link "Stage.Coordinates"
 
 #pragma link "GLS.GeomObjects"
 #pragma link "GLS.Graph"
 #pragma link "GLS.Objects"
 #pragma link "GLS.Scene"
 #pragma link "GLS.SceneViewer"
-#pragma link "GLS.BaseClasses"
+#pragma link "Stage.BaseClasses"
 
 #pragma resource "*.dfm"
 TFormProjection *FormProjection;
@@ -41,9 +41,9 @@ void __fastcall TFormProjection::DirectOpenGLRender(TObject *Sender, TGLRenderCo
 
 {
    int i;
-   TGLMatrix mat;
-   TGLVector p, pProj;
-   TGLVector planePoint, planeNormal;
+   TGSMatrix mat;
+   TGSVector p, pProj;
+   TGSVector planePoint, planeNormal;
    THmgPlane plane;
 
    // Here we recover our plane point and normal...

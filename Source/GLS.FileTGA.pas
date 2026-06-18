@@ -1,15 +1,13 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.FileTGA;
-
 (*
   Simple TGA formats supports.
   Currently supports only 24 and 32 bits RGB formats
   (uncompressed and RLE compressed).
   Based on David McDuffee's document from www.wotsit.org
 *)
-
 interface
 
 {$I Stage.Defines.inc}

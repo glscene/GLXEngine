@@ -1,10 +1,11 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.Memo;
-
-(* Memo for GLScene *)
-
+(*
+  Memo for Scene
+  RegisterClasses([TGLSSynHiMemo]);
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -15,6 +16,7 @@ uses
   System.SysUtils,
   System.Classes,
   System.UITypes,
+
   VCL.Graphics,
   VCL.Controls, 
   VCL.Forms, 
@@ -911,7 +913,6 @@ end;
 //--------------------------------------------------------------
 //        SET CURSOR
 //--------------------------------------------------------------
-
 procedure TGLSCustomMemo.SetCursor(ACurX, ACurY: Integer);
 begin
   ClearSelection;
@@ -923,7 +924,6 @@ end;
 //--------------------------------------------------------------
 //        SELECT LINE, CHAR
 //--------------------------------------------------------------
-
 function TGLSCustomMemo.SelectLine(LineNo, StyleNo: Integer): integer;
 var
   rct: TRect;
@@ -978,7 +978,6 @@ end;
 //--------------------------------------------------------------
 //        CLEAR
 //--------------------------------------------------------------
-
 procedure TGLSCustomMemo.Clear;
 begin
   CurY := 0;
@@ -994,7 +993,6 @@ end;
 //--------------------------------------------------------------
 //        SELECT ALL
 //--------------------------------------------------------------
-
 procedure TGLSCustomMemo.SelectAll;
 begin
   FSelStartY := 0;
@@ -1007,7 +1005,6 @@ end;
 //-----------------------------------------------------------
 //   SET CLIPBOARD CODE PAGE
 //-----------------------------------------------------------
-
 procedure SetClipboardCodePage(const CodePage: longint);
 var
   Data: THandle;
@@ -1031,7 +1028,6 @@ end;
 //--------------------------------------------------------------
 //        COPY TO CLIPBOARD
 //--------------------------------------------------------------
-
 procedure CopyStringToClipboard(const Value: string);
 const
   RusLocale = (SUBLANG_DEFAULT shl $A) or LANG_RUSSIAN;
@@ -1053,7 +1049,6 @@ end;
 //--------------------------------------------------------------
 //        PASTE FROM CLIPBOARD
 //--------------------------------------------------------------
-
 procedure TGLSCustomMemo.PasteFromClipBoard;
 var
   H, len: integer;
@@ -1074,7 +1069,6 @@ end;
 //--------------------------------------------------------------
 //        DELETE SELECTION
 //--------------------------------------------------------------
-
 procedure TGLSCustomMemo.DeleteSelection(bRepaint: Boolean);
 var
   xSelStartX, xSelStartY, xSelEndX, xSelEndY: integer;
@@ -1140,7 +1134,6 @@ end;
 //--------------------------------------------------------------
 //        CUT TO CLIPBOARD
 //--------------------------------------------------------------
-
 procedure TGLSCustomMemo.CutToClipBoard;
 begin
   ClipBoard.SetTextBuf(PChar(GetSelText));
@@ -1150,7 +1143,6 @@ end;
 //--------------------------------------------------------------
 //        GET SEL TEXT
 //--------------------------------------------------------------
-
 function TGLSCustomMemo.GetSelText: string;
 var
   i: integer;
@@ -1181,7 +1173,6 @@ end;
 //--------------------------------------------------------------
 //        GET SEL START
 //--------------------------------------------------------------
-
 function TGLSCustomMemo.GetSelStart: TPoint;
 var
   xSelStartX, xSelStartY, xSelEndX, xSelEndY: integer;
@@ -1197,7 +1188,6 @@ end;
 //--------------------------------------------------------------
 //        GET SEL END
 //--------------------------------------------------------------
-
 function TGLSCustomMemo.GetSelEnd: TPoint;
 var
   xSelStartX, xSelStartY, xSelEndX, xSelEndY: integer;
@@ -1213,7 +1203,6 @@ end;
 //--------------------------------------------------------------
 //        SET SEL TEXT
 //--------------------------------------------------------------
-
 procedure TGLSCustomMemo.SetSelText(const AValue: string);
 var
   i, k: integer;
@@ -1271,7 +1260,6 @@ end;
 //--------------------------------------------------------------
 //        GET SEL LENGTH
 //--------------------------------------------------------------
-
 function TGLSCustomMemo.GetSelLength: integer;
 begin
   Result := Length(GetSelText);
@@ -1280,7 +1268,6 @@ end;
 //--------------------------------------------------------------
 //        CHANGED
 //--------------------------------------------------------------
-
 procedure TGLSCustomMemo.Changed(FromLine, ToLine: integer);
 var
   i: integer;
@@ -1297,7 +1284,6 @@ end;
 //--------------------------------------------------------------
 //        ATTR CHANGED
 //--------------------------------------------------------------
-
 procedure TGLSCustomMemo.AttrChanged(LineNo: integer);
 begin
   ValidAttrs[LineNo] := False;
@@ -1309,7 +1295,6 @@ end;
 //--------------------------------------------------------------
 //        SELECTION CHANGED
 //--------------------------------------------------------------
-
 procedure TGLSCustomMemo.SelectionChanged;
 begin
   if Assigned(FOnSelectionChange) then
@@ -1319,7 +1304,6 @@ end;
 //--------------------------------------------------------------
 //        STATUS CHANGED
 //--------------------------------------------------------------
-
 procedure TGLSCustomMemo.StatusChanged;
 begin
   if Assigned(FOnStatusChange) then
@@ -1329,7 +1313,6 @@ end;
 //--------------------------------------------------------------
 //        CLEAR SELECTION
 //--------------------------------------------------------------
-
 procedure TGLSCustomMemo.ClearSelection;
 var
   rct: TRect;
@@ -1355,7 +1338,6 @@ end;
 //--------------------------------------------------------------
 //        EXPAND SELECTION
 //--------------------------------------------------------------
-
 procedure TGLSCustomMemo.ExpandSelection;
 var
   rct: TRect;
@@ -1374,7 +1356,6 @@ end;
 //--------------------------------------------------------------
 //        MAX LENGTH
 //--------------------------------------------------------------
-
 function TGLSCustomMemo.MaxLength: integer;
 var
   i, len: integer;
@@ -1391,7 +1372,6 @@ end;
 //--------------------------------------------------------------
 //        DO SCROLL
 //--------------------------------------------------------------
-
 procedure TGLSCustomMemo.DoScroll(Sender: TGLSMemoScrollBar; ByValue: integer);
 var
   eRect, scrRect, sbRect: TRect;
@@ -1453,7 +1433,6 @@ end;
 //--------------------------------------------------------------
 //        DO SCROLL PAGE
 //--------------------------------------------------------------
-
 procedure TGLSCustomMemo.DoScrollPage(Sender: TGLSMemoScrollBar; ByValue:
   integer);
 begin
@@ -1466,7 +1445,6 @@ end;
 //--------------------------------------------------------------
 //        SET LINES
 //--------------------------------------------------------------
-
 procedure TGLSCustomMemo.SetLines(ALines: TStrings);
 begin
   if ALines <> nil then
@@ -1481,7 +1459,6 @@ end;
 //--------------------------------------------------------------
 //        SET/GET LINE STYLE
 //--------------------------------------------------------------
-
 procedure TGLSCustomMemo.SetLineStyle(Index: integer; Value: integer);
 begin
   TGLSMemoStrings(FLines).Style[Index] := Value;
@@ -1497,7 +1474,6 @@ end;
 //--------------------------------------------------------------
 //        GET/SET IN COMMENT
 //--------------------------------------------------------------
-
 function TGLSCustomMemo.GetInComment(Index: integer): Boolean;
 begin
   Result := TGLSMemoStrings(FLines).InComment[Index];
@@ -1511,7 +1487,6 @@ end;
 //--------------------------------------------------------------
 //        GET/SET IN BRACKETS
 //--------------------------------------------------------------
-
 function TGLSCustomMemo.GetInBrackets(Index: integer): integer;
 begin
   Result := TGLSMemoStrings(FLines).InBrackets[Index];
@@ -1525,7 +1500,6 @@ end;
 //--------------------------------------------------------------
 //        GET/SET VALID ATTRS
 //--------------------------------------------------------------
-
 function TGLSCustomMemo.GetValidAttrs(Index: integer): Boolean;
 begin
   Result := TGLSMemoStrings(FLines).ValidAttrs[Index];
@@ -1539,7 +1513,6 @@ end;
 //--------------------------------------------------------------
 //        GET/SET CHAR ATTRS
 //--------------------------------------------------------------
-
 function TGLSCustomMemo.GetCharAttrs(Index: integer): string;
 begin
   Result := TGLSMemoStrings(FLines).CharAttrs[Index];
@@ -1555,7 +1528,6 @@ end;
 //--------------------------------------------------------------
 //        SET CUR X
 //--------------------------------------------------------------
-
 procedure TGLSCustomMemo.SetCurX(Value: integer);
 var
   len: integer;
@@ -1597,7 +1569,6 @@ end;
 //--------------------------------------------------------------
 //        SET CUR Y
 //--------------------------------------------------------------
-
 procedure TGLSCustomMemo.SetCurY(Value: integer);
 var
   Old: integer;
@@ -1628,7 +1599,6 @@ end;
 //--------------------------------------------------------------
 //        MOVE CURSOR
 //--------------------------------------------------------------
-
 procedure TGLSCustomMemo.MoveCursor(dX, dY: integer; Shift: TShiftState);
 var
   Selecting: Boolean;
@@ -1709,7 +1679,6 @@ end;
 //--------------------------------------------------------------
 //        MOVE PAGE
 //--------------------------------------------------------------
-
 procedure TGLSCustomMemo.MovePage(dP: integer; Shift: TShiftState);
 var
   eRect: TRect;
@@ -1743,7 +1712,6 @@ end;
 //--------------------------------------------------------------
 //        GO HOME
 //--------------------------------------------------------------
-
 procedure TGLSCustomMemo.GoHome(Shift: TShiftState);
 var
   Selecting: Boolean;
@@ -1761,7 +1729,6 @@ end;
 //--------------------------------------------------------------
 //        GO END
 //--------------------------------------------------------------
-
 procedure TGLSCustomMemo.GoEnd(Shift: TShiftState);
 var
   Selecting: Boolean;
@@ -1787,7 +1754,6 @@ end;
 //--------------------------------------------------------------
 //        INSERT CHAR
 //--------------------------------------------------------------
-
 procedure TGLSCustomMemo.InsertChar(C: Char);
 var
   S, S1: string;
@@ -1823,7 +1789,6 @@ end;
 //--------------------------------------------------------------
 //        INSERT TEMPLATE
 //--------------------------------------------------------------
-
 procedure TGLSCustomMemo.InsertTemplate(AText: string);
 var
   i, NewCurX, NewCurY: integer;
@@ -1881,7 +1846,6 @@ end;
 //--------------------------------------------------------------
 //        DELETE CHAR
 //--------------------------------------------------------------
-
 procedure TGLSCustomMemo.DeleteChar(OldX, OldY: integer);
 var
   S, S1: string;
@@ -1942,7 +1906,6 @@ end;
 //--------------------------------------------------------------
 //        DELETE LINE
 //--------------------------------------------------------------
-
 procedure TGLSCustomMemo.DeleteLine(Index, OldX, OldY, NewX, NewY: integer;
   FixUndo: Boolean);
 var
@@ -1997,7 +1960,6 @@ end;
 //--------------------------------------------------------------
 //        BACK SPACE
 //--------------------------------------------------------------
-
 procedure TGLSCustomMemo.BackSpace;
 var
   OldX, OldY: integer;
@@ -2013,7 +1975,6 @@ end;
 //--------------------------------------------------------------
 //        BACK SPACE WORD
 //--------------------------------------------------------------
-
 procedure TGLSCustomMemo.BackSpaceWord;
 begin
   ClearSelection;
@@ -2024,7 +1985,6 @@ end;
 //--------------------------------------------------------------
 //        INDENT CURR LINE
 //--------------------------------------------------------------
-
 function TGLSCustomMemo.IndentCurrLine: string;
 var
   Len, Count: integer;
@@ -2048,7 +2008,6 @@ end;
 //--------------------------------------------------------------
 //        NEW LINE
 //--------------------------------------------------------------
-
 procedure TGLSCustomMemo.NewLine;
 var
   S, sIndent: string;
@@ -2080,7 +2039,6 @@ end;
 //--------------------------------------------------------------
 //        ADD STRING
 //--------------------------------------------------------------
-
 function TGLSCustomMemo.AddString(const S: string): integer;
 begin
   if Lines.Count = 0 then
@@ -5449,17 +5407,13 @@ begin
 end;
 
 
-//----------------------------------
-initialization
-//----------------------------------
+initialization //============================================================
 
   RegisterClasses([TGLSSynHiMemo]);
   CreateScrollBarBitmaps;
   IntelliMouseInit;
 
-//----------------------------------
-finalization
-//----------------------------------
+finalization //==============================================================
 
   FreeScrollBarBitmaps;
 

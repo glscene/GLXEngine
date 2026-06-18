@@ -1,18 +1,18 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit FmCUDAEditor;
-
-(* Editor of TGLCUDA *)
-
+(*
+  Editor of TGLCUDA
+*)
 interface
 
 {$I Stage.Defines.inc}
 
 uses
-  Winapi.Windows, 
+  Winapi.Windows,
   Winapi.Messages,
-  System.SysUtils, 
+  System.SysUtils,
   System.Variants,
   System.Classes,
   System.Win.Registry,
@@ -64,7 +64,7 @@ type
 function GLCUDAEditorForm: TGLCUDAEditorForm;
 procedure ReleaseGLCUDAEditorForm;
 
-implementation //--------------------------------------------------------
+implementation //============================================================
 
 {$R *.dfm}
 
@@ -250,11 +250,9 @@ begin
   end;
 end;
 
-//-----------------------------------------------
-initialization
-//-----------------------------------------------
+initialization //============================================================
 
-finalization
+finalization //==============================================================
 
   ReleaseGLCUDAEditorForm;
 

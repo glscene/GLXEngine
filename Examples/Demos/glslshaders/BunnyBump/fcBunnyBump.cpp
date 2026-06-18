@@ -7,10 +7,10 @@
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma link "GLS.AsyncTimer"
-#pragma link "GLS.BaseClasses"
+#pragma link "Stage.BaseClasses"
 #pragma link "GLSL.BumpShaders"
 #pragma link "GLS.Cadencer"
-#pragma link "GLS.Coordinates"
+#pragma link "Stage.Coordinates"
 
 #pragma link "GLS.Material"
 #pragma link "GLS.Objects"

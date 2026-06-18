@@ -20,18 +20,19 @@ uses
   Vcl.Imaging.GIFImg,
   Vcl.Imaging.Jpeg,
 
-  GLS.Scene,
   Stage.VectorTypes,
   Stage.Keyboard,
-  GLS.XCollection,
   Stage.VectorGeometry,
-  GLS.Coordinates,
-  GLS.BaseClasses,
+
+  GLS.Scene,
+  Stage.XCollection,
+  Stage.Coordinates,
+  Stage.BaseClasses,
 
   GLS.Objects,
   GLS.TerrainRenderer,
   GLS.HeightData,
-  GLS.Color,
+  Stage.Color,
   GLS.Cadencer,
   GLS.Texture,
   GLS.BitmapFont,
@@ -344,7 +345,7 @@ end;
 //---------------------------------------------------------------------------
 procedure TFormTerrain.TISoundTimer(Sender: TObject);
 var
-  wolfPos: TGLVector;
+  wolfPos: TGSVector;
   c, s: Single;
 begin
   if not GLSMBASS1.Active then

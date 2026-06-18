@@ -1,11 +1,10 @@
-//
-// GLScene Graphics Engine
-//
-
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.TextureImageEditors;
-
-(* Standard texture image editors for standard texture image classes. *)
-
+(*
+  Standard texture image editors for standard texture image classes.
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -226,16 +225,14 @@ begin
   end;
 end;
 
-// ------------------------------------------------------------------
-initialization
-// ------------------------------------------------------------------
+initialization //===========================================================
 
 RegisterGLTextureImageEditor(TGLBlankImage, TGLBlankTIE);
 RegisterGLTextureImageEditor(TGLPersistentImage, TGLPersistentTIE);
 RegisterGLTextureImageEditor(TGLPicFileImage, TGLPicFileTIE);
 RegisterGLTextureImageEditor(TGLProcTextureNoise, TGLProcTextureNoiseTIE);
 
-finalization
+finalization //==============================================================
 
 UnRegisterGLTextureImageEditor(TGLBlankTIE);
 UnRegisterGLTextureImageEditor(TGLPersistentTIE);

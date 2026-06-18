@@ -1,10 +1,10 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.Collision;
-
-(* Collision-detection management *)
-
+(*
+  Collision-detection management
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -13,13 +13,13 @@ uses
   System.Classes,
   System.SysUtils,
 
-  GXS.XCollection,
+  Stage.XCollection,
   Stage.VectorGeometry,
   Stage.Manager,
   Stage.VectorTypes,
 
-  GXS.VectorLists,
-  GXS.GeometryBB,
+  Stage.VectorLists,
+  Stage.GeometryBB,
   GXS.Scene,
   GXS.VectorFileObjects;
 
@@ -128,7 +128,7 @@ function GetOrCreateCollision(behaviours: TgxBehaviours)
   This helper function is convenient way to access a TgxBCollision. *)
 function GetOrCreateCollision(obj: TgxBaseSceneObject): TgxBCollision; overload;
 
-implementation // ------------------------------------------------------------
+implementation //============================================================
 
 const
   cEpsilon: Single = 1E-6;
@@ -504,7 +504,7 @@ end;
   Octree.GetTrianglesInCube returns no points, why? }
 function FastCheckCubeVsFace(obj1, obj2: TgxBaseSceneObject): Boolean;
 // var
-// triList : TgxAffineVectorList;
+// triList : TGSAffineVectorList;
 // m1to2, m2to1 : TMatrix4f;
 // i:integer;
 begin
@@ -540,7 +540,7 @@ type
 
 var
   i: Integer;
-  triList: TgxAffineVectorList;
+  triList: TGSAffineVectorList;
   tri: PTriangle;
   m1to2, m2to1: TMatrix4f;
   AABB2: TAABB;

@@ -14,12 +14,13 @@ uses
   System.SysUtils,
   System.Classes,
 
-  Stage.OpenGLTokens,
-  GLS.Context,
-  GLS.VectorLists,
   Stage.VectorGeometry,
-  GLS.BaseClasses,
-  GLS.PersistentClasses;
+  Stage.PersistentClasses,
+  Stage.OpenGLTokens,
+  Stage.VectorLists,
+  Stage.BaseClasses,
+  GLS.Context
+  ;
 
 const
   MAX_OBJECT_STACK_DEPTH = 512;
@@ -29,7 +30,7 @@ type
 
   TPickRecord = class
   public
-    AObject: TGLUpdateAbleComponent;
+    AObject: TGSUpdateAbleComponent;
     SubObjects: TPickSubObjects;
     ZMin, ZMax: Single;
   end;
@@ -38,7 +39,7 @@ type
 
   (* List class for object picking.
      This list is used to store the results of a PickObjects call. *)
-  TGLPickList = class(TGLPersistentObjectList)
+  TGLPickList = class(TGSPersistentObjectList)
   private
     function GetFar(aValue: Integer): Single;
     function GetHit(aValue: Integer): TObject;
@@ -105,10 +106,9 @@ type
 
 function GetBestSelectorClass: TGLBaseSelectTechniqueClass; inline;
 
-//------------------------------------------------------------
-implementation
-//------------------------------------------------------------
+implementation //============================================================
 
+//---------------------------------------------------------------------------
 function GetBestSelectorClass: TGLBaseSelectTechniqueClass;
 begin
 //  if TGLSelectRenderToTextureTechnique.IsSupported then
@@ -120,7 +120,6 @@ end;
 // ------------------
 // ------------------ TGLPickList ------------------
 // ------------------
-
 var
   vPickListSortFlag: TPickSortType;
 
@@ -130,6 +129,7 @@ begin
   inherited Create;
 end;
 
+//---------------------------------------------------------------------------
 function Comparefunction(item1, item2: TObject): Integer;
 var
   diff: Single;
@@ -162,13 +162,14 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLPickList.AddHit(obj: TObject;
   const subObj: TPickSubObjects; zMin, zMax: Single);
 var
   newRecord: TPickRecord;
 begin
   newRecord := TPickRecord.Create;
-  newRecord.AObject := TGLUpdateAbleComponent(obj);
+  newRecord.AObject := TGSUpdateAbleComponent(obj);
   newRecord.SubObjects := subObj;
   newRecord.zMin := zMin;
   newRecord.zMax := zMax;
@@ -177,12 +178,14 @@ begin
     Sort(@Comparefunction);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLPickList.Clear;
 begin
   DoClean;
   inherited;
 end;
 
+//---------------------------------------------------------------------------
 function TGLPickList.FindObject(aObject: TObject): Integer;
 var
   i: Integer;
@@ -199,6 +202,7 @@ begin
     end;
 end;
 
+//---------------------------------------------------------------------------
 function TGLPickList.GetFar(aValue: Integer): Single;
 begin
   Result := TPickRecord(Items[AValue]).ZMax;
@@ -222,17 +226,18 @@ end;
 // ------------------
 // ------------------ TGLSelectRenderModeTechnique ------------------
 // ------------------
-
 function TGLSelectRenderModeTechnique.GetHits: Integer;
 begin
   Result := FHits;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLSelectRenderModeTechnique.SetHits(Value: Integer);
 begin
   FHits := Value;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLSelectRenderModeTechnique.SetObjectCountGuess(Value: Integer);
 begin
   if Value<8 then
@@ -245,6 +250,7 @@ begin
   Result := gl.VERSION_1_1;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLSelectRenderModeTechnique.Start;
 begin
   SetLength(FBuffer, FObjectCountGuess * 4 + 32);
@@ -257,6 +263,7 @@ begin
   gl.PushName(0);
 end;
 
+//---------------------------------------------------------------------------
 function TGLSelectRenderModeTechnique.Stop: Boolean;
 begin
   gl.Flush;
@@ -266,6 +273,7 @@ begin
     Inc(FObjectCountGuess);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLSelectRenderModeTechnique.FillPickingList(var AList: TGLPickList);
 var
   subObj: TPickSubObjects;
@@ -304,11 +312,13 @@ begin
   SetLength(FObjectStack, MAX_OBJECT_STACK_DEPTH);
 end;
 
+//---------------------------------------------------------------------------
 function TGLSelectRenderModeTechnique.GetObject: TObject;
 begin
   Result := FObjectStack[FCurrentName];
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLSelectRenderModeTechnique.SetObject(Value: TObject);
 begin
   // Grow Object stack length if needed
@@ -319,4 +329,5 @@ begin
   Inc(FCurrentName);
 end;
 
+//---------------------------------------------------------------------------
 end.

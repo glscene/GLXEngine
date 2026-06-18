@@ -1,10 +1,10 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GXS.CgRegister;
-
-(*  Registration unit for Cg Shader package *)
-
+(*
+  Registration unit for Cg Shader package
+*)
 interface
 
 uses

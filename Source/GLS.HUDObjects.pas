@@ -4,6 +4,9 @@
 unit GLS.HUDObjects;
 (*
    The objects that get rendered in 2D coordinates
+   RegisterClasses([TGLHUDText, TGLHUDSprite, TGLResolutionIndependantHUDText,
+     TGLAbsoluteHUDText]);
+
 *)
 interface
 
@@ -15,14 +18,14 @@ uses
   Vcl.StdCtrls,
 
   Stage.OpenGLTokens,
-  GLS.Scene,
   Stage.VectorTypes,
-  GLS.Coordinates,
-  GLS.PersistentClasses,
+  Stage.PersistentClasses,
   Stage.VectorGeometry,
+  Stage.Coordinates,
+  GLS.Scene,
   GLS.Objects,
   GLS.BitmapFont,
-  GLS.Color,
+  Stage.Color,
   GLS.RenderContextInfo,
   GLS.Material,
   GLS.Texture;
@@ -81,14 +84,14 @@ type
     FRotation: Single;
     FAlignment: TAlignment;
     FLayout: TTextLayout;
-    FModulateColor: TGLColor;
+    FModulateColor: TGSColor;
   protected
     procedure SetBitmapFont(const val: TGLCustomBitmapFont);
     procedure SetText(const val: UnicodeString);
     procedure SetRotation(const val: Single);
     procedure SetAlignment(const val: TAlignment);
     procedure SetLayout(const val: TTextLayout);
-    procedure SetModulateColor(const val: TGLColor);
+    procedure SetModulateColor(const val: TGSColor);
     procedure Notification(AComponent: TComponent;
       Operation: TOperation); override;
     procedure RenderTextAtPosition(const X, Y, Z: Single;
@@ -122,7 +125,7 @@ type
       Possible values : tlTop, tlCenter, tlBottom *)
     property Layout: TTextLayout read FLayout write SetLayout default tlTop;
     // Color modulation, can be used for fade in/out too.
-    property ModulateColor: TGLColor read FModulateColor write SetModulateColor;
+    property ModulateColor: TGSColor read FModulateColor write SetModulateColor;
   end;
 
   (* Position (X, Y and X) is in absolute coordinates. This component converts
@@ -291,7 +294,7 @@ constructor TGLHUDText.Create(AOwner: TComponent);
 begin
   inherited;
   ObjectStyle := ObjectStyle + [osDirectDraw, osNoVisibilityCulling];
-  FModulateColor := TGLColor.CreateInitialized(Self, clrWhite);
+  FModulateColor := TGSColor.CreateInitialized(Self, clrWhite);
 end;
 
 
@@ -350,7 +353,7 @@ begin
   StructureChanged;
 end;
 
-procedure TGLHUDText.SetModulateColor(const val: TGLColor);
+procedure TGLHUDText.SetModulateColor(const val: TGSColor);
 begin
   FModulateColor.Assign(val);
 end;

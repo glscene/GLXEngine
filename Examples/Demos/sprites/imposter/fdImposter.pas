@@ -29,8 +29,8 @@ uses
   GLS.Imposter,
   GLS.SkyDome,
 
-  GLS.Coordinates,
-  GLS.BaseClasses,
+  Stage.Coordinates,
+  Stage.BaseClasses,
   GLS.RenderContextInfo;
 
 type
@@ -98,7 +98,7 @@ end;
 //----------------------------------------------------------------------------
 procedure TFormImposter.GLDirectOpenGL1Render(Sender: TObject; var rci: TGLRenderContextInfo);
 var
-  camPos, pos: TGLVector;
+  camPos, pos: TGSVector;
   imp: TImposter;
   X, Y: Integer;
 begin

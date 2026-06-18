@@ -1,10 +1,10 @@
-//
-// GXStage Graphics Engine
-//
+(*****************************************************************************
+                          GLStage Graphics Engine
+******************************************************************************)
 unit Stage.Generics;
-
-(* Cross IDE generic classes collection. *)
-
+(*
+  Cross IDE generic classes collection.
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -124,20 +124,22 @@ type
     procedure PushItem(AItem: T); override;
   end;
 
-implementation //--------------------------------------------------------------
+implementation //============================================================
 
-
+//---------------------------------------------------------------------------
 destructor GList{$IFNDEF USE_GENERIC_PREFIX}<T>{$ENDIF}.Destroy;
 begin
   Clear;
 end;
 
+//---------------------------------------------------------------------------
 procedure GList{$IFNDEF USE_GENERIC_PREFIX}<T>{$ENDIF}.Clear;
 begin
   SetCount(0);
   SetCapacity(0);
 end;
 
+//---------------------------------------------------------------------------
 procedure GList{$IFNDEF USE_GENERIC_PREFIX}<T>{$ENDIF}.SetCapacity(Value: Integer);
 begin
 {$IFOPT R+}
@@ -150,6 +152,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure GList{$IFNDEF USE_GENERIC_PREFIX}<T>{$ENDIF}.SetCount(Value: Integer);
 var
   I: Integer;
@@ -165,6 +168,7 @@ begin
   FCount := Value;
 end;
 
+//---------------------------------------------------------------------------
 function GList{$IFNDEF USE_GENERIC_PREFIX}<T>{$ENDIF}.Add(AItem: T): Integer;
 begin
   Result := FCount;
@@ -175,6 +179,7 @@ begin
   Notify(AItem, lnAdded);
 end;
 
+//---------------------------------------------------------------------------
 procedure GList{$IFNDEF USE_GENERIC_PREFIX}<T>{$ENDIF}.Delete(Index: Integer);
 var
   Temp: T;
@@ -190,7 +195,7 @@ begin
   Notify(Temp, lnDeleted);
 end;
 
-
+//---------------------------------------------------------------------------
 procedure GList{$IFNDEF USE_GENERIC_PREFIX}<T>{$ENDIF}.Extract(AItem: T);
 var
   I: Integer;
@@ -203,11 +208,13 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 function GList{$IFNDEF USE_GENERIC_PREFIX}<T>{$ENDIF}.First: T;
 begin
   Result := GetItem(0);
 end;
 
+//---------------------------------------------------------------------------
 function GList{$IFNDEF USE_GENERIC_PREFIX}<T>{$ENDIF}.GetItem(Index: Integer): T;
 begin
 {$IFOPT R+}
@@ -216,6 +223,7 @@ begin
   Result := FItems[Index];
 end;
 
+//---------------------------------------------------------------------------
 function GList{$IFNDEF USE_GENERIC_PREFIX}<T>{$ENDIF}.GetItemAddress(Index: Integer): Pointer;
 begin
 {$IFOPT R+}
@@ -224,6 +232,7 @@ begin
   Result := @FItems[Index];
 end;
 
+//---------------------------------------------------------------------------
 function GList{$IFNDEF USE_GENERIC_PREFIX}<T>{$ENDIF}.IndexOf(AItem: T): Integer;
 begin
   for Result := 0 to FCount - 1 do
@@ -232,6 +241,7 @@ begin
   Result := -1;
 end;
 
+//---------------------------------------------------------------------------
 procedure GList{$IFNDEF USE_GENERIC_PREFIX}<T>{$ENDIF}.Insert(Index: Integer; AItem: T);
 begin
 {$IFOPT R+}
@@ -247,6 +257,7 @@ begin
   Notify(AItem, lnAdded);
 end;
 
+//---------------------------------------------------------------------------
 procedure GList{$IFNDEF USE_GENERIC_PREFIX}<T>{$ENDIF}.Exchange(Index1, Index2: Integer);
 var
   Item: T;
@@ -260,18 +271,21 @@ begin
   FItems[Index2] := Item;
 end;
 
+//---------------------------------------------------------------------------
 function GList{$IFNDEF USE_GENERIC_PREFIX}<T>{$ENDIF}.Last: T;
 begin
   if FCount > 0 then
     Result := FItems[FCount-1];
 end;
 
+//---------------------------------------------------------------------------
 procedure GList{$IFNDEF USE_GENERIC_PREFIX}<T>{$ENDIF}.Notify(const Item: T; Action: TListNotification);
 begin
 //  if Assigned(FOnChange) then FOnChange(Self, Item, Action);
   if Assigned(FOnChange) then FOnChange(Self);
 end;
 
+//---------------------------------------------------------------------------
 function GList{$IFNDEF USE_GENERIC_PREFIX}<T>{$ENDIF}.Remove(AItem: T): Integer;
 begin
   Result := IndexOf(AItem);
@@ -279,11 +293,13 @@ begin
     Delete(Result);
 end;
 
+//---------------------------------------------------------------------------
 procedure GList{$IFNDEF USE_GENERIC_PREFIX}<T>{$ENDIF}.SetItem(Index: Integer; const Value: T);
 begin
   FItems[Index] := Value;
 end;
 
+//---------------------------------------------------------------------------
 procedure GList{$IFNDEF USE_GENERIC_PREFIX}<T>{$ENDIF}.Grow;
 var
   Delta: Integer;
@@ -298,6 +314,7 @@ begin
   SetCapacity(FCapacity + Delta);
 end;
 
+//---------------------------------------------------------------------------
 constructor GThreadList{$IFNDEF USE_GENERIC_PREFIX}<T>{$ENDIF}.Create;
 begin
   inherited Create;
@@ -305,6 +322,7 @@ begin
   FList := TLockableList.Create;
 end;
 
+//---------------------------------------------------------------------------
 destructor GThreadList{$IFNDEF USE_GENERIC_PREFIX}<T>{$ENDIF}.Destroy;
 begin
   LockList;
@@ -317,6 +335,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure GThreadList{$IFNDEF USE_GENERIC_PREFIX}<T>{$ENDIF}.Add(AItem: T);
 begin
   LockList;
@@ -327,6 +346,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure GThreadList{$IFNDEF USE_GENERIC_PREFIX}<T>{$ENDIF}.Clear;
 begin
   LockList;
@@ -337,12 +357,14 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 function GThreadList{$IFNDEF USE_GENERIC_PREFIX}<T>{$ENDIF}.LockList: TLockableList;
 begin
   FLock.Enter;
   Result := FList;
 end;
 
+//---------------------------------------------------------------------------
 procedure GThreadList{$IFNDEF USE_GENERIC_PREFIX}<T>{$ENDIF}.Remove(AItem: T);
 begin
   LockList;
@@ -353,68 +375,80 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure GThreadList{$IFNDEF USE_GENERIC_PREFIX}<T>{$ENDIF}.UnlockList;
 begin
   FLock.Leave;
 end;
 
+//---------------------------------------------------------------------------
 constructor GOrderedList{$IFNDEF USE_GENERIC_PREFIX}<T>{$ENDIF}.Create;
 begin
   FList := TOrderedList.Create;
 end;
 
+//---------------------------------------------------------------------------
 destructor GOrderedList{$IFNDEF USE_GENERIC_PREFIX}<T>{$ENDIF}.Destroy;
 begin
   FList.Free;
 end;
 
+//---------------------------------------------------------------------------
 function GOrderedList{$IFNDEF USE_GENERIC_PREFIX}<T>{$ENDIF}.AtLeast(ACount: Integer): Boolean;
 begin
   Result := List.Count >= ACount;
 end;
 
+//---------------------------------------------------------------------------
 function GOrderedList{$IFNDEF USE_GENERIC_PREFIX}<T>{$ENDIF}.PeekItem: T;
 begin
   Result := List[List.Count-1];
 end;
 
+//---------------------------------------------------------------------------
 function GOrderedList{$IFNDEF USE_GENERIC_PREFIX}<T>{$ENDIF}.PopItem: T;
 begin
   Result := PeekItem;
   List.Delete(List.Count-1);
 end;
 
+//---------------------------------------------------------------------------
 function GOrderedList{$IFNDEF USE_GENERIC_PREFIX}<T>{$ENDIF}.Peek: T;
 begin
   Result := PeekItem;
 end;
 
+//---------------------------------------------------------------------------
 function GOrderedList{$IFNDEF USE_GENERIC_PREFIX}<T>{$ENDIF}.Pop: T;
 begin
   Result := PopItem;
 end;
 
+//---------------------------------------------------------------------------
 function GOrderedList{$IFNDEF USE_GENERIC_PREFIX}<T>{$ENDIF}.Push(const AItem: T): T;
 begin
   PushItem(AItem);
   Result := AItem;
 end;
 
+//---------------------------------------------------------------------------
 function GOrderedList{$IFNDEF USE_GENERIC_PREFIX}<T>{$ENDIF}.Count: Integer;
 begin
   Result := List.Count;
 end;
 
+//---------------------------------------------------------------------------
 procedure GStack{$IFNDEF USE_GENERIC_PREFIX}<T>{$ENDIF}.PushItem(AItem: T);
 begin
   List.Add(AItem);
 end;
 
+//---------------------------------------------------------------------------
 procedure GQueue{$IFNDEF USE_GENERIC_PREFIX}<T>{$ENDIF}.PushItem(AItem: T);
 begin
   List.Insert(0, AItem);
 end;
 
-//----------------------------------------------------------------------------
+//---------------------------------------------------------------------------
 
 end.

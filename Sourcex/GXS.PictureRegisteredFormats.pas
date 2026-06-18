@@ -1,17 +1,18 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.PictureRegisteredFormats;
-
-(* Hacks into the FMX to access the list of TPicture registered TGraphic formats *)
-
+(*
+  Hacks into the FMX to access the list of TPicture registered TGraphic formats
+*)
 interface
 
 {$I Stage.Defines.inc}
 
 uses
-  System.Classes, 
+  System.Classes,
   FMX.Graphics,
+
   GXS.ImageUtils;
 
 {$DEFINE PRF_HACK_PASSES}
@@ -25,11 +26,12 @@ function GraphicClassForExtension(const anExtension: string): TGraphicClass;
    the corresponding TGraphicClass (extensions do not include the '.'). *)
 procedure HackTPictureRegisteredFormats(destList: TStrings);
 
-implementation // -----------------------------------------------------------
+implementation //============================================================
 
 type
   PInteger = ^integer;
 
+//---------------------------------------------------------------------------
 function GraphicClassForExtension(const anExtension: string): TGraphicClass;
 var
   i: integer;

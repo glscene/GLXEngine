@@ -1,11 +1,10 @@
-//
-// Graphic Scene Engine, http://glscene.org
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
+unit GXS.FileGL2;
 (*
 	Vector file object loading of Ghoul2 model and animation files.
 *)
-unit GXS.FileGL2;
-
 interface
 
 uses
@@ -17,9 +16,9 @@ uses
   GXS.Material,
   Stage.VectorGeometry,
   Stage.VectorTypes,
-  GXS.VectorLists,
+  Stage.VectorLists,
 
-  Formatx.FileGL2;
+  Formats.GL2;
 
 type
 
@@ -171,11 +170,11 @@ var
   GLAFile  : TFileGLA;
   i,j      : Integer;
   frame    : TgxSkeletonFrame;
-  CompBone : TgxACompQuatBone;
+  CompBone : TACompQuatBone;
   quat     : TQuaternion;
   pos      : TAffineVector;
   basepose : TgxSkeletonFrame;
-  bonelist : TgxIntegerList;
+  bonelist : TGSIntegerList;
   bone     : TgxSkeletonBone;
 
 begin
@@ -186,7 +185,7 @@ begin
 
     TgxActor(Owner).Reference:=aarSkeleton;
 
-    bonelist:=TgxIntegerList.Create;
+    bonelist:=TGSIntegerList.Create;
     for i:=0 to GLAFile.AnimHeader.numBones-1 do
       bonelist.Add(i);
     while bonelist.count>0 do begin

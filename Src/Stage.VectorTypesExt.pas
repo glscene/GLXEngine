@@ -1,6 +1,6 @@
-//
-// GXStage Graphics Engine
-//
+(*****************************************************************************
+                          GLStage Graphics Engine
+******************************************************************************)
 unit Stage.VectorTypesExt;
 
 interface
@@ -560,7 +560,6 @@ begin
 end;
 
 // --------------------------------------------------------
-
 function TMatrixRec.Inv: TMatrixRec;
 var
   Ipiv, Indxr, Indxc: array of Integer;
@@ -793,7 +792,6 @@ end;
 // -----------------------------
 // TVectorRec
 // -----------------------------
-
 constructor TVectorRec.Create(V: TVectorExt);
 begin
   FCount := Length(V);
@@ -1005,7 +1003,6 @@ end;
 // -----------------------------
 // TQuaternionHelper
 // -----------------------------
-
 function TQuaternionHelper.ToMatrix: TMatrixRec;
 begin
   Result.Create(3, 3);
@@ -1023,7 +1020,6 @@ end;
 // -----------------------------
 // TVectorHelper
 // -----------------------------
-
 function TVectorHelper.ToDiagMatrix: TMatrixRec;
 var
   I: Integer;
@@ -1097,7 +1093,6 @@ end;
 // -----------------------------
 // TDim
 // -----------------------------
-
 constructor TDim.Create(ARowCount: Integer; AColCount: Integer = 0);
 begin
   FRowCount := ARowCount;
@@ -1108,7 +1103,6 @@ end;
 // -----------------------------
 // TPoint2DRec
 // -----------------------------
-
 function TPoint2DRec.Create(X, Y: Extended): TPoint2DRec;
 begin
   Result.X := X;
@@ -1151,7 +1145,6 @@ end;
 // -----------------------------
 // TPoint3DRec
 // -----------------------------
-
 function TPoint3DRec.Create(X, Y, Z: Extended): TPoint3DRec;
 begin
   Result.X := X;
@@ -1193,7 +1186,6 @@ end;
 // -----------------------------
 // TVector2DRec
 // -----------------------------
-
 function TVector2DRec.Create(const AX, AY, AW: Single): TVector2DRec;
 begin
   Result.X := AX;

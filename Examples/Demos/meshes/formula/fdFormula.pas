@@ -26,10 +26,10 @@ uses
   GLS.Mesh,
   GLS.SceneViewer,
   GLS.State,
-  GLS.Color,
+  Stage.Color,
  
-  GLS.Coordinates,
-  GLS.BaseClasses;
+  Stage.Coordinates,
+  Stage.BaseClasses;
 
 type
   TFormFormula = class(TForm)
@@ -61,7 +61,7 @@ type
     invRes1, invRes2 : Single;
     function MakeVect(const aX, aY : Single) : TAffineVector;
     procedure AddTriangle(const p1, p2, p3 : TAffineVector;
-                          const color : TGLColorVector);
+                          const color : TGSColorVector);
   public
 
   end;
@@ -83,7 +83,7 @@ begin
 end;
 
 procedure TFormFormula.AddTriangle(const p1, p2, p3 : TAffineVector;
-                         const color : TGLColorVector);
+                         const color : TGSColorVector);
 begin
   with Mesh1.Vertices do begin
      AddVertex(p1, NullVector, color);

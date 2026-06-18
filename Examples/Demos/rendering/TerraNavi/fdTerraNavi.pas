@@ -21,11 +21,11 @@ uses
   Stage.Utils,
 
   GLS.Scene,
-  GLS.PersistentClasses,
+  Stage.PersistentClasses,
   GLS.SceneViewer,
   GLS.SkyDome,
   GLS.Objects,
-  GLS.XCollection,
+  Stage.XCollection,
   GLS.HeightData,
   GLS.TerrainRenderer,
   GLS.Texture,
@@ -33,13 +33,13 @@ uses
   GLS.Navigator,
   GLS.SpacePartition,
   GLS.BitmapFont,
-  GLS.GeometryBB,
+  Stage.GeometryBB,
   GLS.WindowsFont,
   GLS.HUDObjects,
 
   GLS.Material,
-  GLS.Coordinates,
-  GLS.BaseClasses,
+  Stage.Coordinates,
+  Stage.BaseClasses,
   GLS.RenderContextInfo;
 
 type

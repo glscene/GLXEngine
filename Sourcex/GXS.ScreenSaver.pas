@@ -1,10 +1,10 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.ScreenSaver;
-
-(* Component for making screen-savers an easy task *)
-
+(*
+  Component for making screen-savers an easy task
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -140,9 +140,7 @@ type
    May be invoked from your Properties/Configuration dialog. *)
 procedure SetScreenSaverPassword;
 
-// ---------------------------------------------------------------------
-implementation
-// ---------------------------------------------------------------------
+implementation //============================================================
 
 { Returns system path and makes sure there is a trailing '\'. }
 function GetSystemDirectory: String;
@@ -395,9 +393,7 @@ begin
   lastMousePosition := mousePos;
 end;
 
-//---------------------------------
-initialization
-//---------------------------------
+initialization //============================================================
 
 RegisterClasses([TgxScreenSaver]);
 

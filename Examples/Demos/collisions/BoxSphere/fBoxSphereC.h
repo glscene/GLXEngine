@@ -7,9 +7,9 @@
 #include <Vcl.Controls.hpp>
 #include <Vcl.StdCtrls.hpp>
 #include <Vcl.Forms.hpp>
-#include "GLS.BaseClasses.hpp"
+#include "Stage.BaseClasses.hpp"
 #include "GLS.Cadencer.hpp"
-#include "GLS.Coordinates.hpp"
+#include "Stage.Coordinates.hpp"
 
 #include "GLS.Graph.hpp"
 #include "GLS.Objects.hpp"
@@ -83,7 +83,7 @@ __published:	// IDE-managed Components
 private:	// User declarations
 	int mdx, mdy;
 	TAffineVector intersPoint, ResNormal, BoxScale, SpherePos;
-	TGLMatrix BoxMatrix;
+	TGSMatrix BoxMatrix;
 	float SphereRadius;
 public:		// User declarations
 	__fastcall TForm1(TComponent* Owner);

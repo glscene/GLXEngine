@@ -1,10 +1,10 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.CUDA.Context;
-
-(* CUDA context *)
-
+(*
+  CUDA context
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -12,16 +12,17 @@ interface
 uses
   System.Classes,
   System.SysUtils,
+
   Stage.Strings,
-  GLS.BaseClasses,
-  GLS.Context,
+  Stage.BaseClasses,
   Stage.Generics,
 
+  GLS.Context,
   CUDA.Import,
   CUDA.RunTime;
 
 type
-  TCUDADimensions = class(TGLUpdateAbleObject)
+  TCUDADimensions = class(TGSUpdateAbleObject)
   private
     FXYZ: TDim3;
     FMaxXYZ: TDim3;

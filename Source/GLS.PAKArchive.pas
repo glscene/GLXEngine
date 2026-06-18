@@ -1,10 +1,11 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.PAKArchive;
-
-(* Methods of PAK Archiving for Archive Editor in utilities *)
-
+(*
+  Methods of PAK Archiving for Archive Editor in utilities
+  RegisterArchiveFormat('pak', 'PAK File', TPAKArchive);
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -32,7 +33,7 @@ type
     FileLength: integer;
   end;
 
-  TPAKArchive = class(TGLBaseArchive)
+  TPAKArchive = class(TGSBaseArchive)
   private
     FHeader: TPakHeader;
     FStream: TFileStream;
@@ -58,9 +59,7 @@ type
     procedure Extract(ContentName, NewName: string); override;
   end;
 
-//=======================================================
-implementation
-//=======================================================
+implementation //============================================================
 
 var
   Dir: TFileSection;
@@ -68,7 +67,6 @@ var
 //---------------------------
 // TPAKArchive
 //---------------------------
-
 function TPAKArchive.GetContentCount: integer;
 begin
   Result := FHeader.DirLength div SizeOf(TFileSection);
@@ -173,7 +171,7 @@ procedure TPAKArchive.AddFromStream(ContentName, Path: string; FS: TStream);
 var
   Temp: TMemoryStream;
 begin
-  // ?????
+  // ???
   If (FStream = nil) or ContentExists(ContentName) then
     exit;
   Temp := nil;
@@ -286,9 +284,7 @@ begin
     Extract(FContentList.IndexOf(ContentName), NewName);
 end;
 
-//----------------------------------------
-initialization
-//----------------------------------------
+initialization //============================================================
 
 RegisterArchiveFormat('pak', 'PAK File', TPAKArchive);
 

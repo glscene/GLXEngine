@@ -27,8 +27,8 @@ uses
   GLS.Canvas,
 
   GLS.Material,
-  GLS.Coordinates,
-  GLS.BaseClasses,
+  Stage.Coordinates,
+  Stage.BaseClasses,
   Stage.Utils;
 
 type

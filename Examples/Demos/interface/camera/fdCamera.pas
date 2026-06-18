@@ -14,11 +14,11 @@ uses
   GLS.Scene,
   Stage.VectorTypes,
   GLS.Objects,
-  GLS.PersistentClasses,
+  Stage.PersistentClasses,
   Stage.PipelineTransform,
   GLS.GeomObjects,
-  GLS.Coordinates,
-  GLS.BaseClasses,
+  Stage.Coordinates,
+  Stage.BaseClasses,
   Stage.VectorGeometry,
   GLS.Cadencer,
   GLS.Context,
@@ -74,7 +74,7 @@ procedure TFormCamera.GLSceneViewer1MouseMove(Sender: TObject;
   Shift: TShiftState; X, Y: Integer);
 var
   dx, dy: Integer;
-  v: TGLVector;
+  v: TGSVector;
 begin
   // calculate delta since last move or last mousedown
   dx := mdx - X;
@@ -152,7 +152,7 @@ end;
 procedure TFormCamera.GLCamera1CustomPerspective(const viewport: TRectangle;
   width, height, DPI: Integer; var viewPortRadius: Single);
 var
-  Mat: TGLMatrix;
+  Mat: TGSMatrix;
 begin
   Mat :=  CreatePerspectiveMatrix(GLCamera1.GetFieldOfView(Width)/4,
     Width / Height, GLCamera1.NearPlaneBias, GLCamera1.DepthOfView);

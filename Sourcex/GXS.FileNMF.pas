@@ -1,10 +1,10 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.FileNMF;
-
-(* NormalMapper loading into GLScene FreeForms/Actors *)
-
+(*
+  NormalMapper loading into GLScene FreeForms/Actors
+*)
 interface
 
 uses
@@ -13,7 +13,7 @@ uses
   Stage.VectorTypes,
   GXS.VectorFileObjects,
   Stage.VectorGeometry,
-  GXS.VectorLists,
+  Stage.VectorLists,
   GXS.ApplicationFileIO;
 
 const
@@ -49,9 +49,7 @@ type
     procedure SaveToStream(aStream: TStream); override;
   end;
 
-// ------------------------------------------------------------------
-implementation
-// ------------------------------------------------------------------
+implementation //============================================================
 
 procedure TFileNMF.LoadFromStream(Stream: TStream);
 var
@@ -134,12 +132,12 @@ procedure TgxNMFVectorFile.SaveToStream(aStream: TStream);
 var
   i, j: Integer;
   nmf: TFileNMF;
-  Vertices, TempVertices, Normals, TexCoords: TgxAffineVectorList;
+  Vertices, TempVertices, Normals, TexCoords: TGSAffineVectorList;
 begin
   nmf := TFileNMF.Create;
-  Vertices := TgxAffineVectorList.Create;
-  Normals := TgxAffineVectorList.Create;
-  TexCoords := TgxAffineVectorList.Create;
+  Vertices := TGSAffineVectorList.Create;
+  Normals := TGSAffineVectorList.Create;
+  TexCoords := TGSAffineVectorList.Create;
   try
     for i := 0 to Owner.MeshObjects.Count - 1 do
     begin

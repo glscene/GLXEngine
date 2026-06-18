@@ -8,9 +8,9 @@
 #include "fRaycastC.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
-#pragma link "GLS.BaseClasses"
+#pragma link "Stage.BaseClasses"
 #pragma link "GLS.Cadencer"
-#pragma link "GLS.Coordinates"
+#pragma link "Stage.Coordinates"
 
 #pragma link "GLS.GeomObjects"
 #pragma link "GLS.Objects"
@@ -26,8 +26,8 @@ __fastcall TForm1::TForm1(TComponent* Owner)
 //---------------------------------------------------------------------------
 void __fastcall TForm1::BUCastClick(TObject *Sender)
 {
-   TGLVector o, v, vLight, light, iPoint, iNormal;
-   TGLVector up, right, dir;
+   TGSVector o, v, vLight, light, iPoint, iNormal;
+   TGSVector up, right, dir;
    int x, y, dx, dy;
    float f, d;
    TColor color;

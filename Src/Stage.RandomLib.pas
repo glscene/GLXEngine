@@ -1,6 +1,6 @@
-//
-// GXStage Graphics Engine
-//
+(*****************************************************************************
+                          GLStage Graphics Engine
+******************************************************************************)
 unit Stage.RandomLib;
 (*
   Some of the code is translated from:
@@ -313,9 +313,7 @@ function Random_Poisson(var mu: Extended; RandomGenerator: TRandomGenFunction)
 *)
 function LnGamma(const x: Extended): Extended;
 
-// =====================================================================
-implementation
-// =====================================================================
+implementation //============================================================
 
 const
   VSmall = MinDouble;

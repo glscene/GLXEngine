@@ -15,11 +15,11 @@ uses
   Stage.VectorTypes,
   GLS.Objects,
   GLS.NGDManager,
-  GLS.Coordinates,
+  Stage.Coordinates,
   GLS.Cadencer,
   GLS.SceneViewer,
  
-  GLS.BaseClasses,
+  Stage.BaseClasses,
   Stage.VectorGeometry;
 
 type
@@ -48,7 +48,7 @@ type
     procedure FormCreate(Sender: TObject);
   private
      
-    point3d, FPaneNormal: TGLVector;
+    point3d, FPaneNormal: TGSVector;
   public
      
     pickjoint: TGLNGDJoint;
@@ -101,7 +101,7 @@ end;
 procedure TFormNewtonMousePick.GLSceneViewer1MouseMove(Sender: TObject; Shift: TShiftState;
   X, Y: Integer);
 var
-  point2d, GotoPoint3d: TGLVector;
+  point2d, GotoPoint3d: TGSVector;
 begin
 
   if ssLeft in Shift then

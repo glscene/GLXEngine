@@ -31,7 +31,7 @@ uses
   GXS.Context,
   GXS.FileDDS,
 
-  Formatx.DXTC;
+  Formats.DXTC;
 
 
 type

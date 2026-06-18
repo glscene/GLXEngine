@@ -20,8 +20,8 @@ uses
   GLS.AVIRecorder, 
   GLS.SceneViewer,
   
-  GLS.Coordinates, 
-  GLS.BaseClasses;
+  Stage.Coordinates, 
+  Stage.BaseClasses;
 
 type
   TFormAVI = class(TForm)

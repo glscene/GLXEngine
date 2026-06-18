@@ -1,10 +1,10 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.CUDA.APIComps;
-
-(* CUDA API routines implementation *)
-
+(*
+  CUDA API routines implementation
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -18,11 +18,11 @@ uses
   Stage.VectorTypes,
   Stage.Strings,
   Stage.Utils,
+  Stage.PersistentClasses,
 
-  GLS.PersistentClasses,
-  GLS.BaseClasses,
+  Stage.BaseClasses,
   GLS.Context,
-  GLS.VectorLists,
+  Stage.VectorLists,
   GLS.Graphics,
   GLS.CUDA.Compiler,
   GLS.CUDA.Context,
@@ -53,7 +53,7 @@ type
   TCUDAComponent = class(TCUDAHandlesMaster)
   private
     FMaster: TCUDAComponent;
-    FItems: TGLPersistentObjectList;
+    FItems: TGSPersistentObjectList;
     procedure SetMaster(AMaster: TCUDAComponent);
     function GetItem(const i: Integer): TCUDAComponent;
     function GetItemsCount: Integer;
@@ -439,10 +439,7 @@ function GetChannelTypeAndNum(AType: TCUDAType): TChannelTypeAndNum;
 procedure RegisterCUDAComponentNameChangeEvent(ANotifyEvent: TNotifyEvent);
 procedure DeRegisterCUDAComponentNameChangeEvent;
 
-//-----------------------------------------------------------------
-implementation
-//-----------------------------------------------------------------
-
+implementation //============================================================
 
 const
   cAddressMode: array [TCuAddresMode] of TCUaddress_mode =
@@ -482,11 +479,13 @@ var
   GLVirtualHandleCounter: Cardinal = 1;
   vCUDAComponentNameChangeEvent: TNotifyEvent;
 
+//---------------------------------------------------------------------------
 function GetChannelTypeAndNum(AType: TCUDAType): TChannelTypeAndNum;
 begin
   Result := cCUDATypeToTexFormat[AType];
 end;
 
+//---------------------------------------------------------------------------
 procedure CUDAEnumToChannelDesc(const Fmt: TCUarray_format; const nCh: LongWord;
   out oFormat: TCUDAChannelType; out oNum: TCUDAChannelNum);
 begin
@@ -516,6 +515,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure RegisterCUDAComponentNameChangeEvent(ANotifyEvent: TNotifyEvent);
 begin
   vCUDAComponentNameChangeEvent := ANotifyEvent;
@@ -529,7 +529,6 @@ end;
 // ------------------
 // ------------------ TGLCUDA ------------------
 // ------------------
-
 constructor TGLCUDA.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
@@ -538,6 +537,7 @@ begin
   FChanges := [];
 end;
 
+//---------------------------------------------------------------------------
 destructor TGLCUDA.Destroy;
 begin
   ComputingDevice := nil;
@@ -545,6 +545,7 @@ begin
   inherited;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLCUDA.Notification(AComponent: TComponent; Operation: TOperation);
 begin
   if (Operation = opRemove) and (AComponent = fDevice) then
@@ -552,6 +553,7 @@ begin
   inherited;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLCUDA.SetDevice(const Value: TGLCUDADevice);
 begin
   if Value <> fDevice then
@@ -569,12 +571,14 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLCUDA.SetOnOpenGLInteropInit(AEvent: TOnOpenGLInteropInit);
 begin
   FOnOpenGLInteropInit := AEvent;
   CuNotifyChange(cuchContext);
 end;
 
+//---------------------------------------------------------------------------
 function TGLCUDA.GetContext: TCUDAContext;
 begin
   if cuchDevice in FChanges then
@@ -598,11 +602,13 @@ begin
   Result := fContext;
 end;
 
+//---------------------------------------------------------------------------
 function TGLCUDA.GetIsAllocated: Boolean;
 begin
   Result := FContext.IsValid;
 end;
 
+//---------------------------------------------------------------------------
 function TGLCUDA.GetModule(const i: Integer): TCUDAModule;
 var
   j, k: Integer;
@@ -1059,7 +1065,7 @@ end;
 procedure TCUDAComponent.AddItem(AItem: TCUDAComponent);
 begin
   if not Assigned(FItems) then
-    FItems := TGLPersistentObjectList.Create;
+    FItems := TGSPersistentObjectList.Create;
   FItems.Add(AItem);
 end;
 
@@ -2897,12 +2903,9 @@ begin
   Result := FHandle;
 end;
 
- 
-
 // ------------------
 // ------------------ TCUDAFuncParam ------------------
 // ------------------
-
 procedure TCUDAFuncParam.AllocateHandles;
 begin
   if Assigned(Master) and (Master is TCUDAFunction) then
@@ -2929,10 +2932,7 @@ begin
   end;
 end;
 
- 
-// ------------------------------------------------------------------
-initialization
-// ------------------------------------------------------------------
+initialization //============================================================
 
   RegisterClasses([TGLCUDA, TGLCUDACompiler, TCUDAModule, TCUDAFunction,
     TCUDATexture, TCUDAMemData, TCUDAConstant, TCUDAFuncParam]);

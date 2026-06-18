@@ -27,16 +27,16 @@ uses
   GLS.Graph,
   Stage.VectorTypes,
   GLS.SkyDome,
-  GLS.VectorLists,
+  Stage.VectorLists,
   GLS.FileDDS,
  
   GLS.Material,
-  GLS.Coordinates,
-  GLS.BaseClasses,
+  Stage.Coordinates,
+  Stage.BaseClasses,
   GLS.RenderContextInfo,
   GLS.SimpleNavigation,
   Stage.TextureFormat,
-  GLS.Color;
+  Stage.Color;
 
 type
   TForm1 = class(TForm)
@@ -169,7 +169,7 @@ end;
 procedure TForm1.GLUserShader1DoApply(Sender: TObject;
   var rci: TGLRenderContextInfo);
 var
-  camPos: TGLVector;
+  camPos: TGSVector;
 begin
   programObject.UseProgramObject;
 
@@ -225,14 +225,14 @@ procedure TForm1.DOOceanPlaneRender(Sender: TObject;
   var rci: TGLRenderContextInfo);
 var
   x, y: Integer;
-  v: TGLTexPointList;
+  v: TGSTexPointList;
   cont: Boolean;
 begin
   GLUserShader1DoApply(Self, rci);
   gl.EnableClientState(GL_VERTEX_ARRAY);
   if not Assigned(vbo) then
   begin
-    v := TGLTexPointList.Create;
+    v := TGSTexPointList.Create;
     v.Capacity := Sqr(cExtent + 1);
     y := -cExtent;
     while y < cExtent do

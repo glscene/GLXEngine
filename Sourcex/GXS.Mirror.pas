@@ -18,14 +18,14 @@ uses
 
   System.Classes,
 
-  GXS.XCollection,
-  GXS.PersistentClasses,
+  Stage.XCollection,
+  Stage.PersistentClasses,
   GXS.Scene,
   Stage.PipelineTransform,
   Stage.VectorGeometry,
   GXS.Context,
   GXS.Material,
-  GXS.Color,
+  Stage.Color,
   GXS.RenderContextInfo,
   GXS.State,
   Stage.VectorTypes;
@@ -142,7 +142,7 @@ var
   oldProxySubObject: Boolean;
   refMat, curMat, ModelMat: TMatrix4f;
   clipPlane: TDoubleHmgPlane;
-  bgColor: TgxColorVector;
+  bgColor: TGSColorVector;
   cameraPosBackup, cameraDirectionBackup: TVector4f;
   CurrentBuffer: TgxSceneBuffer;
 begin

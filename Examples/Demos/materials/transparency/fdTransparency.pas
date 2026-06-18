@@ -23,9 +23,9 @@ uses
   GLS.Texture,
   GLS.SceneViewer,
   GLS.GeomObjects,
-  GLS.Coordinates,
+  Stage.Coordinates,
  
-  GLS.BaseClasses,
+  Stage.BaseClasses,
   GLS.Material,
   GLS.RenderContextInfo;
 

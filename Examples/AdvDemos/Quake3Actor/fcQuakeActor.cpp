@@ -6,9 +6,9 @@
 #include "fcQuakeActor.h"
 // ---------------------------------------------------------------------------
 #pragma package(smart_init)
-#pragma link "GLS.BaseClasses"
+#pragma link "Stage.BaseClasses"
 #pragma link "GLS.Cadencer"
-#pragma link "GLS.Coordinates"
+#pragma link "Stage.Coordinates"
 
 #pragma link "GLS.Material"
 #pragma link "GLS.Objects"
@@ -56,11 +56,11 @@ void __fastcall TFormQuakeActor::FormCreate(TObject* Sender)
 }
 
 // ---------------------------------------------------------------------------
-TGLMatrix __fastcall TFormQuakeActor::InterpolateMatrix(
-    TGLMatrix m1, TGLMatrix m2, float delta)
+TGSMatrix __fastcall TFormQuakeActor::InterpolateMatrix(
+    TGSMatrix m1, TGSMatrix m2, float delta)
 {
     int i, j;
-    TGLMatrix mat;
+    TGSMatrix mat;
     // This is used for interpolating between 2 matrices. The result
     // is used to reposition the model parts each frame.
     //
@@ -145,8 +145,8 @@ void __fastcall TFormQuakeActor::ComboBox2Change(TObject* Sender)
 void __fastcall TFormQuakeActor::GLCadencer1Progress(
     TObject* Sender, const double deltaTime, const double newTime)
 {
-    TGLMatrix m1;
-    TGLMatrix m2;
+    TGSMatrix m1;
+    TGSMatrix m2;
 
     // Set the transform for the torso
     m1 = LegsTags->GetTransform("tag_torso", Legs->CurrentFrame);

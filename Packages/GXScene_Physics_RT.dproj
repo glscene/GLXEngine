@@ -89,6 +89,10 @@
         <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=;CFBundleName=</VerInfo_Keys>
         <DCC_S>false</DCC_S>
         <DCC_ImageBase>00400000</DCC_ImageBase>
+        <DCC_BpiOutput>..\lib\$(Platform)</DCC_BpiOutput>
+        <DCC_HppOutput>..\include\$(Platform)</DCC_HppOutput>
+        <DCC_ObjOutput>..\lib\$(Platform)</DCC_ObjOutput>
+        <DCC_CBuilderOutput>All</DCC_CBuilderOutput>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win32)'!=''">
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
@@ -99,7 +103,7 @@
         <DCC_ObjOutput>$(GXSCENE)\lib\$(Platform)</DCC_ObjOutput>
         <DCC_HppOutput>$(GXSCENE)\include\$(Platform)</DCC_HppOutput>
         <DCC_CBuilderOutput>All</DCC_CBuilderOutput>
-        <DCC_Description>GXScene Physics Managers</DCC_Description>
+        <DCC_Description>GXScene RT Physics Managers</DCC_Description>
         <DCC_UnitSearchPath>..\Src;..\Sourcex;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
         <DCC_DcuOutput>.\$(Platform)\$(Config)</DCC_DcuOutput>
     </PropertyGroup>
@@ -109,7 +113,7 @@
         <VerInfo_Keys>CompanyName=;FileDescription=$(MSBuildProjectName);FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
         <DCC_Namespace>Winapi;System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;$(DCC_Namespace)</DCC_Namespace>
         <BT_BuildType>Debug</BT_BuildType>
-        <DCC_Description>GXScene Physics Managers</DCC_Description>
+        <DCC_Description>GXScene RT Physics Managers</DCC_Description>
         <DCC_ObjOutput>$(GXSCENE)\lib\$(Platform)</DCC_ObjOutput>
         <DCC_BpiOutput>$(GXSCENE)\lib\$(Platform)</DCC_BpiOutput>
         <DCC_HppOutput>$(GXSCENE)\include\$(Platform)</DCC_HppOutput>
@@ -125,6 +129,7 @@
         <VerInfo_Locale>1033</VerInfo_Locale>
         <DCC_UnitSearchPath>..\Src;..\Sourcex;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
         <DCC_DcuOutput>.\$(Platform)\$(Config)</DCC_DcuOutput>
+        <DCC_Description>GXScene RT Physics Managers</DCC_Description>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1)'!=''">
         <DCC_Define>RELEASE;$(DCC_Define)</DCC_Define>
@@ -136,7 +141,7 @@
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <VerInfo_Keys>CompanyName=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductVersion=1.0.0.0;Comments=;ProgramID=com.embarcadero.$(MSBuildProjectName);FileDescription=$(MSBuildProjectName);ProductName=$(MSBuildProjectName)</VerInfo_Keys>
-        <DCC_Description>GXScene Physics Managers</DCC_Description>
+        <DCC_Description>GXScene RT Physics Managers</DCC_Description>
         <DCC_BpiOutput>..\lib\$(Platform)</DCC_BpiOutput>
         <DCC_HppOutput>..\include\$(Platform)</DCC_HppOutput>
         <DCC_ObjOutput>..\lib\$(Platform)</DCC_ObjOutput>
@@ -149,7 +154,7 @@
         <DCC_ObjOutput>..\lib\$(Platform)</DCC_ObjOutput>
         <DCC_HppOutput>..\include\$(Platform)</DCC_HppOutput>
         <DCC_CBuilderOutput>All</DCC_CBuilderOutput>
-        <DCC_Description>GXScene Physics Managers</DCC_Description>
+        <DCC_Description>GXScene RT Physics Managers</DCC_Description>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win64x)'!=''">
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
@@ -188,6 +193,7 @@
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <VerInfo_Keys>CompanyName=;FileDescription=$(MSBuildProjectName);FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+        <DCC_Description>GXScene RT Physics Managers</DCC_Description>
     </PropertyGroup>
     <ItemGroup>
         <DelphiCompile Include="$(MainSource)">
@@ -196,17 +202,17 @@
         <DCCReference Include="rtl.dcp"/>
         <DCCReference Include="fmx.dcp"/>
         <DCCReference Include="GXScene_RT.dcp"/>
-        <DCCReference Include="..\Sourcex\GXS.NGDManager.pas"/>
-        <DCCReference Include="..\Sourcex\GXS.NGDRagdoll.pas"/>
-        <DCCReference Include="..\Sourcex\GXS.ODEManager.pas"/>
-        <DCCReference Include="..\Sourcex\GXS.ODERagdoll.pas"/>
-        <DCCReference Include="..\Sourcex\GXS.ODESkeletonColliders.pas"/>
-        <DCCReference Include="..\Sourcex\GXS.ODEUtils.pas"/>
-        <DCCReference Include="..\Sourcex\GXS.PhysFields.pas"/>
-        <DCCReference Include="..\Sourcex\GXS.PhysForces.pas"/>
-        <DCCReference Include="..\Sourcex\GXS.PhysInertias.pas"/>
-        <DCCReference Include="..\Sourcex\GXS.PhysJoints.pas"/>
-        <DCCReference Include="..\Sourcex\GXS.PhysManager.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.NGD.Manager.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.NGD.Ragdoll.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.ODE.Manager.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.ODE.Ragdoll.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.ODE.SkeletonColliders.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.ODE.Utils.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.Phys.Gravity.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.Phys.Forces.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.Phys.Inertias.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.Phys.Joints.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.Phys.Manager.pas"/>
         <DCCReference Include="..\Src\ModuleLoader.pas"/>
         <DCCReference Include="..\Src\Newton.Import.pas"/>
         <DCCReference Include="..\Src\NGD.Import.pas"/>
@@ -232,6 +238,7 @@
                     <Source Name="MainSource">GXScene_Physics_RT.dpk</Source>
                 </Source>
                 <Excluded_Packages>
+                    <Excluded_Packages Name="C:\Users\Public\Documents\Embarcadero\Studio\37.0\Bpl\rae.bpl">File C:\Users\Public\Documents\Embarcadero\Studio\37.0\Bpl\rae.bpl not found</Excluded_Packages>
                     <Excluded_Packages Name="$(BDSBIN)\bcboffice2k370.bpl">Embarcadero C++Builder Office 2000 Servers Package</Excluded_Packages>
                     <Excluded_Packages Name="$(BDSBIN)\bcbofficexp370.bpl">Embarcadero C++Builder Office XP Servers Package</Excluded_Packages>
                     <Excluded_Packages Name="$(BDSBIN)\dcloffice2k370.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>

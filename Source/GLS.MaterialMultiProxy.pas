@@ -1,12 +1,10 @@
-//
-// GLScene Graphics Engine
-//
-
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.MaterialMultiProxy;
-
 (*
-   Implements a multi-proxy object, useful for discreet LOD. 
-   Allows assign a unique material for each proxy master. 
+   Implements a multi-proxy object, useful for discreet LOD.
+   Allows assign a unique material for each proxy master.
 
   What changed compared to GLS.MultiProxy:
     1) Allows assign a unique material for each proxy master
@@ -21,7 +19,6 @@ unit GLS.MaterialMultiProxy;
        allows to assign directly to TGLLibMaterial)
     9) VCL-style code formating
 *)
-
 interface
 
 {$I Stage.Defines.inc}
@@ -31,24 +28,25 @@ uses
   System.Classes,
   System.SysUtils,
   
-  GLS.Scene,
+  Stage.VectorTypes,
   Stage.VectorGeometry,
+  Stage.Strings,
+  Stage.PersistentClasses,
+  Stage.PipelineTransform,
+
+  GLS.Scene,
   GLS.Texture,
   GLS.Material,
-  GLS.Silhouette,
-  Stage.Strings,
-  GLS.PersistentClasses,
+  Stage.Silhouette,
   GLS.RenderContextInfo,
-  GLS.BaseClasses,
-  GLS.Context,
-  Stage.VectorTypes,
-  Stage.PipelineTransform;
+  Stage.BaseClasses,
+  GLS.Context;
 
 type
   TGLMaterialMultiProxy = class;
 
   {MasterObject description for a MultiProxy object. }
-  TGLMaterialMultiProxyMaster = class(TGLInterfacedCollectionItem, IGLMaterialLibrarySupported)
+  TGLMaterialMultiProxyMaster = class(TGSInterfacedCollectionItem, IGLMaterialLibrarySupported)
   private
     FMasterObject: TGLBaseSceneObject;
     FMasterLibMaterial: TGLLibMaterial;
@@ -125,9 +123,9 @@ type
     destructor Destroy; override;
     procedure Assign(Source: TPersistent); override;
     procedure DoRender(var rci: TGLRenderContextInfo; renderSelf, renderChildren: Boolean); override;
-    function AxisAlignedDimensionsUnscaled: TGLVector; override;
-    function RayCastIntersect(const rayStart, rayVector: TGLVector; intersectPoint: PGLVector = nil; intersectNormal: PGLVector = nil): Boolean; override;
-    function GenerateSilhouette(const silhouetteParameters: TGLSilhouetteParameters): TGLSilhouette; override;
+    function AxisAlignedDimensionsUnscaled: TGSVector; override;
+    function RayCastIntersect(const rayStart, rayVector: TGSVector; intersectPoint: PGSVector = nil; intersectNormal: PGSVector = nil): Boolean; override;
+    function GenerateSilhouette(const silhouetteParameters: TGSSilhouetteParameters): TGSSilhouette; override;
   published
     property MasterObjects: TGLMaterialMultiProxyMasters read FMasterObjects write SetMasterObjects;
     property MaterialLibrary: TGLMaterialLibrary read FMaterialLibrary write SetMaterialLibrary;
@@ -335,8 +333,8 @@ end;
 
 procedure TGLMaterialMultiProxyMasters.NotifyChange;
 begin
-  if (UpdateCount = 0) and (GetOwner <> nil) and (GetOwner is TGLUpdateAbleComponent) then
-    TGLUpdateAbleComponent(GetOwner).NotifyChange(Self);
+  if (UpdateCount = 0) and (GetOwner <> nil) and (GetOwner is TGSUpdateAbleComponent) then
+    TGSUpdateAbleComponent(GetOwner).NotifyChange(Self);
 end;
 
 procedure TGLMaterialMultiProxyMasters.EndUpdate;
@@ -451,7 +449,7 @@ begin
     Result := nil;
 end;
 
-function TGLMaterialMultiProxy.AxisAlignedDimensionsUnscaled: TGLVector;
+function TGLMaterialMultiProxy.AxisAlignedDimensionsUnscaled: TGSVector;
 var
   Master: TGLBaseSceneObject;
 begin
@@ -462,10 +460,10 @@ begin
     Result := inherited AxisAlignedDimensionsUnscaled;
 end;
 
-function TGLMaterialMultiProxy.RayCastIntersect(const rayStart, rayVector: TGLVector;
-  intersectPoint: PGLVector = nil; intersectNormal: PGLVector = nil): Boolean;
+function TGLMaterialMultiProxy.RayCastIntersect(const rayStart, rayVector: TGSVector;
+  intersectPoint: PGSVector = nil; intersectNormal: PGSVector = nil): Boolean;
 var
-  localRayStart, localRayVector: TGLVector;
+  localRayStart, localRayVector: TGSVector;
   Master: TGLBaseSceneObject;
 begin
   Master := PrimaryMaster;
@@ -498,7 +496,7 @@ begin
 end;
 
 function TGLMaterialMultiProxy.GenerateSilhouette(
-  const silhouetteParameters: TGLSilhouetteParameters): TGLSilhouette;
+  const silhouetteParameters: TGSSilhouetteParameters): TGSSilhouette;
 var
   Master: TGLBaseSceneObject;
 begin

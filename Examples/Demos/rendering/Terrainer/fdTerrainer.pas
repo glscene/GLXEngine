@@ -29,9 +29,9 @@ uses
   GLS.SceneViewer,
   GLS.GeomObjects,
   GLS.Material,
-  GLS.Coordinates,
+  Stage.Coordinates,
 
-  GLS.BaseClasses,
+  Stage.BaseClasses,
   GLS.RenderContextInfo,
   GLS.Terrainer, Vcl.ExtDlgs;
 

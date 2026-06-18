@@ -1,6 +1,6 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.Canvas;
 (*
    Implements a basic Canvas-like interface over for OpenGL.
@@ -18,15 +18,15 @@ uses
   System.Math,
   Vcl.Graphics,
 
-  Stage.OpenGLTokens,
   Stage.VectorTypes,
+  Stage.OpenGLTokens,
   Stage.VectorGeometry,
-  GLS.Color,
+  Stage.Color,
+
   GLS.Context,
   GLS.State;
 
 type
-
   TGLArcDirection = (adCounterClockWise, adClockWise);
 
   (* A simple Canvas-like interface for OpenGL.
@@ -46,7 +46,7 @@ type
     FCurrentPos: TAffineVector;
     FPenColor: TColor;
     FPenWidth: Integer;
-    FCurrentPenColorVector: TGLVector;
+    FCurrentPenColorVector: TGSVector;
     FArcDirection: TGLArcDirection;
   protected
     procedure BackupOpenGLStates;
@@ -66,7 +66,7 @@ type
       UpdateCurrentPos: Boolean); overload;
   public
     constructor Create(bufferSizeX, bufferSizeY: Integer;
-      const baseTransform: TGLMatrix); overload;
+      const baseTransform: TGSMatrix); overload;
     constructor Create(bufferSizeX, bufferSizeY: Integer); overload;
     destructor Destroy; override;
     (* Stops the current internal primitive.
@@ -83,7 +83,7 @@ type
     property CanvasSizeY: Integer read FBufferSizeY;
     // Current Pen Color. 
     property PenColor: TColor read FPenColor write SetPenColor;
-    // Current Pen Alpha channel (from 0.0 to 1.0) 
+    // Current Pen Alpha channel (from 0.0 to 1.0)
     property PenAlpha : Single read GetPenAlpha write SetPenAlpha;
     // Current Pen Width. 
     property PenWidth: Integer read FPenWidth write SetPenWidth;
@@ -121,9 +121,9 @@ type
     procedure FillRect(const x1, y1, x2, y2: Single); overload;
     // Draw the (x1,y1)-(x2, y2) rectangle (filled with given gradient's color). 
     procedure FillRectGradient(const x1, y1, x2, y2: Single;
-      const x1y1Color, x2y1Color, x2y2Color, x1y2Color: TGLColorVector); overload;
+      const x1y1Color, x2y1Color, x2y2Color, x1y2Color: TGSColorVector); overload;
     procedure FillRectGradient(const x1, y1, x2, y2: Integer;
-      const x1y1Color, x2y1Color, x2y2Color, x1y2Color: TGLColorVector); overload;
+      const x1y1Color, x2y1Color, x2y2Color, x1y2Color: TGSColorVector); overload;
     // Draws an ellipse with (x1,y1)-(x2, y2) bounding rectangle. 
     procedure EllipseBB(const x1, y1, x2, y2: Integer); overload;
     procedure EllipseBB(const x1, y1, x2, y2: Single); overload;
@@ -139,11 +139,11 @@ type
     OpenGL will use the last PenColor and PenAlpha as the center color and do gradient 
   	to edge of ellipse using the edgeColor parameter. *)
     procedure FillEllipseGradient(const x, y, xRadius, yRadius: Single;
-      const edgeColor: TGLColorVector); overload;
+      const edgeColor: TGSColorVector); overload;
     procedure FillEllipseGradient(const x, y: Integer;
-      const xRadius, yRadius: Integer; const edgeColor: TGLColorVector); overload;
+      const xRadius, yRadius: Integer; const edgeColor: TGSColorVector); overload;
     procedure FillEllipseGradient(const x, y, Radius: Single;
-      const edgeColor: TGLColorVector); overload;
+      const edgeColor: TGSColorVector); overload;
     (* Draw an elliptical arc.
        The points (x1, y1) and (x2, y2) specify the bounding rectangle.
        An ellipse formed by the specified bounding rectangle defines the curve of the arc.
@@ -164,7 +164,7 @@ type
     property ArcDirection: TGLArcDirection read FArcDirection write FArcDirection;
   end;
 
-implementation //-------------------------------------------------------------
+implementation //============================================================
 
 const
   cNoPrimitive = MaxInt;
@@ -174,11 +174,10 @@ const
 // ------------------
 // ------------------ TGLCanvas ------------------
 // ------------------
-
 constructor TGLCanvas.Create(bufferSizeX, bufferSizeY: Integer;
-  const baseTransform: TGLMatrix);
+  const baseTransform: TGSMatrix);
 var
-  PM: TGLMatrix;
+  PM: TGSMatrix;
 begin
   FBufferSizeX := bufferSizeX;
   FBufferSizeY := bufferSizeY;
@@ -195,11 +194,13 @@ begin
   FArcDirection := adCounterClockWise;
 end;
 
+//---------------------------------------------------------------------------
 constructor TGLCanvas.Create(bufferSizeX, bufferSizeY: Integer);
 begin
   Create(bufferSizeX, bufferSizeY, IdentityHmgMatrix);
 end;
 
+//---------------------------------------------------------------------------
 destructor TGLCanvas.Destroy;
 begin
   StopPrimitive;
@@ -209,6 +210,7 @@ begin
   gl.PopMatrix;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLCanvas.BackupOpenGLStates;
 begin
   with CurrentGLContext.GLStates do
@@ -234,6 +236,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLCanvas.StartPrimitive(const primitiveType: Integer);
 begin
   if primitiveType <> FLastPrimitive then
@@ -246,14 +249,16 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLCanvas.StopPrimitive;
 begin
   StartPrimitive(cNoPrimitive);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLCanvas.InvertYAxis;
 var
-  mat: TGLMatrix;
+  mat: TGSMatrix;
 begin
   mat := IdentityHmgMatrix;
   mat.Y.Y := -1;
@@ -261,6 +266,7 @@ begin
   gl.MultMatrixf(@mat);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLCanvas.SetPenColor(const val: TColor);
 begin
   SetVector(FCurrentPenColorVector, ConvertWinColor(val,
@@ -269,12 +275,14 @@ begin
   gl.Color4fv(@FCurrentPenColorVector);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLCanvas.SetPenAlpha(const val: Single);
 begin
   FCurrentPenColorVector.W := val;
   gl.Color4fv(@FCurrentPenColorVector);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLCanvas.SetPenWidth(const val: Integer);
 begin
   if val < 1 then
@@ -289,30 +297,35 @@ begin
     end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLCanvas.MoveTo(const x, y: Integer);
 begin
   FCurrentPos.X := x;
   FCurrentPos.Y := y;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLCanvas.MoveTo(const x, y: Single);
 begin
   FCurrentPos.X := x;
   FCurrentPos.Y := y;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLCanvas.MoveToRel(const x, y: Integer);
 begin
   FCurrentPos.X := FCurrentPos.X + x;
   FCurrentPos.Y := FCurrentPos.Y + y;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLCanvas.MoveToRel(const x, y: Single);
 begin
   FCurrentPos.X := FCurrentPos.X + x;
   FCurrentPos.Y := FCurrentPos.Y + y;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLCanvas.LineTo(const x, y: Integer);
 begin
   StartPrimitive(GL_LINES);
@@ -321,6 +334,7 @@ begin
   gl.Vertex2fv(@FCurrentPos);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLCanvas.LineTo(const x, y: Single);
 begin
   StartPrimitive(GL_LINES);
@@ -329,16 +343,19 @@ begin
   gl.Vertex2fv(@FCurrentPos);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLCanvas.LineToRel(const x, y: Integer);
 begin
   LineTo(FCurrentPos.X + x, FCurrentPos.Y + y);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLCanvas.LineToRel(const x, y: Single);
 begin
   LineTo(FCurrentPos.X + x, FCurrentPos.Y + y);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLCanvas.Line(const x1, y1, x2, y2: Integer);
 begin
   StartPrimitive(GL_LINES);
@@ -346,6 +363,7 @@ begin
   gl.Vertex2i(x2, y2);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLCanvas.Line(const x1, y1, x2, y2: Single);
 begin
   StartPrimitive(GL_LINES);
@@ -353,6 +371,7 @@ begin
   gl.Vertex2f(x2, y2);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLCanvas.Polyline(const points: array of TPoint);
 var
   i, n: Integer;
@@ -368,6 +387,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLCanvas.Polygon(const points: array of TPoint);
 var
   i, n: Integer;
@@ -383,18 +403,21 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLCanvas.PlotPixel(const x, y: Integer);
 begin
   StartPrimitive(GL_POINTS);
   gl.Vertex2i(x, y);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLCanvas.PlotPixel(const x, y: Single);
 begin
   StartPrimitive(GL_POINTS);
   gl.Vertex2f(x, y);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLCanvas.FrameRect(const x1, y1, x2, y2: Integer);
 begin
   StartPrimitive(GL_LINE_LOOP);
@@ -405,6 +428,7 @@ begin
   StopPrimitive;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLCanvas.FrameRect(const x1, y1, x2, y2: Single);
 begin
   StartPrimitive(GL_LINE_LOOP);
@@ -415,11 +439,13 @@ begin
   StopPrimitive;
 end;
 
+//---------------------------------------------------------------------------
 function TGLCanvas.GetPenAlpha: Single;
 begin
   Result := FCurrentPenColorVector.W;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLCanvas.FillRect(const x1, y1, x2, y2: Integer);
 begin
   StartPrimitive(GL_QUADS);
@@ -430,6 +456,7 @@ begin
   StopPrimitive;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLCanvas.FillRect(const x1, y1, x2, y2: Single);
 begin
   StartPrimitive(GL_QUADS);
@@ -440,6 +467,7 @@ begin
   StopPrimitive;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLCanvas.EllipseVertices(x, y, xRadius, yRadius: Single);
 var
   i, n: Integer;
@@ -466,23 +494,27 @@ begin
     gl.Vertex2f(x + c[i], y + s[i]);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLCanvas.EllipseBB(const x1, y1, x2, y2: Integer);
 begin
   Ellipse((x1 + x2) * 0.5, (y1 + y2) * 0.5, Abs(x2 - x1) * 0.5, Abs(y2 - y1) *
     0.5);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLCanvas.EllipseBB(const x1, y1, x2, y2: Single);
 begin
   Ellipse((x1 + x2) * 0.5, (y1 + y2) * 0.5, Abs(x2 - x1) * 0.5, Abs(y2 - y1) *
     0.5);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLCanvas.Ellipse(const x, y: Single; const Radius: Single);
 begin
   Ellipse(x, y, Radius, Radius);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLCanvas.Ellipse(const x, y: Integer; const xRadius, yRadius:
   Single);
 var
@@ -493,6 +525,7 @@ begin
   Ellipse(sx, sy, xRadius, yRadius);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLCanvas.Ellipse(const x, y: Single; const xRadius, yRadius: Single);
 begin
   StartPrimitive(GL_LINE_STRIP);
@@ -500,6 +533,7 @@ begin
   StopPrimitive;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLCanvas.FillEllipse(const x, y: Integer; const xRadius, yRadius:
   Single);
 begin
@@ -509,6 +543,7 @@ begin
   StopPrimitive;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLCanvas.FillEllipse(const x, y, xRadius, yRadius: Single);
 begin
   StartPrimitive(GL_TRIANGLE_FAN);
@@ -517,13 +552,15 @@ begin
   StopPrimitive;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLCanvas.FillEllipse(const x, y, Radius: Single);
 begin
   FillEllipse(x, y, Radius, Radius);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLCanvas.FillRectGradient(const x1, y1, x2, y2: Single;
-  const x1y1Color, x2y1Color, x2y2Color, x1y2Color: TGLColorVector);
+  const x1y1Color, x2y1Color, x2y2Color, x1y2Color: TGSColorVector);
 begin
   StartPrimitive(GL_QUADS);
   gl.Color4f(x1y1Color.X, x1y1Color.Y, x1y1Color.Z, x1y1Color.W);
@@ -540,8 +577,9 @@ begin
   gl.Color4fv(@FCurrentPenColorVector);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLCanvas.FillRectGradient(const x1, y1, x2, y2: Integer;
-  const x1y1Color, x2y1Color, x2y2Color, x1y2Color: TGLColorVector);
+  const x1y1Color, x2y1Color, x2y2Color, x1y2Color: TGSColorVector);
 begin
   StartPrimitive(GL_QUADS);
   gl.Color4f(x1y1Color.X, x1y1Color.Y, x1y1Color.Z, x1y1Color.W);
@@ -558,7 +596,8 @@ begin
   gl.Color4fv(@FCurrentPenColorVector);
 end;
 
-procedure TGLCanvas.FillEllipseGradient(const x, y: Integer; const xRadius, yRadius: Integer; const edgeColor: TGLColorVector);
+//---------------------------------------------------------------------------
+procedure TGLCanvas.FillEllipseGradient(const x, y: Integer; const xRadius, yRadius: Integer; const edgeColor: TGSColorVector);
 begin
   StartPrimitive(GL_TRIANGLE_FAN);
 
@@ -574,7 +613,8 @@ begin
   gl.Color4fv(@FCurrentPenColorVector);
 end;
 
-procedure TGLCanvas.FillEllipseGradient(const x, y, xRadius, yRadius: Single; const edgeColor: TGLColorVector);
+//---------------------------------------------------------------------------
+procedure TGLCanvas.FillEllipseGradient(const x, y, xRadius, yRadius: Single; const edgeColor: TGSColorVector);
 begin
   StartPrimitive(GL_TRIANGLE_FAN);
   gl.Vertex2f(x, y); // really necessary now :)
@@ -586,41 +626,49 @@ begin
   gl.Color4fv(@FCurrentPenColorVector);
 end;
 
-procedure TGLCanvas.FillEllipseGradient(const x, y, Radius: Single; const edgeColor: TGLColorVector);
+//---------------------------------------------------------------------------
+procedure TGLCanvas.FillEllipseGradient(const x, y, Radius: Single; const edgeColor: TGSColorVector);
 begin
   FillEllipseGradient(x, y, Radius, Radius, edgeColor);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLCanvas.Arc(const x1, y1, x2, y2, x3, y3, x4, y4: Integer);
 begin
   DrawArc(x1, y1, x2, y2, x3, y3, x4, y4, False);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLCanvas.Arc(const x1, y1, x2, y2, x3, y3, x4, y4: Single);
 begin
   DrawArc(x1, y1, x2, y2, x3, y3, x4, y4, False);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLCanvas.Arc(const x1, y1, x2, y2: Single; AngleBegin, AngleEnd: Single);
 begin
   DrawArc(x1, y1, x2, y2, AngleBegin, AngleEnd, False);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLCanvas.ArcTo(const x1, y1, x2, y2, x3, y3, x4, y4: Integer);
 begin
   DrawArc(x1, y1, x2, y2, x3, y3, x4, y4, True);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLCanvas.ArcTo(const x1, y1, x2, y2, x3, y3, x4, y4: Single);
 begin
   DrawArc(x1, y1, x2, y2, x3, y3, x4, y4, True);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLCanvas.ArcTo(const x1, y1, x2, y2: Single; AngleBegin, AngleEnd: Single);
 begin
   DrawArc(x1, y1, x2, y2, AngleBegin, AngleEnd, True);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLCanvas.RoundRect(const x1, y1, x2, y2, xr, yr: Integer);
 var
   x2r, y2r, x, y: integer;
@@ -639,6 +687,7 @@ begin
   Line(x + xr, y1, x2 - xr, y1);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLCanvas.RoundRect(const x1, y1, x2, y2, xr, yr: Single);
 var
   x2r, y2r, x, y: Single;
@@ -657,8 +706,9 @@ begin
   Line(x + xr, y1, x2 - xr, y1);
 end;
 
+//---------------------------------------------------------------------------
 // wrapper from "ByPoints" method
-
+//---------------------------------------------------------------------------
 procedure TGLCanvas.DrawArc(x1, y1, x2, y2, x3, y3, x4, y4: Single; UpdateCurrentPos: Boolean);
 var
   x, y: Single;
@@ -678,8 +728,9 @@ begin
   DrawArc(x1, y1, x2, y2, AngleBegin, AngleEnd, UpdateCurrentPos);
 end;
 
+//---------------------------------------------------------------------------
 // Real work is here
-
+//---------------------------------------------------------------------------
 procedure TGLCanvas.DrawArc(x1, y1, x2, y2: Single; AngleBegin, AngleEnd: Single; UpdateCurrentPos: Boolean);
 var
   Xc, Yc, Rx, Ry, x, y, s, c: Single;
@@ -742,14 +793,16 @@ begin
     MoveTo(x, y); //FCurrentPos := CurrentPos;
 end;
 
+//---------------------------------------------------------------------------
 // for internal need
-
+//---------------------------------------------------------------------------
 procedure TGLCanvas.NormalizePoint(const x1, y1, x2, y2: Single; const x, y: Single; pX, pY: PSingle);
 begin
   pX^ := (x - x1) / (x2 - x1) * 2.0 - 1.0;
   pY^ := (y - y1) / (y2 - y1) * 2.0 - 1.0;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLCanvas.SwapSingle(pX, pY: PSingle);
 var
   tmp: Single;

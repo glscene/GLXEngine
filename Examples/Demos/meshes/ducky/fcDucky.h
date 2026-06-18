@@ -13,8 +13,8 @@
 #include "GLS.SceneViewer.hpp"
 #include "GLS.Objects.hpp"
 #include "GLS.VectorFileObjects.hpp"
-#include "GLS.BaseClasses.hpp"
-#include "GLS.Coordinates.hpp"
+#include "Stage.BaseClasses.hpp"
+#include "Stage.Coordinates.hpp"
 
 #include "GLS.FileNURBS.hpp"
 

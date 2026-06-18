@@ -1,10 +1,11 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.SoundManager;
-
-(* Base classes and interface for Sound System *)
-
+(*
+  Base classes and interface for Sound System
+  RegisterClasses([TGLSoundLibrary]);
+*)
 interface
 
 uses
@@ -15,10 +16,10 @@ uses
   Stage.VectorTypes,
   GLS.SoundFileObjects,
   GLS.Scene,
-  GLS.XCollection,
+  Stage.XCollection,
   Stage.VectorGeometry,
   GLS.Cadencer,
-  GLS.BaseClasses,
+  Stage.BaseClasses,
   GLS.FileMP3,
   GLS.FileWAV,
   GLS.ImageUtils,
@@ -215,14 +216,14 @@ type
    Subclass should override the DoActivate and DoDeActivate protected methods
    to "initialize/unitialize" their sound layer, actual data releases should
    occur in destructor however. *)
-  TGLSoundManager = class(TGLCadenceAbleComponent)
+  TGLSoundManager = class(TGSCadenceAbleComponent)
   private
    FActive: Boolean;
     FMute: Boolean;
     FPause: Boolean;
     FMasterVolume: Single;
     FListener: TGLBaseSceneObject;
-    FLastListenerPosition: TGLVector;
+    FLastListenerPosition: TGSVector;
     FSources: TGLSoundSources;
     FMaxChannels: Integer;
     FOutputFrequency: Integer;
@@ -257,7 +258,7 @@ type
     procedure SetSoundEnvironment(const val: TGLSoundEnvironment);
     procedure Loaded; override;
     procedure DefineProperties(Filer: TFiler); override;
-    procedure ListenerCoordinates(var position, velocity, direction, up: TGLVector);
+    procedure ListenerCoordinates(var position, velocity, direction, up: TGSVector);
     function DoActivate: Boolean; virtual;
     // Invoked AFTER all sources have been stopped
     procedure DoDeActivate; virtual;
@@ -298,7 +299,7 @@ type
     (* Progress notification for time synchronization.
        This method will call UpdateSources depending on the last time
        it was performed and the value of the UpdateFrequency property. *)
-    procedure DoProgress(const progressTime: TGLProgressTimes); override;
+    procedure DoProgress(const progressTime: TGSProgressTimes); override;
     // Sound manager API reported CPU Usage. Returns -1 when unsupported.
     function CPUUsagePercent: Single; virtual;
     // True if EAX is supported.
@@ -383,7 +384,7 @@ type
     class function FriendlyName: String; override;
     class function FriendlyDescription: String; override;
     class function UniqueItem: Boolean; override;
-    procedure DoProgress(const progressTime: TGLProgressTimes); override;
+    procedure DoProgress(const progressTime: TGSProgressTimes); override;
     property PlayingSource: TGLSoundSource read FPlayingSource;
   published
     property Source: TGLBaseSoundSource read FSource write SetSource;
@@ -1321,9 +1322,9 @@ end;
 
 
 procedure TGLSoundManager.ListenerCoordinates(var position, velocity, direction,
-  up: TGLVector);
+  up: TGSVector);
 var
-  right: TGLVector;
+  right: TGSVector;
 begin
   if Listener <> nil then
   begin
@@ -1435,7 +1436,7 @@ begin
     Sources.Delete(i);
 end;
 
-procedure TGLSoundManager.DoProgress(const progressTime: TGLProgressTimes);
+procedure TGLSoundManager.DoProgress(const progressTime: TGSProgressTimes);
 begin
   if not Active then
     Exit;
@@ -1538,7 +1539,7 @@ begin
 end;
 
 
-procedure TGLBSoundEmitter.DoProgress(const progressTime: TGLProgressTimes);
+procedure TGLBSoundEmitter.DoProgress(const progressTime: TGSProgressTimes);
 begin
   // nothing, yet
 end;
@@ -1589,19 +1590,13 @@ begin
   FPlayingSource := nil;
 end;
 
-// ------------------------------------------------------------------
-initialization
-// ------------------------------------------------------------------
+initialization //============================================================
 
-   // class registrations
   RegisterClasses([TGLSoundLibrary]);
   RegisterXCollectionItemClass(TGLBSoundEmitter);
   vSoundLibraries := TList.Create;
 
-// ------------------------------------------------------------------
-
-finalization
-// ------------------------------------------------------------------
+finalization //==============================================================
 
   if Assigned(vActiveSoundManager) then
     vActiveSoundManager.Active := False;

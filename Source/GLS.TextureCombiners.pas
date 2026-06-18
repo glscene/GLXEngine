@@ -1,11 +1,10 @@
-//
-// GLScene Graphics Engine
-//
-
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.TextureCombiners;
-
-(* Texture combiners setup utility functions. *)
-
+(*
+  Texture combiners setup utility functions.
+*)
 interface
 
 {$I Stage.Defines.inc}

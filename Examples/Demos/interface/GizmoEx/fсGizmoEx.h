@@ -13,10 +13,10 @@
 #include <Vcl.Buttons.hpp>
 #include <Vcl.ComCtrls.hpp>
 
-#include "GLS.BaseClasses.hpp"
+#include "Stage.BaseClasses.hpp"
 #include "GLS.BitmapFont.hpp"
 #include "GLS.Cadencer.hpp"
-#include "GLS.Coordinates.hpp"
+#include "Stage.Coordinates.hpp"
 
 #include "GLS.GeomObjects.hpp"
 #include "GLS.Graph.hpp"
@@ -143,9 +143,9 @@ __published:	// IDE-managed Components
 
 private:	// User declarations
 	int mx, my;
-	TGLVector MousePos,LostMousePos;
+	TGSVector MousePos,LostMousePos;
 	bool MouseMoving;
-	TGLVector pos;
+	TGSVector pos;
 	TGLBaseSceneObject *FObj;
 	TGLGizmoEx *Gizmo;
 	float FVectorLength;

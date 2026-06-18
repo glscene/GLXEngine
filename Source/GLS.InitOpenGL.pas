@@ -1,9 +1,9 @@
-﻿//
-// GLScene Graphics Engine
-//
+﻿(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.InitOpenGL;
 (*
-  Initialisation of OpenGL for Vcl adapted from github.com/LUXOPHIA
+  Initialisation of OpenGL for Vcl adopted from github.com/LUXOPHIA
 *)
 interface
 
@@ -155,7 +155,7 @@ type
 var
   GLOpenGL: TGLOpenGL;
 
-implementation //-------------------------------------------------------------
+implementation //============================================================
 
 procedure TGLOpenGL.SetPFD(const PFD_: TPixelFormatDescriptor);
 begin
@@ -506,14 +506,14 @@ begin
   glBindVertexArray(0);
 end;
 
-initialization //-------------------------------------------------------------
+initialization //============================================================
 
 
 GLOpenGL := TGLOpenGL.Create;
 GLOpenGL.BeginGL;
 InitOpenGLext;
 
-finalization
+finalization //==============================================================
 
 GLOpenGL.EndGL;
 GLOpenGL.Free;

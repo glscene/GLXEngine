@@ -1,8 +1,7 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.EParticleMasksManager;
-
 (*
    A pretty particle mask effect manager.
    This unit is part of GLE - GLScene Game Utilities Engine set by Kenneth Poulter difacane@telkomsa.net
@@ -21,7 +20,6 @@ unit GLS.EParticleMasksManager;
    Licenses: Removed. Donated to GLScene's Code Base as long as the author (Kenneth Poulter) is not altered in this file.
              Theft of code also is not allowed, although alterations are allowed.
 *)
-
 interface
 
 {$I Stage.Defines.inc}
@@ -40,7 +38,7 @@ uses
   GLS.Material,
   GLS.Scene,
   GLS.ParticleFX,
-  GLS.Coordinates;
+  Stage.Coordinates;
 
 type
   TGLEProjectedParticleMask = (pptXMask, pptYMask, pptZMask);
@@ -50,8 +48,8 @@ type
   TGLEParticleMask = class(TCollectionItem, IGLMaterialLibrarySupported)
   private
     FName: string;
-    FScale: TGLCoordinates;
-    FPosition: TGLCoordinates;
+    FScale: TGSCoordinates;
+    FPosition: TGSCoordinates;
     FYMask: TGLLibMaterialName;
     FZMask: TGLLibMaterialName;
     FXMask: TGLLibMaterialName;
@@ -97,8 +95,8 @@ type
       TGLEProjectedParticleMask; Depth: Integer);
   published
     // scales and positions
-    property Scale: TGLCoordinates read FScale write FScale;
-    property Position: TGLCoordinates read FPosition write FPosition;
+    property Scale: TGSCoordinates read FScale write FScale;
+    property Position: TGSCoordinates read FPosition write FPosition;
     // the reference name of the particle mask
     property Name: string read FName write SetName;
     property MaterialLibrary: TGLMaterialLibrary read FMaterialLibrary write SetMaterialLibrary;
@@ -154,12 +152,11 @@ type
       FParticleMasks;
   end;
 
-//--------------------------------------------------------------------------
-implementation
-//--------------------------------------------------------------------------
+implementation //============================================================
 
-{ TGLEParticleMasks }
-
+//---------------------------------------------------------------------------
+// TGLEParticleMasks
+//---------------------------------------------------------------------------
 function TGLEParticleMasks.Add: TGLEParticleMask;
 begin
   Result := (inherited Add) as TGLEParticleMask;
@@ -187,8 +184,9 @@ begin
   inherited Items[Index] := Val;
 end;
 
-{ TGLEParticleMask }
-
+//---------------------------------------------------------------------------
+// TGLEParticleMask
+//---------------------------------------------------------------------------
 procedure TGLEParticleMask.Assign(Source: TPersistent);
 begin
   if Source is TGLEParticleMask then
@@ -210,8 +208,8 @@ begin
 
   FName := 'ParticleMask' + IntToStr(ID);
 
-  FScale := TGLCoordinates.CreateInitialized(Self, XYZHMGVector, csPoint);
-  FPosition := TGLCoordinates.CreateInitialized(Self, NullHmgPoint, csPoint);
+  FScale := TGSCoordinates.CreateInitialized(Self, XYZHMGVector, csPoint);
+  FPosition := TGSCoordinates.CreateInitialized(Self, NullHmgPoint, csPoint);
   FMaterialLibrary := nil;
 
   FMaskColor := clWhite;
@@ -428,6 +426,7 @@ begin
   FTurnAngle := FTurnAngle + Angle;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLEParticleMask.UpdateExtents;
 var
   MinXX, MinXY, MinYX, MinYY, MinZX, MinZY: Integer;
@@ -583,6 +582,7 @@ begin
   LZ := MaxInteger(IXW, IYH);
 end;
 
+//---------------------------------------------------------------------------
 function TGLEParticleMask.XCan: TBitmap;
 begin
   Result := nil;
@@ -649,8 +649,9 @@ begin
   Result := -1; //ignore
 end;
 
-{ TGLEParticleMasksManager }
-
+//---------------------------------------------------------------------------
+// TGLEParticleMasksManager
+//---------------------------------------------------------------------------
 procedure TGLEParticleMasksManager.ApplyOrthoGraphic(var Vec: TVector3f; Mask:
   TGLEParticleMask);
 begin
@@ -728,12 +729,14 @@ begin
   ApplyScaleAndPosition(Result, Mask);
 end;
 
+//---------------------------------------------------------------------------
 destructor TGLEParticleMasksManager.Destroy;
 begin
   FParticleMasks.Destroy;
   inherited Destroy;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLEParticleMasksManager.FindParticlePosition(var Vec: TVector3f;
   Mask: TGLEParticleMask);
 var
@@ -805,5 +808,6 @@ begin
   ApplyScaleAndPositionTarget(Result, Mask, TargetObject);
 end;
 
+//---------------------------------------------------------------------------
 end.
 

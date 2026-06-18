@@ -1,10 +1,11 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXSL.PhongShader;
-
-(* An ARBvp1.0 + ARBfp1.0 shader that implements phong shading *)
-
+(*
+  An ARBvp1.0 + ARBfp1.0 shader that implements phong shading
+  RegisterClasses([TgxPhongShader]);
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -16,9 +17,10 @@ uses
   System.SysUtils,
 
   Stage.VectorTypes,
-  GXS.Texture, 
-  Stage.VectorGeometry, 
-  GXS.VectorLists, 
+  Stage.VectorGeometry,
+  Stage.VectorLists,
+
+  GXS.Texture,
   GXS.Context,
   GXS.RenderContextInfo,
   GXSL.AsmShader,
@@ -28,7 +30,7 @@ uses
 type
   TgxPhongShader = class(TgxCustomAsmShader)
   private
-    FLightIDs: TgxIntegerList;
+    FLightIDs: TGSIntegerList;
     FDesignTimeEnabled: Boolean;
     FAmbientPass: Boolean;
     procedure SetDesignTimeEnabled(const Value: Boolean);
@@ -183,7 +185,7 @@ begin
 
     Add('END');
   end;
-  FLightIDs := TgxIntegerList.Create;
+  FLightIDs := TGSIntegerList.Create;
 end;
 
 function TgxPhongShader.ShaderSupported: Boolean;
@@ -240,7 +242,8 @@ begin
   end;
 end;
 
-initialization
+initialization //============================================================
+
   RegisterClasses([TgxPhongShader]);
 
 end.

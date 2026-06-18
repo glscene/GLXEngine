@@ -25,8 +25,8 @@ uses
   GLS.Graph,
   GLS.Material,
   Stage.VectorGeometry,
-  GLS.Coordinates,
-  GLS.BaseClasses,
+  Stage.Coordinates,
+  Stage.BaseClasses,
   Stage.Utils,
 
   GLS.FileMD2,

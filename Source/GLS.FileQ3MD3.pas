@@ -1,10 +1,10 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.FileQ3MD3;
-
-(* Helper classes and methods for Quake3 MD3 actors *)
-
+(*
+  Helper classes and methods for Quake3 MD3 actors
+*)
 interface
 
 uses
@@ -13,10 +13,11 @@ uses
 
   Stage.VectorTypes,
   Stage.VectorGeometry,
+  Stage.PersistentClasses,
+
   GLS.VectorFileObjects,
-  GLS.VectorLists,
+  Stage.VectorLists,
   GLS.Material,
-  GLS.PersistentClasses,
   Formats.MD3;
 
 type
@@ -31,7 +32,7 @@ type
   public
     procedure LoadFromFile(const FileName: String);
     procedure LoadFromStream(AStream: TStream);
-    function GetTransform(const TagName: string; Frame: Integer): TGLMatrix;
+    function GetTransform(const TagName: string; Frame: Integer): TGSMatrix;
     property TagCount: Integer read FNumTags;
     property FrameCount: Integer read FNumFrames;
     property Tags[index: Integer]: TMD3Tag read GetTag;
@@ -305,7 +306,7 @@ begin
 end;
 
 function TMD3TagList.GetTransform(const TagName: string;
-  Frame: Integer): TGLMatrix;
+  Frame: Integer): TGSMatrix;
 var
   TagIdx, i, j: Integer;
   Tag: TMD3Tag;

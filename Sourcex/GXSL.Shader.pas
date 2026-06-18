@@ -1,10 +1,11 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXSL.Shader;
-
-(* GLXLShader is a wrapper for all GLX shaders *)
-
+(*
+  GLXLShader is a wrapper for all GLX shaders
+  RegisterClasses([TGXSLCustomShader, TGXSLShader]);
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -17,11 +18,11 @@ uses
 
   Stage.VectorGeometry,
   Stage.VectorTypes,
+  Stage.TextureFormat,
+
   GXS.Texture,
   GXS.Context,
   GXS.RenderContextInfo,
-  Stage.TextureFormat,
-
   GXSL.CustomShader,
   GXSL.Parameter;
 
@@ -147,10 +148,7 @@ type
     property TransformFeedBackMode;
   end;
 
-
-//=============================================================
-implementation
-//=============================================================
+implementation //=============================================================
 
 uses
   GXS.State;
@@ -595,9 +593,7 @@ begin
   glUniformBufferEXT(FGXSLProg.Handle, FParameterID, UBO);
 end;
 
-//=======================================================
-initialization
-//=======================================================
+initialization //============================================================
 
   RegisterClasses([TGXSLCustomShader, TGXSLShader]);
 

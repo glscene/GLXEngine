@@ -1,9 +1,3 @@
-//
-// GXStage Graphics Engine
-//
-(*
-   Conversion of cg NVIDIA header files to cg.pas
-*)
 (******************************************************************************
  *                                                                            *
  *  Copyright (c) 2002, NVIDIA Corporation.                                   *
@@ -16,10 +10,6 @@
  *  E-Mail: clootie@ixbt.com                                                  *
  *                                                                            *
  *  Modified: 14-Mar-2004                                                     *
- *                                                                            *
- *  Latest version can be downloaded from:                                    *
- *     http://www.clootie.ru/                                                 *
- *       http://developer.nvidia.com/object/cg_download.html                  *
  *                                                                            *)
 (******************************************************************************
 

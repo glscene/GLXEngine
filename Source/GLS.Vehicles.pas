@@ -1,11 +1,11 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.Vehicles;
 (*
-  Implements Object Steerining Behaviours as in
-  "Steering Behaviors For Autonomous Characters" by Craig Reynolds.
-  Collision Code is based in GLS.Collision.
+  Implements Object Steerining Behaviours.
+  Collision Code is based on GLS.Collision.
+  RegisterXCollectionItemClass(TGLBVehicle);
 *)
 interface
 
@@ -18,17 +18,17 @@ uses
 
   Stage.VectorGeometry,
   Stage.VectorTypes,
+  Stage.Coordinates,
+  Stage.BaseClasses,
+  Stage.XCollection,
   Stage.Manager,
   Stage.Keyboard,
 
   GLS.Scene,
-  GLS.Coordinates,
   GLS.Behaviours,
   GLS.Collision,
   GLS.Cadencer,
-  GLS.VectorFileObjects,
-  GLS.BaseClasses,
-  GLS.XCollection;
+  GLS.VectorFileObjects;
 
 type
   TGLSteerBehaviours = (sbhSeek, sbhFlee, sbhPursuit, sbhEvasion, sbhOffsetPursuit, sbhArrival,
@@ -59,7 +59,7 @@ type
   // TGLWanderSteer - Implementation of Wander Steering Behaviour
   TGLWanderSteer = class(TGLBaseSteerBehaviour)
   private
-    FWanderModifier: TGLVector;
+    FWanderModifier: TGSVector;
     FRate, FStrength: Double;
   protected
     procedure SetVehicle(const AValue: TGLBVehicle); override;
@@ -68,7 +68,7 @@ type
     procedure ApplySteerForce; override;
     property Rate: Double read FRate write FRate;
     property Strength: Double read FStrength write FStrength;
-    property WanderModifier: TGLVector read FWanderModifier write FWanderModifier;
+    property WanderModifier: TGSVector read FWanderModifier write FWanderModifier;
   end;
 
   // TGLSeekSteer - Implementation of Seek Steering Behaviour
@@ -116,13 +116,13 @@ type
   private
     FMap: TGLFreeForm;
     FCollided: Boolean;
-    oldPosition, velocity: TGLVector;
+    oldPosition, velocity: TGSVector;
     FTurnRate: Single;
     procedure SetMap(const Value: TGLFreeForm);
   protected
     procedure Notification(AComponent: TComponent; Operation: TOperation); override;
-    function SphereSweepAndSlide(freeform: TGLFreeForm; SphereStart: TGLVector;
-      var velocity, newPosition: TGLVector; sphereRadius: Single): Boolean;
+    function SphereSweepAndSlide(freeform: TGLFreeForm; SphereStart: TGSVector;
+      var velocity, newPosition: TGSVector; sphereRadius: Single): Boolean;
     procedure SetVehicle(const AValue: TGLBVehicle); override;
   public
     constructor Create(AOwner: TComponent); override;
@@ -138,8 +138,8 @@ type
     FSteerUpdateInterval: Double;
     FMass: Integer;
     FSpeed, FMaxForce, FMaxSpeed: Double;
-    FUp, FVelocity, FAccumulator: TGLCoordinates;
-    FProgressTime: TGLProgressTimes;
+    FUp, FVelocity, FAccumulator: TGSCoordinates;
+    FProgressTime: TGSProgressTimes;
     FAccumulatedTime: Double;
     FManager: TGLVehicleManager;
     FGroupIndex: Integer;
@@ -156,8 +156,8 @@ type
     procedure SetGLSteeringBehaviours(const Value: TGLSteeringBehaviours);
     procedure SetManager(const Value: TGLVehicleManager);
     procedure SetGroupIndex(const Value: Integer);
-    function GetVelocity: TGLCoordinates;
-    procedure SetVelocity(const Value: TGLCoordinates);
+    function GetVelocity: TGSCoordinates;
+    procedure SetVelocity(const Value: TGSCoordinates);
     function GetSpeed: Double;
     procedure SetSpeed(const Value: Double);
     procedure WriteToFiler(writer: TWriter); override;
@@ -169,12 +169,12 @@ type
     procedure Assign(Source: TPersistent); override;
     class function FriendlyName: String; override;
     class function FriendlyDescription: String; override;
-    procedure DoProgress(const progressTime: TGLProgressTimes); override;
+    procedure DoProgress(const progressTime: TGSProgressTimes); override;
     procedure DoSteering;
-    property progressTime: TGLProgressTimes read FProgressTime write FProgressTime;
+    property progressTime: TGSProgressTimes read FProgressTime write FProgressTime;
     property AccumulatedTime: Double read FAccumulatedTime write FAccumulatedTime;
     property CollisionObject: TGLBaseSceneObject read FCollisionObject write FCollisionObject;
-    property Accumulator: TGLCoordinates read FAccumulator;
+    property Accumulator: TGSCoordinates read FAccumulator;
     property Flee: TGLFleeSteer read FFleeSteer write FFleeSteer;
     property Seek: TGLSeekSteer read FSeekSteer write FSeekSteer;
     property Pursue: TGLPursueSteer read FPursueSteer write FPursueSteer;
@@ -185,7 +185,7 @@ type
     property Manager: TGLVehicleManager read FManager write SetManager;
     property GroupIndex: Integer read FGroupIndex write SetGroupIndex;
     property Mass: Integer read FMass write FMass;
-    // property Velocity: TGLCoordinates read GetVelocity write SetVelocity;
+    // property Velocity: TGSCoordinates read GetVelocity write SetVelocity;
     property MaxForce: Double read FMaxForce write FMaxForce;
     property MaxSpeed: Double read FMaxSpeed write FMaxSpeed;
     property Speed: Double read GetSpeed write SetSpeed;
@@ -193,7 +193,7 @@ type
       write SetGLSteeringBehaviours;
     property SteerUpdateInterval: Double read FSteerUpdateInterval write FSteerUpdateInterval;
     property SteerBehaviours: TObjectList read FSteerBehaviours write FSteerBehaviours;
-    property Up: TGLCoordinates read FUp write FUp;
+    property Up: TGSCoordinates read FUp write FUp;
   end;
 
   // Manager of Vehicles
@@ -344,11 +344,11 @@ begin
   FMaxForce := 1;
   FMaxSpeed := 1;
 
-  FUp := TGLCoordinates.CreateInitialized(Self, VectorMake(0, 1, 0), csVector);
-  FVelocity := TGLCoordinates.CreateInitialized(Self, VectorMake(1, 0, 1), csVector);
+  FUp := TGSCoordinates.CreateInitialized(Self, VectorMake(0, 1, 0), csVector);
+  FVelocity := TGSCoordinates.CreateInitialized(Self, VectorMake(1, 0, 1), csVector);
   FVelocity.Normalize;
 
-  FAccumulator := TGLCoordinates.CreateInitialized(Self, VectorMake(1, 0, 1), csVector);
+  FAccumulator := TGSCoordinates.CreateInitialized(Self, VectorMake(1, 0, 1), csVector);
   FSteerBehaviours := TObjectList.Create(True);
   FWanderSteer := TGLWanderSteer.Create(nil);
   FWanderSteer.Vehicle := Self;
@@ -511,7 +511,7 @@ end;
 //----------------------------------------------------------------------------
 // TGLBVehicle.GetVelocity
 //----------------------------------------------------------------------------
-function TGLBVehicle.GetVelocity: TGLCoordinates;
+function TGLBVehicle.GetVelocity: TGSCoordinates;
 begin
   Result := FVelocity;
 end;
@@ -519,7 +519,7 @@ end;
 //----------------------------------------------------------------------------
 // TGLBVehicle.SetVelocity
 //
-procedure TGLBVehicle.SetVelocity(const Value: TGLCoordinates);
+procedure TGLBVehicle.SetVelocity(const Value: TGSCoordinates);
 begin
   FVelocity := Value;
 end;
@@ -546,7 +546,7 @@ end;
 procedure TGLBVehicle.DoSteering;
 var
   acceleration: Double;
-  newLeft: TGLVector;
+  newLeft: TGSVector;
 begin
   if AccumulatedTime < SteerUpdateInterval then
     exit;
@@ -639,9 +639,9 @@ end;
 //----------------------------------------------------------------------------
 procedure TGLWanderSteer.ApplySteerForce;
 var
-  vWander: TGLVector;
-  vStrength: TGLVector;
-  vDesiredDirection: TGLVector;
+  vWander: TGSVector;
+  vStrength: TGSVector;
+  vDesiredDirection: TGSVector;
 const
   c2PI = 2 * pi;
 begin
@@ -690,7 +690,7 @@ end;
 //----------------------------------------------------------------------------
 // TGLBVehicle.DoProgress
 //----------------------------------------------------------------------------
-procedure TGLBVehicle.DoProgress(const progressTime: TGLProgressTimes);
+procedure TGLBVehicle.DoProgress(const progressTime: TGSProgressTimes);
 begin
   FProgressTime := progressTime;
   AccumulatedTime := AccumulatedTime + progressTime.deltaTime;
@@ -710,8 +710,8 @@ end;
 //----------------------------------------------------------------------------
 procedure TGLSeekSteer.ApplySteerForce;
 var
-  vDesiredDirection: TGLVector;
-  vDistance: TGLVector;
+  vDesiredDirection: TGSVector;
+  vDistance: TGSVector;
   lDistance: Single;
 begin
   if Assigned(FTarget) then
@@ -776,7 +776,7 @@ end;
 //----------------------------------------------------------------------------
 procedure TGLFleeSteer.ApplySteerForce;
 var
-  vDesiredDirection: TGLVector;
+  vDesiredDirection: TGSVector;
 begin
   if Assigned(FTarget) then
     with FVehicle do
@@ -831,8 +831,8 @@ end;
 //----------------------------------------------------------------------------
 procedure TGLPursueSteer.ApplySteerForce;
 var
-  vDesiredDirection: TGLVector;
-  vDistance: TGLVector;
+  vDesiredDirection: TGSVector;
+  vDistance: TGSVector;
   lDistance: Single;
 begin
   if Assigned(FTarget) then
@@ -890,13 +890,13 @@ end;
 //----------------------------------------------------------------------------
 // TGLWorldCollisionSteer
 //----------------------------------------------------------------------------
-function TGLWorldCollisionSteer.SphereSweepAndSlide(freeform: TGLFreeForm; SphereStart: TGLVector;
-  var velocity, newPosition: TGLVector; sphereRadius: Single): Boolean;
+function TGLWorldCollisionSteer.SphereSweepAndSlide(freeform: TGLFreeForm; SphereStart: TGSVector;
+  var velocity, newPosition: TGSVector; sphereRadius: Single): Boolean;
 var
-  oldPosition, ray: TGLVector;
+  oldPosition, ray: TGSVector;
   vel, slidedistance: Single;
-  intPoint, intNormal: TGLVector;
-  newDirection, newRay, collisionPosition, pointOnSphere, point2OnSphere: TGLVector;
+  intPoint, intNormal: TGSVector;
+  newDirection, newRay, collisionPosition, pointOnSphere, point2OnSphere: TGSVector;
   i: Integer;
   SphereRadiusRel: Single;
 begin
@@ -980,7 +980,7 @@ end;
 //----------------------------------------------------------------------------
 procedure TGLWorldCollisionSteer.ApplySteerForce;
 var
-  vDesiredDirection, vDistance, newPosition: TGLVector;
+  vDesiredDirection, vDistance, newPosition: TGSVector;
   lDistance: Single;
 begin
   FCollided := false;

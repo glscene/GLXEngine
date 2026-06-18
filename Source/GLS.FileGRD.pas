@@ -1,6 +1,6 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.FileGRD;
 
 (* GRD (Grid Format) text and binary vector file format implementation *)
@@ -29,7 +29,7 @@ type
   public
     GLHeightField: TGLHeightField;
     Nodes: array of TSingleArray;
-    class function Capabilities: TGLDataFileCapabilities; override;
+    class function Capabilities: TGSDataFileCapabilities; override;
     procedure LoadFromStream(aStream: TStream); override;
   private
     StrVal: String;
@@ -53,7 +53,7 @@ const
   dSURFBLANKVAL = 1.70141E38; // default value in Surfer for blanking
   NODATA_value = -9999; // default value in GIS ArcInfo for blanking
 
-class function TGLGRDVectorFile.Capabilities: TGLDataFileCapabilities;
+class function TGLGRDVectorFile.Capabilities: TGSDataFileCapabilities;
 begin
   Result := [dfcRead];
 end;

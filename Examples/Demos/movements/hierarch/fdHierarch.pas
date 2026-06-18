@@ -20,8 +20,8 @@ uses
   GLS.Cadencer,
   GLS.AsyncTimer,
   GLS.SceneViewer,
-  GLS.Coordinates,
-  GLS.BaseClasses,
+  Stage.Coordinates,
+  Stage.BaseClasses,
   GLS.SimpleNavigation,
   GLS.Material,
   GLS.GeomObjects;

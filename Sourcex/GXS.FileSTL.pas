@@ -1,14 +1,12 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.FileSTL;
-
 (*
   Support-code to load STL Files into TgxFreeForm-Components.
   Note that you must manually add this unit to one of your project's uses
   to enable support for STL files at run-time.
 *)
-
 interface
 
 uses
@@ -17,7 +15,7 @@ uses
 
   Stage.VectorTypes,
   Stage.VectorGeometry,
-  GXS.VectorLists,
+  Stage.VectorLists,
   GXS.VectorFileObjects,
   GXS.ApplicationFileIO,
   GXS.ImageUtils;
@@ -57,7 +55,7 @@ type
     procedure SaveToStream(aStream: TStream); override;
   end;
 
-implementation // ------------------------------------------------------------
+implementation //============================================================
 
 const
   cSOLID_LABEL = 'SOLID';
@@ -72,7 +70,6 @@ const
 // ------------------
 // ------------------ TGXSTLVectorFile ------------------
 // ------------------
-
 class function TGXSTLVectorFile.Capabilities: TDataFileCapabilities;
 begin
   Result := [dfcRead, dfcWrite];
@@ -245,7 +242,7 @@ var
   i: Integer;
   header: TSTLHeader;
   dataFace: TSTLFace;
-  list: TgxAffineVectorList;
+  list: TGSAffineVectorList;
 const
   cHeaderTag = 'GXScene STL export';
 begin
@@ -270,9 +267,7 @@ begin
   end;
 end;
 
-// ------------------------------------------------------------------
-initialization
-// ------------------------------------------------------------------
+initialization //============================================================
 
 RegisterVectorFileFormat('stl', 'Stereolithography files', TGXSTLVectorFile);
 

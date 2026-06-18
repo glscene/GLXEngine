@@ -1,10 +1,13 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXSL.PostEffects;
+(*
+  A collection of components that generate post effects
+  RegisterClasses([TgxPostEffect, TgxPostShaderHolder, TgxPostShaderCollection,
+                   TgxPostShaderCollectionItem]);
 
-(* A collection of components that generate post effects *)
-
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -14,7 +17,7 @@ uses
   System.Classes,
   System.SysUtils,
 
-  GXS.PersistentClasses,
+  Stage.PersistentClasses,
   Stage.VectorGeometry,
   Stage.Strings,
   GXS.Scene,
@@ -133,9 +136,7 @@ type
     property OnProgress;
   end;
 
-//-----------------------------------------------------------------------------
-implementation
-//-----------------------------------------------------------------------------
+implementation //============================================================
 
 //-------------------------------
 // TgxPostEffect
@@ -475,9 +476,7 @@ begin
   GetItems(Index).Assign(Value);
 end;
 
-//---------------------------------------------------------
-initialization
-//---------------------------------------------------------
+initialization //============================================================
 
   RegisterClasses([TgxPostEffect, TgxPostShaderHolder,
                    TgxPostShaderCollection, TgxPostShaderCollectionItem]);

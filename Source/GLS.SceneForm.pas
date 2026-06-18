@@ -1,10 +1,11 @@
-﻿//
-// GLScene Graphics Engine
-//
+﻿(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.SceneForm;
-
-(*  GLScene form loader *)
-
+(*
+  GLScene form loader
+  RegisterClass(TGLSceneForm);
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -15,6 +16,7 @@ uses
   System.Classes,
   VCL.Controls,
   VCL.Forms,
+
   GLS.Scene,
   GLS.Context,
   GLS.Screen,
@@ -452,9 +454,7 @@ begin
   Result := FBuffer.RCInstantiated and FBuffer.RenderingContext.IsValid;
 end;
 
-// ------------------------------------------------------------------
-initialization
-// ------------------------------------------------------------------
+initialization //============================================================
 
   RegisterClass(TGLSceneForm);
 

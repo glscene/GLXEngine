@@ -29,7 +29,7 @@ uses
   GLS.Scene,
   GLS.Behaviours,
   GLS.MaterialEx,
-  GLS.XCollection;
+  Stage.XCollection;
 
 type
   TXCollectionEditorForm = class(TForm)

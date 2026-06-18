@@ -17,8 +17,8 @@
 #include <GLS.SceneViewer.hpp>    // Pascal unit
 #include <GLS.Cadencer.hpp>       // Pascal unit
 #include <GLS.Scene.hpp>
-#include "GLS.BaseClasses.hpp"
-#include "GLS.Coordinates.hpp"
+#include "Stage.BaseClasses.hpp"
+#include "Stage.Coordinates.hpp"
 
 #include "GLS.Material.hpp"          // Pascal unit
 #include "Stage.Keyboard.hpp"

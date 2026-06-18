@@ -1,13 +1,11 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.FileOCT;
-
 (*
    Support-code to load OCT Files into TGLFreeForm-Components in GLScene.
    (OCT being the format output from FSRad, http://www.fluidstudios.com/fsrad.html).
 *)
-
 interface
 
 {$I Stage.Defines.inc}
@@ -32,7 +30,7 @@ type
   // The OCT vector file (FSRad output).  
   TGLOCTGLVectorFile = class(TGLVectorFile)
   public
-    class function Capabilities: TGLDataFileCapabilities; override;
+    class function Capabilities: TGSDataFileCapabilities; override;
     procedure LoadFromStream(aStream: TStream); override;
   end;
 
@@ -49,7 +47,7 @@ implementation
 // ------------------ TGLOCTGLVectorFile ------------------
 // ------------------
 
-class function TGLOCTGLVectorFile.Capabilities: TGLDataFileCapabilities;
+class function TGLOCTGLVectorFile.Capabilities: TGSDataFileCapabilities;
 begin
   Result := [dfcRead];
 end;

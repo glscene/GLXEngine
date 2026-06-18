@@ -1,10 +1,10 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.FileMS3D;
-
-(* Support for MS3D file format *)
-
+(*
+  Support for MS3D file format
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -14,13 +14,14 @@ uses
   System.SysUtils,
   System.Math,
 
-  GXS.VectorFileObjects,
   Stage.VectorTypes,
-  GXS.Material,
-  GXS.Color,
-  GXS.Texture,
+  Stage.Color,
   Stage.VectorGeometry,
-  GXS.VectorLists,
+  Stage.VectorLists,
+
+  GXS.Material,
+  GXS.Texture,
+  GXS.VectorFileObjects,
   GXS.ApplicationFileIO;
 
 const
@@ -123,10 +124,10 @@ type
   // } ms3d_material_t;
   TMS3DMaterial = record
     Name: array[0..31] of AnsiChar;
-    Ambient: TgxColorVector;
-    Diffuse: TgxColorVector;
-    Specular: TgxColorVector;
-    Emissive: TgxColorVector;
+    Ambient: TGSColorVector;
+    Diffuse: TGSColorVector;
+    Specular: TGSColorVector;
+    Emissive: TGSColorVector;
     Shininess: single;
     Transparency: single;
     Mode: AnsiChar;
@@ -246,11 +247,9 @@ type
 
   {$A+}
 
-// ------------------------------------------------------------------
-implementation
-// ------------------------------------------------------------------
+implementation //============================================================
 
-{ TMS3DGroup }
+// TMS3DGroup
 
 constructor TMS3DGroup.Create;
 begin
@@ -263,7 +262,7 @@ begin
   inherited;
 end;
 
-{ TMS3DCommentList }
+// TMS3DCommentList
 
 destructor TMS3DCommentList.destroy;
 var
@@ -284,7 +283,7 @@ begin
     add(result);
 end;
 
-{ TVertexWeightList }
+// TVertexWeightList
 
 procedure TVertexWeightList.clear;
 var
@@ -321,7 +320,7 @@ begin
   FsubVersion := Value;
 end;
 
-{ TgxMS3DVectorFile }
+// TgxMS3DVectorFile
 
 class function TgxMS3DVectorFile.Capabilities: TDataFileCapabilities;
 begin
@@ -904,13 +903,7 @@ begin
   end;
 end;
 
-// ------------------------------------------------------------------
-// ------------------------------------------------------------------
-// ------------------------------------------------------------------
-initialization
-  // ------------------------------------------------------------------
-  // ------------------------------------------------------------------
-  // ------------------------------------------------------------------
+initialization //============================================================
 
   RegisterVectorFileFormat('ms3d', 'MilkShape3D files', TgxMS3DVectorFile);
 

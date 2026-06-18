@@ -1,10 +1,10 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.FileGTS;
-
-(* GTS (GNU Triangulated Surface) vector file format implementation *)
-
+(*
+  GTS (GNU Triangulated Surface) vector file format implementation
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -13,7 +13,7 @@ uses
   System.Classes,
   System.SysUtils,
   Stage.VectorGeometry,
-  GXS.VectorLists,
+  Stage.VectorLists,
   GXS.VectorFileObjects,
   GXS.ApplicationFileIO;
 
@@ -31,9 +31,7 @@ type
     procedure LoadFromStream(aStream: TStream); override;
   end;
 
-// ------------------------------------------------------------------
-implementation
-// ------------------------------------------------------------------
+implementation //============================================================
 
 uses
   Stage.Utils;
@@ -108,9 +106,7 @@ begin
   end;
 end;
 
-// ------------------------------------------------------------------
-initialization
-// ------------------------------------------------------------------
+initialization //============================================================
 
 RegisterVectorFileFormat('gts', 'GNU Triangulated Surface', TgxGTSVectorFile);
 

@@ -1,15 +1,13 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXSL.CustomShader;
-
 (*
     A collection of pure abstract classes - descendants of TgxShader, which are
     used for purpose of not having to write the same stuff all over and over
     again in your own shader classes.
     It also contains a procedures and function that can be used in all shaders.
  *)
-
 interface
 
 uses
@@ -27,7 +25,7 @@ uses
   GXS.Context,
   GXS.RenderContextInfo,
   GXS.Material,
-  GXS.VectorLists, 
+  Stage.VectorLists, 
   Stage.TextureFormat,
   GXSL.Parameter;
 
@@ -308,16 +306,15 @@ procedure CopyScreentoTexture(const ViewPortSize: TGXSize; const TextureTarget: 
 procedure CopyScreentoTexture2(const ViewPortSize: TGXSize; const TextureTarget: Word = GL_TEXTURE_2D);
 
 function IsFogEnabled(const AFogSupportMode: TgxShaderFogSupport; var rci: TgxRenderContextInfo): Boolean;
-procedure GetActiveLightsList(const ALightIDs: TgxIntegerList);
+procedure GetActiveLightsList(const ALightIDs: TGSIntegerList);
 
-//===========================================================
-implementation
-//===========================================================
+
+implementation //============================================================
 
 uses
   GXS.State;
 
-procedure GetActiveLightsList(const ALightIDs: TgxIntegerList);
+procedure GetActiveLightsList(const ALightIDs: TGSIntegerList);
 var
   I: Integer;
 begin
@@ -768,7 +765,8 @@ begin
   end;
 end;
 
-initialization
+initialization //============================================================
+
   RegisterClasses([TgxCustomShader, TgxShaderProgram,
                    TgxVertexProgram, TgxFragmentProgram, TgxGeometryProgram]);
 

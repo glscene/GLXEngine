@@ -18,22 +18,22 @@ uses
   Stage.Utils,
 
   GLS.Scene,
-  GLS.VectorLists,
-  GLS.PersistentClasses,
+  Stage.VectorLists,
+  Stage.PersistentClasses,
   GLS.Objects,
-  GLS.Coordinates,
+  Stage.Coordinates,
   GLS.Cadencer,
   GLS.NGDManager,
   GLS.SimpleNavigation,
   GLS.SceneViewer,
 
-  GLS.BaseClasses,
+  Stage.BaseClasses,
   GLS.VectorFileObjects,
   GLS.GeomObjects,
   GLS.HUDObjects,
   GLS.File3DS,
   GLS.Material,
-  GLS.XCollection;
+  Stage.XCollection;
 
 type
   TFormNewtonWalkShoot = class(TForm)
@@ -186,10 +186,10 @@ procedure TFormNewtonWalkShoot.GLSceneViewer1MouseDown(Sender: TObject; Button: 
   Shift: TShiftState; X, Y: Integer);
 var
   Ball: TGLSphere;
-  delta: TGLVector;
+  delta: TGSVector;
 
   PickedSceneObject: TGLBaseSceneObject;
-  point3d: TGLVector;
+  point3d: TGSVector;
   MyX, MyY: Integer;
 begin
   // Shoot a Bullet
@@ -249,8 +249,8 @@ end;
 
 procedure TFormNewtonWalkShoot.MoveCam(const deltaTime, newTime: Double);
 var
-  f: TGLVector;
-  fup, fdn, flf, frg: TGLVector;
+  f: TGSVector;
+  fup, fdn, flf, frg: TGSVector;
   Bup, Bdn, Blf, Brg: Boolean;
   NGDDyn: TGLNGDDynamic;
 begin
@@ -304,8 +304,8 @@ end;
 
 procedure TFormNewtonWalkShoot.MoveGrab;
 var
-  point3d: TGLVector;
-  delta: TGLVector;
+  point3d: TGSVector;
+  delta: TGSVector;
 begin
   // Move the object in 3 unit front of GLCamera1.TargetObject
   if IsKeyDown(VK_MBUTTON) then

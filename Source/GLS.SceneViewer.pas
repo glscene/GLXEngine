@@ -4,6 +4,7 @@
 unit GLS.SceneViewer;
 (*
   Component for windows specific Scene viewer
+  RegisterClass(TGLSceneViewer);
 *)
 interface
 
@@ -18,6 +19,7 @@ uses
   VCL.Graphics,
   VCL.Forms,
   VCL.Controls,
+
   GLS.Scene,
   GLS.WindowsContext,
   GLS.Context;

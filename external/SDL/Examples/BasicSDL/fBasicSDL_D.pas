@@ -11,9 +11,9 @@ uses
   GLS.Scene,
   GLS.Objects,
   GLS.GeomObjects,
-  GLS.Coordinates,
-  GLS.BaseClasses,
-  GLS.Color,
+  Stage.Coordinates,
+  Stage.BaseClasses,
+  Stage.Color,
   GLS.Context,
   GLS.Texture,
   Stage.Utils,
@@ -38,10 +38,11 @@ type
 var
   DataModule1: TDataModule1;
 
-implementation //------------------------------------------------------------
+implementation //============================================================
 
 {$R *.dfm}
 
+//---------------------------------------------------------------------------
 procedure TDataModule1.DataModuleCreate(Sender: TObject);
 begin
   // When using SDL2, the standard VCL message queue is no longer operational,
@@ -59,11 +60,12 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TDataModule1.GLSDLViewer1EventPollDone(Sender: TObject);
 begin
   var Path: TFileName := GetCurrentAssetPath();
   SetCurrentDir(Path  + '\cubemap');
-  
+
   if not firstPassDone then
   begin
     // Loads a texture map for the teapot
@@ -100,10 +102,10 @@ begin
       GLSDLViewer1.Buffer.RenderingContext.Deactivate;
     end;
   end;
-
   GLSDLViewer1.Render;
 end;
 
+//---------------------------------------------------------------------------
 procedure TDataModule1.GLSDLViewer1Resize(Sender: TObject);
 begin
   // Zoom if SDL window gets smaller/bigger

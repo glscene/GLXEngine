@@ -9,10 +9,10 @@
 // ---------------------------------------------------------------------------
 #pragma package(smart_init)
 
-#pragma link "GLS.BaseClasses"
+#pragma link "Stage.BaseClasses"
 #pragma link "GLS.BitmapFont"
 #pragma link "GLS.Cadencer"
-#pragma link "GLS.Coordinates"
+#pragma link "Stage.Coordinates"
 #pragma link "GLS.HeightData"
 #pragma link "GLS.HeightTileFileHDS"
 
@@ -132,7 +132,7 @@ void __fastcall TFormArchipelag::GLCadencerProgress(TObject *Sender,
 	const double deltaTime, const double newTime) {
 	float Speed, Alpha, f;
 	float TerrainHeight, SurfaceHeight;
-	TGLVector Sbp;
+	TGSVector Sbp;
 	POINT NewMousePos;
 
 	// Handle keypresses
@@ -469,12 +469,12 @@ void __fastcall TFormArchipelag::TerrainRendererHeightDataPostRender
 void __fastcall TFormArchipelag::DOWakeProgress(TObject *Sender, const double deltaTime,
 	const double newTime) {
 	int i;
-	TGLVector sbp, sbr;
+	TGSVector sbp, sbr;
 
 	if (WakeVertices == NULL) {
-		WakeVertices = new TGLAffineVectorList();
-		WakeStretch = new TGLAffineVectorList();
-		WakeTime = new TGLSingleList();
+		WakeVertices = new TGSAffineVectorList();
+		WakeStretch = new TGSAffineVectorList();
+		WakeTime = new TGSSingleList();
 	}
 
 	// enlarge current vertices
@@ -515,7 +515,7 @@ void __fastcall TFormArchipelag::DOWakeProgress(TObject *Sender, const double de
 void __fastcall TFormArchipelag::DOWakeRender(TObject *Sender, TGLRenderContextInfo &rci) {
 	int i, n;
 	Vectortypes::TVector3f p;
-	TGLVector sbp;
+	TGSVector sbp;
 	float c;
 
 	if (!(WakeVertices) && (!((FFSailBoat->Visible) || (WaterPlane)))) {

@@ -1,10 +1,11 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLSL.Shader;
-
-(* TGLSLShader is a wrapper for GLS shaders *)
-
+(*
+  TGLSLShader is a wrapper for GLS shaders
+  RegisterClasses([TGLCustomGLSLShader, TGLSLShader]);
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -105,7 +106,7 @@ type
     function GetAsVector1f: Single; override;
     function GetAsVector2f: TVector2f; override;
     function GetAsVector3f: TVector3f; override;
-    function GetAsVector4f: TGLVector; override;
+    function GetAsVector4f: TGSVector; override;
     function GetAsVector1i: Integer; override;
     function GetAsVector2i: TVector2i; override;
     function GetAsVector3i: TVector3i; override;
@@ -158,14 +159,11 @@ type
     property TransformFeedBackMode;
   end;
 
-//------------------------------------------------------------------------
-implementation
-//------------------------------------------------------------------------
+implementation //============================================================
 
 //----------------------------------
 // TGLCustomGLSLShader
 //----------------------------------
-
 procedure TGLCustomGLSLShader.DoApply(var rci: TGLRenderContextInfo; Sender: TObject);
 begin
   FGLSLProg.UseProgramObject;
@@ -500,7 +498,7 @@ begin
   gl.GetUniformiv(FGLSLProg.Handle, FParameterID, @Result);
 end;
 
-function TGLSLShaderParameter.GetAsVector4f: TGLVector;
+function TGLSLShaderParameter.GetAsVector4f: TGSVector;
 begin
   gl.GetUniformfv(FGLSLProg.Handle, FParameterID, @Result);
 end;
@@ -624,9 +622,7 @@ begin
   gl.UniformBuffer(FGLSLProg.Handle, FParameterID, UBO);
 end;
 
-//--------------------------------------------------
-initialization
-//--------------------------------------------------
+initialization //============================================================
 
   RegisterClasses([TGLCustomGLSLShader, TGLSLShader]);
 

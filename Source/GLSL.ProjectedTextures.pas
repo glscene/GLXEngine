@@ -1,13 +1,12 @@
-//
-// GLScene Graphics Engine
-//
-
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLSL.ProjectedTextures;
+(*
+  Implements projected textures via GLSL.
+  RegisterClasses([TGLSLTextureEmitter, TGLSLProjectedTextures]);
 
-(* Implements projected textures via GLSL. 
-
-  Known bugs/limitations
-
+  Known limitations
 1. Only 1 texture can be used for all emitters
 2. Only up to 6 Emitters can be used (more on better cards)
    A way round this is to make the emiitters a children of the 6 nearest objects
@@ -18,7 +17,6 @@ unit GLSL.ProjectedTextures;
 4. All children of the ProjectedTextures must have use a texture.
    The shader can't be changed between rendering each seperate object..
 *)
-
 interface
 
 {$I Stage.Defines.inc}
@@ -28,15 +26,17 @@ uses
   System.SysUtils,
 
   Stage.PipelineTransform,
-  GLS.Scene,
-  GLS.PersistentClasses,
-  GLS.Texture,
+  Stage.PersistentClasses,
   Stage.VectorGeometry,
-  GLS.Context,
-  GLS.Color,
-  GLS.RenderContextInfo,
   Stage.TextureFormat,
-  Stage.VectorTypes;
+  Stage.VectorTypes,
+
+  GLS.Scene,
+  GLS.Texture,
+  GLS.Context,
+  Stage.Color,
+  GLS.RenderContextInfo
+  ;
 
 type
   TGLSLProjectedTexturesStyle = (ptsLight, ptsShadow);
@@ -51,12 +51,12 @@ type
     FFOV: single;
     FAspect, FBrightness, FAttenuation: single;
     FStyle: TGLSLProjectedTexturesStyle;
-    FColor: TGLColor;
+    FColor: TGSColor;
     FUseAttenuation, FAllowReverseProjection: boolean;
     FUseQuadraticAttenuation: boolean;
   protected
     ProjectedTexturesObject: TGLSLProjectedTextures;
-    TexMatrix: TGLMatrix;
+    TexMatrix: TGSMatrix;
     procedure SetupTexMatrix;
     procedure SetStyle(val: TGLSLProjectedTexturesStyle);
     procedure SetUseAttenuation(val: boolean);
@@ -77,7 +77,7 @@ type
     // Fall off/ attenuation of the projected texture
     property Attenuation: single read FAttenuation write FAttenuation;
     property Brightness: single read FBrightness write FBrightness;
-    property Color: TGLColor read FColor write FColor;
+    property Color: TGSColor read FColor write FColor;
     property UseAttenuation: boolean read FUseAttenuation write SetUseAttenuation;
     property UseQuadraticAttenuation: Boolean read FUseQuadraticAttenuation write SetUseQuadraticAttenuation;
     property AllowReverseProjection: boolean read FAllowReverseProjection write SetAllowReverseProjection;
@@ -134,7 +134,7 @@ type
     FEmitters: TGLSLTextureEmitters;
     FUseLightmaps: boolean;
     Shader: TGLProgramHandle;
-    FAmbient: TGLColor;
+    FAmbient: TGSColor;
     procedure SetupShader;
   protected
     ShaderChanged: boolean;
@@ -150,7 +150,7 @@ type
     property Emitters: TGLSLTextureEmitters read FEmitters write FEmitters;
 
     //Ambient is use if no lightmap..
-    property Ambient: TGLColor read fAmbient write fAmbient;
+    property Ambient: TGSColor read fAmbient write fAmbient;
     property UseLightmaps: boolean read FUseLightmaps write SetUseLightmaps;
   end;
 
@@ -172,7 +172,7 @@ begin
   FUseAttenuation := false;
   FAttenuation := 100;
   FBrightness := 1;
-  FColor := TGLColor.create(self);
+  FColor := TGSColor.create(self);
   FColor.SetColor(1, 1, 1);
 end;
 
@@ -191,7 +191,7 @@ end;
 
 procedure TGLSLTextureEmitter.SetupTexMatrix;
 const
-  cBaseMat: TGLMatrix = (V:((X:0.5; Y:0;   Z:0; W:0),
+  cBaseMat: TGSMatrix = (V:((X:0.5; Y:0;   Z:0; W:0),
                           (X:0;   Y:0.5; Z:0; W:0),
                           (X:0;   Y:0;   Z:1; W:0),
                           (X:0.5; Y:0.5; Z:0; W:1)));
@@ -331,7 +331,7 @@ begin
   FEmitters.FOwner := self;
   FUseLightmaps := false;
   ShaderChanged := true;
-  Ambient := TGLColor.Create(self);
+  Ambient := TGSColor.Create(self);
   ambient.SetColor(0.5, 0.5, 0.5, 0.5);
 end;
 
@@ -572,7 +572,7 @@ begin
   shaderchanged := true;
 end;
 
-initialization
+initialization //============================================================
 
   RegisterClasses([TGLSLTextureEmitter, TGLSLProjectedTextures]);
 

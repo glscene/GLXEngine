@@ -1,6 +1,6 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.SceneRegister;
 (*
   Registration unit for library components, property editors and
@@ -38,10 +38,10 @@ uses
 
   Stage.Strings,
   Stage.Utils,
+  Stage.Color,
 
   GXS.Scene,
   GXS.Context,
-  GXS.Color,
   GXS.SceneViewer,
   GXS.ObjectManager;
 
@@ -94,13 +94,13 @@ type
     procedure SetValue(const Value: string); override;
   end;
 
-  TgxColorProperty = class(TClassProperty
+  TGSColorProperty = class(TClassProperty
 //  , ICustomPropertyDrawing,
 //    ICustomPropertyListDrawing
     )
   protected
-    function ColorToBorderColor(aColor: TgxColorVector;
-      selected: Boolean): TgxColor;
+    function ColorToBorderColor(aColor: TGSColorVector;
+      selected: Boolean): TGSColor;
   public
     function GetAttributes: TPropertyAttributes; override;
     procedure GetValues(Proc: TGetStrProc); override;
@@ -134,7 +134,7 @@ type
     procedure GetValues(Proc: TGetStrProc); override;
   end;
 
-  TgxCoordinatesProperty = class(TClassProperty)
+  TGSCoordinatesProperty = class(TClassProperty)
   public
     function GetAttributes: TPropertyAttributes; override;
     procedure Edit; override;
@@ -206,7 +206,7 @@ type
   end;
 
   // Editor for Archive Manager.
-  TgxSArchiveManagerEditor = class(TgxReuseableDefaultEditor, IDefaultEditor)
+  TgxArchiveManagerEditor = class(TgxReuseableDefaultEditor, IDefaultEditor)
   protected
     procedure EditProperty(const Prop: IProperty;
       var Continue: Boolean); override;
@@ -293,9 +293,7 @@ procedure Register;
 // Auto-create for object manager
 function ObjectManager: TgxObjectManager;
 
-// ------------------------------------------------------------------
-implementation
-// ------------------------------------------------------------------
+implementation //============================================================
 
 uses
 //  FLibMaterialPicker,
@@ -306,7 +304,7 @@ uses
 //  FVectorEditor,
 //  FSceneEditor,
 
-  GXS.BaseClasses,
+  Stage.BaseClasses,
   Stage.VectorTypesExt,
   Stage.VectorTypes,
   Stage.VectorGeometry,
@@ -329,7 +327,7 @@ uses
   GXS.Collision,
   GXS.CompositeImage,
   GXS.Console,
-  GXS.Coordinates,
+  Stage.Coordinates,
   GXS.DCE,
   GXS.DynamicTexture,
   GXS.EParticleMasksManager,
@@ -373,7 +371,7 @@ uses
   GXS.ProjectedTextures,
   GXS.ProxyObjects,
   GXS.RenderContextInfo,
-  GXS.ArchiveManager,
+  Stage.ArchiveManager,
   GXS.Screen,
   GXS.ScriptBase,
   GXS.ShadowHDS,
@@ -667,21 +665,21 @@ begin
   Modified;
 end;
 
-procedure TgxColorProperty.Edit;
+procedure TGSColorProperty.Edit;
 var
   colorDialog: TColorDialog;
-  GXS.Color: TgxColor;
+  Stage.Color: TGSColor;
 begin
   colorDialog := TColorDialog.Create(nil);
   try
-    GXS.Color := TgxColor(GetOrdValue);
+    Stage.Color := TGSColor(GetOrdValue);
 {$IFDEF WIN32}
     colorDialog.Options := [cdFullOpen];
 {$ENDIF}
-    colorDialog.Color := ConvertColorVector(GXS.Color.Color);
+    colorDialog.Color := ConvertColorVector(Stage.Color.Color);
     if colorDialog.Execute then
     begin
-      GXS.Color.Color := ConvertWinColor(colorDialog.Color);
+      Stage.Color.Color := ConvertWinColor(colorDialog.Color);
       Modified;
     end;
   finally
@@ -689,28 +687,28 @@ begin
   end;
 end;
 
-function TgxColorProperty.GetAttributes: TPropertyAttributes;
+function TGSColorProperty.GetAttributes: TPropertyAttributes;
 begin
   Result := [paSubProperties, paValueList, paDialog];
 end;
 
-procedure TgxColorProperty.GetValues(Proc: TGetStrProc);
+procedure TGSColorProperty.GetValues(Proc: TGetStrProc);
 begin
   ColorManager.EnumColors(Proc);
 end;
 
-function TgxColorProperty.GetValue: string;
+function TGSColorProperty.GetValue: string;
 begin
-  Result := ColorManager.GetColorName(TgxColor(GetOrdValue).Color);
+  Result := ColorManager.GetColorName(TGSColor(GetOrdValue).Color);
 end;
 
-procedure TgxColorProperty.SetValue(const Value: string);
+procedure TGSColorProperty.SetValue(const Value: string);
 begin
-  TgxColor(GetOrdValue).Color := ColorManager.GetColor(Value);
+  TGSColor(GetOrdValue).Color := ColorManager.GetColor(Value);
   Modified;
 end;
 
-function TgxColorProperty.ColorToBorderColor(aColor: TgxColorVector;
+function TGSColorProperty.ColorToBorderColor(aColor: TGSColorVector;
   selected: Boolean): TColor;
 begin
   if (aColor.X > 0.75) or (aColor.Y > 0.75) or (aColor.Z > 0.75) then
@@ -721,7 +719,7 @@ begin
     Result := ConvertColorVector(aColor);
 end;
 
-procedure TgxColorProperty.PropDrawValue(ACanvas: TCanvas; const ARect: TRect;
+procedure TGSColorProperty.PropDrawValue(ACanvas: TCanvas; const ARect: TRect;
   ASelected: Boolean);
 begin
   if GetVisualValue <> '' then
@@ -730,12 +728,12 @@ begin
     DefaultPropertyDrawValue(Self, ACanvas, ARect);
 end;
 
-procedure TgxColorProperty.ListDrawValue(const Value: string; ACanvas: TCanvas;
+procedure TGSColorProperty.ListDrawValue(const Value: string; ACanvas: TCanvas;
   const ARect: TRect; ASelected: Boolean);
 var
   vRight: Integer;
   vOldPenColor, vOldBrushColor: TColor;
-  Color: TgxColorVector;
+  Color: TGSColorVector;
 begin
   vRight := (ARect.Bottom - ARect.Top) + ARect.Left;
   with ACanvas do
@@ -760,19 +758,19 @@ begin
     end;
 end;
 
-procedure TgxColorProperty.ListMeasureWidth(const Value: string;
+procedure TGSColorProperty.ListMeasureWidth(const Value: string;
   ACanvas: TCanvas; var AWidth: Integer);
 begin
   AWidth := AWidth + ACanvas.TextHeight('M');
 end;
 
-procedure TgxColorProperty.ListMeasureHeight(const Value: string;
+procedure TGSColorProperty.ListMeasureHeight(const Value: string;
   ACanvas: TCanvas; var AHeight: Integer);
 begin
   // Nothing
 end;
 
-procedure TgxColorProperty.PropDrawName(ACanvas: TCanvas; const ARect: TRect;
+procedure TGSColorProperty.PropDrawName(ACanvas: TCanvas; const ARect: TRect;
   ASelected: Boolean);
 begin
   DefaultPropertyDrawName(Self, ACanvas, ARect);
@@ -836,19 +834,19 @@ begin
 end;
 
 //---------------------------------------------------------
-{ TgxCoordinatesProperty }
+{ TGSCoordinatesProperty }
 //--------------------------------------------------------
-function TgxCoordinatesProperty.GetAttributes: TPropertyAttributes;
+function TGSCoordinatesProperty.GetAttributes: TPropertyAttributes;
 begin
   Result := [paDialog, paSubProperties];
 end;
 
-procedure TgxCoordinatesProperty.Edit;
+procedure TGSCoordinatesProperty.Edit;
 var
-  glc: TgxCoordinates;
+  glc: TGSCoordinates;
   x, y, z: Single;
 begin
-  glc := TgxCoordinates(GetOrdValue);
+  glc := TGSCoordinates(GetOrdValue);
   x := glc.x;
   y := glc.y;
   z := glc.z;
@@ -1079,7 +1077,7 @@ begin
   end;
 end;
 
-procedure TgxSArchiveManagerEditor.EditProperty(const Prop: IProperty;
+procedure TgxArchiveManagerEditor.EditProperty(const Prop: IProperty;
   var Continue: Boolean);
 begin
   if CompareText(Prop.GetName, 'ARCHIVES') = 0 then
@@ -1088,7 +1086,7 @@ begin
   end;
 end;
 
-procedure TgxSArchiveManagerEditor.ExecuteVerb(Index: Integer);
+procedure TgxArchiveManagerEditor.ExecuteVerb(Index: Integer);
 begin
   case Index of
     0:
@@ -1096,14 +1094,14 @@ begin
   end;
 end;
 
-function TgxSArchiveManagerEditor.GetVerb(Index: Integer): string;
+function TgxArchiveManagerEditor.GetVerb(Index: Integer): string;
 begin
   case Index of
     0: Result := 'Show Archive Manager Editor';
   end;
 end;
 
-function TgxSArchiveManagerEditor.GetVerbCount: Integer;
+function TgxArchiveManagerEditor.GetVerbCount: Integer;
 begin
   Result := 1
 end;
@@ -1342,12 +1340,12 @@ begin
   RegisterPropertiesInCategory(sOpenGLCategoryName, TgxSceneViewer, ['*Render']);
 
   // GXS.Scene
-  RegisterPropertiesInCategory(sOpenGLCategoryName, [TypeInfo(Tgxx.ObjectsSorting), TypeInfo(TgxProgressEvent),
+  RegisterPropertiesInCategory(sOpenGLCategoryName, [TypeInfo(Tgxx.ObjectsSorting), TypeInfo(TGSProgressEvent),
     TypeInfo(TgxBehaviours), TypeInfo(TgxEffects), TypeInfo(TDirectRenderEvent), TypeInfo(TgxCameraStyle),
     TypeInfo(TgxOnCustomPerspective), TypeInfo(TgxScene)]);
   RegisterPropertiesInCategory(sLayoutCategoryName, [TypeInfo(Tgxx.ObjectsSorting), TypeInfo(TgxNormalDirection)]);
   RegisterPropertiesInCategory(sVisualCategoryName, [TypeInfo(TgxVisibilityCulling), TypeInfo(TLightStyle),
-    TypeInfo(TgxColor), TypeInfo(TgxNormalDirection), TypeInfo(TgxCameraStyle)]);
+    TypeInfo(TGSColor), TypeInfo(TgxNormalDirection), TypeInfo(TgxCameraStyle)]);
   RegisterPropertiesInCategory(sVisualCategoryName, TgxBaseSceneObject,
     ['Rotation', 'Direction', 'Position', 'Up', 'Scale', '*Angle', 'ShowAxes', 'FocalLength']);
   RegisterPropertiesInCategory(sVisualCategoryName, TgxSceneObject, ['Parts']);
@@ -1466,7 +1464,7 @@ procedure Register;
 begin
   RegisterComponents('GXScene', [TgxScene, TgxSceneViewer, TgxMemoryViewer,
     TgxMaterialLibrary, TgxMaterialLibraryEx, TgxCadencer, TgxGuiLayout,
-    TgxBitmapFont, TgxWindowsBitmapFont, TgxScriptLibrary, TgxSoundLibrary,
+    TgxBitmapFont, TgxWindowsBitmapFont, TGSScriptLibrary, TgxSoundLibrary,
     TgxFullScreenViewer]);
 
   RegisterComponents('GXScene PFX', [TgxCustomPFXManager, TgxPolygonPFXManager,
@@ -1479,8 +1477,8 @@ begin
     TgxFPSMovementManager, TgxMaterialScripter, TgxUserInterface, TgxNavigator,
     TgxSmoothNavigator, TgxSmoothUserInterface, TgxTimeEventsMGR,
     TgxApplicationFileIO, TgxVfsPAK, TgxSimpleNavigation, TgxGizmo,
-    TgxCameraController, TgxSLanguage, TgxSLogger, TgxSArchiveManager,
-    TgxJoystick, TgxScreenSaver, TgxSSynHiMemo]);
+    TgxCameraController, TgxSLanguage, TgxSLogger, TgxArchiveManager,
+    TGSJoystick, TgxScreenSaver, TgxSSynHiMemo]);
 
   RegisterComponents('GXScene Terrain', [TgxBitmapHDS, TgxCustomHDS,
     TgxHeightTileFileHDS, TgxBumpmapHDS, TgxPerlinHDS, TgxTexturedHDS,
@@ -1496,7 +1494,7 @@ begin
   RegisterComponentEditor(TgxScene, TgxSceneEditor);
   RegisterComponentEditor(TgxMaterialLibrary, TgxMaterialLibraryEditor);
   RegisterComponentEditor(TgxMaterialLibraryEx, TgxMaterialLibraryEditor);
-  RegisterComponentEditor(TgxSArchiveManager, TgxSArchiveManagerEditor);
+  RegisterComponentEditor(TgxArchiveManager, TgxArchiveManagerEditor);
 
   RegisterPropertiesInCategories;
 
@@ -1513,10 +1511,10 @@ begin
   RegisterPropertyEditor(TypeInfo(string), TgxBaseSoundSource, 'SoundName',
     TgxSoundNameProperty);
 
-  RegisterPropertyEditor(TypeInfo(TgxCoordinates), nil, '',
-    TgxCoordinatesProperty);
+  RegisterPropertyEditor(TypeInfo(TGSCoordinates), nil, '',
+    TGSCoordinatesProperty);
 
-  RegisterPropertyEditor(TypeInfo(TgxColor), nil, '', TgxColorProperty);
+  RegisterPropertyEditor(TypeInfo(TGSColor), nil, '', TGSColorProperty);
   RegisterPropertyEditor(TypeInfo(TgxMaterial), nil, '', TgxMaterialProperty);
   RegisterComponentEditor(TgxGuiLayout, TgxGUILayoutEditor);
 
@@ -1610,8 +1608,8 @@ SplashScreenServices.AddPluginBitmap(GetGLXceneVersion,
 
 GXS.CrossPlatform.IsDesignTime := True;
 GXS.CrossPlatform.vProjectTargetName := GetProjectTargetName;
-GXS.Color.vUseDefaultColorSets := True;
-GXS.Coordinates.vUseDefaultCoordinateSets := True;
+Stage.Color.vUseDefaultColorSets := True;
+Stage.Coordinates.vUseDefaultCoordinateSets := True;
 ReadVideoModes;
 
 with ObjectManager do
@@ -1722,7 +1720,7 @@ begin
 
   // Proxy objects.
   RegisterSceneObject(TgxProxyObject, 'ProxyObject', strOCProxyObjects, HInstance);
-  RegisterSceneObject(TgxColorProxy, 'ColorProxy', strOCProxyObjects, HInstance);
+  RegisterSceneObject(TGSColorProxy, 'ColorProxy', strOCProxyObjects, HInstance);
   RegisterSceneObject(TgxFreeFormProxy, 'FreeFormProxy', strOCProxyObjects, HInstance);
   RegisterSceneObject(TgxMaterialProxy, 'MaterialProxy', strOCProxyObjects, HInstance);
   RegisterSceneObject(TgxActorProxy, 'ActorProxy', strOCProxyObjects, HInstance);

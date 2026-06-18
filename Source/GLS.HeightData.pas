@@ -4,6 +4,7 @@
 unit GLS.HeightData;
 (*
   Classes for height data access.
+  RegisterClasses([TGLBitmapHDS, TGLCustomHDS, TGLHeightDataSourceFilter]);
 
   The components and classes in the unit are the core data providers for
   height-based objects (terrain rendering mainly), they are independant
@@ -26,11 +27,12 @@ uses
   System.Types,
   Vcl.Graphics,
 
-  Stage.VectorGeometry,
   GLS.ApplicationFileIO,
+  Stage.VectorGeometry,
+  Stage.BaseClasses,
   Stage.Utils,
-  GLS.Material,
-  GLS.BaseClasses;
+
+  GLS.Material;
 
 type
   TByteArray = array [0 .. MaxInt div (2 * SizeOf(Byte))] of Byte;
@@ -192,7 +194,7 @@ type
     Though this class can be instantiated, you will usually prefer to subclass
     it in real-world cases, f.i. to add texturing data. *)
 	/// TGLHeightData = class (TObject)
-  TGLHeightData = class(TGLUpdateAbleObject)
+  TGLHeightData = class(TGSUpdateAbleObject)
   private
     FUsers: array of TGLHeightDataUser;
     FOwner: TGLHeightDataSource;

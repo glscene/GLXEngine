@@ -24,21 +24,21 @@ uses
   GLS.Texture,
   GLS.Cadencer,
   GLS.FPSMovement,
-  GLS.XCollection,
+  Stage.XCollection,
   GLS.State,
   GLS.SceneViewer,
   GLS.Objects,
   GLS.Collision,
   GLS.VectorFileObjects,
   GLS.Navigator,
-  GLS.VectorLists,
+  Stage.VectorLists,
   GLS.Octree,
   GLS.File3DS,
   GLS.GeomObjects,
   GLS.Material,
-  GLS.Coordinates,
+  Stage.Coordinates,
   GLS.SimpleNavigation,
-  GLS.BaseClasses;
+  Stage.BaseClasses;
 
 type
   TFormFPSMovement = class(TForm)
@@ -79,8 +79,8 @@ implementation
 var
   yangle: double = 90;
   xangle: double = 0;
-  //Velocity:TGLVector=(0,0,0,0);
-  //Gravity:TGLVector=(0,-9.81*20,0,0);
+  //Velocity:TGSVector=(0,0,0,0);
+  //Gravity:TGSVector=(0,-9.81*20,0,0);
   Wireframe: Boolean;
   //DisplayTime:Integer=2000;
 

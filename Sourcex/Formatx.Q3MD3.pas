@@ -15,12 +15,12 @@ uses
 
   Stage.VectorTypes,
   Stage.VectorGeometry,
-  GXS.VectorLists,
+  Stage.VectorLists,
   GXS.ApplicationFileIO,
 
   GXS.VectorFileObjects,
   GXS.Material,
-  Formatx.MD3;
+  Formats.MD3;
 
 type
   (* This class is used to extract the tag transform information

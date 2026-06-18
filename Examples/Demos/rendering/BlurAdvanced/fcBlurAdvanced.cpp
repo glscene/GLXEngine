@@ -6,10 +6,10 @@
 #include "fcBlurAdvanced.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
-#pragma link "GLS.BaseClasses"
+#pragma link "Stage.BaseClasses"
 #pragma link "GLS.Blur"
 #pragma link "GLS.Cadencer"
-#pragma link "GLS.Coordinates"
+#pragma link "Stage.Coordinates"
 
 #pragma link "GLS.GeomObjects"
 #pragma link "GLS.HUDObjects"

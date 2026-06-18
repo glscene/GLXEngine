@@ -28,7 +28,7 @@ package GLScene_Physics_RT;
 {$IMAGEBASE $400000}
 {$DEFINE DEBUG}
 {$ENDIF IMPLICITBUILDING}
-{$DESCRIPTION 'GLScene Physics Managers'}
+{$DESCRIPTION 'GLScene RT Physics Managers'}
 {$RUNONLY}
 {$IMPLICITBUILD ON}
 
@@ -44,11 +44,11 @@ contains
   GLS.ODERagdoll in '..\Source\GLS.ODERagdoll.pas',
   GLS.ODESkeletonColliders in '..\Source\GLS.ODESkeletonColliders.pas',
   GLS.ODEUtils in '..\Source\GLS.ODEUtils.pas',
-  GLS.PhysFields in '..\Source\GLS.PhysFields.pas',
-  GLS.PhysForces in '..\Source\GLS.PhysForces.pas',
-  GLS.PhysInertias in '..\Source\GLS.PhysInertias.pas',
-  GLS.PhysJoints in '..\Source\GLS.PhysJoints.pas',
-  GLS.PhysManager in '..\Source\GLS.PhysManager.pas',
+  GLS.Phys.Gravity in '..\Source\GLS.Phys.Gravity.pas',
+  GLS.Phys.Forces in '..\Source\GLS.Phys.Forces.pas',
+  GLS.Phys.Inertias in '..\Source\GLS.Phys.Inertias.pas',
+  GLS.Phys.Joints in '..\Source\GLS.Phys.Joints.pas',
+  GLS.Phys.Manager in '..\Source\GLS.Phys.Manager.pas',
   ModuleLoader in '..\Src\ModuleLoader.pas',
   Newton.Import in '..\Src\Newton.Import.pas',
   NGD.Import in '..\Src\NGD.Import.pas',

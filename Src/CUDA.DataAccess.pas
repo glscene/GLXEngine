@@ -1,10 +1,10 @@
-//
-// GXStage Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit CUDA.DataAccess;
-
-(* CUDA data access implementation *)
-
+(*
+  CUDA data access implementation
+*)
 interface
 
 uses
@@ -53,7 +53,7 @@ procedure SetElementAccessAddress(AValue: PByte; ASize: Cardinal);
 function GetElementAccessAddress: PByte;
 function GetElementAccessSize: Cardinal;
 
-implementation // -----------------------------------------------------------
+implementation //============================================================
 
 threadvar
   vElementAccessAddress: PByte;
@@ -80,7 +80,7 @@ class procedure GCUDAHostElementAccess<TScalar>.CheckElementSize
 begin
   if GetElementAccessSize <> ACNum * SizeOf(TScalar) then
   begin
-    /// GLSLogger.LogError(strSizeMismatch);
+    /// GSLogger.LogError(strSizeMismatch);
     Abort;
   end;
 end;

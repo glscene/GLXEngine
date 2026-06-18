@@ -19,9 +19,9 @@ uses
   GLS.SceneViewer,
   GLS.BitmapFont,
   GLS.WindowsFont,
-  GLS.Coordinates,
+  Stage.Coordinates,
 
-  GLS.BaseClasses,
+  Stage.BaseClasses,
   GLS.Canvas,
   GLS.Texture,
   GLS.RenderContextInfo,

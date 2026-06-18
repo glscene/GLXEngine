@@ -1,3 +1,6 @@
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit fdProcClouds;
 
 interface
@@ -24,10 +27,10 @@ uses
   GLS.Cadencer,
   GLS.SceneViewer,
   GLS.ProcTextures,
-  Stage.TextureFormat,
-  GLS.Coordinates,
-  GLS.BaseClasses,
 
+  Stage.TextureFormat,
+  Stage.Coordinates,
+  Stage.BaseClasses,
   Stage.Utils
   ;
 

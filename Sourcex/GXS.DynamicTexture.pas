@@ -1,13 +1,11 @@
-//                                           *
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.DynamicTexture;
-
 (*
   Adds a dynamic texture image, which allows for easy updating of
   texture data.
 *)
-
 interface
 
 {$I Stage.Defines.inc}
@@ -75,15 +73,12 @@ type
     property UsePBO: boolean read FUsePBO write SetUsePBO;
   end;
 
-// -------------------------------------------
-implementation
-// -------------------------------------------
+implementation //============================================================
 
 
 // -------------------------------------------
 // TgxDynamicTextureImage
 // -------------------------------------------
-
 procedure TgxDynamicTextureImage.BeginUpdate;
 var
   LTarget: TglTextureTarget;
@@ -308,7 +303,7 @@ begin
   end;
 end;
 
-initialization
+initialization //============================================================
 
 RegisterTextureImageClass(TgxDynamicTextureImage);
 

@@ -18,17 +18,17 @@ uses
 
   GLS.Scene,
   GLS.VectorFileObjects,
-  GLS.PersistentClasses,
+  Stage.PersistentClasses,
   GLS.Objects,
   GLS.Texture,
   GLS.SceneViewer,
-  GLS.MeshUtils,
-  GLS.VectorLists,
+  Stage.MeshUtils,
+  Stage.VectorLists,
   GLS.Cadencer,
   GLS.Material,
-  GLS.Coordinates,
+  Stage.Coordinates,
   GLS.State,
-  GLS.BaseClasses,
+  Stage.BaseClasses,
   GLS.File3DS,
   GLS.FileMD2,
   GLS.FileSMD;
@@ -103,9 +103,9 @@ end;
 procedure TFormSubdivide.BUSubdivideClick(Sender: TObject);
 var
   i, j: Integer;
-  tris, norms, tex, buf, morphTris, morphNorms: TGLAffineVectorList;
-  indices, texIndices: TGLIntegerList;
-  firstRemap, subdivideRemap, bufRemap: TGLIntegerList;
+  tris, norms, tex, buf, morphTris, morphNorms: TGSAffineVectorList;
+  indices, texIndices: TGSIntegerList;
+  firstRemap, subdivideRemap, bufRemap: TGSIntegerList;
   t: Int64;
 begin
   BUSubdivide.Enabled := False;
@@ -115,11 +115,11 @@ begin
 
   for i := 0 to GLActor1.MeshObjects.Count - 1 do
   begin
-    tex := TGLAffineVectorList.Create;
+    tex := TGSAffineVectorList.Create;
     with GLActor1.MeshObjects[i] do
       tris := ExtractTriangles(tex);
     indices := BuildVectorCountOptimizedIndices(tris);
-    firstRemap := TGLIntegerList(indices.CreateClone);
+    firstRemap := TGSIntegerList(indices.CreateClone);
     RemapAndCleanupReferences(tris, indices);
 
     norms := BuildNormals(tris, indices);
@@ -134,7 +134,7 @@ begin
     SubdivideTriangles(0, tex, texIndices);
 
     // Re-expand everything
-    buf := TGLAffineVectorList.Create;
+    buf := TGSAffineVectorList.Create;
     try
       ConvertIndexedListToList(tris, indices, buf);
       tris.Assign(buf);
@@ -151,7 +151,7 @@ begin
     // Pack & Optimize the expanded stuff
     indices.Free;
     indices := BuildVectorCountOptimizedIndices(tris, norms, tex);
-    subdivideRemap := TGLIntegerList(indices.CreateClone);
+    subdivideRemap := TGSIntegerList(indices.CreateClone);
     RemapReferences(norms, indices);
     RemapReferences(tex, indices);
     RemapAndCleanupReferences(tris, indices);
@@ -161,7 +161,7 @@ begin
     with GLActor1.MeshObjects[i] as TGLMorphableMeshObject do
     begin
 
-      bufRemap := TGLIntegerList.Create;
+      bufRemap := TGSIntegerList.Create;
       for j := 0 to MorphTargets.Count - 1 do
       begin
         MorphTo(j);
@@ -170,11 +170,11 @@ begin
         bufRemap.Assign(firstRemap);
         RemapAndCleanupReferences(morphTris, bufRemap);
 
-        morphNorms := GLS.MeshUtils.BuildNormals(morphTris, bufRemap);
+        morphNorms := Stage.MeshUtils.BuildNormals(morphTris, bufRemap);
 
         SubdivideTriangles(TrackBar1.Position * 0.1, morphTris, bufRemap, morphNorms);
 
-        buf := TGLAffineVectorList.Create;
+        buf := TGSAffineVectorList.Create;
         try
           ConvertIndexedListToList(morphTris, bufRemap, buf);
           morphTris.Assign(buf);

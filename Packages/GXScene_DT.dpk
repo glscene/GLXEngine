@@ -25,15 +25,14 @@ package GXScene_DT;
 {$IMAGEBASE $400000}
 {$DEFINE DEBUG}
 {$ENDIF IMPLICITBUILDING}
-{$DESCRIPTION 'Composants 3D pour FMX'}
+{$DESCRIPTION 'GLXEngine'}
 {$DESIGNONLY}
 {$IMPLICITBUILD ON}
 
 requires
   rtl,
   fmx,
-  GXScene_RT,
-  GXScene_GBE_DTRT;
+  GXScene_RT;
 
 contains
   GXS.SailSurface in '..\Sourcex\GXS.SailSurface.pas',

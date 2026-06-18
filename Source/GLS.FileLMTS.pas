@@ -1,10 +1,10 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.FileLMTS;
-
-(* File loader for MTS *)
-
+(*
+  File loader for MTS
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -15,12 +15,13 @@ uses
   Vcl.Graphics,
 
   Stage.VectorTypes,
+  Stage.VectorGeometry,
+  Stage.PersistentClasses,
+
   GLS.VectorFileObjects,
   GLS.ApplicationFileIO,
-  GLS.VectorLists,
-  Stage.VectorGeometry,
+  Stage.VectorLists,
   GLS.Texture,
-  GLS.PersistentClasses,
   GLS.Graphics,
   GLS.Material;
 
@@ -84,7 +85,7 @@ type
   TMaterialInfo = record
     FShininess, BShininess: TGLShininess;
     FAmbient, FDiffuse, FEmission, FSpecular, BAmbient, BDiffuse, BEmission,
-      BSpecular: TGLVector;
+      BSpecular: TGSVector;
     ImageAlpha: TGLTextureImageAlpha;
     magFilter: TGLMagFilter;
     minFilter: TGLMinFilter;
@@ -97,7 +98,7 @@ type
 
   TGLLMTSVectorFile = class(TGLVectorFile)
   public
-    class function Capabilities: TGLDataFileCapabilities; override;
+    class function Capabilities: TGSDataFileCapabilities; override;
     procedure LoadFromStream(aStream: TStream); override;
     procedure SaveToStream(aStream: TStream); override;
   end;
@@ -113,7 +114,7 @@ uses
 // ------------------ TGLLMTSVectorFile ------------------
 // ------------------
 
-class function TGLLMTSVectorFile.Capabilities: TGLDataFileCapabilities;
+class function TGLLMTSVectorFile.Capabilities: TGSDataFileCapabilities;
 begin
   Result := [dfcRead, dfcWrite];
 end;
@@ -131,7 +132,7 @@ var
   _4cc: Cardinal;
   C: Integer;
   fName: string;
-  vi: TGLIntegerList;
+  vi: TGSIntegerList;
   libmat: TGLLibmaterial;
   lmnames, matnames: TStringlist;
   MatInfoHeader: array [0 .. 3] of AnsiChar;
@@ -144,7 +145,7 @@ begin
   MO := TGLMeshObject.CreateOwned(owner.MeshObjects);
   MO.Mode := momFaceGroups;
 
-  vi := TGLIntegerList.create;
+  vi := TGSIntegerList.create;
 
   LL := owner.LightmapLibrary;
   ML := owner.MaterialLibrary;

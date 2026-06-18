@@ -24,8 +24,8 @@ uses
   GLS.ShadowVolume,
 
   GLS.Material,
-  GLS.Coordinates,
-  GLS.BaseClasses;
+  Stage.Coordinates,
+  Stage.BaseClasses;
 
 type
   TFormPong = class(TForm)
@@ -102,7 +102,7 @@ end;
 
 procedure TFormPong.GLCadencer1Progress(Sender: TObject; const deltaTime, newTime: Double);
 var
-  newBallPos: TGLVector;
+  newBallPos: TGSVector;
 begin
   // gameOver is True as soon as the ball is behind the pad, but we don't end
   // the game immediately so the user can realize he has lost

@@ -10,10 +10,6 @@
 {*                                                                            *}
 {*  Modified: 14-Mar-2004                                                     *}
 {*                                                                            *}
-{*  Latest version can be downloaded from:                                    *}
-{*     http://clootie.narod.ru                                                *}
-{*       http://developer.nvidia.com/object/cg_download.html                  *}
-{*                                                                            *}
 {******************************************************************************}
 {                                                                              }
 { Obtained through: Joint Endeavour of Delphi Innovators (Project JEDI)        }

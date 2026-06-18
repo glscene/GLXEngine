@@ -28,17 +28,17 @@ uses
   GLS.Objects,
   GLS.Cadencer,
   GLS.SceneViewer,
-  GLS.XCollection,
+  Stage.XCollection,
   GLS.VectorFileObjects,
   GLS.RenderContextInfo,
   GLS.FileDDS,
   GLS.Context,
   GLS.AsyncTimer,
-  GLS.Coordinates,
-  GLS.BaseClasses,
+  Stage.Coordinates,
+  Stage.BaseClasses,
   GLS.Material,
   GLS.CompositeImage,
-  GLS.VectorLists,
+  Stage.VectorLists,
   GLS.SimpleNavigation;
 
 type
@@ -76,7 +76,7 @@ implementation //=============================================================
 {$R *.dfm}
 
 //----------------------------------------------------------------------------
-function GetNewPos: TGLVector;
+function GetNewPos: TGSVector;
 begin
   SetVector(Result, Random * 20 - 10, 0, Random * 20 - 10);
 end;
@@ -87,7 +87,7 @@ var
   i: integer;
   MObj: TGLMeshObject;
   FG: TFGVertexIndexList;
-  v: TGLVector;
+  v: TGSVector;
   c, a: single;
 
 begin

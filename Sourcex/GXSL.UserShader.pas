@@ -1,6 +1,7 @@
-//
-// Graphic Scene Engine, http://glscene.org
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
+unit GXSL.UserShader;
 (*
    A shader that passes control of the DoApply and DoUnApply
    methods through published events. This component is
@@ -8,20 +9,18 @@
    customized shader. Be sure to keep the shader balanced
    by returning the OpenGL state to how you found it.
 *)
-unit GXSL.UserShader;
-
 interface
 
 uses
-  System.Classes, 
-  
+  System.Classes,
+
   GXS.Material,
   GXS.RenderContextInfo;
 
 type
   TOnDoApplyEvent = procedure (Sender : TObject; var rci : TgxRenderContextInfo) of Object;
   TOnDoUnApplyEvent = procedure (Sender : TObject; Pass:Integer; var rci : TgxRenderContextInfo; var Continue : Boolean) of Object;
-  
+
   TgxUserShader = class(TgxShader)
     private
       FPass : Integer;
@@ -36,16 +35,11 @@ type
       property ShaderStyle;
   end;
 
-// ------------------------------------------------------------------
-// ------------------------------------------------------------------
-// ------------------------------------------------------------------
-implementation
+implementation //============================================================
+
 // ------------------
 // ------------------ TgxUserShader ------------------
 // ------------------
-
-// DoApply
-//
 procedure TgxUserShader.DoApply(var rci: TgxRenderContextInfo; Sender : TObject);
 begin
   FPass:=1;
@@ -53,8 +47,9 @@ begin
     FOnDoApply(Self,rci);
 end;
 
+//--------------------------------------------------------------------------
 // DoUnApply
-//
+//--------------------------------------------------------------------------
 function TgxUserShader.DoUnApply(var rci: TgxRenderContextInfo): Boolean;
 begin
   Result:=False;

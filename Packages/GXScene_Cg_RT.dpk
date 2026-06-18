@@ -26,6 +26,7 @@ package GXScene_Cg_RT;
 {$DEFINE DEBUG}
 {$DEFINE DEBUG}
 {$ENDIF IMPLICITBUILDING}
+{$DESCRIPTION 'GXScene DT Cg Shaders'}
 {$RUNONLY}
 {$IMPLICITBUILD ON}
 
@@ -34,9 +35,9 @@ requires
   GXScene_RT;
 
 contains
-  GXS.CgShader in '..\Sourcex\GXS.CgShader.pas',
-  GXS.CgBombShader in '..\Sourcex\GXS.CgBombShader.pas',
-  GXS.CgPostTransformationShader in '..\Sourcex\GXS.CgPostTransformationShader.pas',
+  GXS.Cg.Shader in '..\Sourcex\GXS.Cg.Shader.pas',
+  GXS.Cg.BombShader in '..\Sourcex\GXS.Cg.BombShader.pas',
+  GXS.Cg.PostTransformationShader in '..\Sourcex\GXS.Cg.PostTransformationShader.pas',
   Cg.GL in '..\Src\Cg.GL.pas',
   Cg.Import in '..\Src\Cg.Import.pas';
 

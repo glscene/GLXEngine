@@ -1,13 +1,11 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.Gizmo;
-
 (*
   Invisible component for helping to Move, Rotate and Scale an Object
   (usefull for an Editor).
 *)
-
 interface
 
 {$I Stage.Defines.inc}
@@ -17,12 +15,14 @@ uses
   System.SysUtils,
   FMX.TextLayout,
 
-  GXS.PersistentClasses,
+  Stage.PersistentClasses,
   Stage.VectorGeometry,
   Stage.VectorTypes,
   Stage.Strings,
+  Stage.Coordinates,
+  Stage.Color,
+
   GXS.Scene,
-  GXS.Color,
   GXS.Objects,
   GXS.Material,
   GXS.GeomObjects,
@@ -30,7 +30,6 @@ uses
   GXS.SceneViewer,
   GXS.VectorFileObjects,
   GXS.ImageUtils,
-  GXS.Coordinates,
   GXS.RenderContextInfo,
   GXS.State,
   GXS.Selection;
@@ -42,12 +41,12 @@ type
   TgxGizmoUndoItem = class(TCollectionItem)
   private
     FOldLibMaterialName: string;
-    FOldAutoScaling: TgxCoordinates;
+    FOldAutoScaling: TGSCoordinates;
     FEffectedObject: TgxCustomSceneObject;
     FOldMatr: TMatrix4f;
     FOldMatrix: TMatrix4f;
     procedure SetEffectedObject(const Value: TgxCustomSceneObject);
-    procedure SetOldAutoScaling(const Value: TgxCoordinates);
+    procedure SetOldAutoScaling(const Value: TGSCoordinates);
     procedure SetOldMatrix(const Value: TMatrix4f);
   protected
     procedure DoUndo; virtual;
@@ -64,7 +63,7 @@ type
   published
     property EffectedObject: TgxCustomSceneObject read FEffectedObject
       write SetEffectedObject;
-    property OldAutoScaling: TgxCoordinates read FOldAutoScaling
+    property OldAutoScaling: TGSCoordinates read FOldAutoScaling
       write SetOldAutoScaling;
     property OldLibMaterialName: string read FOldLibMaterialName
       write FOldLibMaterialName;
@@ -137,9 +136,9 @@ type
     // FLastOperation,
     FOperation: TgxGizmoOperation;
     FSelAxis: TgxGizmoAxis;
-    FBoundingBoxColor: TgxColor;
-    FSelectedColor: TgxColor;
-    FVisibleInfoLabelsColor: TgxColor;
+    FBoundingBoxColor: TGSColor;
+    FSelectedColor: TGSColor;
+    FVisibleInfoLabelsColor: TGSColor;
     FBoundingBoxColorChanged: Boolean;
     FVisibleInfoLabelsColorChanged: Boolean;
     FForceOperation: Boolean;
@@ -177,9 +176,9 @@ type
     procedure SetGizmoElements(const AValue: TgxGizmoElements);
     procedure SetGizmoVisibleInfoLabels(const AValue
       : TgxGizmoVisibleInfoLabels);
-    procedure SetBoundingBoxColor(const AValue: TgxColor);
-    procedure SetSelectedColor(const AValue: TgxColor);
-    procedure SetVisibleInfoLabelsColor(const AValue: TgxColor);
+    procedure SetBoundingBoxColor(const AValue: TGSColor);
+    procedure SetSelectedColor(const AValue: TGSColor);
+    procedure SetVisibleInfoLabelsColor(const AValue: TGSColor);
     procedure SetExcludeObjectsList(const AValue: TStrings);
     procedure DirectGLDisable(Sender: TObject; var Rci: TgxRenderContextInfo);
     procedure DirectGLEnable(Sender: TObject; var Rci: TgxRenderContextInfo);
@@ -215,9 +214,9 @@ type
     property Viewer: TgxSceneViewer read FViewer write SetViewer;
     property GizmoElements: TgxGizmoElements read FGizmoElements
       write SetGizmoElements;
-    property BoundingBoxColor: TgxColor read FBoundingBoxColor
+    property BoundingBoxColor: TGSColor read FBoundingBoxColor
       write SetBoundingBoxColor;
-    property SelectedColor: TgxColor read FSelectedColor write SetSelectedColor;
+    property SelectedColor: TGSColor read FSelectedColor write SetSelectedColor;
     property SelAxis: TgxGizmoAxis read FSelAxis write FSelAxis;
     property ForceAxis: Boolean read FForceAxis write FForceAxis;
     property SelectedObj: TgxBaseSceneObject read FSelectedObj
@@ -231,7 +230,7 @@ type
       write SetExcludeObjectsList;
     property VisibleInfoLabels: TgxGizmoVisibleInfoLabels
       read FVisibleVisibleInfoLabels write SetGizmoVisibleInfoLabels;
-    property VisibleInfoLabelsColor: TgxColor read FVisibleInfoLabelsColor
+    property VisibleInfoLabelsColor: TGSColor read FVisibleInfoLabelsColor
       write SetVisibleInfoLabelsColor;
     property AutoZoom: Boolean read FAutoZoom write FAutoZoom;
     property AutoZoomFactor: Single read FAutoZoomFactor write FAutoZoomFactor;
@@ -268,9 +267,7 @@ type
       default PmGetPickedObjects;
   end;
 
-//=========================================================
-implementation
-//=========================================================
+implementation //============================================================
 
 procedure RotateAroundArbitraryAxis(const AnObject: TgxBaseSceneObject;
   const Axis, Origin: TAffineVector; const Angle: Single);
@@ -290,8 +287,7 @@ begin
   AnObject.Turn(0);
 end;
 
-// ------------------------------------------------------------------------------
-
+//---------------------------------------------------------------------------
 procedure TgxGizmo.ClearInternalRaycastHitData;
 var
   T: Integer;
@@ -317,12 +313,12 @@ begin
   FGizmoThickness := 1;
 
   FInternalRaycastHitData := TList.Create;
-  FBoundingBoxColor := TgxColor.Create(Self);
+  FBoundingBoxColor := TGSColor.Create(Self);
   FBoundingBoxColor.Color := ClrWhite;
   FBoundingBoxColorChanged := False;
-  FSelectedColor := TgxColor.Create(Self);
+  FSelectedColor := TGSColor.Create(Self);
   FSelectedColor.Color := ClrYellow;
-  FVisibleInfoLabelsColor := TgxColor.Create(Self);
+  FVisibleInfoLabelsColor := TGSColor.Create(Self);
   FVisibleInfoLabelsColor.Color := ClrYellow;
   FVisibleInfoLabelsColorChanged := False;
 
@@ -725,7 +721,7 @@ begin
   end;
 end;
 
-procedure TgxGizmo.SetBoundingBoxColor(const AValue: TgxColor);
+procedure TgxGizmo.SetBoundingBoxColor(const AValue: TGSColor);
 begin
   // Bug Here New Color is not Updated
   if AValue <> FBoundingBoxColor then
@@ -750,7 +746,7 @@ begin
   end;
 end;
 
-procedure TgxGizmo.SetSelectedColor(const AValue: TgxColor);
+procedure TgxGizmo.SetSelectedColor(const AValue: TGSColor);
 begin
   if AValue <> FSelectedColor then
   begin
@@ -758,7 +754,7 @@ begin
   end;
 end;
 
-procedure TgxGizmo.SetVisibleInfoLabelsColor(const AValue: TgxColor);
+procedure TgxGizmo.SetVisibleInfoLabelsColor(const AValue: TGSColor);
 begin
   // Bug Here New Color is not Updated
   if AValue <> FSelectedColor then
@@ -1699,7 +1695,7 @@ end;
 constructor TgxGizmoUndoItem.Create(AOwner: TCollection);
 begin
   inherited;
-  FOldAutoScaling := TgxCoordinates.CreateInitialized(Self,
+  FOldAutoScaling := TGSCoordinates.CreateInitialized(Self,
     NullHmgVector, CsPoint);
 end;
 
@@ -1750,7 +1746,7 @@ begin
     FEffectedObject.FreeNotification(GetGizmo);
 end;
 
-procedure TgxGizmoUndoItem.SetOldAutoScaling(const Value: TgxCoordinates);
+procedure TgxGizmoUndoItem.SetOldAutoScaling(const Value: TGSCoordinates);
 begin
   FOldAutoScaling.Assign(Value);
 end;
@@ -1824,4 +1820,5 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 end.

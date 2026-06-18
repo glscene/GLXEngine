@@ -1,14 +1,12 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.Portal;
-
 (*
   Portal Rendering support.
   The portal structures are subclasses of the Mesh structures, with a "sector"
   being assimilated to a "MeshObject" and sector polygons to facegroups.
 *)
-
 interface
 
 {$I Stage.Defines.inc}
@@ -82,9 +80,7 @@ type
     property MaterialLibrary;
   end;
 
-// ------------------------------------------------------------------
-implementation
-// ------------------------------------------------------------------
+implementation //============================================================
 
 // ------------------
 // ------------------ TgxPortalMeshObjectList ------------------

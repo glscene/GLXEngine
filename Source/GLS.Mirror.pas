@@ -4,6 +4,8 @@
 unit GLS.Mirror;
 (*
    Implements a basic, stencil-based mirror (as in Mark Kilgard's demo).
+   RegisterClasses([TGLMirror]);
+
    It is strongly recommended to read and understand the explanations in the
    materials/mirror demo before using this component.
 *)
@@ -16,23 +18,22 @@ uses
   System.Classes,
   
   Stage.OpenGLTokens,
-  GLS.OpenGLAdapter,
-  GLS.Scene,
+  Stage.VectorTypes,
+  Stage.PersistentClasses,
+  Stage.PipelineTransform,
   Stage.VectorGeometry,
+  Stage.OpenGLAdapter,
+  Stage.Color,
+  Stage.XCollection,
+
+  GLS.Scene,
   GLS.Context,
   GLS.Material,
-  GLS.Color,
   GLS.RenderContextInfo,
   GLS.State,
-  Stage.VectorTypes,
-  GLS.PersistentClasses,
-  Stage.PipelineTransform,
-  GLS.XCollection,
   GLS.Texture;
 
-
 type
-
   TGLMirrorOption = (moUseStencil, moOpaque, moMirrorPlaneClip, moClearZBuffer);
   TGLMirrorOptions = set of TGLMirrorOption;
 
@@ -79,7 +80,7 @@ type
       ARenderSelf, ARenderChildren: Boolean); override;
     procedure BuildList(var ARci: TGLRenderContextInfo); override;
     procedure Assign(Source: TPersistent); override;
-    function AxisAlignedDimensionsUnscaled: TGLVector; override;
+    function AxisAlignedDimensionsUnscaled: TGSVector; override;
   published
     // Selects the object to mirror. If nil, the whole scene is mirrored 
     property MirrorObject: TGLBaseSceneObject read FMirrorObject write
@@ -111,14 +112,11 @@ type
     //ORL
   end;
 
-//-------------------------------------------------------------
-implementation
-//-------------------------------------------------------------
+implementation //============================================================
 
 // ------------------
 // ------------------ TGLMirror ------------------
 // ------------------
-
 constructor TGLMirror.Create(AOwner: Tcomponent);
 begin
   inherited Create(AOwner);
@@ -139,10 +137,10 @@ procedure TGLMirror.DoRender(var ARci: TGLRenderContextInfo;
   ARenderSelf, ARenderChildren: Boolean);
 var
   oldProxySubObject: Boolean;
-  refMat, curMat, ModelMat: TGLMatrix;
+  refMat, curMat, ModelMat: TGSMatrix;
   clipPlane: TDoubleHmgPlane;
-  bgColor: TGLColorVector;
-  cameraPosBackup, cameraDirectionBackup: TGLVector;
+  bgColor: TGSColorVector;
+  cameraPosBackup, cameraDirectionBackup: TGSVector;
   CurrentBuffer: TGLSceneBuffer;
 begin
   if FRendering then
@@ -307,7 +305,7 @@ end;
 
 procedure TGLMirror.ClearZBufferArea(aBuffer: TGLSceneBuffer);
 var
-  worldMat: TGLMatrix;
+  worldMat: TGSMatrix;
   p: TAffineVector;
 begin
   with aBuffer do
@@ -411,7 +409,7 @@ begin
 end;
 
 
-function TGLMirror.AxisAlignedDimensionsUnscaled: TGLVector;
+function TGLMirror.AxisAlignedDimensionsUnscaled: TGSVector;
 begin
   Result := VectorMake(0.5 * Abs(FWidth),
     0.5 * Abs(FHeight), 0);
@@ -475,9 +473,7 @@ begin
   end;
 end;
 
-//-------------------------------------------------------------
-initialization
-//-------------------------------------------------------------
+initialization //============================================================
 
   RegisterClasses([TGLMirror]);
 

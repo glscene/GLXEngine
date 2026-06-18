@@ -1,6 +1,6 @@
-//
-// GXStage Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit CUDA.Parser;
 (*
    Helper unit for parsing CU modules and get information about.
@@ -125,7 +125,7 @@ type
     procedure ParseModule(ASource, AProduct: TStrings);
   end;
 
-implementation //--------------------------------------------------------------
+implementation //============================================================
 
 const
   WordDelimiters: set of AnsiChar = [#0..#255] - ['a'..'z','A'..'Z','1'..'9','0','_'];

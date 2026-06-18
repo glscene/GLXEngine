@@ -3,8 +3,10 @@
 ******************************************************************************)
 unit GLS.MultiSampleImage;
 (*
-    This unit provides support for two new types of "multisample
-    textures" - two-dimensional and two-dimensional array - as well as
+    This unit provides support for "multisample textures"
+    RegisterGLTextureImageClass(TGLMultisampleImage);
+
+    It implements two-dimensional and two-dimensional array - as well as
     mechanisms to fetch a specific sample from such a texture in a shader,
     and to attach such textures to FBOs for rendering.
 *)
@@ -20,6 +22,7 @@ uses
   Stage.OpenGLTokens,
   Stage.VectorTypes,
   Stage.TextureFormat,
+
   GLS.Context,
   GLS.Texture,
   GLS.Graphics;
@@ -292,9 +295,7 @@ begin
   end;
 end;
 
-//--------------------------------------------
-initialization
-//--------------------------------------------
+initialization //============================================================
 
   RegisterGLTextureImageClass(TGLMultisampleImage);
 

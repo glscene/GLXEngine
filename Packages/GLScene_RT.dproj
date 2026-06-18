@@ -4,7 +4,7 @@
         <MainSource>GLScene_RT.dpk</MainSource>
         <Base>True</Base>
         <Config Condition="'$(Config)'==''">Debug</Config>
-        <TargetedPlatforms>3</TargetedPlatforms>
+        <TargetedPlatforms>1</TargetedPlatforms>
         <AppType>Package</AppType>
         <FrameworkType>VCL</FrameworkType>
         <ProjectVersion>20.4</ProjectVersion>
@@ -104,6 +104,7 @@
         <DCC_UsePackage>vclimg;vcl;rtl;VclSmp;$(DCC_UsePackage)</DCC_UsePackage>
         <DCC_UnitSearchPath>..\Src;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
         <DCC_DcuOutput>.\$(Platform)\$(Config)</DCC_DcuOutput>
+        <DCC_Description>GLScene RT Components</DCC_Description>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win64)'!=''">
         <DCC_Namespace>Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;$(DCC_Namespace)</DCC_Namespace>
@@ -115,6 +116,7 @@
         <DCC_HppOutput>..\include\$(Platform)</DCC_HppOutput>
         <DCC_DcuOutput>.\$(Platform)\$(Config)</DCC_DcuOutput>
         <DCC_UnitSearchPath>..\Src;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
+        <DCC_Description>GLScene RT Components</DCC_Description>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win64x)'!=''">
         <DCC_Namespace>Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;$(DCC_Namespace)</DCC_Namespace>
@@ -153,7 +155,7 @@
         <DCC_BpiOutput>..\lib\$(Platform)</DCC_BpiOutput>
         <DCC_ObjOutput>..\lib\$(Platform)</DCC_ObjOutput>
         <VerInfo_Keys>CompanyName=;FileVersion=2023.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductVersion=1.0.0.0;Comments=;ProgramID=com.embarcadero.$(MSBuildProjectName);FileDescription=$(MSBuildProjectName);ProductName=$(MSBuildProjectName)</VerInfo_Keys>
-        <DCC_Description>GLScene Engine</DCC_Description>
+        <DCC_Description>GLScene RT Components</DCC_Description>
         <VerInfo_MajorVer>2023</VerInfo_MajorVer>
         <DCC_DcuOutput>.\$(Platform)\$(Config)</DCC_DcuOutput>
     </PropertyGroup>
@@ -174,24 +176,24 @@
         <DCCReference Include="rtl.dcp"/>
         <DCCReference Include="vclimg.dcp"/>
         <DCCReference Include="xmlrtl.dcp"/>
-        <DCCReference Include="..\Source\Formats.m3DSConst.pas"/>
-        <DCCReference Include="..\Source\Formats.m3DSTypes.pas"/>
-        <DCCReference Include="..\Source\Formats.m3DSUtils.pas"/>
-        <DCCReference Include="..\Source\Formats.DXTC.pas"/>
-        <DCCReference Include="..\Source\Formats.m3DS.pas"/>
+        <DCCReference Include="..\Src\Formats.m3DSConst.pas"/>
+        <DCCReference Include="..\Src\Formats.m3DSTypes.pas"/>
+        <DCCReference Include="..\Src\Formats.m3DSUtils.pas"/>
+        <DCCReference Include="..\Src\Formats.DXTC.pas"/>
+        <DCCReference Include="..\Src\Formats.m3DS.pas"/>
         <DCCReference Include="..\Source\Formats.DDSImage.pas"/>
-        <DCCReference Include="..\Source\Formats.VFW.pas"/>
-        <DCCReference Include="..\Source\Formats.Q3BSP.pas"/>
-        <DCCReference Include="..\Source\Formats.GL2.pas"/>
-        <DCCReference Include="..\Source\Formats.LWO.pas"/>
-        <DCCReference Include="..\Source\Formats.MD2.pas"/>
-        <DCCReference Include="..\Source\Formats.MD3.pas"/>
-        <DCCReference Include="..\Source\Formats.B3D.pas"/>
+        <DCCReference Include="..\Src\Formats.VFW.pas"/>
+        <DCCReference Include="..\Src\Formats.Q3BSP.pas"/>
+        <DCCReference Include="..\Src\Formats.GL2.pas"/>
+        <DCCReference Include="..\Src\Formats.LWO.pas"/>
+        <DCCReference Include="..\Src\Formats.MD2.pas"/>
+        <DCCReference Include="..\Src\Formats.MD3.pas"/>
+        <DCCReference Include="..\Src\Formats.B3D.pas"/>
         <DCCReference Include="..\Source\Formats.HDRImage.pas"/>
-        <DCCReference Include="..\Source\Formats.OCT.pas"/>
+        <DCCReference Include="..\Src\Formats.OCT.pas"/>
         <DCCReference Include="..\Source\Formats.TGA.pas"/>
-        <DCCReference Include="..\Source\Formats.X.pas"/>
-        <DCCReference Include="..\Source\Formats.VRML.pas"/>
+        <DCCReference Include="..\Src\Formats.X.pas"/>
+        <DCCReference Include="..\Src\Formats.VRML.pas"/>
         <DCCReference Include="..\Source\GLS.AVIRecorder.pas"/>
         <DCCReference Include="..\Source\GLS.AnimatedSprite.pas"/>
         <DCCReference Include="..\Source\GLS.ApplicationFileIO.pas"/>
@@ -199,7 +201,6 @@
         <DCCReference Include="..\Source\GLS.AsyncTimer.pas"/>
         <DCCReference Include="..\Source\GLS.Atmosphere.pas"/>
         <DCCReference Include="..\Source\GLS.ArchiveManager.pas"/>
-        <DCCReference Include="..\Source\GLS.BaseClasses.pas"/>
         <DCCReference Include="..\Source\GLS.BaseMeshSilhouette.pas"/>
         <DCCReference Include="..\Source\GLS.Behaviours.pas"/>
         <DCCReference Include="..\Source\GLS.BitmapFont.pas"/>
@@ -209,11 +210,9 @@
         <DCCReference Include="..\Source\GLS.CameraController.pas"/>
         <DCCReference Include="..\Source\GLS.Canvas.pas"/>
         <DCCReference Include="..\Source\GLS.Collision.pas"/>
-        <DCCReference Include="..\Source\GLS.Color.pas"/>
         <DCCReference Include="..\Source\GLS.CompositeImage.pas"/>
         <DCCReference Include="..\Source\GLS.Console.pas"/>
         <DCCReference Include="..\Source\GLS.Context.pas"/>
-        <DCCReference Include="..\Source\GLS.Coordinates.pas"/>
         <DCCReference Include="..\Source\GLS.CyborgManager.pas"/>
         <DCCReference Include="..\Source\GLS.DCE.pas"/>
         <DCCReference Include="..\Source\GLS.DynamicTexture.pas"/>
@@ -263,13 +262,11 @@
         <DCCReference Include="..\Source\GLS.FileWAV.pas"/>
         <DCCReference Include="..\Source\GLS.FileX.pas"/>
         <DCCReference Include="..\Source\GLS.FireFX.pas"/>
-        <DCCReference Include="..\Source\GLS.FileZLIB.pas"/>
         <DCCReference Include="..\Source\GLS.FileDEL.pas"/>
         <DCCReference Include="..\Source\GLS.FileVOR.pas"/>
         <DCCReference Include="..\Source\GLS.FullScreenViewer.pas"/>
         <DCCReference Include="..\Source\GLS.GameMenu.pas"/>
         <DCCReference Include="..\Source\GLS.GeomObjects.pas"/>
-        <DCCReference Include="..\Source\GLS.GeometryBB.pas"/>
         <DCCReference Include="..\Source\GLS.Gizmo.pas"/>
         <DCCReference Include="..\Source\GLS.GizmoEx.pas"/>
         <DCCReference Include="..\Source\GLS.Graph.pas"/>
@@ -295,7 +292,6 @@
         <DCCReference Include="..\Source\GLS.MeshBuilder.pas"/>
         <DCCReference Include="..\Source\GLS.MeshCSG.pas"/>
         <DCCReference Include="..\Source\GLS.MeshLines.pas"/>
-        <DCCReference Include="..\Source\GLS.MeshUtils.pas"/>
         <DCCReference Include="..\Source\GLS.Mirror.pas"/>
         <DCCReference Include="..\Source\GLS.Movement.pas"/>
         <DCCReference Include="..\Source\GLS.MultiPolygon.pas"/>
@@ -312,7 +308,6 @@
         <DCCReference Include="..\Source\GLS.Perlin.pas"/>
         <DCCReference Include="..\Source\GLS.PerlinPFX.pas"/>
         <DCCReference Include="..\Source\GLS.PolygonTesselation.pas"/>
-        <DCCReference Include="..\Source\GLS.Polyhedra.pas"/>
         <DCCReference Include="..\Source\GLS.Portal.pas"/>
         <DCCReference Include="..\Source\GLSL.PostEffects.pas"/>
         <DCCReference Include="..\Source\GLS.ProcTextures.pas"/>
@@ -336,9 +331,7 @@
         <DCCReference Include="..\Source\GLSL.ShapeShaders.pas"/>
         <DCCReference Include="..\Source\GLSL.ShaderParameter.pas"/>
         <DCCReference Include="..\Source\GLSL.Shader.pas"/>
-        <DCCReference Include="..\Source\GLS.PAKArchive.pas"/>
         <DCCReference Include="..\Source\GLS.ProjectedTextures.pas"/>
-        <DCCReference Include="..\Source\GLS.PersistentClasses.pas"/>
         <DCCReference Include="..\Source\GLS.Scene.pas"/>
         <DCCReference Include="..\Source\GLS.SceneForm.pas"/>
         <DCCReference Include="..\Source\GLS.Screen.pas"/>
@@ -357,6 +350,7 @@
         <DCCReference Include="..\Source\GLS.SpaceText.pas"/>
         <DCCReference Include="..\Source\GLS.SceneViewer.pas"/>
         <DCCReference Include="..\Source\GLS.SmartObjects.pas"/>
+        <DCCReference Include="..\Source\GLS.Terrainer.pas"/>
         <DCCReference Include="..\Source\GLS.TerrainRenderer.pas"/>
         <DCCReference Include="..\Source\GLS.TexLensFlare.pas"/>
         <DCCReference Include="..\Source\GLS.Texture.pas"/>
@@ -374,41 +368,45 @@
         <DCCReference Include="..\Source\GLS.WindowsContext.pas"/>
         <DCCReference Include="..\Source\GLS.WindowsFont.pas"/>
         <DCCReference Include="..\Source\GLS.zBuffer.pas"/>
-        <DCCReference Include="..\Source\GLS.Silhouette.pas"/>
-        <DCCReference Include="..\Source\GLS.ScriptBase.pas"/>
-        <DCCReference Include="..\Source\GLS.XCollection.pas"/>
         <DCCReference Include="..\Source\GLS.XOpenGL.pas"/>
         <DCCReference Include="..\Source\GLS.InitOpenGL.pas"/>
-        <DCCReference Include="..\Source\GLS.VectorLists.pas"/>
         <DCCReference Include="..\Source\GLS.VectorFileObjects.pas"/>
         <DCCReference Include="..\Source\GLS.Vehicles.pas"/>
         <DCCReference Include="..\Source\GLS.VerletTypes.pas"/>
         <DCCReference Include="..\Source\GLS.VerletClothify.pas"/>
-        <DCCReference Include="..\Source\GLS.OpenGLAdapter.pas"/>
-        <DCCReference Include="..\Source\GLS.CurvesAndSurfaces.pas"/>
-        <DCCReference Include="..\Src\PasDblStrUtils.pas"/>
-        <DCCReference Include="..\Src\PasGLTF.pas"/>
-        <DCCReference Include="..\Src\PasJSON.pas"/>
+        <DCCReference Include="..\Src\Stage.BaseClasses.pas"/>
+        <DCCReference Include="..\Src\Stage.Color.pas"/>
+        <DCCReference Include="..\Src\Stage.Coordinates.pas"/>
+        <DCCReference Include="..\Src\Stage.CurvesAndSurfaces.pas"/>
+        <DCCReference Include="..\Src\Stage.GeometryBB.pas"/>
         <DCCReference Include="..\Src\Stage.Generics.pas"/>
         <DCCReference Include="..\Src\Stage.Keyboard.pas"/>
-        <DCCReference Include="..\Src\Stage.Logger.pas"/>
         <DCCReference Include="..\Src\Stage.Manager.pas"/>
-        <DCCReference Include="..\Src\Stage.OpenGL4.pas"/>
+        <DCCReference Include="..\Src\Stage.MeshUtils.pas"/>
+        <DCCReference Include="..\Src\Stage.OpenGLAdapter.pas"/>
         <DCCReference Include="..\Src\Stage.OpenGLTokens.pas"/>
+        <DCCReference Include="..\Src\Stage.OpenGL4.pas"/>
+        <DCCReference Include="..\Src\Stage.PersistentClasses.pas"/>
         <DCCReference Include="..\Src\Stage.PipelineTransform.pas"/>
         <DCCReference Include="..\Src\Stage.Polynomials.pas"/>
         <DCCReference Include="..\Src\Stage.RandomLib.pas"/>
         <DCCReference Include="..\Src\Stage.RedBlackTree.pas"/>
         <DCCReference Include="..\Src\Stage.RGBE.pas"/>
+        <DCCReference Include="..\Src\Stage.Silhouette.pas"/>
         <DCCReference Include="..\Src\Stage.Spline.pas"/>
         <DCCReference Include="..\Src\Stage.Strings.pas"/>
         <DCCReference Include="..\Src\Stage.TextureFormat.pas"/>
         <DCCReference Include="..\Src\Stage.Triangulation.pas"/>
-        <DCCReference Include="..\Src\Stage.Utils.pas"/>
         <DCCReference Include="..\Src\Stage.VectorGeometry.pas"/>
+        <DCCReference Include="..\Src\Stage.VectorLists.pas"/>
         <DCCReference Include="..\Src\Stage.VectorTypes.pas"/>
         <DCCReference Include="..\Src\Stage.VectorTypesExt.pas"/>
-        <DCCReference Include="..\Source\GLS.Terrainer.pas"/>
+        <DCCReference Include="..\Src\Stage.Utils.pas"/>
+        <DCCReference Include="..\Src\Stage.XCollection.pas"/>
+        <DCCReference Include="..\Source\GLS.FileZLIB.pas"/>
+        <DCCReference Include="..\Source\GLS.ScriptBase.pas"/>
+        <DCCReference Include="..\Source\GLS.ModelManager.pas"/>
+        <DCCReference Include="..\Source\GLS.GizmoArrows.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
@@ -430,12 +428,17 @@
                     <Source Name="MainSource">GLScene_RT.dpk</Source>
                 </Source>
                 <Excluded_Packages>
-                    <Excluded_Packages Name="C:\Users\Public\Documents\Embarcadero\Studio\37.0\Bpl\Win64\GLScene_DT.bpl">GLScene Engine</Excluded_Packages>
+                    <Excluded_Packages Name="C:\Users\Public\Documents\Embarcadero\Studio\37.0\Bpl\GBComps.bpl">Geoblock Components</Excluded_Packages>
+                    <Excluded_Packages Name="C:\Users\Public\Documents\Embarcadero\Studio\37.0\Bpl\rae.bpl">File C:\Users\Public\Documents\Embarcadero\Studio\37.0\Bpl\rae.bpl not found</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\bcboffice2k370.bpl">Embarcadero C++Builder Office 2000 Servers Package</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\bcbofficexp370.bpl">Embarcadero C++Builder Office XP Servers Package</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\dcloffice2k370.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\dclofficexp370.bpl">Microsoft Office XP Sample Automation Server Wrapper Components</Excluded_Packages>
                 </Excluded_Packages>
             </Delphi.Personality>
             <Platforms>
                 <Platform value="Win32">True</Platform>
-                <Platform value="Win64">True</Platform>
+                <Platform value="Win64">False</Platform>
                 <Platform value="Win64x">False</Platform>
             </Platforms>
             <Deployment Version="5">

@@ -1,8 +1,7 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.Atmosphere;
-
 (*
    This unit contains classes that imitate an atmosphere around a planet.
 
@@ -10,7 +9,6 @@ unit GXS.Atmosphere;
       1) Eats a lot of CPU (reduces FPS from 1240 to 520 on my PC with cSlices=100)
       2) Alpha in LowAtmColor, HighAtmColor is ignored.
 *)
-
 interface
 
 {$I Stage.Defines.inc}
@@ -20,16 +18,17 @@ uses
   System.SysUtils,
   System.Classes,
 
+  Stage.VectorTypes,
+  Stage.VectorGeometry,
+  Stage.Strings,
+  Stage.Color,
+
   GXS.Scene,
   GXS.Objects,
   GXS.Cadencer,
-  Stage.VectorGeometry,
   GXS.Context,
-  Stage.Strings,
-  GXS.Color,
   GXS.RenderContextInfo,
-  GXS.State,
-  Stage.VectorTypes;
+  GXS.State;
 
 type
    EGLAtmosphereException = class(Exception);
@@ -51,8 +50,8 @@ type
     FPlanetRadius: Single;
     FAtmosphereRadius: Single;
     FOpacity: Single;
-    FLowAtmColor: TgxColor;
-    FHighAtmColor: TgxColor;
+    FLowAtmColor: TGSColor;
+    FHighAtmColor: TGSColor;
     FSun: TgxBaseSceneObject;
     procedure SetSun(const Value: TgxBaseSceneObject);
     procedure SetAtmosphereRadius(const Value: Single);
@@ -62,8 +61,8 @@ type
     function StoreOpacity: Boolean;
     function StorePlanetRadius: Boolean;
     procedure SetSlices(const Value: Integer);
-    procedure SetLowAtmColor(const AValue: TgxColor);
-    procedure SetHighAtmColor(const AValue: TgxColor);
+    procedure SetLowAtmColor(const AValue: TGSColor);
+    procedure SetHighAtmColor(const AValue: TGSColor);
     function StoreLowAtmColor: Boolean;
     function StoreHighAtmColor: Boolean;
   protected
@@ -76,8 +75,8 @@ type
     property AtmosphereRadius: Single read FAtmosphereRadius write SetAtmosphereRadius stored StoreAtmosphereRadius;
     property PlanetRadius: Single read FPlanetRadius write SetPlanetRadius stored StorePlanetRadius;
     // Use value slightly lower than actual radius, for antialiasing effect.
-    property LowAtmColor: TgxColor read FLowAtmColor write SetLowAtmColor stored StoreLowAtmColor;
-    property HighAtmColor: TgxColor read FHighAtmColor write SetHighAtmColor stored StoreHighAtmColor;
+    property LowAtmColor: TGSColor read FLowAtmColor write SetLowAtmColor stored StoreLowAtmColor;
+    property HighAtmColor: TGSColor read FHighAtmColor write SetHighAtmColor stored StoreHighAtmColor;
     property BlendingMode: TgxAtmosphereBlendingMode read FBlendingMode
                                write FBlendingMode default abmOneMinusSrcAlpha;
     procedure SetOptimalAtmosphere(const ARadius: Single);  //absolute
@@ -112,9 +111,7 @@ type
     property Effects;
   end;
 
-//---------------------------------------------------------------------
-implementation
-//---------------------------------------------------------------------
+implementation //============================================================
 
 const
   EPS = 0.0001;
@@ -138,8 +135,8 @@ end;
 constructor TgxCustomAtmosphere.Create(AOwner: TComponent);
 begin
   inherited;
-  FLowAtmColor := TgxColor.Create(Self);
-  FHighAtmColor := TgxColor.Create(Self);
+  FLowAtmColor := TGSColor.Create(Self);
+  FHighAtmColor := TGSColor.Create(Self);
 
   FOpacity := 2.1;
   SetSlices(60);
@@ -169,11 +166,11 @@ var
   diskNormal, diskRight, diskUp:  TVector4f;
 
 
-  function AtmosphereColor(const rayStart, rayEnd: TVector4f): TgxColorVector;
+  function AtmosphereColor(const rayStart, rayEnd: TVector4f): TGSColorVector;
   var
     I, n:     Integer;
     atmPoint, normal: TVector4f;
-    altColor: TgxColorVector;
+    altColor: TGSColorVector;
     alt, rayLength, contrib, decay, intensity, invN: Single;
   begin
     Result := clrTransparent;
@@ -214,7 +211,7 @@ var
   end;
 
 
-  function ComputeColor(var rayDest: TVector4f; mayHitGround: Boolean): TgxColorVector;
+  function ComputeColor(var rayDest: TVector4f; mayHitGround: Boolean): TGSColorVector;
   var
     ai1, ai2, pi1, pi2: TVector4f;
     rayVector: TVector4f;
@@ -438,12 +435,12 @@ begin
     raise EGLAtmosphereException.Create('Slices must be more than 0!');
 end;
 
-procedure TgxCustomAtmosphere.SetHighAtmColor(const AValue: TgxColor);
+procedure TgxCustomAtmosphere.SetHighAtmColor(const AValue: TGSColor);
 begin
   FHighAtmColor.Assign(AValue);
 end;
 
-procedure TgxCustomAtmosphere.SetLowAtmColor(const AValue: TgxColor);
+procedure TgxCustomAtmosphere.SetLowAtmColor(const AValue: TGSColor);
 begin
   FLowAtmColor.Assign(AValue);
 end;

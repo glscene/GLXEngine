@@ -30,12 +30,12 @@ uses
   Stage.VectorTypes,
   GLS.State,
   GLS.Material,
-  GLS.Coordinates,
+  Stage.Coordinates,
   GLS.RenderContextInfo,
   GLS.SimpleNavigation,
-  GLS.Color,
+  Stage.Color,
   Stage.Utils,
-  GLS.BaseClasses;
+  Stage.BaseClasses;
 
 type
   TFormWaterPlane = class(TForm)
@@ -112,7 +112,7 @@ end;
 
 procedure TFormWaterPlane.ClickWater(X, Y: Integer);
 var
-  ip: TGLVector;
+  ip: TGSVector;
 begin
   // create a ripple in the pond on a right-mousebutton click
 

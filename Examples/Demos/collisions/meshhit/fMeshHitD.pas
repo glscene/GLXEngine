@@ -17,8 +17,8 @@ uses
   Stage.VectorTypes,
   Stage.VectorGeometry,
   GLS.GeomObjects,
-  GLS.Coordinates,
-  GLS.BaseClasses,
+  Stage.Coordinates,
+  Stage.BaseClasses,
   GLS.File3DS,
   Stage.Utils;
 
@@ -68,7 +68,7 @@ end;
 procedure TFormMeshHit.GLSceneViewer1MouseDown(Sender: TObject;
   Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
 var
-  rayStart, rayVector, iPoint, iNormal: TGLVector;
+  rayStart, rayVector, iPoint, iNormal: TGSVector;
 begin
   // retrieve raycasting data:
   // rayStart is obtained for camera and screen position
@@ -108,7 +108,7 @@ end;
 procedure TFormMeshHit.GLSceneViewer2MouseDown(Sender: TObject;
   Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
 var
-  rayStart, rayVector, iPoint, iNormal: TGLVector;
+  rayStart, rayVector, iPoint, iNormal: TGSVector;
 begin
   // retrieve raycasting data:
   // rayStart is the eye (camera) position

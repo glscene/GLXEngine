@@ -1,21 +1,22 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.Ragdoll;
-
-(* Base abstract ragdoll class. Should be extended to use any physics system. *)
-
+(*
+  Base abstract ragdoll class. Should be extended to use any physics system
+*)
 interface
 
 {$I Stage.Defines.inc}
 
 uses
-  GLS.Scene,
-  GLS.PersistentClasses,
+  Stage.PersistentClasses,
   Stage.VectorTypes,
   Stage.VectorGeometry,
+  Stage.VectorLists,
+
+  GLS.Scene,
   GLS.VectorFileObjects,
-  GLS.VectorLists,
   GLS.Objects;
 
 type
@@ -24,7 +25,7 @@ type
   TGLRagdolJoint = class
   end;
 
-  TGLRagdolBoneList = class(TGLPersistentObjectList)
+  TGLRagdolBoneList = class(TGSPersistentObjectList)
   private
     FRagdoll: TGLRagdoll;
   protected
@@ -32,8 +33,8 @@ type
   public
     constructor Create(Ragdoll: TGLRagdoll); reintroduce;
     destructor Destroy; override;
-    procedure WriteToFiler(writer: TGLVirtualWriter); override;
-    procedure ReadFromFiler(reader: TGLVirtualReader); override;
+    procedure WriteToFiler(writer: TGSVirtualWriter); override;
+    procedure ReadFromFiler(reader: TGSVirtualReader); override;
     property Ragdoll: TGLRagdoll read FRagdoll;
     property Items[Index: Integer]: TGLRagdolBone read GetRagdollBone; default;
   end;
@@ -49,11 +50,11 @@ type
     // Stores the diference from the bone.GlobalMatrix to the center of the bone's bounding box
     FOrigin: TAffineVector;
     FSize: TAffineVector;
-    FBoneMatrix: TGLMatrix;
+    FBoneMatrix: TGSMatrix;
     FJoint: TGLRagdolJoint;
-    FOriginalMatrix: TGLMatrix;
+    FOriginalMatrix: TGSMatrix;
     // Stores the Bone.GlobalMatrix before the ragdoll start
-    FReferenceMatrix: TGLMatrix;
+    FReferenceMatrix: TGSMatrix;
     // Stores the first bone matrix to be used as reference
     FAnchor: TAffineVector; // The position of the joint
     procedure CreateBoundingBox;
@@ -74,21 +75,21 @@ type
     constructor CreateOwned(aOwner: TGLRagdolBoneList);
     constructor Create(Ragdoll: TGLRagdoll);
     destructor Destroy; override;
-    procedure WriteToFiler(writer: TGLVirtualWriter); override;
-    procedure ReadFromFiler(reader: TGLVirtualReader); override;
+    procedure WriteToFiler(writer: TGSVirtualWriter); override;
+    procedure ReadFromFiler(reader: TGSVirtualReader); override;
     property Owner: TGLRagdolBoneList read FOwner;
     property Name: String read FName write FName;
     property BoneID: Integer read FBoneID write FBoneID;
     property Origin: TAffineVector read FOrigin;
     property Size: TAffineVector read FSize;
-    property BoneMatrix: TGLMatrix read FBoneMatrix;
-    property ReferenceMatrix: TGLMatrix read FReferenceMatrix;
+    property BoneMatrix: TGSMatrix read FBoneMatrix;
+    property ReferenceMatrix: TGSMatrix read FReferenceMatrix;
     property Anchor: TAffineVector read FAnchor;
     property Joint: TGLRagdolJoint read FJoint write FJoint;
     property Items[Index: Integer]: TGLRagdolBone read GetRagdollBone; default;
   end;
 
-  TGLRagdoll = class(TGLPersistentObject)
+  TGLRagdoll = class(TGSPersistentObject)
   private
     FOwner: TGLBaseMesh;
     FRootBone: TGLRagdolBone;
@@ -97,8 +98,8 @@ type
   public
     constructor Create(aOwner: TGLBaseMesh); reintroduce;
     destructor Destroy; override;
-    procedure WriteToFiler(writer: TGLVirtualWriter); override;
-    procedure ReadFromFiler(reader: TGLVirtualReader); override;
+    procedure WriteToFiler(writer: TGSVirtualWriter); override;
+    procedure ReadFromFiler(reader: TGSVirtualReader); override;
     // Must be set before build the ragdoll
     procedure SetRootBone(RootBone: TGLRagdolBone);
     // Create the bounding box and setup the ragdoll do be started later
@@ -111,21 +112,19 @@ type
     property Enabled: Boolean read FEnabled;
   end;
 
-// ------------------------------------------------------------------------
-implementation
-// ------------------------------------------------------------------------
+implementation //============================================================
 
 
 //--------------------------
 // TGLRagdolBoneList
 //--------------------------
-
 constructor TGLRagdolBoneList.Create(Ragdoll: TGLRagdoll);
 begin
   inherited Create;
   FRagdoll := Ragdoll;
 end;
 
+//---------------------------------------------------------------------------
 destructor TGLRagdolBoneList.Destroy;
 var
   i: Integer;
@@ -135,18 +134,21 @@ begin
   inherited;
 end;
 
+//---------------------------------------------------------------------------
 function TGLRagdolBoneList.GetRagdollBone(Index: Integer): TGLRagdolBone;
 begin
   Result := TGLRagdolBone(List^[Index]);
 end;
 
-procedure TGLRagdolBoneList.ReadFromFiler(reader: TGLVirtualReader);
+//---------------------------------------------------------------------------
+procedure TGLRagdolBoneList.ReadFromFiler(reader: TGSVirtualReader);
 begin
   inherited;
   // Not implemented
 end;
 
-procedure TGLRagdolBoneList.WriteToFiler(writer: TGLVirtualWriter);
+//---------------------------------------------------------------------------
+procedure TGLRagdolBoneList.WriteToFiler(writer: TGSVirtualWriter);
 begin
   inherited;
   // Not implemented
@@ -155,24 +157,24 @@ end;
 //----------------------------------
 // TGLRagdolBone
 //----------------------------------
-
 constructor TGLRagdolBone.Create(Ragdoll: TGLRagdoll);
 begin
   inherited Create(Ragdoll);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLRagdolBone.CreateBoundingBox;
 var
   bone: TGLSkeletonBone;
   i, j: Integer;
-  BoneVertices: TGLAffineVectorList;
+  BoneVertices: TGSAffineVectorList;
   BoneVertex, max, min: TAffineVector;
-  invMat, mat: TGLMatrix;
+  invMat, mat: TGSMatrix;
 begin
   bone := Ragdoll.Owner.Skeleton.BoneByID(FBoneID);
 
   // Get all vertices weighted to this bone
-  BoneVertices := TGLAffineVectorList.Create;
+  BoneVertices := TGSAffineVectorList.Create;
   for i := 0 to Ragdoll.Owner.MeshObjects.Count - 1 do
     with TGLSkeletonMeshObject(Ragdoll.Owner.MeshObjects[i]) do
       for j := 0 to Vertices.Count - 1 do
@@ -222,10 +224,10 @@ begin
   mat := MatrixMultiply(bone.GlobalMatrix, FRagdoll.Owner.AbsoluteMatrix);
   // Set Joint position
   SetAnchor(AffineVectorMake(mat.V[3]));
-
   BoneVertices.Free; // NEW1
 end;
 
+//---------------------------------------------------------------------------
 constructor TGLRagdolBone.CreateOwned(aOwner: TGLRagdolBoneList);
 begin
   Create(aOwner.Ragdoll);
@@ -233,16 +235,18 @@ begin
   aOwner.Add(Self);
 end;
 
+//---------------------------------------------------------------------------
 destructor TGLRagdolBone.Destroy;
 begin
   inherited;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLRagdolBone.AlignToSkeleton;
 var
   o: TAffineVector;
   bone: TGLSkeletonBone;
-  mat, posMat: TGLMatrix;
+  mat, posMat: TGSMatrix;
   noBounds: Boolean;
 begin
   bone := Ragdoll.Owner.Skeleton.BoneByID(FBoneID);
@@ -275,17 +279,19 @@ begin
   FBoneMatrix.V[3] := VectorMake(FOrigin, 1);
 end;
 
+//---------------------------------------------------------------------------
 function TGLRagdolBone.GetRagdollBone(Index: Integer): TGLRagdolBone;
 begin
   Result := TGLRagdolBone(List^[Index]);
 end;
 
-procedure TGLRagdolBone.ReadFromFiler(reader: TGLVirtualReader);
+//---------------------------------------------------------------------------
+procedure TGLRagdolBone.ReadFromFiler(reader: TGSVirtualReader);
 begin
   inherited;
-
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLRagdolBone.StartChild;
 var
   i: Integer;
@@ -297,6 +303,7 @@ begin
     Items[i].StartChild;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLRagdolBone.UpdateChild;
 var
   i: Integer;
@@ -306,11 +313,13 @@ begin
     Items[i].UpdateChild;
 end;
 
-procedure TGLRagdolBone.WriteToFiler(writer: TGLVirtualWriter);
+//---------------------------------------------------------------------------
+procedure TGLRagdolBone.WriteToFiler(writer: TGSVirtualWriter);
 begin
   inherited;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLRagdolBone.StopChild;
 var
   i: Integer;
@@ -321,6 +330,7 @@ begin
     Items[i].StopChild;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLRagdolBone.CreateBoundsChild;
 var
   i: Integer;
@@ -330,11 +340,13 @@ begin
     Items[i].CreateBoundsChild;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLRagdolBone.SetAnchor(const Anchor: TAffineVector);
 begin
   FAnchor := Anchor;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLRagdolBone.AlignChild;
 var
   i: Integer;
@@ -345,8 +357,9 @@ begin
     Items[i].AlignChild;
 end;
 
-{ TGLRagdoll }
-
+//---------------------------------------------------------------------------
+// TGLRagdoll
+//---------------------------------------------------------------------------
 constructor TGLRagdoll.Create(aOwner: TGLBaseMesh);
 begin
   FOwner := aOwner;
@@ -354,6 +367,7 @@ begin
   FBuilt := False;
 end;
 
+//---------------------------------------------------------------------------
 destructor TGLRagdoll.Destroy;
 begin
   if FEnabled then
@@ -361,16 +375,19 @@ begin
   inherited Destroy;
 end;
 
-procedure TGLRagdoll.ReadFromFiler(reader: TGLVirtualReader);
+//---------------------------------------------------------------------------
+procedure TGLRagdoll.ReadFromFiler(reader: TGSVirtualReader);
 begin
   inherited;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLRagdoll.SetRootBone(RootBone: TGLRagdolBone);
 begin
   FRootBone := RootBone;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLRagdoll.Start;
 begin
   Assert(FBuilt, 'First you need to build the ragdoll. BuildRagdoll;');
@@ -385,6 +402,7 @@ begin
   FOwner.Skeleton.StartRagDoll;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLRagdoll.Update;
 begin
   if FEnabled then
@@ -394,6 +412,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLRagdoll.Stop;
 begin
   if not FEnabled then
@@ -405,12 +424,13 @@ begin
   FOwner.Skeleton.MorphMesh(True);
 end;
 
-procedure TGLRagdoll.WriteToFiler(writer: TGLVirtualWriter);
+//---------------------------------------------------------------------------
+procedure TGLRagdoll.WriteToFiler(writer: TGSVirtualWriter);
 begin
   inherited;
-
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLRagdoll.BuildRagdoll;
 begin
   Assert(RootBone <> nil,
@@ -419,4 +439,5 @@ begin
   FBuilt := True;
 end;
 
+//---------------------------------------------------------------------------
 end.

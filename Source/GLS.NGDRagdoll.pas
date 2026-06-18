@@ -30,9 +30,9 @@ type
     Actor: TGLActor;
     Bodies: TList;
     Joints: array of PNewtonJoint;
-    Norm_matrices: array of TGLMatrix;
+    Norm_matrices: array of TGSMatrix;
     Envelopes: array of record kind: byte;
-    Mat: TGLMatrix;
+    Mat: TGSMatrix;
     Pt: TVector3f;
     W, D, H, Mass: single;
   end;
@@ -48,7 +48,7 @@ procedure Conform;
 destructor Destroy; override;
 procedure LoadFromFile(filename: string);
 procedure SaveToFile(filename: string);
-function TranslatePos(n: integer; add: boolean): TGLVector;
+function TranslatePos(n: integer; add: boolean): TGSVector;
 end;
 
 function GetBoneParent(Actor: TGLActor; bone: integer): integer;
@@ -121,8 +121,8 @@ var
   D: single;
   Collision: PNewtonCollision;
   CollisionBox, CollisionCylinder, CollisionSphere: PNewtonCollision;
-  Matrix: TGLMatrix;
-  CollisionOffsetMatrix: TGLMatrix; // For cone capsule and cylinder
+  Matrix: TGSMatrix;
+  CollisionOffsetMatrix: TGSMatrix; // For cone capsule and cylinder
 begin
   CollisionOffsetMatrix := IdentityHmgMatrix;
   D := 0;
@@ -252,7 +252,7 @@ end;
 procedure TNewtonRagdoll.SetEnabled;
 var
   i: integer;
-  a: TGLMatrix;
+  a: TGSMatrix;
   v: TVector3f;
 begin
   if FEnabled = value then

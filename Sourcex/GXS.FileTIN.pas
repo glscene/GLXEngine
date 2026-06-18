@@ -1,10 +1,10 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.FileTIN;
-
-(* TIN (Triangular Irregular Network) vector file format implementation *)
-
+(*
+  TIN (Triangular Irregular Network) vector file format implementation
+*)
 interface
 
 uses
@@ -31,14 +31,11 @@ type
     procedure LoadFromStream(aStream: TStream); override;
   end;
 
-// ------------------------------------------------------------------
-implementation
-// ------------------------------------------------------------------
+implementation //============================================================
 
 // ------------------
 // ------------------ TgxTINVectorFile ------------------
 // ------------------
-
 class function TgxTINVectorFile.Capabilities: TDataFileCapabilities;
 begin
   Result := [dfcRead];
@@ -151,9 +148,7 @@ begin
   end;
 end;
 
-// ------------------------------------------------------------------
-initialization
-// ------------------------------------------------------------------
+initialization //============================================================
 
 RegisterVectorFileFormat('tin', 'Triangular Irregular Network',
   TgxTINVectorFile);

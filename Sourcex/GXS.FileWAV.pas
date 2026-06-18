@@ -1,10 +1,10 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.FileWAV;
-
-(* Support for Windows WAV format *)
-
+(*
+  Support for Windows WAV format
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -17,7 +17,6 @@ uses
   GXS.SoundFileObjects;
 
 type
-
   // Support for Windows WAV format.
   TgxWAVFile = class(TgxSoundFile)
   private
@@ -40,9 +39,7 @@ type
     function LengthInBytes: Integer; override;
   end;
 
-//=================================================================
-implementation
-//=================================================================
+implementation //============================================================
 
 {$IFDEF MSWINDOWS}
 
@@ -56,10 +53,9 @@ const
   WAVE_Format_ADPCM = 2;
 {$ENDIF}
 
-  // ------------------
-  // ------------------ TgxWAVFile ------------------
-  // ------------------
-
+// ------------------
+// ------------------ TgxWAVFile ------------------
+// ------------------
 function TgxWAVFile.CreateCopy(AOwner: TPersistent): TgxDataFile;
 begin
   Result := inherited CreateCopy(AOwner);
@@ -202,9 +198,7 @@ begin
   Result := FPCMDataLength;
 end;
 
-//-------------------------------------------------
-initialization
-//-------------------------------------------------
+initialization //============================================================
 
 RegisterSoundFileFormat('wav', 'Windows WAV files', TgxWAVFile);
 

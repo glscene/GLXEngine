@@ -7,8 +7,8 @@
 #include <Vcl.Controls.hpp>
 #include <Vcl.StdCtrls.hpp>
 #include <Vcl.Forms.hpp>
-#include "GLS.BaseClasses.hpp"
-#include "GLS.Coordinates.hpp"
+#include "Stage.BaseClasses.hpp"
+#include "Stage.Coordinates.hpp"
 
 #include "GLS.Graph.hpp"
 #include "GLS.Scene.hpp"
@@ -35,7 +35,7 @@ __published:	// IDE-managed Components
 	void __fastcall glViewerMouseMove(TObject *Sender, TShiftState Shift, int X,
           int Y);
 	void __fastcall HeightFieldGetHeight2(TObject *Sender, const float x, const float y,
-          float &z, TGLColorVector &Color, TTexPoint &TexPoint);
+          float &z, TGSColorVector &Color, TTexPoint &TexPoint);
 	void __fastcall FormClose(TObject *Sender, TCloseAction &Action);
 private:	// User declarations
 	int mx, my;

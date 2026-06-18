@@ -22,8 +22,8 @@ uses
   GLS.GeomObjects,
   GLS.Context,
  
-  GLS.Coordinates,
-  GLS.BaseClasses;
+  Stage.Coordinates,
+  Stage.BaseClasses;
 
 type
   TFormDynCubeMap = class(TForm)

@@ -12,8 +12,8 @@
 #include "GLS.Scene.hpp"
 #include "GLS.Texture.hpp"
 #include "GLS.SceneViewer.hpp"
-#include "GLS.BaseClasses.hpp"
-#include "GLS.Coordinates.hpp"
+#include "Stage.BaseClasses.hpp"
+#include "Stage.Coordinates.hpp"
 
 #include "GLS.Material.hpp"
 //---------------------------------------------------------------------------
@@ -50,7 +50,7 @@ class THiddenLineShader : public TGLShader
     __fastcall virtual THiddenLineShader(TComponent* AOwner);
     __fastcall virtual ~THiddenLineShader(void);
 
-    TGLColorVector BackgroundColor, LineColor;
+    TGSColorVector BackgroundColor, LineColor;
     int PassCount;
 
     void __fastcall DoApply(TGLRenderContextInfo &rci, System::TObject* Sender);
@@ -64,7 +64,7 @@ class TOutLineShader : public TGLShader
     __fastcall virtual TOutLineShader(TComponent* AOwner);
     __fastcall virtual ~TOutLineShader(void);
 
-    TGLColorVector BackgroundColor, LineColor;
+    TGSColorVector BackgroundColor, LineColor;
     bool OutlineSmooth, Lighting;
     float OutlineWidth, OldlineWidth;
     int PassCount;

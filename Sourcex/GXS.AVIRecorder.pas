@@ -1,10 +1,10 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.AVIRecorder;
-
-(* Component to make it easy to record frames into an AVI file *)
-
+(*
+  Component to make it easy to record frames into an AVI file
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -25,7 +25,7 @@ uses
   GXS.Scene,
   GXS.SceneViewer,
 
-  Formatx.VFW;
+  Formats.VFW;
 
 type
   TAVICompressor = (acDefault, acShowDialog, acDivX);

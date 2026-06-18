@@ -15,17 +15,17 @@ uses
 
   Stage.VectorTypes,
   Stage.VectorGeometry,
-  GXS.VectorLists,
+  Stage.VectorLists,
   Stage.Spline,
 
   GXS.Scene,
   GXS.Objects,
   GXS.Texture,
   GXS.VectorFileObjects,
-  GXS.Coordinates,
+  Stage.Coordinates,
   GXS.Context,
   GXS.Material,
-  GXS.Color,
+  Stage.Color,
   GXS.State,
   GXS.Nodes,
   GXS.RenderContextInfo;
@@ -104,7 +104,7 @@ type
   published
   end;
 
-  TLightmapBounds = class(TgxCustomCoordinates)
+  TLightmapBounds = class(TGSCustomCoordinates)
   private
     function GetLeft: Single;
     function GetTop: Single;
@@ -143,8 +143,8 @@ type
     function GetUpdating: Boolean;
     function PointNearLine(const LineItem: TLineItem; const X,Z: Single; Tolerance: single = 1): boolean;
     function PointNearSegment(const StartNode, EndNode: TLineNode; const X,Z: Single; LineWidth: single; Tolerance: single = 1): boolean;
-    procedure StitchStrips(idx: TgxIntegerList);
-    procedure AddStitchMarker(idx: TgxIntegerList);
+    procedure StitchStrips(idx: TGSIntegerList);
+    procedure AddStitchMarker(idx: TGSIntegerList);
     procedure SetShowNodes(const Value: Boolean);
     procedure SetNoZWrite(const Value: Boolean);
     procedure SetLightmapIndex(const value: Integer);
@@ -777,7 +777,7 @@ begin
   result:= sqrt(sqr(xt - X) + sqr(yt - Z)) <= lDist;
 end;
 
-procedure TgxMeshLines.StitchStrips(idx: TgxIntegerList);
+procedure TgxMeshLines.StitchStrips(idx: TGSIntegerList);
 var
   i: integer;
   i0, i1, i2: integer;
@@ -797,7 +797,7 @@ begin
   end;
 end;
 
-procedure TgxMeshLines.AddStitchMarker(idx: TgxIntegerList);
+procedure TgxMeshLines.AddStitchMarker(idx: TGSIntegerList);
 begin
   idx.Add(-1);
   idx.Add(-2);

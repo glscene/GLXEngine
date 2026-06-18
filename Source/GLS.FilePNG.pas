@@ -1,10 +1,10 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.FilePNG;
-
-(* PNG files loading implementation *)
-
+(*
+  PNG files loading implementation
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -27,7 +27,7 @@ type
   TGLPNGImage = class(TGLBaseImage)
   private
   public
-    class function Capabilities: TGLDataFileCapabilities; override;
+    class function Capabilities: TGSDataFileCapabilities; override;
     procedure LoadFromFile(const filename: string); override;
     procedure SaveToFile(const filename: string); override;
     procedure LoadFromStream(AStream: TStream); override;
@@ -167,7 +167,7 @@ begin
   end;
 end;
 
-class function TGLPNGImage.Capabilities: TGLDataFileCapabilities;
+class function TGLPNGImage.Capabilities: TGSDataFileCapabilities;
 begin
   Result := [dfcRead, dfcWrite];
 end;

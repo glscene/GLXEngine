@@ -10,9 +10,9 @@
 #include <Vcl.ComCtrls.hpp>
 #include <Vcl.ExtCtrls.hpp>
 
-#include "GLS.BaseClasses.hpp"
+#include "Stage.BaseClasses.hpp"
 #include "GLS.Cadencer.hpp"
-#include "GLS.Coordinates.hpp"
+#include "Stage.Coordinates.hpp"
 
 #include "GLS.Objects.hpp"
 #include "GLS.ODEManager.hpp"
@@ -62,8 +62,8 @@ __published:	// IDE-managed Components
 	void __fastcall FrictionChange(TObject *Sender);
 
 private:	// User declarations
-	TGLVector FUserDirection;
-	TGLVector FDirectionVector;
+	TGSVector FUserDirection;
+	TGSVector FDirectionVector;
 
 public:		// User declarations
 	__fastcall TForm1(TComponent* Owner);

@@ -1,9 +1,11 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.ThorFX;
-
-(* ThorFX  for GLScene *)
+(*
+  ThorFX class
+  RegisterXCollectionItemClass(TGLBThorFX);
+*)
 
 interface
 
@@ -17,27 +19,28 @@ uses
   System.Math,
 
   Stage.OpenGLTokens,
-  GLS.Scene,
-  GLS.XCollection,
+  Stage.XCollection,
   Stage.VectorGeometry,
-  GLS.Context,
-  GLS.VectorLists,
+  Stage.VectorLists,
   Stage.VectorTypes,
-  GLS.Cadencer,
-  GLS.Color,
-  GLS.BaseClasses,
-  GLS.Coordinates,
-  GLS.RenderContextInfo,
+  Stage.Color,
+  Stage.BaseClasses,
+  Stage.Coordinates,
   Stage.PipelineTransform,
   Stage.Manager,
+  Stage.TextureFormat,
+
+  GLS.Scene,
+  GLS.Cadencer,
+  GLS.Context,
   GLS.State,
-  Stage.TextureFormat;
+  GLS.RenderContextInfo;
 
 type
   PThorpoint = ^TThorpoint;
 
   TThorpoint = record
-    Position: TGLVector; // Position
+    Position: TGSVector; // Position
     Size: single; // particle size
   end;
 
@@ -50,32 +53,32 @@ type
     var y: single; var z: single) of object;
 
   // Thor special effect manager.
-  TGLThorFXManager = class(TGLCadenceAbleComponent)
+  TGLThorFXManager = class(TGSCadenceAbleComponent)
   private
     FClients: TList;
     FThorpoints: PThorpointArray;
-    FTarget: TGLCoordinates;
+    FTarget: TGSCoordinates;
     FCadencer: TGLCadencer;
     FMaxpoints: integer;
     FGlowSize: single;
     FVibrate: single;
     FWildness: single;
     NP: integer;
-    FInnerColor, FOuterColor, FCoreColor: TGLColor;
+    FInnerColor, FOuterColor, FCoreColor: TGSColor;
     FDisabled, FCore, FGlow: boolean;
     FOnCalcPoint: TCalcPointEvent;
   protected
     procedure RegisterClient(aClient: TGLBThorFX);
     procedure DeRegisterClient(aClient: TGLBThorFX);
     procedure DeRegisterAllClients;
-    procedure SetTarget(const val: TGLCoordinates);
+    procedure SetTarget(const val: TGSCoordinates);
     procedure SetCadencer(const val: TGLCadencer);
     procedure SetMaxpoints(const val: integer);
     function StoreGlowSize: boolean;
     function StoreVibrate: boolean;
-    procedure SetInnerColor(const val: TGLColor);
-    procedure SetOuterColor(const val: TGLColor);
-    procedure SetCoreColor(const val: TGLColor);
+    procedure SetInnerColor(const val: TGSColor);
+    procedure SetOuterColor(const val: TGSColor);
+    procedure SetCoreColor(const val: TGSColor);
     procedure Notification(AComponent: TComponent;
       Operation: TOperation); override;
     procedure ThorInit;
@@ -84,16 +87,16 @@ type
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
-    procedure DoProgress(const progressTime: TGLProgressTimes); override;
+    procedure DoProgress(const progressTime: TGSProgressTimes); override;
   published
-    property Target: TGLCoordinates read FTarget write SetTarget;
+    property Target: TGSCoordinates read FTarget write SetTarget;
     property Cadencer: TGLCadencer read FCadencer write SetCadencer;
     property Maxpoints: integer read FMaxpoints write SetMaxpoints default 256;
     property GlowSize: single read FGlowSize write FGlowSize stored StoreGlowSize;
     property Vibrate: single read FVibrate write FVibrate stored StoreVibrate;
-    property InnerColor: TGLColor read FInnerColor write SetInnerColor;
-    property OuterColor: TGLColor read FOuterColor write SetOuterColor; // default clrWhite;
-    property CoreColor: TGLColor read FCoreColor write SetCoreColor; // default clrWhite;
+    property InnerColor: TGSColor read FInnerColor write SetInnerColor;
+    property OuterColor: TGSColor read FOuterColor write SetOuterColor; // default clrWhite;
+    property CoreColor: TGSColor read FCoreColor write SetCoreColor; // default clrWhite;
     property Disabled: boolean read FDisabled write FDisabled;
     property Core: boolean read FCore write FCore;
     property Glow: boolean read FGlow write FGlow;
@@ -106,13 +109,13 @@ type
   private
     FManager: TGLThorFXManager;
     FManagerName: String; // NOT persistent, temporarily used for persistence
-    FTarget: TGLCoordinates;
+    FTarget: TGSCoordinates;
   protected
     procedure SetManager(const val: TGLThorFXManager);
     procedure WriteToFiler(writer: TWriter); override;
     procedure ReadFromFiler(reader: TReader); override;
     procedure Loaded; override;
-    procedure SetTarget(const val: TGLCoordinates);
+    procedure SetTarget(const val: TGSCoordinates);
   public
     constructor Create(AOwner: TXCollection); override;
     destructor Destroy; override;
@@ -141,18 +144,18 @@ begin
   inherited Create(AOwner);
   FClients := TList.Create;
   RegisterManager(Self);
-  FTarget := TGLCoordinates.CreateInitialized(Self, VectorMake(0, 1, 0));
+  FTarget := TGSCoordinates.CreateInitialized(Self, VectorMake(0, 1, 0));
   FTarget.Style := csPoint;
   FMaxpoints := 64;
   FGlowSize := 0.2;
   FVibrate := 0;
   FWildness := 1;
-  FInnerColor := TGLColor.Create(Self);
+  FInnerColor := TGSColor.Create(Self);
   FInnerColor.Initialize(clrWhite);
-  FOuterColor := TGLColor.Create(Self);
+  FOuterColor := TGSColor.Create(Self);
   FOuterColor.Initialize(clrBlue);
   FOuterColor.Alpha := 0;
-  FCoreColor := TGLColor.Create(Self);
+  FCoreColor := TGSColor.Create(Self);
   FCoreColor.Initialize(clrWhite);
   FCore := True;
   FGlow := True;
@@ -201,7 +204,7 @@ begin
   FClients.Clear;
 end;
 
-procedure TGLThorFXManager.SetTarget(const val: TGLCoordinates);
+procedure TGLThorFXManager.SetTarget(const val: TGSCoordinates);
 begin
   FTarget.Assign(val);
   ThorInit;
@@ -238,7 +241,7 @@ begin
   Result := (FVibrate <> 1);
 end;
 
-procedure TGLThorFXManager.SetInnerColor(const val: TGLColor);
+procedure TGLThorFXManager.SetInnerColor(const val: TGSColor);
 begin
   if FInnerColor <> val then
   begin
@@ -247,7 +250,7 @@ begin
   end;
 end;
 
-procedure TGLThorFXManager.SetOuterColor(const val: TGLColor);
+procedure TGLThorFXManager.SetOuterColor(const val: TGSColor);
 begin
   if FOuterColor <> val then
   begin
@@ -256,7 +259,7 @@ begin
   end;
 end;
 
-procedure TGLThorFXManager.SetCoreColor(const val: TGLColor);
+procedure TGLThorFXManager.SetCoreColor(const val: TGSColor);
 begin
   if FCoreColor <> val then
   begin
@@ -272,7 +275,7 @@ begin
   inherited;
 end;
 
-procedure TGLThorFXManager.DoProgress(const progressTime: TGLProgressTimes);
+procedure TGLThorFXManager.DoProgress(const progressTime: TGSProgressTimes);
 var
   i: integer;
 
@@ -292,7 +295,7 @@ end;
 procedure TGLThorFXManager.CalcThor;
 var
   N: integer;
-  vec, axs, nvec: TGLVector;
+  vec, axs, nvec: TGSVector;
   dist: single;
   a, b: single;
   len: single;
@@ -368,7 +371,7 @@ end;
 constructor TGLBThorFX.Create(AOwner: TXCollection);
 begin
   inherited Create(AOwner);
-  FTarget := TGLCoordinates.CreateInitialized(Self, VectorMake(0, 1, 0));
+  FTarget := TGSCoordinates.CreateInitialized(Self, VectorMake(0, 1, 0));
   FTarget.Style := csPoint;
 end;
 
@@ -442,7 +445,7 @@ begin
   inherited Assign(Source);
 end;
 
-procedure TGLBThorFX.SetTarget(const val: TGLCoordinates);
+procedure TGLBThorFX.SetTarget(const val: TGSCoordinates);
 begin
   FTarget.Assign(val);
 end;
@@ -462,16 +465,16 @@ procedure TGLBThorFX.Render(var rci: TGLRenderContextInfo);
 var
   N: integer;
   i: integer;
-  // absPos :TGLVector;
-  InnerColor: TGLVector;
-  distList: TGLSingleList;
+  // absPos :TGSVector;
+  InnerColor: TGSVector;
+  distList: TGSSingleList;
   objList: TList;
   fp: PThorpoint;
-  mat: TGLMatrix;
+  mat: TGSMatrix;
 
-  vx, vy: TGLVector;
+  vx, vy: TGSVector;
   m: integer;
-  Icol, Ocol, Ccol: TGLColorVector;
+  Icol, Ocol, Ccol: TGSColorVector;
   Ppos, Ppos2: TAffineVector;
 begin
   if Manager = nil then
@@ -493,7 +496,7 @@ begin
 
   if N > 1 then
   begin
-    distList := TGLSingleList.Create;
+    distList := TGSSingleList.Create;
     objList := TList.Create;
     for i := 0 to N - 1 do
     begin
@@ -618,13 +621,11 @@ begin
   end;
 end;
 
-// ------------------------------------------------------------------
-initialization
-// ------------------------------------------------------------------
+initialization //============================================================
 
 RegisterXCollectionItemClass(TGLBThorFX);
 
-finalization
+finalization //==============================================================
 
 UnregisterXCollectionItemClass(TGLBThorFX);
 

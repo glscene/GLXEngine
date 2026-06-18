@@ -17,7 +17,7 @@ uses
   Vcl.VirtualImageList,
   Vcl.Controls,
 
-  GLS.BaseClasses,
+  Stage.BaseClasses,
   GLS.Material;
 
 type

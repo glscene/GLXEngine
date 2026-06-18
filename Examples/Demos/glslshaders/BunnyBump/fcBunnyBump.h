@@ -12,17 +12,17 @@
 #include <Vcl.ExtCtrls.hpp>
 
 #include "GLS.AsyncTimer.hpp"
-#include "GLS.BaseClasses.hpp"
+#include "Stage.BaseClasses.hpp"
 #include "GLSL.BumpShaders.hpp"
 #include "GLS.Cadencer.hpp"
-#include "GLS.Coordinates.hpp"
+#include "Stage.Coordinates.hpp"
 
 #include "GLS.Material.hpp"
 #include "GLS.Objects.hpp"
 #include "GLS.Scene.hpp"
 #include "GLS.VectorFileObjects.hpp"
 #include "GLS.SceneViewer.hpp"
-#include "GLS.OpenGLAdapter.hpp"
+#include "Stage.OpenGLAdapter.hpp"
 #include "JPeg.hpp"
 #include "GLS.FileOBJ.hpp"
 

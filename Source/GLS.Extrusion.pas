@@ -4,11 +4,11 @@
 unit GLS.Extrusion;
 (*
   Extrusion objects are solids defined by the surface described by a moving curve.
+  RegisterClasses([TGLRevolutionSolid, TGLExtrusionSolid, TGLPipe]);
+
   Suggestion:
     All extrusion objects use actually the same kind of "parts",
     one common type should do.
-  The registered class is:
-    [TGLRevolutionSolid, TGLExtrusionSolid, TGLPipe]
 *)
 interface
 
@@ -25,7 +25,7 @@ uses
   GLS.Objects,
   GLS.Scene,
   GLS.MultiPolygon,
-  GLS.Color,
+  Stage.Color,
   Stage.VectorGeometry,
   GLS.RenderContextInfo,
   GLS.Nodes,
@@ -57,7 +57,7 @@ type
     FTriangleCount: Integer;
     FNormalDirection: TGLNormalDirection;
     FParts: TGLRevolutionSolidParts;
-    FAxisAlignedDimensionsCache: TGLVector;
+    FAxisAlignedDimensionsCache: TGSVector;
   protected
     procedure SetStartAngle(const val: Single);
     procedure SetStopAngle(const val: Single);
@@ -74,7 +74,7 @@ type
     procedure BuildList(var rci: TGLRenderContextInfo); override;
     // Number of triangles used for rendering.
     property TriangleCount: Integer read FTriangleCount;
-    function AxisAlignedDimensionsUnscaled: TGLVector; override;
+    function AxisAlignedDimensionsUnscaled: TGSVector; override;
     procedure StructureChanged; override;
   published
     (* Parts of the rotation solid to be generated for rendering.
@@ -120,7 +120,7 @@ type
     FHeight: TGLFloat;
     FMinSmoothAngle: Single;
     FMinSmoothAngleCos: Single;
-    FAxisAlignedDimensionsCache: TGLVector;
+    FAxisAlignedDimensionsCache: TGSVector;
     procedure SetHeight(const Value: TGLFloat);
     procedure SetMinSmoothAngle(const Value: Single);
   protected
@@ -135,7 +135,7 @@ type
     procedure BuildList(var rci: TGLRenderContextInfo); override;
     // Number of triangles used for rendering.
     property TriangleCount: Integer read FTriangleCount;
-    function AxisAlignedDimensionsUnscaled: TGLVector; override;
+    function AxisAlignedDimensionsUnscaled: TGSVector; override;
     procedure StructureChanged; override;
   published
     property Parts: TGLExtrusionSolidParts read FParts write SetParts default [espOutside];
@@ -149,13 +149,13 @@ type
   TGLPipeNode = class(TGLNode)
   private
     FRadiusFactor: Single;
-    FColor: TGLColor;
+    FColor: TGSColor;
     FTexCoordT: Single;
   protected
     function GetDisplayName: string; override;
     procedure SetRadiusFactor(const val: Single);
     function StoreRadiusFactor: Boolean;
-    procedure SetColor(const val: TGLColor);
+    procedure SetColor(const val: TGSColor);
     procedure ColorChanged(sender: TObject);
     function StoreTexCoordT: Boolean;
   public
@@ -165,7 +165,7 @@ type
   published
     property RadiusFactor: Single read FRadiusFactor write SetRadiusFactor stored
       StoreRadiusFactor;
-    property Color: TGLColor read FColor write SetColor;
+    property Color: TGSColor read FColor write SetColor;
     property TexCoordT: Single read FTexCoordT write FTexCoordT stored
       StoreTexCoordT;
   end;
@@ -250,7 +250,7 @@ implementation
 
 uses
   Stage.Spline,
-  GLS.VectorLists,
+  Stage.VectorLists,
   GLS.XOpenGL;
 
 // ------------------
@@ -650,7 +650,7 @@ begin
   end;
 end;
 
-function TGLRevolutionSolid.AxisAlignedDimensionsUnscaled: TGLVector;
+function TGLRevolutionSolid.AxisAlignedDimensionsUnscaled: TGSVector;
 var
   maxRadius: Single;
   maxHeight: Single;
@@ -687,7 +687,7 @@ constructor TGLPipeNode.Create(Collection: TCollection);
 begin
   inherited Create(Collection);
   FRadiusFactor := 1.0;
-  FColor := TGLColor.CreateInitialized(Self, clrBlack, ColorChanged);
+  FColor := TGSColor.CreateInitialized(Self, clrBlack, ColorChanged);
   FTexCoordT := 1.0;
 end;
 
@@ -735,7 +735,7 @@ begin
   Result := (FTexCoordT <> 1.0);
 end;
 
-procedure TGLPipeNode.SetColor(const val: TGLColor);
+procedure TGLPipeNode.SetColor(const val: TGSColor);
 begin
   FColor.Assign(val);
 end;
@@ -928,7 +928,7 @@ type
   end;
   TRowData = record
     node: array of TNodeData;
-    color: TGLColorVector;
+    color: TGSColorVector;
     center: TVector3f;
     textcoordT: Single;
   end;
@@ -980,7 +980,7 @@ const
   end;
 
   procedure RenderDisk(row: PRowData;
-    const center: TGLVector; const normal: TAffineVector;
+    const center: TGSVector; const normal: TAffineVector;
     invert: Boolean; TextCoordTileS: Single);
   var
     i: Integer;
@@ -1732,7 +1732,7 @@ begin
 end;
 
 
-function TGLExtrusionSolid.AxisAlignedDimensionsUnscaled: TGLVector;
+function TGLExtrusionSolid.AxisAlignedDimensionsUnscaled: TGSVector;
 var
   dMin, dMax: TAffineVector;
 begin
@@ -1754,9 +1754,7 @@ begin
   inherited;
 end;
 
-// ------------------------------------------------------------------
-initialization
-// ------------------------------------------------------------------
+initialization //===========================================================
 
   RegisterClasses([TGLRevolutionSolid, TGLExtrusionSolid, TGLPipe]);
 

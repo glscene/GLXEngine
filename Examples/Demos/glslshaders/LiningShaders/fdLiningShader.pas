@@ -20,8 +20,8 @@ uses
   GLSL.LineShaders,
  
   GLS.Material,
-  GLS.Coordinates,
-  GLS.BaseClasses;
+  Stage.Coordinates,
+  Stage.BaseClasses;
 
 type
   TFormLiningShader = class(TForm)

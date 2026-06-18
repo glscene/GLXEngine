@@ -1,8 +1,7 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXSL.BumpShaders;
-
 (*
    A GXSL shader that applies bump mapping.
 
@@ -24,7 +23,6 @@ unit GXSL.BumpShaders;
     TODO:
       1) Implement IgxShaderDescription in all shaders.
 *)
-
 interface
 
 uses
@@ -34,24 +32,24 @@ uses
   System.Classes,
   System.SysUtils,
 
-  GXS.Context,
   Stage.VectorGeometry,
   Stage.VectorTypes,
-  GXS.VectorLists,
+  Stage.VectorLists,
+  Stage.Strings,
+  Stage.Color,
+  Stage.TextureFormat,
 
   GXS.Texture,
   GXS.Scene,
+  GXS.Context,
   GXS.Cadencer,
-  Stage.Strings,
-  GXS.Color,
   GXS.RenderContextInfo,
   GXS.Material,
   GXS.Graphics,
   GXS.State,
 
   GXSL.CustomShader,
-  GXSL.Shader,
-  Stage.TextureFormat;
+  GXSL.Shader;
 
 type
   TBumpMethod = (bmDot3TexCombiner, bmBasicARBFP);
@@ -126,9 +124,9 @@ type
   // One Light shaders.
   TgxslCustomBumpShaderAM = class(TgxslBaseCustomBumpShaderMT)
   private
-    FAmbientColor: TgxColor;
-    FDiffuseColor: TgxColor;
-    FSpecularColor: TgxColor;
+    FAmbientColor: TGSColor;
+    FDiffuseColor: TGSColor;
+    FSpecularColor: TGSColor;
 
     function GetAlpha: Single;
     procedure SetAlpha(const Value: Single);
@@ -138,9 +136,9 @@ type
   public
     constructor Create(AOwner : TComponent); override;
     destructor Destroy; override;
-    property AmbientColor: TgxColor read FAmbientColor;
-    property DiffuseColor: TgxColor read FDiffuseColor;
-    property SpecularColor: TgxColor read FSpecularColor;
+    property AmbientColor: TGSColor read FAmbientColor;
+    property DiffuseColor: TGSColor read FDiffuseColor;
+    property SpecularColor: TGSColor read FSpecularColor;
     property Alpha: Single read GetAlpha write SetAlpha;
   end;
 
@@ -313,7 +311,7 @@ type
   private
     FVertexProgramHandle: TgxVertexProgramHandle;
     FFragmentProgramHandle: TgxFragmentProgramHandle;
-    FLightIDs: TgxIntegerList;
+    FLightIDs: TGSIntegerList;
     FLightsEnabled: Integer;
     FBumpMethod: TBumpMethod;
     FBumpSpace: TBumpSpace;
@@ -352,10 +350,7 @@ type
     property ParallaxOffset: Single read FParallaxOffset write SetParallaxOffset;
   end;
 
-
-//-----------------------------------------------------------------------------
-implementation
-//-----------------------------------------------------------------------------
+implementation //============================================================
 
 procedure GetVertexProgramCode(const Code: TStrings);
 begin
@@ -847,9 +842,9 @@ constructor TgxslCustomBumpShaderAM.Create(AOwner: TComponent);
 begin
   inherited;
 
-  FAmbientColor := TgxColor.Create(Self);
-  FDiffuseColor := TgxColor.Create(Self);
-  FSpecularColor := TgxColor.Create(Self);
+  FAmbientColor := TGSColor.Create(Self);
+  FDiffuseColor := TGSColor.Create(Self);
+  FSpecularColor := TGSColor.Create(Self);
 
   // Setup initial parameters.
   FAmbientColor.SetColor(0.15, 0.15, 0.15, 1);
@@ -1184,7 +1179,7 @@ end;
 constructor TgxBumpShader.Create(AOwner: TComponent);
 begin
   inherited;
-  FLightIDs := TgxIntegerList.Create;
+  FLightIDs := TGSIntegerList.Create;
   FBumpMethod := bmDot3TexCombiner;
   FBumpSpace := bsObject;
   FBumpOptions := [];
@@ -1655,7 +1650,7 @@ end;
 procedure TgxBumpShader.DoApply(var rci: TgxRenderContextInfo; Sender: TObject);
 var
   maxTextures, i: Integer;
-  ambient, LMaterialAmbient: TgxColorVector;
+  ambient, LMaterialAmbient: TGSColorVector;
   success: Boolean;
 begin
   if (csDesigning in ComponentState) and not DesignTimeEnabled then
@@ -1913,7 +1908,8 @@ begin
 end;
 
 
-initialization
+initialization //============================================================
+
   RegisterClasses([TgxslBumpShaderMT, TgxslBumpShader, TgxslBumpShaderAM,
                    TgxslMLBumpShader, TgxslMLBumpShaderMT]);
 

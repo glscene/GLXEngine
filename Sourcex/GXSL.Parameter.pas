@@ -1,6 +1,6 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXSL.Parameter;
 
 interface
@@ -254,9 +254,7 @@ procedure FillUniformAutoSetMethodList(AList: TStrings;
 function GetUniformAutoSetMethod(AMethodName: string): TUniformAutoSetMethod;
 function GetUniformAutoSetMethodName(AMethod: TUniformAutoSetMethod): string;
 
-//---------------------------------------------------------------------------
-implementation
-//---------------------------------------------------------------------------
+implementation //============================================================
 
 const
   cGLXLTypeComponents: array[TgxSLDataType] of Integer =

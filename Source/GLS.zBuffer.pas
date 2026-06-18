@@ -4,9 +4,8 @@
 unit GLS.zBuffer;
 (*
    ZBuffer retrieval and computations.
-   See readme.txt in the Demos/SpecialsFX/Shadows directory.
-   By René Lindsay.
-*)
+   RegisterClasses([TGLZShadows]);
+
    //--------These formulas are the key to making use of the z-Buffer--------
    //
    // dst (d): world distance
@@ -19,7 +18,7 @@ unit GLS.zBuffer;
    //z  :=(1-np/d)/(1-np/fp);  //calc from frustrum depth to z-buffer value
    //------------------------  z:=1-(fp/d-1)/(fp/np-1); //old FtoZ
    //------------------------------------------------------------------------
-
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -34,6 +33,9 @@ uses
   Stage.VectorGeometry,
   Stage.TextureFormat,
   Stage.VectorTypes,
+  Stage.PersistentClasses,
+  Stage.Coordinates,
+  Stage.Color,
 
   GLS.XOpenGL,
   GLS.Scene,
@@ -41,11 +43,8 @@ uses
   GLS.Objects,
   GLS.Context,
   GLS.SceneViewer,
-  GLS.Color,
   GLS.RenderContextInfo,
-  GLS.State,
-  GLS.Coordinates,
-  GLS.PersistentClasses;
+  GLS.State;
 
 type
   EZBufferException = class(Exception);
@@ -130,7 +129,7 @@ type
     FYRes: integer;
     Fsoft: boolean;
     FTolerance: single;
-    FColor: TGLColor;
+    FColor: TGSColor;
     SCol: TGLPixel32;
     //stepX, stepY :single;
     FTexturePrepared: Boolean;
@@ -164,7 +163,7 @@ type
     property Optimise: TOptimise read FOptimise write FOptimise;
     property Width: integer read FWidth write SetWidth;
     property Height: integer read FHeight write SetHeight;
-    property Color: TGLColor read FColor write FColor;
+    property Color: TGSColor read FColor write FColor;
     //          property Xres        :integer read FXRes write SetXRes;// default 64;
     //          property Yres        :integer read FYRes write SetYRes;// default 64;
     property Soft: Boolean read Fsoft write SetSoft;
@@ -352,7 +351,7 @@ end;
 procedure TGLzBuffer.DoCalcVectors;
 var
   axs: TAffineVector;
-  Hnorm, hcvec: TGLVector;
+  Hnorm, hcvec: TGSVector;
   vec: TAffineVector;
   w, h: integer;
   wrp: single;
@@ -480,7 +479,7 @@ function TGLzBuffer.PixelToWorld(const x, y: Integer): TAffineVector;
 var
   z, dst: single;
   fy: integer;
-  camvec: TGLVector;
+  camvec: TGSVector;
 begin
   // if (Cardinal(x)<Cardinal(FWidth)) and (Cardinal(y)<Cardinal(FWidth)) then begin       //xres,yres?
   if (x < FWidth) and (y < FHeight) then
@@ -504,7 +503,7 @@ end;
 function TGLzBuffer.WorldToPixel(const aPoint: TAffineVector; out pixX, pixY:
   integer; out pixZ: single): boolean;
 var
-  camPos: TGLVector;
+  camPos: TGSVector;
   x, y, z, v0, v1, zscal: single;
 begin
   //---Takes x,y,z world coordinate.
@@ -541,7 +540,7 @@ end;
 function TGLzBuffer.WorldToPixelZ(const aPoint: TAffineVector; out pixX, pixY:
   integer; out pixZ: single): boolean; //OVERLOAD
 var
-  camPos: TGLVector;
+  camPos: TGSVector;
   x, y, z, v0, v1, zscal: single;
 begin
   //---Takes x,y,z world coordinate.
@@ -580,7 +579,7 @@ end;
 function TGLzBuffer.WorldToPixelZ(const aPoint: TAffineVector; out pixX, pixY:
   single; out pixZ: single): boolean; //OVERLOAD
 var
-  camPos: TGLVector;
+  camPos: TGSVector;
   x, y, z, invZ, v0, v1, zscal: single;
 begin
   //---Takes x,y,z world coordinate. (aPoint)
@@ -620,7 +619,7 @@ end;
 function TGLzBuffer.OrthWorldToPixelZ(const aPoint: TAffineVector; out pixX,
   pixY: single; out pixZ: single): boolean;
 var
-  camPos: TGLVector;
+  camPos: TGSVector;
   x, y, z: single;
 begin
   campos := cam.AbsolutePosition;
@@ -646,7 +645,7 @@ constructor TGLZShadows.Create(AOwner: TComponent);
 begin
   inherited;
   ObjectStyle := ObjectStyle + [osDirectDraw, osNoVisibilityCulling];
-  FColor := TGLColor.Create(Self);
+  FColor := TGSColor.Create(Self);
   self.FDataSize := 0;
   self.FXRes := 64;
   self.FYRes := 64;
@@ -1306,9 +1305,7 @@ begin
   NotifyChange(Self);
 end;
 
-// ------------------------------------------------------------------
-initialization
-// ------------------------------------------------------------------
+initialization //============================================================
 
   RegisterClasses([TGLZShadows]);
 

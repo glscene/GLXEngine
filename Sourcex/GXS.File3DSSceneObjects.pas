@@ -1,10 +1,10 @@
-//
-// Graphic Scene Engine, http://glscene.org
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.File3DSSceneObjects;
-
-(* 3ds-specific scene objects *)
-
+(*
+  3ds-specific scene objects
+*)
 interface
 
 uses
@@ -19,40 +19,40 @@ uses
   GXS.Context,
   GXS.Scene,
   GXS.VectorFileObjects,
-  GXS.PersistentClasses,
-  GXS.Coordinates,
+  Stage.PersistentClasses,
+  Stage.Coordinates,
   GXS.RenderContextInfo,
   GXS.State;
 
 type
   TgxFile3DSLight = class(TgxLightSource)
   private
-    FTargetPos: TgxCoordinates;
+    FTargetPos: TGSCoordinates;
     FHotSpot: Single;
     FMultipler: Single;
   public
     constructor Create(AOwner: TComponent); override;
     procedure DoRender(var rci: TgxRenderContextInfo; renderSelf, renderChildren: Boolean); override;
-    procedure CoordinateChanged(Sender: TgxCustomCoordinates); override;
+    procedure CoordinateChanged(Sender: TGSCustomCoordinates); override;
     destructor Destroy; override;
   published
-    property SpotTargetPos: TgxCoordinates read FTargetPos;
+    property SpotTargetPos: TGSCoordinates read FTargetPos;
     property HotSpot: Single read FHotSpot write FHotSpot;
     property Multipler: Single read FMultipler write FMultipler;
   end;
 
   TgxFile3DSCamera = class(TgxCamera)
   private
-    FTargetPos: TgxCoordinates;
+    FTargetPos: TGSCoordinates;
     FQuadCyl: array[0..1] of GLUquadricObj;
     FQuadDisk: array[0..1] of GLUquadricObj;
   public
     constructor Create(AOwner: TComponent); override;
     procedure DoRender(var rci: TgxRenderContextInfo; renderSelf, renderChildren: Boolean); override;
-    procedure CoordinateChanged(Sender: TgxCustomCoordinates); override;
+    procedure CoordinateChanged(Sender: TGSCustomCoordinates); override;
     destructor Destroy; override;
   published
-    property CameraTargetPos: TgxCoordinates read FTargetPos;
+    property CameraTargetPos: TGSCoordinates read FTargetPos;
     property RollAngle;
   end;
 
@@ -68,9 +68,9 @@ type
   private
     FTransfMat, FScaleMat, ParentMatrix: TMatrix4f;
 
-    FS_Rot3DS: TgxCoordinates4;
-    FRot3DS: TgxCoordinates4;
-    FScale3DS: TgxCoordinates4;
+    FS_Rot3DS: TGSCoordinates4;
+    FRot3DS: TGSCoordinates4;
+    FScale3DS: TGSCoordinates4;
     procedure ReadMesh(Stream: TStream);
     procedure WriteMesh(Stream: TStream);
   protected
@@ -80,19 +80,19 @@ type
     constructor Create(AOWner: TComponent); override;
     destructor Destroy; override;
     procedure BuildList(var rci: TgxRenderContextInfo); override;
-    procedure CoordinateChanged(Sender: TgxCustomCoordinates); override;
+    procedure CoordinateChanged(Sender: TGSCustomCoordinates); override;
     function AxisAlignedDimensionsUnscaled: TVector4f; override;
     function BarycenterAbsolutePosition: TVector4f; override;
   published
-    property S_Rot3DS: TgxCoordinates4 read FS_Rot3DS;
-    property Rot3DS: TgxCoordinates4 read FRot3DS;
-    property Scale3DS: TgxCoordinates4 read FScale3DS;
+    property S_Rot3DS: TGSCoordinates4 read FS_Rot3DS;
+    property Rot3DS: TGSCoordinates4 read FRot3DS;
+    property Scale3DS: TGSCoordinates4 read FScale3DS;
   end;
 
 var
   vFile3DSSceneObjects_RenderCameraAndLights: Boolean = False;
 
-implementation //------------------------------------------------------------
+implementation //============================================================
 
 function MakeRotationQuaternion(const axis: TAffineVector; angle: Single): TQuaternion;
 var
@@ -158,7 +158,7 @@ constructor TgxFile3DSLight.Create(AOwner: TComponent);
 begin
   inherited;
 
-  FTargetPos := TgxCoordinates.CreateInitialized(self, VectorMake(NullVector), csPoint);
+  FTargetPos := TGSCoordinates.CreateInitialized(self, VectorMake(NullVector), csPoint);
   FHotSpot := 1;
   FMultipler := 1;
 end;
@@ -210,7 +210,7 @@ begin
   glPopMatrix;
 end;
 
-procedure TgxFile3DSLight.CoordinateChanged(Sender: TgxCustomCoordinates);
+procedure TgxFile3DSLight.CoordinateChanged(Sender: TGSCustomCoordinates);
 begin
   inherited;
 
@@ -230,7 +230,7 @@ var
 begin
   inherited;
 
-  FTargetPos := TgxCoordinates.CreateInitialized(self, VectorMake(NullVector), csPoint);
+  FTargetPos := TGSCoordinates.CreateInitialized(self, VectorMake(NullVector), csPoint);
 
   for I := 0 to 1 do
   begin
@@ -297,7 +297,7 @@ begin
   rci.gxStates.PolygonMode := pmFill;
 end;
 
-procedure TgxFile3DSCamera.CoordinateChanged(Sender: TgxCustomCoordinates);
+procedure TgxFile3DSCamera.CoordinateChanged(Sender: TGSCustomCoordinates);
 begin
   inherited;
 
@@ -323,18 +323,18 @@ end;
 
 procedure TgxFile3DSActor.ReadMesh(Stream: TStream);
 var
-  virt: TgxBinaryReader;
+  virt: TGSBinaryReader;
 begin
-  virt := TgxBinaryReader.Create(Stream);
+  virt := TGSBinaryReader.Create(Stream);
   MeshOBjects.ReadFromFiler(virt);
   virt.Free;
 end;
 
 procedure TgxFile3DSActor.WriteMesh(Stream: TStream);
 var
-  virt: TgxBinaryWriter;
+  virt: TGSBinaryWriter;
 begin
-  virt := TgxBinaryWriter.Create(Stream);
+  virt := TGSBinaryWriter.Create(Stream);
   MeshOBjects.WriteToFiler(virt);
   virt.Free;
 end;
@@ -351,9 +351,9 @@ begin
   FRefMat := IdentityHmgMatrix;
   FTransfMat := IdentityHmgMatrix;
   FScaleMat := IdentityHmgMatrix;
-  FS_Rot3DS := TgxCoordinates4.CreateInitialized(self, VectorMake(1, 0, 0), csVector);
-  FRot3DS := TgxCoordinates4.CreateInitialized(self, VectorMake(1, 0, 0), csVector);
-  FScale3DS := TgxCoordinates4.CreateInitialized(self, VectorMake(1, 1, 1), csVector);
+  FS_Rot3DS := TGSCoordinates4.CreateInitialized(self, VectorMake(1, 0, 0), csVector);
+  FRot3DS := TGSCoordinates4.CreateInitialized(self, VectorMake(1, 0, 0), csVector);
+  FScale3DS := TGSCoordinates4.CreateInitialized(self, VectorMake(1, 1, 1), csVector);
 
   ObjectStyle := [osDirectDraw];
 end;
@@ -370,9 +370,9 @@ end;
 procedure TgxFile3DSFreeForm.ReadMesh(Stream: TStream);
 var
   v: TVector4f;
-  virt: TgxBinaryReader;
+  virt: TGSBinaryReader;
 begin
-  virt := TgxBinaryReader.Create(Stream);
+  virt := TGSBinaryReader.Create(Stream);
 
   virt.read(FRefMat, sizeof(FRefMat));
   virt.read(v, sizeof(v));
@@ -388,10 +388,10 @@ end;
 
 procedure TgxFile3DSFreeForm.WriteMesh(Stream: TStream);
 var
-  virt: TgxBinaryWriter;
+  virt: TGSBinaryWriter;
   v: TVector4f;
 begin
-  virt := TgxBinaryWriter.Create(Stream);
+  virt := TGSBinaryWriter.Create(Stream);
 
   virt.write(FRefMat, sizeof(FRefMat));
   v := S_Rot3DS.AsVector;
@@ -429,7 +429,7 @@ begin
   ParentMatrix := MatrixMultiply(FTransfMat, ParentMatrix);
 end;
 
-procedure TgxFile3DSFreeForm.CoordinateChanged(Sender: TgxCustomCoordinates);
+procedure TgxFile3DSFreeForm.CoordinateChanged(Sender: TGSCustomCoordinates);
 var
   quat, quat1, quat2: TQuaternion;
 begin

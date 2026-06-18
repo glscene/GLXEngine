@@ -1,13 +1,11 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.CUDA.Compiler;
-
 (*
   Component allows to compile the CUDA-source (*.cu) file in design- and runtime.
   To work requires the presence of CUDA Toolkit 4.X and MS Visual Studio C++.
 *)
-
 interface
 
 {$I Stage.Defines.inc}
@@ -120,13 +118,12 @@ type
 var
   vFindCuFileFunc: TFindCuFileFunc;
 
-implementation //------------------------------------------------------------
+implementation //============================================================
 
 
 // ------------------
 // ------------------ TGLCUDACompiler ------------------
 // ------------------
-
 constructor TGLCUDACompiler.Create(AOwner: TComponent);
 var
   path: string;
@@ -386,7 +383,7 @@ begin
         Write(msg)
       else
        {$IFDEF USE_LOGGING}
-        GLSLogger.LogError(strFailCreatePipe);
+        GSLogger.LogError(strFailCreatePipe);
        {$ENDIF}
     end;
 
@@ -436,6 +433,7 @@ begin
   FRealArch := AValue;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLCUDACompiler.SetSourceCodeFile(const AFileName: string);
 begin
   if FileStreamExists(AFileName) then

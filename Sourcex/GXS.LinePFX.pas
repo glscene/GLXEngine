@@ -16,11 +16,11 @@ uses
   System.SysUtils,
 
   Stage.VectorTypes,
-  GXS.PersistentClasses,
+  Stage.PersistentClasses,
   Stage.VectorGeometry,
   GXS.ParticleFX,
   GXS.Texture,
-  GXS.Color,
+  Stage.Color,
   GXS.RenderContextInfo,
   GXS.Context;
 
@@ -33,8 +33,8 @@ type
          FLength : Single;
       protected
       public
-         procedure WriteToFiler(writer : TgxVirtualWriter); override;
-         procedure ReadFromFiler(reader : TgxVirtualReader); override;
+         procedure WriteToFiler(writer : TGSVirtualWriter); override;
+         procedure ReadFromFiler(reader : TGSVirtualReader); override;
          { Direction of the line. }
          property Direction : TAffineVector read FDirection write FDirection;
          { Length of the line }
@@ -130,7 +130,7 @@ end;
 procedure TgxLinePFXManager.RenderParticle(var rci: TgxRenderContextInfo; aParticle : TgxParticle);
 var
    lifeTime, sizeScale, fx, fy, f : Single;
-   inner, outer : TgxColorVector;
+   inner, outer : TGSColorVector;
    pos, dir, start, stop, dv : TAffineVector;
 begin
    lifeTime:=CurrentTime-aParticle.CreationTime;
@@ -187,7 +187,7 @@ end;
 // ------------------ TgxLineParticle ------------------
 // ------------------
 
-procedure TgxLineParticle.WriteToFiler(writer : TgxVirtualWriter);
+procedure TgxLineParticle.WriteToFiler(writer : TGSVirtualWriter);
 begin
    inherited WriteToFiler(writer);
    with writer do begin
@@ -197,7 +197,7 @@ begin
    end;
 end;
 
-procedure TgxLineParticle.ReadFromFiler(reader : TgxVirtualReader);
+procedure TgxLineParticle.ReadFromFiler(reader : TGSVirtualReader);
 var
    archiveVersion : integer;
 begin

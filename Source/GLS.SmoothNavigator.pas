@@ -1,6 +1,6 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.SmoothNavigator;
 (*
    An extension of TGLNavigator, which allows to move objects with inertia
@@ -13,7 +13,6 @@ unit GLS.SmoothNavigator;
    1) When calling the Scale parameter procedure, it is also necessary to scale the "old values" to avoid temporarily "freezing" the controls.
    2) Add Impulse procedures.
 *)
-
 interface
 
 {$I Stage.Defines.inc}
@@ -22,14 +21,14 @@ uses
   System.Types,
   System.Classes,
   
-  GLS.Scene,
-  GLS.PersistentClasses,
-  Stage.VectorTypes, 
-  GLS.Navigator,
   Stage.VectorGeometry,
-  GLS.Coordinates,
-  GLS.Screen, 
-  GLS.XCollection;
+  Stage.PersistentClasses,
+  Stage.VectorTypes,
+  Stage.Coordinates,
+  GLS.Scene,
+  GLS.Navigator,
+  GLS.Screen,
+  Stage.XCollection;
 
 type
   (* Includes a basic set of parameters
@@ -108,16 +107,16 @@ type
   end;
 
   TGLNavigatorSmoothChangeVector = class;
-  TGLNavigatorSmoothChangeVectorGetEvent = function(const ASender: TGLNavigatorSmoothChangeVector): TGLVector of object;
-  TGLNavigatorSmoothChangeVectorSetEvent = procedure(const ASender: TGLNavigatorSmoothChangeVector; const AValue: TGLVector) of object;
+  TGLNavigatorSmoothChangeVectorGetEvent = function(const ASender: TGLNavigatorSmoothChangeVector): TGSVector of object;
+  TGLNavigatorSmoothChangeVectorSetEvent = procedure(const ASender: TGLNavigatorSmoothChangeVector; const AValue: TGSVector) of object;
 
   // Smoothly change any Vector4f value, so it will become TargetValue in the end.
   TGLNavigatorSmoothChangeVector = class(TGLNavigatorSmoothChangeItem)
   private
-    FTargetValue: TGLCoordinates;
+    FTargetValue: TGSCoordinates;
     FOnGetCurrentValue: TGLNavigatorSmoothChangeVectorGetEvent;
     FOnSetCurrentValue: TGLNavigatorSmoothChangeVectorSetEvent;
-    procedure SetTargetValue(const Value: TGLCoordinates);
+    procedure SetTargetValue(const Value: TGSCoordinates);
   public
     class function FriendlyName: string; override;
     function Proceed(ADeltaTime: Double): Boolean; override;
@@ -126,7 +125,7 @@ type
     destructor Destroy; override;
     procedure ResetTargetValue(); override;
   published
-    property TargetValue: TGLCoordinates read FTargetValue write SetTargetValue;
+    property TargetValue: TGSCoordinates read FTargetValue write SetTargetValue;
     property OnGetCurrentValue: TGLNavigatorSmoothChangeVectorGetEvent read FOnGetCurrentValue write FOnGetCurrentValue;
     property OnSetCurrentValue: TGLNavigatorSmoothChangeVectorSetEvent read FOnSetCurrentValue write FOnSetCurrentValue;
   end;
@@ -323,10 +322,10 @@ type
     function MoveAroundTarget(const PitchDelta, TurnDelta : Single; const ADeltaTime: Double): Boolean;
     function MoveObjectAround(const AObject: TGLBaseSceneObject; PitchDelta, TurnDelta : Single; ADeltaTime: Double): Boolean;
     // Uses AdjustDistanceParams.
-    function AdjustDistanceToPoint(const  APoint: TGLVector; const DistanceRatio : Single; ADeltaTime: Double): Boolean;
+    function AdjustDistanceToPoint(const  APoint: TGSVector; const DistanceRatio : Single; ADeltaTime: Double): Boolean;
     function AdjustDistanceToTarget(const DistanceRatio : Single; const ADeltaTime: Double): Boolean;
     // Uses AdjustDistanceParamsEx.
-    function AdjustDistanceToPointEx(const  APoint: TGLVector; ADeltaTime: Double): Boolean;
+    function AdjustDistanceToPointEx(const  APoint: TGSVector; ADeltaTime: Double): Boolean;
     function AdjustDistanceToTargetEx(const ADeltaTime: Double): Boolean;
     // Uses CustomAnimatedItems.
     procedure AnimateCustomItems(const ADeltaTime: Double); virtual;
@@ -360,9 +359,9 @@ type
     FSmoothNavigator: TGLSmoothNavigator;
     FSmoothVertNavigator: TGLSmoothNavigator;
     FInvertMouse: Boolean;
-    FOriginalMousePos: TGLCoordinates2;
+    FOriginalMousePos: TGSCoordinates2;
     procedure SetSmoothNavigator(const Value: TGLSmoothNavigator); virtual;
-    procedure SetOriginalMousePos(const Value: TGLCoordinates2); virtual;
+    procedure SetOriginalMousePos(const Value: TGSCoordinates2); virtual;
     procedure SetSmoothVertNavigator(const Value: TGLSmoothNavigator); virtual;
     procedure SetMouseLookActive(const Value: Boolean); virtual;
   protected
@@ -382,7 +381,7 @@ type
     property SmoothVertNavigator: TGLSmoothNavigator read FSmoothVertNavigator write SetSmoothVertNavigator;
     property SmoothNavigator: TGLSmoothNavigator read FSmoothNavigator write SetSmoothNavigator;
     property InvertMouse: Boolean read FInvertMouse write FInvertMouse default False;
-    property OriginalMousePos: TGLCoordinates2 read FOriginalMousePos write SetOriginalMousePos;
+    property OriginalMousePos: TGSCoordinates2 read FOriginalMousePos write SetOriginalMousePos;
   end;
 
 implementation //==================================================================
@@ -680,7 +679,7 @@ var
   FinalPitch: Single;
   FinalTurn:  Single;
 
-  lUp: TGLVector;
+  lUp: TGSVector;
 begin
   Result := False;
   FinalPitch := 0;
@@ -717,13 +716,13 @@ begin
 end;
 
 
-function TGLSmoothNavigator.AdjustDistanceToPoint(const APoint: TGLVector;
+function TGLSmoothNavigator.AdjustDistanceToPoint(const APoint: TGSVector;
   const DistanceRatio: Single; ADeltaTime: Double): Boolean;
 
   // Based on TGLCamera.AdjustDistanceToTarget
   procedure DoAdjustDistanceToPoint(const DistanceRatio: Single);
   var
-    vect: TGLVector;
+    vect: TGSVector;
   begin
     vect := VectorSubtract(MovingObject.AbsolutePosition, APoint);
     ScaleVector(vect, (distanceRatio - 1));
@@ -775,17 +774,17 @@ begin
   FAdjustDistanceParams.Assign(Value);
 end;
 
-function TGLSmoothNavigator.AdjustDistanceToPointEx(const APoint: TGLVector;
+function TGLSmoothNavigator.AdjustDistanceToPointEx(const APoint: TGSVector;
   ADeltaTime: Double): Boolean;
 
 var
-  lAbsolutePosition: TGLVector;
+  lAbsolutePosition: TGSVector;
   lCurrentDistance: Single;
   lDistanceDifference, lTempCurrentDistance: Single;
 
   procedure DoAdjustDistanceToPoint(const DistanceValue: Single);
   var
-    vect: TGLVector;
+    vect: TGSVector;
   begin
     vect := VectorSubtract(APoint, lAbsolutePosition);
     NormalizeVector(vect);
@@ -890,7 +889,7 @@ begin
   inherited;
   FMouseLookActive := False;
   FAutoUpdateMouse := True;
-  FOriginalMousePos := TGLCoordinates2.CreateInitialized(Self,
+  FOriginalMousePos := TGSCoordinates2.CreateInitialized(Self,
                              VectorMake(GLGetScreenWidth div 2,
                              GLGetScreenHeight div 2, 0, 0), csPoint2D);
 end;
@@ -927,7 +926,7 @@ begin
 end;
 
 procedure TGLSmoothUserInterface.SetOriginalMousePos(
-  const Value: TGLCoordinates2);
+  const Value: TGSCoordinates2);
 begin
   FOriginalMousePos.Assign(Value);
 end;
@@ -1532,7 +1531,7 @@ end;
 constructor TGLNavigatorSmoothChangeVector.Create(aOwner: TXCollection);
 begin
   inherited;
-  FTargetValue := TGLCoordinates.CreateInitialized(Self, NullHmgVector, csVector);
+  FTargetValue := TGSCoordinates.CreateInitialized(Self, NullHmgVector, csVector);
 end;
 
 destructor TGLNavigatorSmoothChangeVector.Destroy;
@@ -1548,14 +1547,14 @@ end;
 
 function TGLNavigatorSmoothChangeVector.Proceed(ADeltaTime: Double): Boolean;
 var
-  lAbsolutePosition: TGLVector;
+  lAbsolutePosition: TGSVector;
   lCurrentDistance: Single;
   lTotalDistanceToTravelThisTime, lDistanceToTravelThisTime: Single;
   lMaxExpectedDeltaTime: Double;
 
   procedure DoAdjustDistanceToPoint();
   var
-    vect: TGLVector;
+    vect: TGSVector;
   begin
     vect := VectorScale(VectorNormalize(VectorSubtract(FTargetValue.DirectVector, lAbsolutePosition)), lTotalDistanceToTravelThisTime);
     AddVector(vect, lAbsolutePosition);
@@ -1601,7 +1600,7 @@ begin
 end;
 
 procedure TGLNavigatorSmoothChangeVector.SetTargetValue(
-  const Value: TGLCoordinates);
+  const Value: TGSCoordinates);
 begin
   FTargetValue.Assign(Value);
 end;

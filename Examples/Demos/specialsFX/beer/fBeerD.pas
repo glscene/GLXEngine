@@ -23,8 +23,8 @@ uses
   GLS.ShadowPlane,
   GLS.ParticleFX,
   GLS.PerlinPFX,
-  GLS.Coordinates,
-  GLS.BaseClasses,
+  Stage.Coordinates,
+  Stage.BaseClasses,
   Stage.Utils;
 
 type

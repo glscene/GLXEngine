@@ -1,23 +1,22 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.FileMD3;
-
-(* Code for loading animated MD3 files into GXScene FreeForms and Actors *)
-
+(*
+  Code for loading animated MD3 files into GXScene FreeForms and Actors
+*)
 interface
 
 uses
   System.Classes,
   System.SysUtils,
 
-  GXS.ApplicationFileIO,
   Stage.VectorGeometry,
+  GXS.ApplicationFileIO,
   GXS.VectorFileObjects,
   GXS.Material,
   GXS.Texture,
-
-  Formatx.MD3;
+  Formats.MD3;
 
 type
 
@@ -27,9 +26,7 @@ type
       procedure LoadFromStream(aStream : TStream); override;
   end;
 
-//==================================================================
-implementation
-//==================================================================
+implementation //===========================================================
 
 // ------------------
 // ------------------ TgxMD3VectorFile ------------------
@@ -133,9 +130,7 @@ begin
   end;
 end;
 
-// ------------------------------------------------------------------
-initialization
-// ------------------------------------------------------------------
+initialization //============================================================
 
    RegisterVectorFileFormat('md3', 'MD3 files', TgxMD3VectorFile);
 

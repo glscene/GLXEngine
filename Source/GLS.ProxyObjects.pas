@@ -1,11 +1,12 @@
-//
-// GLScene Graphics Engine
-//
-
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.ProxyObjects;
-
-(* Implements specific proxying classes *)
-
+(*
+  Implements specific proxying classes
+  RegisterClasses([TGSColorProxy, TGLFreeFormProxy, TGLActorProxy,
+    TGLMaterialProxy]);
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -16,19 +17,20 @@ uses
   System.SysUtils,
 
   Stage.OpenGLTokens,
-  GLS.Scene,
-  GLS.XCollection,
+  Stage.VectorTypes,
   Stage.PipelineTransform,
   Stage.VectorGeometry,
+  Stage.PersistentClasses,
+  Stage.BaseClasses,
+  Stage.XCollection,
+  Stage.Strings,
+
+  GLS.Scene,
   GLS.Texture,
   GLS.VectorFileObjects,
-  Stage.Strings,
   GLS.RenderContextInfo,
-  GLS.BaseClasses,
   GLS.Material,
-  GLS.Context,
-  GLS.PersistentClasses,
-  Stage.VectorTypes;
+  GLS.Context;
 
 type
   EGLProxyException = class(Exception);
@@ -37,7 +39,7 @@ type
      This proxy object can have a unique color. Note that multi-material
      objects (Freeforms linked to a material library f.i.) won't honour
      the color. *)
-  TGLColorProxy = class(TGLProxyObject)
+  TGSColorProxy = class(TGLProxyObject)
   private
     FFrontColor: TGLFaceProperties;
     function GetMasterMaterialObject: TGLCustomSceneObject;
@@ -102,12 +104,12 @@ type
   public
     (* If the MasterObject is a FreeForm, you can raycast against the Octree,
        which is alot faster.  You must build the octree before using. *)
-    function OctreeRayCastIntersect(const rayStart, rayVector: TGLVector;
-      intersectPoint: PGLVector = nil;  intersectNormal: PGLVector = nil): Boolean;
+    function OctreeRayCastIntersect(const rayStart, rayVector: TGSVector;
+      intersectPoint: PGSVector = nil;  intersectNormal: PGSVector = nil): Boolean;
     // WARNING: This function is not yet 100% reliable with scale+rotation. 
-    function OctreeSphereSweepIntersect(const rayStart, rayVector: TGLVector;
+    function OctreeSphereSweepIntersect(const rayStart, rayVector: TGSVector;
       const velocity, radius, modelscale: Single;
-      intersectPoint: PGLVector = nil; intersectNormal: PGLVector = nil): Boolean;
+      intersectPoint: PGSVector = nil; intersectNormal: PGSVector = nil): Boolean;
   published
 
    // Redeclare as TGLFreeForm.
@@ -118,7 +120,7 @@ type
   // An object containing the bone matrix for TGLActorProxy.  
   TBoneMatrixObj = class
   public
-    Matrix: TGLMatrix;
+    Matrix: TGSMatrix;
     BoneName: string;
     BoneIndex: integer;
   end;
@@ -135,7 +137,7 @@ type
     FEndFrame: Integer;
     FLastFrame: Integer;
     FCurrentFrameDelta: Single;
-    FCurrentTime: TGLProgressTimes;
+    FCurrentTime: TGSProgressTimes;
     FAnimation: TGLActorAnimationName;
     FTempLibMaterialName: string;
     FMasterLibMaterial: TGLLibMaterial;
@@ -143,7 +145,7 @@ type
     FBonesMatrices: TStringList;
     FStoreBonesMatrix: boolean;
     FStoredBoneNames: TStrings;
-    FOnBeforeRender: TGLProgressEvent;
+    FOnBeforeRender: TGSProgressEvent;
     FAnimationMode: TGLActorProxyAnimationMode;
     procedure SetAnimation(const Value: TGLActorAnimationName);
     procedure SetMasterActorObject(const Value: TGLActor);
@@ -155,7 +157,7 @@ type
     function GetMaterialLibrary: TGLAbstractMaterialLibrary;
     procedure SetStoreBonesMatrix(const Value: boolean);
     procedure SetStoredBoneNames(const Value: TStrings);
-    procedure SetOnBeforeRender(const Value: TGLProgressEvent);
+    procedure SetOnBeforeRender(const Value: TGSProgressEvent);
   protected
     procedure DoStoreBonesMatrices; // stores matrices of bones of the current frame rendered
   public
@@ -164,21 +166,21 @@ type
     procedure Notification(AComponent: TComponent; Operation: TOperation); override;
     procedure DoRender(var ARci: TGLRenderContextInfo;
       ARenderSelf, ARenderChildren: Boolean); override;
-    procedure DoProgress(const progressTime: TGLProgressTimes); override;
+    procedure DoProgress(const progressTime: TGSProgressTimes); override;
     property CurrentFrame: Integer read FCurrentFrame;
     property StartFrame: Integer read FStartFrame;
     property EndFrame: Integer read FEndFrame;
     property CurrentFrameDelta: Single read FCurrentFrameDelta;
-    property CurrentTime: TGLProgressTimes read FCurrentTime;
+    property CurrentTime: TGSProgressTimes read FCurrentTime;
     (* Gets the Bones Matrix in the current animation frame.
      (since the masterobject is shared between all proxies, each proxy will have it's bones matrices) *)
-    function BoneMatrix(BoneIndex: integer): TGLMatrix; overload;
-    function BoneMatrix(BoneName: string): TGLMatrix; overload;
+    function BoneMatrix(BoneIndex: integer): TGSMatrix; overload;
+    function BoneMatrix(BoneName: string): TGSMatrix; overload;
     procedure BoneMatricesClear;
     // A standard version of the RayCastIntersect function. 
-    function RayCastIntersect(const rayStart, rayVector: TGLVector;
-      intersectPoint: PGLVector = nil;
-      intersectNormal: PGLVector = nil): Boolean; override;
+    function RayCastIntersect(const rayStart, rayVector: TGSVector;
+      intersectPoint: PGSVector = nil;
+      intersectNormal: PGSVector = nil): Boolean; override;
     (* Raycasts on self, but actually on the "RefActor" Actor.
        Note that the "RefActor" parameter does not necessarily have to be
        the same Actor refernced by the MasterObject property:
@@ -186,9 +188,9 @@ type
        while using a high-poly Actor in the "MasterObject" property,
        of course we assume that the two Masterobject Actors have same animations.  *)
     function RayCastIntersectEx(RefActor: TGLActor; const rayStart, rayVector:
-      TGLVector;
-      intersectPoint: PGLVector = nil;
-      intersectNormal: PGLVector = nil): Boolean; overload;
+      TGSVector;
+      intersectPoint: PGSVector = nil;
+      intersectNormal: PGSVector = nil): Boolean; overload;
   published
     property AnimationMode: TGLActorProxyAnimationMode read FAnimationMode write FAnimationMode default pamInherited;
     property Animation: TGLActorAnimationName read FAnimation write SetAnimation;
@@ -209,7 +211,7 @@ type
     property StoredBoneNames: TStrings read FStoredBoneNames write SetStoredBoneNames;
     (* Event allowing to apply extra transformations (f.ex: bone rotations) to the referenced
        Actor on order to have the proxy render these changes. *)
-    property OnBeforeRender: TGLProgressEvent read FOnBeforeRender write SetOnBeforeRender;
+    property OnBeforeRender: TGSProgressEvent read FOnBeforeRender write SetOnBeforeRender;
   end;
 
 //-------------------------------------------------------------
@@ -218,24 +220,24 @@ implementation
 
 
 // ------------------
-// ------------------ TGLColorProxy ------------------
+// ------------------ TGSColorProxy ------------------
 // ------------------
 
 
-constructor TGLColorProxy.Create(AOwner: TComponent);
+constructor TGSColorProxy.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
   FFrontColor := TGLFaceProperties.Create(Self);
 end;
 
-destructor TGLColorProxy.Destroy;
+destructor TGSColorProxy.Destroy;
 begin
   FFrontColor.Free;
 
   inherited Destroy;
 end;
 
-procedure TGLColorProxy.DoRender(var ARci: TGLRenderContextInfo;
+procedure TGSColorProxy.DoRender(var ARci: TGLRenderContextInfo;
   ARenderSelf, ARenderChildren: Boolean);
 var
   gotMaster, masterGotEffects, oldProxySubObject: Boolean;
@@ -271,17 +273,17 @@ begin
   ClearStructureChanged;
 end;
 
-function TGLColorProxy.GetMasterMaterialObject: TGLCustomSceneObject;
+function TGSColorProxy.GetMasterMaterialObject: TGLCustomSceneObject;
 begin
   Result := TGLCustomSceneObject(inherited MasterObject);
 end;
 
-procedure TGLColorProxy.SetFrontColor(AValue: TGLFaceProperties);
+procedure TGSColorProxy.SetFrontColor(AValue: TGLFaceProperties);
 begin
   FFrontColor.Assign(AValue);
 end;
 
-procedure TGLColorProxy.SetMasterMaterialObject(
+procedure TGSColorProxy.SetMasterMaterialObject(
   const Value: TGLCustomSceneObject);
 begin
   inherited SetMasterObject(Value);
@@ -292,11 +294,11 @@ end;
 // ------------------
 
 function TGLFreeFormProxy.OctreeRayCastIntersect(const rayStart, rayVector:
-  TGLVector;
-  intersectPoint: PGLVector = nil;
-  intersectNormal: PGLVector = nil): Boolean;
+  TGSVector;
+  intersectPoint: PGSVector = nil;
+  intersectNormal: PGSVector = nil): Boolean;
 var
-  localRayStart, localRayVector: TGLVector;
+  localRayStart, localRayVector: TGSVector;
 begin
   if Assigned(MasterObject) then
   begin
@@ -330,12 +332,12 @@ begin
 end;
 
 function TGLFreeFormProxy.OctreeSphereSweepIntersect(const rayStart, rayVector:
-  TGLVector;
+  TGSVector;
   const velocity, radius, modelscale: Single;
-  intersectPoint: PGLVector = nil;
-  intersectNormal: PGLVector = nil): Boolean;
+  intersectPoint: PGSVector = nil;
+  intersectNormal: PGSVector = nil): Boolean;
 var
-  localRayStart, localRayVector: TGLVector;
+  localRayStart, localRayVector: TGSVector;
   localVelocity, localRadius: single;
 begin
   Result := False;
@@ -388,13 +390,13 @@ end;
 // ------------------ TGLActorProxy ------------------
 // ------------------
 
-function TGLActorProxy.BoneMatrix(BoneIndex: integer): TGLMatrix;
+function TGLActorProxy.BoneMatrix(BoneIndex: integer): TGSMatrix;
 begin
   if BoneIndex < FBonesMatrices.count then
     result := TBoneMatrixObj(FBonesMatrices.Objects[BoneIndex]).Matrix;
 end;
 
-function TGLActorProxy.BoneMatrix(BoneName: string): TGLMatrix;
+function TGLActorProxy.BoneMatrix(BoneName: string): TGSMatrix;
 var
   i: Integer;
 begin
@@ -433,7 +435,7 @@ begin
   inherited;
 end;
 
-procedure TGLActorProxy.DoProgress(const progressTime: TGLProgressTimes);
+procedure TGLActorProxy.DoProgress(const progressTime: TGSProgressTimes);
 begin
   inherited;
   FCurrentTime := progressTime;
@@ -618,8 +620,8 @@ begin
   end;
 end;
 
-function TGLActorProxy.RayCastIntersect(const rayStart, rayVector: TGLVector;
-  intersectPoint, intersectNormal: PGLVector): Boolean;
+function TGLActorProxy.RayCastIntersect(const rayStart, rayVector: TGSVector;
+  intersectPoint, intersectNormal: PGSVector): Boolean;
 begin
   if MasterObject <> nil then
     Result := RayCastIntersectEx(GetMasterActorObject, rayStart, rayVector,
@@ -634,9 +636,9 @@ type
   TGLDummyActor = class(TGLActor);
 
 function TGLActorProxy.RayCastIntersectEx(RefActor: TGLActor; const rayStart,
-  rayVector: TGLVector; intersectPoint, intersectNormal: PGLVector): Boolean;
+  rayVector: TGSVector; intersectPoint, intersectNormal: PGSVector): Boolean;
 var
-  localRayStart, localRayVector: TGLVector;
+  localRayStart, localRayVector: TGSVector;
   cf, sf, ef: Integer;
   cfd: Single;
   HaspooTransformation: boolean;
@@ -772,7 +774,7 @@ begin
   end;
 end;
 
-procedure TGLActorProxy.SetOnBeforeRender(const Value: TGLProgressEvent);
+procedure TGLActorProxy.SetOnBeforeRender(const Value: TGSProgressEvent);
 begin
   FOnBeforeRender := Value;
 end;
@@ -908,11 +910,9 @@ begin
   end;
 end;
 
-//-------------------------------------------------------------
-initialization
-//-------------------------------------------------------------
+initialization //============================================================
 
-  RegisterClasses([TGLColorProxy, TGLFreeFormProxy, TGLActorProxy,
+  RegisterClasses([TGSColorProxy, TGLFreeFormProxy, TGLActorProxy,
     TGLMaterialProxy]);
 
 end.

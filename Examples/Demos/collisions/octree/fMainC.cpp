@@ -13,8 +13,8 @@
 #pragma link "GLS.VectorFileObjects"
 #pragma link "GLS.Scene"
 #pragma link "GLS.File3DS"
-#pragma link "GLS.BaseClasses"
-#pragma link "GLS.Coordinates"
+#pragma link "Stage.BaseClasses"
+#pragma link "Stage.Coordinates"
 
 #pragma link "GLS.Scene"
 #pragma resource "*.dfm"
@@ -51,7 +51,7 @@ void __fastcall TForm1::GLSceneViewer2MouseDown(TObject * Sender,
 												TMouseButton Button,
 												TShiftState Shift, int X, int Y)
 {
-  TGLVector rayStart, rayVector, iPoint, iNormal;
+  TGSVector rayStart, rayVector, iPoint, iNormal;
   __int64 t;
 
   SetVector(rayStart, GLCamera2->AbsolutePosition);

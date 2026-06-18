@@ -21,9 +21,9 @@ uses
   GLS.SceneViewer,
   GLS.WindowsFont,
   GLS.GeomObjects,
-  GLS.Coordinates,
+  Stage.Coordinates,
 
-  GLS.BaseClasses,
+  Stage.BaseClasses,
   GLS.BitmapFont;
 
 type

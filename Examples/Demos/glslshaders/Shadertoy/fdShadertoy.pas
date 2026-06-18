@@ -13,19 +13,19 @@ uses
 
   GLS.Scene,
   Stage.VectorTypes,
-  GLS.BaseClasses,
+  Stage.BaseClasses,
   GLS.Objects,
   GLS.Cadencer,
   GLS.SceneViewer,
-  GLS.XCollection,
+  Stage.XCollection,
   GLS.RenderContextInfo,
-  GLS.OpenGLAdapter,
+  Stage.OpenGLAdapter,
   Stage.TextureFormat,
   Stage.VectorGeometry,
 
   GLS.AsyncTimer,
   GLS.Context,
-  GLS.Coordinates,
+  Stage.Coordinates,
   GLS.HUDObjects,
   Stage.Utils;
 

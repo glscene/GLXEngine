@@ -6,7 +6,7 @@
 #include <StdCtrls.hpp>
 #include <Forms.hpp>
 #include <ExtCtrls.hpp>
-#include "GLS.OpenGLAdapter.hpp"
+#include "Stage.OpenGLAdapter.hpp"
 #include "GLS.BitmapFont.hpp"
 #include "GLS.Cadencer.hpp"
 #include "GLS.GeomObjects.hpp"
@@ -18,8 +18,8 @@
 #include "GLS.VectorFileObjects.hpp"
 #include "GLS.SceneViewer.hpp"
 #include "GLS.WindowsFont.hpp"
-#include "GLS.BaseClasses.hpp"
-#include "GLS.Coordinates.hpp"
+#include "Stage.BaseClasses.hpp"
+#include "Stage.Coordinates.hpp"
 
 #include "GLS.Material.hpp"
 #include "GLS.Context.hpp"

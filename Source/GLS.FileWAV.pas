@@ -1,10 +1,10 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.FileWAV;
-
-(* Support for Windows WAV format. *)
-
+(*
+  Support for Windows WAV format.
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -28,8 +28,8 @@ type
     data: array of Byte; // used to store WAVE bitstream
   protected
   public
-    function CreateCopy(AOwner: TPersistent): TGLDataFile; override;
-    class function Capabilities: TGLDataFileCapabilities; override;
+    function CreateCopy(AOwner: TPersistent): TGSDataFile; override;
+    class function Capabilities: TGSDataFileCapabilities; override;
     procedure LoadFromStream(Stream: TStream); override;
     procedure SaveToStream(Stream: TStream); override;
     procedure PlayOnWaveOut; override;
@@ -58,7 +58,7 @@ const
   // ------------------ TGLWAVFile ------------------
   // ------------------
 
-function TGLWAVFile.CreateCopy(AOwner: TPersistent): TGLDataFile;
+function TGLWAVFile.CreateCopy(AOwner: TPersistent): TGSDataFile;
 begin
   Result := inherited CreateCopy(AOwner);
   if Assigned(Result) then
@@ -70,7 +70,7 @@ begin
   end;
 end;
 
-class function TGLWAVFile.Capabilities: TGLDataFileCapabilities;
+class function TGLWAVFile.Capabilities: TGSDataFileCapabilities;
 begin
   Result := [dfcRead, dfcWrite];
 end;

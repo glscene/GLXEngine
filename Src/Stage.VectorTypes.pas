@@ -1,5 +1,5 @@
 (*****************************************************************************
-                          GLScene Graphics Engine
+                          GLStage Graphics Engine
 ******************************************************************************)
 unit Stage.VectorTypes;
 (*
@@ -387,12 +387,12 @@ type
   end;
 
 // The vector by default
-  PGLVector = ^TGLVector;
-  TGLVector = TVector4f;
+  PGSVector = ^TGSVector;
+  TGSVector = TVector4f;
 
 // The matrix by default
-  PGLMatrix = ^TGLMatrix;
-  TGLMatrix = TMatrix4f;
+  PGSMatrix = ^TGSMatrix;
+  TGSMatrix = TMatrix4f;
 
 implementation //==============================================================
 

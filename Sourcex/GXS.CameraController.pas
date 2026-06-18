@@ -1,8 +1,7 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.CameraController;
-
 (*
   Component for animating camera movement.
   Can be used to zoom in/out, for linear movement, orbiting and Google Earth - like "fly-to"
@@ -19,7 +18,6 @@ do whatever you want on mouse move, form wheel etc
 methods and properties are explained in the interface section (through comments)
 additional comments might apear in implementation section where needed
 *)
-
 interface
 
 uses
@@ -28,15 +26,14 @@ uses
   System.Math, 
   System.Contnrs,
   
-  GXS.PersistentClasses,
+  Stage.PersistentClasses,
   GXS.Scene,
   Stage.VectorGeometry,
-  GXS.Coordinates,
+  Stage.Coordinates,
   GXS.SmoothNavigator, 
   Stage.VectorTypes;
 
 type
-
   EGLCameraController = class(Exception);
 
   // Forward declaration of the camera controller main class
@@ -303,7 +300,7 @@ type
     property OnJobFinished : TgxCameraJobEvent read FOnJobFinished write SetOnJobFinished;
   end;
 
-implementation
+implementation //============================================================
 
 
 const

@@ -1,13 +1,11 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.CompositeImage;
-
 (*
     This class is required for loading images such classes as in DDSImage,
     TgxO3TCImage, TgxHDRImage etc.
 *)
-
 interface
 
 uses
@@ -15,7 +13,6 @@ uses
   FMX.Graphics,
 
   Stage.TextureFormat,
-
   GXS.Graphics,
   GXS.Texture,
   GXS.Context;
@@ -52,7 +49,7 @@ type
     property Depth: Integer read GetDepth write SetDepth;
   end;
 
-implementation //------------------------------------------------------------
+implementation //============================================================
 
 // ------------------
 // ------------------ TgxCompositeImage ------------------
@@ -267,7 +264,7 @@ begin
     Result := ttNoShape;
 end;
 
-initialization //-------------------------------------------------------------
+initialization //============================================================
 
   RegisterTextureImageClass(TgxCompositeImage);
 

@@ -1,11 +1,10 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.AVIRecorder;
 (*
   Component to make it easy to record GLScene frames into an AVI file
 *)
-
 interface
 
 {$I Stage.Defines.inc}
@@ -31,17 +30,15 @@ type
   TAVICompressor = (acDefault, acShowDialog, acDivX);
 
   PAVIStream = ^IAVIStream;
-
-  (*Frame size restriction. 
+  (*Frame size restriction.
     Forces frame dimensions to be a multiple of 2, 4, or 8. Some compressors
     require this. e.g. DivX 5.2.1 requires mutiples of 2. *)
   TAVISizeRestriction = (srNoRestriction, srForceBlock2x2, srForceBlock4x4,
     srForceBlock8x8);
 
   TAVIRecorderState = (rsNone, rsRecording);
-
-  (* Image retrieval mode for frame capture. 
-     Following modes are supported: 
+  (* Image retrieval mode for frame capture.
+     Following modes are supported:
      irmSnapShot : retrieve OpenGL framebuffer content using glReadPixels
      irmRenderToBitmap : renders the whole scene to a bitmap, this is
      the slowest mode, but it won't be affected by driver-side specifics.
@@ -51,8 +48,7 @@ type
 
   TAVIRecorderPostProcessEvent = procedure(Sender: TObject; frame: TBitmap)
     of object;
-
-  // Component to make it easy to record GLScene frames into an AVI file. 
+  // Component to make it easy to record GLScene frames into an AVI file.
   TGLAVIRecorder = class(TComponent)
   private
     AVIBitmap: TBitmap;
@@ -81,7 +77,7 @@ type
     procedure SetGLSceneViewer(const Value: TGLSceneViewer);
     procedure SetGLNonVisualViewer(const Value: TGLNonVisualViewer);
   protected
-    // Maybe we should make a generic TGLAVIRecorder, and then use sub-class of it 
+    // Maybe we should make a generic TGLAVIRecorder, and then use sub-class of it
     FGLSceneViewer: TGLSceneViewer;
     // FGLNonVisualViewer accepts GLNonVisualViewer and GLS.FullScreenViewer
     FGLNonVisualViewer: TGLNonVisualViewer;
@@ -125,10 +121,11 @@ type
       read FOnPostProcessEvent write FOnPostProcessEvent;
   end;
 
-implementation //==============================================================
+implementation //============================================================
 
+//---------------------------------------------------------------------------
 // DIB support rountines for AVI output
-
+//---------------------------------------------------------------------------
 procedure InitializeBitmapInfoHeader(Bitmap: HBITMAP;
   var BI: TBitmapInfoHeader);
 var
@@ -152,6 +149,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure InternalGetDIBSizes(Bitmap: HBITMAP; var InfoHeaderSize: integer;
   var ImageSize: Dword);
 var
@@ -162,6 +160,7 @@ begin
   ImageSize := BI.biSizeImage;
 end;
 
+//---------------------------------------------------------------------------
 function InternalGetDIB(Bitmap: HBITMAP; var bitmapInfo; var bits): boolean;
 var
   focus: HWND;
@@ -195,6 +194,7 @@ begin
   FImageRetrievalMode := irmBitBlt;
 end;
 
+//---------------------------------------------------------------------------
 destructor TGLAVIRecorder.Destroy;
 begin
   // if still open here, abort it
@@ -203,6 +203,7 @@ begin
   inherited;
 end;
 
+//---------------------------------------------------------------------------
 function TGLAVIRecorder.Restricted(s: integer): integer;
 begin
   case FSizeRestriction of
@@ -217,18 +218,21 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLAVIRecorder.SetHeight(const val: integer);
 begin
   if (RecorderState <> rsRecording) and (val <> FHeight) and (val > 0) then
     FHeight := Restricted(val);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLAVIRecorder.SetWidth(const val: integer);
 begin
   if (RecorderState <> rsRecording) and (val <> FWidth) and (val > 0) then
     FWidth := Restricted(val);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLAVIRecorder.SetSizeRestriction(const val: TAVISizeRestriction);
 begin
   if val <> FSizeRestriction then
@@ -239,6 +243,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLAVIRecorder.AddAVIFrame;
 var
   bmp32: TGLBitmap32;
@@ -280,19 +285,19 @@ begin
     else
       Assert(false);
     end;
-
   InternalAddAVIFrame;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLAVIRecorder.AddAVIFrame(bmp: TBitmap);
 begin
   if RecorderState <> rsRecording then
     raise Exception.Create('Cannot add frame to AVI. AVI file not created.');
   AVIBitmap.Canvas.Draw(0, 0, bmp);
-
   InternalAddAVIFrame;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLAVIRecorder.InternalAddAVIFrame;
 begin
   if Assigned(FOnPostProcessEvent) then
@@ -307,6 +312,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 function TGLAVIRecorder.CreateAVIFile(DPI: integer = 0): boolean;
 var
   SaveDialog: TSaveDialog;
@@ -317,7 +323,6 @@ var
   ResultString: String;
 begin
   FTempName := FAVIFilename;
-
   if FTempName = '' then
   begin
     // if user didn't supply a filename, then ask for it
@@ -335,7 +340,6 @@ begin
       SaveDialog.Free;
     end;
   end;
-
   Result := (FTempName <> '');
   if Result then
   begin
@@ -348,10 +352,8 @@ begin
         DeleteFile(FTempName);
     end;
   end;
-
   if not Result then
     Exit;
-
   AVIFileInit; // initialize the AVI lib.
   AVIBitmap := TBitmap.Create;
   AVIFrameIndex := 0;
@@ -360,13 +362,11 @@ begin
     AVIBitmap.PixelFormat := pf24Bit;
     AVIBitmap.Width := FWidth;
     AVIBitmap.Height := FHeight;
-
     // note: a filename with extension other then AVI give generate an error.
     if AVIFileOpen(pfile, PChar(FTempName), OF_WRITE or OF_CREATE, nil) <> AVIERR_OK
     then
       raise Exception.Create
         ('Cannot create AVI file. Disk full or file in use?');
-
     with AVIBitmap do
     begin
       InternalGetDIBSizes(Handle, bitmapInfoSize, FBitmapSize);
@@ -374,7 +374,6 @@ begin
       FBitmapBits := AllocMem(FBitmapSize);
       InternalGetDIB(Handle, FBitmapInfo^, FBitmapBits^);
     end;
-
     FillChar(asi, SizeOf(asi), 0);
     with asi do
     begin
@@ -386,7 +385,6 @@ begin
       rcFrame.Right := FBitmapInfo.biWidth;
       rcFrame.Bottom := FBitmapInfo.biHeight;
     end;
-
     if AVIFileCreateStream(pfile, Stream, asi) <> AVIERR_OK then
       raise Exception.Create('Cannot create AVI stream.');
     with AVIBitmap do
@@ -429,7 +427,6 @@ begin
         ResultString := '';
       raise Exception.Create('Cannot make compressed stream. ' + ResultString);
     end;
-
     if AVIStreamSetFormat(Stream_c, 0, FBitmapInfo, bitmapInfoSize) <> AVIERR_OK
     then
       raise Exception.Create('AVIStreamSetFormat Error');
@@ -441,6 +438,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLAVIRecorder.CloseAVIFile(UserAbort: boolean = false);
 begin
   // if UserAbort, CloseAVIFile will also delete the unfinished file.
@@ -464,11 +462,13 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 function TGLAVIRecorder.Recording: boolean;
 begin
   Result := (RecorderState = rsRecording);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLAVIRecorder.SetGLSceneViewer(const Value: TGLSceneViewer);
 begin
   FGLSceneViewer := Value;
@@ -478,6 +478,7 @@ begin
     FBuffer := nil;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLAVIRecorder.SetGLNonVisualViewer(const Value: TGLNonVisualViewer);
 begin
   FGLNonVisualViewer := Value;
@@ -487,4 +488,5 @@ begin
     FBuffer := nil;
 end;
 
+//---------------------------------------------------------------------------
 end.

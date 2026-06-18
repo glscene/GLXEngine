@@ -1,10 +1,11 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.ProjectedTextures;
-
-(* Implements projected textures through a GLScene object *)
-
+(*
+  Implements projected textures through a GLScene object
+  RegisterClasses([TgxTextureEmitter, TgxProjectedTextures]);
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -16,7 +17,7 @@ uses
   GXS.XOpenGL,
   Stage.VectorTypes,
   GXS.Scene,
-  GXS.PersistentClasses,
+  Stage.PersistentClasses,
   GXS.Texture,
   Stage.VectorGeometry,
   GXS.RenderContextInfo,
@@ -106,9 +107,7 @@ type
     property Style: TgxProjectedTexturesStyle read FStyle write FStyle;
   end;
 
-//==============================================================
-implementation
-//==============================================================
+implementation //============================================================
 
 // ------------------
 // ------------------ TgxTextureEmitter ------------------
@@ -343,9 +342,7 @@ begin
   end;
 end;
 
-//------------------------------------------
-initialization
-//------------------------------------------
+initialization //============================================================
 
   RegisterClasses([TgxTextureEmitter, TgxProjectedTextures]);
 

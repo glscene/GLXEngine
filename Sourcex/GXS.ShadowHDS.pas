@@ -1,10 +1,10 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.ShadowHDS;
-
 (*
   Implements an HDS that automatically generates a terrain lightmap texture
+  RegisterClass(TgxShadowHDS);
 
   Issues:1:Ambient and Diffuse light properties can not be set to 0, to avoid what
   seems to be a Delphi bug: If a property of type 'Single' is set to 0,
@@ -21,7 +21,6 @@ unit GXS.ShadowHDS;
   PS. The RayCastShadowHeight function returns the height of the shadow at a point
   on the terrain. This, and the LightVector may come in handy for implementing shadow volumes?
 *)
-
 interface
 
 uses
@@ -31,12 +30,12 @@ uses
   System.Math,
 
   Stage.VectorTypes,
-  GXS.VectorLists,
+  Stage.VectorLists,
   GXS.HeightData,
   GXS.Graphics,
   Stage.VectorGeometry,
   GXS.Texture,
-  GXS.Coordinates,
+  Stage.Coordinates,
   GXS.Material;
 
 type
@@ -53,8 +52,8 @@ type
   private
     FTileSize: integer;
     FShadowmapLibrary: TgxMaterialLibrary;
-    FLightVector: TgxCoordinates;
-    FScale: TgxCoordinates;
+    FLightVector: TGSCoordinates;
+    FScale: TGSCoordinates;
     FScaleVec: TVector3f;
     FOnNewTilePrepared: TNewTilePreparedEvent;
     FOnThreadBmp32: TThreadBmp32;
@@ -68,8 +67,8 @@ type
     OwnerHDS: TgxHeightDataSource; // The owner of the tile
   protected
     procedure SetShadowmapLibrary(const val: TgxMaterialLibrary);
-    procedure SetScale(AValue: TgxCoordinates);
-    procedure SetLightVector(AValue: TgxCoordinates);
+    procedure SetScale(AValue: TGSCoordinates);
+    procedure SetLightVector(AValue: TGSCoordinates);
     procedure SetSoftRange(AValue: cardinal);
     procedure SetDiffuse(AValue: single);
     procedure SetAmbient(AValue: single);
@@ -130,8 +129,8 @@ type
       write FOnThreadBmp32; // WARNING: This runs in a subthread
     property OnNewTilePrepared: TNewTilePreparedEvent read FOnNewTilePrepared
       write FOnNewTilePrepared;
-    property LightVector: TgxCoordinates read FLightVector write SetLightVector;
-    property scale: TgxCoordinates read FScale write FScale;
+    property LightVector: TGSCoordinates read FLightVector write SetLightVector;
+    property scale: TGSCoordinates read FScale write FScale;
     property ScanDistance: integer read FScanDistance write FScanDistance;
     property SoftRange: cardinal read FSoftRange write SetSoftRange;
     // Shadow height above sufrace for max diffuse light
@@ -141,16 +140,14 @@ type
     property OnSourceDataFetched;
   end;
 
-// ------------------------------------------------------------------
-implementation
-// ------------------------------------------------------------------
+implementation //============================================================
 
 constructor TgxShadowHDS.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
-  FLightVector := TgxCoordinates.CreateInitialized(Self, VectorMake(1, 0, -1));
+  FLightVector := TGSCoordinates.CreateInitialized(Self, VectorMake(1, 0, -1));
   FLightVector.Style := csVector; // csPoint;
-  FScale := TgxCoordinates.CreateInitialized(Self, VectorMake(1, 1, 1));
+  FScale := TGSCoordinates.CreateInitialized(Self, VectorMake(1, 1, 1));
   FScale.Style := csVector; // csPoint;
   FScanDistance := 64;
   FAmbient := 0.25;
@@ -259,7 +256,7 @@ begin
   end;
 end;
 
-procedure TgxShadowHDS.SetLightVector(AValue: TgxCoordinates);
+procedure TgxShadowHDS.SetLightVector(AValue: TGSCoordinates);
 begin
   With OwnerHDS.Data.LockList do
     try
@@ -397,7 +394,7 @@ end;
   libMat: TgxLibMaterial;
   bmp32 : TgxBitmap32;
   MatName:string;
-  Hold:TgxUpdateAbleObject;
+  Hold:TGSUpdateAbleObject;
   lst:TList;
   begin
 
@@ -407,7 +404,7 @@ end;
   //Uno.Acquire;
   HD:=HeightData;
   MatName:='ShadowHDS_x'+IntToStr(HD.XLeft)+'y'+IntToStr(HD.YTop)+'.'; //name contains xy coordinates of the current tile
-  Hold:=TgxUpdateAbleObject.Create(self);
+  Hold:=TGSUpdateAbleObject.Create(self);
 
   LibMat:=FShadowmapLibrary.Materials.GetLibMaterialByName(MatName);   //Check if Tile Texture already exists
   //if assigned(libmat) then LibMat.Name:='Dirty';
@@ -744,7 +741,7 @@ begin
   end;
 end;
 
-procedure TgxShadowHDS.SetScale(AValue: TgxCoordinates);
+procedure TgxShadowHDS.SetScale(AValue: TGSCoordinates);
 begin
   with OwnerHDS.Data.LockList do
     try
@@ -789,10 +786,7 @@ begin
     end;
 end;
 
-// ------------------------------------------------------------------
-initialization
-
-// ------------------------------------------------------------------
+initialization //============================================================
 
 RegisterClass(TgxShadowHDS);
 

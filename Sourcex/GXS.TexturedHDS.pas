@@ -1,12 +1,12 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.TexturedHDS;
-
 (*
    Implements a HDS, which automatically maps textures onto a parent HDS .
-   This HDS links to and extracts its height data from a parent HDS. (like TgxHeightTileFile)
+   RegisterClasses([TgxTexturedHDS]);
 
+   This HDS links to and extracts its height data from a parent HDS. (like TgxHeightTileFile)
    The HDS also links to a TgxMaterial Library, and maps ALL textures from the
    selected Material Library onto the terrain, WITHOUT using Multitexturing.
    The position and scale of each texture is determined by the material's own
@@ -19,7 +19,6 @@ unit GXS.TexturedHDS;
    sure your texture edges are alligned to height tile edges, or gaps will show.
    (Of course you can still multitexture in a detail texture too.)
 *)
-
 interface
 
 {$I Stage.Defines.inc}
@@ -29,7 +28,7 @@ uses
   System.Classes,
 
   Stage.VectorTypes,
-  GXS.Coordinates,
+  Stage.Coordinates,
   GXS.HeightData,
   GXS.Material;
 
@@ -68,9 +67,7 @@ type
       write FTilesPerTexture;
   end;
 
-//------------------------------------------------------
-implementation
-//------------------------------------------------------
+implementation //============================================================
 
 // ------------------
 // ------------------ TgxTexturedHDS ------------------
@@ -202,9 +199,7 @@ begin
               else FHeightDataSource:=val;
 end;
 
-// ------------------------------------------------------------------
-initialization
-// ------------------------------------------------------------------
+initialization //============================================================
 
 RegisterClasses([TgxTexturedHDS]);
 

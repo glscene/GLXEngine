@@ -1,10 +1,13 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.CgShader;
+(*
+  Base Cg shader classes
+  RegisterClasses([TCgShader, TCustomCgShader, TCadencableCustomCgShader,
+  TCgFragmentProgram, TCgVertexProgram, TCgProgram]);
 
-(* Base Cg shader classes *)
-
+*)
 interface
 
 uses
@@ -14,13 +17,13 @@ uses
 
   Stage.OpenGLTokens,
   Stage.VectorGeometry,
-  GLS.VectorLists,
+  Stage.VectorLists,
   Stage.VectorTypes,
   GLS.Texture,
   Stage.Strings,
   GLS.Cadencer,
   GLS.Context,
-  GLS.BaseClasses,
+  Stage.BaseClasses,
   GLS.RenderContextInfo,
   GLS.Material,
   Stage.TextureFormat,
@@ -49,7 +52,7 @@ type
   TPrecisionSetting = (psFull, psFast);
 
   // Wrapper around a Cg program.
-  TCgProgram = class(TGLUpdateAbleObject)
+  TCgProgram = class(TGSUpdateAbleObject)
   private
     FCgContext: PcgContext;
     FCode: TStrings; // the Cg program itself
@@ -185,8 +188,8 @@ type
     procedure EnableTexture;
     procedure DisableTexture;
     // Procedures for setting varying parameters with an array of values.
-    procedure SetParameterPointer(Values: TGLVectorList); overload;
-    procedure SetParameterPointer(Values: TGLAffineVectorList); overload;
+    procedure SetParameterPointer(Values: TGSVectorList); overload;
+    procedure SetParameterPointer(Values: TGSAffineVectorList); overload;
     procedure EnableClientState;
     procedure DisableClientState;
     // LongName retruns ShaderName.[program type].ProgramName.ParamName.
@@ -198,7 +201,7 @@ type
     property Direction: TCGenum read FDirection write FDirection;
     property Variability: TCGenum read FVariability write FVariability;
     // GLScene-friendly properties
-    property AsVector: TGLVector write SetAsVector4f; // position f.i.
+    property AsVector: TGSVector write SetAsVector4f; // position f.i.
     property AsAffineVector: TAffineVector write SetAsVector3f; // normal f.i.
     property AsVector2f: TVector2f write SetAsVector2f; // texCoord f.i.
   end;
@@ -336,9 +339,7 @@ var
   // Misc. global functions
 function IsCgProfileSupported(Profile: TcgProfile): boolean;
 
-// ------------------------------------------------------------------
-implementation
-// ------------------------------------------------------------------
+implementation //============================================================
 
 const
   CgBoolean: array [False .. True] of TCGbool = (CG_FALSE, CG_TRUE);
@@ -350,6 +351,7 @@ var
   CompilerMsg: TStringList; // useful for seeing compiler warnings
 {$ENDIF}
 
+//---------------------------------------------------------------------------
 function IsCgProfileSupported(Profile: TcgProfile): boolean;
 begin
   result := cgGLIsProfileSupported(Profile) = CG_TRUE;
@@ -365,6 +367,7 @@ begin
 end;
 {$ENDIF}
 
+//---------------------------------------------------------------------------
 procedure ErrorCallBack; cdecl;
 var
   Msg: string;
@@ -378,7 +381,6 @@ end;
 // ------------------
 // ------------------ TCgProgram ------------------
 // ------------------
-
 constructor TCgProgram.Create(AOwner: TPersistent);
 begin
   inherited;
@@ -389,6 +391,7 @@ begin
   FDetectProfile := True;
 end;
 
+//---------------------------------------------------------------------------
 destructor TCgProgram.Destroy;
 begin
   inherited Destroy;
@@ -398,16 +401,19 @@ begin
   FCode.Free;
 end;
 
+//---------------------------------------------------------------------------
 procedure TCgProgram.SetCode(const val: TStrings);
 begin
   FCode.Assign(val);
 end;
 
+//---------------------------------------------------------------------------
 procedure TCgProgram.LoadFromFile(const fileName: String);
 begin
   Code.LoadFromFile(fileName);
 end;
 
+//---------------------------------------------------------------------------
 procedure TCgProgram.SetProgramName(const val: String);
 begin
   if val <> FProgramName then
@@ -418,6 +424,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TCgProgram.AddParamsItem(const Param: PCGParameter);
 var
   newParamObj: TCgParameter;
@@ -435,6 +442,7 @@ begin
   FParams.Add(newParamObj);
 end;
 
+//---------------------------------------------------------------------------
 procedure TCgProgram.BuildParamsList;
 var
   CurParam: PCGParameter;
@@ -450,6 +458,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TCgProgram.ClearParamsList;
 var
   i: Integer;
@@ -459,6 +468,7 @@ begin
   FParams.Clear;
 end;
 
+//---------------------------------------------------------------------------
 function TCgProgram.GetParam(index: String): TCgParameter;
 begin
   result := ParamByName(index);
@@ -466,6 +476,7 @@ begin
     index + '" not found.');
 end;
 
+//---------------------------------------------------------------------------
 function TCgProgram.ParamByName(const name: String): TCgParameter;
 var
   i: Integer;
@@ -481,16 +492,19 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 function TCgProgram.DirectParamByName(const name: String): PCGParameter;
 begin
   result := cgGetNamedParameter(FHandle, PCharCG(StringCG(name)));
 end;
 
+//---------------------------------------------------------------------------
 function TCgProgram.ParamCount: Integer;
 begin
   result := FParams.Count;
 end;
 
+//---------------------------------------------------------------------------
 procedure TCgProgram.Initialize;
 var
   buf: StringCG;
@@ -548,6 +562,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TCgProgram.Finalize;
 begin
   if not Assigned(FCgContext) then
@@ -561,6 +576,7 @@ begin
   Dec(vCgContextCount);
 end;
 
+//---------------------------------------------------------------------------
 procedure TCgProgram.Apply(var rci: TGLRenderContextInfo; Sender: TObject);
 begin
   if not Assigned(FHandle) then
@@ -577,6 +593,7 @@ begin
     FOnApply(Self, Sender);
 end;
 
+//---------------------------------------------------------------------------
 procedure TCgProgram.UnApply(var rci: TGLRenderContextInfo);
 begin
   if not Assigned(FHandle) then
@@ -588,11 +605,13 @@ begin
   cgGLDisableProfile(FProfile);
 end;
 
+//---------------------------------------------------------------------------
 function TCgProgram.GetProfileStringA: string;
 begin
   result := String(cgGetProfileString(FProfile));
 end;
 
+//---------------------------------------------------------------------------
 procedure TCgProgram.ListParameters(Output: TStrings);
 var
   i: Integer;
@@ -602,6 +621,7 @@ begin
     Output.Add(TCgParameter(FParams[i]).name);
 end;
 
+//---------------------------------------------------------------------------
 procedure TCgProgram.ListCompilation(Output: TStrings);
 
   procedure OutputAsTStrings(s: String);
@@ -628,37 +648,44 @@ begin
   Output.EndUpdate;
 end;
 
+//---------------------------------------------------------------------------
 procedure TCgProgram.SetParam(ParamName: string; const Vector3fVal: TVector3f);
 begin
   ParamByName(ParamName).SetAsVector3f(Vector3fVal);
 end;
 
+//---------------------------------------------------------------------------
 procedure TCgProgram.SetParam(ParamName: string; const Vector2fVal: TVector2f);
 begin
   ParamByName(ParamName).SetAsVector2f(Vector2fVal);
 end;
 
+//---------------------------------------------------------------------------
 procedure TCgProgram.SetParam(ParamName: string; SingleVal: Single);
 begin
   Param[ParamName].SetAsScalar(SingleVal);
 end;
 
+//---------------------------------------------------------------------------
 procedure TCgProgram.SetParam(ParamName: string; const Vector4fVal: TVector4f);
 begin
   ParamByName(ParamName).SetAsVector4f(Vector4fVal);
 end;
 
+//---------------------------------------------------------------------------
 procedure TCgProgram.SetStateMatrix(ParamName: string;
   matrix, Transform: Cardinal);
 begin
   ParamByName(ParamName).SetAsStateMatrix(matrix, Transform);
 end;
 
+//---------------------------------------------------------------------------
 procedure TCgProgram.SetTexture(ParamName: string; TextureID: Cardinal);
 begin
   ParamByName(ParamName).SetAsTexture(TextureID);
 end;
 
+//---------------------------------------------------------------------------
 function TCgProgram.LongName: string;
 const
   ProTypeStr: array [ptVertex .. ptFragment] of string = ('VP', 'FP');
@@ -667,6 +694,7 @@ begin
     ProgramName;
 end;
 
+//---------------------------------------------------------------------------
 procedure TCgProgram.SetPrecision(const Value: TPrecisionSetting);
 begin
   if FPrecision <> Value then
@@ -677,11 +705,13 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 function TCgProgram.GetManualNotification: boolean;
 begin
   result := not Assigned(TStringList(FCode).OnChange);
 end;
 
+//---------------------------------------------------------------------------
 procedure TCgProgram.SetManualNotification(const Value: boolean);
 begin
   if Value = GetManualNotification then
@@ -695,32 +725,36 @@ end;
 // ------------------
 // ------------------ TCgParameter ------------------
 // ------------------
-
 constructor TCgParameter.Create;
 begin
   inherited;
 end;
 
+//---------------------------------------------------------------------------
 destructor TCgParameter.Destroy;
 begin
   inherited;
 end;
 
+//---------------------------------------------------------------------------
 function TCgParameter.LongName: string;
 begin
   result := Owner.LongName + '.' + FName;
 end;
 
+//---------------------------------------------------------------------------
 function TCgParameter.TypeMismatchMessage: string;
 begin
   result := '[' + LongName + ']: Parameter type mismatch.';
 end;
 
+//---------------------------------------------------------------------------
 procedure TCgParameter.CheckValueType(aType: TCGtype);
 begin
   Assert(aType = FValueType, TypeMismatchMessage);
 end;
 
+//---------------------------------------------------------------------------
 procedure TCgParameter.CheckValueType(const types: array of TCGtype);
   function DoCheck: boolean;
   var
@@ -739,38 +773,45 @@ begin
   Assert(DoCheck, TypeMismatchMessage);
 end;
 
+//---------------------------------------------------------------------------
 procedure TCgParameter.CheckAllScalarTypes;
 begin
   CheckValueType([CG_FLOAT, CG_HALF, CG_FIXED, CG_BOOL]);
 end;
 
+//---------------------------------------------------------------------------
 procedure TCgParameter.CheckAllTextureTypes;
 begin
   CheckValueType([CG_SAMPLER2D, CG_SAMPLER1D, CG_SAMPLERRECT, CG_SAMPLERCUBE,
     CG_SAMPLER3D]);
 end;
 
+//---------------------------------------------------------------------------
 procedure TCgParameter.CheckAllVector2fTypes;
 begin
   CheckValueType([CG_FLOAT2, CG_HALF2, CG_FIXED2]);
 end;
 
+//---------------------------------------------------------------------------
 procedure TCgParameter.CheckAllVector3fTypes;
 begin
   CheckValueType([CG_FLOAT3, CG_HALF3, CG_FIXED3]);
 end;
 
+//---------------------------------------------------------------------------
 procedure TCgParameter.CheckAllVector4fTypes;
 begin
   CheckValueType([CG_FLOAT4, CG_HALF4, CG_FIXED4]);
 end;
 
+//---------------------------------------------------------------------------
 procedure TCgParameter.SetAsScalar(const val: Single);
 begin
   CheckAllScalarTypes;
   cgGLSetParameter1f(FHandle, val);
 end;
 
+//---------------------------------------------------------------------------
 procedure TCgParameter.SetAsScalar(const val: boolean);
 const
   BoolToFloat: array [False .. True] of Single = (CG_FALSE, CG_TRUE);
@@ -778,39 +819,46 @@ begin
   SetAsScalar(BoolToFloat[val]);
 end;
 
+//---------------------------------------------------------------------------
 procedure TCgParameter.SetAsVector2f(const val: TVector2f);
 begin
   CheckAllVector2fTypes;
   cgGLSetParameter2fv(FHandle, @val);
 end;
 
+//---------------------------------------------------------------------------
 procedure TCgParameter.SetAsVector3f(const val: TVector3f);
 begin
   CheckAllVector3fTypes;
   cgGLSetParameter3fv(FHandle, @val);
 end;
 
+//---------------------------------------------------------------------------
 procedure TCgParameter.SetAsVector4f(const val: TVector4f);
 begin
   CheckAllVector4fTypes;
   cgGLSetParameter4fv(FHandle, @val);
 end;
 
+//---------------------------------------------------------------------------
 procedure TCgParameter.SetAsVector(const val: TVector2f);
 begin
   SetAsVector2f(val);
 end;
 
+//---------------------------------------------------------------------------
 procedure TCgParameter.SetAsVector(const val: TVector3f);
 begin
   SetAsVector3f(val);
 end;
 
+//---------------------------------------------------------------------------
 procedure TCgParameter.SetAsVector(const val: TVector4f);
 begin
   SetAsVector4f(val);
 end;
 
+//---------------------------------------------------------------------------
 procedure TCgParameter.SetAsVector(const val: array of Single);
 begin
   case high(val) of
@@ -836,42 +884,49 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TCgParameter.SetAsTexture(TextureID: Cardinal);
 begin
   CheckAllTextureTypes;
   cgGLSetTextureParameter(FHandle, TextureID);
 end;
 
+//---------------------------------------------------------------------------
 procedure TCgParameter.SetAsTexture1D(TextureID: Cardinal);
 begin
   CheckValueType(CG_SAMPLER1D);
   cgGLSetTextureParameter(FHandle, TextureID);
 end;
 
+//---------------------------------------------------------------------------
 procedure TCgParameter.SetAsTexture2D(TextureID: Cardinal);
 begin
   CheckValueType(CG_SAMPLER2D);
   cgGLSetTextureParameter(FHandle, TextureID);
 end;
 
+//---------------------------------------------------------------------------
 procedure TCgParameter.SetAsTexture3D(TextureID: Cardinal);
 begin
   CheckValueType(CG_SAMPLER3D);
   cgGLSetTextureParameter(FHandle, TextureID);
 end;
 
+//---------------------------------------------------------------------------
 procedure TCgParameter.SetAsTextureRECT(TextureID: Cardinal);
 begin
   CheckValueType(CG_SAMPLERRECT);
   cgGLSetTextureParameter(FHandle, TextureID);
 end;
 
+//---------------------------------------------------------------------------
 procedure TCgParameter.SetAsTextureCUBE(TextureID: Cardinal);
 begin
   CheckValueType(CG_SAMPLERCUBE);
   cgGLSetTextureParameter(FHandle, TextureID);
 end;
 
+//---------------------------------------------------------------------------
 procedure TCgParameter.SetToTextureOf(LibMaterial: TGLLibMaterial);
 var
   TexType: TCGtype;
@@ -897,18 +952,21 @@ begin
   cgGLSetTextureParameter(FHandle, LibMaterial.Material.Texture.Handle);
 end;
 
+//---------------------------------------------------------------------------
 procedure TCgParameter.DisableTexture;
 begin
   CheckAllTextureTypes;
   cgGLDisableTextureParameter(FHandle);
 end;
 
+//---------------------------------------------------------------------------
 procedure TCgParameter.EnableTexture;
 begin
   CheckAllTextureTypes;
   cgGLEnableTextureParameter(FHandle);
 end;
 
+//---------------------------------------------------------------------------
 procedure TCgParameter.SetAsStateMatrix(matrix, Transform: Cardinal);
 // Assuming values of matrix types are contiguous to simplify the type checking
 const
@@ -926,30 +984,35 @@ begin
   cgGLSetStateMatrixParameter(FHandle, matrix, Transform);
 end;
 
+//---------------------------------------------------------------------------
 procedure TCgParameter.SetAsMatrix(const val: TMatrix4f);
 begin
   cgGLSetMatrixParameterfr(FHandle, @val);
 end;
 
+//---------------------------------------------------------------------------
 procedure TCgParameter.DisableClientState;
 begin
   Assert(FVariability = CG_VARYING);
   cgGLDisableClientState(FHandle);
 end;
 
+//---------------------------------------------------------------------------
 procedure TCgParameter.EnableClientState;
 begin
   Assert(FVariability = CG_VARYING);
   cgGLEnableClientState(FHandle);
 end;
 
-procedure TCgParameter.SetParameterPointer(Values: TGLAffineVectorList);
+//---------------------------------------------------------------------------
+procedure TCgParameter.SetParameterPointer(Values: TGSAffineVectorList);
 begin
   Assert(FVariability = CG_VARYING);
   cgGLSetParameterPointer(FHandle, 3, GL_FLOAT, 0, Values.List);
 end;
 
-procedure TCgParameter.SetParameterPointer(Values: TGLVectorList);
+//---------------------------------------------------------------------------
+procedure TCgParameter.SetParameterPointer(Values: TGSVectorList);
 begin
   Assert(FVariability = CG_VARYING);
   cgGLSetParameterPointer(FHandle, 4, GL_FLOAT, 0, Values.List);
@@ -958,7 +1021,6 @@ end;
 // ------------------
 // ------------------ TCgVertexProgram ------------------
 // ------------------
-
 constructor TCgVertexProgram.Create;
 begin
   inherited;
@@ -966,11 +1028,13 @@ begin
   FVPProfile := vpDetectLatest;
 end;
 
+//---------------------------------------------------------------------------
 function TCgVertexProgram.GetLatestProfile: TcgProfile;
 begin
   result := cgGLGetLatestProfile(CG_GL_VERTEX);
 end;
 
+//---------------------------------------------------------------------------
 procedure TCgVertexProgram.SetVPProfile(v: TCgVPProfile);
 begin
   if FVPProfile = v then
@@ -993,7 +1057,6 @@ end;
 // ------------------
 // ------------------ TCgFragmentProgram ------------------
 // ------------------
-
 constructor TCgFragmentProgram.Create;
 begin
   inherited;
@@ -1002,6 +1065,7 @@ begin
   FManageTexture := False;
 end;
 
+//---------------------------------------------------------------------------
 procedure TCgFragmentProgram.SetManageTexture(const Value: boolean);
 begin
   FManageTexture := Value;
@@ -1011,6 +1075,7 @@ begin
   // TCgFragmentProgram.Initialize
 end;
 
+//---------------------------------------------------------------------------
 procedure TCgFragmentProgram.Initialize;
 begin
   inherited;
@@ -1018,11 +1083,13 @@ begin
     cgGLSetManageTextureParameters(@FCgContext, CgBoolean[FManageTexture]);
 end;
 
+//---------------------------------------------------------------------------
 function TCgFragmentProgram.GetLatestProfile: TcgProfile;
 begin
   result := cgGLGetLatestProfile(CG_GL_FRAGMENT);
 end;
 
+//---------------------------------------------------------------------------
 procedure TCgFragmentProgram.SetFPProfile(v: TCgFPProfile);
 begin
   if FFPProfile = v then
@@ -1044,7 +1111,6 @@ end;
 // ------------------
 // ------------------ TCustomCgShader ------------------
 // ------------------
-
 constructor TCustomCgShader.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
@@ -1052,6 +1118,7 @@ begin
   FFragmentProgram := TCgFragmentProgram.Create(Self);
 end;
 
+//---------------------------------------------------------------------------
 destructor TCustomCgShader.Destroy;
 begin
   inherited Destroy;
@@ -1059,67 +1126,80 @@ begin
   FFragmentProgram.Free;
 end;
 
+//---------------------------------------------------------------------------
 procedure TCustomCgShader.SetVertexProgram(const val: TCgVertexProgram);
 begin
   FVertexProgram.Code := val.Code;
 end;
 
+//---------------------------------------------------------------------------
 procedure TCustomCgShader.SetFragmentProgram(const val: TCgFragmentProgram);
 begin
   FFragmentProgram.Code := val.Code;
 end;
 
+//---------------------------------------------------------------------------
 procedure TCustomCgShader.SetOnApplyVertexProgram(const val: TCgApplyEvent);
 begin
   FVertexProgram.OnApply := val;
 end;
 
+//---------------------------------------------------------------------------
 function TCustomCgShader.GetOnApplyVertexProgram: TCgApplyEvent;
 begin
   result := FVertexProgram.OnApply;
 end;
 
+//---------------------------------------------------------------------------
 procedure TCustomCgShader.SetOnApplyFragmentProgram(const val: TCgApplyEvent);
 begin
   FFragmentProgram.OnApply := val;
 end;
 
+//---------------------------------------------------------------------------
 function TCustomCgShader.GetOnApplyFragmentProgram: TCgApplyEvent;
 begin
   result := FFragmentProgram.OnApply;
 end;
 
+//---------------------------------------------------------------------------
 procedure TCustomCgShader.SetOnUnApplyVertexProgram(const val: TCgUnApplyEvent);
 begin
   FVertexProgram.OnUnApply := val;
 end;
 
+//---------------------------------------------------------------------------
 function TCustomCgShader.GetOnUnApplyVertexProgram: TCgUnApplyEvent;
 begin
   result := FVertexProgram.OnUnApply;
 end;
 
+//---------------------------------------------------------------------------
 procedure TCustomCgShader.SetOnUnApplyFragmentProgram
   (const val: TCgUnApplyEvent);
 begin
   FFragmentProgram.OnUnApply := val;
 end;
 
+//---------------------------------------------------------------------------
 function TCustomCgShader.GetOnUnApplyFragmentProgram: TCgUnApplyEvent;
 begin
   result := FFragmentProgram.OnUnApply;
 end;
 
+//---------------------------------------------------------------------------
 function TCustomCgShader.GetOnInitialize: TCgShaderEvent;
 begin
   result := FOnInitialize;
 end;
 
+//---------------------------------------------------------------------------
 procedure TCustomCgShader.SetOnInitialize(const val: TCgShaderEvent);
 begin
   FOnInitialize := val;
 end;
 
+//---------------------------------------------------------------------------
 procedure TCustomCgShader.DoInitialize(var rci: TGLRenderContextInfo;
   Sender: TObject);
 begin
@@ -1146,6 +1226,7 @@ begin
     end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TCustomCgShader.DoApply(var rci: TGLRenderContextInfo;
   Sender: TObject);
 begin
@@ -1155,6 +1236,7 @@ begin
   FFragmentProgram.Apply(rci, Sender);
 end;
 
+//---------------------------------------------------------------------------
 function TCustomCgShader.DoUnApply(var rci: TGLRenderContextInfo): boolean;
 begin
   if (not(csDesigning in ComponentState)) or FDesignEnable then
@@ -1165,12 +1247,14 @@ begin
   result := False;
 end;
 
+//---------------------------------------------------------------------------
 procedure TCustomCgShader.DoFinalize;
 begin
   FVertexProgram.Finalize;
   FFragmentProgram.Finalize;
 end;
 
+//---------------------------------------------------------------------------
 procedure TCustomCgShader.LoadShaderPrograms(const VPFilename,
   FPFilename: string);
 begin
@@ -1178,11 +1262,13 @@ begin
   FragmentProgram.LoadFromFile(FPFilename);
 end;
 
+//---------------------------------------------------------------------------
 function TCustomCgShader.IsProfileSupported(Profile: TcgProfile): boolean;
 begin
   result := cgGLIsProfileSupported(Profile) = CG_TRUE;
 end;
 
+//---------------------------------------------------------------------------
 function TCustomCgShader.ShaderSupported: boolean;
 begin
   result := (GL.ARB_shader_objects and GL.ARB_vertex_program and
@@ -1193,7 +1279,6 @@ end;
 // ------------------
 // ------------------ TCadencableCustomCgShader ------------------
 // ------------------
-
 procedure TCadencableCustomCgShader.DoInitialize(var rci: TGLRenderContextInfo;
   Sender: TObject);
 begin
@@ -1207,6 +1292,7 @@ begin
     inherited;
 end;
 
+//---------------------------------------------------------------------------
 procedure TCadencableCustomCgShader.Notification(AComponent: TComponent;
   Operation: TOperation);
 begin
@@ -1218,6 +1304,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TCadencableCustomCgShader.SetCadencer(const Value: TGLCadencer);
 begin
   if Value = FCadencer then
@@ -1234,9 +1321,7 @@ begin
     FCadencer.FreeNotification(Self);
 end;
 
-// ------------------------------------------------------------------
-initialization
-// ------------------------------------------------------------------
+initialization //============================================================
 
 RegisterClasses([TCgShader, TCustomCgShader, TCadencableCustomCgShader,
   TCgFragmentProgram, TCgVertexProgram, TCgProgram]);
@@ -1249,7 +1334,7 @@ CompilerMsg := TStringList.Create;
 WarningFilePath := extractfilepath(ParamStr(0));
 {$ENDIF}
 
-finalization
+finalization //==============================================================
 
 {$IFDEF OutputCompilerWarnings}
   CompilerMsg.SaveToFile(WarningFilePath + 'CG_Warnings.txt');

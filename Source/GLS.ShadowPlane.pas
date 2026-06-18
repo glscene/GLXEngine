@@ -1,15 +1,14 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.ShadowPlane;
-
 (*
    Implements a basic shadow plane.
+   RegisterClasses([TGLShadowPlane]);
 
    It is strongly recommended to read and understand the explanations
    in the materials/mirror demo before using this component.
 *)
-
 interface
 
 {$I Stage.Defines.inc}
@@ -20,20 +19,21 @@ uses
   System.Types,
 
   Stage.OpenGLTokens,
-  GLS.PersistentClasses,
+  Stage.PersistentClasses,
   Stage.PipelineTransform,
   Stage.VectorTypes,
-  GLS.Scene,
   Stage.VectorGeometry,
+  Stage.TextureFormat,
+  Stage.Utils,
+
+  GLS.Scene,
   GLS.Objects,
-  GLS.Color,
+  Stage.Color,
   GLS.RenderContextInfo,
   GLS.State,
-  Stage.TextureFormat,
   GLS.Context,
   GLS.Material,
-  GLS.Texture,
-  Stage.Utils;
+  GLS.Texture;
 
 type
   TShadowPlaneOption = (spoUseStencil, spoScissor, spoTransparent, spoIgnoreZ);
@@ -62,14 +62,14 @@ type
     FRendering: Boolean;
     FShadowingObject: TGLBaseSceneObject;
     FShadowedLight: TGLLightSource;
-    FShadowColor: TGLColor;
+    FShadowColor: TGSColor;
     FShadowOptions: TShadowPlaneOptions;
     FOnBeginRenderingShadows, FOnEndRenderingShadows: TNotifyEvent;
   protected
     procedure Notification(AComponent: TComponent; Operation: TOperation); override;
     procedure SetShadowingObject(const val: TGLBaseSceneObject);
     procedure SetShadowedLight(const val: TGLLightSource);
-    procedure SetShadowColor(const val: TGLColor);
+    procedure SetShadowColor(const val: TGSColor);
     procedure SetShadowOptions(const val: TShadowPlaneOptions);
   public
     constructor Create(AOwner: TComponent); override;
@@ -83,7 +83,7 @@ type
     // The light which casts shadows. It must be enabled otherwise shadows won't be cast
     property ShadowedLight: TGLLightSource read FShadowedLight write SetShadowedLight;
     //The shadow's color. This color is transparently blended to make shadowed area darker
-    property ShadowColor: TGLColor read FShadowColor write SetShadowColor;
+    property ShadowColor: TGSColor read FShadowColor write SetShadowColor;
     (* Controls rendering options:
       spoUseStencil: plane area is stenciled, prevents shadowing
         objects to be visible on the sides of the mirror (stencil buffer
@@ -112,12 +112,12 @@ implementation
 
 constructor TGLShadowPlane.Create(AOwner: Tcomponent);
 const
-  cDefaultShadowColor: TGLColorVector = (X:0; Y:0; Z:0; W:0.5);
+  cDefaultShadowColor: TGSColorVector = (X:0; Y:0; Z:0; W:0.5);
 begin
   inherited Create(AOwner);
   FShadowOptions := cDefaultShadowPlaneOptions;
   ObjectStyle := ObjectStyle + [osDirectDraw];
-  FShadowColor := TGLColor.CreateInitialized(Self, cDefaultShadowColor);
+  FShadowColor := TGSColor.CreateInitialized(Self, cDefaultShadowColor);
 end;
 
 destructor TGLShadowPlane.Destroy;
@@ -130,10 +130,10 @@ procedure TGLShadowPlane.DoRender(var ARci: TGLRenderContextInfo;
   ARenderSelf, ARenderChildren: Boolean);
 var
   oldProxySubObject, oldIgnoreMaterials: Boolean;
-  shadowMat: TGLMatrix;
+  shadowMat: TGSMatrix;
   sr, ds: TRect;
   CurrentBuffer: TGLSceneBuffer;
-  ModelMat: TGLMatrix;
+  ModelMat: TGSMatrix;
 begin
   if FRendering then
     Exit;
@@ -314,7 +314,7 @@ begin
 end;
 
 
-procedure TGLShadowPlane.SetShadowColor(const val: TGLColor);
+procedure TGLShadowPlane.SetShadowColor(const val: TGSColor);
 begin
   FShadowColor.Assign(val);
 end;
@@ -342,9 +342,7 @@ begin
   end;
 end;
 
-//-------------------------------------------------------------
-initialization
-//-------------------------------------------------------------
+initialization //============================================================
 
   RegisterClasses([TGLShadowPlane]);
 

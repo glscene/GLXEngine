@@ -1,10 +1,10 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.ShadowHDS;
-
 (*
   Implements an HDS that automatically generates a terrain lightmap texture.
+  RegisterClass(TGLShadowHDS);
 
   Issues:
   1:Ambient and Diffuse light properties can not be set to 0, to avoid what
@@ -19,10 +19,10 @@ unit GLS.ShadowHDS;
   (Black tile edges / slight mis-alignments /etc.)
   6:Applying materials ocasionally causes AV's
 
-  PS. The RayCastShadowHeight function returns the height of the shadow at a point
-  on the terrain. This, and the LightVector may come in handy for implementing shadow volumes?
+  The RayCastShadowHeight function returns the height of the shadow at a point
+  on the terrain. This, and the LightVector may come in handy
+  for implementing shadow volumes
 *)
-
 interface
 
 uses
@@ -31,13 +31,14 @@ uses
   System.Math,
 
   Stage.OpenGLTokens,
-  GLS.VectorLists,
+  Stage.VectorLists,
+  Stage.VectorGeometry,
+  Stage.VectorTypes,
+  Stage.Coordinates,
+
   GLS.HeightData,
   GLS.Graphics,
-  Stage.VectorGeometry,
   GLS.Texture,
-  Stage.VectorTypes,
-  GLS.Coordinates,
   GLS.Material;
 
 type
@@ -54,8 +55,8 @@ type
   private
     FTileSize: integer;
     FShadowmapLibrary: TGLMaterialLibrary;
-    FLightVector: TGLCoordinates;
-    FScale: TGLCoordinates;
+    FLightVector: TGSCoordinates;
+    FScale: TGSCoordinates;
     FScaleVec: TVector3f;
     FOnNewTilePrepared: TNewTilePreparedEvent;
     FOnThreadBmp32: TThreadBmp32;
@@ -69,8 +70,8 @@ type
     OwnerHDS: TGLHeightDataSource; // The owner of the tile
   protected
     procedure SetShadowmapLibrary(const val: TGLMaterialLibrary);
-    procedure SetScale(AValue: TGLCoordinates);
-    procedure SetLightVector(AValue: TGLCoordinates);
+    procedure SetScale(AValue: TGSCoordinates);
+    procedure SetLightVector(AValue: TGSCoordinates);
     procedure SetSoftRange(AValue: cardinal);
     procedure SetDiffuse(AValue: single);
     procedure SetAmbient(AValue: single);
@@ -122,8 +123,8 @@ type
     property ShadowmapLibrary: TGLMaterialLibrary read FShadowmapLibrary write SetShadowmapLibrary;
     property OnThreadBmp32: TThreadBmp32 read FOnThreadBmp32 write FOnThreadBmp32; // WARNING: This runs in a subthread
     property OnNewTilePrepared: TNewTilePreparedEvent read FOnNewTilePrepared write FOnNewTilePrepared;
-    property LightVector: TGLCoordinates read FLightVector write SetLightVector;
-    property scale: TGLCoordinates read FScale write FScale;
+    property LightVector: TGSCoordinates read FLightVector write SetLightVector;
+    property scale: TGSCoordinates read FScale write FScale;
     property ScanDistance: integer read FScanDistance write FScanDistance;
     property SoftRange: cardinal read FSoftRange write SetSoftRange;
     // Shadow height above sufrace for max diffuse light
@@ -133,16 +134,15 @@ type
     property OnSourceDataFetched;
   end;
 
-// ------------------------------------------------------------------
-implementation
-// ------------------------------------------------------------------
+implementation //============================================================
 
+//---------------------------------------------------------------------------
 constructor TGLShadowHDS.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
-  FLightVector := TGLCoordinates.CreateInitialized(Self, VectorMake(1, 0, -1));
+  FLightVector := TGSCoordinates.CreateInitialized(Self, VectorMake(1, 0, -1));
   FLightVector.Style := csVector; // csPoint;
-  FScale := TGLCoordinates.CreateInitialized(Self, VectorMake(1, 1, 1));
+  FScale := TGSCoordinates.CreateInitialized(Self, VectorMake(1, 1, 1));
   FScale.Style := csVector; // csPoint;
   FScanDistance := 64;
   FAmbient := 0.25;
@@ -155,6 +155,7 @@ begin
   // Set to true in "OnSourceDataFetched" to skip shadow generation.
 end;
 
+//---------------------------------------------------------------------------
 destructor TGLShadowHDS.Destroy;
 begin
   Self.Active := false;
@@ -164,6 +165,7 @@ begin
   inherited Destroy;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLShadowHDS.Notification(AComponent: TComponent;
   Operation: TOperation);
 begin
@@ -189,6 +191,7 @@ end;
   end;
 *)
 
+//---------------------------------------------------------------------------
 procedure TGLShadowHDS.TrimTextureCache(MaxTextureCount: integer);
 // Thread-safe Version
 begin
@@ -202,6 +205,7 @@ begin
     end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLShadowHDS.Trim(MaxTextureCount: integer); // internal use only
 var
   matLib: TGLMaterialLibrary;
@@ -227,10 +231,10 @@ begin
         dec(cnt); // cnt:=matlib.Materials.Count;
       end;
     end;
-    // ----------------------------------------------------------
   end;
 end;
 
+//---------------------------------------------------------------------------
 function TGLShadowHDS.FindUnusedMaterial: TGLLibMaterial;
 var
   matLib: TGLMaterialLibrary;
@@ -250,7 +254,8 @@ begin
   end;
 end;
 
-procedure TGLShadowHDS.SetLightVector(AValue: TGLCoordinates);
+//---------------------------------------------------------------------------
+procedure TGLShadowHDS.SetLightVector(AValue: TGSCoordinates);
 begin
   With OwnerHDS.Data.LockList do
     try
@@ -262,6 +267,7 @@ begin
     end;
 end;
 
+//---------------------------------------------------------------------------
 function TGLShadowHDS.CalcStep: TAffineVector;
 var
   L: single;
@@ -285,6 +291,7 @@ begin
   result := Step;
 end;
 
+//---------------------------------------------------------------------------
 function TGLShadowHDS.CalcScale: TAffineVector;
 begin
   FScaleVec.x := FScale.x * 256;
@@ -293,6 +300,7 @@ begin
   result := FScaleVec;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLShadowHDS.BeforePreparingData(heightData: TGLHeightData);
 var
   HD: TGLHeightData;
@@ -323,6 +331,7 @@ begin
     end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLShadowHDS.PreparingData(heightData: TGLHeightData);
 var
   HD: TGLHeightData;
@@ -371,9 +380,9 @@ begin
       end;
   end;
   // finally HD.Owner.Data.UnlockList; end;
-  // ----------------------------------------------------
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLShadowHDS.AfterPreparingData(heightData: TGLHeightData);
 begin
   if assigned(FOnNewTilePrepared) then
@@ -386,7 +395,7 @@ end;
   libMat: TGLLibMaterial;
   bmp32 : TGLBitmap32;
   MatName:string;
-  Hold:TGLUpdateAbleObject;
+  Hold:TGSUpdateAbleObject;
   lst:TList;
   begin
 
@@ -396,7 +405,7 @@ end;
   //Uno.Acquire;
   HD:=HeightData;
   MatName:='ShadowHDS_x'+IntToStr(HD.XLeft)+'y'+IntToStr(HD.YTop)+'.'; //name contains xy coordinates of the current tile
-  Hold:=TGLUpdateAbleObject.Create(self);
+  Hold:=TGSUpdateAbleObject.Create(self);
 
   LibMat:=FShadowmapLibrary.Materials.GetLibMaterialByName(MatName);   //Check if Tile Texture already exists
   //if assigned(libmat) then LibMat.Name:='Dirty';
@@ -445,6 +454,7 @@ end;
   end;
 *)
 
+//---------------------------------------------------------------------------
 procedure TGLShadowHDS.GenerateShadowMap(heightData: TGLHeightData;
   ShadowMap: TGLBitmap32; scale: single);
 var
@@ -488,6 +498,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 function TGLShadowHDS.RayCastShadowHeight(HD: TGLHeightData;
   localX, localY: single): single;
 var
@@ -540,6 +551,7 @@ begin
   result := startH + ShadowDif; // actual height of shadow
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLShadowHDS.LocalToWorld(Lx, Ly: single; HD: TGLHeightData;
   var Wx: single; var Wy: single);
 var
@@ -556,6 +568,7 @@ begin
   // if wy<0 then wy:=wy+HDS.Height;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLShadowHDS.WorldToLocal(Wx, Wy: single; var HD: TGLHeightData;
   var Lx: single; var Ly: single);
 var
@@ -579,8 +592,7 @@ begin
   HD := HDS.GetData(XLeft, YTop, Size + 1, hdtSmallInt);
 end;
 
-// ----------------------------------------------------------
-
+//---------------------------------------------------------------------------
 procedure TGLShadowHDS.RayCastLine(heightData: TGLHeightData; Lx, Ly: single;
   ShadowMap: TGLBitmap32);
 var
@@ -655,8 +667,7 @@ begin
     LineStep; // No wrapping
 end;
 
-// ----------------------------------------------------------
-
+//---------------------------------------------------------------------------
 function TGLShadowHDS.WrapDist(Lx, Ly: single): integer;
 var
   x, y: single;
@@ -685,6 +696,7 @@ begin
   result := Ceil(minFloat(x, y));
 end;
 
+//---------------------------------------------------------------------------
 function TGLShadowHDS.Shade(heightData: TGLHeightData; x, y: integer; ShadowHeight, TerrainHeight: single): byte;
 var
   HD: TGLHeightData;
@@ -720,6 +732,7 @@ begin
   result := round(ClampValue(Light, 0, 1) * 255);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLShadowHDS.SetShadowmapLibrary(const val: TGLMaterialLibrary);
 begin
   if val <> FShadowmapLibrary then
@@ -733,7 +746,8 @@ begin
   end;
 end;
 
-procedure TGLShadowHDS.SetScale(AValue: TGLCoordinates);
+//---------------------------------------------------------------------------
+procedure TGLShadowHDS.SetScale(AValue: TGSCoordinates);
 begin
   with OwnerHDS.Data.LockList do
     try
@@ -745,6 +759,7 @@ begin
     end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLShadowHDS.SetSoftRange(AValue: cardinal);
 begin
   with OwnerHDS.Data.LockList do
@@ -756,6 +771,7 @@ begin
     end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLShadowHDS.SetDiffuse(AValue: single);
 begin
   with OwnerHDS.Data.LockList do
@@ -767,6 +783,7 @@ begin
     end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLShadowHDS.SetAmbient(AValue: single);
 begin
   with OwnerHDS.Data.LockList do
@@ -778,9 +795,7 @@ begin
     end;
 end;
 
-// ------------------------------------------------------------------
-initialization
-// ------------------------------------------------------------------
+initialization //============================================================
 
 RegisterClass(TGLShadowHDS);
 

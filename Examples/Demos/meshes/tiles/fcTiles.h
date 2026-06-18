@@ -7,9 +7,9 @@
 #include <Vcl.Controls.hpp>
 #include <Vcl.StdCtrls.hpp>
 #include <Vcl.Forms.hpp>
-#include "GLS.BaseClasses.hpp"
+#include "Stage.BaseClasses.hpp"
 #include "GLS.Cadencer.hpp"
-#include "GLS.Coordinates.hpp"
+#include "Stage.Coordinates.hpp"
 
 #include "GLS.Graph.hpp"
 #include "GLS.Material.hpp"
@@ -51,8 +51,8 @@ __published:	// IDE-managed Components
 private:	// User declarations
 	int mx, my;
 	int tileX, tileY;
-	TGLVector* mip;
-	TGLVector* translateOffset;
+	TGSVector* mip;
+	TGSVector* translateOffset;
 	bool translating;
 public:		// User declarations
 	__fastcall TForm1(TComponent* Owner);

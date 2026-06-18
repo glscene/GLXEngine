@@ -4,7 +4,7 @@
 unit GLS.ImageUtils;
 (*
   Main purpose is as a fallback in cases where there is no other way
-  to process images
+  to process images like in GR32
 *)
 
 // TODO: Complite InfToXXX

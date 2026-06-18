@@ -1,33 +1,33 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.FileGLTF;
-
-(* glTF/glb formats implementation. *)
-
+(*
+  glTF/glb formats implementation.
+*)
 interface
 
 uses
   System.Classes,
   System.SysUtils,
 
-  GLS.PersistentClasses,
+  Stage.VectorTypes,
+  Stage.VectorGeometry,
+  Stage.PersistentClasses,
+  Stage.VectorLists,
+  Stage.Utils,
+
   GLS.VectorFileObjects,
   GLS.Texture,
   GLS.ApplicationFileIO,
-  Stage.VectorTypes,
-  GLS.VectorLists,
-  Stage.VectorGeometry,
-  GLS.Material,
-  Stage.Utils,
-  PasGLTF;
+  GLS.Material;
 
 type
   (* The glTF format is a runtime asset delivery format
     for GL APIs: WebGL, OpenGL ES OpenGL and Vulkan. *)
   TGLglTFVectorFile = class(TGLVectorFile)
   public
-    class function Capabilities: TGLDataFileCapabilities; override;
+    class function Capabilities: TGSDataFileCapabilities; override;
     procedure LoadFromStream(aStream: TStream); override;
     procedure SaveToStream(aStream: TStream); override;
   end;
@@ -49,7 +49,7 @@ implementation
 // ------------------
 
 
-class function TGLglTFVectorFile.Capabilities: TGLDataFileCapabilities;
+class function TGLglTFVectorFile.Capabilities: TGSDataFileCapabilities;
 begin
   Result := [dfcRead, dfcWrite];
 end;

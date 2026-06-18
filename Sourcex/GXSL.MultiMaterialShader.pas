@@ -1,13 +1,11 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXSL.MultiMaterialShader;
-
 (*
   A shader that applies a render pass for each material in
   its assigned MaterialLibrary.
 *)
-
 interface
 
 uses
@@ -42,9 +40,7 @@ type
     property ShaderStyle: TgxShaderStyle read FShaderStyle write SetShaderStyle;
   end;
 
-// ------------------------------------------------------------------
-implementation
-// ------------------------------------------------------------------
+implementation //============================================================
 
 // ------------------
 // ------------------ TgxMultiMaterialShader ------------------

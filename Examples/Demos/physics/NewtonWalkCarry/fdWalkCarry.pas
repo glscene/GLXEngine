@@ -22,7 +22,7 @@ uses
   Stage.Utils,
 
   GLS.Scene,
-  GLS.PersistentClasses,
+  Stage.PersistentClasses,
   GLS.Material,
   GLS.Cadencer,
   GLS.SceneViewer,
@@ -30,15 +30,15 @@ uses
   GLS.VectorFileObjects,
   GLS.Octree,
   GLS.GeomObjects,
-  GLS.BaseClasses,
+  Stage.BaseClasses,
   GLS.BitmapFont,
   GLS.WindowsFont,
   GLS.Objects,
-  GLS.Coordinates,
+  Stage.Coordinates,
   GLS.File3DS,
   GLS.Navigator,
-  GLS.XCollection,
-  GLS.Color,
+  Stage.XCollection,
+  Stage.Color,
   GLS.HUDObjects,
   GLS.Texture,
   GLS.NGDManager;
@@ -103,7 +103,7 @@ var
 
   FPickedSceneObject: TGLBaseSceneObject;
   NGDDynamicBehav: TGLNGDDynamic;
-  point3d, FPaneNormal: TGLVector;
+  point3d, FPaneNormal: TGSVector;
   M_X, M_Y: Integer;
   Maps_Count: Integer;
   OnAir, OnGround: boolean;
@@ -135,12 +135,12 @@ var
   peak_Up, peak_Down: boolean;
   ray, GP3D, result_GP3D: TVector4f;
   j: Integer;
-  point2d, GotoPoint3d: TGLVector;
+  point2d, GotoPoint3d: TGSVector;
   key_space: boolean;
   cp: TPoint;
   visible_cursor: boolean;
   ScObj, FScObj: TGLBaseSceneObject;
-  targetColor: TGLColorVector;
+  targetColor: TGSColorVector;
   picked: TGLCustomSceneObject;
   mm: TMatrix4f;
 

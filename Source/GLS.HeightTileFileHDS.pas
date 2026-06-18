@@ -1,10 +1,11 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.HeightTileFileHDS;
-
-(* HeightDataSource for the HTF (HeightTileFile) format *)
-
+(*
+  HeightDataSource for the HTF (HeightTileFile) format
+  RegisterClasses([TGLHeightTileFileHDS]);
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -168,13 +169,12 @@ type
     property DefaultHeight;
   end;
 
-// ------------------------------------------------------------------
-implementation
-// ------------------------------------------------------------------
+implementation //============================================================
 
 const
   cFileVersion = 'HTF100';
 
+//---------------------------------------------------------------------------
 procedure FillSmallInt(p: PSmallInt; count: Integer; v: SmallInt);
 var
   I: Integer;
@@ -189,7 +189,6 @@ end;
 // ------------------
 // ------------------ TGLHeightTileFile ------------------
 // ------------------
-
 constructor TGLHeightTileFile.CreateNew(const fileName: String;
   aSizeX, aSizeY, aTileSize: Integer);
 begin
@@ -206,6 +205,7 @@ begin
   SetLength(FHeightTile.data, aTileSize * aTileSize);
 end;
 
+//---------------------------------------------------------------------------
 constructor TGLHeightTileFile.Create(const fileName: String);
 var
   n, I, key, qx, qy: Integer;
@@ -248,6 +248,7 @@ begin
   SetLength(FTileMark, Length(FTileIndex));
 end;
 
+//---------------------------------------------------------------------------
 destructor TGLHeightTileFile.Destroy;
 var
   n: Integer;
@@ -267,6 +268,7 @@ begin
   inherited Destroy;
 end;
 
+//---------------------------------------------------------------------------
 function TGLHeightTileFile.QuadTableX(x: Integer): Integer;
 begin
   Result := ((x * (cHTFQuadTableSize + 1)) div (SizeX + 1)) and cHTFQuadTableSize;
@@ -277,6 +279,7 @@ begin
   Result := ((y * (cHTFQuadTableSize + 1)) div (SizeY + 1)) and cHTFQuadTableSize;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLHeightTileFile.PackTile(aWidth, aHeight: Integer; src: PSmallIntArray);
 var
   packWidth: Integer;
@@ -312,6 +315,7 @@ var
     Result := Cardinal(dest) - Result;
   end;
 
+  //---------------------------------------------------------------------------
   function RLEEncode(src: PSmallIntArray; dest: PAnsiChar): Cardinal;
   var
     v: SmallInt;
@@ -457,6 +461,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLHeightTileFile.UnPackTile(source: PShortIntArray);
 var
   unpackWidth, tileWidth: Cardinal;
@@ -597,6 +602,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 function TGLHeightTileFile.GetTileIndex(aLeft, aTop: Integer): Integer;
 var
   I, key, n: Integer;
@@ -624,6 +630,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 function TGLHeightTileFile.GetTile(aLeft, aTop: Integer;
   pTileInfo: PPHeightTileInfo = nil): PGLHeightTile;
 var
@@ -662,6 +669,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLHeightTileFile.CompressTile(aLeft, aTop, aWidth, aHeight: Integer;
   aData: PSmallIntArray);
 begin
@@ -680,6 +688,7 @@ begin
   FTileIndex[High(FTileIndex)] := FHeightTile.info
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLHeightTileFile.ExtractRow(x, y, len: Integer;
   dest: PSmallIntArray);
 var
@@ -705,6 +714,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 function TGLHeightTileFile.XYTileInfo(anX, anY: Integer): PGLHeightTileInfo;
 var
   tileList: TList;
@@ -748,6 +758,7 @@ begin
     Result := DefaultZ;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLHeightTileFile.TilesInRect(aLeft, aTop, aRight, aBottom: Integer;
   destList: TList);
 var
@@ -794,6 +805,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 function TGLHeightTileFile.TileCount: Integer;
 begin
   Result := Length(FTileIndex);
@@ -819,6 +831,7 @@ begin
     Result := -1;
 end;
 
+//---------------------------------------------------------------------------
 function TGLHeightTileFile.TileCompressedSize(tileIndex: Integer): Integer;
 begin
   if tileIndex < High(FTileIndex) then
@@ -828,9 +841,9 @@ begin
     Result := TileIndexOffset - FTileIndex[tileIndex].fileOffset;
 end;
 
-
+//---------------------------------------------------------------------------
 //-------------------- TGLHeightTileFileHDS -------------------
-
+//---------------------------------------------------------------------------
 constructor TGLHeightTileFileHDS.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
@@ -880,8 +893,9 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 // Tries to open the assigned HeightTileFile.
-//
+//---------------------------------------------------------------------------
 function TGLHeightTileFileHDS.OpenHTF: TGLHeightTileFile;
 begin
   if not Assigned(FHTF) then
@@ -973,6 +987,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 function TGLHeightTileFileHDS.Width: Integer;
 begin
   if OpenHTF = nil then
@@ -989,9 +1004,7 @@ begin
     result := FHTF.SizeY;
 end;
 
-// ------------------------------------------------------------------
-initialization
-// ------------------------------------------------------------------
+initialization //============================================================
 
 RegisterClasses([TGLHeightTileFileHDS]);
 

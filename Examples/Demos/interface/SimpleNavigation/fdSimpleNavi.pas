@@ -19,8 +19,8 @@ uses
   GLS.Cadencer,
   GLS.SimpleNavigation,
  
-  GLS.Coordinates,
-  GLS.BaseClasses;
+  Stage.Coordinates,
+  Stage.BaseClasses;
 
 type
   TFormSimpleNavigation = class(TForm)

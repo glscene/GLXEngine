@@ -1,29 +1,29 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.TexLensFlare;
-
-(* Texture-based Lens flare object *)
-
+(*
+  Texture-based Lens flare object
+*)
 interface
 
 {$I Stage.Defines.inc}
 
 uses
   Winapi.OpenGL,
-
   System.Classes,
 
-  GXS.Scene,
+  Stage.VectorTypes,
   Stage.VectorGeometry,
-  GXS.PersistentClasses,
+  Stage.PersistentClasses,
+  Stage.BaseClasses,
+
+  GXS.Scene,
   GXS.Objects,
   GXS.Texture,
   GXS.Context,
   GXS.RenderContextInfo,
-  GXS.BaseClasses,
-  GXS.State,
-  Stage.VectorTypes;
+  GXS.State;
 
 type
 
@@ -53,7 +53,7 @@ type
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
     procedure BuildList(var rci: TgxRenderContextInfo); override;
-    procedure DoProgress(const progressTime: TgxProgressTimes); override;
+    procedure DoProgress(const progressTime: TGSProgressTimes); override;
   published
     // MaxRadius of the flare.
     property Size: integer read FSize write SetSize default 50;
@@ -299,7 +299,7 @@ begin
     Self.RenderChildren(0, Count - 1, rci);
 end;
 
-procedure TgxTextureLensFlare.DoProgress(const progressTime: TgxProgressTimes);
+procedure TgxTextureLensFlare.DoProgress(const progressTime: TGSProgressTimes);
 begin
   FDeltaTime := progressTime.deltaTime;
   inherited;

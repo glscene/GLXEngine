@@ -30,9 +30,9 @@ uses
   GLS.Cadencer,
   GLS.Texture,
   GLS.Material,
-  GLS.Coordinates,
+  Stage.Coordinates,
  
-  GLS.BaseClasses,
+  Stage.BaseClasses,
   Stage.Utils,
   GLS.FileSMD;
 
@@ -118,7 +118,7 @@ end;
 
 procedure TFormActorProxy.DoRaycastStuff;
 var
-   rayStart, rayVector, iPoint, iNormal : TGLVector;
+   rayStart, rayVector, iPoint, iNormal : TGSVector;
 begin
      SetVector(rayStart, GLCamera1.AbsolutePosition);
      SetVector(rayVector, GLSceneViewer1.Buffer.ScreenToVector(

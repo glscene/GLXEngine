@@ -1,15 +1,11 @@
-//
-// GLScene Graphics Engine
-//
-
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.WaterPlane;
-
 (*
    A plane simulating animated water
-   The Original Code is part of Cosmos4D
-   http://users.hol.gr/~sternas/
+   RegisterClasses([TGLWaterPlane]);
 *)
-
 interface
 
 {$I Stage.Defines.inc}
@@ -19,16 +15,18 @@ uses
   System.Classes,
   Vcl.Graphics,
 
+  Stage.VectorTypes,
   Stage.OpenGLTokens,
   Stage.VectorGeometry,
+  Stage.PersistentClasses,
+  Stage.Utils,
+
   GLS.Scene,
-  GLS.VectorLists,
-  GLS.PersistentClasses,
-  GLS.BaseClasses,
+  Stage.VectorLists,
+  Stage.BaseClasses,
   GLS.Context,
-  GLS.RenderContextInfo,
-  Stage.VectorTypes,
-  Stage.Utils;
+  GLS.RenderContextInfo
+  ;
 
 type
    TGLWaterPlaneOption = (wpoTextured);
@@ -42,10 +40,10 @@ const
    private
      FLocks: packed array of ByteBool;
      FPositions, FVelocity: packed array of Single;
-     FPlaneQuadIndices: TGLPersistentObjectList;
-     FPlaneQuadTexCoords: TGLTexPointList;
-     FPlaneQuadVertices: TGLAffineVectorList;
-     FPlaneQuadNormals: TGLAffineVectorList;
+     FPlaneQuadIndices: TGSPersistentObjectList;
+     FPlaneQuadTexCoords: TGSTexPointList;
+     FPlaneQuadVertices: TGSAffineVectorList;
+     FPlaneQuadNormals: TGSAffineVectorList;
      FActive: Boolean;
      FRainTimeInterval: Integer;
      FRainForce: Single;
@@ -76,13 +74,13 @@ const
    public
      constructor Create(AOwner: TComponent); override;
      destructor Destroy; override;
-     procedure DoProgress(const progressTime: TGLProgressTimes); override;
+     procedure DoProgress(const progressTime: TGSProgressTimes); override;
      procedure BuildList(var rci: TGLRenderContextInfo); override;
      procedure Assign(Source: TPersistent); override;
-     function AxisAlignedDimensionsUnscaled: TGLVector; override;
+     function AxisAlignedDimensionsUnscaled: TGSVector; override;
      procedure CreateRippleAtGridPos(X, Y: Integer);
      procedure CreateRippleAtWorldPos(const X, Y, z: Single); overload;
-     procedure CreateRippleAtWorldPos(const pos: TGLVector); overload;
+     procedure CreateRippleAtWorldPos(const pos: TGSVector); overload;
      procedure CreateRippleRandom;
      procedure Reset;
      // CPU time (in seconds) taken by the last iteration step.
@@ -114,9 +112,7 @@ const
        write FMaximumCatchupIterations default 1;
    end;
 
-//-------------------------------------------------------------
-implementation
-//-------------------------------------------------------------
+implementation //============================================================
 
 constructor TGLWaterPlane.Create(AOwner: TComponent);
 begin
@@ -132,10 +128,10 @@ begin
   FMaximumCatchupIterations := 1;
   FOptions := cDefaultWaterPlaneOptions;
 
-  FPlaneQuadIndices := TGLPersistentObjectList.Create;
-  FPlaneQuadTexCoords := TGLTexPointList.Create;
-  FPlaneQuadVertices := TGLAffineVectorList.Create;
-  FPlaneQuadNormals := TGLAffineVectorList.Create;
+  FPlaneQuadIndices := TGSPersistentObjectList.Create;
+  FPlaneQuadTexCoords := TGSTexPointList.Create;
+  FPlaneQuadVertices := TGSAffineVectorList.Create;
+  FPlaneQuadNormals := TGSAffineVectorList.Create;
   FMask := TPicture.Create;
   FMask.OnChange := DoMaskChanged;
   SetResolution(64);
@@ -151,7 +147,7 @@ begin
   inherited;
 end;
 
-procedure TGLWaterPlane.DoProgress(const progressTime: TGLProgressTimes);
+procedure TGLWaterPlane.DoProgress(const progressTime: TGSProgressTimes);
 var
   i: Integer;
 begin
@@ -206,16 +202,16 @@ end;
 
 procedure TGLWaterPlane.CreateRippleAtWorldPos(const X, Y, z: Single);
 var
-  vv: TGLVector;
+  vv: TGSVector;
 begin
   vv := AbsoluteToLocal(PointMake(X, Y, z));
   CreateRippleAtGridPos(Round((vv.X + 0.5) * Resolution),
     Round((vv.z + 0.5) * Resolution));
 end;
 
-procedure TGLWaterPlane.CreateRippleAtWorldPos(const pos: TGLVector);
+procedure TGLWaterPlane.CreateRippleAtWorldPos(const pos: TGSVector);
 var
-  vv: TGLVector;
+  vv: TGSVector;
 begin
   vv := AbsoluteToLocal(PointMake(pos));
   CreateRippleAtGridPos(Round((vv.X + 0.5) * Resolution),
@@ -274,7 +270,7 @@ var
   i, j, ij, resSqr: Integer;
   maskBmp: TBitmap;
   scanLine: PIntegerArray;
-  il: TGLIntegerList;
+  il: TGSIntegerList;
   locked: Boolean;
 begin
   resSqr := FResolution * FResolution;
@@ -307,7 +303,7 @@ begin
   FPlaneQuadIndices.Clean;
   for j := 0 to Resolution - 2 do
   begin
-    il := TGLIntegerList.Create;
+    il := TGSIntegerList.Create;
     for i := 0 to Resolution - 1 do
     begin
       ij := i + j * Resolution;
@@ -324,7 +320,7 @@ begin
       else if il.Count > 0 then
       begin
         FPlaneQuadIndices.Add(il);
-        il := TGLIntegerList.Create;
+        il := TGSIntegerList.Create;
       end;
     end;
     if il.Count > 0 then
@@ -434,7 +430,7 @@ end;
 procedure TGLWaterPlane.BuildList(var rci: TGLRenderContextInfo);
 var
   i: Integer;
-  il: TGLIntegerList;
+  il: TGSIntegerList;
 begin
   gl.PushClientAttrib(GL_CLIENT_VERTEX_ARRAY_BIT);
 
@@ -455,7 +451,7 @@ begin
 
   for i := 0 to FPlaneQuadIndices.Count - 1 do
   begin
-    il := TGLIntegerList(FPlaneQuadIndices[i]);
+    il := TGSIntegerList(FPlaneQuadIndices[i]);
     gl.DrawElements(GL_QUAD_STRIP, il.Count, GL_UNSIGNED_INT, il.List);
   end;
 
@@ -477,7 +473,7 @@ begin
   inherited Assign(Source);
 end;
 
-function TGLWaterPlane.AxisAlignedDimensionsUnscaled: TGLVector;
+function TGLWaterPlane.AxisAlignedDimensionsUnscaled: TGSVector;
 begin
   Result.X := 0.5 * Abs(Resolution);
   Result.Y := 0;
@@ -549,9 +545,7 @@ begin
   end;
 end;
 
-//-------------------------------------------------------------
-initialization
-//-------------------------------------------------------------
+initialization //============================================================
 
    RegisterClasses([TGLWaterPlane]);
 

@@ -1,10 +1,10 @@
-//
-// GXStage Graphics Engine
-//
+(*****************************************************************************
+                          GLStage Graphics Engine
+******************************************************************************)
 unit Stage.Spline;
-
-(* Cubic spline interpolation functions *)
-
+(*
+  Cubic spline interpolation functions
+*)
 interface
 
 uses
@@ -54,10 +54,10 @@ type
     // Calculates affine vector at time t. 
     procedure SplineAffineVector(const t: Single;
       var vector: TAffineVector); overload;
+    // Calculates vector at time t.
+    function SplineVector(const t: Single): TGSVector; overload;
     // Calculates vector at time t. 
-    function SplineVector(const t: Single): TGLVector; overload;
-    // Calculates vector at time t. 
-    procedure SplineVector(const t: Single; var vector: TGLVector); overload;
+    procedure SplineVector(const t: Single; var vector: TGSVector); overload;
     // Calculates X component slope at time t. 
     function SplineSlopeX(const t: Single): Single;
     // Calculates Y component slope at time t. 
@@ -79,8 +79,9 @@ type
     function SplineIntersecXY(Z: Single; var X, Y: Single): Boolean;
   end;
 
-implementation // ------------------------------------------------------------
+implementation //============================================================
 
+//---------------------------------------------------------------------------
 procedure VECCholeskyTriDiagResol(const b: array of Single; const nb: Integer;
   var Result: array of Single);
 var
@@ -110,6 +111,7 @@ begin
     Result[i] := (Y[i] - Result[i + 1] * LssDiag[i]) / LDiag[i];
 end;
 
+//---------------------------------------------------------------------------
 procedure MATInterpolationHermite(const ordonnees: PFloatArray;
   const nb: Integer; var Result: TCubicSplineMatrix); {$IFDEF CLR}unsafe;
 {$ENDIF}
@@ -144,6 +146,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 function MATValeurSpline(const spline: TCubicSplineMatrix; const X: Single;
   const nb: Integer): Single;
 var
@@ -167,6 +170,7 @@ begin
     Result := 0;
 end;
 
+//---------------------------------------------------------------------------
 function MATValeurSplineSlope(const spline: TCubicSplineMatrix; const X: Single;
   const nb: Integer): Single;
 var
@@ -192,7 +196,6 @@ end;
 // ------------------
 // ------------------ TCubicSpline ------------------
 // ------------------
-
 constructor TCubicSpline.Create(const X, Y, Z, W: PFloatArray;
   const nb: Integer); {$IFDEF CLR}unsafe; {$ENDIF}
 begin
@@ -204,37 +207,44 @@ begin
   FNb := nb;
 end;
 
+//---------------------------------------------------------------------------
 destructor TCubicSpline.Destroy;
 begin
   inherited Destroy;
 end;
 
+//---------------------------------------------------------------------------
 function TCubicSpline.SplineX(const t: Single): Single;
 begin
   Result := MATValeurSpline(matX, t, FNb);
 end;
 
+//---------------------------------------------------------------------------
 function TCubicSpline.SplineY(const t: Single): Single;
 begin
   Result := MATValeurSpline(matY, t, FNb);
 end;
 
+//---------------------------------------------------------------------------
 function TCubicSpline.SplineZ(const t: Single): Single;
 begin
   Result := MATValeurSpline(matZ, t, FNb);
 end;
 
+//---------------------------------------------------------------------------
 function TCubicSpline.SplineW(const t: Single): Single;
 begin
   Result := MATValeurSpline(matW, t, FNb);
 end;
 
+//---------------------------------------------------------------------------
 procedure TCubicSpline.SplineXY(const t: Single; out X, Y: Single);
 begin
   X := MATValeurSpline(matX, t, FNb);
   Y := MATValeurSpline(matY, t, FNb);
 end;
 
+//---------------------------------------------------------------------------
 procedure TCubicSpline.SplineXYZ(const t: Single; out X, Y, Z: Single);
 begin
   X := MATValeurSpline(matX, t, FNb);
@@ -242,6 +252,7 @@ begin
   Z := MATValeurSpline(matZ, t, FNb);
 end;
 
+//---------------------------------------------------------------------------
 procedure TCubicSpline.SplineXYZW(const t: Single; out X, Y, Z, W: Single);
 begin
   X := MATValeurSpline(matX, t, FNb);
@@ -250,6 +261,7 @@ begin
   W := MATValeurSpline(matW, t, FNb);
 end;
 
+//---------------------------------------------------------------------------
 function TCubicSpline.SplineAffineVector(const t: Single): TAffineVector;
 begin
   Result.X := MATValeurSpline(matX, t, FNb);
@@ -257,6 +269,7 @@ begin
   Result.Z := MATValeurSpline(matZ, t, FNb);
 end;
 
+//---------------------------------------------------------------------------
 procedure TCubicSpline.SplineAffineVector(const t: Single;
   var vector: TAffineVector);
 begin
@@ -265,7 +278,8 @@ begin
   vector.Z := MATValeurSpline(matZ, t, FNb);
 end;
 
-function TCubicSpline.SplineVector(const t: Single): TGLVector;
+//---------------------------------------------------------------------------
+function TCubicSpline.SplineVector(const t: Single): TGSVector;
 begin
   Result.X := MATValeurSpline(matX, t, FNb);
   Result.Y := MATValeurSpline(matY, t, FNb);
@@ -273,7 +287,8 @@ begin
   Result.W := MATValeurSpline(matW, t, FNb);
 end;
 
-procedure TCubicSpline.SplineVector(const t: Single; var vector: TGLVector);
+//---------------------------------------------------------------------------
+procedure TCubicSpline.SplineVector(const t: Single; var vector: TGSVector);
 begin
   vector.X := MATValeurSpline(matX, t, FNb);
   vector.Y := MATValeurSpline(matY, t, FNb);
@@ -281,26 +296,31 @@ begin
   vector.W := MATValeurSpline(matW, t, FNb);
 end;
 
+//---------------------------------------------------------------------------
 function TCubicSpline.SplineSlopeX(const t: Single): Single;
 begin
   Result := MATValeurSplineSlope(matX, t, FNb);
 end;
 
+//---------------------------------------------------------------------------
 function TCubicSpline.SplineSlopeY(const t: Single): Single;
 begin
   Result := MATValeurSplineSlope(matY, t, FNb);
 end;
 
+//---------------------------------------------------------------------------
 function TCubicSpline.SplineSlopeZ(const t: Single): Single;
 begin
   Result := MATValeurSplineSlope(matZ, t, FNb);
 end;
 
+//---------------------------------------------------------------------------
 function TCubicSpline.SplineSlopeW(const t: Single): Single;
 begin
   Result := MATValeurSplineSlope(matW, t, FNb);
 end;
 
+//---------------------------------------------------------------------------
 function TCubicSpline.SplineSlopeVector(const t: Single): TAffineVector;
 begin
   Result.X := MATValeurSplineSlope(matX, t, FNb);
@@ -308,6 +328,7 @@ begin
   Result.Z := MATValeurSplineSlope(matZ, t, FNb);
 end;
 
+//---------------------------------------------------------------------------
 function TCubicSpline.SplineIntersecYZ(X: Single; var Y, Z: Single): Boolean;
 var
   Sup, Inf, Mid: Single;
@@ -367,6 +388,7 @@ begin
   Result := True;
 end;
 
+//---------------------------------------------------------------------------
 function TCubicSpline.SplineIntersecXZ(Y: Single; var X, Z: Single): Boolean;
 var
   Sup, Inf, Mid: Single;
@@ -426,6 +448,7 @@ begin
   Result := True;
 end;
 
+//---------------------------------------------------------------------------
 function TCubicSpline.SplineIntersecXY(Z: Single; var X, Y: Single): Boolean;
 var
   Sup, Inf, Mid: Single;
@@ -485,6 +508,6 @@ begin
   Result := True;
 end;
 
-//--------------------------------------------------------------------------
+//---------------------------------------------------------------------------
 
 end.

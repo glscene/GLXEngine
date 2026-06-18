@@ -1,17 +1,17 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.Ragdoll;
-
-(* Base abstract ragdoll class. Should be extended to use any physics system *)
-
+(*
+  Base abstract ragdoll class. Should be extended to use any physics system
+*)
 interface
 
 uses
   Stage.VectorTypes,
-  GXS.PersistentClasses,
+  Stage.PersistentClasses,
   Stage.VectorGeometry,
-  GXS.VectorLists,
+  Stage.VectorLists,
   GXS.Scene,
   GXS.Objects,
   GXS.VectorFileObjects;
@@ -23,7 +23,7 @@ type
   TgxRagdolJoint = class
   end;
 
-  TgxRagdolBoneList = class (TgxPersistentObjectList)
+  TgxRagdolBoneList = class (TGSPersistentObjectList)
   private
      FRagdoll : TgxRagdoll;
   protected
@@ -31,8 +31,8 @@ type
   public
     constructor Create(Ragdoll: TgxRagdoll); reintroduce;
     destructor Destroy; override;
-    procedure WriteToFiler(writer : TgxVirtualWriter); override;
-    procedure ReadFromFiler(reader : TgxVirtualReader); override;
+    procedure WriteToFiler(writer : TGSVirtualWriter); override;
+    procedure ReadFromFiler(reader : TGSVirtualReader); override;
     property Ragdoll : TgxRagdoll read FRagdoll;
     property Items[Index: Integer] : TgxRagdolBone read GetRagdollBone; default;
 	end;
@@ -70,8 +70,8 @@ type
     constructor CreateOwned(aOwner : TgxRagdolBoneList);
     constructor Create(Ragdoll: TgxRagdoll);
     destructor Destroy; override;
-    procedure WriteToFiler(writer : TgxVirtualWriter); override;
-    procedure ReadFromFiler(reader : TgxVirtualReader); override;
+    procedure WriteToFiler(writer : TGSVirtualWriter); override;
+    procedure ReadFromFiler(reader : TGSVirtualReader); override;
     property Owner : TgxRagdolBoneList read FOwner;
     property Name : String read FName write FName;
     property BoneID : Integer read FBoneID write FBoneID;
@@ -84,7 +84,7 @@ type
     property Items[Index: Integer] : TgxRagdolBone read GetRagdollBone; default;
 	end;
 
-  TgxRagdoll = class(TgxPersistentObject)
+  TgxRagdoll = class(TGSPersistentObject)
 	private
     FOwner : TgxBaseMesh;
     FRootBone : TgxRagdolBone;
@@ -93,8 +93,8 @@ type
   public
     constructor Create(AOwner : TgxBaseMesh); reintroduce;
     destructor Destroy; override;
-    procedure WriteToFiler(writer : TgxVirtualWriter); override;
-    procedure ReadFromFiler(reader : TgxVirtualReader); override;
+    procedure WriteToFiler(writer : TGSVirtualWriter); override;
+    procedure ReadFromFiler(reader : TGSVirtualReader); override;
     // Must be set before build the ragdoll
     procedure SetRootBone(RootBone: TgxRagdolBone);
     // Create the bounding box and setup the ragdoll do be started later
@@ -107,7 +107,7 @@ type
     property Enabled : Boolean read FEnabled;
 	end;
 
-implementation //-------------------------------------------------------------
+implementation //============================================================
 
 //--------------------------------
 // TgxRagdolBoneList
@@ -131,13 +131,13 @@ begin
   Result:=TgxRagdolBone(List^[Index]);
 end;
 
-procedure TgxRagdolBoneList.ReadFromFiler(reader: TgxVirtualReader);
+procedure TgxRagdolBoneList.ReadFromFiler(reader: TGSVirtualReader);
 begin
   inherited;
   //Not implemented
 end;
 
-procedure TgxRagdolBoneList.WriteToFiler(writer: TgxVirtualWriter);
+procedure TgxRagdolBoneList.WriteToFiler(writer: TGSVirtualWriter);
 begin
   inherited;
   //Not implemented
@@ -154,14 +154,14 @@ procedure TgxRagdolBone.CreateBoundingBox;
 var
   bone: TgxSkeletonBone;
   i, j: integer;
-  BoneVertices : TgxAffineVectorList;
+  BoneVertices : TGSAffineVectorList;
   BoneVertex, max,min: TAffineVector;
   invMat, mat: TMatrix4f;
 begin
   bone := Ragdoll.Owner.Skeleton.BoneByID(FBoneID);
 
   //Get all vertices weighted to this bone
-  BoneVertices:=TgxAffineVectorList.Create;
+  BoneVertices:=TGSAffineVectorList.Create;
   for i:=0 to Ragdoll.Owner.MeshObjects.Count-1 do
   with TgxSkeletonMeshObject(Ragdoll.Owner.MeshObjects[i]) do
     for j:=0 to Vertices.Count-1 do
@@ -258,7 +258,7 @@ begin
   Result:=TgxRagdolBone(List^[Index]);
 end;
 
-procedure TgxRagdolBone.ReadFromFiler(reader: TgxVirtualReader);
+procedure TgxRagdolBone.ReadFromFiler(reader: TGSVirtualReader);
 begin
   inherited;
 
@@ -280,7 +280,7 @@ begin
   for i := 0 to Count-1 do items[i].UpdateChild;
 end;
 
-procedure TgxRagdolBone.WriteToFiler(writer: TgxVirtualWriter);
+procedure TgxRagdolBone.WriteToFiler(writer: TGSVirtualWriter);
 begin
   inherited;
 
@@ -329,7 +329,7 @@ begin
   inherited Destroy;
 end;
 
-procedure TgxRagdoll.ReadFromFiler(reader: TgxVirtualReader);
+procedure TgxRagdoll.ReadFromFiler(reader: TGSVirtualReader);
 begin
   inherited;
 end;
@@ -371,7 +371,7 @@ begin
   FOwner.Skeleton.MorphMesh(true);
 end;
 
-procedure TgxRagdoll.WriteToFiler(writer: TgxVirtualWriter);
+procedure TgxRagdoll.WriteToFiler(writer: TGSVirtualWriter);
 begin
   inherited;
 

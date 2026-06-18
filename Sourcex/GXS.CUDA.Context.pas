@@ -15,12 +15,12 @@ uses
 
   Stage.Strings,
   Stage.Generics,
-  GXS.BaseClasses,
+  Stage.BaseClasses,
   GXS.Context;
 
 type
 
-  TCUDADimensions = class(TgxUpdateAbleObject)
+  TCUDADimensions = class(TGSUpdateAbleObject)
   private
     FXYZ: TDim3;
     FMaxXYZ: TDim3;

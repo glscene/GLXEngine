@@ -1,10 +1,10 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.AnimatedSprite;
-
-(* A sprite that uses a scrolling texture for animation. *)
-
+(*
+  A sprite that uses a scrolling texture for animation
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -16,15 +16,16 @@ uses
   System.Math,
    
   Stage.OpenGLTokens,
-  GLS.Scene,
   Stage.VectorTypes,
   Stage.VectorGeometry,
+  Stage.PersistentClasses,
+  Stage.BaseClasses,
+  Stage.XCollection,
+
+  GLS.Scene,
   GLS.Material,
-  GLS.PersistentClasses,
-  GLS.XCollection,
   GLS.RenderContextInfo,
-  GLS.BaseClasses, 
-  GLS.Context, 
+  GLS.Context,
   GLS.State;
 
 type
@@ -216,7 +217,7 @@ type
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
     procedure BuildList(var rci: TGLRenderContextInfo); override;
-    procedure DoProgress(const progressTime: TGLProgressTimes); override;
+    procedure DoProgress(const progressTime: TGSProgressTimes); override;
     // Steps the current animation to the next frame
     procedure NextFrame;
   published
@@ -265,14 +266,11 @@ type
       FOnStartFrameReached;
   end;
 
-// -----------------------------------------------------------------------------
-implementation
-// -----------------------------------------------------------------------------
+implementation //============================================================
 
 // ----------
 // ---------- TGLSpriteAnimFrame ----------
 // ----------
-
 procedure TGLSpriteAnimFrame.DoChanged;
 begin
   if Assigned(Owner) then
@@ -283,16 +281,19 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 class function TGLSpriteAnimFrame.FriendlyName: string;
 begin
   Result := 'Frame';
 end;
 
+//---------------------------------------------------------------------------
 class function TGLSpriteAnimFrame.FriendlyDescription: string;
 begin
   Result := 'Sprite Animation Frame';
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLSpriteAnimFrame.WriteToFiler(writer: TWriter);
 begin
   inherited;
@@ -306,6 +307,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLSpriteAnimFrame.ReadFromFiler(reader: TReader);
 var
   archiveVersion: Integer;
@@ -322,6 +324,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLSpriteAnimFrame.SetOffsetX(const Value: Integer);
 begin
   if Value <> FOffsetX then
@@ -331,6 +334,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLSpriteAnimFrame.SetOffsetY(const Value: Integer);
 begin
   if Value <> FOffsetY then
@@ -340,6 +344,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLSpriteAnimFrame.SetWidth(const Value: Integer);
 begin
   if Value <> FWidth then
@@ -349,6 +354,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLSpriteAnimFrame.SetHeight(const Value: Integer);
 begin
   if Value <> FHeight then
@@ -361,12 +367,12 @@ end;
 // ----------
 // ---------- TGLSpriteAnimFrameList ----------
 // ----------
-
 constructor TGLSpriteAnimFrameList.Create(aOwner: TPersistent);
 begin
   inherited;
 end;
 
+//---------------------------------------------------------------------------
 class function TGLSpriteAnimFrameList.ItemsClass: TXCollectionItemClass;
 begin
   Result := TGLSpriteAnimFrame;
@@ -375,13 +381,13 @@ end;
 // ----------
 // ---------- TGLSpriteAnimMargins ----------
 // ----------
-
 constructor TGLSpriteAnimMargins.Create(Animation: TGLSpriteAnimation);
 begin
   inherited Create;
   FOwner := Animation;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLSpriteAnimMargins.SetLeft(const Value: Integer);
 begin
   if Value <> FLeft then
@@ -391,6 +397,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLSpriteAnimMargins.SetTop(const Value: Integer);
 begin
   if Value <> FTop then
@@ -400,7 +407,7 @@ begin
   end;
 end;
 
-
+//---------------------------------------------------------------------------
 procedure TGLSpriteAnimMargins.SetRight(const Value: Integer);
 begin
   if Value <> FRight then
@@ -410,7 +417,7 @@ begin
   end;
 end;
 
-
+//---------------------------------------------------------------------------
 procedure TGLSpriteAnimMargins.SetBottom(const Value: Integer);
 begin
   if Value <> FBottom then
@@ -420,7 +427,7 @@ begin
   end;
 end;
 
-
+//---------------------------------------------------------------------------
 procedure TGLSpriteAnimMargins.DoChanged;
 begin
   if Assigned(Owner) then
@@ -430,7 +437,6 @@ end;
 // ----------
 // ---------- TGLSpriteAnimation ----------
 // ----------
-
 constructor TGLSpriteAnimation.Create(aOwner: TXCollection);
 begin
   inherited;
@@ -438,6 +444,7 @@ begin
   FMargins := TGLSpriteAnimMargins.Create(Self);
 end;
 
+//---------------------------------------------------------------------------
 destructor TGLSpriteAnimation.Destroy;
 begin
   FFrames.Free;
@@ -445,6 +452,7 @@ begin
   inherited;
 end;
 
+//---------------------------------------------------------------------------
 function TGLSpriteAnimation.GetMaterialLibrary: TGLAbstractMaterialLibrary;
 begin
   if not (Owner is TGLSpriteAnimationList) then
@@ -459,16 +467,19 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 class function TGLSpriteAnimation.FriendlyName: string;
 begin
   Result := 'Animation';
 end;
 
+//---------------------------------------------------------------------------
 class function TGLSpriteAnimation.FriendlyDescription: string;
 begin
   Result := 'Sprite Animation';
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLSpriteAnimation.WriteToFiler(writer: TWriter);
 begin
   inherited;
@@ -494,6 +505,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLSpriteAnimation.ReadFromFiler(reader: TReader);
 var
   archiveVersion: Integer;
@@ -527,6 +539,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLSpriteAnimation.DoChanged;
 begin
   if Assigned(Owner) then
@@ -537,6 +550,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLSpriteAnimation.SetCurrentFrame(const Value: Integer);
 begin
   if Value <> FCurrentFrame then
@@ -548,6 +562,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLSpriteAnimation.SetFrameWidth(const Value: Integer);
 begin
   if Value <> FFrameWidth then
@@ -557,6 +572,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLSpriteAnimation.SetFrameHeight(const Value: Integer);
 begin
   if Value <> FFrameHeight then
@@ -566,6 +582,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLSpriteAnimation.SetDimensions(
   const Value: TGLSpriteFrameDimensions);
 begin
@@ -576,6 +593,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLSpriteAnimation.SetLibMaterialName(const val: TGLLibMaterialName);
 begin
   if val <> FLibMaterialName then
@@ -585,6 +603,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 function TGLSpriteAnimation.GetLibMaterialCached: TGLLibMaterial;
 begin
   Result := nil;
@@ -602,6 +621,7 @@ begin
   Result := FLibMaterialCached;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLSpriteAnimation.SetInterval(const Value: Integer);
 begin
   if Value <> FInterval then
@@ -611,6 +631,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLSpriteAnimation.SetFrameRate(const Value: Single);
 begin
   if Value > 0 then
@@ -619,6 +640,7 @@ begin
     Interval := 0;
 end;
 
+//---------------------------------------------------------------------------
 function TGLSpriteAnimation.GetFrameRate: Single;
 begin
   if Interval > 0 then
@@ -630,12 +652,12 @@ end;
 // ----------
 // ---------- TGLSpriteAnimationList ----------
 // ----------
-
 constructor TGLSpriteAnimationList.Create(aOwner: TPersistent);
 begin
   inherited;
 end;
 
+//---------------------------------------------------------------------------
 class function TGLSpriteAnimationList.ItemsClass: TXCollectionItemClass;
 begin
   Result := TGLSpriteAnimation;
@@ -644,11 +666,9 @@ end;
 // ----------
 // ---------- TGLAnimatedSprite ----------
 // ----------
-
 constructor TGLAnimatedSprite.Create(AOwner: TComponent);
 begin
   inherited;
-
   FAnimations := TGLSpriteAnimationList.Create(Self);
   FAnimationIndex := -1;
   FInterval := 100;
@@ -660,6 +680,7 @@ begin
   ObjectStyle := [osDirectDraw];
 end;
 
+//---------------------------------------------------------------------------
 destructor TGLAnimatedSprite.Destroy;
 begin
   FAnimations.Free;
@@ -668,11 +689,12 @@ end;
 
 {$WARNINGS Off}
 
+//---------------------------------------------------------------------------
 procedure TGLAnimatedSprite.BuildList(var rci: TGLRenderContextInfo);
 var
   vx, vy: TAffineVector;
   w, h, temp: Single;
-  mat: TGLMatrix;
+  mat: TGSMatrix;
   u0, v0, u1, v1: Single;
   x0, y0, x1, y1, TexWidth, TexHeight: Integer;
   Anim: TGLSpriteAnimation;
@@ -808,7 +830,8 @@ begin
 end;
 {$WARNINGS On}
 
-procedure TGLAnimatedSprite.DoProgress(const progressTime: TGLProgressTimes);
+//---------------------------------------------------------------------------
+procedure TGLAnimatedSprite.DoProgress(const progressTime: TGSProgressTimes);
 var
   i, intr: Integer;
 begin
@@ -833,7 +856,7 @@ begin
   end;
 end;
 
-
+//---------------------------------------------------------------------------
 procedure TGLAnimatedSprite.Notification(AComponent: TComponent; Operation:
   TOperation);
 begin
@@ -842,6 +865,7 @@ begin
   inherited;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLAnimatedSprite.DefineProperties(Filer: TFiler);
 begin
   inherited;
@@ -850,6 +874,7 @@ begin
     FAnimations.Count > 0);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLAnimatedSprite.WriteAnimations(Stream: TStream);
 var
   writer: TWriter;
@@ -862,6 +887,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLAnimatedSprite.ReadAnimations(Stream: TStream);
 var
   reader: TReader;
@@ -874,6 +900,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLAnimatedSprite.NextFrame;
 var
   currentFrame,
@@ -883,9 +910,7 @@ var
 begin
   if (FAnimationIndex = -1) or (FAnimationIndex >= Animations.Count) then
     exit;
-
   Anim := TGLSpriteAnimation(Animations[FAnimationIndex]);
-
   currentFrame := Anim.CurrentFrame;
   if Anim.Dimensions = sfdManual then
   begin
@@ -897,7 +922,6 @@ begin
     startFrame := Anim.StartFrame;
     endFrame := Anim.EndFrame;
   end;
-
   case AnimationMode of
     samLoop, samBounceForward, samPlayOnce:
       begin
@@ -912,47 +936,39 @@ begin
         Dec(CurrentFrame);
       end;
   end;
-
   if (AnimationMode <> samNone) and Assigned(FOnFrameChanged) then
     FOnFrameChanged(Self);
-
   case AnimationMode of
-
     samPlayOnce:
       begin
         if currentFrame > endFrame then
           AnimationMode := samNone;
       end;
-
     samLoop:
       begin
         if currentFrame > endFrame then
           currentFrame := startFrame;
       end;
-
     samBounceForward:
       begin
         if currentFrame = endFrame then
           AnimationMode := samBounceBackward;
       end;
-
     samLoopBackward:
       begin
         if currentFrame < startFrame then
           CurrentFrame := endFrame;
       end;
-
     samBounceBackward:
       begin
         if currentFrame = startFrame then
           AnimationMode := samBounceForward;
       end;
-
   end;
-
   Anim.CurrentFrame := currentFrame;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLAnimatedSprite.SetInterval(const val: Integer);
 begin
   if val <> FInterval then
@@ -962,7 +978,7 @@ begin
   end;
 end;
 
-
+//---------------------------------------------------------------------------
 procedure TGLAnimatedSprite.SetFrameRate(const Value: Single);
 begin
   if Value > 0 then
@@ -971,6 +987,7 @@ begin
     Interval := 0;
 end;
 
+//---------------------------------------------------------------------------
 function TGLAnimatedSprite.GetFrameRate: Single;
 begin
   if Interval > 0 then
@@ -979,6 +996,7 @@ begin
     Result := 0;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLAnimatedSprite.SetAnimationIndex(const val: Integer);
 begin
   if val <> FAnimationIndex then
@@ -998,6 +1016,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLAnimatedSprite.SetAnimationMode(const val: TGLSpriteAnimationMode);
 begin
   if val <> FAnimationMode then
@@ -1007,6 +1026,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLAnimatedSprite.SetMaterialLibrary(const val: TGLMaterialLibrary);
 var
   i: Integer;
@@ -1024,6 +1044,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLAnimatedSprite.SetPixelRatio(const val: Integer);
 begin
   if (FPixelRatio <> val) and (val > 0) then
@@ -1033,6 +1054,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLAnimatedSprite.SetRotation(const val: Integer);
 begin
   if val <> FRotation then
@@ -1042,6 +1064,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLAnimatedSprite.SetMirrorU(const val: Boolean);
 begin
   if val <> FMirrorU then
@@ -1051,6 +1074,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLAnimatedSprite.SetMirrorV(const val: Boolean);
 begin
   if val <> FMirrorV then
@@ -1060,9 +1084,7 @@ begin
   end;
 end;
 
-// -----------------------------------------------------------------------------
-initialization
-// -----------------------------------------------------------------------------
+initialization //============================================================
 
   RegisterClasses([TGLAnimatedSprite,
     TGLSpriteAnimFrame, TGLSpriteAnimFrameList,
@@ -1071,7 +1093,7 @@ initialization
   RegisterXCollectionItemClass(TGLSpriteAnimFrame);
   RegisterXCollectionItemClass(TGLSpriteAnimation);
 
-finalization
+finalization //==============================================================
 
   UnregisterXCollectionItemClass(TGLSpriteAnimFrame);
   UnregisterXCollectionItemClass(TGLSpriteAnimation);

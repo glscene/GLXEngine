@@ -1,6 +1,6 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.Isosurface;
 (*
   Polygonising a scalar field by construction of isosurfaces
@@ -34,7 +34,7 @@ interface
 
 uses
   Stage.VectorGeometry,
-  GLS.VectorLists,
+  Stage.VectorLists,
   GLS.Mesh,
   GLS.VectorFileObjects,
   Stage.VectorTypes,
@@ -170,9 +170,7 @@ function SFToroidal(X, Y, Z: Extended): TScalarValue;
 // Double torus Surface (phantasy!)
 function SFDoubleTorus(X, Y, Z: Extended): TScalarValue;
 
-// -------------------------------------------------------------------------
-implementation
-// -------------------------------------------------------------------------
+implementation //============================================================
 
 const
   // Classic Cases for Marching Cube TriTable
@@ -1465,7 +1463,7 @@ var
   i: Integer;
   vx1, vx2, vx3: TGLVertexData;
 
-  function GetNrmColor(Nrm: TAffineVector): TGLVector;
+  function GetNrmColor(Nrm: TAffineVector): TGSVector;
   begin
     Result.V[0] := 0;
     if Nrm.V[0] > 0.0 then
@@ -1493,7 +1491,7 @@ var
     Result.V[3] := 0.3
   end;
 
-  function GetColor(H: TScalarValue): TGLVector;
+  function GetColor(H: TScalarValue): TGSVector;
   begin
     Result := VectorMake(0.890, 0.855, 0.788, Alpha)
     (*
@@ -1557,6 +1555,5 @@ begin
   end;
 end;
 
-
-
+//---------------------------------------------------------------------------
 end.

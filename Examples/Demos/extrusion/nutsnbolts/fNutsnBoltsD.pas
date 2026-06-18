@@ -22,8 +22,8 @@ uses
   Stage.VectorGeometry,
   GLS.GeomObjects,
  
-  GLS.Coordinates,
-  GLS.BaseClasses;
+  Stage.Coordinates,
+  Stage.BaseClasses;
 
 type
   TFormNutsnBolts = class(TForm)

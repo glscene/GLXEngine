@@ -18,9 +18,9 @@ uses
   Stage.Keyboard,
   Stage.VectorTypes,
   Stage.VectorGeometry,
-  GLS.XCollection,
-  GLS.Coordinates,
-  GLS.BaseClasses,
+  Stage.XCollection,
+  Stage.Coordinates,
+  Stage.BaseClasses,
 
   GLS.Cadencer,
   GLS.Texture,
@@ -102,7 +102,7 @@ end;
 procedure TForm1.GLCadencer1Progress;
 var
   m: TPoint;
-  v: TGLVector;
+  v: TGSVector;
 begin
   cur.Position.SetPoint(Mouse.CursorPos.X - left, Mouse.CursorPos.Y - top, 0);
   cur.Rotation := cur.Rotation - deltaTime * 50;

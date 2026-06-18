@@ -27,10 +27,10 @@ uses
 
   GLS.Scene,
   GLS.Portal,
-  GLS.PersistentClasses,
-  GLS.Coordinates,
-  GLS.BaseClasses,
-  GLS.XCollection,
+  Stage.PersistentClasses,
+  Stage.Coordinates,
+  Stage.BaseClasses,
+  Stage.XCollection,
 
   GLS.Texture,
   GLS.VectorFileObjects,

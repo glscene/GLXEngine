@@ -18,9 +18,9 @@ uses
   GLS.Texture,
   GLS.Cadencer,
   GLS.SceneViewer,
-  GLS.Color,
-  GLS.Coordinates,
-  GLS.BaseClasses,
+  Stage.Color,
+  Stage.Coordinates,
+  Stage.BaseClasses,
   GLS.SimpleNavigation;
 
 type

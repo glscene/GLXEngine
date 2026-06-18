@@ -1,10 +1,11 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.FileLWO;
-
-(*  Support-code to load Lightwave LWO Files (v6.0+, partial support).*)
-
+(*
+  Support-code to load Lightwave LWO Files (v6.0+, partial support).
+  RegisterVectorFileFormat('lwo', 'Lightwave3D object file (6.0 or above)', TGLLWOVectorFile);
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -14,7 +15,7 @@ uses
   System.SysUtils,
   System.Math,
   GLS.VectorFileObjects,
-  GLS.VectorLists,
+  Stage.VectorLists,
   Formats.LWO;
 
 type
@@ -445,9 +446,7 @@ begin
     end;
 end;
 
-//------------------------------------------------------------
-initialization
-//------------------------------------------------------------
+initialization //============================================================
 
   RegisterVectorFileFormat('lwo', 'Lightwave3D object file (6.0 or above)', TGLLWOVectorFile);
 

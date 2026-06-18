@@ -22,9 +22,9 @@ uses
   GLS.Objects,
   GLS.AsyncTimer,
   GLS.Material,
-  GLS.Coordinates,
+  Stage.Coordinates,
  
-  GLS.BaseClasses,
+  Stage.BaseClasses,
   GLS.RenderContextInfo,
   GLS.ScriptBase,
 
@@ -53,7 +53,7 @@ type
     dws2VectorGeometryUnit1: TdwsVectorGeometryUnit;
     AsyncTimer1: TGLAsyncTimer;
     GLDelphiWebScriptII1: TGLDelphiWebScript;
-    GLScriptLibrary1: TGLScriptLibrary;
+    GLScriptLibrary1: TGSScriptLibrary;
     procedure GLCadencer1Progress(Sender: TObject; const deltaTime,
       newTime: Double);
     procedure RecompileClick(Sender: TObject);

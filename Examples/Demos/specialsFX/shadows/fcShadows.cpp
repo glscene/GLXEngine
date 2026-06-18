@@ -7,10 +7,10 @@
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma link "GLS.AsyncTimer"
-#pragma link "GLS.BaseClasses"
+#pragma link "Stage.BaseClasses"
 #pragma link "GLS.Behaviours"
 #pragma link "GLS.Cadencer"
-#pragma link "GLS.Coordinates"
+#pragma link "Stage.Coordinates"
 
 #pragma link "GLS.GeomObjects"
 #pragma link "GLS.Graph"
@@ -122,7 +122,7 @@ void __fastcall TFormShadows::FadeBoxClick(TObject *Sender)
 
 //---------------------------------------------------------------------------
 void __fastcall TFormShadows::HeightField1GetHeight2(TObject *Sender, const float x, const float y,
-		  float &z, TGLColorVector &Color, TTexPoint &TexPoint)
+		  float &z, TGSColorVector &Color, TTexPoint &TexPoint)
 {
   z = 0;
 }

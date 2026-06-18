@@ -36,7 +36,7 @@ uses
   GLS.Scene,
   GLS.SceneViewer,
   FmInfo,
-  GLS.XCollection,
+  Stage.XCollection,
   GLS.SceneRegister;
 
 const

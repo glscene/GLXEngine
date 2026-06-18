@@ -1,3 +1,6 @@
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit fdPanoViewer;
 
 interface
@@ -18,19 +21,20 @@ uses
   Vcl.ExtDlgs,
   Vcl.Imaging.Jpeg,
 
-  GLS.Coordinates,
-  GLS.BaseClasses,
   Stage.VectorGeometry,
   Stage.Keyboard,
-  GLS.XCollection,
+  Stage.Utils,
 
   GLS.Scene,
+  Stage.Coordinates,
+  Stage.BaseClasses,
+  Stage.XCollection,
+
   GLS.Objects,
   GLS.Texture,
   GLS.Cadencer,
   GLS.SceneViewer,
-  GLS.Material,
-  Stage.Utils;
+  GLS.Material;
 
 type
   TFormPamorama = class(TForm)

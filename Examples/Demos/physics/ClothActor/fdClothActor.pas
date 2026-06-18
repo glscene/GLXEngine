@@ -26,18 +26,18 @@ uses
   GLS.VerletTypes,
   GLS.VerletClothify,
   GLS.ShadowVolume,
-  GLS.XCollection,
+  Stage.XCollection,
   Stage.VectorGeometry,
-  GLS.GeometryBB,
+  Stage.GeometryBB,
   GLS.SpacePartition,
 
   GLS.Material,
-  GLS.BaseClasses,
+  Stage.BaseClasses,
   GLS.RenderContextInfo,
   GLS.Context,
   Stage.Utils,
-  GLS.Coordinates,
-  GLS.PersistentClasses;
+  Stage.Coordinates,
+  Stage.PersistentClasses;
 
 type
   TFormClothActor = class(TForm)

@@ -1,10 +1,10 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.FileMD3;
-
-(* Code for loading animated MD3 files into FreeForms and Actors. *)
-
+(*
+  Code for loading animated MD3 files into FreeForms and Actors.
+*)
 interface
 
 uses
@@ -21,7 +21,7 @@ type
 
   TGLMD3VectorFile = class (TGLVectorFile)
     public
-      class function Capabilities : TGLDataFileCapabilities; override;
+      class function Capabilities : TGSDataFileCapabilities; override;
       procedure LoadFromStream(aStream : TStream); override;
   end;
 
@@ -34,7 +34,7 @@ implementation
 // ------------------ TGLMD3VectorFile ------------------
 // ------------------
 
-class function TGLMD3VectorFile.Capabilities : TGLDataFileCapabilities;
+class function TGLMD3VectorFile.Capabilities : TGSDataFileCapabilities;
 begin
   Result:=[dfcRead];
 end;

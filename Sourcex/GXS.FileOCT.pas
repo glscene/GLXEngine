@@ -1,6 +1,6 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.FileOCT;
 (*
     Support-code to load OCT Files into TgxFreeForm-Components in GLScene.
@@ -26,7 +26,7 @@ uses
   GXS.State,
   GXS.ImageUtils,
 
-  Formatx.OCT;
+  Formats.OCT;
 
 type
 
@@ -45,9 +45,7 @@ var
   // Flag to avoid loading materials (useful for IDE Extensions or scene editors)
   vFileOCTAllocateMaterials: boolean = True;
 
-// ------------------------------------------------------------------
-implementation
-// ------------------------------------------------------------------
+implementation //============================================================
 
 // ------------------
 // ------------------ TgxOCTgxVectorFile ------------------

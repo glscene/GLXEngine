@@ -3,15 +3,14 @@
 ******************************************************************************)
 unit GLS.MultiPolygon;
 (* Object with support for complex polygons.
-   The registered class is:
-      [TGLMultiPolygon]
+   The registered class is: [TGLMultiPolygon]
 
    When the tesselator finds an intersection of edges it wants us to give him some storage
    for this new vertex, and he wants a pointer (see tessCombine). The pointers taken from
-   TGLAffineVectorList become invalid after enlarging the capacity (makes a ReAllocMem), which
+   TGSAffineVectorList become invalid after enlarging the capacity (makes a ReAllocMem), which
    can happen implicitly while adding. The TGLVectorPool keeps all pointers valid until the
    destruction itself.
-   Reactivated the TGLVectorPool object. The GLS.VectorLists are not suitable for this job.
+   Reactivated the TGLVectorPool object. The Stage.VectorLists are not suitable for this job.
    If anyone feels responsible: it would be fine to have a method ImportFromFile (dxf?) in
    the TGLContour and TGLMultiPolygonBase objects...
 *)
@@ -26,20 +25,21 @@ uses
   System.SysUtils,
 
   Stage.OpenGLTokens,
-  GLS.OpenGLAdapter,
+  Stage.OpenGLAdapter,
   Stage.Spline,
-  GLS.XOpenGL,
-  GLS.Context,
   Stage.VectorTypes,
   Stage.VectorGeometry,
-  GLS.VectorLists,
-  GLS.PersistentClasses,
+  Stage.VectorLists,
+  Stage.PersistentClasses,
+  Stage.BaseClasses,
+  Stage.Coordinates,
+
   GLS.Scene,
   GLS.Objects,
   GLS.GeomObjects,
   GLS.Nodes,
-  GLS.BaseClasses,
-  GLS.Coordinates,
+  GLS.XOpenGL,
+  GLS.Context,
   GLS.RenderContextInfo;
 
 type
@@ -80,7 +80,7 @@ type
 
   TGLContourClass = class of TGLContour;
 
-  TGLContours = class(TGNotifyCollection)
+  TGLContours = class(TGSNotifyCollection)
   private
     function GetItems(index: Integer): TGLContour;
     procedure SetItems(index: Integer; const Value: TGLContour);
@@ -93,14 +93,14 @@ type
     procedure GetExtents(var min, max: TAffineVector);
   end;
 
-  TGLPolygonList = class(TGLPersistentObjectList)
+  TGLPolygonList = class(TGSPersistentObjectList)
   private
-    FAktList: TGLAffineVectorList;
-    function GetList(I: Integer): TGLAffineVectorList;
+    FAktList: TGSAffineVectorList;
+    function GetList(I: Integer): TGSAffineVectorList;
   public
     procedure Add;
-    property AktList: TGLAffineVectorList read FAktList;
-    property List[I: Integer]: TGLAffineVectorList read GetList;
+    property AktList: TGSAffineVectorList read FAktList;
+    property List[I: Integer]: TGSAffineVectorList read GetList;
   end;
 
   (* Multipolygon is defined with multiple contours.
@@ -115,13 +115,13 @@ type
      TGLMultiPolygonBase will take the input contours and let the tesselator
      make an outline from it (this is done in RetreiveOutline). This outline is
      used for Rendering. Only when there are changes in the contours, the
-     outline will be recalculated. The ouline in fact is a list of GLS.VectorLists. *)
+     outline will be recalculated. The ouline in fact is a list of Stage.VectorLists. *)
   TGLMultiPolygonBase = class(TGLSceneObject)
   private
     FContours: TGLContours;
     FOutline: TGLPolygonList;
     FContoursNormal: TAffineVector;
-    FAxisAlignedDimensionsCache: TGLVector;
+    FAxisAlignedDimensionsCache: TGSVector;
     procedure SetContours(const Value: TGLContours);
     function GetPath(i: Integer): TGLContourNodes;
     procedure SetPath(i: Integer; const value: TGLContourNodes);
@@ -137,14 +137,14 @@ type
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
     procedure Assign(Source: TPersistent); override;
-    procedure AddNode(const i: Integer; const coords: TGLCoordinates); overload;
+    procedure AddNode(const i: Integer; const coords: TGSCoordinates); overload;
     procedure AddNode(const i: Integer; const X, Y, Z: TGLfloat); overload;
-    procedure AddNode(const i: Integer; const value: TGLVector); overload;
+    procedure AddNode(const i: Integer; const value: TGSVector); overload;
     procedure AddNode(const i: Integer; const value: TAffineVector); overload;
     property Path[i: Integer]: TGLContourNodes read GetPath write SetPath;
     property Outline: TGLPolygonList read GetOutline;
     property ContoursNormal: TAffineVector read FContoursNormal write SetContoursNormal;
-    function AxisAlignedDimensionsUnscaled: TGLVector; override;
+    function AxisAlignedDimensionsUnscaled: TGSVector; override;
     procedure StructureChanged; override;
   published
     property Contours: TGLContours read FContours write SetContours;
@@ -167,7 +167,7 @@ type
   end;
 
   (* Page oriented pointer array, with persistent pointer target memory.
-    In TGLVectorList a pointer to a vector will not be valid any more after
+    In TGSVectorList a pointer to a vector will not be valid any more after
     a call to SetCapacity, which might be done implicitely during Add.
     The TGLVectorPool keeps memory in its original position during its
     whole lifetime. *)
@@ -186,14 +186,11 @@ type
     procedure GetNewVector(var P: Pointer);
   end;
 
-//-------------------------------------------------------------
-implementation
-//-------------------------------------------------------------
+implementation //============================================================
 
 //----------------------------------------
 // TGLVectorPool
 //----------------------------------------
-
 constructor TGLVectorPool.Create(APageSize, AEntrySize: Integer);
 begin
   inherited Create;
@@ -232,23 +229,21 @@ end;
 // ------------------
 // ------------------ TGLPolygonList ------------------
 // ------------------
-
 procedure TGLPolygonList.Add;
 begin
-  FAktList := TGLAffineVectorList.Create;
+  FAktList := TGSAffineVectorList.Create;
   inherited Add(FAktList);
 end;
 
 
-function TGLPolygonList.GetList(i: Integer): TGLAffineVectorList;
+function TGLPolygonList.GetList(i: Integer): TGSAffineVectorList;
 begin
-  Result := TGLAffineVectorList(Items[i]);
+  Result := TGSAffineVectorList(Items[i]);
 end;
 
 // ------------------
 // ------------------ TGLContour ------------------
 // ------------------
-
 constructor TGLContour.Create(Collection: TCollection);
 begin
   inherited;
@@ -327,7 +322,6 @@ end;
 //-----------------------------
 // TGLContours
 //-----------------------------
-
 function TGLContours.Add: TGLContour;
 begin
   Result := TGLContour(inherited Add);
@@ -378,7 +372,6 @@ end;
 //---------------------------------
 // TGLMultiPolygonBase
 //---------------------------------
-
 constructor TGLMultiPolygonBase.Create(AOwner: TComponent);
 begin
   inherited;
@@ -422,7 +415,7 @@ begin
 end;
 
 
-procedure TGLMultiPolygonBase.AddNode(const i: Integer; const value: TGLVector);
+procedure TGLMultiPolygonBase.AddNode(const i: Integer; const value: TGSVector);
 begin
   Path[i].AddNode(value);
 end;
@@ -434,7 +427,7 @@ begin
 end;
 
 
-procedure TGLMultiPolygonBase.AddNode(const i: Integer; const coords: TGLCoordinates);
+procedure TGLMultiPolygonBase.AddNode(const i: Integer; const coords: TGSCoordinates);
 begin
   Path[i].AddNode(coords);
 end;
@@ -483,7 +476,6 @@ end;
 //
 // Tessellation routines (OpenGL callbacks)
 //
-
 var
   vVertexPool: TGLVectorPool;
 
@@ -703,8 +695,6 @@ end;
 // ------------------
 // ------------------ TGLMultiPolygon ------------------
 // ------------------
-
-
 constructor TGLMultiPolygon.Create(AOwner: TComponent);
 begin
   inherited;
@@ -758,7 +748,7 @@ begin
 end;
 
 
-function TGLMultiPolygonBase.AxisAlignedDimensionsUnscaled: TGLVector;
+function TGLMultiPolygonBase.AxisAlignedDimensionsUnscaled: TGSVector;
 var
   dMin, dMax: TAffineVector;
 begin
@@ -782,8 +772,6 @@ end;
 // ------------------
 // ------------------ TGLContourNodes ------------------
 // ------------------
-
-
 procedure TGLContourNodes.NotifyChange;
 begin
   if (GetOwner <> nil) then

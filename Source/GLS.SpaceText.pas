@@ -4,6 +4,7 @@
 unit GLS.SpaceText;
 (*
   3D Text component.
+  RegisterClass(TGLSpaceText);
 
   Note: You can get valid extents (including AABB's) of this component only
   after it has been rendered for the first time. It means if you ask its
@@ -125,8 +126,8 @@ type
     procedure NotifyFontChanged;
     procedure NotifyChange(sender: TObject); override;
     procedure DefaultHandler(var Message); override;
-    function AxisAlignedDimensionsUnscaled: TGLVector; override;
-    function BarycenterAbsolutePosition: TGLVector; override;
+    function AxisAlignedDimensionsUnscaled: TGSVector; override;
+    function BarycenterAbsolutePosition: TGSVector; override;
   published
     (* Adjusts the 3D font extrusion.
       If Extrusion=0, the characters will be flat (2D), values >0 will
@@ -611,10 +612,10 @@ begin
   end;
 end;
 
-function TGLSpaceText.BarycenterAbsolutePosition: TGLVector;
+function TGLSpaceText.BarycenterAbsolutePosition: TGSVector;
 var
   lWidth, lHeightMax, lHeightMin: Single;
-  AdjustVector: TGLVector;
+  AdjustVector: TGSVector;
 begin
   TextMetrics(Text, lWidth, lHeightMax, lHeightMin);
 
@@ -653,7 +654,7 @@ begin
   Result := LocalToAbsolute(AdjustVector);
 end;
 
-function TGLSpaceText.AxisAlignedDimensionsUnscaled: TGLVector;
+function TGLSpaceText.AxisAlignedDimensionsUnscaled: TGSVector;
 var
   lWidth, lHeightMax, lHeightMin: Single;
   charScale: Single;
@@ -841,12 +842,12 @@ begin
     TObject(Clients[i]).DefaultHandler(hMsg);
 end;
 
-initialization //==============================================================
+initialization //============================================================
 
 vFontManagerMsgID := RegisterWindowMessage(cFontManagerMsg);
 RegisterClass(TGLSpaceText);
 
-finalization
+finalization //==============================================================
 
 ReleaseFontManager;
 

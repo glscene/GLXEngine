@@ -4,10 +4,10 @@
 unit GLS.Portal;
 (*
   Portal Rendering support for GLScene.
+  RegisterClasses([TGLPortal, TGLSectorMeshObject, TFGPolygon, TFGPortalPolygon]);
+
   The portal structures are subclasses of the Mesh structures, with a "sector"
   being assimilated to a "MeshObject" and sector polygons to facegroups.
-  The registered classes are:
-    [TGLPortal, TGLSectorMeshObject, TFGPolygon, TFGPortalPolygon]
 *)
 interface
 
@@ -19,8 +19,8 @@ uses
 
   Stage.VectorTypes,
   Stage.VectorGeometry,
+  Stage.PersistentClasses,
   GLS.VectorFileObjects,
-  GLS.PersistentClasses,
   GLS.Scene,
   GLS.Material,
   GLS.RenderContextInfo;

@@ -23,8 +23,8 @@ uses
   Stage.VectorTypes,
   Stage.Utils,
   GLS.FileTGA,
-  GLS.Coordinates,
-  GLS.BaseClasses;
+  Stage.Coordinates,
+  Stage.BaseClasses;
 
 type
   TForm1 = class(TForm)

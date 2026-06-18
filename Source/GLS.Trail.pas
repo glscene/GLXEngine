@@ -1,11 +1,11 @@
-//
-// GLScene Graphics Engine
-//
-
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.Trail;
-
-(* Creates a trail-like mesh. *)
-
+(*
+  Creates a trail-like mesh.
+  RegisterClasses([TGLTrail]);
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -14,16 +14,17 @@ uses
   System.Classes,
   System.SysUtils,
   
-  GLS.Scene,
   Stage.VectorTypes,
-  GLS.MeshUtils,
+  Stage.MeshUtils,
   Stage.VectorGeometry,
+  Stage.BaseClasses,
+  Stage.Strings,
+
+  GLS.Scene,
   GLS.VectorFileObjects,
   GLS.Mesh,
   GLS.Objects,
-  GLS.Material,
-  Stage.Strings,
-  GLS.BaseClasses;
+  GLS.Material;
 
 
 const cMaxVerts = 2000;
@@ -75,7 +76,7 @@ type
 
     //EnableUVmapping: boolean; // generate UV's or not
 
-    procedure DoProgress(const progressTime : TGLProgressTimes); override;
+    procedure DoProgress(const progressTime : TGSProgressTimes); override;
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
 
@@ -105,7 +106,7 @@ type
   end;
 
 
-implementation
+implementation //============================================================
 
 
 constructor TGLTrail.Create(AOwner: TComponent);
@@ -138,7 +139,7 @@ begin
    inherited Destroy;
 end;
 
-procedure TGLTrail.DoProgress(const progressTime: TGLProgressTimes);
+procedure TGLTrail.DoProgress(const progressTime: TGSProgressTimes);
 begin
   inherited;
   if Enabled and Assigned(TrailObject) then
@@ -350,7 +351,8 @@ end;
 
 // NOTES and stuff:
 
- { // UV mapped 4x4 square for refrence /debug
+(*
+ // UV mapped 4x4 square for refrence /debug
   uv.S := 0; uv.T := 0;
   Vertices.AddVertex( AffineVectorMake(1, 1, 1), NullVector, NullHmgVector, UV  );
   uv.S := 0; uv.T := 1;
@@ -382,8 +384,7 @@ if directmode then
     Vertices.AddVertex( AffineVectorMake(apoint1[0],apoint1[1],apoint1[2]), NullVector, NullHmgVector, UV1  );
    end;
  end
- }
-
+*)
 
 procedure TGLTrail.SetTrailObject(const Value: TGLBaseSceneObject);
 begin
@@ -451,15 +452,8 @@ begin
   Result := FAntiZFightOffset <> 0.0000266;
 end;
 
-// ------------------------------------------------------------------
-// ------------------------------------------------------------------
-// ------------------------------------------------------------------
-initialization
-// ------------------------------------------------------------------
-// ------------------------------------------------------------------
-// ------------------------------------------------------------------
+initialization //============================================================
 
-   RegisterClasses([TGLTrail]);
-
+ RegisterClasses([TGLTrail]);
 
 end.

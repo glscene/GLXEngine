@@ -1,8 +1,7 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.SmoothNavigator;
-
 (*
    An extention of TgxNavigator, which allows to move objects with inertia
    Note: it is not completely FPS-independant. Only Moving code is, but
@@ -17,7 +16,6 @@ unit GXS.SmoothNavigator;
          avoid the temporary "freeze" of controls.
       2) AddImpulse procedures.
 *)
-
 interface
 
 {$I Stage.Defines.inc}
@@ -26,18 +24,17 @@ uses
   System.Types,
   System.Classes,
 
-  GXS.XCollection,
+  Stage.XCollection,
   Stage.VectorTypes,
   GXS.Navigator,
   Stage.VectorGeometry,
   GXS.Scene,
-  GXS.Coordinates,
+  Stage.Coordinates,
   GXS.Screen,
-  GXS.PersistentClasses;
+  Stage.PersistentClasses;
 
 type
-
-  { Includes a basic set of parameters that control the smoothness of movement. }
+  // Includes a basic set of parameters that control the smoothness of movement.
   TgxNavigatorAbstractParameters = class(TPersistent)
   private
     FOwner: TPersistent;
@@ -61,7 +58,7 @@ type
 
   TgxSmoothNavigator = class;
 
-  { Includes a basic set of parameters that control the smoothness of movement }
+  // Includes a basic set of parameters that control the smoothness of movement
   TgxNavigatorSmoothChangeItem = class(TXCollectionItem)
   private
     FInertia: Single;
@@ -76,7 +73,7 @@ type
   protected
     function GetNavigator: TgxSmoothNavigator;
   public
-    { Returns False if there was no change. }
+    // Returns False if there was no change.
     function Proceed(ADeltaTime: Double): Boolean; virtual; abstract;
     constructor Create(aOwner: TXCollection); override;
     procedure Assign(Source: TPersistent); override;
@@ -94,7 +91,7 @@ type
   TgxNavigatorSmoothChangeSingleGetEvent = function(const ASender: TgxNavigatorSmoothChangeSingle): Single of object;
   TgxNavigatorSmoothChangeSingleSetEvent = procedure(const ASender: TgxNavigatorSmoothChangeSingle; const AValue: Single) of object;
 
-  { Smoothly change any Single value, so it will become TargetValue in the end.  }
+  // Smoothly change any Single value, so it will become TargetValue in the end.
   TgxNavigatorSmoothChangeSingle = class(TgxNavigatorSmoothChangeItem)
   private
     FTargetValue: Single;
@@ -115,13 +112,13 @@ type
   TgxNavigatorSmoothChangeVectorGetEvent = function(const ASender: TgxNavigatorSmoothChangeVector): TVector4f of object;
   TgxNavigatorSmoothChangeVectorSetEvent = procedure(const ASender: TgxNavigatorSmoothChangeVector; const AValue: TVector4f) of object;
 
-  { Smoothly change any Vector4f value, so it will become TargetValue in the end.  }
+  // Smoothly change any Vector4f value, so it will become TargetValue in the end.
   TgxNavigatorSmoothChangeVector = class(TgxNavigatorSmoothChangeItem)
   private
-    FTargetValue: TgxCoordinates;
+    FTargetValue: TGSCoordinates;
     FOnGetCurrentValue: TgxNavigatorSmoothChangeVectorGetEvent;
     FOnSetCurrentValue: TgxNavigatorSmoothChangeVectorSetEvent;
-    procedure SetTargetValue(const Value: TgxCoordinates);
+    procedure SetTargetValue(const Value: TGSCoordinates);
   public
     class function FriendlyName: string; override;
     function Proceed(ADeltaTime: Double): Boolean; override;
@@ -130,14 +127,14 @@ type
     destructor Destroy; override;
     procedure ResetTargetValue(); override;
   published
-    property TargetValue: TgxCoordinates read FTargetValue write SetTargetValue;
+    property TargetValue: TGSCoordinates read FTargetValue write SetTargetValue;
     property OnGetCurrentValue: TgxNavigatorSmoothChangeVectorGetEvent read FOnGetCurrentValue write FOnGetCurrentValue;
     property OnSetCurrentValue: TgxNavigatorSmoothChangeVectorSetEvent read FOnSetCurrentValue write FOnSetCurrentValue;
   end;
 
   TgxNavigatorSmoothChangeItemClass = class of TgxNavigatorSmoothChangeItem;
 
-  { XCollection of TgxNavigatorSmoothChangeItem. }
+  // XCollection of TgxNavigatorSmoothChangeItem.
   TgxNavigatorSmoothChangeItems = class(TXCollection)
   private
     function GetItems(const Index : Integer): TgxNavigatorSmoothChangeItem;
@@ -152,7 +149,7 @@ type
             SetItems; default;
   end;
 
-  { This is wrapper for all parameters that affect how the AdjustDisanceTo[...] methods work }
+  // This is wrapper for all parameters that affect how the AdjustDisanceTo[...] methods work
   TgxNavigatorAdjustDistanceParameters = class(TgxNavigatorAbstractParameters)
   private
     FOldDistanceRatio: Single;
@@ -168,9 +165,9 @@ type
     property ImpulseSpeed: Single read FImpulseSpeed write FImpulseSpeed stored StoreImpulseSpeed;
   end;
 
-  { This is a wrapper for all parameters that affect how the AdjustDisanceTo[...]Ex methods work
+  (* This is a wrapper for all parameters that affect how the AdjustDisanceTo[...]Ex methods work
      You need to set the TargetObject and desired distance to it,
-     then call AdjustDisanceTo[...]Ex() in your Cadencer.OnProgress code. }
+     then call AdjustDisanceTo[...]Ex() in your Cadencer.OnProgress code. *)
   TgxNavigatorAdjustDistanceParametersEx = class(TgxNavigatorAbstractParameters)
   private
     FSpeedLimit: Single;
@@ -188,7 +185,7 @@ type
     property SpeedLimit: Single read FSpeedLimit write FSpeedLimit stored StoreSpeedLimit;
   end;
 
-  { This is a wrapper for all parameters that affect the smoothness of movement }
+  // This is a wrapper for all parameters that affect the smoothness of movement
   TgxNavigatorInertiaParameters = class(TPersistent)
   private
     FOwner: TPersistent;
@@ -225,12 +222,11 @@ type
     property TurnSpeed: Single read FTurnSpeed write FTurnSpeed stored StoreTurnSpeed;
   end;
 
-
-  { This is a wrapper for all general inertia parameters.
+  (* This is a wrapper for all general inertia parameters.
      These properties mean that if ExpectedMaxFPS is 100, FAutoScaleMin is 0.1,
      FAutoScaleMax is 0.75 then the "safe range" for it to change is [10..75].
      If these bounds are violated, then ExpectedMaxFPS is automaticly increased
-     or decreased by AutoScaleMult. }
+     or decreased by AutoScaleMult. *)
   TgxNavigatorGeneralParameters = class(TPersistent)
   private
     FOwner: TPersistent;
@@ -252,7 +248,7 @@ type
   end;
 
 
-  { This is a wrapper for all parameters that effect how the TgxBaseSceneObject.MoveObjectAround() procedure works}
+  // This is a wrapper for all parameters that effect how the TgxBaseSceneObject.MoveObjectAround() procedure works
   TgxNavigatorMoveAroundParameters = class(TPersistent)
   private
     FOwner: TPersistent;
@@ -282,15 +278,15 @@ type
     property PitchSpeed: Single read FPitchSpeed write FPitchSpeed stored StorePitchSpeed;
     property TurnSpeed: Single read FTurnSpeed write FTurnSpeed stored StoreTurnSpeed;
     property TargetObject: TgxBaseSceneObject read FTargetObject write SetTargetObject;
-    property Cutoff: Double read FCutoff write FCutoff stored StoreCutoff;    
+    property Cutoff: Double read FCutoff write FCutoff stored StoreCutoff;
   end;
 
 
-  { This is the component for moving a TgxBaseSceneObject, and all
-       classes based on it, this includes all the objects from the Scene Editor.
+  (* This is the component for moving a TgxBaseSceneObject, and all
+     classes based on it, this includes all the objects from the Scene Editor.
      It uses complex smoothing algorithms, most of which are FPS-dependant.
      Make sure your limit your FPS and set MaxExpectedDeltaTime to a value
-     that is aproximatly 5 times less than your usual deltatime. }
+     that is aproximatly 5 times less than your usual deltatime. *)
   TgxSmoothNavigator = class(TgxNavigator)
   private
     FMaxExpectedDeltaTime: Double;
@@ -351,7 +347,7 @@ type
   end;
 
 
-  { This is the component which reads the userinput and transform it into action.
+  (* This is the component which reads the userinput and transform it into action.
 	    Mouselook(ADeltaTime: double) : handles mouse look... Should be called
                            in the Cadencer event. (Though it works everywhere!)
 	   The four properties to get you started are:
@@ -359,7 +355,7 @@ type
 	    AutoUpdateMouse : If enabled (by defaul), than handles all mouse updates.
 	    GLNavigator     : The Navigator which receives the user movement.
 	    GLVertNavigator : The Navigator which if set receives the vertical user
-                           movement. Used mostly for cameras.... }
+                           movement. Used mostly for cameras.... *)
   TgxSmoothUserInterface = class(TComponent)
   private
     FAutoUpdateMouse: Boolean;
@@ -367,9 +363,9 @@ type
     FSmoothNavigator: TgxSmoothNavigator;
     FSmoothVertNavigator: TgxSmoothNavigator;
     FInvertMouse: Boolean;
-    FOriginalMousePos: TgxCoordinates2;
+    FOriginalMousePos: TGSCoordinates2;
     procedure SetSmoothNavigator(const Value: TgxSmoothNavigator); virtual;
-    procedure SetOriginalMousePos(const Value: TgxCoordinates2); virtual;
+    procedure SetOriginalMousePos(const Value: TGSCoordinates2); virtual;
     procedure SetSmoothVertNavigator(const Value: TgxSmoothNavigator); virtual;
     procedure SetMouseLookActive(const Value: Boolean); virtual;
   protected
@@ -391,19 +387,17 @@ type
     property SmoothVertNavigator: TgxSmoothNavigator read FSmoothVertNavigator write SetSmoothVertNavigator;
     property SmoothNavigator: TgxSmoothNavigator read FSmoothNavigator write SetSmoothNavigator;
     property InvertMouse: Boolean read FInvertMouse write FInvertMouse default False;
-    property OriginalMousePos: TgxCoordinates2 read FOriginalMousePos write SetOriginalMousePos;
+    property OriginalMousePos: TGSCoordinates2 read FOriginalMousePos write SetOriginalMousePos;
   end;
 
-//-----------------------------------------------------------
-implementation
-//-----------------------------------------------------------
+implementation //============================================================
 
 const
   EPS =  0.001;
   EPS2 = 0.0001;
   EPS8 = 0.00000001;
 
-{ TgxSmoothNavigator }
+// TgxSmoothNavigator
 
 constructor TgxSmoothNavigator.Create(AOwner: TComponent);
 begin
@@ -862,7 +856,7 @@ begin
   FCustomAnimatedItems.Assign(Value);
 end;
 
-{ TgxSmoothUserInterface }
+// TgxSmoothUserInterface
 
 function TgxSmoothUserInterface.MouseLook(
   const ADeltaTime: Double): Boolean;
@@ -911,7 +905,7 @@ begin
   inherited;
   FMouseLookActive := False;
   FAutoUpdateMouse := True;
-  FOriginalMousePos := TgxCoordinates2.CreateInitialized(Self,
+  FOriginalMousePos := TGSCoordinates2.CreateInitialized(Self,
                              VectorMake(GLGetScreenWidth div 2,
                              GLGetScreenHeight div 2, 0, 0), csPoint2D);
 end;
@@ -948,7 +942,7 @@ begin
 end;
 
 procedure TgxSmoothUserInterface.SetOriginalMousePos(
-  const Value: TgxCoordinates2);
+  const Value: TGSCoordinates2);
 begin
   FOriginalMousePos.Assign(Value);
 end;
@@ -1094,7 +1088,7 @@ begin
   Result := Abs(FTurnSpeed - 50) > EPS;
 end;
 
-{ TgxNavigatorGeneralParameters }
+// TgxNavigatorGeneralParameters
 
 procedure TgxNavigatorGeneralParameters.Assign(Source: TPersistent);
 begin
@@ -1136,7 +1130,7 @@ begin
   Result := Abs(FAutoScaleMult - 2) > EPS;
 end;
 
-{ TgxNavigatorMoveAroundParameters }
+// TgxNavigatorMoveAroundParameters
 
 procedure TgxNavigatorMoveAroundParameters.Assign(Source: TPersistent);
 begin
@@ -1222,7 +1216,7 @@ begin
   Result := Abs(FTurnSpeed - 500) > EPS;
 end;
 
-{ TgxNavigatorAdjustDistanceParameters }
+// TgxNavigatorAdjustDistanceParameters
 
 procedure TgxNavigatorAdjustDistanceParameters.AddImpulse(
   const Impulse: Single);
@@ -1259,7 +1253,7 @@ begin
   Result := Abs(FImpulseSpeed - 0.02) > EPS;
 end;
 
-{ TgxNavigatorAbstractParameters }
+// TgxNavigatorAbstractParameters
 
 
 procedure TgxNavigatorAbstractParameters.Assign(Source: TPersistent);
@@ -1314,7 +1308,7 @@ begin
   Result := Abs(FSpeed - 0.005) > EPS2;
 end;
 
-{ TgxNavigatorAdjustDistanceParametersEx }
+// TgxNavigatorAdjustDistanceParametersEx
 
 procedure TgxNavigatorAdjustDistanceParametersEx.Assign(
   Source: TPersistent);
@@ -1358,7 +1352,7 @@ begin
   Result := Abs(FTargetDistance - 100) > EPS2;
 end;
 
-{ TgxNavigatorSmoothChangeItem }
+// TgxNavigatorSmoothChangeItem
 
 procedure TgxNavigatorSmoothChangeItem.Assign(Source: TPersistent);
 begin
@@ -1420,7 +1414,7 @@ begin
   Result := Abs(FSpeedLimit - 20000) > EPS2;
 end;
 
-{ TgxNavigatorSmoothChangeItems }
+// TgxNavigatorSmoothChangeItems
 
 function TgxNavigatorSmoothChangeItems.Add(AClass : TgxNavigatorSmoothChangeItemClass): TgxNavigatorSmoothChangeItem;
 begin
@@ -1456,12 +1450,12 @@ begin
   GetItems(Index).Assign(Value);
 end;
 
-{ TgxNavigatorSmoothChangeSingle }
+// TgxNavigatorSmoothChangeSingle
 
 procedure TgxNavigatorSmoothChangeSingle.Assign(Source: TPersistent);
 begin
   inherited Assign(Source);
-  
+
   if Source is TgxNavigatorSmoothChangeVector then
   begin
     FTargetValue := TgxNavigatorSmoothChangeSingle(Source).TargetValue;
@@ -1508,7 +1502,7 @@ begin
   begin
     FOnSetCurrentValue(Self, lCurrentValue + lTotalDistanceToTravelThisTime);
     Result := True;
-  end;  
+  end;
 end;
 
 procedure TgxNavigatorSmoothChangeSingle.ResetTargetValue;
@@ -1516,12 +1510,12 @@ begin
   FTargetValue := FOnGetCurrentValue(Self);
 end;
 
-{ TgxNavigatorSmoothChangeVector }
+// TgxNavigatorSmoothChangeVector
 
 procedure TgxNavigatorSmoothChangeVector.Assign(Source: TPersistent);
 begin
   inherited Assign(Source);
-  
+
   if Source is TgxNavigatorSmoothChangeVector then
   begin
     FTargetValue.Assign(TgxNavigatorSmoothChangeVector(Source).TargetValue);
@@ -1533,7 +1527,7 @@ end;
 constructor TgxNavigatorSmoothChangeVector.Create(aOwner: TXCollection);
 begin
   inherited;
-  FTargetValue := TgxCoordinates.CreateInitialized(Self, NullHmgVector, csVector);
+  FTargetValue := TGSCoordinates.CreateInitialized(Self, NullHmgVector, csVector);
 end;
 
 destructor TgxNavigatorSmoothChangeVector.Destroy;
@@ -1602,12 +1596,13 @@ begin
 end;
 
 procedure TgxNavigatorSmoothChangeVector.SetTargetValue(
-  const Value: TgxCoordinates);
+  const Value: TGSCoordinates);
 begin
   FTargetValue.Assign(Value);
 end;
 
-initialization
+initialization //============================================================
+
   RegisterClasses([
       TgxSmoothNavigator, TgxSmoothUserInterface,
       TgxNavigatorInertiaParameters, TgxNavigatorGeneralParameters,

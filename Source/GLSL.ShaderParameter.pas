@@ -1,11 +1,10 @@
-//
-// GLScene Graphics Engine
-//
-
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLSL.ShaderParameter;
-
-(* Shader Parameter *)
-
+(*
+  Shader Parameter
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -252,9 +251,7 @@ procedure FillUniformAutoSetMethodList(AList: TStrings;
 function GetUniformAutoSetMethod(AMethodName: string): TUniformAutoSetMethod;
 function GetUniformAutoSetMethodName(AMethod: TUniformAutoSetMethod): string;
 
-//---------------------------------------------------------------------
-implementation
-//---------------------------------------------------------------------
+implementation //============================================================
 
 const
   cGLSLTypeComponents: array[TGLSLDataType] of Integer =

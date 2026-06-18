@@ -1,21 +1,21 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.Physics.Register;
-
-(* Design time registration code for the ODE Manager *)
-
+(*
+  Design time registration code for the ODE Manager
+*)
 interface
 
 uses
   System.Classes,
-///  GXS.PhysManager todo
-  GXS.ODEManager,
-  GXS.NGDManager;
+  GXS.Phys.Manager,
+  GXS.ODE.Manager,
+  GXS.NGD.Manager;
 
 procedure Register;
 
-implementation // ---------------------------------------------------------
+implementation //============================================================
 
 procedure Register;
 begin

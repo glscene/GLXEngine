@@ -1,8 +1,7 @@
-//       /
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.AsyncHDS;
-
 (*
   Implements a HDS Filter that generates HeightData tiles in a seperate thread.
 
@@ -15,7 +14,6 @@ unit GXS.AsyncHDS;
   terrain to show, if the HeightDataThreads cant keep up with the TerrainRenderer's
   requests for new tiles.
 *)
-
 interface
 
 {$I Stage.Defines.inc}
@@ -23,6 +21,7 @@ interface
 uses
   System.Classes,
   System.SysUtils,
+
   GXS.HeightData;
 
 type

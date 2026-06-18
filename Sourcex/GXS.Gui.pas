@@ -1,10 +1,10 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.Gui;
-
-(* In GL windows management classes and structures *)
-
+(*
+  In GL windows management classes and structures
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -21,10 +21,10 @@ uses
   GXS.BitmapFont,
   GXS.Material,
   GXS.Context,
-  GXS.PersistentClasses,
+  Stage.PersistentClasses,
   Stage.VectorGeometry,
-  GXS.Coordinates,
-  GXS.BaseClasses;
+  Stage.Coordinates,
+  Stage.BaseClasses;
 
 type
 
@@ -75,9 +75,9 @@ type
   TgxGuiElementName = string;
   TgxGuiElement = class(TCollectionItem)
   private
-    FTopLeft: TgxCoordinates2;
-    FBottomRight: TgxCoordinates2;
-    FScale: TgxCoordinates2;
+    FTopLeft: TGSCoordinates2;
+    FBottomRight: TGSCoordinates2;
+    FScale: TGSCoordinates2;
     FAlign: TGUIAlignments;
     FName: TgxGuiElementName;
   protected
@@ -88,9 +88,9 @@ type
     destructor Destroy; override;
     procedure AssignTo(Dest: TPersistent); override;
   published
-    property TopLeft: TgxCoordinates2 read FTopLeft write FTopLeft;
-    property BottomRight: TgxCoordinates2 read FBottomRight write FBottomRight;
-    property Scale: TgxCoordinates2 read FScale write FScale;
+    property TopLeft: TGSCoordinates2 read FTopLeft write FTopLeft;
+    property BottomRight: TGSCoordinates2 read FBottomRight write FBottomRight;
+    property Scale: TGSCoordinates2 read FScale write FScale;
     property Align: TGUIAlignments read FAlign write FAlign;
     property Name: TgxGuiElementName read FName write SetName;
   end;
@@ -151,7 +151,7 @@ type
       SetItems; default;
   end;
 
-  TgxGuiLayout = class(TgxUpdateAbleComponent)
+  TgxGuiLayout = class(TGSUpdateAbleComponent)
   private
     FBitmapFont: TgxCustomBitmapFont;
     FMaterial: TgxMaterial;
@@ -171,8 +171,8 @@ type
     procedure Clear;
     procedure SaveToStream(Stream: TStream);
     procedure SaveToFile(FN: string);
-    procedure AddGuiComponent(Component: TgxUpdateAbleComponent);
-    procedure RemoveGuiComponent(Component: TgxUpdateAbleComponent);
+    procedure AddGuiComponent(Component: TGSUpdateAbleComponent);
+    procedure RemoveGuiComponent(Component: TGSUpdateAbleComponent);
     procedure NotifyChange(Sender: TObject); override;
   published
     property BitmapFont: TgxCustomBitmapFont read FBitmapFont write FBitmapFont;
@@ -436,7 +436,7 @@ begin
   end;
 end;
 
-procedure TgxGuiLayout.AddGuiComponent(Component: TgxUpdateAbleComponent);
+procedure TgxGuiLayout.AddGuiComponent(Component: TGSUpdateAbleComponent);
 begin
   if FGuiComponentList.IndexOf(Component) < 0 then
   begin
@@ -445,7 +445,7 @@ begin
   end;
 end;
 
-procedure TgxGuiLayout.RemoveGuiComponent(Component: TgxUpdateAbleComponent);
+procedure TgxGuiLayout.RemoveGuiComponent(Component: TGSUpdateAbleComponent);
 begin
   FGuiComponentList.Remove(Component);
   RemoveFreeNotification(Component);
@@ -471,10 +471,10 @@ begin
       LComponent.Name := LLayout.FGuiComponents[I].Name;
     end;
     for I := 0 to FGuiComponentList.Count - 1 do
-      TgxUpdateAbleComponent(FGuiComponentList[I]).RemoveFreeNotification(Self);
+      TGSUpdateAbleComponent(FGuiComponentList[I]).RemoveFreeNotification(Self);
     FGuiComponentList.Assign(LLayout.FGuiComponentList);
     for I := 0 to FGuiComponentList.Count - 1 do
-      TgxUpdateAbleComponent(FGuiComponentList[I]).FreeNotification(Self);
+      TGSUpdateAbleComponent(FGuiComponentList[I]).FreeNotification(Self);
   end
   else
     inherited; // Assign Error
@@ -499,7 +499,7 @@ begin
   inherited;
 
   for XC := FGuiComponentList.Count - 1 downto 0 do
-    TgxUpdateAbleComponent(FGuiComponentList[XC]).NotifyChange(Self);
+    TGSUpdateAbleComponent(FGuiComponentList[XC]).NotifyChange(Self);
 end;
 
 procedure TgxGuiLayout.LoadFromStream(Stream: TStream);
@@ -510,10 +510,10 @@ var
   TmpElement: TgxGuiElement;
   TmpAlignment: TGUIAlignments;
   Version: Integer;
-  Data: TgxBinaryReader;
+  Data: TGSBinaryReader;
 
 begin
-  Data := TgxBinaryReader.Create(Stream);
+  Data := TGSBinaryReader.Create(Stream);
   try
 
     Version := Data.ReadInteger;
@@ -561,10 +561,10 @@ var
   Alignments, XC, YC: Integer;
   TmpElement: TgxGuiElement;
   TmpAlignment: TGUIAlignments;
-  Data: TgxBinaryWriter;
+  Data: TGSBinaryWriter;
 
 begin
-  Data := TgxBinaryWriter.Create(Stream);
+  Data := TGSBinaryWriter.Create(Stream);
   try
     Data.WriteInteger(1);
     Data.WriteInteger(FGuiComponents.Count);
@@ -1170,10 +1170,10 @@ end;
 constructor TgxGuiElement.Create(Collection: TCollection);
 begin
   inherited;
-  FTopLeft := TgxCoordinates2.CreateInitialized(Self, NullHmgVector, csPoint2D);
-  FBottomRight := TgxCoordinates2.CreateInitialized(Self, NullHmgVector,
+  FTopLeft := TGSCoordinates2.CreateInitialized(Self, NullHmgVector, csPoint2D);
+  FBottomRight := TGSCoordinates2.CreateInitialized(Self, NullHmgVector,
     csPoint2D);
-  FScale := TgxCoordinates2.CreateInitialized(Self, XYHmgVector, csPoint2D);
+  FScale := TGSCoordinates2.CreateInitialized(Self, XYHmgVector, csPoint2D);
 end;
 
 destructor TgxGuiElement.Destroy;

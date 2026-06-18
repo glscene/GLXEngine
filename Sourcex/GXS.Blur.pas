@@ -1,10 +1,10 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.Blur;
-
-(* Applies a blur effect over the viewport *)
-
+(*
+  Applies a blur effect over the viewport
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -19,22 +19,23 @@ uses
   FMX.Graphics,
 
   Stage.VectorTypes,
-  GXS.PersistentClasses,
-  GXS.Scene,
-  GXS.Coordinates,
+  Stage.PersistentClasses,
+  Stage.BaseClasses,
+  Stage.Coordinates,
   Stage.VectorGeometry,
+  Stage.Color,
+  Stage.Strings,
+  Stage.TextureFormat,
+
+  GXS.Scene,
   GXS.Objects,
   GXS.BitmapFont,
   GXS.Texture,
   GXS.Material,
   GXS.HudObjects,
-  GXS.Color,
   GXS.Graphics,
   GXS.Context,
   GXS.State,
-  Stage.Strings,
-  Stage.TextureFormat,
-  GXS.BaseClasses,
   GXS.RenderContextInfo;
 
 type
@@ -103,7 +104,7 @@ type
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
-    procedure DoProgress(const progressTime: TgxProgressTimes); override;
+    procedure DoProgress(const progressTime: TGSProgressTimes); override;
     procedure DoRender(var ARci: TgxRenderContextInfo;
       ARenderSelf, ARenderChildren: boolean); override;
     procedure Notification(AComponent: TComponent;
@@ -247,7 +248,7 @@ begin
   SetLength(Pixelbuffer, RenderWidth * RenderHeight);
 end;
 
-procedure TgxBlur.DoProgress(const progressTime: TgxProgressTimes);
+procedure TgxBlur.DoProgress(const progressTime: TGSProgressTimes);
 begin
   inherited;
   if Self.Visible and (progressTime.newTime - OldTime > FBlurDeltaTime) then

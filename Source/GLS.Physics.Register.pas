@@ -1,21 +1,21 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.Physics.Register;
-
-(* DesignTime registration code for the Physics Managers *)
-
+(*
+  DesignTime registration code for the Physics Managers
+*)
 interface
 
 uses
   System.Classes,
   GLS.ODEManager,
   GLS.NGDManager,
-  GLS.PhysManager;
+  GLS.Phys.Manager;
 
 procedure Register;
 
-implementation // -----------------------------------------------------------
+implementation //============================================================
 
 procedure Register;
 begin

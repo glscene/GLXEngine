@@ -18,11 +18,11 @@ uses
   GLS.VectorFileObjects,
   GLS.Material, GLS.Cadencer,
   GLS.ArchiveManager,
-  GLS.BaseClasses,
+  Stage.BaseClasses,
   GLS.FileMS3D,
   GLS.FileTGA,
   GLS.FileZLIB,
-  GLS.Coordinates,
+  Stage.Coordinates,
   GLS.SceneViewer,
   Stage.Utils, GLS.SimpleNavigation;
 
@@ -37,7 +37,7 @@ type
     GLLightSource1: TGLLightSource;
     GLMaterialLibrary1: TGLMaterialLibrary;
     GLPlane1: TGLPlane;
-    GLSArchiveManager1: TGLSArchiveManager;
+    GLSArchiveManager1: TGLArchiveManager;
     GLScene1: TGLScene;
     GLSceneViewer1: TGLSceneViewer;
     GLSimpleNavigation1: TGLSimpleNavigation;

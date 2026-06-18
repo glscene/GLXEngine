@@ -1,10 +1,10 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.Windows;
-
-(* OpenGL windows management classes and structures *)
-
+(*
+  OpenGL windows management classes and structures
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -25,25 +25,24 @@ uses
   Stage.VectorGeometry,
   Stage.Strings,
   Stage.Utils,
+  Stage.PersistentClasses,
+  Stage.BaseClasses,
+  Stage.Coordinates,
+  Stage.Color,
 
-  GXS.PersistentClasses,
-  GXS.BaseClasses,
   GXS.Scene,
-  GXS.Coordinates,
   GXS.HUDObjects,
   GXS.Material,
   GXS.Context,
   GXS.BitmapFont,
   GXS.WindowsFont,
   GXS.Gui,
-  GXS.Color,
   GXS.RenderContextInfo,
   GXS.Objects,
   GXS.State,
   GXS.ImageUtils;
 
 type
-
   TgxBaseComponent = class(TgxBaseGuiObject)
   private
     FGUIRedraw: Boolean;
@@ -88,7 +87,7 @@ type
     procedure DoChanges; virtual;
     procedure MoveGUI(XRel, YRel: Single);
     procedure PlaceGUI(XPos, YPos: Single);
-    procedure DoProgress(const progressTime: TgxProgressTimes); override;
+    procedure DoProgress(const progressTime: TGSProgressTimes); override;
     procedure DoRender(var rci: TgxRenderContextInfo; renderSelf, renderChildren:
       Boolean); override;
     procedure InternalRender(var rci: TgxRenderContextInfo; renderSelf,
@@ -184,16 +183,16 @@ type
   TgxBaseFontControl = class(TgxBaseControl)
   private
     FBitmapFont: TgxCustomBitmapFont;
-    FDefaultColor: TgxColorVector;
+    FDefaultColor: TGSColorVector;
   protected
-    function GetDefaultColor: TColor; 
-    procedure SetDefaultColor(value: TColor);  
+    function GetDefaultColor: TColor;
+    procedure SetDefaultColor(value: TColor);
     procedure SetBitmapFont(NewFont: TgxCustomBitmapFont);
     function GetBitmapFont: TgxCustomBitmapFont;
     procedure WriteTextAt(var rci: TgxRenderContextInfo; const X, Y: Single;
-      const Data: UnicodeString; const Color: TgxColorVector); overload;
+      const Data: UnicodeString; const Color: TGSColorVector); overload;
     procedure WriteTextAt(var rci: TgxRenderContextInfo; const X1, Y1, X2, Y2:
-      Single; const Data: UnicodeString; const Color: TgxColorVector); overload;
+      Single; const Data: UnicodeString; const Color: TGSColorVector); overload;
     function GetFontHeight: Integer;
   public
     constructor Create(AOwner: TComponent); override;
@@ -225,15 +224,15 @@ type
     FOnKeyUp: TKeyEvent;
     FOnKeyPress: TKeyEvent;
     FShiftState: TShiftState;
-    FFocusedColor: TgxColorVector;
+    FFocusedColor: TGSColorVector;
   protected
     procedure InternalKeyPress(var Key: Char); virtual;
     procedure InternalKeyDown(var Key: Word; Shift: TShiftState); virtual;
     procedure InternalKeyUp(var Key: Word; Shift: TShiftState); virtual;
     procedure SetFocused(Value: Boolean); virtual;
     function GetRootControl: TgxBaseControl;
-    function GetFocusedColor: TColor; 
-    procedure SetFocusedColor(const Val: TColor); 
+    function GetFocusedColor: TColor;
+    procedure SetFocusedColor(const Val: TColor);
   public
     destructor Destroy; override;
     procedure NotifyHide; override;
@@ -351,7 +350,7 @@ type
     Moving: Boolean;
     OldX: Integer;
     OldY: Integer;
-    FTitleColor: TgxColorVector;
+    FTitleColor: TGSColorVector;
     FTitleOffset: Single;
   protected
     procedure InternalMouseDown(Shift: TShiftState; Button: TMouseButton; X,
@@ -587,7 +586,7 @@ type
     FColSelect: Boolean;
     FColumns: TStrings;
     FRows: TList;
-    FHeaderColor: TgxColorVector;
+    FHeaderColor: TGSColorVector;
     FMarginSize: Integer;
     FColumnSize: Integer;
     FRowHeight: Integer;
@@ -646,9 +645,7 @@ type
 function UnpressGroup(CurrentObject: TgxBaseSceneObject; AGroupID: Integer):
   Boolean;
 
-//-------------------------------------------------------------------------
-implementation
-//-------------------------------------------------------------------------
+implementation //============================================================
 
 function UnpressGroup(CurrentObject: TgxBaseSceneObject; AGroupID: Integer):
   Boolean;
@@ -1766,7 +1763,7 @@ begin
 end;
 
 procedure TgxBaseFontControl.WriteTextAt(var rci: TgxRenderContextInfo; const X,
-  Y: Single; const Data: UnicodeString; const Color: TgxColorVector);
+  Y: Single; const Data: UnicodeString; const Color: TGSColorVector);
 var
   Position: TVector4f;
 begin
@@ -1781,7 +1778,7 @@ begin
 end;
 
 procedure TgxBaseFontControl.WriteTextAt(var rci: TgxRenderContextInfo; const X1,
-  Y1, X2, Y2: Single; const Data: UnicodeString; const Color: TgxColorVector);
+  Y1, X2, Y2: Single; const Data: UnicodeString; const Color: TGSColorVector);
 var
   Position: TVector4f;
 begin
@@ -2326,7 +2323,7 @@ end;
 procedure TgxForm.InternalRender(var rci: TgxRenderContextInfo; renderSelf,
   renderChildren: Boolean);
 var
-  ATitleColor: TgxColorVector;
+  ATitleColor: TGSColorVector;
 begin
   if Assigned(FGuiComponent) then
   begin
@@ -2663,7 +2660,7 @@ var
   TexHeight: Integer;
   Material: TgxMaterial;
   LibMaterial: TgxLibMaterial;
-  TextColor: TgxColorVector;
+  TextColor: TGSColorVector;
 
 begin
   if Pressed then
@@ -2970,7 +2967,7 @@ procedure TgxLabel.InternalRender(var rci: TgxRenderContextInfo; renderSelf,
 var
   TekstPos: TVector4f;
   Tekst: UnicodeString;
-  TextColor: TgxColorVector;
+  TextColor: TGSColorVector;
 begin
   if Assigned(BitmapFont) then
   begin
@@ -3865,7 +3862,7 @@ begin
   inherited;
 end;
 
-procedure TgxBaseComponent.DoProgress(const progressTime: TgxProgressTimes);
+procedure TgxBaseComponent.DoProgress(const progressTime: TGSProgressTimes);
 begin
   inherited;
   if FDoChangesOnProgress then
@@ -3884,7 +3881,8 @@ begin
   ReGetRootControl;
 end;
 
-initialization
+initialization //============================================================
+
   RegisterClasses([TgxBaseControl, TgxPopupMenu, TgxForm, TgxPanel, TgxButton,
     TgxCheckBox, TgxEdit, TgxLabel, TgxAdvancedLabel, TgxScrollbar, StringGrid,
     TgxCustomControl]);

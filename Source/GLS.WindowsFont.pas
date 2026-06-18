@@ -1,10 +1,11 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.WindowsFont;
-
-(* TFont Import into a BitmapFont using variable width...*)
-
+(*
+  TFont Import into a BitmapFont using variable width...
+  RegisterClasses([TGLWindowsBitmapFont]);
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -23,7 +24,7 @@ uses
   GLS.Texture,
   GLS.BitmapFont,
   GLS.RenderContextInfo,
-  GLS.VectorLists,
+  Stage.VectorLists,
   Stage.Utils,
   Stage.VectorGeometry,
   Stage.OpenGLTokens,
@@ -44,7 +45,7 @@ type
   TGLWindowsBitmapFont = class(TGLCustomBitmapFont)
   private
     FFont: TFont;
-    procedure SetList(const AList : TGLIntegerList);
+    procedure SetList(const AList : TGSIntegerList);
   protected
     procedure SetFont(value: TFont);
     procedure LoadWindowsFont; virtual;
@@ -72,7 +73,7 @@ type
     property Ranges stored StoreRanges;
   end;
 
-implementation // ------------------------------------------------------------
+implementation //============================================================
 
 const
   cDefaultLast = '}';
@@ -83,8 +84,6 @@ var
 // ------------------
 // ------------------ TGLWindowsBitmapFont ------------------
 // ------------------
-
-
 constructor TGLWindowsBitmapFont.Create(AOwner: TComponent);
 begin
   inherited;
@@ -100,7 +99,7 @@ end;
 destructor TGLWindowsBitmapFont.Destroy;
 begin
   FFont.Free;
-  Ranges.Clear; 
+  Ranges.Clear;
   inherited;
 end;
 
@@ -301,7 +300,7 @@ begin
   end;
 end;
 
-procedure TGLWindowsBitmapFont.SetList(const AList: TGLIntegerList);
+procedure TGLWindowsBitmapFont.SetList(const AList: TGSIntegerList);
 var
   i : integer;
   f, n, s : integer;
@@ -340,9 +339,9 @@ end;
 procedure TGLWindowsBitmapFont.EnsureChars(const AStart, AEnd: widechar);
 var
   c : WideChar;
-  ACharList : TGLIntegerList;
+  ACharList : TGSIntegerList;
 begin
-  ACharList := TGLIntegerList.Create;
+  ACharList := TGSIntegerList.Create;
   for c := AStart to AEnd do
       ACharList.Add(integer(c));
   SetList(ACharList);
@@ -353,9 +352,9 @@ end;
 procedure TGLWindowsBitmapFont.EnsureString(const s: String);
 var
   i : Integer;
-  ACharList : TGLIntegerList;
+  ACharList : TGSIntegerList;
 begin
-  ACharList := TGLIntegerList.Create;
+  ACharList := TGSIntegerList.Create;
   for i := 1 to Length(s) do
       ACharList.Add(integer(s[i]));
   SetList(ACharList);
@@ -375,13 +374,12 @@ begin
   Result := GL_ALPHA;
 end;
 
-initialization // ------------------------------------------------------------
+initialization //============================================================
+
   Win32PlatformIsUnicode := (Win32Platform = VER_PLATFORM_WIN32_NT);
-
-
   RegisterClasses([TGLWindowsBitmapFont]);
 
-// ---------------------------------------------------------------------------
+// --------------------------------------------------------------------------
 
 end.
 

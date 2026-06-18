@@ -8,8 +8,8 @@
 #include "fMainC.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
-#pragma link "GLS.BaseClasses"
-#pragma link "GLS.Coordinates"
+#pragma link "Stage.BaseClasses"
+#pragma link "Stage.Coordinates"
 
 #pragma link "GLS.GeomObjects"
 #pragma link "GLS.Objects"
@@ -37,7 +37,7 @@ void __fastcall TForm1::FormCreate(TObject *Sender)
 void __fastcall TForm1::GLSceneViewer1MouseDown(TObject *Sender, TMouseButton Button,
 		  TShiftState Shift, int X, int Y)
 {
-   TGLVector rayStart, rayVector, iPoint, iNormal;
+   TGSVector rayStart, rayVector, iPoint, iNormal;
    // retrieve raycasting data:
    //    rayStart is obtained for camera and screen position
    //    rayVector is the camera direction (i.e direction to target since our camera is targeted)
@@ -72,7 +72,7 @@ void __fastcall TForm1::GLSceneViewer1MouseMove(TObject *Sender, TShiftState Shi
 void __fastcall TForm1::GLSceneViewer2MouseDown(TObject *Sender, TMouseButton Button,
 		  TShiftState Shift, int X, int Y)
 {
-   TGLVector rayStart, rayVector, iPoint, iNormal;
+   TGSVector rayStart, rayVector, iPoint, iNormal;
    // retrieve raycasting data:
    //    rayStart is the eye (camera) position
    //    rayVector is computed from screen position

@@ -15,7 +15,7 @@ uses
   System.Classes,
   System.SysUtils,
 
-  GLS.BaseClasses,
+  Stage.BaseClasses,
   Stage.Strings,
   Stage.Logger;
 
@@ -26,14 +26,14 @@ const
   GLS_RC_String_Type = RT_RCDATA;
 
 type
-  TGLApplicationResource = (aresNone, aresSplash, aresTexture, aresMaterial,
+  TGSApplicationResource = (aresNone, aresSplash, aresTexture, aresMaterial,
     aresSampler, aresFont, aresMesh);
 
-  TGLAFIOCreateFileStream = function(const fileName: string; mode: Word): TStream;
-  TGLAFIOFileStreamExists = function(const fileName: string): Boolean;
-  TGLAFIOFileStreamEvent = procedure(const fileName: String; mode: Word;
+  TGSAFIOCreateFileStream = function(const fileName: string; mode: Word): TStream;
+  TGSAFIOFileStreamExists = function(const fileName: string): Boolean;
+  TGSAFIOFileStreamEvent = procedure(const fileName: String; mode: Word;
     var Stream: TStream) of object;
-  TGLAFIOFileStreamExistsEvent = function(const fileName: string)
+  TGSAFIOFileStreamExistsEvent = function(const fileName: string)
     : Boolean of object;
 
   (* Allows specifying a custom behaviour for CreateFileStream.
@@ -43,8 +43,8 @@ type
     the last one created will be the active one. *)
   TGLApplicationFileIO = class(TComponent)
   private
-    FOnFileStream: TGLAFIOFileStreamEvent;
-    FOnFileStreamExists: TGLAFIOFileStreamExistsEvent;
+    FOnFileStream: TGSAFIOFileStreamEvent;
+    FOnFileStreamExists: TGSAFIOFileStreamExistsEvent;
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
@@ -53,15 +53,15 @@ type
       Destruction of the stream is at the discretion of the code that
       invoked CreateFileStream. Return nil to let the default mechanism
       take place (ie. attempt a regular file system access). *)
-    property OnFileStream: TGLAFIOFileStreamEvent read FOnFileStream
+    property OnFileStream: TGSAFIOFileStreamEvent read FOnFileStream
       write FOnFileStream;
     // Event that allows you to specify if a stream for the file exists.
-    property OnFileStreamExists: TGLAFIOFileStreamExistsEvent
+    property OnFileStreamExists: TGSAFIOFileStreamExistsEvent
       read FOnFileStreamExists write FOnFileStreamExists;
   end;
 
-  TGLDataFileCapability = (dfcRead, dfcWrite);
-  TGLDataFileCapabilities = set of TGLDataFileCapability;
+  TGSDataFileCapability = (dfcRead, dfcWrite);
+  TGSDataFileCapabilities = set of TGSDataFileCapability;
 
   (* Abstract base class for data file formats interfaces.
     This class declares base file-related behaviours, ie. ability to load/save
@@ -70,15 +70,15 @@ type
     file-based one just call these, and stream-based behaviours allow for more
     enhancement (such as other I/O abilities, compression, cacheing, etc.)
     to this class, without the need to rewrite subclasses. *)
-  TGLDataFile = class(TGLUpdateAbleObject)
+  TGSDataFile = class(TGSUpdateAbleObject)
   private
     FResourceName: string;
     procedure SetResourceName(const AName: string);
   public
-    // Describes what the TGLDataFile is capable of. Default value is [dfcRead].
-    class function Capabilities: TGLDataFileCapabilities; virtual;
+    // Describes what the TGSDataFile is capable of. Default value is [dfcRead].
+    class function Capabilities: TGSDataFileCapabilities; virtual;
     // Duplicates Self and returns a copy. Subclasses should override this method to duplicate their data.
-    function CreateCopy(AOwner: TPersistent): TGLDataFile; virtual;
+    function CreateCopy(AOwner: TPersistent): TGSDataFile; virtual;
     procedure LoadFromFile(const fileName: string); virtual;
     procedure SaveToFile(const fileName: string); virtual;
     procedure LoadFromStream(Stream: TStream); virtual;
@@ -91,32 +91,34 @@ type
     property ResourceName: string read FResourceName write SetResourceName;
   end;
 
-  TGLDataFileClass = class of TGLDataFile;
-  TGLResourceStream = TResourceStream;
+  TGSDataFileClass = class of TGSDataFile;
+  TGSResourceStream = TResourceStream;
 
 // Returns true if an ApplicationFileIO has been defined
 function ApplicationFileIODefined: Boolean;
 // Queries is a file stream corresponding to the fileName exists.
 function FileStreamExists(const fileName: string): Boolean;
 function CreateResourceStream(const ResName: string; ResType: PChar)
-  : TGLResourceStream;
-function StrToGLSResType(const AStrRes: string): TGLApplicationResource;
+  : TGSResourceStream;
+function StrToGLSResType(const AStrRes: string): TGSApplicationResource;
 
 var
-  vAFIOCreateFileStream: TGLAFIOCreateFileStream = nil;
-  vAFIOFileStreamExists: TGLAFIOFileStreamExists = nil;
+  vAFIOCreateFileStream: TGSAFIOCreateFileStream = nil;
+  vAFIOFileStreamExists: TGSAFIOFileStreamExists = nil;
 
-implementation // ------------------------------------------------------------
+implementation //============================================================
 
 var
   vAFIO: TGLApplicationFileIO = nil;
 
+//---------------------------------------------------------------------------
 function ApplicationFileIODefined: Boolean;
 begin
   Result := (Assigned(vAFIOCreateFileStream) and Assigned(vAFIOFileStreamExists)
     ) or Assigned(vAFIO);
 end;
 
+//---------------------------------------------------------------------------
 function FileStreamExists(const fileName: string): Boolean;
 begin
   if Assigned(vAFIOFileStreamExists) then
@@ -130,8 +132,9 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 function CreateResourceStream(const ResName: string; ResType: PChar)
-  : TGLResourceStream;
+  : TGSResourceStream;
 var
   InfoBlock: HRSRC;
 begin
@@ -140,20 +143,20 @@ begin
   if InfoBlock <> 0 then
     Result := TResourceStream.Create(HInstance, ResName, ResType)
   else
-    GLSLogger.LogError
+    GSLogger.LogError
       (Format('Can''t create stream of application resource "%s"', [ResName]));
 end;
 
 // ------------------
 // ------------------ TGLApplicationFileIO ------------------
 // ------------------
-
 constructor TGLApplicationFileIO.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
   vAFIO := Self;
 end;
 
+//---------------------------------------------------------------------------
 destructor TGLApplicationFileIO.Destroy;
 begin
   vAFIO := nil;
@@ -161,23 +164,24 @@ begin
 end;
 
 // ------------------
-// ------------------ TGLDataFile ------------------
+// ------------------ TGSDataFile ------------------
 // ------------------
-
-class function TGLDataFile.Capabilities: TGLDataFileCapabilities;
+class function TGSDataFile.Capabilities: TGSDataFileCapabilities;
 begin
   Result := [dfcRead];
 end;
 
-function TGLDataFile.CreateCopy(AOwner: TPersistent): TGLDataFile;
+//---------------------------------------------------------------------------
+function TGSDataFile.CreateCopy(AOwner: TPersistent): TGSDataFile;
 begin
   if Self <> nil then
-    Result := TGLDataFileClass(Self.ClassType).Create(AOwner)
+    Result := TGSDataFileClass(Self.ClassType).Create(AOwner)
   else
     Result := nil;
 end;
 
-procedure TGLDataFile.LoadFromFile(const fileName: string);
+//---------------------------------------------------------------------------
+procedure TGSDataFile.LoadFromFile(const fileName: string);
 var
   fs: TStream;
 begin
@@ -190,7 +194,8 @@ begin
   end;
 end;
 
-procedure TGLDataFile.SaveToFile(const fileName: string);
+//---------------------------------------------------------------------------
+procedure TGSDataFile.SaveToFile(const fileName: string);
 var
   fs: TStream;
 begin
@@ -203,28 +208,33 @@ begin
   end;
 end;
 
-procedure TGLDataFile.LoadFromStream(Stream: TStream);
+//---------------------------------------------------------------------------
+procedure TGSDataFile.LoadFromStream(Stream: TStream);
 begin
   Assert(False, 'Import for ' + ClassName + ' to ' + Stream.ClassName +
     ' not available.');
 end;
 
-procedure TGLDataFile.SaveToStream(Stream: TStream);
+//---------------------------------------------------------------------------
+procedure TGSDataFile.SaveToStream(Stream: TStream);
 begin
   Assert(False, 'Export for ' + ClassName + ' to ' + Stream.ClassName +
     ' not available.');
 end;
 
-procedure TGLDataFile.Initialize;
+//---------------------------------------------------------------------------
+procedure TGSDataFile.Initialize;
 begin
 end;
 
-procedure TGLDataFile.SetResourceName(const AName: string);
+//---------------------------------------------------------------------------
+procedure TGSDataFile.SetResourceName(const AName: string);
 begin
   FResourceName := AName;
 end;
 
-function StrToGLSResType(const AStrRes: string): TGLApplicationResource;
+//---------------------------------------------------------------------------
+function StrToGLSResType(const AStrRes: string): TGSApplicationResource;
 begin
   if AStrRes = '[SAMPLERS]' then
   begin

@@ -31,8 +31,6 @@ object FormPamorama: TFormPamorama
     OnMouseDown = GLSceneViewer1MouseDown
     OnMouseMove = GLSceneViewer1MouseMove
     TabOrder = 0
-    ExplicitWidth = 662
-    ExplicitHeight = 397
   end
   object Panel1: TPanel
     Left = 0
@@ -49,7 +47,7 @@ object FormPamorama: TFormPamorama
     Font.Style = []
     ParentFont = False
     TabOrder = 1
-    ExplicitWidth = 654
+    ExplicitWidth = 708
     object LabelYaw: TLabel
       Left = 249
       Top = 8

@@ -1,3 +1,6 @@
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit fdForest;
 
 interface
@@ -18,17 +21,16 @@ uses
   Vcl.ExtCtrls,
 
   Stage.VectorTypes,
-  Stage.VectorGeometry,
   Stage.OpenGLTokens,
+  Stage.VectorGeometry,
+  Stage.PersistentClasses,
   Stage.TextureFormat,
   Stage.Keyboard,
-  Stage.PipelineTransform,
   Stage.Utils,
 
-  GLS.XCollection,
-  GLS.VectorLists,
-  GLS.PersistentClasses,
-  GLS.BaseClasses,
+  Stage.XCollection,
+  Stage.VectorLists,
+  Stage.BaseClasses,
 
   GLS.SceneViewer,
   GLS.Cadencer,
@@ -47,7 +49,7 @@ uses
   GLS.XOpenGL,
   GLS.TextureCombiners,
   GLS.Material,
-  GLS.Coordinates,
+  Stage.Coordinates,
   GLS.TerrainRenderer,
   GLS.HeightData,
   GLS.HeightTileFileHDS,
@@ -96,7 +98,7 @@ type
     function SIBTreeLoadingImposter(Sender: TObject; impostoredObject: TGLBaseSceneObject;
       destImposter: TImposter): TGLBitmap32;
     procedure Timer1Timer(Sender: TObject);
-    procedure PFXTreesProgress(Sender: TObject; const progressTime: TGLProgressTimes;
+    procedure PFXTreesProgress(Sender: TObject; const progressTime: TGSProgressTimes;
       var defaultProgress: Boolean);
     function PFXTreesGetParticleCountEvent(Sender: TObject): Integer;
     procedure FormResize(Sender: TObject);
@@ -109,12 +111,12 @@ type
     // hscale, mapwidth, mapheight : Single;
     lmp: TPoint;
     camPitch, camTurn, camTime, curPitch, curTurn: Single;
-    function GetTextureReflectionMatrix: TGLMatrix;
+    function GetTextureReflectionMatrix: TGSMatrix;
   public
     Path: TFileName;
     TestTree: TGLTree;
     TreesShown: Integer;
-    nearTrees: TGLPersistentObjectList;
+    nearTrees: TGSPersistentObjectList;
     Imposter: TImposter;
     densityBitmap: TBitmap;
     mirrorTexture: TGLTextureHandle;
@@ -128,7 +130,7 @@ type
 var
   FormForest: TFormForest;
 
-implementation // ------------------------------------------------------------
+implementation //============================================================
 
 {$R *.dfm}
 
@@ -138,10 +140,10 @@ const
   cMapHeight: Integer = 1024;
   cBaseSpeed: Single = 50;
 
+//---------------------------------------------------------------------------
 procedure TFormForest.FormCreate(Sender: TObject);
 var
   density: TPicture;
-
 begin
   // go to 1024x768x32
   // SetFullscreenMode(GetIndexFromResolution(1024, 768, 32), 85);
@@ -189,7 +191,6 @@ begin
   end;
 
   SIBTree.RequestImposterFor(TestTree);
-
   densityBitmap := TBitmap.Create;
   try
     densityBitmap.PixelFormat := pf24bit;
@@ -218,7 +219,7 @@ begin
   SetCursorPos(lmp.X, lmp.Y);
   ShowCursor(False);
 
-  nearTrees := TGLPersistentObjectList.Create;
+  nearTrees := TGSPersistentObjectList.Create;
 
   camTurn := -60;
   enableRectReflection := False;
@@ -226,8 +227,7 @@ begin
 
 end;
 
-//----------------------------------------------------------------
-
+//---------------------------------------------------------------------------
 procedure TFormForest.FormDestroy(Sender: TObject);
 begin
   // RestoreDefaultMode;
@@ -236,21 +236,25 @@ begin
   nearTrees.Free;
 end;
 
+//---------------------------------------------------------------------------
 procedure TFormForest.FormResize(Sender: TObject);
 begin
   Camera.FocalLength := Width * 50 / 800;
 end;
 
+//---------------------------------------------------------------------------
 procedure TFormForest.FormDeactivate(Sender: TObject);
 begin
   Close;
 end;
 
+//---------------------------------------------------------------------------
 procedure TFormForest.FormShow(Sender: TObject);
 begin
   SetFocus;
 end;
 
+//---------------------------------------------------------------------------
 procedure TFormForest.GLCadencerProgress(Sender: TObject; const deltaTime, newTime: Double);
 var
   speed, z: Single;
@@ -298,6 +302,7 @@ begin
   SceneViewer.Invalidate;
 end;
 
+//---------------------------------------------------------------------------
 procedure TFormForest.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
   case Key of
@@ -320,6 +325,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TFormForest.Timer1Timer(Sender: TObject);
 var
   hud: string;
@@ -339,6 +345,7 @@ begin
   Caption := Format('%.2f', [RenderTrees.LastSortTime]);
 end;
 
+//---------------------------------------------------------------------------
 procedure TFormForest.PFXTreesCreateParticle(Sender: TObject; aParticle: TGLParticle);
 var
   u, v, p: Single;
@@ -359,22 +366,23 @@ begin
     aParticle.PosY := Terrain.Position.Y + Terrain.InterpolatedHeight(aParticle.Position);
   until aParticle.PosY >= 0;
   aParticle.Tag := Random(360);
-
 end;
 
+//---------------------------------------------------------------------------
 procedure TFormForest.PFXTreesBeginParticles(Sender: TObject; var rci: TGLRenderContextInfo);
 begin
   Imposter := SIBTree.ImposterFor(TestTree);
   Imposter.BeginRender(rci);
 end;
 
+//---------------------------------------------------------------------------
 procedure TFormForest.PFXTreesRenderParticle(Sender: TObject; aParticle: TGLParticle;
   var rci: TGLRenderContextInfo);
 const
   cTreeCenteringOffset: TAffineVector = (X: 0; Y: 30; z: 0);
 var
   d: Single;
-  camPos: TGLVector;
+  camPos: TGSVector;
 begin
   if not IsVolumeClipped(VectorAdd(aParticle.Position, cTreeCenteringOffset), 30, rci.rcci.frustum)
   then
@@ -393,10 +401,11 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TFormForest.PFXTreesEndParticles(Sender: TObject; var rci: TGLRenderContextInfo);
 var
   aParticle: TGLParticle;
-  camPos: TGLVector;
+  camPos: TGSVector;
 begin
   // Only 20 trees max rendered at full res, force imposter'ing the others
   while nearTrees.Count > 20 do
@@ -407,15 +416,15 @@ begin
     Imposter.Render(rci, VectorMake(aParticle.Position), camPos, 10);
     nearTrees.Delete(0);
   end;
-
   Imposter.EndRender(rci);
 end;
 
+//---------------------------------------------------------------------------
 procedure TFormForest.DOTreesRender(Sender: TObject; var rci: TGLRenderContextInfo);
 var
   i: Integer;
   particle: TGLParticle;
-  TreeModelMatrix: TGLMatrix;
+  TreeModelMatrix: TGSMatrix;
 begin
   rci.GLStates.Disable(stBlend);
   for i := 0 to nearTrees.Count - 1 do
@@ -438,6 +447,7 @@ begin
   nearTrees.Clear;
 end;
 
+//---------------------------------------------------------------------------
 procedure TFormForest.TerrainGetTerrainBounds(var l, t, r, b: Single);
 begin
   l := 0;
@@ -446,6 +456,7 @@ begin
   b := 0;
 end;
 
+//---------------------------------------------------------------------------
 function TFormForest.SIBTreeLoadingImposter(Sender: TObject; impostoredObject: TGLBaseSceneObject;
   destImposter: TImposter): TGLBitmap32;
 var
@@ -469,6 +480,7 @@ begin
   bmp.Free;
 end;
 
+//---------------------------------------------------------------------------
 procedure TFormForest.SIBTreeImposterLoaded(Sender: TObject; impostoredObject: TGLBaseSceneObject;
   destImposter: TImposter);
 var
@@ -486,22 +498,25 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 function TFormForest.PFXTreesGetParticleCountEvent(Sender: TObject): Integer;
 begin
   Result := TreesShown;
 end;
 
-procedure TFormForest.PFXTreesProgress(Sender: TObject; const progressTime: TGLProgressTimes;
+//---------------------------------------------------------------------------
+procedure TFormForest.PFXTreesProgress(Sender: TObject; const progressTime: TGSProgressTimes;
   var defaultProgress: Boolean);
 begin
   defaultProgress := False;
 end;
 
+//---------------------------------------------------------------------------
 procedure TFormForest.DOInitializeReflectionRender(Sender: TObject; var rci: TGLRenderContextInfo);
 var
   w, h: Integer;
-  refMat: TGLMatrix;
-  cameraPosBackup, cameraDirectionBackup: TGLVector;
+  refMat: TGSMatrix;
+  cameraPosBackup, cameraDirectionBackup: TGSVector;
   frustumBackup: TFrustum;
   clipPlane: TDoubleHmgPlane;
   glTarget: GLEnum;
@@ -596,13 +611,14 @@ begin
   GL.Clear(GL_COLOR_BUFFER_BIT + GL_DEPTH_BUFFER_BIT + GL_STENCIL_BUFFER_BIT);
 end;
 
+//---------------------------------------------------------------------------
 procedure TFormForest.DOClassicWaterPlaneRender(Sender: TObject; var rci: TGLRenderContextInfo);
 const
   cWaveScale = 7;
   cWaveSpeed = 0.02;
   cSinScale = 0.02;
 var
-  tex0Matrix, tex1Matrix: TGLMatrix;
+  tex0Matrix, tex1Matrix: TGSMatrix;
   tWave: Single;
   pos: TAffineVector;
   tex: TTexPoint;
@@ -685,10 +701,10 @@ begin
     end;
     GL.End_;
   end;
-
   rci.GLStates.ResetTextureMatrix;
 end;
 
+//---------------------------------------------------------------------------
 procedure TFormForest.DOGLSLWaterPlaneRender(Sender: TObject; var rci: TGLRenderContextInfo);
 var
   X, Y: Integer;
@@ -730,16 +746,15 @@ begin
     end;
     GL.End_;
   end;
-
   reflectionProgram.EndUseProgramObject;
-
 end;
 
+//---------------------------------------------------------------------------
 // SetupReflectionMatrix
-//
-function TFormForest.GetTextureReflectionMatrix: TGLMatrix;
+//---------------------------------------------------------------------------
+function TFormForest.GetTextureReflectionMatrix: TGSMatrix;
 const
-  cBaseMat: TGLMatrix = (v: ((X: 0.5; Y: 0; z: 0; w: 0), (X: 0; Y: 0.5; z: 0; w: 0), (X: 0; Y: 0;
+  cBaseMat: TGSMatrix = (v: ((X: 0.5; Y: 0; z: 0; w: 0), (X: 0; Y: 0.5; z: 0; w: 0), (X: 0; Y: 0;
     z: 1; w: 0), (X: 0.5; Y: 0.5; z: 0; w: 1)));
 
 var
@@ -765,4 +780,5 @@ begin
   Result := MatrixMultiply(CreateScaleMatrix(VectorMake(1, -1, 1)), Result);
 end;
 
+//---------------------------------------------------------------------------
 end.

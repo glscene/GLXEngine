@@ -21,8 +21,8 @@ uses
   GLS.Cadencer,
 
   GLS.Material,
-  GLS.Coordinates,
-  GLS.BaseClasses,
+  Stage.Coordinates,
+  Stage.BaseClasses,
   GLSL.AsmShader,
   GLSL.CustomShader,
   GLSL.PhongShader;

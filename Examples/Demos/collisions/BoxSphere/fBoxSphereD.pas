@@ -19,7 +19,7 @@ uses
 
   
   GLS.Scene,
-  GLS.PersistentClasses,
+  Stage.PersistentClasses,
   Stage.VectorTypes,
   GLS.Objects,
   GLS.Cadencer,
@@ -29,8 +29,8 @@ uses
   GLS.Graph,
   GLS.GeomObjects,
  
-  GLS.Coordinates,
-  GLS.BaseClasses;
+  Stage.Coordinates,
+  Stage.BaseClasses;
 
 type
   TFormBoxSphere = class(TForm)
@@ -94,12 +94,12 @@ type
   private
     mdx, mdy: Integer;
     intersPoint, ResNormal, BoxScale, SpherePos: TAffineVector;
-    BoxMatrix: TGLMatrix;
+    BoxMatrix: TGSMatrix;
     SphereRadius: Single;
   end;
 
 // Generates random rotation for matrix. It remains a scale.
-function RandomRotation(const aMatrix: TGLMatrix): TGLMatrix;
+function RandomRotation(const aMatrix: TGSMatrix): TGSMatrix;
 
 var
   FormBoxSphere: TFormBoxSphere;
@@ -195,7 +195,7 @@ begin
 end;
 
 // Generates random rotation for matrix. It remains a scale.
-function RandomRotation(const aMatrix: TGLMatrix): TGLMatrix;
+function RandomRotation(const aMatrix: TGSMatrix): TGSMatrix;
 var
   aScale: TAffineVector;
   I:      Integer;

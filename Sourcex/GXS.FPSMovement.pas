@@ -1,10 +1,10 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.FPSMovement;
-
-(* FPS-like movement behaviour and manager *)
-
+(*
+  FPS-like movement behaviour and manager
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -19,17 +19,17 @@ uses
   Stage.VectorTypes,
   Stage.VectorGeometry,
   Stage.Manager,
+  Stage.Coordinates,
+  Stage.VectorLists,
+  Stage.BaseClasses,
+  Stage.XCollection,
 
   GXS.Context,
   GXS.Scene,
-  GXS.Coordinates,
   GXS.VectorFileObjects,
-  GXS.VectorLists,
   GXS.GeomObjects,
   GXS.Navigator,
   GXS.RenderContextInfo,
-  GXS.BaseClasses,
-  GXS.XCollection,
   GXS.State;
 
 type
@@ -155,7 +155,7 @@ type
     Velocity: TVector4f;
     constructor Create(aOwner: TXCollection); override;
     destructor Destroy; override;
-    procedure DoProgress(const progressTime: TgxProgressTimes); override;
+    procedure DoProgress(const progressTime: TGSProgressTimes); override;
     class function FriendlyName: string; override;
     Procedure TurnHorizontal(Angle: single);
     Procedure TurnVertical(Angle: single);
@@ -185,9 +185,7 @@ function GetFPSMovement(obj: TgxBaseSceneObject): TgxBFPSMovement; overload;
 function GetOrCreateFPSMovement(behaviours: TgxBehaviours): TgxBFPSMovement; overload;
 function GetOrCreateFPSMovement(obj: TgxBaseSceneObject): TgxBFPSMovement; overload;
 
-//-------------------------------------------------------------------------
-implementation
-//-------------------------------------------------------------------------
+implementation //============================================================
 
 function GetFPSMovement(behaviours: TgxBehaviours): TgxBFPSMovement; overload;
 var
@@ -808,7 +806,7 @@ begin
   Manager.Navigator.MovingObject := prevObj;
 end;
 
-procedure TgxBFPSMovement.DoProgress(const progressTime: TgxProgressTimes);
+procedure TgxBFPSMovement.DoProgress(const progressTime: TGSProgressTimes);
 var
   newPosition: TVector4f;
   CollisionState: TCollisionState;
@@ -906,20 +904,12 @@ begin
   glEnd();
 end;
 
-// ------------------------------------------------------------------
-// ------------------------------------------------------------------
-// ------------------------------------------------------------------
-initialization
-
-// ------------------------------------------------------------------
-// ------------------------------------------------------------------
-// ------------------------------------------------------------------
-
+initialization //============================================================
 
 RegisterXCollectionItemClass(TgxMapCollectionItem);
 RegisterXCollectionItemClass(TgxBFPSMovement);
 
-finalization
+finalization //==============================================================
 
 UnregisterXCollectionItemClass(TgxMapCollectionItem);
 UnregisterXCollectionItemClass(TgxBFPSMovement);

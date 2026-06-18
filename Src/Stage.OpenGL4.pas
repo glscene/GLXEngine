@@ -1,8 +1,7 @@
-//
-// The graphics engine GXScene https://github.com/glscene
-//
+(*****************************************************************************
+                          GLStage Graphics Engine
+******************************************************************************)
 unit Stage.OpenGL4;
-
 (* -------------------------------------------------------------
  Copyright 1991-1993, Silicon Graphics, Inc.
  All Rights Reserved.

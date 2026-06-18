@@ -21,10 +21,10 @@ uses
   GLS.Texture,
   GLS.SceneViewer,
  
-  GLS.Coordinates,
-  GLS.BaseClasses,
+  Stage.Coordinates,
+  Stage.BaseClasses,
   GLS.Context,
-  GLS.OpenGLAdapter;
+  Stage.OpenGLAdapter;
 
 
 type

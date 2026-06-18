@@ -1,25 +1,26 @@
-//                                           *
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.DCEMisc;
-
-(* Miscelaneous functions used by DCE (Dynamic Collision Engine) *)
-
+(*
+  Miscelaneous functions used by DCE (Dynamic Collision Engine)
+*)
 interface
 
 {$I Stage.Defines.inc}
 
 uses
-  GXS.Coordinates,
+  Stage.VectorTypes,
+  Stage.Coordinates,
+  Stage.VectorGeometry,
+  Stage.VectorLists,
+
   GXS.VectorFileObjects,
   GXS.EllipseCollision,
-  Stage.VectorGeometry,
-  GXS.VectorLists,
   GXS.Scene,
   GXS.TerrainRenderer,
   GXS.ProxyObjects,
-  GXS.MultiProxy,
-  Stage.VectorTypes;
+  GXS.MultiProxy;
 
 //Calculate and set the collision range
 procedure ECSetCollisionRange(var MovePack: TECMovePack);
@@ -69,7 +70,7 @@ const
 
     );
 
-implementation //-------------------------------------------------------------
+implementation //============================================================
 
 procedure ECSetCollisionRange(var MovePack: TECMovePack);
 var  N: TAffineVector;

@@ -9,9 +9,9 @@
 #include "fcImposter.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
-#pragma link "GLS.BaseClasses"
+#pragma link "Stage.BaseClasses"
 #pragma link "GLS.Cadencer"
-#pragma link "GLS.Coordinates"
+#pragma link "Stage.Coordinates"
 
 #pragma link "GLS.Objects"
 #pragma link "GLS.Scene"
@@ -97,8 +97,8 @@ void __fastcall TForm1::GLDirectOpenGL1Render(TObject *Sender, TGLRenderContextI
 
 {
    int x, y;
-   TGLVector camPos;
-   TGLVector pos;
+   TGSVector camPos;
+   TGSVector pos;
 
 /*   to do
    TImposter *imp;

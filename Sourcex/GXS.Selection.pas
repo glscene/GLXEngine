@@ -1,6 +1,6 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.Selection;
 
 interface
@@ -13,10 +13,10 @@ uses
   System.Classes,
 
   GXS.Context,
-  GXS.VectorLists,
+  Stage.VectorLists,
   Stage.VectorGeometry,
-  GXS.BaseClasses,
-  GXS.PersistentClasses;
+  Stage.BaseClasses,
+  Stage.PersistentClasses;
 
  const
   MAX_OBJECT_STACK_DEPTH = 512;
@@ -27,7 +27,7 @@ type
 
   TPickRecord = class
   public
-    AObject: TgxUpdateAbleComponent;
+    AObject: TGSUpdateAbleComponent;
     SubObjects: TPickSubObjects;
     ZMin, ZMax: Single;
   end;
@@ -36,7 +36,7 @@ type
 
   (* List class for object picking.
      This list is used to store the results of a PickObjects call. *)
-  TgxPickList = class(TgxPersistentObjectList)
+  TgxPickList = class(TGSPersistentObjectList)
   private
     function GetFar(aValue: Integer): Single;
     function GetHit(aValue: Integer): TObject;
@@ -106,9 +106,7 @@ type
 
 function GetBestSelectorClass: TgxBaseSelectTechniqueClass;
 
-//------------------------------------------------
-implementation
-//------------------------------------------------
+implementation //============================================================
 
 function GetBestSelectorClass: TgxBaseSelectTechniqueClass;
 begin
@@ -118,26 +116,21 @@ begin
     Result := TgxSelectRenderModeTechnique;
 end;
 
-{$IFDEF USE_REGIONS}{$REGION 'TgxPickList'}{$ENDIF}
-// ------------------
-// ------------------ TgxPickList ------------------
-// ------------------
-
 var
   vPickListSortFlag: TPickSortType;
 
-// Create
-//
-
+// ------------------
+// ------------------ TgxPickList ------------------
+// ------------------
 constructor TgxPickList.Create(aSortType: TPickSortType);
 begin
   vPickListSortFlag := aSortType;
   inherited Create;
 end;
 
+//---------------------------------------------------------------------------
 // Comparefunction (for picklist sorting)
-//
-
+//---------------------------------------------------------------------------
 function Comparefunction(item1, item2: TObject): Integer;
 var
   diff: Single;
@@ -170,16 +163,16 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 // AddHit
-//
-
+//---------------------------------------------------------------------------
 procedure TgxPickList.AddHit(obj: TObject;
   const subObj: TPickSubObjects; zMin, zMax: Single);
 var
   newRecord: TPickRecord;
 begin
   newRecord := TPickRecord.Create;
-  newRecord.AObject := TgxUpdateAbleComponent(obj);
+  newRecord.AObject := TGSUpdateAbleComponent(obj);
   newRecord.SubObjects := subObj;
   newRecord.zMin := zMin;
   newRecord.zMax := zMax;
@@ -197,9 +190,9 @@ begin
   inherited;
 end;
 
+//---------------------------------------------------------------------------
 // FindObject
-//
-
+//---------------------------------------------------------------------------
 function TgxPickList.FindObject(aObject: TObject): Integer;
 var
   i: Integer;
@@ -247,13 +240,10 @@ function TgxPickList.GetSubObjects(aValue: Integer): TPickSubobjects;
 begin
   Result := TPickRecord(Items[AValue]).SubObjects;
 end;
-{$IFDEF USE_REGIONS}{$ENDREGION}{$ENDIF}
 
-{$IFDEF USE_REGIONS}{$REGION 'TgxSelectRenderModeTechnique'}{$ENDIF}
 // ------------------
 // ------------------ TgxSelectRenderModeTechnique ------------------
 // ------------------
-
 function TgxSelectRenderModeTechnique.GetHits: Integer;
 begin
   Result := FHits;
@@ -351,6 +341,5 @@ begin
   Inc(FCurrentName);
 end;
 
-{$IFDEF USE_REGIONS}{$ENDREGION}{$ENDIF}
-
+//---------------------------------------------------------------------------
 end.

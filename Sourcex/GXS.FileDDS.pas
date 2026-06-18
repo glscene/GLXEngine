@@ -1,10 +1,10 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.FileDDS;
-
-(* DDS File support *)
-
+(*
+  DDS File support
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -25,7 +25,7 @@ uses
   GXS.Context,
   GXS.Graphics,
 
-  Formatx.DXTC;
+  Formats.DXTC;
 
 type
 
@@ -52,9 +52,7 @@ var
     low - skipped the first two levels. *)
   vDDSDetailLevel: TgxDDSDetailLevels = ddsHighDet;
 
-// ======================================================
-implementation
-// ======================================================
+implementation //============================================================
 
 // ------------------
 // ------------------ TgxDDSImage ------------------
@@ -558,9 +556,7 @@ begin
   Result := [dfcRead, dfcWrite];
 end;
 
-//---------------------------------------
-initialization
-//---------------------------------------
+initialization //============================================================
 
 RegisterRasterFormat('dds', 'Direct Draw Surface', TgxDDSImage);
 

@@ -10,12 +10,13 @@ interface
 {$I Stage.Defines.inc}
 
 uses
-  GLS.PersistentClasses,
+  Stage.PersistentClasses,
   Stage.VectorTypes,
   Stage.VectorGeometry,
-  GLS.State,
   Stage.PipelineTransform,
-  GLS.Color;
+  Stage.Color,
+
+  GLS.State;
 
 type
 
@@ -51,8 +52,8 @@ type
   TGLVisibilityCulling = (vcInherited, vcNone, vcObjectBased, vcHierarchical);
 
   TGLRenderContextClippingInfo = record
-    Origin: TGLVector;
-    ClippingDirection: TGLVector;
+    Origin: TGSVector;
+    ClippingDirection: TGSVector;
     ViewPortRadius: Single; // viewport bounding radius per distance unit
     NearClippingDistance: Single;
     FarClippingDistance: Single;
@@ -63,8 +64,8 @@ type
   TGLRenderContextInfo = record
     Scene: TObject; //usually TGLScene
     Buffer: TObject; //usually TGLSceneBuffer
-    CameraPosition: TGLVector;
-    CameraDirection, CameraUp: TGLVector;
+    CameraPosition: TGSVector;
+    CameraDirection, CameraUp: TGSVector;
     ViewPortSize: TGLSize;
     RenderDPI: Integer;
     MaterialLibrary: TObject; //usually TGLMaterialLibrary;
@@ -76,7 +77,7 @@ type
     GLStates: TGLStateCache;
     PipelineTransformation: TGTransformation;
     Rcci: TGLRenderContextClippingInfo;
-    SceneAmbientColor: TGLColorVector;
+    SceneAmbientColor: TGSColorVector;
     BufferFaceCull: Boolean;
     BufferLighting: Boolean;
     BufferFog: Boolean;
@@ -86,14 +87,14 @@ type
     IgnoreBlendingRequests: Boolean;
     IgnoreDepthRequests: Boolean;
     Amalgamating: Boolean;
-    Lights: TGLPersistentObjectList;
-    AfterRenderEffects: TGLPersistentObjectList;
+    Lights: TGSPersistentObjectList;
+    AfterRenderEffects: TGSPersistentObjectList;
     CurrentMaterialLevel: TGLMaterialLevel;
     PrimitiveMask: TGLMeshPrimitives;
     OrderCounter: Integer;
   end;
   PGLRenderContextInfo = ^TGLRenderContextInfo;
 
-implementation //-------------------------------------------------------------
+implementation //============================================================
 
 end.

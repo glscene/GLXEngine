@@ -4,7 +4,7 @@
 unit GLS.AsyncTimer;
 (*
    Asynchronous timer component (actual 1 ms resolution).
-   This component is based on ThreadedTimer by Carlos Barbosa.
+   RegisterClass(TGLAsyncTimer);
 *)
 interface
 
@@ -22,7 +22,6 @@ const
   cDEFAULT_TIMER_INTERVAL = 1000;
 
 type
-
   (*  Asynchronous timer component
     (actual 1 ms resolution, if CPU fast enough).
     Keep in mind timer resolution is obtained in-between events, but

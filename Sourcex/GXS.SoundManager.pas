@@ -16,8 +16,8 @@ uses
 
   Stage.VectorTypes,
   Stage.VectorGeometry,
-  GXS.BaseClasses,
-  GXS.XCollection,
+  Stage.BaseClasses,
+  Stage.XCollection,
   GXS.SoundFileObjects,
   GXS.Scene,
   GXS.Cadencer,
@@ -232,7 +232,7 @@ type
      to "initialize/unitialize" their sound layer, actual data releases should
      occur in destructor however.
    *)
-  TgxSoundManager = class(TgxCadenceAbleComponent)
+  TgxSoundManager = class(TGSCadenceAbleComponent)
   private
     FActive: Boolean;
     FMute: Boolean;
@@ -317,7 +317,7 @@ type
     { Progress notification for time synchronization.
        This method will call UpdateSources depending on the last time
        it was performed and the value of the UpdateFrequency property. }
-    procedure DoProgress(const progressTime: TgxProgressTimes); override;
+    procedure DoProgress(const progressTime: TGSProgressTimes); override;
     { Sound manager API reported CPU Usage.
        Returns -1 when unsupported. }
     function CPUUsagePercent: Single; virtual;
@@ -410,7 +410,7 @@ type
     class function FriendlyName: string; override;
     class function FriendlyDescription: string; override;
     class function UniqueItem: Boolean; override;
-    procedure DoProgress(const progressTime: TgxProgressTimes); override;
+    procedure DoProgress(const progressTime: TGSProgressTimes); override;
     property PlayingSource: TgxSoundSource read FPlayingSource;
   published
     property Source: TgxBaseSoundSource read FSource write SetSource;
@@ -1389,7 +1389,7 @@ begin
     Sources.Delete(i);
 end;
 
-procedure TgxSoundManager.DoProgress(const progressTime: TgxProgressTimes);
+procedure TgxSoundManager.DoProgress(const progressTime: TGSProgressTimes);
 begin
   if not Active then
     Exit;
@@ -1483,7 +1483,7 @@ begin
   Result := False;
 end;
 
-procedure TgxBSoundEmitter.DoProgress(const progressTime: TgxProgressTimes);
+procedure TgxBSoundEmitter.DoProgress(const progressTime: TGSProgressTimes);
 begin
   // nothing, yet
 end;

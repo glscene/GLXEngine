@@ -16,10 +16,10 @@
 #include "Stage.VectorGeometry.hpp"
 #include "GLS.Texture.hpp"
 #include "GLS.SceneViewer.hpp"
-#include "GLS.Color.hpp"
+#include "Stage.Color.hpp"
 
-#include "GLS.Coordinates.hpp"
-#include "GLS.BaseClasses.hpp"
+#include "Stage.Coordinates.hpp"
+#include "Stage.BaseClasses.hpp"
 //---------------------------------------------------------------------------
 class TFormTentacles : public TForm
 {

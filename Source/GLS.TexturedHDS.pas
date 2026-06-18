@@ -1,17 +1,17 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.TexturedHDS;
 (*
    Implements a HDS, which automatically maps textures onto a parent HDS .
-   This HDS links to and extracts its height data from a parent HDS. (like TGLHeightTileFile)
+   RegisterClasses([TGLTexturedHDS]);
 
+   This HDS links to and extracts its height data from a parent HDS. (like TGLHeightTileFile)
    The HDS also links to a TGLMaterial Library, and maps ALL textures from the
    selected Material Library onto the terrain, WITHOUT using Multitexturing.
    The position and scale of each texture is determined by the material's own
    TextureOffset and TextureScale properties.
    This makes it easy to tile many textures onto a single, continuous TGLTerrainRenderer.
-
    If two or more textures in the library overlap, the top texture is used.( ie.the later one in the list)
 
    WARNING: Only one base texture is mapped onto each terrain tile, so, make
@@ -27,7 +27,7 @@ uses
   System.Classes,
 
   Stage.VectorTypes,
-  GLS.Coordinates,
+  Stage.Coordinates,
   GLS.HeightData,
   GLS.Material;
 
@@ -61,14 +61,11 @@ type
     property TilesPerTexture: integer read FTilesPerTexture write FTilesPerTexture;
   end;
 
-//=========================================================================
-implementation
-//=========================================================================
+implementation //============================================================
 
 // ------------------
 // ------------------ TGLTexturedHDS ------------------
 // ------------------
-
 constructor TGLTexturedHDS.Create(AOwner: TComponent);
 begin
   FHeightDataSource:=nil;
@@ -195,9 +192,7 @@ begin
               else FHeightDataSource:=val;
 end;
 
-// ------------------------------------------------------------------
-initialization
-// ------------------------------------------------------------------
+initialization //============================================================
 
 RegisterClasses([TGLTexturedHDS]);
 

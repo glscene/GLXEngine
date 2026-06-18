@@ -1,10 +1,10 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.CUDA.FFTPlan;
-
-(*  Fast Fourier Transform for CUDA *)
-
+(*
+  Fast Fourier Transform for CUDA
+*)
 interface
 
 uses

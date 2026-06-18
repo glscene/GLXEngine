@@ -15,7 +15,7 @@ uses
   Stage.VectorGeometry,
   Stage.Utils,
 
-  GXS.VectorLists,
+  Stage.VectorLists,
   GXS.VectorFileObjects,
   GXS.Texture,
   GXS.ApplicationFileIO,

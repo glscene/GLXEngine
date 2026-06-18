@@ -1,3 +1,6 @@
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit fdArchipelago;
 
 interface
@@ -22,13 +25,14 @@ uses
   Stage.VectorGeometry,
   Stage.TextureFormat,
   Stage.Keyboard,
+  Stage.Coordinates,
+  Stage.BaseClasses,
+  Stage.VectorLists,
+  Stage.XCollection,
+  Stage.Color,
   Stage.Utils,
 
   GLS.Scene,
-  GLS.Coordinates,
-  GLS.BaseClasses,
-  GLS.VectorLists,
-  GLS.XCollection,
   GLS.Cadencer,
   GLS.Objects,
   GLS.TerrainRenderer,
@@ -42,7 +46,6 @@ uses
   GLS.WindowsFont,
   GLS.BitmapFont,
   GLS.RenderContextInfo,
-  GLS.Color,
   GLS.VectorFileObjects,
   GLS.Context,
   GLS.State,
@@ -96,9 +99,9 @@ type
     WaterPlane: Boolean;
     WasAboveWater: Boolean;
     HelpOpacity: Single;
-    WakeVertices: TGLAffineVectorList;
-    WakeStretch: TGLAffineVectorList;
-    WakeTime: TGLSingleList;
+    WakeVertices: TGSAffineVectorList;
+    WakeStretch: TGSAffineVectorList;
+    WakeTime: TGSSingleList;
     procedure ResetMousePos;
     function WaterPhase(const px, py: Single): Single;
     function WaterHeight(const px, py: Single): Single;
@@ -213,7 +216,7 @@ procedure TFormArchipelag.GLCadencerProgress(Sender: TObject; const deltaTime,
 var
   speed, alpha, f: Single;
   terrainHeight, surfaceHeight: Single;
-  sbp: TGLVector;
+  sbp: TGSVector;
   newMousePos: TPoint;
 begin
   // handle keypresses
@@ -555,13 +558,13 @@ procedure TFormArchipelag.doWakeProgress(Sender: TObject; const deltaTime,
   newTime: Double);
 var
   i: Integer;
-  sbp, sbr: TGLVector;
+  sbp, sbr: TGSVector;
 begin
   if WakeVertices = nil then
   begin
-    WakeVertices := TGLAffineVectorList.Create;
-    WakeStretch := TGLAffineVectorList.Create;
-    WakeTime := TGLSingleList.Create;
+    WakeVertices := TGSAffineVectorList.Create;
+    WakeStretch := TGSAffineVectorList.Create;
+    WakeTime := TGSSingleList.Create;
   end;
 
   // enlarge current vertices
@@ -607,7 +610,7 @@ procedure TFormArchipelag.doWakeRender(Sender: TObject; var rci: TGLRenderContex
 var
   i: Integer;
   p: PAffineVector;
-  sbp: TGLVector;
+  sbp: TGSVector;
   c: Single;
 begin
   if not Assigned(WakeVertices) then

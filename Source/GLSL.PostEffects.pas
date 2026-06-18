@@ -1,11 +1,12 @@
-//
-// GLScene Graphics Engine
-//
-
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLSL.PostEffects;
-
-(* A collection of components that generate post effects *)
-
+(*
+  A collection of components that generate post effects
+  RegisterClasses([TGLPostEffect, TGLPostShaderHolder, TGLPostShaderCollection,
+  TGLPostShaderCollectionItem]);
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -15,19 +16,20 @@ uses
   System.Classes,
   System.SysUtils,
 
+  Stage.VectorGeometry,
   Stage.OpenGLTokens,
+  Stage.PersistentClasses,
+  Stage.Strings,
+  Stage.TextureFormat,
+
   GLS.Scene,
   GLS.State,
   GLS.Context,
-  GLS.PersistentClasses,
   GLS.Texture,
   GLS.Graphics,
-  Stage.Strings,
   GLSL.CustomShader,
-  Stage.VectorGeometry,
   GLS.RenderContextInfo,
-  GLS.Material,
-  Stage.TextureFormat;
+  GLS.Material;
 
 type
   EGLPostShaderHolderException = class(Exception);
@@ -141,13 +143,11 @@ type
     property OnProgress;
   end;
 
-  // -------------------------------------------------------------------------
-implementation
+implementation //============================================================
 
-// -------------------------------------------------------------------------
-
-{ TGLPostEffect }
-
+//---------------------------------------------------------------------------
+// TGLPostEffect
+//---------------------------------------------------------------------------
 procedure TGLPostEffect.Assign(Source: TPersistent);
 begin
   inherited;
@@ -301,8 +301,9 @@ begin
   end;
 end;
 
-{ TGLPostShaderCollectionItem }
-
+//---------------------------------------------------------------------------
+// TGLPostShaderCollectionItem
+//---------------------------------------------------------------------------
 procedure TGLPostShaderCollectionItem.Assign(Source: TPersistent);
 begin
   if Source is TGLPostShaderCollectionItem then
@@ -310,9 +311,10 @@ begin
     SetShader(TGLPostShaderCollectionItem(Source).FShader);
   end
   else
-    inherited; // Die!!!
+    inherited;
 end;
 
+//---------------------------------------------------------------------------
 function TGLPostShaderCollectionItem.GetDisplayName: string;
 begin
   if FShader = nil then
@@ -370,7 +372,6 @@ end;
 //------------------------------
 // TGLPostShaderHolder
 //------------------------------
-
 procedure TGLPostShaderHolder.Assign(Source: TPersistent);
 begin
   if Source is TGLPostShaderHolder then
@@ -452,8 +453,9 @@ begin
   FShaders.Assign(Value);
 end;
 
-{ TGLPostShaderCollection }
-
+//---------------------------------------------------------------------------
+// TGLPostShaderCollection
+//---------------------------------------------------------------------------
 function TGLPostShaderCollection.Add: TGLPostShaderCollectionItem;
 begin
   Result := TGLPostShaderCollectionItem(inherited Add);
@@ -482,9 +484,7 @@ begin
   GetItems(Index).Assign(Value);
 end;
 
-// ------------------------------------------------
-initialization
-// ------------------------------------------------
+initialization //============================================================
 
 RegisterClasses([TGLPostEffect, TGLPostShaderHolder, TGLPostShaderCollection,
   TGLPostShaderCollectionItem]);

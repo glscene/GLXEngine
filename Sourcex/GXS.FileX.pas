@@ -1,10 +1,10 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.FileX;
-
-(* Simple X format support for Microsoft's favorite format *)
-
+(*
+  Simple X format support for Microsoft's favorite format
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -14,14 +14,14 @@ uses
   System.SysUtils,
 
   Stage.VectorTypes,
+  Stage.VectorGeometry,
+  Stage.VectorLists,
+
   GXS.VectorFileObjects,
   GXS.ApplicationFileIO,
-  Stage.VectorGeometry,
   GXS.Texture,
-  GXS.VectorLists,
   GXS.Material,
-
-  Formatx.X;
+  Formats.X;
 
 type
   TgxXVectorFile = class(TgxVectorFile)
@@ -30,9 +30,7 @@ type
     procedure LoadFromStream(aStream: TStream); override;
   end;
 
-// ==========================================================
-implementation
-// ==========================================================
+implementation //============================================================
 
 class function TgxXVectorFile.Capabilities: TDataFileCapabilities;
 begin
@@ -152,7 +150,7 @@ begin
   end;
 end;
 
-initialization
+initialization //============================================================
 
 RegisterVectorFileFormat('x', 'DirectX Model files', TgxXVectorFile);
 

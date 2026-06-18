@@ -25,12 +25,12 @@ uses
   GLS.Cadencer,
   GLS.Navigator,
   GLS.SceneViewer,
-  GLS.XCollection,
+  Stage.XCollection,
   GLS.LensFlare,
   GLS.Objects,
   GLS.Material,
-  GLS.Coordinates,
-  GLS.BaseClasses,
+  Stage.Coordinates,
+  Stage.BaseClasses,
   GLS.SimpleNavigation;
 
 type

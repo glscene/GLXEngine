@@ -4,6 +4,7 @@
 unit GLS.Cadencer;
 (*
   The cadencer component (ease Progress processing)
+  RegisterClasses([TGLCadencer]);
 *)
 interface
 
@@ -18,7 +19,7 @@ uses
   VCL.Forms,
 
   GLS.Scene,
-  GLS.BaseClasses;
+  Stage.BaseClasses;
 
 type
   (* Determines how the TGLCadencer operates.
@@ -60,7 +61,7 @@ type
     FCurrentTime: Double;
     FOriginTime: Double;
     FMaxDeltaTime, FMinDeltaTime, FFixedDeltaTime: Double;
-  	FOnProgress, FOnTotalProgress : TGLProgressEvent;
+  	FOnProgress, FOnTotalProgress : TGSProgressEvent;
     FProgressing: Integer;
     procedure SetCurrentTime(const Value: Double);
   protected
@@ -79,8 +80,8 @@ type
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
-    procedure Subscribe(aComponent: TGLCadenceAbleComponent);
-    procedure UnSubscribe(aComponent: TGLCadenceAbleComponent);
+    procedure Subscribe(aComponent: TGSCadenceAbleComponent);
+    procedure UnSubscribe(aComponent: TGSCadenceAbleComponent);
     (* Allows to manually trigger a progression.
      Time stuff is handled automatically.
      If cadencer is disabled, this functions does nothing. *)
@@ -147,13 +148,13 @@ type
      help for the "sleep" procedure in delphi for details). *)
     property SleepLength: Integer read FSleepLength write FSleepLength default -1;
     // Happens AFTER scene was progressed.
-    property OnProgress: TGLProgressEvent read FOnProgress write FOnProgress;
+    property OnProgress: TGSProgressEvent read FOnProgress write FOnProgress;
     // Happens AFTER all iterations with fixed delta time.
-    property OnTotalProgress : TGLProgressEvent read FOnTotalProgress write FOnTotalProgress;
+    property OnTotalProgress : TGSProgressEvent read FOnTotalProgress write FOnTotalProgress;
   end;
 
   // Adds a property to connect/subscribe to a cadencer.
-  TGLCustomCadencedComponent = class(TGLUpdateAbleComponent)
+  TGLCustomCadencedComponent = class(TGSUpdateAbleComponent)
   private
     FCadencer: TGLCadencer;
   protected
@@ -363,7 +364,7 @@ begin
 end;
 
 //---------------------------------------------------------------------------
-procedure TGLCadencer.Subscribe(aComponent: TGLCadenceAbleComponent);
+procedure TGLCadencer.Subscribe(aComponent: TGSCadenceAbleComponent);
 begin
   if not Assigned(FSubscribedCadenceableComponents) then
     FSubscribedCadenceableComponents := TList.Create;
@@ -375,7 +376,7 @@ begin
 end;
 
 //---------------------------------------------------------------------------
-procedure TGLCadencer.UnSubscribe(aComponent: TGLCadenceAbleComponent);
+procedure TGLCadencer.UnSubscribe(aComponent: TGSCadenceAbleComponent);
 var
   i: Integer;
 begin
@@ -527,7 +528,7 @@ var
   deltaTime, newTime, totalDelta: Double;
   fullTotalDelta, firstLastTime : Double;
   i: Integer;
-  pt: TGLProgressTimes;
+  pt: TGSProgressTimes;
 begin
   // basic protection against infinite loops,
     // shall never happen, unless there is a bug in user code
@@ -593,7 +594,7 @@ begin
             while Assigned(FSubscribedCadenceableComponents) and
               (i <= FSubscribedCadenceableComponents.Count - 1) do
             begin
-              TGLCadenceAbleComponent(FSubscribedCadenceableComponents[i]).DoProgress(pt);
+              TGSCadenceAbleComponent(FSubscribedCadenceableComponents[i]).DoProgress(pt);
               i := i + 1;
             end;
             if Assigned(FOnProgress) and (not (csDesigning in ComponentState))

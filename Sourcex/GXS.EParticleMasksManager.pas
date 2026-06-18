@@ -1,8 +1,7 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.EParticleMasksManager;
-
 (*
    A pretty particle mask effect manager.
    Original Header:
@@ -24,7 +23,6 @@ unit GXS.EParticleMasksManager;
    Licenses: Removed. Donated to GXScene's Code Base as long as the author (Kenneth Poulter) is not altered in this file.
              Theft of code also is not allowed, although alterations are allowed.
  *)
-
 interface
 
 {$I Stage.Defines.inc}
@@ -36,17 +34,16 @@ uses
   System.UITypes,
   FMX.Graphics,
 
-  GXS.Color,
+  Stage.Color,
   GXS.Texture,
   GXS.Material,
   GXS.Scene,
   Stage.VectorGeometry,
   Stage.VectorTypes,
   GXS.ParticleFX,
-  GXS.Coordinates;
+  Stage.Coordinates;
 
 type
-
   TgxEProjectedParticleMask = (pptXMask, pptYMask, pptZMask);
 
   TgxEParticleMask = class;
@@ -55,8 +52,8 @@ type
   TgxEParticleMask = class(TCollectionItem, IgxMaterialLibrarySupported)
   private
     FName: string;
-    FScale: TgxCoordinates;
-    FPosition: TgxCoordinates;
+    FScale: TGSCoordinates;
+    FPosition: TGSCoordinates;
     FYMask: TgxLibMaterialName;
     FZMask: TgxLibMaterialName;
     FXMask: TgxLibMaterialName;
@@ -102,8 +99,8 @@ type
       TgxEProjectedParticleMask; Depth: Integer);
   published
     // scales and positions
-    property Scale: TgxCoordinates read FScale write FScale;
-    property Position: TgxCoordinates read FPosition write FPosition;
+    property Scale: TGSCoordinates read FScale write FScale;
+    property Position: TGSCoordinates read FPosition write FPosition;
     // the reference name of the particle mask
     property Name: string read FName write SetName;
     property MaterialLibrary: TgxMaterialLibrary read FMaterialLibrary write
@@ -164,14 +161,11 @@ type
       FParticleMasks;
   end;
 
-//----------------------------------------
-implementation
-//----------------------------------------
+implementation //============================================================
 
 //----------------------------------------
 // TgxEParticleMasks
 //----------------------------------------
-
 function TgxEParticleMasks.Add: TgxEParticleMask;
 begin
   Result := (inherited Add) as TgxEParticleMask;
@@ -224,8 +218,8 @@ begin
 
   FName := 'ParticleMask' + IntToStr(ID);
 
-  FScale := TgxCoordinates.CreateInitialized(Self, XYZHMGVector, csPoint);
-  FPosition := TgxCoordinates.CreateInitialized(Self, NullHmgPoint, csPoint);
+  FScale := TGSCoordinates.CreateInitialized(Self, XYZHMGVector, csPoint);
+  FPosition := TGSCoordinates.CreateInitialized(Self, NullHmgPoint, csPoint);
   FMaterialLibrary := nil;
 
   FMaskColor := TColorRec.White;

@@ -23,8 +23,8 @@ uses
   Stage.VectorGeometry,
 
   GLS.FullScreenViewer,
-  GLS.Coordinates,
-  GLS.BaseClasses;
+  Stage.Coordinates,
+  Stage.BaseClasses;
 
 type
   TFormSpiral = class(TForm)

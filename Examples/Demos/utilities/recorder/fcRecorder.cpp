@@ -15,8 +15,8 @@
 #pragma link "GLS.Objects"
 #pragma link "GLS.Scene"
 #pragma link "GLAVIRecorder"
-#pragma link "GLS.BaseClasses"
-#pragma link "GLS.Coordinates"
+#pragma link "Stage.BaseClasses"
+#pragma link "Stage.Coordinates"
 
 
 #pragma link "GLS.AVIRecorder"

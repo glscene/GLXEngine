@@ -1,17 +1,13 @@
-//
-// GLScene Graphics Engine
-//
-
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.FileVfsPAK;
-
 (*
   Support-code for loading files from Quake II PAK Files.
   When instance is created all LoadFromFile methods using
   GLS.ApplicationFileIO mechanism will be pointed into PAK file.
   You can change current PAK file by ActivePak variable.
-
 *)
-
 interface
 
 {$I Stage.Defines.inc}

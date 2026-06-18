@@ -1,14 +1,11 @@
-//
-// GLScene Graphics Engine
-//
-
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLSL.MultiMaterialShader;
-
 (*
   A shader that applies a render pass for each material in
   its assigned MaterialLibrary.
 *)
-
 interface
 
 uses

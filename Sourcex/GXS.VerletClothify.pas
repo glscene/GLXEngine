@@ -1,10 +1,10 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.VerletClothify;
-
-(* Methods for turning a TgxBaseMesh into a Verlet cloth / jelly *)
-
+(*
+  Methods for turning a TgxBaseMesh into a Verlet cloth / jelly
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -16,8 +16,9 @@ uses
   System.SysUtils,
 
   Stage.VectorTypes,
-  GXS.VectorLists,
+  Stage.VectorLists,
   Stage.VectorGeometry,
+
   GXS.VectorFileObjects,
   GXS.VerletTypes,
   GXS.Texture,
@@ -39,7 +40,7 @@ type
     constructor Create(aMeshObject : TgxMeshObject);
   end;
 
-  { List of faces }
+  // List of faces
   TFaceList = class(TList)
   private
     function GetItems(i: integer): TFace;
@@ -136,7 +137,7 @@ type
   TgxMeshObjectVerletNode = class(TgxVerletNode)
   private
     MeshObject : TgxMeshObject;
-    VertexIndices : TgxIntegerList;
+    VertexIndices : TGSIntegerList;
   public
     procedure AfterProgress; override;
 
@@ -144,9 +145,7 @@ type
     destructor Destroy; override;
   end;
 
-//---------------------------------------------------------------------------
-implementation
-//---------------------------------------------------------------------------
+implementation //============================================================
 
 
 //----------------------------------------
@@ -337,7 +336,7 @@ end;
 constructor TgxMeshObjectVerletNode.CreateOwned(const aOwner: TgxVerletWorld);
 begin
   inherited;
-  VertexIndices := TgxIntegerList.Create;
+  VertexIndices := TGSIntegerList.Create;
 end;
 
 destructor TgxMeshObjectVerletNode.Destroy;
@@ -721,7 +720,6 @@ end;
 //----------------------------------------
 // TEdge
 //----------------------------------------
-
 procedure TEdge.Contract;
 begin
   // We're removing vertex 1 and replacing it with vertex 0

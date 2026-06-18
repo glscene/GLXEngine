@@ -1,6 +1,6 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.Sounds.Register;
 
 (* Design time registration code for the Sounds *)
@@ -17,7 +17,7 @@ uses
 
 procedure Register;
 
-implementation //------------------------------------------------------------
+implementation //============================================================
 
 procedure Register;
 begin

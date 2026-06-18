@@ -27,8 +27,8 @@ uses
   Stage.Strings,
   Stage.VectorGeometry,
 
-  GXS.BaseClasses,
-  GXS.Color,
+  Stage.BaseClasses,
+  Stage.Color,
 
   GXS.State,
   GXS.Context,
@@ -63,7 +63,7 @@ type
 
   (* Stores an interlaced vertex list for direct use in OpenGL.
     Locking (hardware passthrough) is supported, see "Locked" property for details. *)
-  TgxVertexList = class(TgxUpdateAbleObject)
+  TgxVertexList = class(TGSUpdateAbleObject)
   private
     FValues: PVKVertexDataArray;
     FCount: Integer;
@@ -102,10 +102,10 @@ type
       Use the NullVector, NullHmgVector or NullTexPoint constants for
       params you don't want to set. }
     procedure AddVertex(const aVertex: TVertex; const aNormal: TAffineVector;
-      const aColor: TgxColorVector; const aTexPoint: TTexPoint); overload;
+      const aColor: TGSColorVector; const aTexPoint: TTexPoint); overload;
     // Adds a vertex to the list, no texturing version.
     procedure AddVertex(const vertex: TVertex; const normal: TAffineVector;
-      const color: TgxColorVector); overload;
+      const color: TGSColorVector); overload;
     // Adds a vertex to the list, no texturing, not color version.
     procedure AddVertex(const vertex: TVertex;
       const normal: TAffineVector); overload;
@@ -431,7 +431,7 @@ begin
 end;
 
 procedure TgxVertexList.AddVertex(const aVertex: TVertex;
-  const aNormal: TAffineVector; const aColor: TgxColorVector;
+  const aNormal: TAffineVector; const aColor: TGSColorVector;
   const aTexPoint: TTexPoint);
 begin
   if FCount = FCapacity then
@@ -449,7 +449,7 @@ begin
 end;
 
 procedure TgxVertexList.AddVertex(const vertex: TVertex;
-  const normal: TAffineVector; const color: TgxColorVector);
+  const normal: TAffineVector; const color: TGSColorVector);
 begin
   AddVertex(vertex, normal, color, NullTexPoint);
 end;

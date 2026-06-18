@@ -6,9 +6,9 @@
 #include "fcEarth.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
-#pragma link "GLS.BaseClasses"
+#pragma link "Stage.BaseClasses"
 #pragma link "GLS.Cadencer"
-#pragma link "GLS.Coordinates"
+#pragma link "Stage.Coordinates"
 #pragma link "GLS.LensFlare"
 #pragma link "GLS.Material"
 #pragma link "GLS.Objects"

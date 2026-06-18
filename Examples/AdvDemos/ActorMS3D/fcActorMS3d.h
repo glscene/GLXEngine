@@ -14,9 +14,9 @@
 #include "Stage.VectorGeometry.hpp"
 #include "Stage.Utils.hpp"
 
-#include "GLS.BaseClasses.hpp"
+#include "Stage.BaseClasses.hpp"
 #include "GLS.Cadencer.hpp"
-#include "GLS.Coordinates.hpp"
+#include "Stage.Coordinates.hpp"
 
 #include "GLS.FBORenderer.hpp"
 #include "GLS.Material.hpp"
@@ -63,7 +63,7 @@ __published:	// IDE-managed Components
 	TGLMaterialLibrary *MatLib;
 	TGLSimpleNavigation *GLNavigation;
 	TTimer *Timer1;
-	TGLSArchiveManager *GLSArchiveManager1;
+	TGLArchiveManager *GLSArchiveManager1;
 	void __fastcall Actor1EndFrameReached(TObject *Sender);
 	void __fastcall aniBoxSelect(TObject *Sender);
 	void __fastcall aniPosChange(TObject *Sender);

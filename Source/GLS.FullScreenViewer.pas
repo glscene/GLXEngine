@@ -1,10 +1,11 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.FullScreenViewer;
-
-(* A Platform specific full-screen viewer *)
-
+(*
+  A Platform specific full-screen viewer
+  RegisterClasses([TGLFullScreenViewer]);
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -630,13 +631,11 @@ begin
     Result := 0;
 end;
 
-// ------------------------------------------------------------------
-initialization
-// ------------------------------------------------------------------
+initialization //============================================================
 
 RegisterClasses([TGLFullScreenViewer]);
 
-finalization
+finalization //==============================================================
 
 {$IFDEF MSWINDOWS}
 // Restore Taskbar + Windows 7 Button

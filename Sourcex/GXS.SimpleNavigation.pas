@@ -1,15 +1,13 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.SimpleNavigation;
-
 (*
     A simple component written by request from someone at the www.glscene.ru forums.
     Allows to view the FPS and do the usual Zoom and MoveAroundTarget stuff
     that all demos usually have in themselves. All that is just by dropping
     this component on the form.
 *)
-
 interface
 
 {$I Stage.Defines.inc}
@@ -24,13 +22,13 @@ uses
   FMX.Controls,
   FMX.ExtCtrls,
   FMX.Types,
+
   Stage.VectorGeometry,
   GXS.Scene,
   GXS.SceneViewer,
   Stage.Strings;
 
 type
-
   TgxSimpleNavigationOption = (
     snoInvertMoveAroundX, snoInvertMoveAroundY, // MoveAroundTarget.
     snoInvertZoom, snoInvertMouseWheel, // Zoom.
@@ -120,15 +118,13 @@ type
     property OnMouseMove: TMouseMoveEvent read FOnMouseMove write FOnMouseMove;
   end;
 
-//----------------------------------------------
-implementation
-//----------------------------------------------
+implementation //============================================================
 
 const
   vFPSString = '%FPS';
   EPS = 0.001;
 
-  { TgxSimpleNavigation }
+// TgxSimpleNavigation
 
 procedure TgxSimpleNavigation.Assign(Source: TPersistent);
 begin
@@ -410,7 +406,7 @@ begin
   end;
 end;
 
-{ TgxSimpleNavigationKeyCombination }
+// TgxSimpleNavigationKeyCombination
 
 procedure TgxSimpleNavigationKeyCombination.Assign(Source: TPersistent);
 begin
@@ -445,7 +441,7 @@ begin
     GetEnumName(TypeInfo(TgxSimpleNavigationAction), Integer(FAction));
 end;
 
-{ TgxSimpleNavigationKeyCombinations }
+// TgxSimpleNavigationKeyCombinations
 
 function TgxSimpleNavigationKeyCombinations.Add: TgxSimpleNavigationKeyCombination;
 begin

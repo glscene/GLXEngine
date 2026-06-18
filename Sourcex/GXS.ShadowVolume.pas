@@ -1,16 +1,15 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.ShadowVolume;
-
 (*
    Implements basic shadow volumes support.
+   RegisterClasses([TgxShadowVolume]);
 
    Be aware that only objects that support silhouette determination have a chance
    to cast correct shadows. Transparent/blended/shader objects among the receivers
    or the casters will be rendered incorrectly.
 *)
-
 interface
 
 {$I Stage.Defines.inc}
@@ -26,15 +25,15 @@ uses
   Stage.VectorGeometry,
   Stage.PipelineTransform,
 
-  GXS.VectorLists,
-  GXS.PersistentClasses,
-  GXS.GeometryBB,
+  Stage.VectorLists,
+  Stage.PersistentClasses,
+  Stage.GeometryBB,
 
   GXS.Scene,
   GXS.Context,
-  GXS.Silhouette,
+  Stage.Silhouette,
   GXS.State,
-  GXS.Color,
+  Stage.Color,
   GXS.RenderContextInfo;
 
 type
@@ -111,12 +110,12 @@ type
   // Specifies an individual shadow casting light.
   TgxShadowVolumeLight = class(TgxShadowVolumeCaster)
   private
-    FSilhouettes: TgxPersistentObjectList;
+    FSilhouettes: TGSPersistentObjectList;
   protected
     function GetLightSource: TgxLightSource;
     procedure SetLightSource(const ls: TgxLightSource);
-    function GetCachedSilhouette(AIndex: Integer): TgxSilhouette; inline;
-    procedure StoreCachedSilhouette(AIndex: Integer; ASil: TgxSilhouette);
+    function GetCachedSilhouette(AIndex: Integer): TGSSilhouette; inline;
+    procedure StoreCachedSilhouette(AIndex: Integer; ASil: TGSSilhouette);
     (* Compute and setup scissor clipping rect for the light.
        Returns true if a scissor rect was setup *)
     function SetupScissorRect(worldAABB: PAABB; var rci: TgxRenderContextInfo): Boolean;
@@ -184,7 +183,7 @@ type
     FCapping: TgxShadowVolumeCapping;
     FOptions: TgxShadowVolumeOptions;
     FMode: TgxShadowVolumeMode;
-    FDarkeningColor: TgxColor;
+    FDarkeningColor: TGSColor;
   protected
     procedure Notification(AComponent: TComponent; Operation: TOperation);  override;
     procedure SetActive(const val: Boolean);
@@ -192,7 +191,7 @@ type
     procedure SetOccluders(const val: TgxShadowVolumeCasters);
     procedure SetOptions(const val: TgxShadowVolumeOptions);
     procedure SetMode(const val: TgxShadowVolumeMode);
-    procedure SetDarkeningColor(const val: TgxColor);
+    procedure SetDarkeningColor(const val: TGSColor);
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
@@ -219,17 +218,14 @@ type
     // Shadow rendering mode.
     property Mode: TgxShadowVolumeMode read FMode write SetMode default svmAccurate;
     // Darkening color used in svmDarkening mode.
-    property DarkeningColor: TgxColor read FDarkeningColor write SetDarkeningColor;
+    property DarkeningColor: TGSColor read FDarkeningColor write SetDarkeningColor;
   end;
 
-//-------------------------------------------------------------
-implementation
-//-------------------------------------------------------------
+implementation //===========================================================
 
 // ------------------
 // ------------------ TgxShadowVolumeCaster ------------------
 // ------------------
-
 constructor TgxShadowVolumeCaster.Create(ACollection: TCollection);
 begin
   inherited Create(ACollection);
@@ -312,7 +308,7 @@ end;
 constructor TgxShadowVolumeLight.Create(ACollection: TCollection);
 begin
   inherited Create(ACollection);
-  FSilhouettes := TgxPersistentObjectList.Create;
+  FSilhouettes := TGSPersistentObjectList.Create;
 end;
 
 destructor TgxShadowVolumeLight.Destroy;
@@ -338,16 +334,16 @@ begin
 end;
 
 function TgxShadowVolumeLight.GetCachedSilhouette(AIndex: Integer):
-  TgxSilhouette;
+  TGSSilhouette;
 begin
   if AIndex < FSilhouettes.Count then
-    Result := TgxSilhouette(FSilhouettes[AIndex])
+    Result := TGSSilhouette(FSilhouettes[AIndex])
   else
     Result := nil;
 end;
 
 procedure TgxShadowVolumeLight.StoreCachedSilhouette(AIndex: Integer; ASil:
-  TgxSilhouette);
+  TGSSilhouette);
 begin
   while AIndex >= FSilhouettes.Count do
     FSilhouettes.Add(nil);
@@ -365,7 +361,7 @@ var
   mvp: TMatrix4f;
   ls: TgxLightSource;
   aabb: TAABB;
-  clipRect: TGClipRect;
+  clipRect: TGSClipRect;
 begin
   ls := LightSource;
   if (EffectiveRadius <= 0) or (not ls.Attenuated) then
@@ -482,7 +478,7 @@ begin
   FCapping := svcAlways;
   FMode := svmAccurate;
   FOptions := [svoCacheSilhouettes, svoScissorClips];
-  FDarkeningColor := TgxColor.CreateInitialized(Self, VectorMake(0, 0, 0, 0.5));
+  FDarkeningColor := TGSColor.CreateInitialized(Self, VectorMake(0, 0, 0, 0.5));
 end;
 
 destructor TgxShadowVolume.Destroy;
@@ -567,7 +563,7 @@ begin
   end;
 end;
 
-procedure TgxShadowVolume.SetDarkeningColor(const val: TgxColor);
+procedure TgxShadowVolume.SetDarkeningColor(const val: TGSColor);
 begin
   FDarkeningColor.Assign(val);
 end;
@@ -613,12 +609,12 @@ var
   i, k: Integer;
   lightSource: TgxLightSource;
   lightCaster: TgxShadowVolumeLight;
-  sil: TgxSilhouette;
+  sil: TGSSilhouette;
   lightID: Cardinal;
   obj: TgxBaseSceneObject;
   caster: TgxShadowVolumeCaster;
   opaques, opaqueCapping: TList;
-  silParams: TgxSilhouetteParameters;
+  silParams: TGSSilhouetteParameters;
   worldAABB: TAABB;
   pWorldAABB: PAABB;
   PM: TMatrix4f;
@@ -946,9 +942,7 @@ begin
   end;
 end;
 
-//-------------------------------------------------------------
-initialization
-//-------------------------------------------------------------
+initialization //============================================================
 
   RegisterClasses([TgxShadowVolume]);
 

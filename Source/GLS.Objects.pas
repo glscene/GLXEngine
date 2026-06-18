@@ -4,16 +4,15 @@
 unit GLS.Objects;
 (*
   Implementation of basic scene objects plus some management routines.
-  All objects declared in this unit are only simple objects
-  and should be kept simple and lightweight.
-
-  More complex or more specialized versions should be placed in dedicated
-  units where they can grow and prosper untammed. "Generic" geometrical
-  objects can be found in GLS.GeomObjects unit.
-
   The registered classes are:
     [TGLSphere, TGLCube, TGLPlane, TGLSprite, TGLPoints,
     TGLDummyCube, TGLLines, TGLSuperellipsoid]
+
+  All objects declared in this unit are only simple objects
+  and should be kept simple and lightweight.
+  More complex or more specialized versions should be placed in dedicated
+  units where they can grow and prosper untammed. "Generic" geometrical
+  objects can be found in GeometryObjects unit.
 *)
 interface
 
@@ -32,19 +31,18 @@ uses
   Stage.VectorTypes,
   Stage.Spline,
   Stage.PipelineTransform,
+  Stage.PersistentClasses,
+  Stage.OpenGLAdapter,
+  Stage.BaseClasses,
+  Stage.Coordinates,
+  Stage.VectorLists,
+  Stage.Silhouette,
+  Stage.Color,
 
-  GLS.OpenGLAdapter,
-  GLS.PersistentClasses,
-  GLS.BaseClasses,
-  GLS.Coordinates,
-  GLS.VectorLists,
   GLS.Scene,
   GLS.Context,
-  GLS.Silhouette,
-  GLS.Color,
   GLS.RenderContextInfo,
   GLS.Nodes,
-  GLS.XOpenGL,
   GLS.State;
 
 const
@@ -73,31 +71,31 @@ type
   TGLDummyCube = class(TGLCameraInvariantObject)
   private
     FCubeSize: TGLFloat;
-    FEdgeColor: TGLColor;
+    FEdgeColor: TGSColor;
     FVisibleAtRunTime, FAmalgamate: Boolean;
     FGroupList: TGLListHandle;
     FOnVisibilityDetermination: TGLVisibilityDeterminationEvent;
   protected
     procedure SetCubeSize(const val: TGLFloat); inline;
-    procedure SetEdgeColor(const val: TGLColor); inline;
+    procedure SetEdgeColor(const val: TGSColor); inline;
     procedure SetVisibleAtRunTime(const val: Boolean); inline;
     procedure SetAmalgamate(const val: Boolean); inline;
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
     procedure Assign(Source: TPersistent); override;
-    function AxisAlignedDimensionsUnscaled: TGLVector; override;
-    function RayCastIntersect(const rayStart, rayVector: TGLVector;
-      intersectPoint: PGLVector = nil; intersectNormal: PGLVector = nil)
+    function AxisAlignedDimensionsUnscaled: TGSVector; override;
+    function RayCastIntersect(const rayStart, rayVector: TGSVector;
+      intersectPoint: PGSVector = nil; intersectNormal: PGSVector = nil)
       : Boolean; override;
     procedure BuildList(var rci: TGLRenderContextInfo); override;
     procedure DoRender(var rci: TGLRenderContextInfo;
       renderSelf, renderChildren: Boolean); override;
     procedure StructureChanged; override;
-    function BarycenterAbsolutePosition: TGLVector; override;
+    function BarycenterAbsolutePosition: TGSVector; override;
   published
     property CubeSize: TGLFloat read FCubeSize write SetCubeSize;
-    property EdgeColor: TGLColor read FEdgeColor write SetEdgeColor;
+    property EdgeColor: TGSColor read FEdgeColor write SetEdgeColor;
     (* If true the dummycube's edges will be visible at runtime.
       The default behaviour of the dummycube is to be visible at design-time
       only, and invisible at runtime. *)
@@ -159,17 +157,17 @@ type
     procedure Assign(Source: TPersistent); override;
     procedure BuildList(var rci: TGLRenderContextInfo); override;
     function GenerateSilhouette(const silhouetteParameters
-      : TGLSilhouetteParameters): TGLSilhouette; override;
-    function AxisAlignedDimensionsUnscaled: TGLVector; override;
-    function RayCastIntersect(const rayStart, rayVector: TGLVector;
-      intersectPoint: PGLVector = nil; intersectNormal: PGLVector = nil)
+      : TGSSilhouetteParameters): TGSSilhouette; override;
+    function AxisAlignedDimensionsUnscaled: TGSVector; override;
+    function RayCastIntersect(const rayStart, rayVector: TGSVector;
+      intersectPoint: PGSVector = nil; intersectNormal: PGSVector = nil)
       : Boolean; override;
     (* Computes the screen coordinates of the smallest rectangle encompassing the plane.
       Returned extents are NOT limited to any physical screen extents. *)
     function ScreenRect(aBuffer: TGLSceneBuffer): TRect;
     (* Computes the signed distance to the point.
       Point coordinates are expected in absolute coordinates. *)
-    function PointDistance(const aPoint: TGLVector): Single;
+    function PointDistance(const aPoint: TGSVector): Single;
   published
     property Height: TGLFloat read FHeight write SetHeight;
     property Width: TGLFloat read FWidth write SetWidth;
@@ -205,7 +203,7 @@ type
     constructor Create(AOwner: TComponent); override;
     procedure Assign(Source: TPersistent); override;
     procedure BuildList(var rci: TGLRenderContextInfo); override;
-    function AxisAlignedDimensionsUnscaled: TGLVector; override;
+    function AxisAlignedDimensionsUnscaled: TGSVector; override;
     procedure SetSize(const Width, Height: TGLFloat);
     // Set width and height to "size"
     procedure SetSquareSize(const Size: TGLFloat);
@@ -231,18 +229,18 @@ type
   (* Point parameters as in ARB_point_parameters.
     Make sure to read the ARB_point_parameters spec if you want to understand
     what each parameter does. *)
-  TGLPointParameters = class(TGLUpdateAbleObject)
+  TGLPointParameters = class(TGSUpdateAbleObject)
   private
     FEnabled: Boolean;
     FMinSize, FMaxSize: Single;
     FFadeTresholdSize: Single;
-    FDistanceAttenuation: TGLCoordinates;
+    FDistanceAttenuation: TGSCoordinates;
   protected
     procedure SetEnabled(const val: Boolean);
     procedure SetMinSize(const val: Single);
     procedure SetMaxSize(const val: Single);
     procedure SetFadeTresholdSize(const val: Single);
-    procedure SetDistanceAttenuation(const val: TGLCoordinates);
+    procedure SetDistanceAttenuation(const val: TGSCoordinates);
     procedure DefineProperties(Filer: TFiler); override;
     procedure ReadData(Stream: TStream);
     procedure WriteData(Stream: TStream);
@@ -259,7 +257,7 @@ type
     property FadeTresholdSize: Single read FFadeTresholdSize
       write SetFadeTresholdSize stored False;
     // Components XYZ are for constant, linear and quadratic attenuation.
-    property DistanceAttenuation: TGLCoordinates read FDistanceAttenuation
+    property DistanceAttenuation: TGSCoordinates read FDistanceAttenuation
       write SetDistanceAttenuation;
   end;
 
@@ -268,8 +266,8 @@ type
     and Colors properties *)
   TGLPoints = class(TGLImmaterialSceneObject)
   private
-    FPositions: TGLAffineVectorList;
-    FColors: TGLVectorList;
+    FPositions: TGSAffineVectorList;
+    FColors: TGSVectorList;
     FSize: Single;
     FStyle: TGLPointStyle;
     FPointParameters: TGLPointParameters;
@@ -279,8 +277,8 @@ type
     procedure SetNoZWrite(const val: Boolean);
     procedure SetStatic(const val: Boolean);
     procedure SetSize(const val: Single);
-    procedure SetPositions(const val: TGLAffineVectorList); inline;
-    procedure SetColors(const val: TGLVectorList);
+    procedure SetPositions(const val: TGSAffineVectorList); inline;
+    procedure SetColors(const val: TGSVectorList);
     procedure SetStyle(const val: TGLPointStyle);
     procedure SetPointParameters(const val: TGLPointParameters);
   public
@@ -289,13 +287,13 @@ type
     procedure Assign(Source: TPersistent); override;
     procedure BuildList(var rci: TGLRenderContextInfo); override;
     // Points positions.  If empty, a single point is assumed at (0, 0, 0)
-    property Positions: TGLAffineVectorList read FPositions write SetPositions;
+    property Positions: TGSAffineVectorList read FPositions write SetPositions;
     (* Defines the points colors:
       if empty, point color will be opaque white
       if contains a single color, all points will use that color
       if contains N colors, the first N points (at max) will be rendered
       using the corresponding colors *)
-    property Colors: TGLVectorList read FColors write SetColors;
+    property Colors: TGSVectorList read FColors write SetColors;
   published
     // If true points do not write their Z to the depth buffer.
     property NoZWrite: Boolean read FNoZWrite write SetNoZWrite;
@@ -320,13 +318,13 @@ type
   // Available spline modes for a TLine.
   TGLLineSplineMode = (lsmLines, lsmCubicSpline, lsmBezierSpline, lsmNURBSCurve,
     lsmSegments, lsmLoop);
-  // Specialized Node for use in a TGLLines objects. Adds a Color property (TGLColor) }
+  // Specialized Node for use in a TGLLines objects. Adds a Color property (TGSColor) }
 
   TGLLinesNode = class(TGLNode)
   private
-    FColor: TGLColor;
+    FColor: TGSColor;
   protected
-    procedure SetColor(const val: TGLColor);
+    procedure SetColor(const val: TGSColor);
     procedure OnColorChange(Sender: TObject);
     function StoreColor: Boolean;
   public
@@ -337,7 +335,7 @@ type
     (* The node color.
       Can also defined the line color (interpolated between nodes) if
       loUseNodeColorForLines is set (in TGLLines). *)
-    property Color: TGLColor read FColor write SetColor stored StoreColor;
+    property Color: TGSColor read FColor write SetColor stored StoreColor;
   end;
 
   (* Specialized collection for Nodes in a TGLLines objects. Stores TGLLinesNode items *)
@@ -350,12 +348,12 @@ type
   (* Base class for line objects. Introduces line style properties (width, color...) *)
   TGLLineBase = class(TGLImmaterialSceneObject)
   private
-    FLineColor: TGLColor;
+    FLineColor: TGSColor;
     FLinePattern: TGLushort;
     FLineWidth: Single;
     FAntiAliased: Boolean;
   protected
-    procedure SetLineColor(const Value: TGLColor);
+    procedure SetLineColor(const Value: TGSColor);
     procedure SetLinePattern(const Value: TGLushort);
     procedure SetLineWidth(const val: Single);
     function StoreLineWidth: Boolean; inline;
@@ -376,7 +374,7 @@ type
     property AntiAliased: Boolean read FAntiAliased write SetAntiAliased
       default False;
     // Default color of the lines.
-    property LineColor: TGLColor read FLineColor write SetLineColor;
+    property LineColor: TGSColor read FLineColor write SetLineColor;
     (* Bitwise line pattern.
       For instance $FFFF (65535) is a white line (stipple disabled), $0000
       is a black line, $CCCC is the stipple used in axes and dummycube, etc. *)
@@ -393,30 +391,30 @@ type
   private
     FNodes: TGLLinesNodes;
     FNodesAspect: TGLLineNodesAspect;
-    FNodeColor: TGLColor;
+    FNodeColor: TGSColor;
     FNodeSize: Single;
-    FOldNodeColor: TGLColorVector;
+    FOldNodeColor: TGSColorVector;
   protected
     procedure SetNodesAspect(const Value: TGLLineNodesAspect);
-    procedure SetNodeColor(const Value: TGLColor);
+    procedure SetNodeColor(const Value: TGSColor);
     procedure OnNodeColorChanged(Sender: TObject);
     procedure SetNodes(const aNodes: TGLLinesNodes);
     procedure SetNodeSize(const val: Single);
     function StoreNodeSize: Boolean;
     procedure DrawNode(var rci: TGLRenderContextInfo; X, Y, Z: Single;
-      Color: TGLColor);
+      Color: TGSColor);
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
     procedure Assign(Source: TPersistent); override;
-    function AxisAlignedDimensionsUnscaled: TGLVector; override;
-    procedure AddNode(const coords: TGLCoordinates); overload;
+    function AxisAlignedDimensionsUnscaled: TGSVector; override;
+    procedure AddNode(const coords: TGSCoordinates); overload;
     procedure AddNode(const X, Y, Z: TGLFloat); overload;
-    procedure AddNode(const Value: TGLVector); overload;
+    procedure AddNode(const Value: TGSVector); overload;
     procedure AddNode(const Value: TAffineVector); overload;
   published
     // Default color for nodes. lnaInvisible and lnaAxes ignore this setting
-    property NodeColor: TGLColor read FNodeColor write SetNodeColor;
+    property NodeColor: TGSColor read FNodeColor write SetNodeColor;
     // The nodes list.
     property Nodes: TGLLinesNodes read FNodes write SetNodes;
     (* Default aspect of line nodes.
@@ -445,7 +443,7 @@ type
     FOptions: TGLLinesOptions;
     FNURBSOrder: Integer;
     FNURBSTolerance: Single;
-    FNURBSKnots: TGLSingleList;
+    FNURBSKnots: TGSSingleList;
   protected
     procedure SetSplineMode(const val: TGLLineSplineMode);
     procedure SetDivision(const Value: Integer);
@@ -457,7 +455,7 @@ type
     destructor Destroy; override;
     procedure Assign(Source: TPersistent); override;
     procedure BuildList(var rci: TGLRenderContextInfo); override;
-    property NURBSKnots: TGLSingleList read FNURBSKnots;
+    property NURBSKnots: TGSSingleList read FNURBSKnots;
     property NURBSOrder: Integer read FNURBSOrder write SetNURBSOrder;
     property NURBSTolerance: Single read FNURBSTolerance
       write SetNURBSTolerance;
@@ -500,12 +498,12 @@ type
   public
     constructor Create(AOwner: TComponent); override;
     function GenerateSilhouette(const silhouetteParameters
-      : TGLSilhouetteParameters): TGLSilhouette; override;
+      : TGSSilhouetteParameters): TGSSilhouette; override;
     procedure BuildList(var rci: TGLRenderContextInfo); override;
     procedure Assign(Source: TPersistent); override;
-    function AxisAlignedDimensionsUnscaled: TGLVector; override;
-    function RayCastIntersect(const rayStart, rayVector: TGLVector;
-      intersectPoint: PGLVector = nil; intersectNormal: PGLVector = nil)
+    function AxisAlignedDimensionsUnscaled: TGSVector; override;
+    function RayCastIntersect(const rayStart, rayVector: TGSVector;
+      intersectPoint: PGSVector = nil; intersectNormal: PGSVector = nil)
       : Boolean; override;
   published
     property CubeWidth: TGLFloat index 0 read GetCubeWHD write SetCubeWHD
@@ -579,12 +577,12 @@ type
     constructor Create(AOwner: TComponent); override;
     procedure Assign(Source: TPersistent); override;
     procedure BuildList(var rci: TGLRenderContextInfo); override;
-    function AxisAlignedDimensionsUnscaled: TGLVector; override;
-    function RayCastIntersect(const rayStart, rayVector: TGLVector;
-      intersectPoint: PGLVector = nil; intersectNormal: PGLVector = nil)
+    function AxisAlignedDimensionsUnscaled: TGSVector; override;
+    function RayCastIntersect(const rayStart, rayVector: TGSVector;
+      intersectPoint: PGSVector = nil; intersectNormal: PGSVector = nil)
       : Boolean; override;
     function GenerateSilhouette(const silhouetteParameters
-      : TGLSilhouetteParameters): TGLSilhouette; override;
+      : TGSSilhouetteParameters): TGSSilhouette; override;
   published
     property Bottom: TGLAngleLimit180 read FBottom write SetBottom default -90;
     property BottomCap: TGLCapType read FBottomCap write SetBottomCap
@@ -614,9 +612,9 @@ type
     destructor Destroy; override;
     procedure Assign(Source: TPersistent); override;
     procedure NotifyChange(Sender: TObject); override;
-    procedure AddNode(const coords: TGLCoordinates); overload;
+    procedure AddNode(const coords: TGSCoordinates); overload;
     procedure AddNode(const X, Y, Z: TGLFloat); overload;
-    procedure AddNode(const Value: TGLVector); overload;
+    procedure AddNode(const Value: TGSVector); overload;
     procedure AddNode(const Value: TAffineVector); overload;
   published
     // The nodes list.
@@ -657,12 +655,12 @@ type
     constructor Create(AOwner: TComponent); override;
     procedure Assign(Source: TPersistent); override;
     procedure BuildList(var rci: TGLRenderContextInfo); override;
-    function AxisAlignedDimensionsUnscaled: TGLVector; override;
-    function RayCastIntersect(const rayStart, rayVector: TGLVector;
-      intersectPoint: PGLVector = nil; intersectNormal: PGLVector = nil)
+    function AxisAlignedDimensionsUnscaled: TGSVector; override;
+    function RayCastIntersect(const rayStart, rayVector: TGSVector;
+      intersectPoint: PGSVector = nil; intersectNormal: PGSVector = nil)
       : Boolean; override;
     function GenerateSilhouette(const silhouetteParameters
-      : TGLSilhouetteParameters): TGLSilhouette; override;
+      : TGSSilhouetteParameters): TGSSilhouette; override;
   published
     property Bottom: TGLAngleLimit180 read FBottom write SetBottom default -90;
     property BottomCap: TGLCapType read FBottomCap write SetBottomCap
@@ -680,16 +678,17 @@ type
 
 // Issues for a unit-size cube stippled wireframe
 procedure CubeWireframeBuildList(var rci: TGLRenderContextInfo; Size: TGLFloat;
-  Stipple: Boolean; const Color: TGLColorVector);
+  Stipple: Boolean; const Color: TGSColorVector);
 
 const
   TangentAttributeName: PAnsiChar = 'Tangent';
   BinormalAttributeName: PAnsiChar = 'Binormal';
 
-implementation //==============================================================
+implementation //============================================================
 
+//---------------------------------------------------------------------------
 procedure CubeWireframeBuildList(var rci: TGLRenderContextInfo; Size: TGLFloat;
-  Stipple: Boolean; const Color: TGLColorVector);
+  Stipple: Boolean; const Color: TGSColorVector);
 var
   mi, ma: Single;
 begin
@@ -748,12 +747,13 @@ begin
   inherited;
   ObjectStyle := ObjectStyle + [osDirectDraw];
   FCubeSize := 1;
-  FEdgeColor := TGLColor.Create(Self);
+  FEdgeColor := TGSColor.Create(Self);
   FEdgeColor.Initialize(clrWhite);
   FGroupList := TGLListHandle.Create;
   CamInvarianceMode := cimNone;
 end;
 
+//---------------------------------------------------------------------------
 destructor TGLDummyCube.Destroy;
 begin
   FGroupList.Free;
@@ -761,6 +761,7 @@ begin
   inherited;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLDummyCube.Assign(Source: TPersistent);
 begin
   if Source is TGLDummyCube then
@@ -773,7 +774,8 @@ begin
   inherited Assign(Source);
 end;
 
-function TGLDummyCube.AxisAlignedDimensionsUnscaled: TGLVector;
+//---------------------------------------------------------------------------
+function TGLDummyCube.AxisAlignedDimensionsUnscaled: TGSVector;
 begin
   Result.X := 0.5 * Abs(FCubeSize);
   Result.Y := Result.X;
@@ -781,18 +783,21 @@ begin
   Result.W := 0;
 end;
 
-function TGLDummyCube.RayCastIntersect(const rayStart, rayVector: TGLVector;
-  intersectPoint: PGLVector = nil; intersectNormal: PGLVector = nil): Boolean;
+//---------------------------------------------------------------------------
+function TGLDummyCube.RayCastIntersect(const rayStart, rayVector: TGSVector;
+  intersectPoint: PGSVector = nil; intersectNormal: PGSVector = nil): Boolean;
 begin
   Result := False;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLDummyCube.BuildList(var rci: TGLRenderContextInfo);
 begin
   if (csDesigning in ComponentState) or (FVisibleAtRunTime) then
     CubeWireframeBuildList(rci, FCubeSize, True, EdgeColor.Color);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLDummyCube.DoRender(var rci: TGLRenderContextInfo;
   renderSelf, renderChildren: Boolean);
 begin
@@ -823,6 +828,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLDummyCube.StructureChanged;
 begin
   if FAmalgamate then
@@ -830,7 +836,8 @@ begin
   inherited;
 end;
 
-function TGLDummyCube.BarycenterAbsolutePosition: TGLVector;
+//---------------------------------------------------------------------------
+function TGLDummyCube.BarycenterAbsolutePosition: TGSVector;
 var
   i: Integer;
 begin
@@ -845,6 +852,7 @@ begin
     Result := AbsolutePosition;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLDummyCube.SetCubeSize(const val: TGLFloat);
 begin
   if val <> FCubeSize then
@@ -854,7 +862,8 @@ begin
   end;
 end;
 
-procedure TGLDummyCube.SetEdgeColor(const val: TGLColor);
+//---------------------------------------------------------------------------
+procedure TGLDummyCube.SetEdgeColor(const val: TGSColor);
 begin
   if val <> FEdgeColor then
   begin
@@ -863,6 +872,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLDummyCube.SetVisibleAtRunTime(const val: Boolean);
 begin
   if val <> FVisibleAtRunTime then
@@ -872,6 +882,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLDummyCube.SetAmalgamate(const val: Boolean);
 begin
   if val <> FAmalgamate then
@@ -899,6 +910,7 @@ begin
   FStyle := [psSingleQuad, psTileTexture];
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLPlane.Assign(Source: TPersistent);
 begin
   if Assigned(Source) and (Source is TGLPlane) then
@@ -917,17 +929,19 @@ begin
   inherited Assign(Source);
 end;
 
-function TGLPlane.AxisAlignedDimensionsUnscaled: TGLVector;
+//---------------------------------------------------------------------------
+function TGLPlane.AxisAlignedDimensionsUnscaled: TGSVector;
 begin
   Result.X := 0.5 * Abs(FWidth);
   Result.Y := 0.5 * Abs(FHeight);
   Result.Z := 0;
 end;
 
-function TGLPlane.RayCastIntersect(const rayStart, rayVector: TGLVector;
-  intersectPoint: PGLVector = nil; intersectNormal: PGLVector = nil): Boolean;
+//---------------------------------------------------------------------------
+function TGLPlane.RayCastIntersect(const rayStart, rayVector: TGSVector;
+  intersectPoint: PGSVector = nil; intersectNormal: PGSVector = nil): Boolean;
 var
-  locRayStart, locRayVector, ip: TGLVector;
+  locRayStart, locRayVector, ip: TGSVector;
   t: Single;
 begin
   locRayStart := AbsoluteToLocal(rayStart);
@@ -980,12 +994,13 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 function TGLPlane.GenerateSilhouette(const silhouetteParameters
-  : TGLSilhouetteParameters): TGLSilhouette;
+  : TGSSilhouetteParameters): TGSSilhouette;
 var
   hw, hh: Single;
 begin
-  Result := TGLSilhouette.Create;
+  Result := TGSSilhouette.Create;
   hw := FWidth * 0.5;
   hh := FHeight * 0.5;
   with Result.vertices do
@@ -1012,6 +1027,7 @@ begin
     end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLPlane.BuildList(var rci: TGLRenderContextInfo);
 
   procedure EmitVertex(ptr: PGLVertexRec); inline;
@@ -1129,6 +1145,7 @@ begin
   gl.End_;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLPlane.SetWidth(const aValue: Single);
 begin
   if aValue <> FWidth then
@@ -1139,9 +1156,10 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 function TGLPlane.ScreenRect(aBuffer: TGLSceneBuffer): TRect;
 var
-  v: array [0 .. 3] of TGLVector;
+  v: array [0 .. 3] of TGSVector;
   buf: TGLSceneBuffer;
   hw, hh: TGLFloat;
 begin
@@ -1164,12 +1182,14 @@ begin
     FillChar(Result, SizeOf(TRect), 0);
 end;
 
-function TGLPlane.PointDistance(const aPoint: TGLVector): Single;
+//---------------------------------------------------------------------------
+function TGLPlane.PointDistance(const aPoint: TGSVector): Single;
 begin
   Result := VectorDotProduct(VectorSubtract(aPoint, AbsolutePosition),
     AbsoluteDirection);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLPlane.SetHeight(const aValue: Single);
 begin
   if aValue <> FHeight then
@@ -1180,6 +1200,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLPlane.SetXOffset(const Value: TGLFloat);
 begin
   if Value <> FXOffset then
@@ -1190,6 +1211,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLPlane.SetXScope(const Value: TGLFloat);
 begin
   if Value <> FXScope then
@@ -1202,11 +1224,13 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 function TGLPlane.StoreXScope: Boolean;
 begin
   Result := (FXScope <> 1);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLPlane.SetXTiles(const Value: Cardinal);
 begin
   if Value <> FXTiles then
@@ -1217,6 +1241,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLPlane.SetYOffset(const Value: TGLFloat);
 begin
   if Value <> FYOffset then
@@ -1227,6 +1252,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLPlane.SetYScope(const Value: TGLFloat);
 begin
   if Value <> FYScope then
@@ -1239,11 +1265,13 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 function TGLPlane.StoreYScope: Boolean;
 begin
   Result := (FYScope <> 1);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLPlane.SetYTiles(const Value: Cardinal);
 begin
   if Value <> FYTiles then
@@ -1254,6 +1282,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLPlane.SetStyle(const val: TGLPlaneStyles);
 begin
   if val <> FStyle then
@@ -1275,6 +1304,7 @@ begin
   FHeight := 1;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLSprite.Assign(Source: TPersistent);
 begin
   if Source is TGLSprite then
@@ -1287,7 +1317,8 @@ begin
   inherited Assign(Source);
 end;
 
-function TGLSprite.AxisAlignedDimensionsUnscaled: TGLVector;
+//---------------------------------------------------------------------------
+function TGLSprite.AxisAlignedDimensionsUnscaled: TGSVector;
 begin
   Result.X := 0.5 * Abs(FWidth);
   Result.Y := 0.5 * Abs(FHeight);
@@ -1296,11 +1327,12 @@ begin
   Result.Z := 0.5 * Abs(FWidth);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLSprite.BuildList(var rci: TGLRenderContextInfo);
 var
   vx, vy: TAffineVector;
   W, h: Single;
-  mat: TGLMatrix;
+  mat: TGSMatrix;
   u0, v0, u1, v1: Integer;
 begin
   if FAlphaChannel <> 1 then
@@ -1358,6 +1390,7 @@ begin
     gl.PopMatrix;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLSprite.SetWidth(const val: TGLFloat);
 begin
   if FWidth <> val then
@@ -1367,6 +1400,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLSprite.SetHeight(const val: TGLFloat);
 begin
   if FHeight <> val then
@@ -1376,6 +1410,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLSprite.SetRotation(const val: TGLFloat);
 begin
   if FRotation <> val then
@@ -1385,6 +1420,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLSprite.SetAlphaChannel(const val: Single);
 begin
   if val <> FAlphaChannel then
@@ -1399,23 +1435,27 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 function TGLSprite.StoreAlphaChannel: Boolean;
 begin
   Result := (FAlphaChannel <> 1);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLSprite.SetMirrorU(const val: Boolean);
 begin
   FMirrorU := val;
   NotifyChange(Self);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLSprite.SetMirrorV(const val: Boolean);
 begin
   FMirrorV := val;
   NotifyChange(Self);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLSprite.SetSize(const Width, Height: TGLFloat);
 begin
   FWidth := Width;
@@ -1423,6 +1463,7 @@ begin
   NotifyChange(Self);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLSprite.SetSquareSize(const Size: TGLFloat);
 begin
   FWidth := Size;
@@ -1439,16 +1480,18 @@ begin
   FMinSize := 0;
   FMaxSize := 128;
   FFadeTresholdSize := 1;
-  FDistanceAttenuation := TGLCoordinates.CreateInitialized(Self, XHmgVector,
+  FDistanceAttenuation := TGSCoordinates.CreateInitialized(Self, XHmgVector,
     csVector);
 end;
 
+//---------------------------------------------------------------------------
 destructor TGLPointParameters.Destroy;
 begin
   FDistanceAttenuation.Free;
   inherited;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLPointParameters.Assign(Source: TPersistent);
 begin
   if Source is TGLPointParameters then
@@ -1460,6 +1503,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLPointParameters.DefineProperties(Filer: TFiler);
 var
   defaultParams: Boolean;
@@ -1471,6 +1515,7 @@ begin
     not defaultParams);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLPointParameters.ReadData(Stream: TStream);
 begin
   with Stream do
@@ -1481,6 +1526,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLPointParameters.WriteData(Stream: TStream);
 begin
   with Stream do
@@ -1491,6 +1537,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLPointParameters.Apply;
 begin
   if Enabled and GL.ARB_point_parameters then
@@ -1503,6 +1550,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLPointParameters.UnApply;
 begin
   if Enabled and GL.ARB_point_parameters then
@@ -1514,6 +1562,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLPointParameters.SetEnabled(const val: Boolean);
 begin
   if val <> FEnabled then
@@ -1523,6 +1572,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLPointParameters.SetMinSize(const val: Single);
 begin
   if val <> FMinSize then
@@ -1535,6 +1585,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLPointParameters.SetMaxSize(const val: Single);
 begin
   if val <> FMaxSize then
@@ -1547,6 +1598,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLPointParameters.SetFadeTresholdSize(const val: Single);
 begin
   if val <> FFadeTresholdSize then
@@ -1559,7 +1611,8 @@ begin
   end;
 end;
 
-procedure TGLPointParameters.SetDistanceAttenuation(const val: TGLCoordinates);
+//---------------------------------------------------------------------------
+procedure TGLPointParameters.SetDistanceAttenuation(const val: TGSCoordinates);
 begin
   FDistanceAttenuation.Assign(val);
 end;
@@ -1573,12 +1626,13 @@ begin
   ObjectStyle := ObjectStyle + [osDirectDraw, osNoVisibilityCulling];
   FStyle := psSquare;
   FSize := cDefaultPointSize;
-  FPositions := TGLAffineVectorList.Create;
+  FPositions := TGSAffineVectorList.Create;
   FPositions.Add(NullVector);
-  FColors := TGLVectorList.Create;
+  FColors := TGSVectorList.Create;
   FPointParameters := TGLPointParameters.Create(Self);
 end;
 
+//---------------------------------------------------------------------------
 destructor TGLPoints.Destroy;
 begin
   FPointParameters.Free;
@@ -1587,6 +1641,7 @@ begin
   inherited;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLPoints.Assign(Source: TPersistent);
 begin
   if Source is TGLPoints then
@@ -1600,10 +1655,11 @@ begin
   inherited Assign(Source);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLPoints.BuildList(var rci: TGLRenderContextInfo);
 var
   n: Integer;
-  v: TGLVector;
+  v: TGSVector;
 begin
   n := FPositions.Count;
   if n = 0 then
@@ -1685,11 +1741,13 @@ begin
     gl.DisableClientState(GL_COLOR_ARRAY);
 end;
 
+//---------------------------------------------------------------------------
 function TGLPoints.StoreSize: Boolean;
 begin
   Result := (FSize <> cDefaultPointSize);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLPoints.SetNoZWrite(const val: Boolean);
 begin
   if FNoZWrite <> val then
@@ -1699,6 +1757,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLPoints.SetStatic(const val: Boolean);
 begin
   if FStatic <> val then
@@ -1712,6 +1771,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLPoints.SetSize(const val: Single);
 begin
   if FSize <> val then
@@ -1721,18 +1781,21 @@ begin
   end;
 end;
 
-procedure TGLPoints.SetPositions(const val: TGLAffineVectorList);
+//---------------------------------------------------------------------------
+procedure TGLPoints.SetPositions(const val: TGSAffineVectorList);
 begin
   FPositions.Assign(val);
   StructureChanged;
 end;
 
-procedure TGLPoints.SetColors(const val: TGLVectorList);
+//---------------------------------------------------------------------------
+procedure TGLPoints.SetColors(const val: TGSVectorList);
 begin
   FColors.Assign(val);
   StructureChanged;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLPoints.SetStyle(const val: TGLPointStyle);
 begin
   if FStyle <> val then
@@ -1742,6 +1805,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLPoints.SetPointParameters(const val: TGLPointParameters);
 begin
   FPointParameters.Assign(val);
@@ -1753,19 +1817,21 @@ end;
 constructor TGLLineBase.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
-  FLineColor := TGLColor.Create(Self);
+  FLineColor := TGSColor.Create(Self);
   FLineColor.Initialize(clrWhite);
   FLinePattern := $FFFF;
   FAntiAliased := False;
   FLineWidth := 1.0;
 end;
 
+//---------------------------------------------------------------------------
 destructor TGLLineBase.Destroy;
 begin
   FLineColor.Free;
   inherited Destroy;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLLineBase.NotifyChange(Sender: TObject);
 begin
   if Sender = FLineColor then
@@ -1773,12 +1839,14 @@ begin
   inherited;
 end;
 
-procedure TGLLineBase.SetLineColor(const Value: TGLColor);
+//---------------------------------------------------------------------------
+procedure TGLLineBase.SetLineColor(const Value: TGSColor);
 begin
   FLineColor.Color := Value.Color;
   StructureChanged;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLLineBase.SetLinePattern(const Value: TGLushort);
 begin
   if FLinePattern <> Value then
@@ -1788,6 +1856,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLLineBase.SetLineWidth(const val: Single);
 begin
   if FLineWidth <> val then
@@ -1797,11 +1866,13 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 function TGLLineBase.StoreLineWidth: Boolean;
 begin
   Result := (FLineWidth <> 1.0);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLLineBase.SetAntiAliased(const val: Boolean);
 begin
   if FAntiAliased <> val then
@@ -1811,6 +1882,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLLineBase.Assign(Source: TPersistent);
 begin
   if Source is TGLLineBase then
@@ -1823,6 +1895,7 @@ begin
   inherited Assign(Source);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLLineBase.SetupLineStyle(var rci: TGLRenderContextInfo);
 begin
   with rci.GLStates do
@@ -1869,18 +1942,20 @@ end;
 constructor TGLLinesNode.Create(Collection: TCollection);
 begin
   inherited Create(Collection);
-  FColor := TGLColor.Create(Self);
+  FColor := TGSColor.Create(Self);
   FColor.Initialize((TGLLinesNodes(Collection).GetOwner as TGLLines)
     .NodeColor.Color);
   FColor.OnNotifyChange := OnColorChange;
 end;
 
+//---------------------------------------------------------------------------
 destructor TGLLinesNode.Destroy;
 begin
   FColor.Free;
   inherited Destroy;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLLinesNode.Assign(Source: TPersistent);
 begin
   if Source is TGLLinesNode then
@@ -1888,16 +1963,19 @@ begin
   inherited;
 end;
 
-procedure TGLLinesNode.SetColor(const val: TGLColor);
+//---------------------------------------------------------------------------
+procedure TGLLinesNode.SetColor(const val: TGSColor);
 begin
   FColor.Assign(val);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLLinesNode.OnColorChange(Sender: TObject);
 begin
   (Collection as TGLNodes).NotifyChange;
 end;
 
+//---------------------------------------------------------------------------
 function TGLLinesNode.StoreColor: Boolean;
 begin
   Result := not VectorEquals((TGLLinesNodes(Collection).GetOwner as TGLLines)
@@ -1912,6 +1990,7 @@ begin
   inherited Create(AOwner, TGLLinesNode);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLLinesNodes.NotifyChange;
 begin
   if (GetOwner <> nil) then
@@ -1925,7 +2004,7 @@ constructor TGLNodedLines.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
   FNodes := TGLLinesNodes.Create(Self);
-  FNodeColor := TGLColor.Create(Self);
+  FNodeColor := TGSColor.Create(Self);
   FNodeColor.Initialize(clrBlue);
   FNodeColor.OnNotifyChange := OnNodeColorChanged;
   FOldNodeColor := clrBlue;
@@ -1933,6 +2012,7 @@ begin
   FNodeSize := 1;
 end;
 
+//---------------------------------------------------------------------------
 destructor TGLNodedLines.Destroy;
 begin
   FNodes.Free;
@@ -1940,6 +2020,7 @@ begin
   inherited Destroy;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLNodedLines.SetNodesAspect(const Value: TGLLineNodesAspect);
 begin
   if Value <> FNodesAspect then
@@ -1949,12 +2030,14 @@ begin
   end;
 end;
 
-procedure TGLNodedLines.SetNodeColor(const Value: TGLColor);
+//---------------------------------------------------------------------------
+procedure TGLNodedLines.SetNodeColor(const Value: TGSColor);
 begin
   FNodeColor.Color := Value.Color;
   StructureChanged;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLNodedLines.OnNodeColorChanged(Sender: TObject);
 var
   i: Integer;
@@ -1966,6 +2049,7 @@ begin
   SetVector(FOldNodeColor, FNodeColor.Color);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLNodedLines.SetNodes(const aNodes: TGLLinesNodes);
 begin
   FNodes.Free;
@@ -1973,6 +2057,7 @@ begin
   StructureChanged;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLNodedLines.SetNodeSize(const val: Single);
 begin
   if val <= 0 then
@@ -1982,11 +2067,13 @@ begin
   StructureChanged;
 end;
 
+//---------------------------------------------------------------------------
 function TGLNodedLines.StoreNodeSize: Boolean;
 begin
   Result := FNodeSize <> 1;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLNodedLines.Assign(Source: TPersistent);
 begin
   if Source is TGLNodedLines then
@@ -1999,8 +2086,9 @@ begin
   inherited Assign(Source);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLNodedLines.DrawNode(var rci: TGLRenderContextInfo; X, Y, Z: Single;
-  Color: TGLColor);
+  Color: TGSColor);
 begin
   gl.PushMatrix;
   gl.Translatef(X, Y, Z);
@@ -2015,7 +2103,8 @@ begin
   gl.PopMatrix;
 end;
 
-function TGLNodedLines.AxisAlignedDimensionsUnscaled: TGLVector;
+//---------------------------------------------------------------------------
+function TGLNodedLines.AxisAlignedDimensionsUnscaled: TGSVector;
 var
   i: Integer;
 begin
@@ -2027,7 +2116,8 @@ begin
   // DivideVector(Result, Scale.AsVector);     //DanB ?
 end;
 
-procedure TGLNodedLines.AddNode(const coords: TGLCoordinates);
+//---------------------------------------------------------------------------
+procedure TGLNodedLines.AddNode(const coords: TGSCoordinates);
 var
   n: TGLNode;
 begin
@@ -2037,6 +2127,7 @@ begin
   StructureChanged;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLNodedLines.AddNode(const X, Y, Z: TGLFloat);
 var
   n: TGLNode;
@@ -2046,7 +2137,8 @@ begin
   StructureChanged;
 end;
 
-procedure TGLNodedLines.AddNode(const Value: TGLVector);
+//---------------------------------------------------------------------------
+procedure TGLNodedLines.AddNode(const Value: TGSVector);
 var
   n: TGLNode;
 begin
@@ -2055,6 +2147,7 @@ begin
   StructureChanged;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLNodedLines.AddNode(const Value: TAffineVector);
 var
   n: TGLNode;
@@ -2072,17 +2165,19 @@ begin
   inherited Create(AOwner);
   FDivision := 10;
   FSplineMode := lsmLines;
-  FNURBSKnots := TGLSingleList.Create;
+  FNURBSKnots := TGSSingleList.Create;
   FNURBSOrder := 0;
   FNURBSTolerance := 50;
 end;
 
+//---------------------------------------------------------------------------
 destructor TGLLines.Destroy;
 begin
   FNURBSKnots.Free;
   inherited Destroy;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLLines.SetDivision(const Value: Integer);
 begin
   if Value <> FDivision then
@@ -2095,12 +2190,14 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLLines.SetOptions(const val: TGLLinesOptions);
 begin
   FOptions := val;
   StructureChanged;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLLines.SetSplineMode(const val: TGLLineSplineMode);
 begin
   if FSplineMode <> val then
@@ -2110,6 +2207,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLLines.SetNURBSOrder(const val: Integer);
 begin
   if val <> FNURBSOrder then
@@ -2119,6 +2217,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLLines.SetNURBSTolerance(const val: Single);
 begin
   if val <> FNURBSTolerance then
@@ -2128,6 +2227,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLLines.Assign(Source: TPersistent);
 begin
   if Source is TGLLines then
@@ -2139,15 +2239,16 @@ begin
   inherited Assign(Source);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLLines.BuildList(var rci: TGLRenderContextInfo);
 var
   i, n: Integer;
   A, B, C: TGLFloat;
   f: Single;
   Spline: TCubicSpline;
-  vertexColor: TGLVector;
+  vertexColor: TGSVector;
   nodeBuffer: array of TAffineVector;
-  colorBuffer: array of TGLVector;
+  colorBuffer: array of TGSVector;
   nurbsRenderer: PGLUNurbs;
 begin
   if Nodes.Count > 1 then
@@ -2304,6 +2405,7 @@ begin
   ObjectStyle := ObjectStyle + [osDirectDraw];
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLCube.BuildList(var rci: TGLRenderContextInfo);
 var
   v1: TAffineVector;
@@ -2327,7 +2429,6 @@ begin
     v2d := v2;
     nd := 1;
   end;
-
   if GL.ARB_shader_objects and (rci.GLStates.CurrentProgram > 0) then
   begin
     TanLoc := gl.GetAttribLocation(rci.GLStates.CurrentProgram,
@@ -2441,14 +2542,15 @@ begin
   gl.End_;
 end;
 
+//---------------------------------------------------------------------------
 function TGLCube.GenerateSilhouette(const silhouetteParameters
-  : TGLSilhouetteParameters): TGLSilhouette;
+  : TGSSilhouetteParameters): TGSSilhouette;
 var
   hw, hh, hd: TGLFloat;
-  Connectivity: TGLConnectivity;
-  sil: TGLSilhouette;
+  Connectivity: TGSConnectivity;
+  sil: TGSSilhouette;
 begin
-  Connectivity := TGLConnectivity.Create(True);
+  Connectivity := TGSConnectivity.Create(True);
 
   hw := FCubeSize.X * 0.5;
   hh := FCubeSize.Y * 0.5;
@@ -2496,11 +2598,13 @@ begin
   Connectivity.Free;
 end;
 
+//---------------------------------------------------------------------------
 function TGLCube.GetCubeWHD(const Index: Integer): TGLFloat;
 begin
   Result := FCubeSize.v[index];
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLCube.SetCubeWHD(Index: Integer; aValue: TGLFloat);
 begin
   if aValue <> FCubeSize.v[index] then
@@ -2510,6 +2614,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLCube.SetParts(aValue: TGLCubeParts);
 begin
   if aValue <> FParts then
@@ -2519,6 +2624,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLCube.SetNormalDirection(aValue: TGLNormalDirection);
 begin
   if aValue <> FNormalDirection then
@@ -2528,6 +2634,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLCube.Assign(Source: TPersistent);
 begin
   if Assigned(Source) and (Source is TGLCube) then
@@ -2539,7 +2646,8 @@ begin
   inherited Assign(Source);
 end;
 
-function TGLCube.AxisAlignedDimensionsUnscaled: TGLVector;
+//---------------------------------------------------------------------------
+function TGLCube.AxisAlignedDimensionsUnscaled: TGSVector;
 begin
   Result.X := FCubeSize.X * 0.5;
   Result.Y := FCubeSize.Y * 0.5;
@@ -2547,12 +2655,13 @@ begin
   Result.W := 0;
 end;
 
-function TGLCube.RayCastIntersect(const rayStart, rayVector: TGLVector;
-  intersectPoint: PGLVector = nil; intersectNormal: PGLVector = nil): Boolean;
+//---------------------------------------------------------------------------
+function TGLCube.RayCastIntersect(const rayStart, rayVector: TGSVector;
+  intersectPoint: PGSVector = nil; intersectNormal: PGSVector = nil): Boolean;
 var
-  p: array [0 .. 5] of TGLVector;
-  rv: TGLVector;
-  rs, r: TGLVector;
+  p: array [0 .. 5] of TGSVector;
+  rv: TGSVector;
+  rs, r: TGSVector;
   i: Integer;
   t: Single;
   eSize: TAffineVector;
@@ -2591,6 +2700,7 @@ begin
   Result := False;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLCube.DefineProperties(Filer: TFiler);
 begin
   inherited;
@@ -2598,6 +2708,7 @@ begin
     (FCubeSize.X <> 1) or (FCubeSize.Y <> 1) or (FCubeSize.Z <> 1));
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLCube.ReadData(Stream: TStream);
 begin
   with Stream do
@@ -2606,6 +2717,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLCube.WriteData(Stream: TStream);
 begin
   with Stream do
@@ -2624,6 +2736,7 @@ begin
   FNormalDirection := ndOutside;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLQuadricObject.SetNormals(aValue: TGLNormalSmoothing);
 begin
   if aValue <> FNormals then
@@ -2633,6 +2746,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLQuadricObject.SetNormalDirection(aValue: TGLNormalDirection);
 begin
   if aValue <> FNormalDirection then
@@ -2642,6 +2756,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLQuadricObject.SetupQuadricParams(quadric: PGLUquadricObj);
 const
   cNormalSmoothinToEnum: array [nsFlat .. nsNone] of Cardinal = (GLU_FLAT,
@@ -2653,6 +2768,7 @@ begin
   gluQuadricTexture(quadric, True);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLQuadricObject.SetNormalQuadricOrientation(quadric: PGLUquadricObj);
 const
   cNormalDirectionToEnum: array [ndInside .. ndOutside] of Cardinal =
@@ -2661,6 +2777,7 @@ begin
   gluQuadricOrientation(quadric, cNormalDirectionToEnum[FNormalDirection]);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLQuadricObject.SetInvertedQuadricOrientation
   (quadric: PGLUquadricObj);
 const
@@ -2670,6 +2787,7 @@ begin
   gluQuadricOrientation(quadric, cNormalDirectionToEnum[FNormalDirection]);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLQuadricObject.Assign(Source: TPersistent);
 begin
   if Assigned(Source) and (Source is TGLQuadricObject) then
@@ -2695,6 +2813,7 @@ begin
   FStop := 360;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLSphere.BuildList(var rci: TGLRenderContextInfo);
 var
   v1, v2, N1: TAffineVector;
@@ -2708,7 +2827,6 @@ begin
   rci.GLStates.PushAttrib([sttPolygon]);
   if DoReverse then
     rci.GLStates.InvertFrontFace;
-
   // common settings
   AngTop := DegToRad(1.0 * FTop);
   AngBottom := DegToRad(1.0 * FBottom);
@@ -2718,7 +2836,6 @@ begin
   StepV := (AngTop - AngBottom) / FStacks;
   gl.PushMatrix;
   gl.Scalef(Radius, Radius, Radius);
-
   // top cap
   if (FTop < 90) and (FTopCap in [ctCenter, ctFlat]) then
   begin
@@ -2758,13 +2875,11 @@ begin
     end;
     gl.End_;
   end;
-
   // main body
   Phi := AngTop;
   Phi2 := Phi - StepV;
   uTexFactor := 1 / FSlices;
   vTexFactor := 1 / FStacks;
-
   for j := 0 to FStacks - 1 do
   begin
     Theta := AngStart;
@@ -2774,11 +2889,9 @@ begin
     v2.Y := SinP2;
     vTexCoord0 := 1 - j * vTexFactor;
     vTexCoord1 := 1 - (j + 1) * vTexFactor;
-
     gl.Begin_(GL_TRIANGLE_STRIP);
     for i := 0 to FSlices do
     begin
-
       SinCos(Theta, SinT, CosT);
       v1.X := CosP * SinT;
       v2.X := CosP2 * SinT;
@@ -2795,7 +2908,6 @@ begin
       else
         gl.Normal3fv(@v1);
       gl.Vertex3fv(@v1);
-
       xgl.TexCoord2f(uTexCoord, vTexCoord1);
       if DoReverse then
       begin
@@ -2811,7 +2923,6 @@ begin
     Phi := Phi2;
     Phi2 := Phi2 - StepV;
   end;
-
   // bottom cap
   if (FBottom > -90) and (FBottomCap in [ctCenter, ctFlat]) then
   begin
@@ -2861,11 +2972,12 @@ begin
   rci.GLStates.PopAttrib;
 end;
 
-function TGLSphere.RayCastIntersect(const rayStart, rayVector: TGLVector;
-  intersectPoint: PGLVector = nil; intersectNormal: PGLVector = nil): Boolean;
+//---------------------------------------------------------------------------
+function TGLSphere.RayCastIntersect(const rayStart, rayVector: TGSVector;
+  intersectPoint: PGSVector = nil; intersectNormal: PGSVector = nil): Boolean;
 var
-  i1, i2: TGLVector;
-  localStart, localVector: TGLVector;
+  i1, i2: TGSVector;
+  localStart, localVector: TGSVector;
 begin
   // compute coefficients of quartic polynomial
   SetVector(localStart, AbsoluteToLocal(rayStart));
@@ -2887,8 +2999,9 @@ begin
     Result := False;
 end;
 
+//---------------------------------------------------------------------------
 function TGLSphere.GenerateSilhouette(const silhouetteParameters
-  : TGLSilhouetteParameters): TGLSilhouette;
+  : TGSSilhouetteParameters): TGSSilhouette;
 var
   i, j: Integer;
   s, C, angleFactor: Single;
@@ -2896,7 +3009,6 @@ var
   Segments: Integer;
 begin
   Segments := MaxInteger(FStacks, FSlices);
-
   // determine a local orthonormal matrix, viewer-oriented
   sVec := VectorCrossProduct(silhouetteParameters.SeenFrom, XVector);
   if VectorLength(sVec) < 1E-3 then
@@ -2905,7 +3017,7 @@ begin
   NormalizeVector(sVec);
   NormalizeVector(tVec);
   // generate the silhouette (outline and capping)
-  Result := TGLSilhouette.Create;
+  Result := TGSSilhouette.Create;
   angleFactor := (2 * PI) / Segments;
   for i := 0 to Segments - 1 do
   begin
@@ -2920,6 +3032,7 @@ begin
     Result.vertices.Add(NullHmgPoint);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLSphere.SetBottom(aValue: TGLAngleLimit180);
 begin
   if FBottom <> aValue then
@@ -2929,6 +3042,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLSphere.SetBottomCap(aValue: TGLCapType);
 begin
   if FBottomCap <> aValue then
@@ -2938,6 +3052,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLSphere.SetRadius(const aValue: TGLFloat);
 begin
   if aValue <> FRadius then
@@ -2947,6 +3062,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLSphere.SetSlices(aValue: TGLInt);
 begin
   if aValue <> FSlices then
@@ -2959,6 +3075,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLSphere.SetStacks(aValue: TGLInt);
 begin
   if aValue <> FStacks then
@@ -2971,6 +3088,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLSphere.SetStart(aValue: TGLAngleLimit360);
 begin
   if FStart <> aValue then
@@ -2981,6 +3099,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLSphere.SetStop(aValue: TGLAngleLimit360);
 begin
   if FStop <> aValue then
@@ -2991,6 +3110,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLSphere.SetTop(aValue: TGLAngleLimit180);
 begin
   if FTop <> aValue then
@@ -3000,6 +3120,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLSphere.SetTopCap(aValue: TGLCapType);
 begin
   if FTopCap <> aValue then
@@ -3009,6 +3130,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLSphere.Assign(Source: TPersistent);
 begin
   if Assigned(Source) and (Source is TGLSphere) then
@@ -3024,7 +3146,8 @@ begin
   inherited Assign(Source);
 end;
 
-function TGLSphere.AxisAlignedDimensionsUnscaled: TGLVector;
+//---------------------------------------------------------------------------
+function TGLSphere.AxisAlignedDimensionsUnscaled: TGSVector;
 begin
   Result.X := Abs(FRadius);
   Result.Y := Result.X;
@@ -3043,17 +3166,20 @@ begin
   FSplineMode := lsmLines;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLPolygonBase.CreateNodes;
 begin
   FNodes := TGLNodes.Create(Self);
 end;
 
+//---------------------------------------------------------------------------
 destructor TGLPolygonBase.Destroy;
 begin
   FNodes.Free;
   inherited Destroy;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLPolygonBase.Assign(Source: TPersistent);
 begin
   if Source is TGLPolygonBase then
@@ -3065,6 +3191,7 @@ begin
   inherited Assign(Source);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLPolygonBase.NotifyChange(Sender: TObject);
 begin
   if Sender = Nodes then
@@ -3072,6 +3199,7 @@ begin
   inherited;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLPolygonBase.SetDivision(const Value: Integer);
 begin
   if Value <> FDivision then
@@ -3084,12 +3212,14 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLPolygonBase.SetNodes(const aNodes: TGLNodes);
 begin
   FNodes.Assign(aNodes);
   StructureChanged;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLPolygonBase.SetSplineMode(const val: TGLLineSplineMode);
 begin
   if FSplineMode <> val then
@@ -3099,7 +3229,8 @@ begin
   end;
 end;
 
-procedure TGLPolygonBase.AddNode(const coords: TGLCoordinates);
+//---------------------------------------------------------------------------
+procedure TGLPolygonBase.AddNode(const coords: TGSCoordinates);
 var
   n: TGLNode;
 begin
@@ -3109,6 +3240,7 @@ begin
   StructureChanged;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLPolygonBase.AddNode(const X, Y, Z: TGLFloat);
 var
   n: TGLNode;
@@ -3118,7 +3250,8 @@ begin
   StructureChanged;
 end;
 
-procedure TGLPolygonBase.AddNode(const Value: TGLVector);
+//---------------------------------------------------------------------------
+procedure TGLPolygonBase.AddNode(const Value: TGSVector);
 var
   n: TGLNode;
 begin
@@ -3127,6 +3260,7 @@ begin
   StructureChanged;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLPolygonBase.AddNode(const Value: TAffineVector);
 var
   n: TGLNode;
@@ -3153,6 +3287,7 @@ begin
   FStop := 360;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLSuperellipsoid.BuildList(var rci: TGLRenderContextInfo);
 var
   CosPc1, SinPc1, CosTc2, SinTc2: Double;
@@ -3205,21 +3340,17 @@ begin
       else
         SinPc1 := -Power(-SinP, VCurve);
       gl.Vertex3f(0, SinPc1 * Radius, 0);
-
       N1 := YVector;
       if DoReverse then
         N1.Y := -N1.Y;
     end; // FTopCap = ctFlat
-
     // v1.Y := SinP;
     if (Sign(SinP) = 1) or (tc1 = VCurve) then
       SinPc1 := Power(SinP, VCurve)
     else
       SinPc1 := -Power(-SinP, VCurve);
     v1.Y := SinPc1;
-
     Theta := AngStart;
-
     for i := 0 to FSlices do
     begin
       SinCos(Theta, SinT, CosT);
@@ -3255,7 +3386,6 @@ begin
     end;
     gl.End_;
   end;
-
   // main body
   Phi := AngTop;
   Phi2 := Phi - StepV;
@@ -3346,7 +3476,6 @@ begin
     Phi := Phi2;
     Phi2 := Phi2 - StepV;
   end;
-
   // bottom cap
   if (FBottom > -90) and (FBottomCap in [ctCenter, ctFlat]) then
   begin
@@ -3420,13 +3549,14 @@ begin
     rci.GLStates.InvertFrontFace;
 end;
 
+//---------------------------------------------------------------------------
 // This will probably not work
 // RayCastSphereIntersect -> RayCastSuperellipsoidIntersect ?
-function TGLSuperellipsoid.RayCastIntersect(const rayStart, rayVector: TGLVector;
-  intersectPoint: PGLVector = nil; intersectNormal: PGLVector = nil): Boolean;
+function TGLSuperellipsoid.RayCastIntersect(const rayStart, rayVector: TGSVector;
+  intersectPoint: PGSVector = nil; intersectNormal: PGSVector = nil): Boolean;
 var
-  i1, i2: TGLVector;
-  localStart, localVector: TGLVector;
+  i1, i2: TGSVector;
+  localStart, localVector: TGSVector;
 begin
   // compute coefficients of quartic polynomial
   SetVector(localStart, AbsoluteToLocal(rayStart));
@@ -3448,9 +3578,10 @@ begin
     Result := False;
 end;
 
+//---------------------------------------------------------------------------
 // This will probably not work ?
 function TGLSuperellipsoid.GenerateSilhouette(const silhouetteParameters
-  : TGLSilhouetteParameters): TGLSilhouette;
+  : TGSSilhouetteParameters): TGSSilhouette;
 var
   i, j: Integer;
   s, C, angleFactor: Single;
@@ -3466,7 +3597,7 @@ begin
   NormalizeVector(sVec);
   NormalizeVector(tVec);
   // generate the silhouette (outline and capping)
-  Result := TGLSilhouette.Create;
+  Result := TGSSilhouette.Create;
   angleFactor := (2 * PI) / Segments;
   for i := 0 to Segments - 1 do
   begin
@@ -3481,6 +3612,7 @@ begin
     Result.vertices.Add(NullHmgPoint);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLSuperellipsoid.SetBottom(aValue: TGLAngleLimit180);
 begin
   if FBottom <> aValue then
@@ -3490,6 +3622,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLSuperellipsoid.SetBottomCap(aValue: TGLCapType);
 begin
   if FBottomCap <> aValue then
@@ -3499,6 +3632,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLSuperellipsoid.SetHCurve(const aValue: TGLFloat);
 begin
   if aValue <> FHCurve then
@@ -3508,6 +3642,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLSuperellipsoid.SetRadius(const aValue: TGLFloat);
 begin
   if aValue <> FRadius then
@@ -3517,6 +3652,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLSuperellipsoid.SetSlices(aValue: TGLInt);
 begin
   if aValue <> FSlices then
@@ -3529,6 +3665,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLSuperellipsoid.SetStacks(aValue: TGLInt);
 begin
   if aValue <> FStacks then
@@ -3541,6 +3678,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLSuperellipsoid.SetStart(aValue: TGLAngleLimit360);
 begin
   if FStart <> aValue then
@@ -3551,6 +3689,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLSuperellipsoid.SetStop(aValue: TGLAngleLimit360);
 begin
   if FStop <> aValue then
@@ -3561,6 +3700,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLSuperellipsoid.SetTop(aValue: TGLAngleLimit180);
 begin
   if FTop <> aValue then
@@ -3570,6 +3710,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLSuperellipsoid.SetTopCap(aValue: TGLCapType);
 begin
   if FTopCap <> aValue then
@@ -3579,6 +3720,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLSuperellipsoid.SetVCurve(const aValue: TGLFloat);
 begin
   if aValue <> FVCurve then
@@ -3588,6 +3730,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLSuperellipsoid.Assign(Source: TPersistent);
 begin
   if Assigned(Source) and (Source is TGLSuperellipsoid) then
@@ -3603,7 +3746,8 @@ begin
   inherited Assign(Source);
 end;
 
-function TGLSuperellipsoid.AxisAlignedDimensionsUnscaled: TGLVector;
+//---------------------------------------------------------------------------
+function TGLSuperellipsoid.AxisAlignedDimensionsUnscaled: TGSVector;
 begin
   Result.X := Abs(FRadius);
   Result.Y := Result.X;

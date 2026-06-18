@@ -20,8 +20,8 @@ uses
   Stage.VectorGeometry,
   GXS.Context,
   GXS.XOpenGL,
-  GXS.BaseClasses,
-  GXS.Coordinates;
+  Stage.BaseClasses,
+  Stage.Coordinates;
 
 type
   TgxNode = class(TCollectionItem)
@@ -73,7 +73,7 @@ type
     function Last: TgxNode;
     procedure NotifyChange; virtual;
     procedure EndUpdate; override;
-    procedure AddNode(const Coords: TgxCustomCoordinates); overload;
+    procedure AddNode(const Coords: TGSCustomCoordinates); overload;
     procedure AddNode(const X, Y, Z: Single); overload;
     procedure AddNode(const Value: TVector4f); overload;
     procedure AddNode(const Value: TAffineVector); overload;
@@ -254,8 +254,8 @@ end;
 
 procedure TgxNodes.NotifyChange;
 begin
-  if (UpdateCount = 0) and (GetOwner <> nil) and (GetOwner is TgxUpdateAbleComponent) then
-    TgxUpdateAbleComponent(GetOwner).NotifyChange(Self);
+  if (UpdateCount = 0) and (GetOwner <> nil) and (GetOwner is TGSUpdateAbleComponent) then
+    TGSUpdateAbleComponent(GetOwner).NotifyChange(Self);
 end;
 
 procedure TgxNodes.EndUpdate;
@@ -266,7 +266,7 @@ begin
     NotifyChange;
 end;
 
-procedure TgxNodes.AddNode(const Coords: TgxCustomCoordinates);
+procedure TgxNodes.AddNode(const Coords: TGSCustomCoordinates);
 begin
   Add.AsVector := Coords.AsVector;
 end;

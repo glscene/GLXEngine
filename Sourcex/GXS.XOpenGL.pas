@@ -1,6 +1,6 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.XOpenGL;
 (*
    "Alternate" OpenGL functions to handle multi-texturing.

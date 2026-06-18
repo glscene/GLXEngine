@@ -18,8 +18,8 @@ uses
   GLS.FileDDS,
   GLS.Context,
   Stage.Utils,
-  GLS.Coordinates,
-  GLS.BaseClasses,
+  Stage.Coordinates,
+  Stage.BaseClasses,
   GLS.GeomObjects;
 
 type

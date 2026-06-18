@@ -1,14 +1,16 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLSL.CustomShader;
 (*
-    A collection of pure abstract classes - descendants of TGLShader, which are
+    A collection of pure abstract classes
+    RegisterClasses([TGLCustomShader, TGLShaderProgram,
+                   TGLVertexProgram, TGLFragmentProgram, TGLGeometryProgram]);
+
+    There are descendants of TGLShader, which are
     used for purpose of not having to write the same stuff all over and over
     again in your own shader classes.
     It also contains a procedures and function that can be used in all shaders.
-    The whole history is logged in a former GLS version of the unit.
-
 *)
 interface
 
@@ -30,7 +32,7 @@ uses
   GLS.Context,
   GLS.RenderContextInfo,
   GLS.Material,
-  GLS.VectorLists,
+  Stage.VectorLists,
   GLSL.ShaderParameter;
 
 const
@@ -169,7 +171,7 @@ type
     function GetAsVector1f: Single; virtual; abstract;
     function GetAsVector2f: TVector2f; virtual; abstract;
     function GetAsVector3f: TVector3f; virtual; abstract;
-    function GetAsVector4f: TGLVector; virtual; abstract;
+    function GetAsVector4f: TGSVector; virtual; abstract;
     function GetAsVector1i: Integer; virtual; abstract;
     function GetAsVector2i: TVector2i; virtual; abstract;
     function GetAsVector3i: TVector3i; virtual; abstract;
@@ -223,7 +225,7 @@ type
     procedure SetToTextureOf(const LibMaterial: TGLLibMaterial; const TextureIndex: Integer); overload;
     procedure SetToTextureOf(const Texture: TGLTexture; const TextureIndex: Integer); overload;
     // GLScene-friendly properties.
-    property AsVector: TGLVector read GetAsVector4f write SetAsVector4f;
+    property AsVector: TGSVector read GetAsVector4f write SetAsVector4f;
     property AsAffineVector: TAffineVector read GetAsVector3f write SetAsVector3f;
      // Standard types.
     property AsFloat: Single read GetAsVector1f write SetAsVector1f;
@@ -282,7 +284,7 @@ procedure DrawTexturedScreenQuad6(const ViewPortSize: TGLSize);
 procedure CopyScreentoTexture(const ViewPortSize: TGLSize; const TextureTarget: Word = GL_TEXTURE_2D);
 procedure CopyScreentoTexture2(const ViewPortSize: TGLSize; const TextureTarget: Word = GL_TEXTURE_2D);
 function IsFogEnabled(const AFogSupportMode: TGLShaderFogSupport; var rci: TGLRenderContextInfo): Boolean;
-procedure GetActiveLightsList(const ALightIDs: TGLIntegerList);
+procedure GetActiveLightsList(const ALightIDs: TGSIntegerList);
 
 //------------------------------------------
 implementation
@@ -291,7 +293,7 @@ implementation
 uses
   GLS.State;
 
-procedure GetActiveLightsList(const ALightIDs: TGLIntegerList);
+procedure GetActiveLightsList(const ALightIDs: TGSIntegerList);
 var
   I: Integer;
 begin
@@ -744,9 +746,7 @@ begin
   end;
 end;
 
-//---------------------------------------------
-initialization
-//---------------------------------------------
+initialization //============================================================
 
   RegisterClasses([TGLCustomShader, TGLShaderProgram,
                    TGLVertexProgram, TGLFragmentProgram, TGLGeometryProgram]);

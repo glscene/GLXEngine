@@ -1,8 +1,7 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.OutlineShader;
-
 (*
    A simple shader that adds an outline to an object.
 
@@ -13,7 +12,6 @@ unit GXS.OutlineShader;
                    color array.
        3. Doesn't Works with visible backfaces.
 *)
-
 interface
 
 {$I Stage.Defines.inc}
@@ -23,19 +21,20 @@ uses
   Winapi.OpenGLext,
   System.Classes,
 
-  GXS.Material,
-  GXS.Color,
+  Stage.TextureFormat,
+  Stage.Color,
+
   GXS.RenderContextInfo,
+  GXS.Material,
   GXS.Context,
-  GXS.State,
-  Stage.TextureFormat;
+  GXS.State;
 
 type
 
   TgxOutlineShader = class(TgxShader)
   private
     FPassCount: integer;
-    FLineColor: TgxColor;
+    FLineColor: TGSColor;
     FOutlineSmooth: Boolean;
     FOutlineWidth: Single;
     procedure SetOutlineWidth(v: single);
@@ -47,27 +46,24 @@ type
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
   published
-    property LineColor: TgxColor read FLineColor write FLineColor;
+    property LineColor: TGSColor read FLineColor write FLineColor;
     // Line smoothing control
     property LineSmooth: Boolean read FOutlineSmooth write SetOutlineSmooth
       default false;
     property LineWidth: Single read FOutlineWidth write SetOutlineWidth;
   end;
 
-// ------------------------------------------------------------------
-implementation
-// ------------------------------------------------------------------
+implementation //============================================================
 
 // ------------------
 // ------------------ TgxOutlineShader ------------------
 // ------------------
-
 constructor TgxOutlineShader.Create(AOwner: TComponent);
 begin
   inherited;
   FOutlineSmooth := False;
   FOutLineWidth := 2;
-  FLineColor := TgxColor.CreateInitialized(Self, clrBlack);
+  FLineColor := TGSColor.CreateInitialized(Self, clrBlack);
   ShaderStyle := ssLowLevel;
 end;
 

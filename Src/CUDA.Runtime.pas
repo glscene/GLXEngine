@@ -1,10 +1,4 @@
-//
-// GXStage Graphics Engine
-//
 unit CUDA.Runtime;
-
-(* GLScene CUDA Runtime *)
-
 (*
  * Copyright 1993-2020 NVIDIA Corporation.  All rights reserved.
  *
@@ -39,7 +33,6 @@ unit CUDA.Runtime;
  * include, in the user documentation and internal comments to the code,
  * the above Disclaimer and U.S. Government End Users Notice.
  *)
-
 interface
 
 uses
@@ -761,7 +754,7 @@ begin
   cudaWGLGetDevice := CUDARTGetProcAddress('cudaWGLGetDevice');
 
   cudaRuntimeGetVersion(V);
-  /// GLSLogger.LogInfoFmt('%s version %d is loaded', [LibName, V]);
+  /// GSLogger.LogInfoFmt('%s version %d is loaded', [LibName, V]);
   Result := True;
 end;
 

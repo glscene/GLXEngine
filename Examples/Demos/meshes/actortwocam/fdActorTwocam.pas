@@ -22,12 +22,12 @@ uses
 
   Stage.Keyboard,
   Stage.VectorTypes,
-  GLS.Coordinates,
-  GLS.BaseClasses,
+  Stage.Coordinates,
+  Stage.BaseClasses,
   Stage.Utils,
   Stage.VectorGeometry,
-  GLS.XCollection,
-  GLS.PersistentClasses,
+  Stage.XCollection,
+  Stage.PersistentClasses,
 
   GLS.Scene,
   GLS.Objects,
@@ -138,7 +138,7 @@ var
   moving: String;
   boost: Single;
 begin
-  // This function uses asynchronous keyboard check (see GLS.XCollection.pas)
+  // This function uses asynchronous keyboard check (see Stage.XCollection.pas)
   if IsKeyDown(VK_ESCAPE) then
     Close;
   if IsKeyDown('A') then
@@ -242,7 +242,7 @@ procedure TFormActorTwocam.AddMushrooms;
 var
   i: Integer;
   proxy: TGLProxyObject;
-  s: TGLVector;
+  s: TGSVector;
   f: Single;
 begin
   // spawn some more mushrooms using proxy objects

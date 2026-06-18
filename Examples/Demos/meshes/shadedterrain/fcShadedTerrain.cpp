@@ -61,7 +61,7 @@ void __fastcall TForm1::GLBumpmapHDS1NewTilePrepared(TGLBumpmapHDS * Sender,
 													 TGLLibMaterial *
 													 normalMapMaterial)
 {
-  TGLVector n;
+  TGSVector n;
 
   heightData->MaterialName = normalMapMaterial->Name;
   normalMapMaterial->Texture2Name = "contrast";
@@ -90,7 +90,7 @@ void __fastcall TForm1::GLCadencer1Progress(TObject * Sender,
   else
 	speed = deltaTime;
 
-  TGLCoordinates *p = GLCamera1->Position;
+  TGSCoordinates *p = GLCamera1->Position;
   if(IsKeyDown(VK_UP))
 	DummyCube1->Translate(-p->X * speed, 0, -p->Z * speed);
   if(IsKeyDown(VK_DOWN))

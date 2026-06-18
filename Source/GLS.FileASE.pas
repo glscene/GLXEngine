@@ -1,6 +1,6 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.FileASE;
 
 (*  ASE (ASCI Scene Export) file format support *)
@@ -12,14 +12,16 @@ interface
 uses
   System.Classes,
   System.SysUtils,
+
+  Stage.VectorTypes,
+  Stage.VectorGeometry,
+  Stage.VectorLists,
+  Stage.Utils,
+
   GLS.VectorFileObjects,
   GLS.ApplicationFileIO,
-  Stage.VectorTypes, 
-  Stage.VectorGeometry, 
-  GLS.VectorLists,
   GLS.Texture,
-  GLS.Material,
-  Stage.Utils;
+  GLS.Material;
 
 const
   GL_ASE_MAX_TEXURE_CHANNELS = 12; // maximum texture channels
@@ -90,35 +92,35 @@ type
   TGLASEMeshObject = class(TObject)
   private
     FFaces: TGLASEFaceList;
-    FVertices: TGLAffineVectorList;
-    FMatrix: TGLMatrix;
+    FVertices: TGSAffineVectorList;
+    FMatrix: TGSMatrix;
     FInheritedPosition: TAffineVector;
     FInheritedScale: TAffineVector;
     FInheritedRotation: TAffineVector;
     FRotationAngle: Single;
     FRotationAxis: TAffineVector;
-    FPosition: TGLVector;
+    FPosition: TGSVector;
     FScale: TAffineVector;
     FScaleAxisAngle: Single;
     FScaleAxis: TAffineVector;
-    FTexChannels: array [0..GL_ASE_MAX_TEXURE_CHANNELS - 1] of TGLAffineVectorList;
+    FTexChannels: array [0..GL_ASE_MAX_TEXURE_CHANNELS - 1] of TGSAffineVectorList;
     FTexChannelsCount: Integer;
     FHasNormals: Boolean;
     FMaterialID: Integer;
-    function AddTexChannel: TGLAffineVectorList;
-    function GetTextChannel(Channel: Integer): TGLAffineVectorList;
+    function AddTexChannel: TGSAffineVectorList;
+    function GetTextChannel(Channel: Integer): TGSAffineVectorList;
   public
     constructor Create;
     destructor Destroy; override;
     property Faces: TGLASEFaceList read FFaces;
-    property Vertices: TGLAffineVectorList read FVertices;
-    property TextChannel[Channel: Integer]: TGLAffineVectorList read GetTextChannel;
+    property Vertices: TGSAffineVectorList read FVertices;
+    property TextChannel[Channel: Integer]: TGSAffineVectorList read GetTextChannel;
     property TextChannelsCount: Integer read FTexChannelsCount;
-    property Matrix: TGLMatrix read FMatrix;
+    property Matrix: TGSMatrix read FMatrix;
     property InheritedPosition: TAffineVector read FInheritedPosition;
     property InheritedRotation: TAffineVector read FInheritedRotation;
     property InheritedScale: TAffineVector read FInheritedScale;
-    property Position: TGLVector read FPosition;
+    property Position: TGSVector read FPosition;
     property RotationAxis: TAffineVector read FRotationAxis;
     property RotationAngle: Single read FRotationAngle;
     property Scale: TAffineVector read FScale;
@@ -260,7 +262,7 @@ type
     constructor Create(AOwner: TPersistent); override;
     destructor Destroy; override;
     procedure LoadFromStream(aStream: TStream); override;
-    class function Capabilities: TGLDataFileCapabilities; override;
+    class function Capabilities: TGSDataFileCapabilities; override;
 
     property Header: string read FHeader;
     property Comment: string read FComment;
@@ -677,7 +679,7 @@ procedure CopyASEToMesh(aASEMesh: TGLASEMeshObject; aMesh: TGLMeshObject; aASEMa
   function GetOrAllocateMaterial(const aIndex, aSubID: Integer): string;
   var
     material : TGLASEMaterial;
-    specColor : TGLVector;
+    specColor : TGSVector;
     matLib : TGLMaterialLibrary;
     libMat : TGLLibMaterial;
     TM: TGLASEMaterialTextureMap;
@@ -802,14 +804,14 @@ var
   norm, tex, light: Boolean;
   lmt: array [0..2] of TAffineVector;
   subID: Integer;
-  vi: TGLIntegerList;
+  vi: TGSIntegerList;
 begin
   norm := aASEMesh.HasNormals;
   tex := aASEMesh.TextChannelsCount > 0;
   light := tex and (aASEMesh.TextChannelsCount > 1);
   subID := -1;
 
-  vi := TGLIntegerList.Create;
+  vi := TGSIntegerList.Create;
   if tex or norm then begin
     // here used NOT optimized storage
 
@@ -936,7 +938,7 @@ end;
 constructor TGLASEMeshObject.Create;
 begin
   FFaces := TGLASEFaceList.Create;
-  FVertices := TGLAffineVectorList.Create;
+  FVertices := TGSAffineVectorList.Create;
   FTexChannelsCount := 0;
   FHasNormals := False;
   FMaterialID := -1;
@@ -953,15 +955,15 @@ begin
   inherited;
 end;
 
-function TGLASEMeshObject.AddTexChannel: TGLAffineVectorList;
+function TGLASEMeshObject.AddTexChannel: TGSAffineVectorList;
 begin
   Assert(FTexChannelsCount < GL_ASE_MAX_TEXURE_CHANNELS, 'texture channels count maximum reached');
-  Result := TGLAffineVectorList.Create;
+  Result := TGSAffineVectorList.Create;
   FTexChannels[FTexChannelsCount] := Result;
   Inc(FTexChannelsCount);
 end;
 
-function TGLASEMeshObject.GetTextChannel(Channel: Integer): TGLAffineVectorList;
+function TGLASEMeshObject.GetTextChannel(Channel: Integer): TGSAffineVectorList;
 begin
   Result := FTexChannels[Channel];
 end;
@@ -1027,7 +1029,7 @@ begin
   inherited;
 end;
 
-class function TGLASEVectorFile.Capabilities: TGLDataFileCapabilities;
+class function TGLASEVectorFile.Capabilities: TGSDataFileCapabilities;
 begin
   Result := [dfcRead];
 end;
@@ -1475,7 +1477,7 @@ procedure TGLASEVectorFile.ParseMeshTextureVertices(var aLineIndex: Integer; aMe
 var
   Data: string;
   Index: Integer;
-  channel: TGLAffineVectorList;
+  channel: TGSAffineVectorList;
 begin
   Inc(aLineIndex);
   Data := FStringData[aLineIndex];

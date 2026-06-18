@@ -1,8 +1,7 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.Objects;
-
 (*
   Implementation of basic scene objects plus some management routines.
 
@@ -18,7 +17,6 @@ unit GXS.Objects;
   units where they can grow and prosper untammed. "Generic" geometrical
   objects can be found GXS.GeomObjects.
 *)
-
 interface
 
 {$I Stage.Defines.inc}
@@ -31,22 +29,21 @@ uses
   System.SysUtils,
   System.Math,
 
-  GXS.XOpenGL,
-  GXS.BaseClasses,
-  GXS.PersistentClasses,
+  Stage.BaseClasses,
+  Stage.PersistentClasses,
   Stage.VectorGeometry,
   Stage.VectorTypes,
-  GXS.VectorLists,
-  Stage.Strings,
+  Stage.VectorLists,
+  Stage.Silhouette,
+  Stage.PipelineTransform,
+  Stage.Coordinates,
+  Stage.Color,
 
   GXS.Scene,
+  GXS.XOpenGL,
   GXS.Context,
-  GXS.Silhouette,
-  GXS.Color,
   GXS.RenderContextInfo,
-  GXS.Nodes,
-  Stage.PipelineTransform,
-  GXS.Coordinates;
+  GXS.Nodes;
 
 const
   cDefaultPointSize: Single = 1.0;
@@ -75,13 +72,13 @@ type
   TgxDummyCube = class(TgxCameraInvariantObject)
   private
     FCubeSize: Single;
-    FEdgeColor: TgxColor;
+    FEdgeColor: TGSColor;
     FVisibleAtRunTime, FAmalgamate: Boolean;
     FGroupList: TgxListHandle;
     FOnVisibilityDetermination: TgxVisibilityDeterminationEvent;
   protected
     procedure SetCubeSize(const val: Single); inline;
-    procedure SetEdgeColor(const val: TgxColor); inline;
+    procedure SetEdgeColor(const val: TGSColor); inline;
     procedure SetVisibleAtRunTime(const val: Boolean); inline;
     procedure SetAmalgamate(const val: Boolean); inline;
   public
@@ -98,7 +95,7 @@ type
     function BarycenterAbsolutePosition: TVector4f; override;
   published
     property CubeSize: Single read FCubeSize write SetCubeSize;
-    property EdgeColor: TgxColor read FEdgeColor write SetEdgeColor;
+    property EdgeColor: TGSColor read FEdgeColor write SetEdgeColor;
     (* If true the dummycube's edges will be visible at runtime.
       The default behaviour of the dummycube is to be visible at design-time
       only, and invisible at runtime. *)
@@ -158,7 +155,7 @@ type
     procedure Assign(Source: TPersistent); override;
     procedure BuildList(var rci: TgxRenderContextInfo); override;
     function GenerateSilhouette(const silhouetteParameters
-      : TgxSilhouetteParameters): TgxSilhouette; override;
+      : TGSSilhouetteParameters): TGSSilhouette; override;
     function AxisAlignedDimensionsUnscaled: TVector4f; override;
     function RayCastIntersect(const rayStart, rayVector: TVector4f;
       intersectPoint: PVector4f = nil; intersectNormal: PVector4f = nil): Boolean; override;
@@ -227,18 +224,18 @@ type
   (* Point parameters as in ARB_point_parameters.
     Make sure to read the ARB_point_parameters spec if you want to understand
     what each parameter does. *)
-  TgxPointParameters = class(TgxUpdateAbleObject)
+  TgxPointParameters = class(TGSUpdateAbleObject)
   private
     FEnabled: Boolean;
     FMinSize, FMaxSize: Single;
     FFadeTresholdSize: Single;
-    FDistanceAttenuation: TgxCoordinates;
+    FDistanceAttenuation: TGSCoordinates;
   protected
     procedure SetEnabled(const val: Boolean);
     procedure SetMinSize(const val: Single);
     procedure SetMaxSize(const val: Single);
     procedure SetFadeTresholdSize(const val: Single);
-    procedure SetDistanceAttenuation(const val: TgxCoordinates);
+    procedure SetDistanceAttenuation(const val: TGSCoordinates);
     procedure DefineProperties(Filer: TFiler); override;
     procedure ReadData(Stream: TStream);
     procedure WriteData(Stream: TStream);
@@ -254,7 +251,7 @@ type
     property MaxSize: Single read FMaxSize write SetMaxSize stored False;
     property FadeTresholdSize: Single read FFadeTresholdSize write SetFadeTresholdSize stored False;
     // Components XYZ are for constant, linear and quadratic attenuation.
-    property DistanceAttenuation: TgxCoordinates read FDistanceAttenuation write SetDistanceAttenuation;
+    property DistanceAttenuation: TGSCoordinates read FDistanceAttenuation write SetDistanceAttenuation;
   end;
 
   (* Renders a set of non-transparent colored points.
@@ -262,8 +259,8 @@ type
     and Colors properties. *)
   TgxPoints = class(TgxImmaterialSceneObject)
   private
-    FPositions: TgxAffineVectorList;
-    FColors: TgxVectorList;
+    FPositions: TGSAffineVectorList;
+    FColors: TGSVectorList;
     FSize: Single;
     FStyle: TgxPointStyle;
     FPointParameters: TgxPointParameters;
@@ -273,8 +270,8 @@ type
     procedure SetNoZWrite(const val: Boolean);
     procedure SetStatic(const val: Boolean);
     procedure SetSize(const val: Single);
-    procedure SetPositions(const val: TgxAffineVectorList);
-    procedure SetColors(const val: TgxVectorList);
+    procedure SetPositions(const val: TGSAffineVectorList);
+    procedure SetColors(const val: TGSVectorList);
     procedure SetStyle(const val: TgxPointStyle);
     procedure SetPointParameters(const val: TgxPointParameters);
   public
@@ -283,13 +280,13 @@ type
     procedure Assign(Source: TPersistent); override;
     procedure BuildList(var rci: TgxRenderContextInfo); override;
     // Points positions. If empty, a single point is assumed at (0, 0, 0)
-    property Positions: TgxAffineVectorList read FPositions write SetPositions;
+    property Positions: TGSAffineVectorList read FPositions write SetPositions;
     (* Defines the points colors.
        if empty, point color will be opaque white
        if contains a single color, all points will use that color
        if contains N colors, the first N points (at max) will be rendered
       using the corresponding colors. *)
-    property Colors: TgxVectorList read FColors write SetColors;
+    property Colors: TGSVectorList read FColors write SetColors;
   published
     // If true points do not write their Z to the depth buffer.
     property NoZWrite: Boolean read FNoZWrite write SetNoZWrite;
@@ -314,12 +311,12 @@ type
   // Available spline modes for a TLine.
   TgxLineSplineMode = (lsmLines, lsmCubicSpline, lsmBezierSpline, lsmNURBSCurve, lsmSegments, lsmLoop);
 
-  // Specialized Node for use in a TgxLines objects. Adds a Color property (TgxColor).
+  // Specialized Node for use in a TgxLines objects. Adds a Color property (TGSColor).
   TgxLinesNode = class(TgxNode)
   private
-    FColor: TgxColor;
+    FColor: TGSColor;
   protected
-    procedure SetColor(const val: TgxColor);
+    procedure SetColor(const val: TGSColor);
     procedure OnColorChange(Sender: TObject);
     function StoreColor: Boolean;
   public
@@ -330,7 +327,7 @@ type
     (* The node color.
       Can also defined the line color (interpolated between nodes) if
       loUseNodeColorForLines is set (in TgxLines). *)
-    property Color: TgxColor read FColor write SetColor stored StoreColor;
+    property Color: TGSColor read FColor write SetColor stored StoreColor;
   end;
 
   // Specialized collection for Nodes in a TgxLines objects. Stores TgxLinesNode items.
@@ -343,12 +340,12 @@ type
   // Base class for line objects. Introduces line style properties (width, color...)
   TgxLineBase = class(TgxImmaterialSceneObject)
   private
-    FLineColor: TgxColor;
+    FLineColor: TGSColor;
     FLinePattern: GLushort;
     FLineWidth: Single;
     FAntiAliased: Boolean;
   protected
-    procedure SetLineColor(const Value: TgxColor);
+    procedure SetLineColor(const Value: TGSColor);
     procedure SetLinePattern(const Value: GLushort);
     procedure SetLineWidth(const val: Single);
     function StoreLineWidth: Boolean; inline;
@@ -368,7 +365,7 @@ type
       drivers and take *lots* of rendering time. *)
     property AntiAliased: Boolean read FAntiAliased write SetAntiAliased default False;
     // Default color of the lines.
-    property LineColor: TgxColor read FLineColor write SetLineColor;
+    property LineColor: TGSColor read FLineColor write SetLineColor;
     (* Bitwise line pattern.
       For instance $FFFF (65535) is a white line (stipple disabled), $0000
       is a black line, $CCCC is the stipple used in axes and dummycube, etc. *)
@@ -383,29 +380,29 @@ type
   private
     FNodes: TgxLinesNodes;
     FNodesAspect: TLineNodesAspect;
-    FNodeColor: TgxColor;
+    FNodeColor: TGSColor;
     FNodeSize: Single;
-    FOldNodeColor: TgxColorVector;
+    FOldNodeColor: TGSColorVector;
   protected
     procedure SetNodesAspect(const Value: TLineNodesAspect);
-    procedure SetNodeColor(const Value: TgxColor);
+    procedure SetNodeColor(const Value: TGSColor);
     procedure OnNodeColorChanged(Sender: TObject);
     procedure SetNodes(const aNodes: TgxLinesNodes);
     procedure SetNodeSize(const val: Single);
     function StoreNodeSize: Boolean;
-    procedure DrawNode(var rci: TgxRenderContextInfo; X, Y, Z: Single; Color: TgxColor);
+    procedure DrawNode(var rci: TgxRenderContextInfo; X, Y, Z: Single; Color: TGSColor);
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
     procedure Assign(Source: TPersistent); override;
     function AxisAlignedDimensionsUnscaled: TVector4f; override;
-    procedure AddNode(const coords: TgxCoordinates); overload;
+    procedure AddNode(const coords: TGSCoordinates); overload;
     procedure AddNode(const X, Y, Z: Single); overload;
     procedure AddNode(const Value: TVector4f); overload;
     procedure AddNode(const Value: TAffineVector); overload;
   published
     // Default color for nodes. lnaInvisible and lnaAxes ignore this setting.
-    property NodeColor: TgxColor read FNodeColor write SetNodeColor;
+    property NodeColor: TGSColor read FNodeColor write SetNodeColor;
     // The nodes list.
     property Nodes: TgxLinesNodes read FNodes write SetNodes;
     (* Default aspect of line nodes.
@@ -432,7 +429,7 @@ type
     FOptions: TgxLinesOptions;
     FNURBSOrder: Integer;
     FNURBSTolerance: Single;
-    FNURBSKnots: TgxSingleList;
+    FNURBSKnots: TGSSingleList;
   protected
     procedure SetSplineMode(const val: TgxLineSplineMode);
     procedure SetDivision(const Value: Integer);
@@ -444,7 +441,7 @@ type
     destructor Destroy; override;
     procedure Assign(Source: TPersistent); override;
     procedure BuildList(var rci: TgxRenderContextInfo); override;
-    property NURBSKnots: TgxSingleList read FNURBSKnots;
+    property NURBSKnots: TGSSingleList read FNURBSKnots;
     property NURBSOrder: Integer read FNURBSOrder write SetNURBSOrder;
     property NURBSTolerance: Single read FNURBSTolerance write SetNURBSTolerance;
   published
@@ -483,7 +480,7 @@ type
     procedure WriteData(Stream: TStream); inline;
   public
     constructor Create(AOwner: TComponent); override;
-    function GenerateSilhouette(const SilhouetteParameters: TgxSilhouetteParameters): TgxSilhouette; override;
+    function GenerateSilhouette(const SilhouetteParameters: TGSSilhouetteParameters): TGSSilhouette; override;
     procedure BuildList(var rci: TgxRenderContextInfo); override;
     procedure Assign(Source: TPersistent); override;
     function AxisAlignedDimensionsUnscaled: TVector4f; override;
@@ -558,7 +555,7 @@ type
       intersectPoint: PVector4f = nil; intersectNormal: PVector4f = nil)
       : Boolean; override;
     function GenerateSilhouette(const silhouetteParameters
-      : TgxSilhouetteParameters): TgxSilhouette; override;
+      : TGSSilhouetteParameters): TGSSilhouette; override;
   published
     property Bottom: TAngleLimit1 read FBottom write SetBottom default -90;
     property BottomCap: TgxCapType read FBottomCap write SetBottomCap
@@ -588,7 +585,7 @@ type
     destructor Destroy; override;
     procedure Assign(Source: TPersistent); override;
     procedure NotifyChange(Sender: TObject); override;
-    procedure AddNode(const coords: TgxCoordinates); overload;
+    procedure AddNode(const coords: TGSCoordinates); overload;
     procedure AddNode(const X, Y, Z: Single); overload;
     procedure AddNode(const Value: TVector4f); overload;
     procedure AddNode(const Value: TAffineVector); overload;
@@ -635,7 +632,7 @@ type
       intersectPoint: PVector4f = nil; intersectNormal: PVector4f = nil)
       : Boolean; override;
     function GenerateSilhouette(const silhouetteParameters
-      : TgxSilhouetteParameters): TgxSilhouette; override;
+      : TGSSilhouetteParameters): TGSSilhouette; override;
   published
     property Bottom: TAngleLimit1 read FBottom write SetBottom default -90;
     property BottomCap: TgxCapType read FBottomCap write SetBottomCap
@@ -653,7 +650,7 @@ type
 
 // Issues for a unit-size cube stippled wireframe.
 procedure CubeWireframeBuildList(var rci: TgxRenderContextInfo; Size: Single;
-  Stipple: Boolean; const Color: TgxColorVector);
+  Stipple: Boolean; const Color: TGSColorVector);
 
 var
   TangentAttributeName: AnsiString = 'Tangent';
@@ -668,7 +665,7 @@ uses
   GXS.State;
 
 procedure CubeWireframeBuildList(var rci: TgxRenderContextInfo; Size: Single;
-  Stipple: Boolean; const Color: TgxColorVector);
+  Stipple: Boolean; const Color: TGSColorVector);
 var
   mi, ma: Single;
 begin
@@ -728,7 +725,7 @@ begin
   inherited;
   ObjectStyle := ObjectStyle + [osDirectDraw];
   FCubeSize := 1;
-  FEdgeColor := TgxColor.Create(Self);
+  FEdgeColor := TGSColor.Create(Self);
   FEdgeColor.Initialize(clrWhite);
   FGroupList := TgxListHandle.Create;
   CamInvarianceMode := cimNone;
@@ -834,7 +831,7 @@ begin
   end;
 end;
 
-procedure TgxDummyCube.SetEdgeColor(const val: TgxColor);
+procedure TgxDummyCube.SetEdgeColor(const val: TGSColor);
 begin
   if val <> FEdgeColor then
   begin
@@ -962,11 +959,11 @@ begin
 end;
 
 function TgxPlane.GenerateSilhouette(const silhouetteParameters
-  : TgxSilhouetteParameters): TgxSilhouette;
+  : TGSSilhouetteParameters): TGSSilhouette;
 var
   hw, hh: Single;
 begin
-  Result := TgxSilhouette.Create;
+  Result := TGSSilhouette.Create;
 
   hw := FWidth * 0.5;
   hh := FHeight * 0.5;
@@ -1424,7 +1421,7 @@ begin
   FMinSize := 0;
   FMaxSize := 128;
   FFadeTresholdSize := 1;
-  FDistanceAttenuation := TgxCoordinates.CreateInitialized(Self, XHmgVector,
+  FDistanceAttenuation := TGSCoordinates.CreateInitialized(Self, XHmgVector,
     csVector);
 end;
 
@@ -1543,7 +1540,7 @@ begin
   end;
 end;
 
-procedure TgxPointParameters.SetDistanceAttenuation(const val: TgxCoordinates);
+procedure TgxPointParameters.SetDistanceAttenuation(const val: TGSCoordinates);
 begin
   FDistanceAttenuation.Assign(val);
 end;
@@ -1558,9 +1555,9 @@ begin
   ObjectStyle := ObjectStyle + [osDirectDraw, osNoVisibilityCulling];
   FStyle := psSquare;
   FSize := cDefaultPointSize;
-  FPositions := TgxAffineVectorList.Create;
+  FPositions := TGSAffineVectorList.Create;
   FPositions.Add(NullVector);
-  FColors := TgxVectorList.Create;
+  FColors := TGSVectorList.Create;
   FPointParameters := TgxPointParameters.Create(Self);
 end;
 
@@ -1705,13 +1702,13 @@ begin
   end;
 end;
 
-procedure TgxPoints.SetPositions(const val: TgxAffineVectorList);
+procedure TgxPoints.SetPositions(const val: TGSAffineVectorList);
 begin
   FPositions.Assign(val);
   StructureChanged;
 end;
 
-procedure TgxPoints.SetColors(const val: TgxVectorList);
+procedure TgxPoints.SetColors(const val: TGSVectorList);
 begin
   FColors.Assign(val);
   StructureChanged;
@@ -1738,7 +1735,7 @@ end;
 constructor TgxLineBase.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
-  FLineColor := TgxColor.Create(Self);
+  FLineColor := TGSColor.Create(Self);
   FLineColor.Initialize(clrWhite);
   FLinePattern := $FFFF;
   FAntiAliased := False;
@@ -1758,7 +1755,7 @@ begin
   inherited;
 end;
 
-procedure TgxLineBase.SetLineColor(const Value: TgxColor);
+procedure TgxLineBase.SetLineColor(const Value: TGSColor);
 begin
   FLineColor.Color := Value.Color;
   StructureChanged;
@@ -1855,7 +1852,7 @@ end;
 constructor TgxLinesNode.Create(Collection: TCollection);
 begin
   inherited Create(Collection);
-  FColor := TgxColor.Create(Self);
+  FColor := TGSColor.Create(Self);
   FColor.Initialize((TgxLinesNodes(Collection).GetOwner as TgxLines)
     .NodeColor.Color);
   FColor.OnNotifyChange := OnColorChange;
@@ -1874,7 +1871,7 @@ begin
   inherited;
 end;
 
-procedure TgxLinesNode.SetColor(const val: TgxColor);
+procedure TgxLinesNode.SetColor(const val: TGSColor);
 begin
   FColor.Assign(val);
 end;
@@ -1913,7 +1910,7 @@ constructor TgxNodedLines.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
   FNodes := TgxLinesNodes.Create(Self);
-  FNodeColor := TgxColor.Create(Self);
+  FNodeColor := TGSColor.Create(Self);
   FNodeColor.Initialize(clrBlue);
   FNodeColor.OnNotifyChange := OnNodeColorChanged;
   FOldNodeColor := clrBlue;
@@ -1937,7 +1934,7 @@ begin
   end;
 end;
 
-procedure TgxNodedLines.SetNodeColor(const Value: TgxColor);
+procedure TgxNodedLines.SetNodeColor(const Value: TGSColor);
 begin
   FNodeColor.Color := Value.Color;
   StructureChanged;
@@ -1987,7 +1984,7 @@ begin
 end;
 
 procedure TgxNodedLines.DrawNode(var rci: TgxRenderContextInfo; X, Y, Z: Single;
-  Color: TgxColor);
+  Color: TGSColor);
 begin
   glPushMatrix;
   glTranslatef(X, Y, Z);
@@ -2014,7 +2011,7 @@ begin
   // DivideVector(Result, Scale.AsVector);     //DanB ?
 end;
 
-procedure TgxNodedLines.AddNode(const coords: TgxCoordinates);
+procedure TgxNodedLines.AddNode(const coords: TGSCoordinates);
 var
   n: TgxNode;
 begin
@@ -2060,7 +2057,7 @@ begin
   inherited Create(AOwner);
   FDivision := 10;
   FSplineMode := lsmLines;
-  FNURBSKnots := TgxSingleList.Create;
+  FNURBSKnots := TGSSingleList.Create;
   FNURBSOrder := 0;
   FNURBSTolerance := 50;
 end;
@@ -2431,13 +2428,13 @@ begin
 end;
 
 function TgxCube.GenerateSilhouette(const silhouetteParameters
-  : TgxSilhouetteParameters): TgxSilhouette;
+  : TGSSilhouetteParameters): TGSSilhouette;
 var
   hw, hh, hd: Single;
-  connectivity: TConnectivity;
-  sil: TgxSilhouette;
+  connectivity: TGSConnectivity;
+  sil: TGSSilhouette;
 begin
-  connectivity := TConnectivity.Create(True);
+  connectivity := TGSConnectivity.Create(True);
 
   hw := FCubeSize.X * 0.5;
   hh := FCubeSize.Y * 0.5;
@@ -2887,7 +2884,7 @@ begin
 end;
 
 function TgxSphere.GenerateSilhouette(const silhouetteParameters
-  : TgxSilhouetteParameters): TgxSilhouette;
+  : TGSSilhouetteParameters): TGSSilhouette;
 var
   i, j: Integer;
   s, C, angleFactor: Single;
@@ -2904,7 +2901,7 @@ begin
   NormalizeVector(sVec);
   NormalizeVector(tVec);
   // generate the silhouette (outline and capping)
-  Result := TgxSilhouette.Create;
+  Result := TGSSilhouette.Create;
   angleFactor := (2 * PI) / Segments;
   for i := 0 to Segments - 1 do
   begin
@@ -3099,7 +3096,7 @@ begin
   end;
 end;
 
-procedure TgxPolygonBase.AddNode(const coords: TgxCoordinates);
+procedure TgxPolygonBase.AddNode(const coords: TGSCoordinates);
 var
   n: TgxNode;
 begin
@@ -3451,7 +3448,7 @@ end;
 
 // This will probably not work;
 function TgxSuperellipsoid.GenerateSilhouette(const silhouetteParameters
-  : TgxSilhouetteParameters): TgxSilhouette;
+  : TGSSilhouetteParameters): TGSSilhouette;
 var
   i, j: Integer;
   s, C, angleFactor: Single;
@@ -3467,7 +3464,7 @@ begin
   NormalizeVector(sVec);
   NormalizeVector(tVec);
   // generate the silhouette (outline and capping)
-  Result := TgxSilhouette.Create;
+  Result := TGSSilhouette.Create;
   angleFactor := (2 * PI) / Segments;
   for i := 0 to Segments - 1 do
   begin

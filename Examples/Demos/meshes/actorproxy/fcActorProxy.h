@@ -23,12 +23,12 @@
 #include "GLS.Cadencer.hpp"
 #include "GLS.Texture.hpp"
 #include "GLS.Material.hpp"
-#include "GLS.Coordinates.hpp"
+#include "Stage.Coordinates.hpp"
 
-#include "GLS.BaseClasses.hpp"
+#include "Stage.BaseClasses.hpp"
 #include "GLS.FileSMD.hpp"
 #include "Stage.Utils.hpp"
-#include "GLS.BaseClasses.hpp"
+#include "Stage.BaseClasses.hpp"
 
 //---------------------------------------------------------------------------
 class TFormActorProxy : public TForm

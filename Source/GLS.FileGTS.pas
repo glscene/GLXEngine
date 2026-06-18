@@ -13,7 +13,7 @@ uses
   System.Classes,
 
   Stage.VectorGeometry,
-  GLS.VectorLists,
+  Stage.VectorLists,
   GLS.VectorFileObjects,
   GLS.ApplicationFileIO;
 
@@ -27,7 +27,7 @@ type
     http://gts.sourceforge.net/ *)
   TGLGTSVectorFile = class(TGLVectorFile)
   public
-    class function Capabilities: TGLDataFileCapabilities; override;
+    class function Capabilities: TGSDataFileCapabilities; override;
     procedure LoadFromStream(aStream: TStream); override;
   end;
 
@@ -45,7 +45,7 @@ uses
 // ------------------ TGLGTSVectorFile ------------------
 // ------------------
 
-class function TGLGTSVectorFile.Capabilities: TGLDataFileCapabilities;
+class function TGLGTSVectorFile.Capabilities: TGSDataFileCapabilities;
 begin
   Result := [dfcRead];
 end;

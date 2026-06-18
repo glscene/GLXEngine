@@ -11,14 +11,14 @@
 #include <ExtCtrls.hpp>
 #include "Stage.VectorGeometry.hpp"
 #include "GLS.Scene.hpp"
-#include "GLS.BaseClasses.hpp"
+#include "Stage.BaseClasses.hpp"
 #include <GLS.GeomObjects.hpp>
 #include <GLS.Navigator.hpp>
 #include <GLS.Cadencer.hpp>
 #include <GLS.SceneViewer.hpp>
 #include <GLS.Objects.hpp>
 #include <GLS.VectorFileObjects.hpp>
-#include "GLS.Coordinates.hpp"
+#include "Stage.Coordinates.hpp"
 
 #include "Stage.Utils.hpp"
 #include "GLS.Cadencer.hpp"
@@ -57,7 +57,7 @@ __published:                   // IDE-managed Components
 private:                       // User declarations
   float colTotalTime;           // for timing collision detection
   int colCount;
-  void AddToTrail(const TGLVector & p);
+  void AddToTrail(const TGSVector & p);
 public:                        // User declarations
     __fastcall TForm1(TComponent * Owner);
   int mousex, mousey;

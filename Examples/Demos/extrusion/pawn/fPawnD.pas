@@ -20,8 +20,8 @@ uses
   GLS.Texture,
   GLS.Extrusion,
   GLS.SceneViewer,
-  GLS.Coordinates,
-  GLS.BaseClasses,
+  Stage.Coordinates,
+  Stage.BaseClasses,
   Stage.Utils;
 
 type

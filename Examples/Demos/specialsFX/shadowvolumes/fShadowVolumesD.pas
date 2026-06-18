@@ -14,24 +14,24 @@ uses
   Vcl.StdCtrls,
 
   GLS.Scene,
-  GLS.PersistentClasses,
+  Stage.PersistentClasses,
   GLS.Objects,
   GLS.Cadencer,
   GLS.SceneViewer,
   GLS.ShadowVolume,
   GLS.VectorFileObjects,
-  GLS.VectorLists,
+  Stage.VectorLists,
   GLS.FileSMD,
   GLS.Texture,
   Stage.VectorTypes,
   GLS.GeomObjects,
-  GLS.Silhouette,
+  Stage.Silhouette,
   Stage.VectorGeometry,
   GLS.Material,
-  GLS.Coordinates,
+  Stage.Coordinates,
 
   GLS.SimpleNavigation,
-  GLS.BaseClasses,
+  Stage.BaseClasses,
   Stage.Utils;
 
 type
@@ -230,8 +230,8 @@ end;
 
 procedure TFormShadowVolumes.Button_GenerateSilhouetteClick(Sender: TObject);
 var
-  SilhouetteParameters: TGLSilhouetteParameters;
-  Silhouette: TGLSilhouette;
+  SilhouetteParameters: TGSSilhouetteParameters;
+  Silhouette: TGSSilhouette;
   i: Integer;
   Target: TGLSceneObject;
 begin

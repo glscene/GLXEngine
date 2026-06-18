@@ -128,17 +128,18 @@ object FormDancer: TFormDancer
       FocalLength = 70.000000000000000000
       Position.Coordinates = {0000A0400000A0400000A0400000803F}
       object Globus: TGLSphere
-        Material.Texture.Disabled = False
+        Material.MaterialLibrary = MatLib
+        Material.LibMaterialName = 'floor_parquet'
         Radius = 0.500000000000000000
-        object Light2: TGLLightSource
-          Ambient.Color = {6666663F6666663F6666663F0000803F}
-          ConstAttenuation = 0.600000023841857900
-          Diffuse.Color = {CDCC4C3FCDCC4C3FCDCC4C3F0000803F}
-          Specular.Color = {0000803F0000803F0000803F0000803F}
-          SpotCutOff = 80.000000000000000000
-          SpotDirection.Coordinates = {00000000000000000000803F00000000}
-          SpotExponent = 1.000000000000000000
-        end
+      end
+      object Light2: TGLLightSource
+        Ambient.Color = {6666663F6666663F6666663F0000803F}
+        ConstAttenuation = 0.600000023841857900
+        Diffuse.Color = {CDCC4C3FCDCC4C3FCDCC4C3F0000803F}
+        Specular.Color = {0000803F0000803F0000803F0000803F}
+        SpotCutOff = 80.000000000000000000
+        SpotDirection.Coordinates = {00000000000000000000803F00000000}
+        SpotExponent = 1.000000000000000000
       end
     end
     object GLFrameBuffer: TGLFBORenderer
@@ -13318,6 +13319,11 @@ object FormDancer: TFormDancer
         Material.Texture.MinFilter = miNearest
         Material.Texture.Compression = tcNone
         Material.Texture.Disabled = False
+      end
+      item
+        Name = 'Globe'
+        Tag = 0
+        Material.Texture.Disabled = False
       end>
     Left = 188
     Top = 84
@@ -13350,7 +13356,7 @@ object FormDancer: TFormDancer
     Left = 264
     Top = 84
   end
-  object GLSArchiveManager1: TGLSArchiveManager
+  object GLSArchiveManager1: TGLArchiveManager
     Archives = <
       item
         Name = 'LibArchive'

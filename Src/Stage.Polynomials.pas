@@ -1,6 +1,6 @@
-//
-// GXStage Graphics Engine
-//
+(*****************************************************************************
+                          GLStage Graphics Engine
+******************************************************************************)
 unit Stage.Polynomials;
 (*
   Utility functions for manipulationg and solving polynomials.
@@ -56,7 +56,7 @@ function SolveCubic(const c: PDoubleArray): TDoubleArray;
   A(0) + A(1)*Z + ... + A(4)*Z**4 *)
 function SolveQuartic(const c: PDoubleArray): TDoubleArray;
 
-implementation // -------------------------------------------------------------
+implementation //============================================================
 
 const
   cEpsilon: Double = 1E-40;
@@ -408,4 +408,5 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 end.

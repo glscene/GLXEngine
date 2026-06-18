@@ -1,10 +1,12 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.Blur;
-
-(* Applies a blur effect over the viewport *)
-
+(*
+  Applies a blur effect over the viewport
+  RegisterClass(TGLBlur);
+  RegisterClass(TGLMotionBlur);
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -20,15 +22,15 @@ uses
   Stage.VectorTypes,
   Stage.VectorGeometry,
   Stage.TextureFormat,
+  Stage.BaseClasses,
+  Stage.Color,
 
-  GLS.BaseClasses,
   GLS.Scene,
   GLS.Objects,
   GLS.BitmapFont,
   GLS.Texture,
   GLS.Material,
   GLS.HudObjects,
-  GLS.Color,
   GLS.Graphics,
   GLS.Context,
   GLS.XOpenGL,
@@ -98,7 +100,7 @@ type
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
-    procedure DoProgress(const progressTime: TGLProgressTimes); override;
+    procedure DoProgress(const progressTime: TGSProgressTimes); override;
     procedure DoRender(var ARci: TGLRenderContextInfo;
       ARenderSelf, ARenderChildren: Boolean); override;
     procedure Notification(AComponent: TComponent; Operation: TOperation); override;
@@ -161,15 +163,13 @@ type
     property Hint;
   end;
 
-//------------------------------------------------------------------------
-implementation
-//------------------------------------------------------------------------
+implementation //============================================================
 
 uses
-  GLS.Coordinates,
-  GLS.PersistentClasses,
+  Stage.Coordinates,
   Stage.Strings,
-  GLS.OpenGLAdapter;
+  Stage.PersistentClasses,
+  Stage.OpenGLAdapter;
 
 const
   EPS = 0.001;
@@ -229,7 +229,7 @@ begin
   SetLength(Pixelbuffer, RenderWidth * RenderHeight);
 end;
 
-procedure TGLBlur.DoProgress(const progressTime: TGLProgressTimes);
+procedure TGLBlur.DoProgress(const progressTime: TGSProgressTimes);
 begin
   inherited;
   if self.Visible and (progressTime.newTime - OldTime > FBlurDeltaTime) then
@@ -840,9 +840,7 @@ begin
     gl.ARB_texture_rectangle or gl.EXT_texture_rectangle or gl.NV_texture_rectangle;
 end;
 
-// ------------------------------------------------------------------
-initialization
-// ------------------------------------------------------------------
+initialization //============================================================
 
   RegisterClass(TGLBlur);
   RegisterClass(TGLMotionBlur);

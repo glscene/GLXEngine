@@ -18,9 +18,9 @@
 #include "GLSL.MultiMaterialShader.hpp"
 #include "GLSL.TextureShaders.hpp"
 #include "GLS.Material.hpp"
-#include "GLS.Coordinates.hpp"
+#include "Stage.Coordinates.hpp"
 
-#include "GLS.BaseClasses.hpp"
+#include "Stage.BaseClasses.hpp"
 #include "Stage.Utils.hpp"
 #include "GLSL.MultiMaterialShader.hpp"
 #include "GLSL.TextureShaders.hpp"

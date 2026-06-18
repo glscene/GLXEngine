@@ -9,8 +9,8 @@
 #include <Vcl.Forms.hpp>
 #include <Vcl.ExtCtrls.hpp>
 
-#include "GLS.BaseClasses.hpp"
-#include "GLS.Coordinates.hpp"
+#include "Stage.BaseClasses.hpp"
+#include "Stage.Coordinates.hpp"
 #include "GLS.GeomObjects.hpp"
 #include "GLS.Material.hpp"
 #include "GLS.Objects.hpp"

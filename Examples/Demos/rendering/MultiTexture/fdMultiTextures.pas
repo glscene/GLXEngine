@@ -21,8 +21,8 @@ uses
   GLS.Scene,
   GLS.Objects,
   GLS.SceneViewer,
-  GLS.Coordinates,
-  GLS.BaseClasses,
+  Stage.Coordinates,
+  Stage.BaseClasses,
   GLS.BitmapFont,
   GLS.WindowsFont,
   GLSL.Shader,
@@ -36,7 +36,7 @@ uses
   GLS.SimpleNavigation,
   GLS.State,
   GLS.Context,
-  GLS.XCollection,
+  Stage.XCollection,
   GLS.MultiSampleImage;
 
 type

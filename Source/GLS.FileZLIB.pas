@@ -1,10 +1,12 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.FileZLIB;
-
-(* Methods for archiving using ZLib *)
-
+(*
+  Methods for archiving using ZLib
+  RegisterArchiveFormat('zlib',
+  'Using the zlib compression algorithm', TZLibArchive);
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -33,7 +35,7 @@ Type
       CbrMode: TCompressionLevel;
    end;
 
-  TZLibArchive = class(TGLBaseArchive)
+  TZLibArchive = class(TGSBaseArchive)
     private
       FHeader: TZLibHeader;
       FStream: TFileStream;
@@ -58,22 +60,20 @@ Type
       procedure Extract(ContentName, NewName: string); override;
   end;
 
-//-------------------------------------------------------------
-implementation
-//-------------------------------------------------------------
+implementation //============================================================
 
 var
    Dir: TFileSection;
 
 //-----------------------------
-//  TZLibArchive 
+//  TZLibArchive
 //-----------------------------
-
 function TZLibArchive.GetContentCount: integer;
 begin
    Result := FHeader.DirLength div SizeOf(TFileSection);
 end;
 
+//---------------------------------------------------------------------------
 procedure TZLibArchive.MakeContentList;
 var
    I: integer;
@@ -87,11 +87,13 @@ begin
    end;
 end;
 
+//---------------------------------------------------------------------------
 destructor TZLibArchive.Destroy;
 begin
   inherited Destroy;
 end;
 
+//---------------------------------------------------------------------------
 procedure TZLibArchive.LoadFromFile(const FileName: string);
 begin
    FFileName := FileName;
@@ -117,17 +119,20 @@ begin
       MakeContentList;
 end;
 
+//---------------------------------------------------------------------------
 procedure TZLibArchive.Clear;
 begin
    FContentList.Clear;
    If FStream <> nil then FStream.Free;
 end;
 
+//---------------------------------------------------------------------------
 function TZLibArchive.ContentExists(ContentName: string): boolean;
 begin
    Result := (FContentList.IndexOf(ContentName) > -1);
 end;
 
+//---------------------------------------------------------------------------
 function TZLibArchive.GetContent(aStream: TStream; index: integer): TStream;
 var
   tempStream: TMemoryStream;
@@ -136,17 +141,14 @@ begin
       Result := nil;
       If FStream = nil then exit;
       Result := aStream;
-
       //Find file
       FStream.Seek(FHeader.DirOffset + SizeOf(TFileSection) * index, soFromBeginning);
       FStream.Read(Dir, SizeOf(TFileSection));
       FStream.Seek(Dir.FilePos, soFromBeginning);
-
       //Copy file to temp stream
       tempStream := TMemoryStream.Create;
       tempStream.CopyFrom(FStream, Dir.FileLength);
       tempStream.Position := 0;
-
       //decompress
        decompr := TZDecompressionStream.Create(tempStream);
        try
@@ -158,11 +160,13 @@ begin
       Result.Position := 0;
 end;
 
+//---------------------------------------------------------------------------
 function TZLibArchive.GetContent(index: integer): TStream;
 begin
    Result:=GetContent(TMemoryStream.Create,index);
 end;
 
+//---------------------------------------------------------------------------
 function TZLibArchive.GetContent(ContentName: string): TStream;
 begin
    Result := nil;
@@ -170,6 +174,7 @@ begin
       Result := GetContent(FContentList.IndexOf(ContentName));
 end;
 
+//---------------------------------------------------------------------------
 function TZLibArchive.GetContentSize(index: integer): integer;
 begin
    Result := -1;
@@ -179,6 +184,7 @@ begin
    Result := Dir.FileLength;
 end;
 
+//---------------------------------------------------------------------------
 function TZLibArchive.GetContentSize(ContentName: string): integer;
 begin
    Result := -1;
@@ -186,6 +192,7 @@ begin
       Result := GetContentSize(FContentList.IndexOf(ContentName));
 end;
 
+//---------------------------------------------------------------------------
 procedure TZLibArchive.AddFromStream(ContentName, Path: string; FS: TStream);
 var
    Temp, compressed: TMemoryStream;
@@ -193,7 +200,6 @@ var
    LCompLevel : TZCompressionLevel;
 begin
    if (FStream = nil) or ContentExists(ContentName) then exit;
-
    FStream.Position := FHeader.DirOffset;
    //???
    if FHeader.DirLength > 0 then
@@ -207,10 +213,8 @@ begin
      Temp := nil;
    Dir.FilePos := FHeader.DirOffset;
    Dir.CbrMode := compressionLevel;
-
    //Create a stream for archiving
    compressed := TMemoryStream.Create;
-
    // Archive data to stream
    case CompressionLevel of
      clNone    : LCompLevel := zcNone;
@@ -223,12 +227,10 @@ begin
 
    FCompressor.CopyFrom(FS,   FS.Size);
    FCompressor.Free;
-
    // Copy results
    FStream.CopyFrom(compressed, 0);
    Dir.FileLength := compressed.Size;
    Compressed .Free;
-
    // ???
    FHeader.DirOffset := FStream.Position;
    if FHeader.DirLength > 0 then
@@ -244,6 +246,7 @@ begin
    FContentList.Add(string(Dir.FileName));
 end;
 
+//---------------------------------------------------------------------------
 procedure TZLibArchive.AddFromFile(FileName, Path: string);
 var
    FS: TFileStream;
@@ -258,6 +261,7 @@ begin
    end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TZLibArchive.RemoveContent(index: integer);
 var
    Temp: TMemoryStream;
@@ -301,12 +305,14 @@ begin
    MakeContentList;
 end;
 
+//---------------------------------------------------------------------------
 procedure TZLibArchive.RemoveContent(ContentName: string);
 begin
    if ContentExists(ContentName) then
       RemoveContent(FContentList.IndexOf(ContentName));
 end;
 
+//---------------------------------------------------------------------------
 procedure TZLibArchive.Extract(index: integer; NewName: string);
 var
    vExtractFileStream: TFileStream;
@@ -323,16 +329,17 @@ begin
    vExtractFileStream.Free;
 end;
 
+//---------------------------------------------------------------------------
 procedure TZLibArchive.Extract(ContentName, NewName: string);
 begin
    if ContentExists(ContentName) then
       Extract(FContentList.IndexOf(ContentName), NewName);
 end;
 
-initialization //--------------------------------------------------------
+initialization //============================================================
 
   RegisterArchiveFormat('zlib', 'Using the zlib compression algorithm', TZLibArchive);
 
-finalization //----------------------------------------------------------
+finalization //==============================================================
 
 end.

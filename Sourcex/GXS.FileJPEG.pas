@@ -1,6 +1,6 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.FileJPEG;
 
 interface
@@ -13,9 +13,10 @@ uses
 
   Stage.VectorGeometry,
   Stage.Strings,
+  Stage.TextureFormat,
+
   GXS.Context,
   GXS.Graphics,
-  Stage.TextureFormat,
   GXS.ApplicationFileIO;
 
 type
@@ -44,14 +45,11 @@ type
     property ProgressiveEncoding: boolean read FProgressiveEncoding;
   end;
 
-// ===================================================================
-implementation
-// ===================================================================
+implementation //============================================================
 
 // ------------------
 // ------------------ TgxJPEGImage ------------------
 // ------------------
-
 constructor TgxJPEGImage.Create;
 begin
   inherited;
@@ -118,9 +116,7 @@ begin
   Result := [dfcRead { , dfcWrite } ];
 end;
 
-// ------------------------------------------------------------------
-initialization
-// ------------------------------------------------------------------
+initialization //============================================================
 
 RegisterRasterFormat('jpg', 'Joint Photographic Experts Group Image', TgxJPEGImage);
 RegisterRasterFormat('jpeg', 'Joint Photographic Experts Group Image', TgxJPEGImage);

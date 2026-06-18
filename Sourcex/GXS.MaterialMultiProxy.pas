@@ -30,14 +30,14 @@ uses
   System.Classes,
   System.SysUtils,
 
-  GXS.BaseClasses,
-  GXS.PersistentClasses,
+  Stage.BaseClasses,
+  Stage.PersistentClasses,
   Stage.VectorTypes,
   Stage.VectorGeometry,
   Stage.Strings,
   GXS.Texture,
   GXS.Material,
-  GXS.Silhouette,
+  Stage.Silhouette,
   GXS.Scene,
   GXS.RenderContextInfo,
   GXS.Context,
@@ -48,7 +48,7 @@ type
   TgxMaterialMultiProxy = class;
 
   // MasterObject description for a MultiProxy object.
-  TgxMaterialMultiProxyMaster = class(TgxInterfacedCollectionItem, IgxMaterialLibrarySupported)
+  TgxMaterialMultiProxyMaster = class(TGSInterfacedCollectionItem, IgxMaterialLibrarySupported)
   private
     FMasterObject: TgxBaseSceneObject;
     FMasterLibMaterial: TgxLibMaterial;
@@ -127,7 +127,7 @@ type
     procedure DoRender(var rci: TgxRenderContextInfo; renderSelf, renderChildren: Boolean); override;
     function AxisAlignedDimensionsUnscaled: TVector4f; override;
     function RayCastIntersect(const rayStart, rayVector: TVector4f; intersectPoint: PVector4f = nil; intersectNormal: PVector4f = nil): Boolean; override;
-    function GenerateSilhouette(const silhouetteParameters: TgxSilhouetteParameters): TgxSilhouette; override;
+    function GenerateSilhouette(const silhouetteParameters: TGSSilhouetteParameters): TGSSilhouette; override;
   published
     property MasterObjects: TgxMaterialMultiProxyMasters read FMasterObjects write SetMasterObjects;
     property MaterialLibrary: TgxMaterialLibrary read FMaterialLibrary write SetMaterialLibrary;
@@ -335,8 +335,8 @@ end;
 
 procedure TgxMaterialMultiProxyMasters.NotifyChange;
 begin
-  if (UpdateCount = 0) and (GetOwner <> nil) and (GetOwner is TgxUpdateAbleComponent) then
-    TgxUpdateAbleComponent(GetOwner).NotifyChange(Self);
+  if (UpdateCount = 0) and (GetOwner <> nil) and (GetOwner is TGSUpdateAbleComponent) then
+    TGSUpdateAbleComponent(GetOwner).NotifyChange(Self);
 end;
 
 procedure TgxMaterialMultiProxyMasters.EndUpdate;
@@ -498,7 +498,7 @@ begin
 end;
 
 function TgxMaterialMultiProxy.GenerateSilhouette(
-  const silhouetteParameters: TgxSilhouetteParameters): TgxSilhouette;
+  const silhouetteParameters: TGSSilhouetteParameters): TGSSilhouette;
 var
   Master: TgxBaseSceneObject;
 begin

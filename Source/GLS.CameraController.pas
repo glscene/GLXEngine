@@ -1,14 +1,12 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.CameraController;
-
 (*
   Component for animating camera movement.
   Can be used to zoom in/out, for linear movement, orbiting and Google Earth - like "fly-to"
   Main purpose was the SafeOrbitAndZoomToPos method, the others are usable as well
 *)
-
 interface
 
 uses
@@ -20,22 +18,18 @@ uses
 
   Stage.VectorTypes,
   Stage.VectorGeometry,
-  GLS.Coordinates,
-  GLS.PersistentClasses,
+  Stage.Coordinates,
+  Stage.PersistentClasses,
 
   GLS.Scene,
   GLS.SmoothNavigator;
 
 type
-
   EGLCameraController = class(Exception);
-
   // Forward declaration of the camera controller main class
   TGLCameraController = class;
-
   // Forward declaration of a generic camera job
   TGLCameraJob = class;
-
   TGLCameraJobList = class(TObjectList)
   private
     FController: TGLCameraController;
@@ -75,8 +69,8 @@ type
 
   TGLMoveToPosJob = class(TGLCameraJob)
   private
-    FInitialPos: TGLVector;
-    FFinalPos: TGLVector;
+    FInitialPos: TGSVector;
+    FFinalPos: TGSVector;
   public
     X: Double;
     Y: Double;
@@ -85,40 +79,40 @@ type
     procedure Step; override;
     procedure Init; override;
     // Properties.
-    property InitialPos: TGLVector read FInitialPos;
-    property FinalPos: TGLVector read FFinalPos;
+    property InitialPos: TGSVector read FInitialPos;
+    property FinalPos: TGSVector read FFinalPos;
   end;
 
   TGLZoomToDistanceJob = class(TGLCameraJob)
   private
-    FInitialPos: TGLVector;
-    FFinalPos: TGLVector;
+    FInitialPos: TGSVector;
+    FFinalPos: TGSVector;
   public
     Distance: Double;
     Time: Double;
     procedure Step; override;
     procedure Init; override;
     // Properties.
-    property InitialPos: TGLVector read FInitialPos;
-    property FinalPos: TGLVector read FFinalPos;
+    property InitialPos: TGSVector read FInitialPos;
+    property FinalPos: TGSVector read FFinalPos;
   end;
 
   TGLOrbitToPosJob = class(TGLCameraJob)
   private
-    FFinalPos: TGLVector; // Yep, FFinalPos is stored in relative coordinates.
+    FFinalPos: TGSVector; // Yep, FFinalPos is stored in relative coordinates.
     FRotateSpeed: TVector2f;
-    FCameraUpVector: TGLVector;
+    FCameraUpVector: TGSVector;
     // Absolute Coordinates, can even be not normalized by radius.
     // Procesed in Init, not used anywhere else.
-    FTargetPosition: TGLVector;
+    FTargetPosition: TGSVector;
     FTime: Double;
   public
     procedure Step; override;
     procedure Init; override;
     property RotateSpeed: TVector2f read FRotateSpeed;
-    property CameraUpVector: TGLVector read FCameraUpVector;
-    property TargetPosition: TGLVector read FTargetPosition;
-    property FinalPos: TGLVector read FFinalPos;
+    property CameraUpVector: TGSVector read FCameraUpVector;
+    property TargetPosition: TGSVector read FTargetPosition;
+    property FinalPos: TGSVector read FFinalPos;
     property Time: Double read FTime;
   end;
 
@@ -126,7 +120,7 @@ type
   private
     FCutoffAngle: Single;
     FNeedToRecalculateZoom: boolean;
-    FShouldBeMatrix: TGLMatrix;
+    FShouldBeMatrix: TGSMatrix;
     FSmoothNavigator: TGLNavigatorSmoothChangeVector;
   public
     constructor Create(const AJoblist: TGLCameraJobList); override;
@@ -138,11 +132,11 @@ type
 
   TGLOrbitToPosAdvJob = class(TGLCameraJob)
   private
-    FInitialPos: TGLVector;
-    FFinalPos: TGLVector;
-    FInitialUp: TGLVector;
-    FInitialDir: TGLVector;
-    FRotAxis: TGLVector;
+    FInitialPos: TGSVector;
+    FFinalPos: TGSVector;
+    FInitialUp: TGSVector;
+    FInitialDir: TGSVector;
+    FRotAxis: TGSVector;
     FAngle: Double;
   public
     X: Double;
@@ -153,15 +147,15 @@ type
     procedure Step; override;
     procedure Init; override;
     // Properties.
-    property InitialPos: TGLVector read FInitialPos;
-    property InitialUp: TGLVector read FInitialUp;
-    property InitialDir: TGLVector read FInitialDir;
-    property FinalPos: TGLVector read FFinalPos;
+    property InitialPos: TGSVector read FInitialPos;
+    property InitialUp: TGSVector read FInitialUp;
+    property InitialDir: TGSVector read FInitialDir;
+    property FinalPos: TGSVector read FFinalPos;
   end;
 
   TGLSmoothOrbitToPosAdvJob = class(TGLOrbitToPosAdvJob)
   private
-    FPreviousPosition: TGLVector;
+    FPreviousPosition: TGSVector;
     FSmoothNavigator: TGLNavigatorSmoothChangeVector;
     FRestoreUpVector: boolean;
   public
@@ -212,11 +206,11 @@ type
     function OrbitToPos(X, Y, Z, Time: Double): TGLOrbitToPosJob;
     (* Same as OrbitToPos(), but makes use of SmoothNavigator to make
       sure all camera movements are smooth. *)
-    function OrbitToPosSmooth(const ATargetPosition: TGLVector;
+    function OrbitToPosSmooth(const ATargetPosition: TGSVector;
       const ATime: Double;
       const ASmoothNavigator: TGLNavigatorSmoothChangeVector;
       const AFNeedToRecalculateZoom: boolean;
-      const ACameraUpVector: PGLVector = nil): TGLSmoothOrbitToPos;
+      const ACameraUpVector: PGSVector = nil): TGLSmoothOrbitToPos;
     (* Same function as OrbitToPos but support all camera states
       PreferUpAxis value is to setup if function use Camera Up based rotation axis
       instead of Camera direction based rotation axis when destination and camera
@@ -271,10 +265,7 @@ type
       write SetOnJobFinished;
   end;
 
-  // ====================================================================
-implementation
-
-// ====================================================================
+implementation //============================================================
 
 const
   cGLCAMERACONTROLLER_CHECK_EXTENDED = True;
@@ -283,7 +274,6 @@ const
 //-------------------------------------
 // TGLCameraController
 //-------------------------------------
-
 constructor TGLCameraController.Create(AOwner: TComponent);
 begin
   inherited;
@@ -297,6 +287,7 @@ begin
   soTimeToZoomBackIn := 1;
 end;
 
+//---------------------------------------------------------------------------
 destructor TGLCameraController.Destroy;
 begin
   // delete job list and all jobs inside
@@ -304,6 +295,7 @@ begin
   inherited;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLCameraController.CheckAssignments(Extended: boolean);
 begin
   /// Check camera assignment
@@ -322,6 +314,7 @@ begin
     end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLCameraController.Step(const deltaTime, newTime: Double);
 var
   CurrentJob: TGLCameraJob;
@@ -354,12 +347,13 @@ begin
       // Notify job
       if Assigned(FOnJobFinished) then
         FOnJobFinished(CurrentJob);
-      FCameraJobList.Remove(CurrentJob);		
+      FCameraJobList.Remove(CurrentJob);
     end;
   end;
   // AdjustScene;
 end;
 
+//---------------------------------------------------------------------------
 function TGLCameraController.MoveToPos(X, Y, Z, Time: Double): TGLMoveToPosJob;
 begin
   Result := TGLMoveToPosJob.Create(FCameraJobList);
@@ -369,6 +363,7 @@ begin
   Result.Time := Time;
 end;
 
+//---------------------------------------------------------------------------
 function TGLCameraController.ZoomToDistance(Distance, Time: Double)
   : TGLZoomToDistanceJob;
 begin
@@ -377,6 +372,7 @@ begin
   Result.Time := Time;
 end;
 
+//---------------------------------------------------------------------------
 function TGLCameraController.OrbitToPos(X, Y, Z, Time: Double)
   : TGLOrbitToPosJob;
 begin
@@ -386,9 +382,10 @@ begin
   Result.FTime := Time;
 end;
 
-function TGLCameraController.OrbitToPosSmooth(const ATargetPosition: TGLVector;
+//---------------------------------------------------------------------------
+function TGLCameraController.OrbitToPosSmooth(const ATargetPosition: TGSVector;
   const ATime: Double; const ASmoothNavigator: TGLNavigatorSmoothChangeVector;
-  const AFNeedToRecalculateZoom: boolean; const ACameraUpVector: PGLVector = nil)
+  const AFNeedToRecalculateZoom: boolean; const ACameraUpVector: PGSVector = nil)
   : TGLSmoothOrbitToPos;
 begin
   Result := TGLSmoothOrbitToPos.Create(FCameraJobList);
@@ -416,6 +413,7 @@ begin
   Result.Time := Time;
 end;
 
+//---------------------------------------------------------------------------
 function TGLCameraController.OrbitToPosAdvancedSmooth(const X, Y, Z,
   Time: Double; const ASmoothNavigator: TGLNavigatorSmoothChangeVector;
   const PreferUpAxis: boolean = True): TGLSmoothOrbitToPosAdvJob;
@@ -433,6 +431,7 @@ begin
   Result.FRestoreUpVector := True;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLCameraController.SafeOrbitAndZoomToPos(X, Y, Z: Double);
 begin
   // this was the main purpose of this component
@@ -443,26 +442,31 @@ begin
   MoveToPos(X, Y, Z, soTimeToZoomBackIn);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLCameraController.StopMovement;
 begin
   FCameraJobList.Clear;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLCameraController.SetOnJobAdded(const Value: TGLCameraJobEvent);
 begin
   FOnJobAdded := Value;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLCameraController.SetOnJobStep(const Value: TGLCameraJobEvent);
 begin
   FOnJobStep := Value;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLCameraController.SetOnJobFinished(const Value: TGLCameraJobEvent);
 begin
   FOnJobFinished := Value;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLCameraController.SetCamera(const Value: TGLBaseSceneObject);
 begin
   if FCamera <> nil then
@@ -475,6 +479,7 @@ begin
     SetCameraTarget(TGLCamera(FCamera).TargetObject);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLCameraController.SetCameraTarget(const Value: TGLBaseSceneObject);
 begin
   if FCameraTarget <> nil then
@@ -484,6 +489,7 @@ begin
     FCameraTarget.FreeNotification(Self);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLCameraController.Notification(AComponent: TComponent;
   Operation: TOperation);
 begin
@@ -500,34 +506,38 @@ end;
 //-------------------------------------
 // TGLCameraJobList
 //-------------------------------------
-
 constructor TGLCameraJobList.Create(AController: TGLCameraController);
 begin
   inherited Create;
   FController := AController;
 end;
 
+//---------------------------------------------------------------------------
 function TGLCameraJobList.GetCameraJob(const AIndex: integer): TGLCameraJob;
 begin
   Result := inherited Get(AIndex);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLCameraJobList.SetCameraJob(const AIndex: integer;
   const Value: TGLCameraJob);
 begin
   inherited Put(AIndex, Value);
 end;
 
+//---------------------------------------------------------------------------
 function TGLCameraJobList.Add(ACameraJob: TGLCameraJob): integer;
 begin
   Result := inherited Add(ACameraJob);
 end;
 
+//---------------------------------------------------------------------------
 function TGLCameraJobList.First: TGLCameraJob;
 begin
   Result := TGLCameraJob(inherited First);
 end;
 
+//---------------------------------------------------------------------------
 function TGLCameraJobList.Last: TGLCameraJob;
 begin
   Result := TGLCameraJob(inherited Last);
@@ -536,7 +546,6 @@ end;
 //-------------------------------------
 // TGLCameraJob
 //-------------------------------------
-
 constructor TGLCameraJob.Create(const AJoblist: TGLCameraJobList);
 begin
   FJoblist := AJoblist;
@@ -547,12 +556,14 @@ begin
   FProceedTime := 0;
 end;
 
+//---------------------------------------------------------------------------
 destructor TGLCameraJob.Destroy;
 begin
 
   inherited;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLCameraJob.Abort;
 begin
 
@@ -561,7 +572,6 @@ end;
 //-------------------------------------
 // TGLMoveToPosJob
 //-------------------------------------
-
 procedure TGLMoveToPosJob.Init;
 begin
   FProceedTime := Time;
@@ -570,9 +580,10 @@ begin
   MakeVector(FFinalPos, X, Y, Z);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMoveToPosJob.Step;
 var
-  Vect: TGLVector;
+  Vect: TGSVector;
 begin
   if FElapsedTime < FProceedTime then
   begin
@@ -593,7 +604,6 @@ end;
 //-------------------------------------
 // TGLZoomToDistanceJob
 //-------------------------------------
-
 procedure TGLZoomToDistanceJob.Init;
 begin
   FProceedTime := Time;
@@ -605,9 +615,10 @@ begin
   ScaleVector(FFinalPos, Distance);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLZoomToDistanceJob.Step;
 var
-  Vect: TGLVector;
+  Vect: TGSVector;
 begin
   if FElapsedTime < FProceedTime then
   begin
@@ -628,7 +639,6 @@ end;
 //-------------------------------------
 // TGLOrbitToPosJob
 //-------------------------------------
-
 procedure TGLOrbitToPosJob.Init;
 begin
   FProceedTime := FTime;
@@ -647,6 +657,7 @@ begin
   FInit := True;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLOrbitToPosJob.Step;
 begin
 
@@ -669,11 +680,10 @@ end;
 //-------------------------------------
 // TGLOrbitToPosAdvJob
 //-------------------------------------
-
 procedure TGLOrbitToPosAdvJob.Init;
 var
-  Right: TGLVector;
-  lAbsVectorToTarget: TGLVector;
+  Right: TGSVector;
+  lAbsVectorToTarget: TGSVector;
 begin
   FProceedTime := Time;
   FInitialPos := VectorSubtract(FJoblist.FController.FCamera.AbsolutePosition,
@@ -723,9 +733,10 @@ begin
       FRotAxis := VectorNormalize(VectorCrossProduct(FFinalPos, FInitialPos));
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLOrbitToPosAdvJob.Step;
 var
-  tempUp, tempDir, tempPos: TGLVector;
+  tempUp, tempDir, tempPos: TGSVector;
 begin
   if FElapsedTime < FProceedTime then
   begin
@@ -768,10 +779,9 @@ end;
 //-------------------------------------
 // TGLSmoothOrbitToPosAdvJob
 //-------------------------------------
-
 procedure TGLSmoothOrbitToPosAdvJob.Init;
 var
-  Right: TGLVector;
+  Right: TGSVector;
 begin
   FProceedTime := Time;
   FInitialPos := VectorSubtract(FPreviousPosition,
@@ -821,9 +831,10 @@ begin
       FRotAxis := VectorNormalize(VectorCrossProduct(FFinalPos, FInitialPos));
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLSmoothOrbitToPosAdvJob.Step;
 var
-  tempUp, tempDir, tempPos: TGLVector;
+  tempUp, tempDir, tempPos: TGSVector;
 begin
   if FElapsedTime < FProceedTime then
   begin
@@ -879,24 +890,24 @@ end;
 //-------------------------------------
 // TGLSmoothOrbitToPosAdv
 //-------------------------------------
-
 constructor TGLSmoothOrbitToPos.Create(const AJoblist: TGLCameraJobList);
 begin
   inherited;
   FCutoffAngle := 0.1;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLSmoothOrbitToPos.Step;
 var
   lCurrentDistanceToTarget: Single;
-  lTargetPosition: TGLVector;
-  lCurrentMatrix: TGLMatrix;
+  lTargetPosition: TGSVector;
+  lCurrentMatrix: TGSMatrix;
   lAngle: Single;
-  lAbsTargetPosition: TGLVector;
+  lAbsTargetPosition: TGSVector;
 
   procedure RestoreDistanceToTarget();
   var
-    lDirection: TGLVector;
+    lDirection: TGSVector;
   begin
     lDirection := VectorNormalize
       (VectorSubtract(FJoblist.FController.FCameraTarget.AbsolutePosition,
@@ -907,7 +918,7 @@ var
       VectorScale(lDirection, -lCurrentDistanceToTarget));
   end;
 
-  procedure SetTargetValueRelative(const AAbsolutePosition: TGLVector);
+  procedure SetTargetValueRelative(const AAbsolutePosition: TGSVector);
   begin
     if FJoblist.FController.FCamera.Parent = nil then
       FSmoothNavigator.TargetValue.DirectVector := AAbsolutePosition
@@ -918,7 +929,7 @@ var
 
   procedure ApplyDistanceToResult();
   var
-    lDirection, lNewTargetPosition: TGLVector;
+    lDirection, lNewTargetPosition: TGSVector;
   begin
     lDirection := VectorNormalize
       (VectorSubtract(FJoblist.FController.FCameraTarget.AbsolutePosition,
@@ -993,4 +1004,5 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 end.

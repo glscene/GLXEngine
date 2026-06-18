@@ -1,10 +1,10 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.FileGL2;
-
-(* Vector file object loading of Ghoul2 model and animation files *)
-
+(*
+  Vector file object loading of Ghoul2 model and animation files
+*)
 interface
 
 uses
@@ -13,11 +13,11 @@ uses
 
   Stage.VectorTypes,
   Stage.VectorGeometry,
-  GLS.PersistentClasses,
+  Stage.PersistentClasses,
   GLS.VectorFileObjects,
   GLS.ApplicationFileIO,
   GLS.Material,
-  GLS.VectorLists,
+  Stage.VectorLists,
 
   Formats.GL2;
 
@@ -25,13 +25,13 @@ type
 
   TGLMVectorFile = class(TGLVectorFile)
   public
-    class function Capabilities: TGLDataFileCapabilities; override;
+    class function Capabilities: TGSDataFileCapabilities; override;
     procedure LoadFromStream(aStream: TStream); override;
   end;
 
   TGLAVectorFile = class(TGLVectorFile)
   public
-    class function Capabilities: TGLDataFileCapabilities; override;
+    class function Capabilities: TGSDataFileCapabilities; override;
     procedure LoadFromStream(aStream: TStream); override;
   end;
 
@@ -47,7 +47,7 @@ implementation // ------------------------------------------------------------
 // ------------------ TGLMVectorFile ------------------
 // ------------------
 
-class function TGLMVectorFile.Capabilities: TGLDataFileCapabilities;
+class function TGLMVectorFile.Capabilities: TGSDataFileCapabilities;
 begin
   Result := [dfcRead];
 end;
@@ -165,7 +165,7 @@ end;
 // ------------------ TGLAVectorFile ------------------
 // ------------------
 
-class function TGLAVectorFile.Capabilities: TGLDataFileCapabilities;
+class function TGLAVectorFile.Capabilities: TGSDataFileCapabilities;
 begin
   Result := [dfcRead];
 end;
@@ -175,11 +175,11 @@ var
   GLAFile: TFileGLA;
   i, j: Integer;
   frame: TGLSkeletonFrame;
-  CompBone: TGLACompQuatBone;
+  CompBone: TACompQuatBone;
   quat: TQuaternion;
   pos: TAffineVector;
   basepose: TGLSkeletonFrame;
-  bonelist: TGLIntegerList;
+  bonelist: TGSIntegerList;
   bone: TGLSkeletonBone;
 
 begin
@@ -191,7 +191,7 @@ begin
 
     TGLActor(Owner).Reference := aarSkeleton;
 
-    bonelist := TGLIntegerList.Create;
+    bonelist := TGSIntegerList.Create;
     for i := 0 to GLAFile.AnimHeader.numBones - 1 do
       bonelist.Add(i);
     while bonelist.Count > 0 do

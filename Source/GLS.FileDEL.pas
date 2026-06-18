@@ -1,10 +1,11 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.FileDEL;
 (*
-  Supports to import TetGen files from http://wias-berlin.de/software/tetgen/fformats.html 
+  Supports to import TetGen files from http://wias-berlin.de/software/tetgen/fformats.html
   combined in a DEL ASCII file for Delaunay tetrahedralization.
+   RegisterVectorFileFormat('delaunay', 'Triangular Irregular Network', TGLDELVectorFile);
 *)
 interface
 
@@ -27,13 +28,11 @@ type
    (* The DEL vector file (tetrahedra irregular network)*)
    TGLDELVectorFile = class(TGLVectorFile)
       public
-        class function Capabilities: TGLDataFileCapabilities; override;
+        class function Capabilities: TGSDataFileCapabilities; override;
         procedure LoadFromStream(aStream : TStream); override;
    end;
 
-// ------------------------------------------------------------------
-implementation
-// ------------------------------------------------------------------
+implementation //============================================================
 
 const
   cNODE_LABEL = 'node';
@@ -41,11 +40,11 @@ const
   cFACE_LABEL = 'face';
   cCELL_LABEL = 'ele';
   cNEIGH_LABEL = 'neigh';
+
 // ------------------
 // ------------------ TGLDELVectorFile ------------------
 // ------------------
-
-class function TGLDELVectorFile.Capabilities: TGLDataFileCapabilities;
+class function TGLDELVectorFile.Capabilities: TGSDataFileCapabilities;
 begin
    Result := [dfcRead];
 end;
@@ -127,9 +126,7 @@ begin
   end;
 end;
 
-// ------------------------------------------------------------------
-initialization
-// ------------------------------------------------------------------
+initialization //===========================================================
 
    RegisterVectorFileFormat('delaunay', 'Triangular Irregular Network', TGLDELVectorFile);
 

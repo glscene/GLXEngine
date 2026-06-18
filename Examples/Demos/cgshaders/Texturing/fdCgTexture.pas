@@ -29,9 +29,9 @@ uses
   GLS.Graph,
  
   GLS.Material,
-  GLS.Coordinates,
+  Stage.Coordinates,
   Stage.Utils,
-  GLS.BaseClasses;
+  Stage.BaseClasses;
 
 type
   TFormCgTexture = class(TForm)
@@ -198,7 +198,7 @@ end;
 procedure TFormCgTexture.CgShader1ApplyVP(CgProgram: TCgProgram; Sender: TObject);
 
 var
-  v: TGLVector;
+  v: TGSVector;
 
   function conv(TrackBar: TTrackBar): single;
   var
@@ -222,7 +222,7 @@ end;
 
 procedure TFormCgTexture.CgShader1ApplyFP(CgProgram: TCgProgram; Sender: TObject);
 var
-  v: TGLVector;
+  v: TGSVector;
 
   function conv(TrackBar: TTrackBar): single;
   var

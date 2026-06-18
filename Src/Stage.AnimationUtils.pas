@@ -1,10 +1,10 @@
-//
-// GXStage Graphics Engine
-//
+(*****************************************************************************
+                          GLStage Graphics Engine
+******************************************************************************)
 unit Stage.AnimationUtils;
-
-(* Main purpose is to give an easy way to create a linear interpolation *)
-
+(*
+  Main purpose is to give an easy way to create a linear interpolation
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -61,17 +61,18 @@ type
 
 function Tweener(Current, Target: TAffineVector; Time, Duration: Single;
   EaseType: TEaseType): TAffineVector; overload;
-function Tweener(Current, Target: TGLVector; Time, Duration: Single;
-  EaseType: TEaseType): TGLVector; overload;
+function Tweener(Current, Target: TGSVector; Time, Duration: Single;
+  EaseType: TEaseType): TGSVector; overload;
 function Tweener(Current, Target: TVector2f; Time, Duration: Single;
   EaseType: TEaseType): TVector2f; overload;
 function Tweener(Current, Target: Single; Time, Duration: Single;
   EaseType: TEaseType): Single; overload;
 
-implementation //-------------------------------------------------------------
+implementation //=============================================================
 
 type
   TEaseFunction = function(t:Single; b:Single; c:Single; d:Single):Single;
+
 (*
   Easing equation function for a simple linear tweening, with no easing.
 
@@ -848,6 +849,7 @@ begin
     Result := easeInBounce((t*2)-d, b+c/2, c/2, d);
 end;
 
+//---------------------------------------------------------------------------
 function GetEaseFunctionFromType(const EaseType: TEaseType): TEaseFunction;
 begin
   case EaseType of
@@ -893,6 +895,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 function Tweener(Current, Target: TAffineVector; Time, Duration: Single; EaseType: TEaseType): TAffineVector;
 var
   i: integer;
@@ -909,7 +912,8 @@ begin
   end;
 end;
 
-function Tweener(Current, Target: TGLVector; Time, Duration: Single; EaseType: TEaseType): TGLVector;
+//---------------------------------------------------------------------------
+function Tweener(Current, Target: TGSVector; Time, Duration: Single; EaseType: TEaseType): TGSVector;
 var
   i: integer;
   EaseFunction : TEaseFunction;
@@ -925,6 +929,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 function Tweener(Current, Target: TVector2f; Time, Duration: Single; EaseType: TEaseType): TVector2f;
 var
   i: integer;
@@ -941,6 +946,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 function Tweener(Current, Target: Single; Time, Duration: Single; EaseType: TEaseType): Single;
 var
   EaseFunction : TEaseFunction;

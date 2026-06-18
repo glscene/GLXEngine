@@ -1,13 +1,4 @@
-﻿//
-// GXStage Graphics Engine
-//
-unit OpenCL.Platform;
-
-(*
-  Conversion of OpenCL header file: cl_platform.h to CL_Platform.pas,
-  from http://www.khronos.org/registry/cl/.
-*)
-
+﻿unit OpenCL.Platform;
 (****************************************************************************
  * Copyright (c) 2008-2023 The Khronos Group Inc.
  *
@@ -35,7 +26,9 @@ unit OpenCL.Platform;
  * TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
  * MATERIALS OR THE USE OR OTHER DEALINGS IN THE MATERIALS.
  **************************************************************************)
-
+(*
+  Conversion of OpenCL header file from http://www.khronos.org/registry/cl/.
+*)
 interface
 
 {$IFDEF MSWINDOWS}

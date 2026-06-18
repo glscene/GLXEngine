@@ -34,10 +34,10 @@ uses
   Stage.VectorTypes, 
   GLS.GeomObjects, 
   GLS.Material, 
-  GLS.Coordinates,
+  Stage.Coordinates,
   Stage.Utils,
    
-  GLS.BaseClasses;
+  Stage.BaseClasses;
 
 type
   TForm1 = class(TForm)

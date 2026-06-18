@@ -21,8 +21,8 @@ uses
   GLS.BitmapFont,
   GLS.WindowsFont,
  
-  GLS.Coordinates,
-  GLS.BaseClasses,
+  Stage.Coordinates,
+  Stage.BaseClasses,
   ODE.Import;
 
 type

@@ -1,10 +1,10 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.FileTIN;
-
-(* Import of TIN (Triangular Irregular Network) vector file format implementation *)
-
+(*
+  Import of TIN (Triangular Irregular Network) vector file format implementation
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -28,7 +28,7 @@ type
      This format is encountered in the DEM/DTED world and used in place of grids. *)
    TGLTINVectorFile = class(TGLVectorFile)
       public
-        class function Capabilities : TGLDataFileCapabilities; override;
+        class function Capabilities : TGSDataFileCapabilities; override;
         procedure LoadFromStream(aStream : TStream); override;
    end;
 
@@ -40,7 +40,7 @@ implementation
 // ------------------ TGLTINVectorFile ------------------
 // ------------------
 
-class function TGLTINVectorFile.Capabilities : TGLDataFileCapabilities;
+class function TGLTINVectorFile.Capabilities : TGSDataFileCapabilities;
 begin
    Result:=[dfcRead];
 end;

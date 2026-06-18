@@ -1,7 +1,7 @@
 //
 // GXScene Graphics Engine
 //
-unit GXS.XCollectionRegister;
+unit Stage.XCollectionRegister;
 
 (* Register TXCollection property editor *)
 (* TODO *)
@@ -16,7 +16,7 @@ uses
 ///  DesignEditors,
 ///  DesignIntf,
 
-    GXS.XCollection,
+    Stage.XCollection,
     FMxXCollectionEditor;
 
 type

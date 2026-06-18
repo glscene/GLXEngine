@@ -27,8 +27,8 @@ uses
   GLS.FileMD2,
   GLS.GeomObjects,
 
-  GLS.Coordinates,
-  GLS.BaseClasses,
+  Stage.Coordinates,
+  Stage.BaseClasses,
   Stage.Utils;
 
 type

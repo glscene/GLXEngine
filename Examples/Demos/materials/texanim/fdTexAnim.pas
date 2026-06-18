@@ -19,9 +19,9 @@ uses
   GLS.Texture,
   GLS.SceneViewer,
   GLS.Material,
-  GLS.Coordinates,
+  Stage.Coordinates,
 
-  GLS.BaseClasses;
+  Stage.BaseClasses;
 
 type
   TFormTexAnim = class(TForm)

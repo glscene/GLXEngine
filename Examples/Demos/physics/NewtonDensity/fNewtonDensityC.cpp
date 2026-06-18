@@ -8,9 +8,9 @@
 #include "fNewtonDensityC.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
-#pragma link "GLS.BaseClasses"
+#pragma link "Stage.BaseClasses"
 #pragma link "GLS.Cadencer"
-#pragma link "GLS.Coordinates"
+#pragma link "Stage.Coordinates"
 
 #pragma link "GLS.GeomObjects"
 #pragma link "GLS.HUDObjects"
@@ -31,9 +31,9 @@ TForm1 *Form1;
 int __cdecl BuoyancyPlaneCallback(const int collisionID, void *context,
   const PdFloat globalSpaceMatrix, PdFloat globalSpacePlane)
 {
-  TGLMatrix *BodyMatrix;
-  TGLVector PlaneEquation;
-  PGLVector pv;
+  TGSMatrix *BodyMatrix;
+  TGSVector PlaneEquation;
+  PGSVector pv;
   TForm1 *MyForm;
 
   // Get the matrix of the actual body
@@ -109,7 +109,7 @@ void __fastcall TForm1::GLSceneViewer1MouseDown(TObject *Sender, TMouseButton Bu
 void TForm1::MyForceAndTorqueDensity(const PNewtonBody cbody,
 	  dFloat timestep, int threadIndex)
 {
-  TGLVector worldGravity;
+  TGSVector worldGravity;
   TGLNGDDynamic  *NGDDyn;
   float fluidDensity, fluidLinearViscosity, fluidAngularViscosity;
 

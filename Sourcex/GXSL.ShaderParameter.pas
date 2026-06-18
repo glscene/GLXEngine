@@ -1,10 +1,10 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXSL.ShaderParameter;
-
-(* Shader Parameter *)
-
+(*
+  Shader Parameter
+*)
 interface
 
 {$M-}
@@ -250,9 +250,7 @@ procedure FillUniformAutoSetMethodList(AList: TStrings;
 function GetUniformAutoSetMethod(AMethodName: string): TUniformAutoSetMethod;
 function GetUniformAutoSetMethodName(AMethod: TUniformAutoSetMethod): string;
 
-//---------------------------------------------------------------------
-implementation
-//---------------------------------------------------------------------
+implementation //============================================================
 
 const
   cGXSLTypeComponents: array[TGXSLDataType] of Integer =

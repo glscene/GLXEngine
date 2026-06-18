@@ -1,10 +1,10 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.FBORenderer;
-
-(* Implements FBO support *)
-
+(*
+  Implements FBO support
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -17,19 +17,20 @@ uses
   System.SysUtils,
   FMX.Dialogs,
 
-  GXS.PersistentClasses,
+  Stage.PersistentClasses,
   Stage.VectorGeometry,
+  Stage.Color,
+  Stage.PipelineTransform,
+  Stage.TextureFormat,
+  Stage.VectorTypes,
+
   GXS.Scene,
   GXS.Texture,
   GXS.Context,
   GXS.FBO,
-  GXS.Color,
   GXS.Material,
   GXS.RenderContextInfo,
   GXS.State,
-  Stage.PipelineTransform,
-  Stage.TextureFormat,
-  Stage.VectorTypes,
   GXS.MultisampleImage;
 
 type
@@ -71,7 +72,7 @@ type
     FPostInitialize: TNotifyEvent;
     FAfterRender: TDirectRenderEvent;
     FPreInitialize: TNotifyEvent;
-    FBackgroundColor: TgxColor;
+    FBackgroundColor: TGSColor;
     FClearOptions: TgxFBOClearOptions;
     FAspect: Single;
     FSceneScaleFactor: Single;
@@ -99,7 +100,7 @@ type
     procedure SetCamera(const Value: TgxCamera);
     procedure SetEnabledRenderBuffers(const Value: TgxEnabledRenderBuffers);
     procedure SetTargetVisibility(const Value: TgxFBOTargetVisibility);
-    procedure SetBackgroundColor(const Value: TgxColor);
+    procedure SetBackgroundColor(const Value: TGSColor);
     function StoreSceneScaleFactor: Boolean;
     function StoreAspect: Boolean;
     procedure SetUseLibraryAsMultiTarget(Value: Boolean);
@@ -141,7 +142,7 @@ type
     property ColorTextureName: TgxLibMaterialName read FColorTextureName write SetColorTextureName;
     property DepthTextureName: TgxLibMaterialName read FDepthTextureName write SetDepthTextureName;
     property MaterialLibrary: TgxAbstractMaterialLibrary read GetMaterialLibrary write SetMaterialLibrary;
-    property BackgroundColor: TgxColor read FBackgroundColor write SetBackgroundColor;
+    property BackgroundColor: TGSColor read FBackgroundColor write SetBackgroundColor;
     property ClearOptions: TgxFBOClearOptions read FClearOptions write FClearOptions;
     { camera used for rendering to the FBO
       if not assigned, use the active view's camera }
@@ -234,7 +235,7 @@ begin
   inherited;
   ObjectStyle := [osDirectDraw, osNoVisibilityCulling];
   FFbo := TgxFrameBuffer.Create;
-  FBackgroundColor := TgxColor.Create(Self);
+  FBackgroundColor := TGSColor.Create(Self);
   FUseLibraryAsMultiTarget := False;
   FForceTextureDimensions := True;
   FWidth := 256;
@@ -517,8 +518,8 @@ procedure TgxFBORenderer.RenderToFBO(var ARci: TgxRenderContextInfo);
 
 type
   TgxStoredStates = record
-    ColorClearValue: TgxColorVector;
-    ColorWriteMask: TgxColorMask;
+    ColorClearValue: TGSColorVector;
+    ColorWriteMask: TGSColorMask;
     Tests: TgxStates;
   end;
 
@@ -545,7 +546,7 @@ type
   end;
 
 var
-  backColor: TgxColorVector;
+  backColor: TGSColorVector;
   buffer: TgxSceneBuffer;
   savedStates: TgxStoredStates;
   w, h: Integer;
@@ -658,7 +659,7 @@ begin
   end;
 end;
 
-procedure TgxFBORenderer.SetBackgroundColor(const Value: TgxColor);
+procedure TgxFBORenderer.SetBackgroundColor(const Value: TGSColor);
 begin
   FBackgroundColor.Assign(Value);
 end;

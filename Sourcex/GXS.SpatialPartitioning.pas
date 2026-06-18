@@ -1,21 +1,22 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.SpatialPartitioning;
-
-(* Spatial partitioning related code that also uses scene objects *)
-
+(*
+  Spatial partitioning related code that also uses scene objects
+*)
 interface
 
 uses
   Winapi.OpenGL,
+
   Stage.VectorTypes,
   Stage.VectorGeometry,
+  Stage.GeometryBB,
+  Stage.Coordinates,
 
-  GXS.GeometryBB,
   GXS.SpacePartition,
   GXS.Scene,
-  GXS.Coordinates,
   GXS.SceneViewer,
   GXS.RenderContextInfo,
   GXS.State;
@@ -46,18 +47,18 @@ function ExtendedFrustumMakeFromSceneViewer(const AFrustum: TFrustum; const AGLX
 procedure RenderAABB(var rci: TgxRenderContextInfo; AABB: TAABB; w, r, g, b: single); overload;
 procedure RenderAABB(var rci: TgxRenderContextInfo; AABB: TAABB); overload;
 
-// -------------------------------------------------------------------
-implementation
-// -------------------------------------------------------------------
+implementation //============================================================
 
 uses
   GXS.Context;
 
+//---------------------------------------------------------------------------
 procedure RenderAABB(var rci: TgxRenderContextInfo; AABB: TAABB);
 begin
   RenderAABB(rci, AABB, 1, 0.8, 0.8, 0.8);
 end;
 
+//---------------------------------------------------------------------------
 procedure RenderAABB(var rci: TgxRenderContextInfo; AABB: TAABB; w, r, g, b: single);
 begin
   glColor3f(r, g, b);
@@ -89,6 +90,7 @@ begin
   glEnd;
 end;
 
+//---------------------------------------------------------------------------
 procedure RenderSpatialPartitioning(var rci: TgxRenderContextInfo; const Space: TSectoredSpacePartition);
 
   procedure RenderSectorNode(Node: TSectorNode);
@@ -116,6 +118,7 @@ begin
   RenderSectorNode(Space.RootNode);
 end;
 
+//---------------------------------------------------------------------------
 function ExtendedFrustumMakeFromSceneViewer(const AFrustum: TFrustum; const AGLXceneViewer: TgxSceneViewer): TExtendedFrustum;
 // old version
 begin
@@ -124,6 +127,7 @@ begin
     AGLXceneViewer.FieldOfView, AGLXceneViewer.Camera.Position.AsAffineVector, AGLXceneViewer.Camera.Direction.AsAffineVector);
 end;
 
+//---------------------------------------------------------------------------
 function ExtendedFrustumMakeFromSceneViewer(const AFrustum: TFrustum; const vWidth, vHeight: integer; AVKCamera: TgxCamera)
   : TExtendedFrustum; // changed version
 var
@@ -144,11 +148,13 @@ begin
   inherited CreateOwned(Owner);
 end;
 
+//---------------------------------------------------------------------------
 destructor TgxSceneObj.Destroy;
 begin
   inherited;
 end;
 
+//---------------------------------------------------------------------------
 procedure TgxSceneObj.UpdateCachedAABBAndBSphere;
 begin
   FCachedAABB := Obj.AxisAlignedBoundingBox;
@@ -158,4 +164,5 @@ begin
   FCachedBSphere.Center := AffineVectorMake(Obj.AbsolutePosition);
 end;
 
+//---------------------------------------------------------------------------
 end.

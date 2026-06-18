@@ -1,8 +1,7 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLSL.DiffuseSpecularShader;
-
 (*
    This is a collection of GLSL diffuse-specular shaders
    (to know what these suffixes and prefixes mean see GLCustomShader.pas):
@@ -19,7 +18,6 @@ unit GLSL.DiffuseSpecularShader;
       from OpenGL (that includes TGLLightSource's)
 
 *)
-
 interface
 
 {$I Stage.Defines.inc}
@@ -29,14 +27,15 @@ uses
   System.SysUtils,
 
   Stage.OpenGLTokens,
-  GLS.Texture,
-  GLS.Scene,
-  GLS.PersistentClasses,
+  Stage.PersistentClasses,
   Stage.VectorGeometry,
   Stage.Strings,
+
+  GLS.Texture,
+  GLS.Scene,
   GLSL.Shader,
   GLSL.CustomShader,
-  GLS.Color,
+  Stage.Color,
   GLS.RenderContextInfo,
   GLS.Material;
 

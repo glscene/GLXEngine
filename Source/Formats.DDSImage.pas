@@ -1,6 +1,6 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit Formats.DDSImage;
 (*
     Alternative for DDS unit with more supported formats of flat image:
@@ -25,10 +25,11 @@ uses
   Stage.VectorTypes,
   Stage.OpenGLTokens,
   Stage.VectorGeometry,
+  Stage.TextureFormat,
+
   GLS.Graphics,
   GLS.Context,
-  GLS.FileDDS,
-  Stage.TextureFormat;
+  GLS.FileDDS;
 
 type
   TDDSImage = class(TBitmap)
@@ -39,7 +40,7 @@ type
 
   EDDSException = class(Exception);
 
-implementation //-------------------------------------------------------------
+implementation //============================================================
 
 uses
   Formats.DXTC;
@@ -47,7 +48,6 @@ uses
 // ------------------
 // ------------------ TDDSImage ------------------
 // ------------------
-
 procedure TDDSImage.LoadFromStream(stream: TStream);
 var
   FullDDS: TGLDDSImage;
@@ -89,6 +89,7 @@ begin
   FullDDS.Free;
 end;
 
+//---------------------------------------------------------------------------
 procedure TDDSImage.SaveToStream(stream: TStream);
 const
   Magic: array[0..3] of AnsiChar = 'DDS ';
@@ -143,16 +144,12 @@ begin
   end;
 end;
 
-// ------------------------------------------------------------------
-initialization
-// ------------------------------------------------------------------
+initialization //============================================================
 
   TPicture.RegisterFileFormat(
     'dds', 'Microsoft DirectDraw Surface', TDDSImage);
 
-// ------------------------------------------------------------------
-finalization
-// ------------------------------------------------------------------
+finalization //==============================================================
 
   TPicture.UnregisterGraphicClass(TDDSImage);
 

@@ -1,8 +1,7 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.GeomObjects;
-
 (*
   Geometric objects:
    - TgxTetrahedron, TgxOctahedron, TgxHexahedron, TgxDodecahedron, TgxIcosahedron;
@@ -20,21 +19,19 @@ uses
   System.Math,
   System.Classes,
 
+  Stage.PersistentClasses,
+  Stage.VectorTypes,
+  Stage.VectorGeometry,
+  Stage.GeometryBB,
+  Stage.Silhouette,
+  Stage.PipelineTransform,
+  Stage.Polynomials,
+
   GXS.Scene,
   GXS.State,
-  GXS.PersistentClasses,
-  Stage.VectorTypes,
-  GXS.Silhouette,
-
-  Stage.VectorGeometry,
-  Stage.Polynomials,
   GXS.VectorFileObjects,
-  Stage.PipelineTransform,
   GXS.Material,
   GXS.Texture,
-  GXS.GeometryBB,
-
-
   GXS.Context,
   GXS.Objects,
   GXS.Mesh,
@@ -134,7 +131,7 @@ type
     constructor Create(AOwner: TComponent); override;
     procedure Assign(Source: TPersistent); override;
     function GenerateSilhouette(const silhouetteParameters
-      : TgxSilhouetteParameters): TgxSilhouette; override;
+      : TGSSilhouetteParameters): TGSSilhouette; override;
   published
     property BottomRadius: Single read FBottomRadius write SetBottomRadius;
     property Height: Single read FHeight write SetHeight;
@@ -502,9 +499,7 @@ type
       ARenderSelf, ARenderChildren: Boolean); override;
   end;
 
-// -------------------------------------------------------------
-implementation
-// -------------------------------------------------------------
+implementation //============================================================
 
 // --------------------
 // --------------------  TgxTetrahedron ------------------------
@@ -929,10 +924,10 @@ begin
 end;
 
 function TgxCylinderBase.GenerateSilhouette(const silhouetteParameters
-  : TgxSilhouetteParameters): TgxSilhouette;
+  : TGSSilhouetteParameters): TGSSilhouette;
 var
-  connectivity: TConnectivity;
-  sil: TgxSilhouette;
+  connectivity: TGSConnectivity;
+  sil: TGSSilhouette;
   ShadowSlices: integer;
 
   i: integer;
@@ -944,7 +939,7 @@ var
   HalfHeight: Single;
   ShadowTopRadius: Single;
 begin
-  connectivity := TConnectivity.Create(true);
+  connectivity := TGSConnectivity.Create(true);
 
   ShadowSlices := FSlices div 1;
 
@@ -3653,9 +3648,8 @@ begin
   if ARenderChildren then
     Self.RenderChildren(0, Count - 1, ARci);
 end;
-// -------------------------------------------------------------
-initialization
-// -------------------------------------------------------------
+
+initialization //============================================================
 
 RegisterClasses([TgxDodecahedron, TgxIcosahedron, TgxHexahedron, TgxOctahedron,
   TgxTetrahedron]);

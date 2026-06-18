@@ -1,8 +1,7 @@
 (*****************************************************************************
-                          GLScene Graphics Engine
+                          GLStage Graphics Engine
 ******************************************************************************)
 unit Stage.Strings;
-
 (*
   String constants that are used for internationalization
 
@@ -17,9 +16,9 @@ Language             $DEFINE    2-character locale id
   Italian              LANG_IT    it
   Japanese             LANG_JP    jp
   Russian              LANG_RU    ru
+  Chinese              LANG_CN    cn
   Spanish              LANG_ES    es
 *)
-
 interface
 
 {$DEFINE LANG_EN}
@@ -244,9 +243,7 @@ resourcestring
   strSourceFileNotFound = 'Source file not found';
   strSuccessCompilation = 'Successful compilation:' + #10#13 + '%s';
 
-
 implementation //==============================================================
-
 
 end.
 

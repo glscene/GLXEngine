@@ -1,10 +1,10 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.FileMS3D;
-
-(* Support for MS3D file format. *)
-
+(*
+  Support for MS3D file format.
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -17,10 +17,10 @@ uses
   GLS.VectorFileObjects,
   Stage.VectorTypes, 
   GLS.Material, 
-  GLS.Color, 
+  Stage.Color, 
   GLS.Texture,
   Stage.VectorGeometry, 
-  GLS.VectorLists, 
+  Stage.VectorLists, 
   GLS.ApplicationFileIO;
   
 
@@ -122,10 +122,10 @@ type
   // *) ms3d_material_t;
   TMS3DMaterial = record
     Name: array[0..31] of AnsiChar;
-    Ambient: TGLColorVector;
-    Diffuse: TGLColorVector;
-    Specular: TGLColorVector;
-    Emissive: TGLColorVector;
+    Ambient: TGSColorVector;
+    Diffuse: TGSColorVector;
+    Specular: TGSColorVector;
+    Emissive: TGSColorVector;
     Shininess: single;
     Transparency: single;
     Mode: AnsiChar;
@@ -237,7 +237,7 @@ type
      By Mattias Fagerlund, mattias@cambrianlabs.com. Yada yada. Eric rules! *)
   TGLMS3DVectorFile = class(TGLVectorFile)
   public
-    class function Capabilities: TGLDataFileCapabilities; override;
+    class function Capabilities: TGSDataFileCapabilities; override;
     procedure LoadFromStream(aStream: TStream); override;
   end;
 
@@ -327,7 +327,7 @@ end;
 
 { TGLMS3DVectorFile }
 
-class function TGLMS3DVectorFile.Capabilities: TGLDataFileCapabilities;
+class function TGLMS3DVectorFile.Capabilities: TGSDataFileCapabilities;
 begin
   Result := [dfcRead];
 end;
@@ -410,7 +410,7 @@ var
 
   function AddRotations(rot, baserot: TAffineVector): TAffineVector;
   var
-    mat1, mat2, rmat: TGLMatrix;
+    mat1, mat2, rmat: TGSMatrix;
     s, c: Single;
     Trans: TTransformations;
   begin

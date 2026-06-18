@@ -1,10 +1,11 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.Collision;
-
-(* Collision-detection management *)
-
+(*
+  Collision-detection management
+  RegisterXCollectionItemClass(TGLBCollision);
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -17,16 +18,15 @@ uses
   Stage.VectorTypes,
   Stage.OpenGLTokens,
   Stage.VectorGeometry,
+  Stage.XCollection,
+  Stage.VectorLists,
+  Stage.GeometryBB,
   Stage.Manager,
 
   GLS.Scene,
-  GLS.XCollection,
-  GLS.VectorLists,
-  GLS.VectorFileObjects,
-  GLS.GeometryBB;
+  GLS.VectorFileObjects;
 
 type
-
   TGLBCollision = class;
 
   TObjectCollisionEvent = procedure(Sender: TObject;
@@ -129,9 +129,7 @@ function GetOrCreateCollision(behaviours: TGLBehaviours)
   This helper function is convenient way to access a TGLBCollision. *)
 function GetOrCreateCollision(obj: TGLBaseSceneObject): TGLBCollision; overload;
 
-// ------------------------------------------------------------------
-implementation
-// ------------------------------------------------------------------
+implementation //============================================================
 
 const
   cEpsilon: Single = 1E-6;
@@ -149,22 +147,25 @@ const
     (FastCheckCubeVsPoint, FastCheckCubeVsSphere, FastCheckCubeVsEllipsoid,
     FastCheckFaceVsCube, FastCheckFaceVsFace));
 
-  // Collision utility routines
-
+//---------------------------------------------------------------------------
+// Collision utility routines
+//---------------------------------------------------------------------------
 function FastCheckPointVsPoint(obj1, obj2: TGLBaseSceneObject): Boolean;
 begin
   Result := (obj2.SqrDistanceTo(obj1.AbsolutePosition) <= cEpsilon);
 end;
 
+//---------------------------------------------------------------------------
 function FastCheckPointVsSphere(obj1, obj2: TGLBaseSceneObject): Boolean;
 begin
   Result := (obj2.SqrDistanceTo(obj1.AbsolutePosition) <=
     Sqr(obj2.BoundingSphereRadius));
 end;
 
+//---------------------------------------------------------------------------
 function FastCheckPointVsEllipsoid(obj1, obj2: TGLBaseSceneObject): Boolean;
 var
-  v: TGLVector;
+  v: TGSVector;
 begin
   // calc vector expressed in local coordinates (for obj2)
   v := VectorTransform(obj1.AbsolutePosition, obj2.InvAbsoluteMatrix);
@@ -179,9 +180,10 @@ begin
   // since radius*radius = 1/2*1/2 = 1/4 for unit sphere
 end;
 
+//---------------------------------------------------------------------------
 function FastCheckPointVsCube(obj1, obj2: TGLBaseSceneObject): Boolean;
 var
-  v: TGLVector;
+  v: TGSVector;
 begin
   // calc vector expressed in local coordinates (for obj2)
   v := VectorTransform(obj1.AbsolutePosition, obj2.InvAbsoluteMatrix);
@@ -191,22 +193,25 @@ begin
   Result := (MaxAbsXYZComponent(v) <= 1);
 end;
 
+//---------------------------------------------------------------------------
 function FastCheckSphereVsPoint(obj1, obj2: TGLBaseSceneObject): Boolean;
 begin
   Result := (obj1.SqrDistanceTo(obj2.AbsolutePosition) <=
     Sqr(obj1.BoundingSphereRadius));
 end;
 
+//---------------------------------------------------------------------------
 function FastCheckSphereVsSphere(obj1, obj2: TGLBaseSceneObject): Boolean;
 begin
   Result := (obj1.SqrDistanceTo(obj2.AbsolutePosition) <=
     Sqr(obj1.BoundingSphereRadius + obj2.BoundingSphereRadius));
 end;
 
+//---------------------------------------------------------------------------
 function FastCheckSphereVsEllipsoid(obj1, obj2: TGLBaseSceneObject): Boolean;
 var
-  v: TGLVector;
-  aad: TGLVector;
+  v: TGSVector;
+  aad: TGSVector;
 begin
   // express in local coordinates (for obj2)
   v := VectorTransform(obj1.AbsolutePosition, obj2.InvAbsoluteMatrix);
@@ -220,10 +225,11 @@ begin
   Result := (VectorNorm(v) <= 1);
 end;
 
+//---------------------------------------------------------------------------
 function FastCheckSphereVsCube(obj1, obj2: TGLBaseSceneObject): Boolean;
 var
-  v: TGLVector;
-  aad: TGLVector;
+  v: TGSVector;
+  aad: TGSVector;
   r, r2: Single;
 begin
   // express in local coordinates (for cube "obj2")
@@ -302,19 +308,22 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 function FastCheckEllipsoidVsPoint(obj1, obj2: TGLBaseSceneObject): Boolean;
 begin
   Result := FastCheckPointVsEllipsoid(obj2, obj1);
 end;
 
+//---------------------------------------------------------------------------
 function FastCheckEllipsoidVsSphere(obj1, obj2: TGLBaseSceneObject): Boolean;
 begin
   Result := FastCheckSphereVsEllipsoid(obj2, obj1);
 end;
 
+//---------------------------------------------------------------------------
 function FastCheckEllipsoidVsEllipsoid(obj1, obj2: TGLBaseSceneObject): Boolean;
 var
-  v1, v2: TGLVector;
+  v1, v2: TGSVector;
 begin
   // express in local coordinates (for obj2)
   v1 := VectorTransform(obj1.AbsolutePosition, obj2.InvAbsoluteMatrix);
@@ -332,11 +341,12 @@ begin
   Result := (VectorNorm(v1) + VectorNorm(v2) <= 2);
 end;
 
+//---------------------------------------------------------------------------
 function FastCheckEllipsoidVsCube(obj1, obj2: TGLBaseSceneObject): Boolean;
 { current implementation assumes Ellipsoid as Sphere }
 var
-  v: TGLVector;
-  aad: TGLVector;
+  v: TGSVector;
+  aad: TGSVector;
 begin
   // express in local coordinates (for obj2)
   v := VectorTransform(obj1.AbsolutePosition, obj2.InvAbsoluteMatrix);
@@ -347,25 +357,28 @@ begin
   v.W := 0;
   // if norm is below 1, collision
   Result := (VectorNorm(v) <= 1);
-
 end;
 
+//---------------------------------------------------------------------------
 function FastCheckCubeVsPoint(obj1, obj2: TGLBaseSceneObject): Boolean;
 begin
   Result := FastCheckPointVsCube(obj2, obj1);
 end;
 
+//---------------------------------------------------------------------------
 function FastCheckCubeVsSphere(obj1, obj2: TGLBaseSceneObject): Boolean;
 begin
   Result := FastCheckSphereVsCube(obj2, obj1);
 end;
 
+//---------------------------------------------------------------------------
 function FastCheckCubeVsEllipsoid(obj1, obj2: TGLBaseSceneObject): Boolean;
 begin
   Result := FastCheckEllipsoidVsCube(obj2, obj1);
 end;
 
-procedure InitArray(v: TGLVector; var pt: array of TGLVector);
+//---------------------------------------------------------------------------
+procedure InitArray(v: TGSVector; var pt: array of TGSVector);
 // calculate the cube edge points from the axis aligned dimension
 begin
   pt[0] := VectorMake(-v.X, -v.Y, -v.Z, 1);
@@ -378,12 +391,13 @@ begin
   pt[7] := VectorMake(-v.X, v.Y, v.Z, 1);
 end;
 
+//---------------------------------------------------------------------------
 function DoCubesIntersectPrim(obj1, obj2: TGLBaseSceneObject): Boolean;
 // first check if any edge point of "cube" obj1 lies within "cube" obj2
 // else, for each "wire" in then wireframe of the "cube" obj1, check if it
 // intersects with one of the "planes" of "cube" obj2
 
-  function CheckWire(p0, p1, pl: TGLVector): Boolean;
+  function CheckWire(p0, p1, pl: TGSVector): Boolean;
   // check "wire" line (p0,p1) for intersection with each plane, given from
   // axis aligned dimensions pl
   // - calculate "direction" d: p0 -> p1
@@ -396,7 +410,7 @@ function DoCubesIntersectPrim(obj1, obj2: TGLBaseSceneObject): Boolean;
   // - do the same for opposite plane -pl[I]
   var
     t: Single;
-    d, s: TGLVector;
+    d, s: TGSVector;
     i, j, k: Integer;
   begin
     Result := true;
@@ -440,10 +454,10 @@ const
   cWires: array [0 .. 11, 0 .. 1] of Integer = ((0, 1), (1, 2), (2, 3), (3, 0),
     (4, 5), (5, 6), (6, 7), (7, 4), (0, 4), (1, 5), (2, 6), (3, 7));
 var
-  pt1: array [0 .. 7] of TGLVector;
-  M: TGLMatrix;
+  pt1: array [0 .. 7] of TGSVector;
+  M: TGSMatrix;
   i: Integer;
-  aad: TGLVector;
+  aad: TGSVector;
 begin
   Result := true;
   aad := obj2.AxisAlignedDimensionsUnscaled; // DanB experiment
@@ -465,15 +479,17 @@ begin
   Result := false;
 end;
 
+//---------------------------------------------------------------------------
 function FastCheckCubeVsCube(obj1, obj2: TGLBaseSceneObject): Boolean;
-{ var
-  aad1,aad2 : TGLVector;
+(*
+ var
+  aad1,aad2 : TGSVector;
   D1,D2,D : Double;
-}
+*)
 begin
   // this bit of code isn't needed (since collision code does BoundingBox elimination)
   // also is incorrect when objects further up the "object tree" are scaled
-  {
+(*
     aad1 := obj1.AxisAlignedDimensions;
     aad2 := obj2.AxisAlignedDimensions;
 
@@ -486,16 +502,18 @@ begin
     D2 := MinAbsXYZComponent(aad2);
     if D<(D1+D2) then result := true
     else begin
-  }
+*)
   //
   Result := DoCubesIntersectPrim(obj1, obj2) or
     DoCubesIntersectPrim(obj2, obj1);
-  { end;
-    end;
-  }
+(*
+  end;
+  end;
+*)
 end;
 
-{ Behaviour - Checks for collisions between Faces and cube by Checking
+//---------------------------------------------------------------------------
+(* Behaviour - Checks for collisions between Faces and cube by Checking
   whether triangles on the mesh have a point inside the cube,
   or a triangle intersects the side
 
@@ -503,11 +521,12 @@ end;
   1)  When the cube is completely inside a mesh, it will contain
   no triangles hence no collision detected
   2)  When the mesh is (almost) completely inside the cube
-  Octree.GetTrianglesInCube returns no points, why? }
+  Octree.GetTrianglesInCube returns no points, why? *)
+//---------------------------------------------------------------------------
 function FastCheckCubeVsFace(obj1, obj2: TGLBaseSceneObject): Boolean;
 // var
-// triList : TGLAffineVectorList;
-// m1to2, m2to1 : TGLMatrix;
+// triList : TGSAffineVectorList;
+// m1to2, m2to1 : TGSMatrix;
 // i:integer;
 begin
   if (obj2 is TGLFreeForm) then
@@ -528,13 +547,16 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 function FastCheckFaceVsCube(obj1, obj2: TGLBaseSceneObject): Boolean;
 begin
   Result := FastCheckCubeVsFace(obj2, obj1);
 end;
 
+//---------------------------------------------------------------------------
 // this function does not check for rounds that results from Smoth rendering
 // if anybody needs this, you are welcome to show a solution, but usually this should be good enough
+//---------------------------------------------------------------------------
 function FastCheckFaceVsFace(obj1, obj2: TGLBaseSceneObject): Boolean;
 type
   TTriangle = array [0 .. 2] of TAffineVector;
@@ -542,9 +564,9 @@ type
 
 var
   i: Integer;
-  triList: TGLAffineVectorList;
+  triList: TGSAffineVectorList;
   tri: PTriangle;
-  m1to2, m2to1: TGLMatrix;
+  m1to2, m2to1: TGSMatrix;
   AABB2: TAABB;
 begin
   Result := false;
@@ -597,10 +619,11 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 function IntersectCubes(obj1, obj2: TGLBaseSceneObject): Boolean;
 var
   aabb1, AABB2: TAABB;
-  m1to2, m2to1: TGLMatrix;
+  m1to2, m2to1: TGSMatrix;
 begin
   // Calc AABBs
   aabb1 := obj1.AxisAlignedBoundingBoxUnscaled;
@@ -616,7 +639,6 @@ end;
 // ------------------
 // ------------------ TCollisionManager ------------------
 // ------------------
-
 constructor TGLCollisionManager.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
@@ -624,6 +646,7 @@ begin
   RegisterManager(Self);
 end;
 
+//---------------------------------------------------------------------------
 destructor TGLCollisionManager.Destroy;
 begin
   DeRegisterAllClients;
@@ -632,6 +655,7 @@ begin
   inherited Destroy;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLCollisionManager.RegisterClient(aClient: TGLBCollision);
 begin
   if Assigned(aClient) then
@@ -642,6 +666,7 @@ begin
     end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLCollisionManager.DeRegisterClient(aClient: TGLBCollision);
 begin
   if Assigned(aClient) then
@@ -651,6 +676,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLCollisionManager.DeRegisterAllClients;
 var
   i: Integer;
@@ -662,7 +688,7 @@ begin
 end;
 
 // Reference code
-{
+(*
   procedure TCollisionManager.CheckCollisions;
   var
   obj1, obj2 : TGLBaseSceneObject;
@@ -690,7 +716,7 @@ end;
   end;
   end;
 
-}
+*)
 
 
 // [---- new CheckCollisions / Dan Bartlett
@@ -723,6 +749,7 @@ type
     constructor Create(Collision: TGLBCollision; const AABB: TAABB);
   end;
 
+//---------------------------------------------------------------------------
 constructor TCollisionNode.Create(Collision: TGLBCollision; const AABB: TAABB);
 begin
   inherited Create();
@@ -730,6 +757,7 @@ begin
   Self.AABB := AABB;
 end;
 
+//---------------------------------------------------------------------------
 function CompareDistance(Item1, Item2: Pointer): Integer;
 var
   d: Extended;
@@ -744,6 +772,7 @@ begin
     Result := 0;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLCollisionManager.CheckCollisions;
 var
   NodeList: TList;
@@ -836,29 +865,32 @@ end;
 // ------------------
 // ------------------ TGLBCollision ------------------
 // ------------------
-
 constructor TGLBCollision.Create(AOwner: TXCollection);
 begin
   inherited Create(AOwner);
 
 end;
 
+//---------------------------------------------------------------------------
 destructor TGLBCollision.Destroy;
 begin
   Manager := nil;
   inherited Destroy;
 end;
 
+//---------------------------------------------------------------------------
 class function TGLBCollision.FriendlyName: String;
 begin
   Result := 'Collision';
 end;
 
+//---------------------------------------------------------------------------
 class function TGLBCollision.FriendlyDescription: String;
 begin
   Result := 'Collision-detection registration';
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLBCollision.WriteToFiler(writer: TWriter);
 begin
   with writer do
@@ -876,6 +908,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLBCollision.ReadFromFiler(reader: TReader);
 var
   archiveVersion: Integer;
@@ -896,6 +929,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLBCollision.Loaded;
 var
   mng: TComponent;
@@ -910,6 +944,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLBCollision.Assign(Source: TPersistent);
 begin
   if Source is TGLBCollision then
@@ -918,9 +953,9 @@ begin
     BoundingMode := TGLBCollision(Source).BoundingMode;
   end;
   inherited Assign(Source);
-
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLBCollision.SetManager(const val: TGLCollisionManager);
 begin
   if val <> FManager then
@@ -932,11 +967,13 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLBCollision.SetGroupIndex(const value: Integer);
 begin
   FGroupIndex := value;
 end;
 
+//---------------------------------------------------------------------------
 function GetOrCreateCollision(behaviours: TGLBehaviours): TGLBCollision;
 var
   i: Integer;
@@ -948,18 +985,17 @@ begin
     Result := TGLBCollision.Create(behaviours);
 end;
 
+//---------------------------------------------------------------------------
 function GetOrCreateCollision(obj: TGLBaseSceneObject): TGLBCollision;
 begin
   Result := GetOrCreateCollision(obj.behaviours);
 end;
 
-// ------------------------------------------------------------------
-initialization
-// ------------------------------------------------------------------
+initialization //============================================================
 
 RegisterXCollectionItemClass(TGLBCollision);
 
-finalization
+finalization //==============================================================
 
 UnregisterXCollectionItemClass(TGLBCollision);
 

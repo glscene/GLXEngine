@@ -1,14 +1,12 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.FileTGA;
-
 (*
   Simple TGA formats supports for Delphi.
   Currently supports only 24 and 32 bits RGB formats (uncompressed
   and RLE compressed).
 *)
-
 interface
 
 {$I Stage.Defines.inc}
@@ -36,9 +34,7 @@ type
   ETGAException = class(Exception)
   end;
 
-// ------------------------------------------------------------------
-implementation
-// ------------------------------------------------------------------
+implementation //============================================================
 
 type
 
@@ -268,15 +264,13 @@ begin
     (* stream.Write(ScanLine[Height-y-1]^, rowSize); *)
 end;
 
-// ------------------------------------------------------------------
-initialization
-// ------------------------------------------------------------------
+initialization //=============================================================
 
 { TODO : E2003 Undeclared identifier: 'RegisterFileFormat' }
 (* TPicture.RegisterFileFormat('tga', 'Targa', TTGAImage); *)
 // ?  RegisterRasterFormat('tga', 'Targa', TTGAImage);
 
-finalization
+finalization //==============================================================
 
 { TODO : E2003 Undeclared identifier: 'UNregisterFileFormat' }
 (* TPicture.UnregisterGraphicClass(TTGAImage); *)

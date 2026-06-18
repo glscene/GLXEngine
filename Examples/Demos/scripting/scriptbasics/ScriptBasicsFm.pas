@@ -19,9 +19,9 @@ uses
   GLS.Cadencer,
   GLS.SceneViewer,
   GLS.AsyncTimer,
-  GLS.Coordinates,
+  Stage.Coordinates,
  
-  GLS.BaseClasses,
+  Stage.BaseClasses,
 
   DWS.Classes,
   DWS.VectorGeometry,

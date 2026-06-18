@@ -15,8 +15,8 @@
 #include <GLS.Objects.hpp>
 #include <GLS.Scene.hpp>
 #include <Vcl.ExtCtrls.hpp>
-#include "GLS.BaseClasses.hpp"
-#include "GLS.Coordinates.hpp"
+#include "Stage.BaseClasses.hpp"
+#include "Stage.Coordinates.hpp"
 
 #include "GLS.SceneViewer.hpp"
 #include "GLS.SceneViewer.hpp"

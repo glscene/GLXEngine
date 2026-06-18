@@ -19,8 +19,8 @@ uses
   GLS.SceneViewer,
   GLS.TimeEventsMgr,
 
-  GLS.Coordinates,
-  GLS.BaseClasses;
+  Stage.Coordinates,
+  Stage.BaseClasses;
 
 type
   TFormEvents = class(TForm)

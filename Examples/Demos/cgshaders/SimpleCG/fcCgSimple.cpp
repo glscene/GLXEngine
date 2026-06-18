@@ -7,13 +7,13 @@
 #include "fcCgSimple.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
-#pragma link "GLS.BaseClasses"
+#pragma link "Stage.BaseClasses"
 
 #pragma link "GLS.Material"
 #pragma link "GLS.Scene"
 #pragma link "GLS.SceneViewer"
 #pragma link "GLS.Cadencer"
-#pragma link "GLS.Coordinates"
+#pragma link "Stage.Coordinates"
 #pragma link "GLS.Graph"
 #pragma link "GLS.Objects"
 #pragma link "GLS.VectorFileObjects"
@@ -62,7 +62,7 @@ void __fastcall TForm1::FormCreate(TObject *Sender)
 
 void __fastcall TForm1::CgShader1ApplyVP(TCgProgram *CgProgram, TObject *Sender)
 {
-  TGLVector v;
+  TGSVector v;
   TCgParameter *Param;
   // rotate light vector for the "simple lighting" vertex program
   v = ZHmgVector;

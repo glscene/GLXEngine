@@ -31,9 +31,9 @@ uses
 
   Stage.Keyboard,
   Stage.VectorGeometry,
-  GLS.Coordinates,
-  GLS.BaseClasses,
-  GLS.XCollection,
+  Stage.Coordinates,
+  Stage.BaseClasses,
+  Stage.XCollection,
 
   GLS.ShadowHDS;
 

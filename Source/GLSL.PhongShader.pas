@@ -1,10 +1,11 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLSL.PhongShader;
-
-(*  An ARBvp1.0 + ARBfp1.0 shader that implements phong shading. *)
-
+(*
+  An ARBvp1.0 + ARBfp1.0 shader that implements phong shading.
+  RegisterClasses([TGLPhongShader]);
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -18,7 +19,7 @@ uses
   GLS.Texture,
   Stage.VectorTypes,
   Stage.VectorGeometry,
-  GLS.VectorLists,
+  Stage.VectorLists,
   Stage.OpenGLTokens,
   GLS.Context,
   GLSL.AsmShader,
@@ -29,7 +30,7 @@ uses
 type
   TGLPhongShader = class(TGLCustomAsmShader)
   private
-    FLightIDs: TGLIntegerList;
+    FLightIDs: TGSIntegerList;
     FDesignTimeEnabled: Boolean;
     FAmbientPass: Boolean;
     procedure SetDesignTimeEnabled(const Value: Boolean);
@@ -48,9 +49,7 @@ type
     property DesignTimeEnabled: Boolean read FDesignTimeEnabled write SetDesignTimeEnabled default False;
   end;
 
-//---------------------------------------------------------------
-implementation
-//---------------------------------------------------------------
+implementation //============================================================
 
 procedure TGLPhongShader.DoApply(var rci: TGLRenderContextInfo; Sender: TObject);
 begin
@@ -184,7 +183,7 @@ begin
 
     Add('END');
   end;
-  FLightIDs := TGLIntegerList.Create;
+  FLightIDs := TGSIntegerList.Create;
 end;
 
 function TGLPhongShader.ShaderSupported: Boolean;
@@ -214,7 +213,7 @@ end;
 
 procedure TGLPhongShader.DoAmbientPass(var rci: TGLRenderContextInfo);
 var
-  ambient, materialAmbient: TGLVector;
+  ambient, materialAmbient: TGSVector;
 begin
   rci.GLStates.Disable(stLighting);
 
@@ -226,7 +225,7 @@ end;
 
 procedure TGLPhongShader.DoLightPass(lightID: Cardinal);
 var
-  LightParam: TGLVector;
+  LightParam: TGSVector;
 begin
   Self.ApplyShaderPrograms();
 
@@ -242,7 +241,8 @@ begin
   end;
 end;
 
-initialization
+initialization //============================================================
+
   RegisterClasses([TGLPhongShader]);
 
 end.

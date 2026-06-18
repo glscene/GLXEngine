@@ -16,21 +16,21 @@ uses
   Vcl.StdCtrls,
 
   Stage.VectorTypes,
-  GLS.VectorLists,
+  Stage.VectorLists,
   GLS.Scene,
   GLS.Objects,
   GLS.Cadencer,
   GLS.VectorFileObjects,
   GLS.Material,
-  GLS.Color,
+  Stage.Color,
   GLS.State,
   GLS.SceneViewer,
   Stage.VectorGeometry,
   GLS.Graph,
   GLS.GeomObjects,
  
-  GLS.Coordinates,
-  GLS.BaseClasses;
+  Stage.Coordinates,
+  Stage.BaseClasses;
 
 type
   TFormTriangleBox = class(TForm)

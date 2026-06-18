@@ -15,7 +15,7 @@ TFormWaterPlane *FormWaterPlane;
 
 void TFormWaterPlane::ClickWater(int x, int y)
 {
-  TGLVector ip;
+  TGSVector ip;
   // create a ripple in the pond on a right-mousebutton click
   GLSceneViewer1->Buffer->
     ScreenVectorIntersectWithPlaneXZ(VectorMake

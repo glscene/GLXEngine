@@ -20,7 +20,7 @@ uses
 
 
   GLS.Scene,
-  GLS.PersistentClasses,
+  Stage.PersistentClasses,
   GLS.VectorFileObjects,
   GLS.MeshBSP,
   GLS.MeshCSG,
@@ -30,8 +30,8 @@ uses
   GLS.File3DS,
 
   GLS.Material,
-  GLS.Coordinates,
-  GLS.BaseClasses,
+  Stage.Coordinates,
+  Stage.BaseClasses,
   GLS.State,
   Stage.VectorGeometry,
   Stage.Utils;

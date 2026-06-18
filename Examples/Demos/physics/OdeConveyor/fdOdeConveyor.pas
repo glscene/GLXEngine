@@ -22,12 +22,12 @@ uses
   Stage.VectorTypes,
   GLS.Objects,
   GLS.Cadencer,
-  GLS.Coordinates,
+  Stage.Coordinates,
  
-  GLS.BaseClasses,
+  Stage.BaseClasses,
   GLS.SceneViewer,
   Stage.VectorGeometry,
-  GLS.XCollection,
+  Stage.XCollection,
   GLS.SimpleNavigation;
 
 type
@@ -71,8 +71,8 @@ type
     procedure FDirChange(Sender: TObject);
     procedure AddODECubeClick(Sender: TObject);
   private
-    FUserDirection: TGLVector;
-    FDirectionVector: TGLVector;
+    FUserDirection: TGSVector;
+    FDirectionVector: TGSVector;
   end;
 
 var

@@ -17,18 +17,18 @@ uses
 
   
   GLS.Scene,
-  GLS.PersistentClasses,
+  Stage.PersistentClasses,
   GLS.Cadencer,
   GLS.Objects,
   Stage.VectorTypes,
   GLS.SceneViewer,
-  GLS.XCollection,
+  Stage.XCollection,
 
   Stage.Utils,
   GLS.GizmoEx,
 
-  GLS.Coordinates,
-  GLS.BaseClasses,
+  Stage.Coordinates,
+  Stage.BaseClasses,
   Stage.VectorGeometry,
   GLS.GeomObjects,
   GLS.BitmapFont,
@@ -159,7 +159,7 @@ type
     procedure FormKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure SpeedButton1Click(Sender: TObject);
     procedure ComboBox3Change(Sender: TObject);
-    function MouseWorldPos(const X, Y: Integer; isy: boolean = false): TGLVector;
+    function MouseWorldPos(const X, Y: Integer; isy: boolean = false): TGSVector;
     procedure ComboBox4Change(Sender: TObject);
     procedure SpeedButton6MouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
@@ -175,9 +175,9 @@ type
   public
      
     mx, my: Integer;
-    MousePos,LostMousePos: TGLVector;
+    MousePos,LostMousePos: TGSVector;
     MouseMoving: boolean;
-    pos: TGLVector;
+    pos: TGSVector;
     FObj: TGLBaseSceneObject;
     procedure UpdateTreeView;
   end;
@@ -192,7 +192,7 @@ implementation
 
 {$R *.dfm}
 
-procedure SettingsObj(Obj: TGLBaseSceneObject; Step: Integer; Length: TGLVector);
+procedure SettingsObj(Obj: TGLBaseSceneObject; Step: Integer; Length: TGSVector);
 begin
   if (Obj is TGLCube) then
   with (Obj as TGLCube) do
@@ -238,9 +238,9 @@ begin
    end;
 end;
 
-function TFormGizmoEx.MouseWorldPos(const X, Y: Integer; isy: boolean = false): TGLVector;
+function TFormGizmoEx.MouseWorldPos(const X, Y: Integer; isy: boolean = false): TGSVector;
 var
-  v: TGLVector;
+  v: TGSVector;
   InvertedY: Integer;
 begin
   InvertedY := Viewer.Height - Y;

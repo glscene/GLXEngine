@@ -1,6 +1,6 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.FileLMTS;
 
 interface
@@ -14,9 +14,9 @@ uses
 
   Stage.VectorTypes,
   GXS.ApplicationFileIO,
-  GXS.VectorLists,
+  Stage.VectorLists,
   Stage.VectorGeometry,
-  GXS.PersistentClasses,
+  Stage.PersistentClasses,
   GXS.VectorFileObjects,
   GXS.Graphics,
   GXS.Texture,
@@ -101,9 +101,7 @@ type
     procedure SaveToStream(aStream: TStream); override;
   end;
 
-//====================================================================
-implementation
-//====================================================================
+implementation //============================================================
 
 uses
   Stage.TextureFormat;
@@ -111,7 +109,6 @@ uses
 // ------------------
 // ------------------ TgxLMTSVectorFile ------------------
 // ------------------
-
 class function TgxLMTSVectorFile.Capabilities: TDataFileCapabilities;
 begin
   Result := [dfcRead, dfcWrite];
@@ -130,7 +127,7 @@ var
   _4cc: cardinal;
   C: integer;
   fName: string;
-  vi: TgxIntegerList;
+  vi: TGSIntegerList;
   libmat: TgxLibmaterial;
   lmnames, matnames: TStringlist;
   MatInfoHeader: array [0 .. 3] of ansichar;
@@ -143,7 +140,7 @@ begin
   MO := TgxMeshObject.CreateOwned(owner.MeshObjects);
   MO.Mode := momFaceGroups;
 
-  vi := TgxIntegerList.create;
+  vi := TGSIntegerList.create;
 
   LL := owner.LightmapLibrary;
   ML := owner.MaterialLibrary;
@@ -684,9 +681,7 @@ begin
   setlength(Matinfo, 0);
 end;
 
-//----------------------------------------------------------------
-initialization
-//----------------------------------------------------------------
+initialization //============================================================
 
 RegisterVectorFileFormat('lmts', 'Pulsar Studio LMTS File Format',
   TgxLMTSVectorFile);

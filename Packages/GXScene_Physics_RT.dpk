@@ -28,7 +28,7 @@ package GXScene_Physics_RT;
 {$IMAGEBASE $400000}
 {$DEFINE DEBUG}
 {$ENDIF IMPLICITBUILDING}
-{$DESCRIPTION 'GLSceneVKS Physics Managers'}
+{$DESCRIPTION 'GXScene RT Physics Managers'}
 {$RUNONLY}
 {$IMPLICITBUILD ON}
 
@@ -38,17 +38,17 @@ requires
   GXScene_RT;
 
 contains
-  GXS.NGDManager in '..\Sourcex\GXS.NGDManager.pas',
-  GXS.NGDRagdoll in '..\Sourcex\GXS.NGDRagdoll.pas',
-  GXS.ODEManager in '..\Sourcex\GXS.ODEManager.pas',
-  GXS.ODERagdoll in '..\Sourcex\GXS.ODERagdoll.pas',
-  GXS.ODESkeletonColliders in '..\Sourcex\GXS.ODESkeletonColliders.pas',
-  GXS.ODEUtils in '..\Sourcex\GXS.ODEUtils.pas',
-  GXS.PhysFields in '..\Sourcex\GXS.PhysFields.pas',
-  GXS.PhysForces in '..\Sourcex\GXS.PhysForces.pas',
-  GXS.PhysInertias in '..\Sourcex\GXS.PhysInertias.pas',
-  GXS.PhysJoints in '..\Sourcex\GXS.PhysJoints.pas',
-  GXS.PhysManager in '..\Sourcex\GXS.PhysManager.pas',
+  GXS.NGD.Manager in '..\Sourcex\GXS.NGD.Manager.pas',
+  GXS.NGD.Ragdoll in '..\Sourcex\GXS.NGD.Ragdoll.pas',
+  GXS.ODE.Manager in '..\Sourcex\GXS.ODE.Manager.pas',
+  GXS.ODE.Ragdoll in '..\Sourcex\GXS.ODE.Ragdoll.pas',
+  GXS.ODE.SkeletonColliders in '..\Sourcex\GXS.ODE.SkeletonColliders.pas',
+  GXS.ODE.Utils in '..\Sourcex\GXS.ODE.Utils.pas',
+  GXS.Phys.Gravity in '..\Sourcex\GXS.Phys.Gravity.pas',
+  GXS.Phys.Forces in '..\Sourcex\GXS.Phys.Forces.pas',
+  GXS.Phys.Inertias in '..\Sourcex\GXS.Phys.Inertias.pas',
+  GXS.Phys.Joints in '..\Sourcex\GXS.Phys.Joints.pas',
+  GXS.Phys.Manager in '..\Sourcex\GXS.Phys.Manager.pas',
   ModuleLoader in '..\Src\ModuleLoader.pas',
   Newton.Import in '..\Src\Newton.Import.pas',
   NGD.Import in '..\Src\NGD.Import.pas',

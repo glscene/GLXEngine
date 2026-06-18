@@ -1,13 +1,11 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.Graph;
-
 (*
   Graph plotting objects:
   - TGLSamplingScale, TGLHeightField, TGLXYZGrid;
 *)
-
 interface
 
 {$I Stage.Defines.inc}
@@ -20,21 +18,21 @@ uses
   Stage.OpenGLTokens,
   Stage.VectorTypes,
   Stage.VectorGeometry,
-  GLS.VectorLists,
-  GLS.BaseClasses,
+  Stage.VectorLists,
+  Stage.BaseClasses,
+  Stage.Color,
 
   GLS.Scene,
   GLS.Context,
   GLS.XOpenGL,
   GLS.Material,
   GLS.Objects,
-  GLS.Color,
   GLS.RenderContextInfo,
   GLS.State;
 
 type
 
-  TGLSamplingScale = class(TGLUpdateAbleObject)
+  TGLSamplingScale = class(TGSUpdateAbleObject)
   private
     FMin: Single;
     FMax: Single;
@@ -66,9 +64,9 @@ type
   end;
 
   TGLHeightFieldGetHeightEvent = procedure(const x, y: Single; var z: Single;
-    var Color: TGLColorVector; var TexPoint: TTexPoint) of object;
+    var Color: TGSColorVector; var TexPoint: TTexPoint) of object;
   TGLHeightFieldGetHeight2Event = procedure(Sender: TObject; const x, y: Single;
-    var z: Single; var Color: TGLColorVector; var TexPoint: TTexPoint) of object;
+    var z: Single; var Color: TGSColorVector; var TexPoint: TTexPoint) of object;
 
   TGLHeightFieldOption = (hfoTextureCoordinates, hfoTwoSided);
   TGLHeightFieldOptions = set of TGLHeightFieldOption;
@@ -99,9 +97,9 @@ type
     procedure SetOnGetHeight2(const val: TGLHeightFieldGetHeight2Event);
     procedure SetColorMode(const val: TGLHeightFieldColorMode);
     procedure DefaultHeightField(const x, y: Single; var z: Single;
-      var Color: TGLColorVector; var TexPoint: TTexPoint);
+      var Color: TGSColorVector; var TexPoint: TTexPoint);
     procedure Height2Field(const x, y: Single; var z: Single;
-      var Color: TGLColorVector; var texPoint: TTexPoint);
+      var Color: TGSColorVector; var texPoint: TTexPoint);
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
@@ -175,14 +173,11 @@ type
     property LinesSmoothing: Boolean write SetLinesSmoothing stored False;
   end;
 
-// ------------------------------------------------------------------
-implementation
-// ------------------------------------------------------------------
+implementation //============================================================
 
 // ------------------
 // ------------------ TGLSamplingScale ------------------
 // ------------------
-
 constructor TGLSamplingScale.Create(AOwner: TPersistent);
 begin
   inherited Create(AOwner);
@@ -322,7 +317,7 @@ end;
 procedure TGLHeightField.BuildList(var rci: TGLRenderContextInfo);
 type
   TRowData = packed record
-    Color: TGLColorVector;
+    Color: TGSColorVector;
     Z: Single;
     TexPoint: TTexPoint;
     Normal: TAffineVector;
@@ -537,7 +532,7 @@ begin
 end;
 
 procedure TGLHeightField.DefaultHeightField(const x, y: Single; var z: Single;
-  var color: TGLColorVector; var texPoint: TTexPoint);
+  var color: TGSColorVector; var texPoint: TTexPoint);
 begin
   z := VectorNorm(x, y);
   z := cos(z * 12) / (2 * (z * 6.28 + 1));
@@ -545,7 +540,7 @@ begin
 end;
 
 procedure TGLHeightField.Height2Field(const x, y: Single; var z: Single;
-  var color: TGLColorVector; var texPoint: TTexPoint);
+  var color: TGSColorVector; var texPoint: TTexPoint);
 begin
   FOnGetHeight2(Self, x, y, z, color, texPoint);
 end;
@@ -731,9 +726,7 @@ begin
   end;
 end;
 
-// -------------------------------------------------------------
-initialization
-// -------------------------------------------------------------
+initialization //============================================================
 
 RegisterClasses([TGLHeightField, TGLXYZGrid]);
 

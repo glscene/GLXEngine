@@ -18,7 +18,7 @@ uses
   Stage.Keyboard,
   Stage.Utils,
 
-  GLS.XCollection,
+  Stage.XCollection,
   GLS.Scene,
   GLS.VectorFileObjects,
   GLS.Objects,
@@ -27,8 +27,8 @@ uses
   GLS.Navigator,
   GLS.GeomObjects,
 
-  GLS.Coordinates,
-  GLS.BaseClasses,
+  Stage.Coordinates,
+  Stage.BaseClasses,
   GLS.File3DS;
 
 type
@@ -63,7 +63,7 @@ type
   private
     colTotalTime: Single; // for timing collision detection
     colCount: Integer;
-    procedure AddToTrail(const p: TGLVector);
+    procedure AddToTrail(const p: TGSVector);
   public
     mousex, mousey: Integer;
   end;
@@ -95,10 +95,10 @@ end;
 procedure TFormBoxedin.GLCadencer1Progress(Sender: TObject;
   const deltaTime, newTime: Double);
 var
-  rayStart, rayVector: TGLVector;
+  rayStart, rayVector: TGSVector;
   velocity: Single;
-  pPoint: TGLVector;
-  pNormal: TGLVector;
+  pPoint: TGSVector;
+  pNormal: TGSVector;
   t: Int64;
 begin
   if IsKeyDown(VK_ESCAPE) then
@@ -149,7 +149,7 @@ begin
   Inc(colCount);
 end;
 
-procedure TFormBoxedin.AddToTrail(const p: TGLVector);
+procedure TFormBoxedin.AddToTrail(const p: TGSVector);
 var
   i, k: Integer;
 begin

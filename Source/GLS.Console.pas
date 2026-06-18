@@ -1,9 +1,11 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.Console;
 (*
    The console is a popdown window that appears on a game for text output/input.
+   RegisterClasses([TGLCustomConsole, TGLConsole, TGLConsoleStringList,
+     TGLConsoleCommand, TGLConsoleCommandList, TGLConsoleControls]);
 
    What is different compared to the original component?
      1) Can be aded to any object, not just the root one
@@ -34,7 +36,6 @@ unit GLS.Console;
       Allow long lines to continue on the next line
       May be SceneViewer should be a TControl to support the FullScreenViewer...
 *)
-
 interface
 
 {$I Stage.Defines.inc}
@@ -47,9 +48,10 @@ uses
   Vcl.Graphics,
 
   Stage.VectorTypes,
-  GLS.PersistentClasses,
-  GLS.Coordinates,
+  Stage.PersistentClasses,
+  Stage.Coordinates,
   Stage.Strings,
+  Stage.Utils,
 
   GLS.Scene,
   GLS.Objects,
@@ -59,7 +61,6 @@ uses
   GLS.Context,
   GLS.ImageUtils,
   GLS.Texture,
-  Stage.Utils,
   GLS.Material;
 
 const
@@ -365,9 +366,7 @@ type
     property OnProgress;
   end;
 
-//-------------------------------------------------------------------
-implementation
-//-------------------------------------------------------------------
+implementation //============================================================
 
 const
   STR_NO_DUPLICATE_NAMES_ALLOWED = 'Duplicate names not allowed!';
@@ -378,9 +377,8 @@ const
   conDefaultConsoleHeight = 100;
 
 //------------------------------
-//  TGLCustomConsole 
+//  TGLCustomConsole
 //------------------------------
-
 procedure TGLCustomConsole.ProcessInternalCommandClearScreen(const
   ConsoleCommand: TGLConsoleCommand; const Console: TGLCustomConsole; var Command:
   TGLUserInputCommand);
@@ -1682,9 +1680,7 @@ begin
   Result := FConsole;
 end;
 
-//---------------------------
-initialization
-//---------------------------
+initialization //============================================================
 
   RegisterClasses([TGLCustomConsole, TGLConsole, TGLConsoleStringList,
     TGLConsoleCommand, TGLConsoleCommandList, TGLConsoleControls]);

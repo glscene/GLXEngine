@@ -25,11 +25,11 @@ uses
   GLS.Collision,
   GLS.VectorFileObjects,
 
-  GLS.VectorLists,
+  Stage.VectorLists,
   GLS.File3DS,
-  GLS.Coordinates,
+  Stage.Coordinates,
   Stage.Utils,
-  GLS.BaseClasses;
+  Stage.BaseClasses;
 
 type
   TFormFacevsFace = class(TForm)
@@ -225,7 +225,7 @@ procedure TFormFacevsFace.GLSceneViewer1MouseMove(Sender: TObject; Shift: TShift
   X, Y: Integer);
 var
   dx, dy: Integer;
-  VX, VY: TGLVector;
+  VX, VY: TGSVector;
   Camera: TGLCamera;
 begin
   Camera := GLSceneViewer1.Camera;

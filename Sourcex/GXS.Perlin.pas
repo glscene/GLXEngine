@@ -1,16 +1,15 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.Perlin;
-
 (*
   Classes for generating perlin noise.
+  RegisterClasses([TgxPerlinHDS]);
 
   The components and classes in the unit are a base to generate textures and heightmaps from,
-  A Perlin Height Data Source have been included as an example. 
+  A Perlin Height Data Source have been included as an example.
   Use this combined with a terrain renderer for an infinite random landscape
 *)
-
 interface
 
 {$I Stage.Defines.inc}
@@ -967,9 +966,7 @@ procedure TgxPerlinHDSThread.OpdateOutSide;
 begin
 end;
 
-//-----------------------------------------------
-initialization
-//-----------------------------------------------
+initialization //============================================================
 
 RegisterClasses([TgxPerlinHDS]);
 

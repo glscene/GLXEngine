@@ -20,7 +20,7 @@ uses
   GLS.Scene,
   GLS.Objects,
   Stage.VectorTypes,
-  GLS.PersistentClasses,
+  Stage.PersistentClasses,
   GLS.Particles,
   GLS.Texture,
   GLS.Cadencer,
@@ -28,8 +28,8 @@ uses
   GLS.SceneViewer,
  
   GLS.Material,
-  GLS.Coordinates,
-  GLS.BaseClasses,
+  Stage.Coordinates,
+  Stage.BaseClasses,
   Stage.Utils;
 
 type

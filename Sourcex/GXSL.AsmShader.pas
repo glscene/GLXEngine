@@ -1,14 +1,12 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXSL.AsmShader;
-
 (*
     TgxAsmShader is a wrapper for all ARB shaders
     This component is only a template and has to be replaced with a
     proper version by someone who uses ARB shaders.
 *)
-
 interface
 
 uses
@@ -17,9 +15,10 @@ uses
   System.Classes,
   System.SysUtils,
 
-  GXS.Context,
   Stage.VectorGeometry,
   Stage.VectorTypes,
+
+  GXS.Context,
   GXS.Texture,
   GXSL.CustomShader,
   GXS.RenderContextInfo;

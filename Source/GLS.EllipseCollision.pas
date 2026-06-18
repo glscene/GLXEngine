@@ -1,10 +1,10 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.EllipseCollision;
-
-(* Ellipsoid collision functions mainly used by DCE *)
-
+(*
+  Ellipsoid collision functions mainly used by DCE
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -12,8 +12,10 @@ interface
 uses
   Stage.VectorTypes,
   Stage.VectorGeometry,
-  GLS.Octree,
-  GLS.VectorLists;
+  Stage.VectorLists,
+
+  GLS.Octree
+  ;
 
 type
   // The Ellipsoid collision class
@@ -30,7 +32,7 @@ type
 
   // Object collision properties
   TECObjectInfo = record
-    AbsoluteMatrix: TGLMatrix;
+    AbsoluteMatrix: TGSMatrix;
     Solid: Boolean;
     IsDynamic: Boolean;
     ObjectID: Integer;
@@ -52,7 +54,7 @@ type
   // Ellipsoid collision FreeForm
   TECFreeForm = record
     OctreeNodes: array of PGLOctreeNode;
-    triangleFiler: ^TGLAffineVectorList;
+    triangleFiler: ^TGSAffineVectorList;
     InvertedNormals: Boolean;
     ObjectInfo: TECObjectInfo;
   end;

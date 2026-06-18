@@ -12,7 +12,6 @@ unit BASS.Import;
 
   NOTE: Delphi users should use the BASS_UNICODE flag where possible
 *)
-
 interface
 
 uses

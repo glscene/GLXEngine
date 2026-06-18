@@ -1,15 +1,13 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.Sounds.BASS;
-
 (*
   BASS based sound-engine http://www.un4seen.com/music/, free for freeware
   Unsupported feature(s) : sound source velocity,
   looping (sounds are played either once or forever)
   source priorities (not relevant, channels are not limited)
 *)
-
 interface
 
 {$I Stage.Defines.inc}
@@ -56,9 +54,7 @@ type
       default algDefault;
   end;
 
-// ---------------------------------------------------------------------
-implementation
-// ---------------------------------------------------------------------
+implementation //============================================================
 
 type
   TBASSInfo = record
@@ -68,7 +64,8 @@ type
 
   PBASSInfo = ^TBASSInfo;
 
-procedure VectorToBASSVector(const aVector: TGLVector;
+//---------------------------------------------------------------------------
+procedure VectorToBASSVector(const aVector: TGSVector;
   var aBASSVector: BASS_3DVECTOR);
 begin
   aBASSVector.x := aVector.x;
@@ -79,7 +76,6 @@ end;
 // ------------------
 // ------------------ TGLSMBASS ------------------
 // ------------------
-
 constructor TGLSMBASS.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
@@ -87,12 +83,14 @@ begin
   MaxChannels := 32;
 end;
 
+//---------------------------------------------------------------------------
 destructor TGLSMBASS.Destroy;
 begin
   inherited Destroy;
   BASS_UnLoad;
 end;
 
+//---------------------------------------------------------------------------
 function TGLSMBASS.DoActivate: Boolean;
 const
   c3DAlgo: array [algDefault .. algLight] of Integer = (BASS_3DALG_DEFAULT,
@@ -119,6 +117,7 @@ begin
   Result := True;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLSMBASS.DoDeActivate;
 begin
   FActivated := False;
@@ -126,18 +125,21 @@ begin
   BASS_Free;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLSMBASS.NotifyMasterVolumeChange;
 begin
   if FActivated then
     BASS_SetVolume(Round(MasterVolume * 100));
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLSMBASS.Notify3DFactorsChanged;
 begin
   if FActivated then
     BASS_Set3DFactors(DistanceFactor, RollOffFactor, DopplerFactor);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLSMBASS.NotifyEnvironmentChanged;
 const
   cEnvironmentToBASSConstant: array [seDefault .. sePsychotic] of Integer =
@@ -157,6 +159,7 @@ begin
     BASS_SetEAXParameters(cEnvironmentToBASSConstant[Environment], -1, -1, -1);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLSMBASS.KillSource(aSource: TGLBaseSoundSource);
 var
   p: PBASSInfo;
@@ -173,11 +176,12 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLSMBASS.UpdateSource(aSource: TGLBaseSoundSource);
 var
   i: Integer;
   p: PBASSInfo;
-  objPos, objOri, objVel: TGLVector;
+  objPos, objOri, objVel: TGSVector;
   position, orientation, velocity: BASS_3DVECTOR;
   res: Boolean;
 begin
@@ -256,6 +260,7 @@ begin
   inherited UpdateSource(aSource);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLSMBASS.MuteSource(aSource: TGLBaseSoundSource; muted: Boolean);
 var
   p: PBASSInfo;
@@ -273,6 +278,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLSMBASS.PauseSource(aSource: TGLBaseSoundSource; paused: Boolean);
 var
   p: PBASSInfo;
@@ -287,9 +293,10 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLSMBASS.UpdateSources;
 var
-  objPos, objVel, objDir, objUp: TGLVector;
+  objPos, objVel, objDir, objUp: TGSVector;
   position, velocity, fwd, top: BASS_3DVECTOR;
 begin
   // update listener
@@ -305,11 +312,13 @@ begin
   (* if not *) BASS_Apply3D; (* then Assert(False); *)
 end;
 
+//---------------------------------------------------------------------------
 function TGLSMBASS.CPUUsagePercent: Single;
 begin
   Result := BASS_GetCPU * 100;
 end;
 
+//---------------------------------------------------------------------------
 function TGLSMBASS.EAXSupported: Boolean;
 var
   c: Cardinal;
@@ -318,6 +327,7 @@ begin
   Result := BASS_GetEAXParameters(c, s, s, s);
 end;
 
+//---------------------------------------------------------------------------
 function TGLSMBASS.GetDefaultFrequency(aSource: TGLBaseSoundSource): Integer;
 var
   p: PBASSInfo;
@@ -332,4 +342,5 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 end.

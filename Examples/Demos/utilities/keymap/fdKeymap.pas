@@ -14,7 +14,7 @@ uses
   Vcl.Buttons,
 
   Stage.Keyboard,
-  GLS.XCollection;
+  Stage.XCollection;
 
 type
   TFormKeymap = class(TForm)

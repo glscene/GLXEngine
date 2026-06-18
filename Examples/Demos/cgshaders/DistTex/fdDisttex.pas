@@ -23,9 +23,9 @@ uses
   GLS.HUDObjects,
   GLS.CgShader,
   GLS.Material,
-  GLS.Coordinates,
+  Stage.Coordinates,
 
-  GLS.BaseClasses,
+  Stage.BaseClasses,
   GLS.RenderContextInfo,
   Stage.Utils,
 

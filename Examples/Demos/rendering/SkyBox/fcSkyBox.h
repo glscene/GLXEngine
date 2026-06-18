@@ -11,9 +11,9 @@
 #include "Stage.Utils.hpp"
 #include "Stage.Keyboard.hpp"
 
-#include "GLS.BaseClasses.hpp"
+#include "Stage.BaseClasses.hpp"
 #include "GLS.Cadencer.hpp"
-#include "GLS.Coordinates.hpp"
+#include "Stage.Coordinates.hpp"
 
 #include "GLS.LensFlare.hpp"
 #include "GLS.Material.hpp"

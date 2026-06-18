@@ -20,8 +20,8 @@ uses
   Stage.VectorGeometry,
   GLS.SceneViewer,
 
-  GLS.Coordinates,
-  GLS.BaseClasses;
+  Stage.Coordinates,
+  Stage.BaseClasses;
 
 type
   TFormBendingCyl = class(TForm)

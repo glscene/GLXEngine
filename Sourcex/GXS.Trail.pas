@@ -1,13 +1,11 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.Trail;
-
 (*
   Creates a trail-like mesh.
-  Based on Jason Lanford's demo.
+  RegisterClasses([TgxTrail]);
 *)
-
 interface
 
 {$I Stage.Defines.inc}
@@ -18,14 +16,14 @@ uses
 
   GXS.Scene,
   Stage.VectorTypes,
-  GXS.MeshUtils,
+  Stage.MeshUtils,
   Stage.VectorGeometry,
   GXS.VectorFileObjects,
   GXS.Mesh,
   GXS.Objects,
   GXS.Material,
   Stage.Strings,
-  GXS.BaseClasses;
+  Stage.BaseClasses;
 
 const
   cMaxVerts = 2000;
@@ -71,7 +69,7 @@ type
       Operation: TOperation); override;
   public
     // EnableUVmapping: boolean; // generate UV's or not
-    procedure DoProgress(const progressTime: TgxProgressTimes); override;
+    procedure DoProgress(const progressTime: TGSProgressTimes); override;
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
     procedure CreateMark(obj: TgxBaseSceneObject; width: single;
@@ -102,10 +100,7 @@ type
     property Enabled: Boolean read FEnabled write SetEnabled default True;
   end;
 
-  // -----------------------------------------------------------------------------
-implementation
-
-// -----------------------------------------------------------------------------
+implementation //============================================================
 
 constructor TgxTrail.Create(AOwner: TComponent);
 begin
@@ -137,7 +132,7 @@ begin
   inherited Destroy;
 end;
 
-procedure TgxTrail.DoProgress(const progressTime: TgxProgressTimes);
+procedure TgxTrail.DoProgress(const progressTime: TGSProgressTimes);
 begin
   inherited;
   if Enabled and Assigned(TrailObject) then
@@ -454,10 +449,7 @@ begin
   Result := FAntiZFightOffset <> 0.0000266;
 end;
 
-// ------------------------------------------------------------------
-initialization
-
-// ------------------------------------------------------------------
+initialization //============================================================
 
 RegisterClasses([TgxTrail]);
 

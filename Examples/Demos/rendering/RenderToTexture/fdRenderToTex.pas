@@ -19,11 +19,11 @@ uses
   GLS.SceneViewer,
   GLS.FBORenderer,
   GLS.Objects,
-  GLS.Coordinates,
+  Stage.Coordinates,
   GLS.SimpleNavigation,
   GLS.Material,
   GLS.Cadencer,
-  GLS.BaseClasses,
+  Stage.BaseClasses,
   GLS.RenderContextInfo,
   GLS.Context,
   GLS.AsyncTimer;

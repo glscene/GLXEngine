@@ -16,8 +16,8 @@
 #include "GLS.GeomObjects.hpp"
 #include "GLS.Extrusion.hpp"
 #include "GLS.MultiPolygon.hpp"
-#include "GLS.BaseClasses.hpp"
-#include "GLS.Coordinates.hpp"
+#include "Stage.BaseClasses.hpp"
+#include "Stage.Coordinates.hpp"
 
 //---------------------------------------------------------------------------
 class TForm1:public TForm

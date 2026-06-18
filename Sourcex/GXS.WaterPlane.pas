@@ -1,10 +1,11 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.WaterPlane;
-
-(* A plane simulating animated water *)
-
+(*
+  A plane simulating animated water
+  RegisterClasses([TgxWaterPlane]);
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -21,9 +22,9 @@ uses
   Stage.VectorGeometry,
   Stage.VectorTypes,
   Stage.Utils,
-  GXS.VectorLists,
-  GXS.PersistentClasses,
-  GXS.BaseClasses,
+  Stage.VectorLists,
+  Stage.PersistentClasses,
+  Stage.BaseClasses,
   GXS.Scene,
   GXS.ImageUtils,
   GXS.Context,
@@ -43,10 +44,10 @@ type
   private
     FLocks: packed array of ByteBool;
     FPositions, FVelocity: packed array of Single;
-    FPlaneQuadIndices: TgxPersistentObjectList;
-    FPlaneQuadTexCoords: TgxTexPointList;
-    FPlaneQuadVertices: TgxAffineVectorList;
-    FPlaneQuadNormals: TgxAffineVectorList;
+    FPlaneQuadIndices: TGSPersistentObjectList;
+    FPlaneQuadTexCoords: TGSTexPointList;
+    FPlaneQuadVertices: TGSAffineVectorList;
+    FPlaneQuadNormals: TGSAffineVectorList;
     FActive: Boolean;
     FRainTimeInterval: Integer;
     FRainForce: Single;
@@ -77,7 +78,7 @@ type
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
-    procedure DoProgress(const progressTime: TgxProgressTimes); override;
+    procedure DoProgress(const progressTime: TGSProgressTimes); override;
     procedure BuildList(var rci: TgxRenderContextInfo); override;
     procedure Assign(Source: TPersistent); override;
     function AxisAlignedDimensionsUnscaled: TVector4f; override;
@@ -116,9 +117,7 @@ type
       write FMaximumCatchupIterations default 1;
   end;
 
-// -------------------------------------------------------------
-implementation
-// -------------------------------------------------------------
+implementation //============================================================
 
 constructor TgxWaterPlane.Create(AOwner: TComponent);
 begin
@@ -134,10 +133,10 @@ begin
   FMaximumCatchupIterations := 1;
   FOptions := cDefaultWaterPlaneOptions;
 
-  FPlaneQuadIndices := TgxPersistentObjectList.Create;
-  FPlaneQuadTexCoords := TgxTexPointList.Create;
-  FPlaneQuadVertices := TgxAffineVectorList.Create;
-  FPlaneQuadNormals := TgxAffineVectorList.Create;
+  FPlaneQuadIndices := TGSPersistentObjectList.Create;
+  FPlaneQuadTexCoords := TGSTexPointList.Create;
+  FPlaneQuadVertices := TGSAffineVectorList.Create;
+  FPlaneQuadNormals := TGSAffineVectorList.Create;
   FMask := TImage.Create(AOwner);
   FMask.Bitmap.OnChange := DoMaskChanged;
 
@@ -154,7 +153,7 @@ begin
   inherited;
 end;
 
-procedure TgxWaterPlane.DoProgress(const progressTime: TgxProgressTimes);
+procedure TgxWaterPlane.DoProgress(const progressTime: TGSProgressTimes);
 var
   i: Integer;
 begin
@@ -277,7 +276,7 @@ var
   i, j, ij, resSqr: Integer;
   maskBmp: TBitmap;
   scanLine: PIntegerArray;
-  il: TgxIntegerList;
+  il: TGSIntegerList;
   locked: Boolean;
 begin
   resSqr := FResolution * FResolution;
@@ -312,7 +311,7 @@ begin
   FPlaneQuadIndices.Clean;
   for j := 0 to Resolution - 2 do
   begin
-    il := TgxIntegerList.Create;
+    il := TGSIntegerList.Create;
     for i := 0 to Resolution - 1 do
     begin
       ij := i + j * Resolution;
@@ -329,7 +328,7 @@ begin
       else if il.Count > 0 then
       begin
         FPlaneQuadIndices.Add(il);
-        il := TgxIntegerList.Create;
+        il := TGSIntegerList.Create;
       end;
     end;
     if il.Count > 0 then
@@ -437,7 +436,7 @@ end;
 procedure TgxWaterPlane.BuildList(var rci: TgxRenderContextInfo);
 var
   i: Integer;
-  il: TgxIntegerList;
+  il: TGSIntegerList;
 begin
   glPushClientAttribDefaultEXT(GL_CLIENT_VERTEX_ARRAY_BIT);
 
@@ -458,7 +457,7 @@ begin
 
   for i := 0 to FPlaneQuadIndices.Count - 1 do
   begin
-    il := TgxIntegerList(FPlaneQuadIndices[i]);
+    il := TGSIntegerList(FPlaneQuadIndices[i]);
     glDrawElements(GL_QUAD_STRIP, il.Count, GL_UNSIGNED_INT, il.List);
   end;
 
@@ -552,9 +551,7 @@ begin
   end;
 end;
 
-// -------------------------------------------------------------
-initialization
-// -------------------------------------------------------------
+initialization //============================================================
 
 RegisterClasses([TgxWaterPlane]);
 

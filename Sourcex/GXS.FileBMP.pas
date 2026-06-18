@@ -1,10 +1,10 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.FileBMP;
-
-(* Friendly loading of BMP image *)
-
+(*
+  Friendly loading of BMP image
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -53,9 +53,7 @@ type
       const intFormat: TglInternalFormat); reintroduce;
   end;
 
-//---------------------------------------------------
-implementation
-//---------------------------------------------------
+implementation //============================================================
 
 const
 
@@ -551,7 +549,7 @@ begin
   Result := [dfcRead {, dfcWrite}];
 end;
 
-initialization
+initialization  //===========================================================
 
   RegisterRasterFormat('bmp', 'Bitmap Image File', TgxBMPImage);
 

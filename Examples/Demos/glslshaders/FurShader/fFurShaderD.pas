@@ -20,7 +20,7 @@ uses
   Vcl.Imaging.jpeg,
   GLS.Texture,
   GLS.FileTGA,
-  GLS.VectorLists,
+  Stage.VectorLists,
   VectorTypes,
   Stage.Utils,
   GLS.Context,
@@ -29,14 +29,14 @@ uses
   Stage.TextureFormat
   GLS.XOpenGL,
   GLS.Graphics,
-  GLS.BaseClasses,
+  Stage.BaseClasses,
   GLS.RenderContextInfo,
   GLS.Material,
   GLS.Cadencer,
   GLS.Scene,
   GLS.VectorFileObjects,
   GLS.Objects,
-  GLS.Coordinates,
+  Stage.Coordinates,
   GLS.SceneViewer;
 
 type

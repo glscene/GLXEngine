@@ -1,6 +1,6 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.FileVOR;
 (*
   Import for VOR ASCII files of TetGen software from http://wias-berlin.de/software/tetgen/fformats.html
@@ -15,7 +15,7 @@ uses
 
   Stage.VectorTypes,
   Stage.VectorGeometry,
-  GLS.VectorLists,
+  Stage.VectorLists,
   GLS.VectorFileObjects,
   Stage.Utils;
 
@@ -39,7 +39,7 @@ type
 
   TGLVORVectorFile = class(TGLVectorFile)
   public
-    class function Capabilities: TGLDataFileCapabilities; override;
+    class function Capabilities: TGSDataFileCapabilities; override;
     procedure LoadFromStream(aStream: TStream); override;
     procedure SaveToStream(aStream: TStream); override;
   end;
@@ -65,7 +65,7 @@ const
 // ------------------ TGLVectorFile ------------------
 // ------------------
 
-class function TGLVORVectorFile.Capabilities: TGLDataFileCapabilities;
+class function TGLVORVectorFile.Capabilities: TGSDataFileCapabilities;
 begin
    Result := [dfcRead, dfcWrite];
 end;
@@ -198,7 +198,7 @@ var
   I: Integer;
   DataFace: TVORFace;
   Header: TVORHeader;
-  List: TGLAffineVectorList;
+  List: TGSAffineVectorList;
 const
   cHeaderTag = 'VOR export';
 begin

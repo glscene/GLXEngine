@@ -1,24 +1,22 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.FileNMF;
-
 (*
   NormalMapper loading into FreeForms/Actors
   Notes:
   NormalMapper can be found at http://www.ati.com/developer/tools.html
 *)
-
 interface
 
 uses
   System.Classes,
 
   Stage.VectorTypes,
-  GLS.VectorFileObjects,
-  GLS.PersistentClasses,
+  Stage.PersistentClasses,
   Stage.VectorGeometry,
-  GLS.VectorLists,
+  Stage.VectorLists,
+  GLS.VectorFileObjects,
   GLS.ApplicationFileIO;
 
 const
@@ -49,7 +47,7 @@ type
 type
   TGLNMFVectorFile = class(TGLVectorFile)
   public
-    class function Capabilities: TGLDataFileCapabilities; override;
+    class function Capabilities: TGSDataFileCapabilities; override;
     procedure LoadFromStream(aStream: TStream); override;
     procedure SaveToStream(aStream: TStream); override;
   end;
@@ -101,7 +99,7 @@ end;
 // ------------------ TGLNMFVectorFile ------------------
 // ------------------
 
-class function TGLNMFVectorFile.Capabilities: TGLDataFileCapabilities;
+class function TGLNMFVectorFile.Capabilities: TGSDataFileCapabilities;
 begin
   Result := [dfcRead, dfcWrite];
 end;
@@ -135,12 +133,12 @@ procedure TGLNMFVectorFile.SaveToStream(aStream: TStream);
 var
   i, j: Integer;
   nmf: TFileNMF;
-  Vertices, TempVertices, Normals, TexCoords: TGLAffineVectorList;
+  Vertices, TempVertices, Normals, TexCoords: TGSAffineVectorList;
 begin
   nmf := TFileNMF.Create;
-  Vertices := TGLAffineVectorList.Create;
-  Normals := TGLAffineVectorList.Create;
-  TexCoords := TGLAffineVectorList.Create;
+  Vertices := TGSAffineVectorList.Create;
+  Normals := TGSAffineVectorList.Create;
+  TexCoords := TGSAffineVectorList.Create;
   try
     for i := 0 to Owner.MeshObjects.Count - 1 do
     begin

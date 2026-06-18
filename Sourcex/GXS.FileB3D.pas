@@ -1,10 +1,10 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.FileB3D;
-
-(* B3D VectorFile class to load Blitz 3D model files *)
-
+(*
+  B3D VectorFile class to load Blitz 3D model files
+*)
 interface
 
 uses
@@ -16,12 +16,12 @@ uses
   Stage.TextureFormat,
 
   GXS.ApplicationFileIO,
-  GXS.VectorLists,
+  Stage.VectorLists,
   GXS.VectorFileObjects,
   GXS.Texture,
   GXS.Material,
 
-  Formatx.B3D;
+  Formats.B3D;
 
 type
   TgxB3DVectorFile = class(TgxVectorFile)
@@ -30,9 +30,9 @@ type
     procedure LoadFromStream(AStream: TStream); override;
   end;
 
-implementation // -------------------------------------------------------------
+implementation //============================================================
 
-// ------------------------------ TgxB3DVectorFile ----------------------------
+// ------------------------------ TgxB3DVectorFile --------------------------
 class function TgxB3DVectorFile.Capabilities: TDataFileCapabilities;
 begin
   Result := [DfcRead];

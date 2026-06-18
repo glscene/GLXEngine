@@ -15,7 +15,7 @@ uses
   Vcl.Imaging.Jpeg,
 
   Stage.VectorGeometry,
-  GLS.BaseClasses,
+  Stage.BaseClasses,
   GLS.Scene,
   GLS.Objects,
   GLS.Cadencer,
@@ -27,8 +27,8 @@ uses
   GLS.Atmosphere,
   GLS.SimpleNavigation,
   GLS.Behaviours,
-  GLS.Coordinates,
-  GLS.Color;
+  Stage.Coordinates,
+  Stage.Color;
 
 type
   TFormAtmosphere = class(TForm)

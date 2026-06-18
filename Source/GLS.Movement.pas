@@ -3,7 +3,9 @@
 ******************************************************************************)
 unit GLS.Movement;
 (*
-   Movement path behaviour by Roger Cao
+   Movement path behaviour
+   RegisterXCollectionItemClass(TGLMovement);
+
    Note: It is recommended to set TGLMovementPath.RotationMode = rmUpDirection,
    but the default value is rmTurnPitchRoll for backwards compatibility.
 *)
@@ -17,30 +19,30 @@ uses
 
   Stage.VectorTypes,
   Stage.OpenGLTokens,
-  GLS.PersistentClasses,
+  Stage.PersistentClasses,
   Stage.VectorGeometry,
-  GLS.XCollection,
+  Stage.XCollection,
   Stage.Spline,
-  GLS.BaseClasses,
+  Stage.BaseClasses,
+  Stage.Strings,
+  Stage.Utils,
 
   GLS.Scene,
-  GLS.Objects,
-  Stage.Strings,
-  Stage.Utils;
+  GLS.Objects;
 
 type
 
   TGLPathNode = class (TCollectionItem)
   private
-    FPosition: TGLVector;
-    FScale: TGLVector;
-    FRotation: TGLVector;
-    FDirection: TGLVector;
-    FUp: TGLVector;
+    FPosition: TGSVector;
+    FScale: TGSVector;
+    FRotation: TGSVector;
+    FDirection: TGSVector;
+    FUp: TGSVector;
     FSpeed: single;
-    procedure SetPositionAsVector(const Value: TGLVector);
-    procedure SetRotationAsVector(const Value: TGLVector);
-    procedure SetScaleAsVector(const Value: TGLVector);
+    procedure SetPositionAsVector(const Value: TGSVector);
+    procedure SetRotationAsVector(const Value: TGSVector);
+    procedure SetScaleAsVector(const Value: TGSVector);
     function GetPositionCoordinate(const Index: Integer): TGLFloat;
     procedure SetPositionCoordinate(const Index: integer; const AValue: TGLFloat);
     function GetRotationCoordinate(const Index: Integer): TGLFloat; inline;
@@ -67,11 +69,11 @@ type
     // Warning: does not take speed into account.
     function EqualNode(const aNode: TGLPathNode): boolean;
     // Rotation.X means PitchAngle, Rotation.Y means TurnAngle, Rotation.Z means RollAngle.
-    property RotationAsVector: TGLVector Read FRotation Write SetRotationAsVector;
-    property PositionAsVector: TGLVector Read FPosition Write SetPositionAsVector;
-    property ScaleAsVector: TGLVector Read FScale Write SetScaleAsVector;
-    property UpAsVector: TGLVector read FUp write FUp;
-    property DirectionAsVector: TGLVector read FDirection write FDirection;
+    property RotationAsVector: TGSVector Read FRotation Write SetRotationAsVector;
+    property PositionAsVector: TGSVector Read FPosition Write SetPositionAsVector;
+    property ScaleAsVector: TGSVector Read FScale Write SetScaleAsVector;
+    property UpAsVector: TGSVector read FUp write FUp;
+    property DirectionAsVector: TGSVector read FDirection write FDirection;
   published
     property X: TGLFloat index 0 Read GetPositionCoordinate Write SetPositionCoordinate;
     property Y: TGLFloat index 1 Read GetPositionCoordinate Write SetPositionCoordinate;
@@ -254,7 +256,7 @@ type
 
     procedure StartPathTravel;
     procedure StopPathTravel;
-    procedure DoProgress(const progressTime : TGLProgressTimes); override;
+    procedure DoProgress(const progressTime : TGSProgressTimes); override;
     function NextPath: integer;
     function PrevPath: integer;
     function FirstPath: integer;
@@ -298,19 +300,19 @@ begin
   inherited Destroy;
 end;
 
-procedure TGLPathNode.SetPositionAsVector(const Value: TGLVector);
+procedure TGLPathNode.SetPositionAsVector(const Value: TGSVector);
 begin
   FPosition := Value;
     (Collection as TGLPathNodes).NotifyChange;
 end;
 
-procedure TGLPathNode.SetRotationAsVector(const Value: TGLVector);
+procedure TGLPathNode.SetRotationAsVector(const Value: TGSVector);
 begin
   FRotation := Value;
     (Collection as TGLPathNodes).NotifyChange;
 end;
 
-procedure TGLPathNode.SetScaleAsVector(const Value: TGLVector);
+procedure TGLPathNode.SetScaleAsVector(const Value: TGSVector);
 begin
   FScale := Value;
     (Collection as TGLPathNodes).NotifyChange;
@@ -1512,7 +1514,7 @@ begin
 end;
 
 //Calculate functions add into this method
-procedure TGLMovement.DoProgress(const progressTime : TGLProgressTimes);
+procedure TGLMovement.DoProgress(const progressTime : TGSProgressTimes);
 var
   Path: TGLMovementPath;
 begin
@@ -1626,13 +1628,11 @@ begin
   end;
 end;
 
-// ------------------------------------------------------------------
-initialization
-// ------------------------------------------------------------------
+initialization //============================================================
 
   RegisterXCollectionItemClass(TGLMovement);
 
-finalization
+finalization //==============================================================
 
   UnregisterXCollectionItemClass(TGLMovement);
 

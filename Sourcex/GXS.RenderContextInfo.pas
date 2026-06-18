@@ -1,21 +1,21 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.RenderContextInfo;
-
-(* Stores contextual info useful during rendering methods *)
-
+(*
+  Stores contextual info useful during rendering methods
+*)
 interface
 
 {$I Stage.Defines.inc}
 
 uses
   Stage.VectorTypes,
-  GXS.PersistentClasses,
+  Stage.PersistentClasses,
   Stage.VectorGeometry,
   GXS.State,
   Stage.PipelineTransform,
-  GXS.Color;
+  Stage.Color;
 
 type
   TGXDrawState = (dsRendering, dsPicking, dsPrinting);
@@ -77,7 +77,7 @@ type
     gxStates: TgxStateCache;
     PipelineTransformation: TgTransformation;
     rcci: TGXRenderContextClippingInfo;
-    sceneAmbientColor: TgxColorVector;
+    sceneAmbientColor: TGSColorVector;
     bufferFaceCull: Boolean;
     bufferLighting: Boolean;
     bufferFog: Boolean;
@@ -87,15 +87,15 @@ type
     ignoreBlendingRequests: Boolean;
     ignoreDepthRequests: Boolean;
     amalgamating: Boolean;
-    lights: TgxPersistentObjectList;
-    afterRenderEffects: TgxPersistentObjectList;
+    lights: TGSPersistentObjectList;
+    afterRenderEffects: TGSPersistentObjectList;
     currentMaterialLevel: TgxMaterialLevel;
     primitiveMask: TgxMeshPrimitives;
     orderCounter: Integer;
   end;
   PGXRenderContextInfo = ^TgxRenderContextInfo;
 
-implementation //-------------------------------------------------------------
+implementation //============================================================
 
 end.
 

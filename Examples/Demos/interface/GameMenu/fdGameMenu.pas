@@ -29,11 +29,11 @@ uses
   GLS.GameMenu,
   GLS.Cadencer,
   GLS.Texture,
-  GLS.XCollection,
+  Stage.XCollection,
 
   GLS.Material,
-  GLS.Coordinates,
-  GLS.BaseClasses;
+  Stage.Coordinates,
+  Stage.BaseClasses;
 
 type
   TFormGameMenu = class(TForm)

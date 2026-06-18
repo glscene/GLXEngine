@@ -1,6 +1,6 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.SoundFileObjects;
 (*
   Support classes for loading various fileformats.
@@ -54,7 +54,7 @@ type
     Default implementation for LoadFromFile/SaveToFile are to directly call the
     relevent stream-based methods, ie. you will just have to override the stream
     methods in most cases. *)
-  TGLSoundFile = class(TGLDataFile)
+  TGLSoundFile = class(TGSDataFile)
   private
     FSampling: TGLSoundSampling;
   protected

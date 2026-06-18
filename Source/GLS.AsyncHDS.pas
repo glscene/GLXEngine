@@ -1,10 +1,10 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.AsyncHDS;
-
 (*
    Implements a HDS Filter that generates HeightData tiles in a seperate thread.
+   RegisterClass(TGLAsyncHDS);
 
    This component is a TGLHeightDataSourceFilter, which uses a TGLHeightDataSourceThread,
    to asyncronously search the HeightData cache for any queued tiles.
@@ -15,7 +15,6 @@ unit GLS.AsyncHDS;
    terrain to show, if the HeightDataThreads cant keep up with the TerrainRenderer's
    requests for new tiles.
 *)
-
 interface
 
 {$I Stage.Defines.inc}
@@ -29,7 +28,7 @@ uses
 type
   TGLAsyncHDS = class;
   TIdleEvent = procedure(Sender:TGLAsyncHDS;TilesUpdated:boolean) of object;
-  TNewTilePreparedEvent = procedure (Sender : TGLAsyncHDS; 
+  TNewTilePreparedEvent = procedure (Sender : TGLAsyncHDS;
      HeightData : TGLHeightData) of object; //a tile was updated (called INSIDE the sub-thread?)
 
   (* Determines if/how dirty tiles are displayed and when they are released.
@@ -84,14 +83,11 @@ type
       Procedure Sync;
   end;
 
-// ------------------------------------------------------------------
-implementation
-// ------------------------------------------------------------------
+implementation //============================================================
 
 // ------------------
 // ------------------ TGLAsyncHDS ------------------
 // ------------------
-
 constructor TGLAsyncHDS.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
@@ -100,11 +96,13 @@ begin
   FTilesUpdated := true;
 end;
 
+//---------------------------------------------------------------------------
 destructor TGLAsyncHDS.Destroy;
 begin
   inherited Destroy;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLAsyncHDS.BeforePreparingData(HeightData: TGLHeightData);
 begin
   if FUseDirtyTiles = dtNever then
@@ -119,6 +117,7 @@ begin
     HeightDataSource.BeforePreparingData(HeightData);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLAsyncHDS.StartPreparingData(HeightData: TGLHeightData);
 var
   HDThread: TGLAsyncHDThread;
@@ -133,7 +132,6 @@ begin
   end;
   if (Active = false) then
     exit;
-
   // ---If not using threads then prepare the HD tile directly---  (everything else freezes until done)
   if MaxThreads = 0 then
   begin
@@ -156,6 +154,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLAsyncHDS.ThreadIsIdle;
 var
   i: integer;
@@ -186,9 +185,9 @@ begin
   finally
     self.Data.UnlockList;
   end;
-  // --------------------------------------------
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLAsyncHDS.NewTilePrepared(HeightData: TGLHeightData);
 var
   HD: TGLHeightData;
@@ -217,6 +216,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 function TGLAsyncHDS.ThreadCount: integer;
 var
   lst: TList;
@@ -237,6 +237,7 @@ begin
   result := TdCtr;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLAsyncHDS.WaitFor(TimeOut: integer = 2000);
 var
   OutTime: TDateTime;
@@ -250,19 +251,21 @@ begin
   Assert(ThreadCount = 0);
 end;
 
-{
+(*
   procedure TGLAsyncHDS.NotifyChange(Sender : TObject);
   begin
-  TilesChanged:=true;
+    TilesChanged := True;
   end;
-}
-
+*)
+//---------------------------------------------------------------------------
 function TGLAsyncHDS.TilesUpdated: boolean;
 begin
   result := FTilesUpdated;
 end;
 
+//---------------------------------------------------------------------------
 // Set the TilesUpdatedFlag to false. (is Threadsafe)
+//---------------------------------------------------------------------------
 procedure TGLAsyncHDS.TilesUpdatedFlagReset;
 begin
   if not assigned(self) then
@@ -275,7 +278,9 @@ begin
     end;
 end;
 
+//---------------------------------------------------------------------------
 // -------------------HD Thread----------------
+//---------------------------------------------------------------------------
 Procedure TGLAsyncHDThread.Execute;
 Begin
   HDS.StartPreparingData(HeightData);
@@ -283,6 +288,7 @@ Begin
   Synchronize(Sync);
 end;
 
+//---------------------------------------------------------------------------
 Procedure TGLAsyncHDThread.Sync;
 begin
   Owner.NewTilePrepared(HeightData);
@@ -290,9 +296,7 @@ begin
     HeightData.DataState := hdsReady;
 end;
 
-// ------------------------------------------------------------------
-initialization
-// ------------------------------------------------------------------
+initialization //============================================================
 
    RegisterClass(TGLAsyncHDS);
 

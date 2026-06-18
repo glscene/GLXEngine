@@ -12,8 +12,8 @@
 #pragma link "GLS.Scene"
 #pragma link "GLS.Texture"
 #pragma link "GLS.SceneViewer"
-#pragma link "GLS.BaseClasses"
-#pragma link "GLS.Coordinates"
+#pragma link "Stage.BaseClasses"
+#pragma link "Stage.Coordinates"
 
 #pragma link "GLS.Material"
 #pragma link "Stage.Keyboard"

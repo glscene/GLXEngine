@@ -1,10 +1,10 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.WinContext;
-
-(* Cross-platform context. *)
-
+(*
+  Cross-platform context.
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -77,7 +77,7 @@ var
     destruction. *)
   vUseWindowTrackingHook: Boolean = True;
 
-implementation // ------------------------------------------------------------
+implementation //============================================================
 
 var
   vTrackingCount: Integer;
@@ -486,7 +486,7 @@ begin
     begin
       if not wglShareLists(FShareContext.RC, FRC) then
 {$IFDEF USE_LOGGING}
-        GLSLogger.LogWarning(strFailedToShare)
+        GSLogger.LogWarning(strFailedToShare)
 {$ENDIF}
       else
       begin
@@ -992,10 +992,10 @@ begin
 {$IFDEF USE_LOGGING}
                 begin
                   if gxStates.ForwardContext then
-                    GLSLogger.LogErrorFmt(cForwardContextFailed,
+                    GSLogger.LogErrorFmt(cForwardContextFailed,
                       [GetLastError, SysErrorMessage(GetLastError)])
                   else
-                    GLSLogger.LogErrorFmt(cBackwardContextFailed,
+                    GSLogger.LogErrorFmt(cBackwardContextFailed,
                       [GetLastError, SysErrorMessage(GetLastError)]);
                   Abort;
                 end;
@@ -1186,7 +1186,7 @@ begin
   Result := Pointer(FDC);
 end;
 
-initialization // ------------------------------------------------------------
+initialization //============================================================
 
 RegisterContextClass(TgxWinContext);
 

@@ -1,10 +1,10 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.FileNurbs;
-
-(* Nurbs surfaces vector file loading *)
-
+(*
+  Nurbs surfaces vector file loading
+*)
 interface
 
 uses
@@ -13,9 +13,9 @@ uses
 
   Stage.VectorGeometry,
   Stage.VectorTypes,
+  Stage.VectorLists,
 
   GXS.VectorFileObjects,
-  GXS.VectorLists,
   GXS.ApplicationFileIO,
   GXS.ParametricSurfaces,
   GXS.ImageUtils;
@@ -55,7 +55,7 @@ procedure TgxNurbsVectorFile.LoadFromStream(stream: TStream);
   end;
 
   function ReadSingleArray(sl: TStrings; idx: Integer;
-    list: TgxSingleList): Integer;
+    list: TGSSingleList): Integer;
   var
     k: Integer;
     buf: String;
@@ -81,7 +81,7 @@ procedure TgxNurbsVectorFile.LoadFromStream(stream: TStream);
   end;
 
   function ReadVectorArray(sl: TStrings; idx: Integer;
-    list: TgxAffineVectorList): Integer;
+    list: TGSAffineVectorList): Integer;
   var
     buf: String;
     vals: TStringList;
@@ -112,7 +112,7 @@ var
   i, j: Integer;
   surface: TMOParametricSurface;
   invert: Boolean;
-  invControlPoints: TgxAffineVectorList;
+  invControlPoints: TGSAffineVectorList;
 begin
   ss := TStringStream.Create('');
   sl := TStringList.Create;
@@ -163,7 +163,7 @@ begin
 
     if invert then
     begin
-      invControlPoints := TgxAffineVectorList.Create;
+      invControlPoints := TGSAffineVectorList.Create;
       for i := surface.CountV - 1 downto 0 do
         for j := 0 to surface.CountU - 1 do
           invControlPoints.Add(surface.ControlPoints[i * surface.CountU + j]);

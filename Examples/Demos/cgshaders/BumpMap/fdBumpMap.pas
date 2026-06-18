@@ -26,8 +26,8 @@ uses
   GLS.Objects,
   GLS.AsyncTimer,
   GLS.Material,
-  GLS.Coordinates,
-  GLS.BaseClasses,
+  Stage.Coordinates,
+  Stage.BaseClasses,
   Stage.TextureFormat,
   Stage.Utils,
   GLS.SimpleNavigation;

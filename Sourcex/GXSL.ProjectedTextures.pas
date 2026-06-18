@@ -1,12 +1,13 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXSL.ProjectedTextures;
-
-(* Implements projected textures through a GLScene object via GLSL *)
+(*
+  Implements projected textures through a GLScene object via GLSL
+  RegisterClasses([TgxslTextureEmitter, TgxslProjectedTextures]);
+*)
 
 (* Known bugs/limitations:
-
 1. Only 1 texture can be used for all emitters
 2. Only up to 6 Emitters can be used (more on better cards)
    A way round this is to make the emiitters a children of the 6 nearest objects
@@ -17,7 +18,6 @@ unit GXSL.ProjectedTextures;
 4. All children of the ProjectedTextures must have use a texture.
    The shader can't be changed between rendering each seperate object..
 *)
-
 interface
 
 {$I Stage.Defines.inc}
@@ -26,13 +26,14 @@ uses
   System.Classes,
   System.SysUtils,
 
-  GXS.PersistentClasses,
+  GXS.Context,
   GXS.Scene,
   GXS.Texture,
-  Stage.VectorGeometry,
-  GXS.Context,
-  GXS.Color,
   GXS.RenderContextInfo,
+
+  Stage.PersistentClasses,
+  Stage.VectorGeometry,
+  Stage.Color,
   Stage.TextureFormat,
   Stage.PipelineTransform,
   Stage.VectorTypes;
@@ -50,7 +51,7 @@ type
     FFOV: single;
     FAspect, FBrightness, FAttenuation: single;
     FStyle: TgxslProjectedTexturesStyle;
-    FColor: TgxColor;
+    FColor: TGSColor;
     FUseAttenuation, FAllowReverseProjection: boolean;
     FUseQuadraticAttenuation: boolean;
   protected
@@ -76,7 +77,7 @@ type
     // Fall off/ attenuation of the projected texture
     property Attenuation: single read FAttenuation write FAttenuation;
     property Brightness: single read FBrightness write FBrightness;
-    property Color: TgxColor read FColor write FColor;
+    property Color: TGSColor read FColor write FColor;
     property UseAttenuation: boolean read FUseAttenuation write SetUseAttenuation;
     property UseQuadraticAttenuation: Boolean read FUseQuadraticAttenuation write SetUseQuadraticAttenuation;
     property AllowReverseProjection: boolean read FAllowReverseProjection write SetAllowReverseProjection;
@@ -132,7 +133,7 @@ type
     FEmitters: TgxslTextureEmitters;
     FUseLightmaps: boolean;
     Shader: TgxProgramHandle;
-    FAmbient: TgxColor;
+    FAmbient: TGSColor;
     procedure SetupShader;
   protected
     ShaderChanged: boolean;
@@ -148,7 +149,7 @@ type
     property Emitters: TgxslTextureEmitters read FEmitters write FEmitters;
 
     //Ambient is use if no lightmap..
-    property Ambient: TgxColor read fAmbient write fAmbient;
+    property Ambient: TGSColor read fAmbient write fAmbient;
     property UseLightmaps: boolean read FUseLightmaps write SetUseLightmaps;
   end;
 
@@ -170,7 +171,7 @@ begin
   FUseAttenuation := false;
   FAttenuation := 100;
   FBrightness := 1;
-  FColor := TgxColor.create(self);
+  FColor := TGSColor.create(self);
   FColor.SetColor(1, 1, 1);
 end;
 
@@ -319,7 +320,7 @@ begin
   FEmitters.FOwner := self;
   FUseLightmaps := false;
   ShaderChanged := true;
-  Ambient := TgxColor.Create(self);
+  Ambient := TGSColor.Create(self);
   ambient.SetColor(0.5, 0.5, 0.5, 0.5);
 end;
 
@@ -548,9 +549,7 @@ begin
   shaderchanged := true;
 end;
 
-//===========================================================
-initialization
-//===========================================================
+initialization //============================================================
 
   RegisterClasses([TgxslTextureEmitter, TgxslProjectedTextures]);
 

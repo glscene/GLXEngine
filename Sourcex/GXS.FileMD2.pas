@@ -1,13 +1,10 @@
-//
-//
-// GXScene Graphics Engine
-//
-//
-
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.FileMD2;
-
-(* Quake2 MD2 vector file format implementation *)
-
+(*
+  Quake2 MD2 vector file format implementation
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -15,10 +12,10 @@ interface
 uses
   System.Classes,
   System.SysUtils,
+
   GXS.VectorFileObjects,
   GXS.ApplicationFileIO,
-
-  Formatx.FileMD2;
+  Formats.MD2;
 
 type
   (* The MD2 vector file (Quake2 actor file).
@@ -32,19 +29,17 @@ type
     procedure LoadFromStream(aStream: TStream); override;
   end;
 
-//===================================================================
-implementation
-//===================================================================
+implementation //============================================================
 
 // ------------------
 // ------------------ TgxMD2VectorFile ------------------
 // ------------------
-
 class function TgxMD2VectorFile.Capabilities: TDataFileCapabilities;
 begin
   Result := [dfcRead];
 end;
 
+//---------------------------------------------------------------------------
 procedure TgxMD2VectorFile.LoadFromStream(aStream: TStream);
 var
   i, j: Integer;
@@ -114,9 +109,7 @@ begin
   end;
 end;
 
-// ------------------------------------------------------------------
-initialization
-// ------------------------------------------------------------------
+initialization //=============================================================
 
 RegisterVectorFileFormat('md2', 'Quake II model files', TgxMD2VectorFile);
 

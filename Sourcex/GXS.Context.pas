@@ -1,13 +1,11 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.Context;
-
 (*
   Prototypes and base implementation of TgxContext.
   The history is logged in a former version of the unit.
 *)
-
 interface
 
 {$I Stage.Defines.inc}
@@ -957,20 +955,20 @@ var
   vCurrentContext: TgxContext;
 
 
-// ------------------------------------------------------------------
-implementation
-// ------------------------------------------------------------------
+implementation //============================================================
 
 var
   vContextClasses: TList;
   vServiceWindow: TForm;
   vMainThread: Boolean;
 
+//---------------------------------------------------------------------------
 function CurrentContext: TgxContext; inline;
 begin
   Result := vCurrentContext;
 end;
 
+//---------------------------------------------------------------------------
 function SafeCurrentContext: TgxContext; inline;
 begin
   Result := CurrentContext;
@@ -983,21 +981,25 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 function IsMainThread: Boolean;
 begin
   Result := vMainThread;
 end;
 
+//---------------------------------------------------------------------------
 function IsServiceContextAvaible: Boolean;
 begin
   Result := GXContextManager.FHandles <> nil;
 end;
 
+//---------------------------------------------------------------------------
 function GetServiceWindow: TForm;
 begin
   Result := vServiceWindow;
 end;
 
+//---------------------------------------------------------------------------
 procedure RegisterContextClass(aContextClass: TgxContextClass);
 begin
   if not Assigned(vContextClasses) then
@@ -1005,6 +1007,7 @@ begin
   vContextClasses.Add(aContextClass);
 end;
 
+//---------------------------------------------------------------------------
 constructor TgxAbstractMultitextureCoordinator.Create(AOwner: TgxContext);
 begin
   FOwner := AOwner;
@@ -1013,7 +1016,6 @@ end;
 // ------------------
 // ------------------ TgxContext ------------------
 // ------------------
-
 constructor TgxContext.Create;
 begin
   inherited Create;

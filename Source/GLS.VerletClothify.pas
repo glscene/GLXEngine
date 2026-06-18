@@ -1,10 +1,10 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.VerletClothify;
-
-(* Methods for turning a TGLBaseMesh into a Verlet cloth / jelly *)
-
+(*
+  Methods for turning a TGLBaseMesh into a Verlet cloth / jelly
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -14,16 +14,17 @@ uses
   System.Classes,
   System.SysUtils,
 
+  Stage.VectorTypes,
   Stage.OpenGLTokens,
+  Stage.VectorGeometry,
+  Stage.PersistentClasses,
+
   GLS.VectorFileObjects,
   GLS.VerletTypes,
-  Stage.VectorTypes,
-  GLS.VectorLists,
-  Stage.VectorGeometry,
+  Stage.VectorLists,
   GLS.Texture,
   GLS.RenderContextInfo,
   GLS.State,
-  GLS.PersistentClasses,
   GLS.Context;
 
 type
@@ -145,16 +146,14 @@ type
   TGLMeshObjectVerletNode = class(TGLVerletNode)
   private
     MeshObject: TGLMeshObject;
-    VertexIndices: TGLIntegerList;
+    VertexIndices: TGSIntegerList;
   public
     procedure AfterProgress; override;
     constructor CreateOwned(const AOwner: TGLVerletWorld); override;
     destructor Destroy; override;
   end;
 
-// ----------------------------------------------------
-implementation
-// ----------------------------------------------------
+implementation //============================================================
 
 // ------------------
 // TGLFaceExtractor
@@ -336,7 +335,7 @@ end;
 constructor TGLMeshObjectVerletNode.CreateOwned(const AOwner: TGLVerletWorld);
 begin
   inherited;
-  VertexIndices := TGLIntegerList.Create;
+  VertexIndices := TGSIntegerList.Create;
 end;
 
 destructor TGLMeshObjectVerletNode.Destroy;

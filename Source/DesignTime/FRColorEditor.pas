@@ -24,7 +24,7 @@ uses
   VCL.Graphics,
    
   Stage.VectorGeometry, 
-  GLS.Color, 
+  Stage.Color, 
   GLS.Texture, 
   Stage.VectorTypes;
 

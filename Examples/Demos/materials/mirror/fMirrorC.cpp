@@ -14,8 +14,8 @@
 #pragma link "GLS.GeomObjects"
 #pragma link "GLS.Extrusion"
 #pragma link "GLS.MultiPolygon"
-#pragma link "GLS.BaseClasses"
-#pragma link "GLS.Coordinates"
+#pragma link "Stage.BaseClasses"
+#pragma link "Stage.Coordinates"
 
 #pragma resource "*.dfm"
 TForm1 *Form1;

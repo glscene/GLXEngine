@@ -1,6 +1,6 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.TilePlane;
 (*
   Implements a tiled texture plane.
@@ -17,23 +17,23 @@ uses
 
   Stage.OpenGLTokens,
   Stage.VectorGeometry,
+  Stage.PersistentClasses,
 
   GLS.Scene,
   GLS.State,
   GLS.Context,
   GLS.Material,
   GLS.Objects,
-  GLS.PersistentClasses,
-  GLS.VectorLists,
+  Stage.VectorLists,
   GLS.RenderContextInfo,
   GLS.XOpenGL;
 
 type
   // Stores row information for a tiled area.
-  TGLTiledAreaRow = class(TGLPersistentObject)
+  TGLTiledAreaRow = class(TGSPersistentObject)
   private
     FColMin, FColMax: Integer;
-    FData: TGLIntegerList;
+    FData: TGSIntegerList;
   protected
     procedure SetColMin(const val: Integer);
     procedure SetColMax(const val: Integer);
@@ -42,24 +42,24 @@ type
   public
     constructor Create; override;
     destructor Destroy; override;
-    procedure WriteToFiler(writer: TGLVirtualWriter); override;
-    procedure ReadFromFiler(reader: TGLVirtualReader); override;
+    procedure WriteToFiler(writer: TGSVirtualWriter); override;
+    procedure ReadFromFiler(reader: TGSVirtualReader); override;
     property Cell[col: Integer]: Integer read GetCell write SetCell; default;
     property ColMin: Integer read FColMin write SetColMin;
     property ColMax: Integer read FColMax write SetColMax;
-    property Data: TGLIntegerList read FData;
+    property Data: TGSIntegerList read FData;
     procedure Pack;
     function Empty: Boolean;
-    procedure RemapTiles(remapList: TGLIntegerList);
+    procedure RemapTiles(remapList: TGSIntegerList);
   end;
 
   (* Stores tile information in a tiled area.
     Each tile stores an integer value with zero the default value,
     assumed as "empty". *)
-  TGLTiledArea = class(TGLPersistentObject)
+  TGLTiledArea = class(TGSPersistentObject)
   private
     FRowMin, FRowMax: Integer;
-    FRows: TGLPersistentObjectList;
+    FRows: TGSPersistentObjectList;
   protected
     procedure SetRowMin(const val: Integer);
     procedure SetRowMax(const val: Integer);
@@ -69,8 +69,8 @@ type
   public
     constructor Create; override;
     destructor Destroy; override;
-    procedure WriteToFiler(writer: TGLVirtualWriter); override;
-    procedure ReadFromFiler(reader: TGLVirtualReader); override;
+    procedure WriteToFiler(writer: TGSVirtualWriter); override;
+    procedure ReadFromFiler(reader: TGSVirtualReader); override;
     property Tile[col, row: Integer]: Integer read GetTile write SetTile; default;
     property row[index: Integer]: TGLTiledAreaRow read GetRow;
     property RowMin: Integer read FRowMin write SetRowMin;
@@ -78,7 +78,7 @@ type
     procedure Pack;
     procedure Clear;
     function Empty: Boolean;
-    procedure RemapTiles(remapList: TGLIntegerList);
+    procedure RemapTiles(remapList: TGSIntegerList);
   end;
 
   (* A tiled textured plane.
@@ -129,7 +129,7 @@ implementation //==============================================================
 constructor TGLTiledAreaRow.Create;
 begin
   inherited;
-  FData := TGLIntegerList.Create;
+  FData := TGSIntegerList.Create;
   FColMin := 0;
   FColMax := -1;
 end;
@@ -140,7 +140,7 @@ begin
   inherited;
 end;
 
-procedure TGLTiledAreaRow.WriteToFiler(writer: TGLVirtualWriter);
+procedure TGLTiledAreaRow.WriteToFiler(writer: TGSVirtualWriter);
 begin
   inherited WriteToFiler(writer);
   with writer do
@@ -151,7 +151,7 @@ begin
   end;
 end;
 
-procedure TGLTiledAreaRow.ReadFromFiler(reader: TGLVirtualReader);
+procedure TGLTiledAreaRow.ReadFromFiler(reader: TGSVirtualReader);
 var
   archiveVersion: Integer;
 begin
@@ -208,7 +208,7 @@ begin
   Result := (FData.Count = 0);
 end;
 
-procedure TGLTiledAreaRow.RemapTiles(remapList: TGLIntegerList);
+procedure TGLTiledAreaRow.RemapTiles(remapList: TGSIntegerList);
 var
   i, k: Integer;
 begin
@@ -281,11 +281,10 @@ end;
 // ------------------
 // ------------------ TGLTiledArea ------------------
 // ------------------
-
 constructor TGLTiledArea.Create;
 begin
   inherited;
-  FRows := TGLPersistentObjectList.Create;
+  FRows := TGSPersistentObjectList.Create;
   FRowMax := -1;
 end;
 
@@ -295,7 +294,7 @@ begin
   inherited;
 end;
 
-procedure TGLTiledArea.WriteToFiler(writer: TGLVirtualWriter);
+procedure TGLTiledArea.WriteToFiler(writer: TGSVirtualWriter);
 begin
   inherited WriteToFiler(writer);
   with writer do
@@ -306,7 +305,7 @@ begin
   end;
 end;
 
-procedure TGLTiledArea.ReadFromFiler(reader: TGLVirtualReader);
+procedure TGLTiledArea.ReadFromFiler(reader: TGSVirtualReader);
 var
   archiveVersion: Integer;
 begin
@@ -374,7 +373,7 @@ begin
   Result := (FRows.Count = 0);
 end;
 
-procedure TGLTiledArea.RemapTiles(remapList: TGLIntegerList);
+procedure TGLTiledArea.RemapTiles(remapList: TGSIntegerList);
 var
   i: Integer;
   r: TGLTiledAreaRow;
@@ -543,7 +542,7 @@ end;
 procedure TGLTilePlane.BuildList(var rci: TGLRenderContextInfo);
 type
   TQuadListInfo = packed record
-    x, y: TGLIntegerList;
+    x, y: TGSIntegerList;
   end;
 
   procedure IssueQuad(col, row: Integer);
@@ -575,8 +574,8 @@ begin
     SetLength(quadInfos, MaterialLibrary.Materials.Count);
     for i := 0 to High(quadInfos) do
     begin // correction in (i:=0) from (i:=1)
-      quadInfos[i].x := TGLIntegerList.Create;
-      quadInfos[i].y := TGLIntegerList.Create;
+      quadInfos[i].x := TGSIntegerList.Create;
+      quadInfos[i].y := TGSIntegerList.Create;
     end;
     // collect quads into quadInfos, sorted by material
     for row := Tiles.RowMin to Tiles.RowMax do

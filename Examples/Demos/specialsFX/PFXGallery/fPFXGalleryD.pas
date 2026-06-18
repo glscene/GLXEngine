@@ -17,9 +17,9 @@ uses
   Stage.VectorTypes,
   Stage.Keyboard,
   Stage.VectorGeometry,
-  GLS.Coordinates,
-  GLS.BaseClasses,
-  GLS.XCollection,
+  Stage.Coordinates,
+  Stage.BaseClasses,
+  Stage.XCollection,
   Stage.Utils,
 
   GLS.SceneViewer,

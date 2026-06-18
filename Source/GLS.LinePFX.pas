@@ -1,10 +1,11 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.LinePFX;
-
-(* A PFX whose particles are lines *)
-
+(*
+  A PFX whose particles are lines
+  RegisterClasses([TGLLineParticle, TGLLinePFXManager]);
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -15,14 +16,15 @@ uses
   System.SysUtils,
 
   Stage.OpenGLTokens,
-  GLS.PersistentClasses,
+  Stage.VectorTypes,
+  Stage.PersistentClasses,
   Stage.VectorGeometry,
+
   GLS.ParticleFX,
   GLS.Texture,
-  GLS.Color,
+  Stage.Color,
   GLS.RenderContextInfo,
-  GLS.Context,
-  Stage.VectorTypes;
+  GLS.Context;
 
 type
 
@@ -33,8 +35,8 @@ type
     FLength: Single;
   protected
   public
-    procedure WriteToFiler(writer: TGLVirtualWriter); override;
-    procedure ReadFromFiler(reader: TGLVirtualReader); override;
+    procedure WriteToFiler(writer: TGSVirtualWriter); override;
+    procedure ReadFromFiler(reader: TGSVirtualReader); override;
     // Direction of the line.
     property Direction: TAffineVector read FDirection write FDirection;
     // Length of the line
@@ -74,14 +76,11 @@ type
     property LifeColors;
   end;
 
-// ------------------------------------------------------------------
-implementation
-// ------------------------------------------------------------------
+implementation //============================================================
 
 // ------------------
 // ------------------ TGLLinePFXManager ------------------
 // ------------------
-
 constructor TGLLinePFXManager.Create(aOwner: TComponent);
 begin
   inherited;
@@ -112,7 +111,7 @@ end;
 procedure TGLLinePFXManager.InitializeRendering(var rci: TGLRenderContextInfo);
 var
   i: Integer;
-  matrix: TGLMatrix;
+  matrix: TGSMatrix;
 begin
   inherited;
   gl.GetFloatv(GL_MODELVIEW_MATRIX, @matrix);
@@ -134,7 +133,7 @@ procedure TGLLinePFXManager.RenderParticle(var rci: TGLRenderContextInfo;
   aParticle: TGLParticle);
 var
   lifeTime, sizeScale, fx, fy, f: Single;
-  inner, outer: TGLColorVector;
+  inner, outer: TGSColorVector;
   pos, dir, start, stop, dv: TAffineVector;
 begin
   lifeTime := CurrentTime - aParticle.CreationTime;
@@ -192,8 +191,7 @@ end;
 // ------------------
 // ------------------ TGLLineParticle ------------------
 // ------------------
-
-procedure TGLLineParticle.WriteToFiler(writer: TGLVirtualWriter);
+procedure TGLLineParticle.WriteToFiler(writer: TGSVirtualWriter);
 begin
   inherited WriteToFiler(writer);
   with writer do
@@ -204,7 +202,7 @@ begin
   end;
 end;
 
-procedure TGLLineParticle.ReadFromFiler(reader: TGLVirtualReader);
+procedure TGLLineParticle.ReadFromFiler(reader: TGSVirtualReader);
 var
   archiveVersion: Integer;
 begin
@@ -220,9 +218,7 @@ begin
     RaiseFilerException(archiveVersion);
 end;
 
-// ------------------------------------------------------------------
-initialization
-// ------------------------------------------------------------------
+initialization //============================================================
 
 RegisterClasses([TGLLineParticle, TGLLinePFXManager]);
 

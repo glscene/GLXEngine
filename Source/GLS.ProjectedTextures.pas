@@ -1,10 +1,11 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.ProjectedTextures;
-
-(* Implements projected textures through an object. *)
-
+(*
+  Implements projected textures through an object
+  RegisterClasses([TGLTextureEmitter, TGLProjectedTextures]);
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -14,11 +15,12 @@ uses
   System.Classes,
   
   Stage.OpenGLTokens,
-  GLS.Scene,
-  GLS.PersistentClasses,
   Stage.VectorTypes,
-  GLS.Texture,
   Stage.VectorGeometry,
+  Stage.PersistentClasses,
+
+  GLS.Scene,
+  GLS.Texture,
   GLS.RenderContextInfo,
   GLS.State,
   GLS.Material;
@@ -105,17 +107,14 @@ type
     property Style: TGLProjectedTexturesStyle read FStyle write FStyle;
   end;
 
-//-------------------------------------------------------------
-implementation
-//-------------------------------------------------------------
+implementation //============================================================
 
 uses
   GLS.Context;
+
 // ------------------
 // ------------------ TGLTextureEmitter ------------------
 // ------------------
-
- 
 constructor TGLTextureEmitter.Create(aOwner: TComponent);
 begin
   inherited Create(aOwner);
@@ -123,16 +122,17 @@ begin
   FAspect := 1;
 end;
 
+//--------------------------------------------------------------------------
 procedure TGLTextureEmitter.SetupTexMatrix(var ARci: TGLRenderContextInfo);
 const
-  cBaseMat: TGLMatrix =
+  cBaseMat: TGSMatrix =
       (V:((X:0.5; Y:0;   Z:0; W:0),
           (X:0;   Y:0.5; Z:0; W:0),
           (X:0;   Y:0; Z:1; W:0),
           (X:0.5; Y:0.5; Z:0; W:1)));
 
 var
-  PM: TGLMatrix;
+  PM: TGSMatrix;
 begin
   // Set the projector's "perspective" (i.e. the "spotlight cone"):.
   PM := MatrixMultiply(CreatePerspectiveMatrix(FFOVy, FAspect, 0.1, 1), cBaseMat);
@@ -143,12 +143,12 @@ end;
 // ------------------
 // ------------------ TGLTextureEmitterItem ------------------
 // ------------------
-
 constructor TGLTextureEmitterItem.Create(ACollection: TCollection);
 begin
   inherited Create(ACollection);
 end;
 
+//--------------------------------------------------------------------------
 procedure TGLTextureEmitterItem.Assign(Source: TPersistent);
 begin
   if Source is TGLTextureEmitterItem then
@@ -159,7 +159,7 @@ begin
   inherited;
 end;
 
-
+//--------------------------------------------------------------------------
 procedure TGLTextureEmitterItem.SetEmitter(const val: TGLTextureEmitter);
 begin
   if FEmitter <> val then
@@ -169,13 +169,14 @@ begin
   end;
 end;
 
-
+//--------------------------------------------------------------------------
 procedure TGLTextureEmitterItem.RemoveNotification(aComponent: TComponent);
 begin
   if aComponent = FEmitter then
     FEmitter := nil;
 end;
 
+//--------------------------------------------------------------------------
 function TGLTextureEmitterItem.GetDisplayName: string;
 begin
   if Assigned(FEmitter) then
@@ -189,18 +190,18 @@ end;
 // ------------------
 // ------------------ TGLTextureEmitters ------------------
 // ------------------
-
 function TGLTextureEmitters.GetOwner: TPersistent;
 begin
   Result := FOwner;
 end;
 
-
+//--------------------------------------------------------------------------
 function TGLTextureEmitters.GetItems(index: Integer): TGLTextureEmitterItem;
 begin
   Result := TGLTextureEmitterItem(inherited Items[index]);
 end;
 
+//--------------------------------------------------------------------------
 procedure TGLTextureEmitters.RemoveNotification(aComponent: TComponent);
 var
   i: Integer;
@@ -209,6 +210,7 @@ begin
     Items[i].RemoveNotification(aComponent);
 end;
 
+//--------------------------------------------------------------------------
 procedure TGLTextureEmitters.AddEmitter(texEmitter: TGLTextureEmitter);
 var
   item: TGLTextureEmitterItem;
@@ -220,7 +222,6 @@ end;
 // ------------------
 // ------------------ TGLProjectedTextures ------------------
 // ------------------
-
 constructor TGLProjectedTextures.Create(AOwner: TComponent);
 begin
   inherited Create(aOWner);
@@ -228,13 +229,14 @@ begin
   FEmitters.FOwner := self;
 end;
 
- 
+//--------------------------------------------------------------------------
 destructor TGLProjectedTextures.Destroy;
 begin
   FEmitters.Free;
   inherited destroy;
 end;
 
+//--------------------------------------------------------------------------
 procedure TGLProjectedTextures.DoRender(var ARci: TGLRenderContextInfo;
   ARenderSelf, ARenderChildren: boolean);
 const
@@ -309,7 +311,6 @@ begin
       else
         ARci.GLStates.SetBlendFunc(bfOne, bfOne);
     end;
-
     //get this emitter's tex matrix
     emitter.SetupTexMatrix(ARci);
     repeat
@@ -318,7 +319,6 @@ begin
       ARci.ignoreMaterials := false;
     until not emitter.Material.UnApply(ARci);
   end;
-
   // LoseTexMatrix
   ARci.GLStates.SetBlendFunc(bfOne, bfZero);
   gl.Disable(GL_TEXTURE_GEN_S);
@@ -331,12 +331,10 @@ begin
   gl.MatrixMode(GL_MODELVIEW);
 
   ARci.GLStates.DepthFunc := cfLEqual;
-
   //second pass (inverse): render regular scene, blending it
   //with the "mask"
   if Style = ptsInverse then
   begin
-
     Arci.GLStates.Enable(stBlend);
     ARci.GLStates.SetBlendFunc(bfDstColor, bfSrcColor);
 
@@ -345,13 +343,10 @@ begin
     ARci.ignoreBlendingRequests := true;
     self.RenderChildren(0, Count - 1, ARci);
     ARci.ignoreBlendingRequests := false;
-
   end;
 end;
 
-//----------------------------------
-initialization
-//----------------------------------
+initialization //============================================================
 
   RegisterClasses([TGLTextureEmitter, TGLProjectedTextures]);
 

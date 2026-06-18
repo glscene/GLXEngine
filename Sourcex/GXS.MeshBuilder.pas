@@ -19,7 +19,7 @@ uses
   GXS.VectorFileObjects,
   Stage.VectorTypes,
   Stage.VectorGeometry,
-  GXS.VectorLists;
+  Stage.VectorLists;
 
 procedure BuildCube(Mesh: TgxMeshObject; Position, Scale: TAffineVector);
 procedure BuildCylinder(Mesh: TgxMeshObject; Position, Scale: TAffineVector;

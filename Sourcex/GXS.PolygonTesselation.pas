@@ -1,10 +1,10 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.PolygonTesselation;
-
-(* Code to generate triangle strips and fans for polygons *)
-
+(*
+  Code to generate triangle strips and fans for polygons
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -16,16 +16,16 @@ uses
   System.SysUtils,
 
   GXS.VectorFileObjects,
-  GXS.VectorLists,
+  Stage.VectorLists,
   Stage.VectorGeometry,
   Stage.VectorTypes;
 
 (* Tesselates the polygon outlined by the Vertexes.
   And addeds them to the first facegroup of the Mesh. *)
-procedure DoTesselate(Vertexes: TgxAffineVectorList;
+procedure DoTesselate(Vertexes: TGSAffineVectorList;
   Mesh: TgxBaseMesh; normal: PAffineVector = nil; invertNormals: Boolean = False);
 
-implementation //-------------------------------------------------------------
+implementation //============================================================
 
 var
   TessMesh: TgxMeshObject;
@@ -75,7 +75,7 @@ begin
   SetVector(PAffineVector(outData)^, coords[0], coords[1], coords[2]);
 end;
 
-procedure DoTesselate(Vertexes: TgxAffineVectorList; Mesh: TgxBaseMesh; normal: PAffineVector = nil; invertNormals: Boolean = False);
+procedure DoTesselate(Vertexes: TGSAffineVectorList; Mesh: TgxBaseMesh; normal: PAffineVector = nil; invertNormals: Boolean = False);
 var
   Tess: GLUTesselator;
   i: Integer;

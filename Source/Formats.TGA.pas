@@ -1,24 +1,27 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit Formats.TGA;
-
-(* Graphic engine friendly loading of TGA image *)
-
+(*
+  Graphic engine friendly loading of TGA image
+  RegisterRasterFormat('tga', 'TARGA Image File', TGLTGAImage);
+*)
 interface
 
-{.$I GLS.inc}
+{.$I Stage.Defines.inc}
 
 uses
   Winapi.OpenGL,
   Winapi.OpenGLext,
   System.Classes,
   System.SysUtils,
+
   Stage.OpenGLTokens,
+  Stage.TextureFormat,
+
   GLS.Context,
   GLS.Graphics,
-  GLS.ApplicationFileIO,
-  Stage.TextureFormat;
+  GLS.ApplicationFileIO;
 
 type
 
@@ -28,14 +31,14 @@ type
     procedure SaveToFile(const filename: string); override;
     procedure LoadFromStream(stream: TStream); override;
     procedure SaveToStream(stream: TStream); override;
-    class function Capabilities: TGLDataFileCapabilities; override;
+    class function Capabilities: TGSDataFileCapabilities; override;
     procedure AssignFromTexture(textureContext: TGLContext;
       const textureHandle: Cardinal; textureTarget: TGLTextureTarget;
       const CurrentFormat: boolean; const intFormat: TGLInternalFormat);
       reintroduce;
   end;
 
-implementation //--------------------------------------------------------------
+implementation //============================================================
 
 type
 
@@ -54,6 +57,7 @@ type
     ImageDescriptor: Byte;
   end;
 
+//---------------------------------------------------------------------------
 procedure ReadAndUnPackRLETGA24(stream: TStream; destBuf: PAnsiChar;
   totalSize: Integer);
 type
@@ -92,6 +96,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure ReadAndUnPackRLETGA32(stream: TStream; destBuf: PAnsiChar;
   totalSize: Integer);
 type
@@ -130,6 +135,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLTGAImage.LoadFromFile(const filename: string);
 var
   fs: TStream;
@@ -148,6 +154,7 @@ begin
     raise EInvalidRasterFile.CreateFmt('File %s not found', [filename]);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLTGAImage.SaveToFile(const filename: string);
 var
   fs: TStream;
@@ -161,6 +168,7 @@ begin
   ResourceName := filename;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLTGAImage.LoadFromStream(stream: TStream);
 var
   LHeader: TTGAFileHeader;
@@ -256,6 +264,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLTGAImage.SaveToStream(stream: TStream);
 begin
 {$MESSAGE Hint 'TGLTGAImage.SaveToStream not yet implemented' }
@@ -268,12 +277,12 @@ begin
 {$MESSAGE Hint 'TGLTGAImage.AssignFromTexture not yet implemented' }
 end;
 
-class function TGLTGAImage.Capabilities: TGLDataFileCapabilities;
+class function TGLTGAImage.Capabilities: TGSDataFileCapabilities;
 begin
   Result := [dfcRead {, dfcWrite}];
 end;
 
-initialization //--------------------------------------------------------------
+initialization //============================================================
 
   RegisterRasterFormat('tga', 'TARGA Image File', TGLTGAImage);
 

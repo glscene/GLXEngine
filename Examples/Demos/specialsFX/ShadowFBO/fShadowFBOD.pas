@@ -31,9 +31,9 @@ uses
   GLSL.CustomShader,
   GLSL.Shader,
   Stage.VectorGeometry,
-  GLS.Coordinates,
+  Stage.Coordinates,
  
-  GLS.BaseClasses,
+  Stage.BaseClasses,
   GLS.RenderContextInfo,
   GLS.SimpleNavigation,
   GLS.VectorFileObjects,
@@ -80,11 +80,11 @@ type
     procedure LightFBORendererAfterRender(Sender: TObject; var rci: TGLRenderContextInfo);
     procedure GLSceneViewer1BeforeRender(Sender: TObject);
   private
-    FBiasMatrix: TGLMatrix;
-    FLightModelViewMatrix: TGLMatrix;
-    FLightProjMatrix: TGLMatrix;
-    FInvCameraMatrix: TGLMatrix;
-    FEyeToLightMatrix: TGLMatrix;
+    FBiasMatrix: TGSMatrix;
+    FLightModelViewMatrix: TGSMatrix;
+    FLightProjMatrix: TGSMatrix;
+    FInvCameraMatrix: TGSMatrix;
+    FEyeToLightMatrix: TGSMatrix;
   public
      
   end;

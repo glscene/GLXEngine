@@ -5,17 +5,19 @@ unit GLS.CompositeImage;
 (*
   This class is required for loading images such classes as TGLDDSImage,
   TGLO3TCImage, TGLHDRImage etc.
+  RegisterGLTextureImageClass(TGLCompositeImage);
 *)
 interface
 
 uses
   System.Classes,
   
-  GLS.Context, 
-  Stage.OpenGLTokens, 
-  GLS.Graphics, 
-  GLS.Texture, 
-  Stage.TextureFormat;
+  Stage.OpenGLTokens,
+  Stage.TextureFormat,
+
+  GLS.Context,
+  GLS.Graphics,
+  GLS.Texture;
 
 type
 

@@ -1,13 +1,11 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.TimeEventsMgr;
-
 (*
   Time based events mannager using the Cadencer
   can be useful to make animations with GLScene
 *)
-
 interface
 
 uses
@@ -15,13 +13,13 @@ uses
   System.SysUtils,
 
   GLS.Cadencer,
-  GLS.BaseClasses;
+  Stage.BaseClasses;
 
 type
   TTimeEvent = class;
   TTimeEvents = class;
 
-  TGLTimeEventsMGR = class(TGLUpdateAbleComponent)
+  TGLTimeEventsMGR = class(TGSUpdateAbleComponent)
   private
     FCadencer: TGLCadencer;
     FEnabled: boolean;
@@ -35,7 +33,7 @@ type
   public
     constructor Create(aOwner: TComponent); override;
     destructor Destroy; override;
-    procedure DoProgress(const progressTime: TGLProgressTimes); override;
+    procedure DoProgress(const progressTime: TGSProgressTimes); override;
     procedure Reset();
   published
     property Cadencer: TGLCadencer read FCadencer write SetCadencer;
@@ -143,7 +141,7 @@ begin
   FEvents.Assign(val);
 end;
 
-procedure TGLTimeEventsMGR.DoProgress(const progressTime: TGLProgressTimes);
+procedure TGLTimeEventsMGR.DoProgress(const progressTime: TGSProgressTimes);
 var
   i: Integer;
 begin

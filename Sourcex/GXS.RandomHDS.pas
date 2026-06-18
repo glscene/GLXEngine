@@ -1,8 +1,7 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.RandomHDS;
-
 (*
   This unit provides tools and objects to generate random Height Data Sources
   that can be used with TgxTerrainRenderer. General properties are defined in
@@ -41,7 +40,6 @@ unit GXS.RandomHDS;
   create this component manually in your code and link it to a TgxTerrainRenderer.
   If you know how to make a registered component, please do it.
 *)
-
 interface
 
 uses
@@ -64,8 +62,8 @@ uses
   GXS.HeightData,
   GXS.TerrainRenderer,
   GXS.Texture,
-  GXS.Color,
-  GXS.Coordinates,
+  Stage.Color,
+  Stage.Coordinates,
   GXS.RenderContextInfo,
   GXS.Material,
   GXS.Context;
@@ -108,7 +106,7 @@ type
   TgxBaseRandomHDS = class;
 
   // Function type to use for topography-based texture
-  TOnDrawTexture = function(const Sender: TgxBaseRandomHDS; x, y: integer; z: double; Normal: TVector4f): TgxColorVector of object;
+  TOnDrawTexture = function(const Sender: TgxBaseRandomHDS; x, y: integer; z: double; Normal: TVector4f): TGSColorVector of object;
 
   TSingleClamp = procedure(var x, y: single) of object;
   TIntegerClamp = procedure(var x, y: integer) of object;
@@ -131,7 +129,7 @@ type
     FLighting: boolean;
     FLightDirection: TVector4f;
     FTerrainRenderer: TgxTerrainRenderer;
-    FLightColor: TgxColorVector;
+    FLightColor: TGSColorVector;
     FShadows: boolean;
     FSea: boolean;
     FSeaLevel: single;
@@ -145,13 +143,13 @@ type
     FPrimerLandscape: boolean;
     FLandTileInfo: TLandTileInfo;
     FOnDrawTexture: TOnDrawTexture;
-    function OnDrawTextureDefault(const Sender: TgxBaseRandomHDS; x, y: integer; z: double; Normal: TVector4f): TgxColorVector;
+    function OnDrawTextureDefault(const Sender: TgxBaseRandomHDS; x, y: integer; z: double; Normal: TVector4f): TGSColorVector;
     procedure SetSeed(const Value: integer);
     procedure SetMaterialName(const Value: string);
     procedure SetLighting(const Value: boolean);
     procedure SetLightDirection(const Value: TVector4f);
     procedure SetTerrainRenderer(const Value: TgxTerrainRenderer); virtual; abstract;
-    procedure SetLightColor(const Value: TgxColorVector);
+    procedure SetLightColor(const Value: TGSColorVector);
     procedure SetShadows(const Value: boolean);
     procedure SetSea(const Value: boolean);
     procedure SetSeaLevel(const Value: single);
@@ -177,7 +175,7 @@ type
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
     // Usually white, but you can generate e.g.sunset ambiance by setting it to red
-    property LightColor: TgxColorVector read FLightColor write SetLightColor;
+    property LightColor: TGSColorVector read FLightColor write SetLightColor;
     // Light is parallel (sun light)
     property LightDirection: TVector4f read FLightDirection write SetLightDirection;
     (* This function must be supplied by the user. Here he/she can define which
@@ -276,7 +274,7 @@ type
     procedure BuildNormals;
     (* For every pixel of the texture, computes slope and interpolated height and
       sends these information to a user-supplied function (OnDrawTexture), whose
-      result is a TgxColorVector. If no OnDrawTexture is supplied, a basic default
+      result is a TGSColorVector. If no OnDrawTexture is supplied, a basic default
       texture will be used. *)
     procedure BuildTexture;
     // Fill the heightfield with "Empty" values (-999)
@@ -338,7 +336,7 @@ type
       vertical/horitontal ratio with any size. Therefore, Scale.X=Scale.Y=1 and
       only Scale.Z varies. If you want to increase the landscape scale, the best way
       would be to place the Terrain Renderer in a DummyCube and rescale it. *)
-    function Scale: TgxCoordinates;
+    function Scale: TGSCoordinates;
     (* Size of the square height array. With the middle-point algorithm, it is always
       Size = 2^N+1. In a cyclic landscape, the last row and columns are identical
       to the first. *)
@@ -585,14 +583,14 @@ type
 
 (* Texture functions *)
 ///function LoadJPGtexture(const JpgName: string): tBitmap;
-function NoisyColor(const Color: TColor; const Noise: single = 0.05): TgxColorVector;
-function TextureGreen(const x, y: integer): TgxColorVector;
-function TextureBlue(const x, y: integer): TgxColorVector;
-function TextureSand(const x, y: integer): TgxColorVector;
-function TextureBrownSoil(const x, y: integer): TgxColorVector;
-function TextureDarkGreen(const x, y: integer): TgxColorVector;
-function TextureDarkGray(const x, y: integer): TgxColorVector;
-function TextureWhite(const x, y: integer): TgxColorVector;
+function NoisyColor(const Color: TColor; const Noise: single = 0.05): TGSColorVector;
+function TextureGreen(const x, y: integer): TGSColorVector;
+function TextureBlue(const x, y: integer): TGSColorVector;
+function TextureSand(const x, y: integer): TGSColorVector;
+function TextureBrownSoil(const x, y: integer): TGSColorVector;
+function TextureDarkGreen(const x, y: integer): TGSColorVector;
+function TextureDarkGray(const x, y: integer): TGSColorVector;
+function TextureWhite(const x, y: integer): TGSColorVector;
 
 (* Random HDS functions *)
 procedure FractalMiddlePointHDS(const aDepth, aSeed, aAmplitude: integer; const aRoughness: single; aCyclic: boolean;
@@ -606,7 +604,7 @@ procedure PrimerIsland(LowZ, HighZ: single; var z: TMapOfSingle);
 const
   VerticalScalingFactor = 128;
 
-implementation //-------------------------------------------------------------
+implementation //============================================================
 
 const // Neighbourhood vectors and weight
   NeighX: array [0 .. 8] of integer = (-1, 0, 1, 1, 1, 0, -1, -1, 0);
@@ -634,7 +632,7 @@ begin
 end;
 *)
 
-function NoisyColor(const Color: TColor; const Noise: single = 0.05): TgxColorVector;
+function NoisyColor(const Color: TColor; const Noise: single = 0.05): TGSColorVector;
 var
   r: single;
 begin
@@ -643,37 +641,37 @@ begin
   AddVector(Result, r);
 end;
 
-function TextureSand(const x, y: integer): TgxColorVector;
+function TextureSand(const x, y: integer): TGSColorVector;
 begin
   Result := NoisyColor($0071D8FF);
 end;
 
-function TextureBrownSoil(const x, y: integer): TgxColorVector;
+function TextureBrownSoil(const x, y: integer): TGSColorVector;
 begin
   Result := NoisyColor($00008BBF);
 end;
 
-function TextureDarkGreen(const x, y: integer): TgxColorVector;
+function TextureDarkGreen(const x, y: integer): TGSColorVector;
 begin
   Result := NoisyColor($00004000);
 end;
 
-function TextureDarkGray(const x, y: integer): TgxColorVector;
+function TextureDarkGray(const x, y: integer): TGSColorVector;
 begin
   Result := NoisyColor(claDarkGray);
 end;
 
-function TextureWhite(const x, y: integer): TgxColorVector;
+function TextureWhite(const x, y: integer): TGSColorVector;
 begin
   Result := NoisyColor(claWhite);
 end;
 
-function TextureBlue(const x, y: integer): TgxColorVector;
+function TextureBlue(const x, y: integer): TGSColorVector;
 begin
   Result := NoisyColor(claBlue);
 end;
 
-function TextureGreen(const x, y: integer): TgxColorVector;
+function TextureGreen(const x, y: integer): TGSColorVector;
 begin
   Result := NoisyColor(claGreen);
 end;
@@ -741,7 +739,7 @@ begin
 end;
 
 function TgxBaseRandomHDS.OnDrawTextureDefault(const Sender: TgxBaseRandomHDS; x, y: integer; z: double; Normal: TVector4f)
-  : TgxColorVector;
+  : TGSColorVector;
 begin
   if z > Sender.SeaLevel * VSF then
     Result := TextureGreen(x, y)
@@ -784,7 +782,7 @@ begin
   FLandTileInfo := Value;
 end;
 
-procedure TgxBaseRandomHDS.SetLightColor(const Value: TgxColorVector);
+procedure TgxBaseRandomHDS.SetLightColor(const Value: TGSColorVector);
 begin
   FLightColor := Value;
 end;
@@ -1130,7 +1128,7 @@ var
     Result := RGB((r1 + r2) div 2, (g1 + g2) div 2, (b1 + b2) div 2);
   end;
 
-  procedure MakeRGBTriple(const Color: TgxColorVector; var RGBTriple: TRGBTriple);
+  procedure MakeRGBTriple(const Color: TGSColorVector; var RGBTriple: TRGBTriple);
   begin
     with RGBTriple do
     begin
@@ -1143,8 +1141,8 @@ var
   function ComputePixel(const x, y: integer): TRGBTriple;
   var
     i, j: integer;
-    Shade: TgxColorVector;
-    Cover: TgxColorVector;
+    Shade: TGSColorVector;
+    Cover: TGSColorVector;
     z: double;
   begin
     i := (x0 + x) div TextureScale;
@@ -1261,8 +1259,8 @@ var
   Mat	:TgxLibMaterial;
   x,y	:integer;
   i,j	:integer;
-  Shade	:TgxColorVector;
-  Cover	:TgxColorVector;
+  Shade	:TGSColorVector;
+  Cover	:TGSColorVector;
   z		:double;
   begin
     if not fTextureCreated then CreateTexture;
@@ -1852,7 +1850,7 @@ begin
   Result := (x >= 0) and (x <= FSize) and (y >= 0) and (y <= FSize);
 end;
 
-function TgxCustomRandomHDS.Scale: TgxCoordinates;
+function TgxCustomRandomHDS.Scale: TGSCoordinates;
 begin
   try
     Result := FTerrainRenderer.Scale;
@@ -3116,7 +3114,7 @@ begin
   end; // for i
 end;
 
-initialization //-------------------------------------------------------------
+initialization //============================================================
 
 rhdsStartTime := GetTickCount;
 

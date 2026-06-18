@@ -20,8 +20,8 @@ uses
   Stage.TextureFormat,
   GLS.CompositeImage,
   GLS.Material,
-  GLS.Coordinates,
-  GLS.BaseClasses,
+  Stage.Coordinates,
+  Stage.BaseClasses,
 
   GLS.Context,
   GLS.RenderContextInfo,

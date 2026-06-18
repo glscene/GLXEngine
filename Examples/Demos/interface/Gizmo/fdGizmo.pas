@@ -16,7 +16,7 @@ uses
   
   GLS.Scene,
   GLS.Cadencer,
-  GLS.PersistentClasses,
+  Stage.PersistentClasses,
   GLS.Objects,
   GLS.SpaceText,
   GLS.SceneViewer,
@@ -26,8 +26,8 @@ uses
   GLS.GeomObjects,
   GLS.Gizmo,
  
-  GLS.Coordinates,
-  GLS.BaseClasses, GLS.VectorFileObjects;
+  Stage.Coordinates,
+  Stage.BaseClasses, GLS.VectorFileObjects;
 
 type
   TFormGizmo = class(TForm)

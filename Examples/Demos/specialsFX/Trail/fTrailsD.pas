@@ -24,8 +24,8 @@ uses
   Stage.VectorGeometry, 
   GLS.Mesh, 
   Stage.VectorTypes,
-  GLS.Coordinates, 
-  GLS.BaseClasses;
+  Stage.Coordinates, 
+  Stage.BaseClasses;
 
 type
   TFormTrails = class(TForm)

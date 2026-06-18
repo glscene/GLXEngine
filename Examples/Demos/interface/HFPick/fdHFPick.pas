@@ -20,9 +20,9 @@ uses
   Stage.VectorTypes,
   GLS.Texture,
   GLS.Objects,
-  GLS.Color,
-  GLS.Coordinates,
-  GLS.BaseClasses;
+  Stage.Color,
+  Stage.Coordinates,
+  Stage.BaseClasses;
 
 type
   TFormHFPick = class(TForm)
@@ -42,7 +42,7 @@ type
       x, y: Integer);
     procedure FormCreate(Sender: TObject);
     procedure HeightFieldGetHeight2(Sender: TObject; const x, y: Single;
-      var z: Single; var Color: TGLColorVector; var TexPoint: TTexPoint);
+      var z: Single; var Color: TGSColorVector; var TexPoint: TTexPoint);
   private
   public
     mx, my: Integer;
@@ -72,7 +72,7 @@ end;
 
 //----------------------------------------------------------------------------
 procedure TFormHFPick.HeightFieldGetHeight2(Sender: TObject; const x, y: Single;
-  var z: Single; var Color: TGLColorVector; var TexPoint: TTexPoint);
+  var z: Single; var Color: TGSColorVector; var TexPoint: TTexPoint);
 var
   ix, iy: Integer;
 begin

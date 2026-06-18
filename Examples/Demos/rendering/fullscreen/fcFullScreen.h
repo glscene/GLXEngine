@@ -5,8 +5,8 @@
 //---------------------------------------------------------------------------
 #include <System.Classes.hpp>
 #include "System.SysUtils.hpp"
-#include "GLS.BaseClasses.hpp"
-#include "GLS.Coordinates.hpp"
+#include "Stage.BaseClasses.hpp"
+#include "Stage.Coordinates.hpp"
 
 #include "GLS.FullScreenViewer.hpp"
 #include "GLS.Objects.hpp"

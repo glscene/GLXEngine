@@ -1,18 +1,18 @@
-﻿//
-// The graphics engine GXScene
-//
+﻿(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.SmartObjects;
-
 (*
   The objects that have built-in properties and methods to support sound, vision,
-  physics, and finding shortest paths through mezza obstacles, hightfields or terrains. 
-  They should have AI to conduct dialogues and make independent decisions. 
+  physics, and finding shortest paths through mezza obstacles, hightfields or terrains.
+  RegisterClasses([TgxCyborg {, TGLSmartSwarm}]);
+
+  They should have AI to conduct dialogues and make independent decisions.
   The smart spatial objects are used to interact with other smart objects and cyborgs.
 
   The registered classes:
    [TGLSmartGerm, TGLSmartCells, TGLSmartSwarm, TGLSmartNet, TgxCyborg, TgxCyborgs]
 *)
-
 interface
 
 {$I Stage.Defines.inc}
@@ -32,15 +32,15 @@ uses
   Stage.PipelineTransform,
   Stage.Strings,
 
-  GXS.BaseClasses,
-  GXS.PersistentClasses,
-  GXS.VectorLists,
-  GXS.Coordinates,
-  GXS.GeometryBB,
-  GXS.Color,
+  Stage.BaseClasses,
+  Stage.PersistentClasses,
+  Stage.VectorLists,
+  Stage.Coordinates,
+  Stage.GeometryBB,
+  Stage.Color,
+  Stage.Silhouette,
 
   GXS.Scene,
-  GXS.Silhouette,
   GXS.Texture,
   GXS.Material,
   GXS.Mesh,
@@ -57,7 +57,6 @@ uses
 
 
 type
-
   TgxSmartSwarmMode = (isNone, isRandom, isTetra, isGrid);
 
   TgxCyborgReference = (crNone, crWeak, crStrong);
@@ -70,7 +69,7 @@ type
   TgxCyborgThinks = class(TCollection);
 
   // A list of thinking periods for TgxCyborgThinkMode
-  TgxCyborgThinksList = class(TgxPersistentObjectList);
+  TgxCyborgThinksList = class(TGSPersistentObjectList);
 
 const
   cDefaultCyborgOptions = [coCollide];
@@ -100,7 +99,7 @@ type
     destructor Destroy; override;
     procedure Assign(Source: TPersistent); override;
     procedure BuildList(var rci: TgxRenderContextInfo); override;
-    procedure DoProgress(const progressTime: TgxProgressTimes); override;
+    procedure DoProgress(const progressTime: TGSProgressTimes); override;
     procedure LoadFromStream(const Filename: string; aStream: TStream); override;
     procedure SwitchToThinking(anThinking: TgxCyborgThinks; smooth: Boolean = False);
     function CurrentThinking: string;
@@ -144,7 +143,7 @@ var
   vGLSmartObjectsAllocate: Boolean = True;
   vGLSmartObjectsEnableByDefault: Boolean = True;
 
-implementation // ----------------------------------------------------------
+implementation //============================================================
 
 var
   vCyborgsFileFormat: TgxCyborgThinksList;
@@ -183,7 +182,7 @@ begin
   inherited;
 end;
 
-procedure TgxCyborg.DoProgress(const progressTime: TgxProgressTimes);
+procedure TgxCyborg.DoProgress(const progressTime: TGSProgressTimes);
 begin
   inherited;
 //
@@ -253,12 +252,11 @@ begin
   inherited;
 end;
 
-initialization
-// ------------------------------------------------------------------
+initialization //============================================================
 
-  RegisterClasses([TgxCyborg (*, TGLSmartSwarm*)]);
+  RegisterClasses([TgxCyborg {, TGLSmartSwarm}]);
 
-finalization
+finalization //==============================================================
 
 FreeAndNil(vCyborgsFileFormat);
 

@@ -1,14 +1,14 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.BumpmapHDS;
-
 (*
   Implements a HDS that automatically generates an elevation bumpmap.
+  RegisterClass(TGLBumpmapHDS);
+
   The object-space elevation bumpmap can be used for dynamic terrain lighting.
   A bumpmap texture is generated for each terrain tile, and placed into a TGLMaterialLibrary.
 *)
-
 interface
 
 {$I Stage.Defines.inc}
@@ -23,18 +23,17 @@ uses
   Stage.OpenGLTokens,
   Stage.VectorTypes,
   Stage.VectorGeometry,
+  Stage.Coordinates,
+  Stage.VectorLists,
+  Stage.Color,
+  Stage.Utils,
 
-  GLS.Coordinates,
   GLS.HeightData,
   GLS.Graphics,
-  GLS.Color,
-  GLS.VectorLists,
   GLS.Texture,
-  GLS.Material,
-  Stage.Utils;
+  GLS.Material;
 
 type
-
   TGLNormalMapSpace = (nmsObject, nmsTangent);
 
   TGLBumpmapHDS = class;
@@ -108,34 +107,30 @@ type
 
 (*  Some useful methods for setting up bump maps. *)
 procedure CalcObjectSpaceLightVectors(Light : TAffineVector;
-                                      Vertices: TGLAffineVectorList;
-                                      Colors: TGLVectorList);
+                                      Vertices: TGSAffineVectorList;
+                                      Colors: TGSVectorList);
 procedure SetupTangentSpace(Vertices, Normals, TexCoords,
-                            Tangents, BiNormals : TGLAffineVectorList);
+                            Tangents, BiNormals : TGSAffineVectorList);
 procedure CalcTangentSpaceLightVectors(Light : TAffineVector;
                                        Vertices, Normals,
-                                       Tangents, BiNormals : TGLAffineVectorList;
-                                       Colors: TGLVectorList);
+                                       Tangents, BiNormals : TGSAffineVectorList;
+                                       Colors: TGSVectorList);
 function CreateObjectSpaceNormalMap(Width, Height : Integer;
-                                    HiNormals,HiTexCoords : TGLAffineVectorList) : TBitmap;
+                                    HiNormals,HiTexCoords : TGSAffineVectorList) : TBitmap;
 function CreateTangentSpaceNormalMap(Width, Height : Integer;
                                      HiNormals, HiTexCoords,
                                      LoNormals, LoTexCoords,
-                                     Tangents, BiNormals : TGLAffineVectorList) : TBitmap;
+                                     Tangents, BiNormals : TGSAffineVectorList) : TBitmap;
 
 
-// ------------------------------------------------------------------
-implementation
-// ------------------------------------------------------------------
-
-// ------------------
-// ------------------ TGLBumpmapHDS ------------------
-// ------------------
+implementation //============================================================
 
 const
   cDefaultBumpScale = 0.01;
 
-   
+// ------------------
+// ------------------ TGLBumpmapHDS ------------------
+// ------------------
 constructor TGLBumpmapHDS.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
@@ -144,7 +139,7 @@ begin
   Uno := TCriticalSection.Create;
 end;
 
- 
+//---------------------------------------------------------------------------
 destructor TGLBumpmapHDS.Destroy;
 begin
   BumpmapLibrary := nil;
@@ -152,6 +147,7 @@ begin
   inherited Destroy;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLBumpmapHDS.Notification(AComponent: TComponent;
   Operation: TOperation);
 begin
@@ -163,6 +159,7 @@ begin
   inherited;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLBumpmapHDS.Release(aHeightData: TGLHeightData);
 var
   libMat: TGLLibMaterial;
@@ -174,6 +171,7 @@ begin
   inherited;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLBumpmapHDS.TrimTextureCache(MaxTextureCount: Integer);
 // Thread-safe Version
 begin
@@ -185,6 +183,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLBumpmapHDS.Trim(MaxTextureCount: Integer); // internal use only
 var
   matLib: TGLMaterialLibrary;
@@ -209,6 +208,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLBumpmapHDS.PreparingData(heightData: TGLHeightData);
 var
   TmpHD: TGLHeightData;
@@ -264,7 +264,6 @@ begin
       GenerateNormalMap(TmpHD, bmp32, FBumpScale);
       TmpHD.Release;
     end;
-    // ----------------------------------------------------
   end;
   // HD.MaterialName:=LibMat.Name;
   heightData.LibMaterial := libMat; // attach texture to current tile
@@ -273,6 +272,7 @@ begin
   Uno.Release;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLBumpmapHDS.GenerateNormalMap(heightData: TGLHeightData;
   normalMap: TGLImage; scale: Single);
 var
@@ -309,6 +309,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLBumpmapHDS.SetBumpmapLibrary(const val: TGLMaterialLibrary);
 begin
   if val <> FBumpmapLibrary then
@@ -322,6 +323,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLBumpmapHDS.SetBumpScale(const val: Single);
 begin
   if FBumpScale <> val then
@@ -331,11 +333,13 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 function TGLBumpmapHDS.StoreBumpScale: Boolean;
 begin
   Result := (FBumpScale <> cDefaultBumpScale);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLBumpmapHDS.SetSubSampling(const val: Integer);
 begin
   if val <> FSubSampling then
@@ -347,9 +351,10 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 //----------------- BumpMapping routines ---------------------
-
-procedure CalcObjectSpaceLightVectors(Light: TAffineVector; Vertices: TGLAffineVectorList; Colors: TGLVectorList);
+//---------------------------------------------------------------------------
+procedure CalcObjectSpaceLightVectors(Light: TAffineVector; Vertices: TGSAffineVectorList; Colors: TGSVectorList);
 var
   i: Integer;
   vec: TAffineVector;
@@ -362,7 +367,8 @@ begin
   end;
 end;
 
-procedure SetupTangentSpace(Vertices, Normals, TexCoords, Tangents, BiNormals: TGLAffineVectorList);
+//---------------------------------------------------------------------------
+procedure SetupTangentSpace(Vertices, Normals, TexCoords, Tangents, BiNormals: TGSAffineVectorList);
 var
   i, j: Integer;
   v, n, t: TAffineMatrix;
@@ -455,8 +461,8 @@ begin
 end;
 
 procedure CalcTangentSpaceLightVectors(Light: TAffineVector;
-  Vertices, Normals, Tangents, BiNormals: TGLAffineVectorList;
-  Colors: TGLVectorList);
+  Vertices, Normals, Tangents, BiNormals: TGSAffineVectorList;
+  Colors: TGSVectorList);
 var
   i: Integer;
   mat: TAffineMatrix;
@@ -478,7 +484,6 @@ end;
 // ------------------------------------------------------------------------
 // Local functions used for creating normal maps
 // ------------------------------------------------------------------------
-
 function ConvertNormalToColor(normal: TAffineVector): TColor;
 
 var
@@ -490,6 +495,7 @@ begin
   Result := RGB2Color(r, g, b);
 end;
 
+//---------------------------------------------------------------------------
 procedure GetBlendCoeffs(X, Y, x1, y1, x2, y2, x3, y3: Integer; var f1, f2, f3: Single);
 var
   m1, m2, d1, d2, px, py: Single;
@@ -589,6 +595,7 @@ begin
 
 end;
 
+//---------------------------------------------------------------------------
 function BlendNormals(X, Y, x1, y1, x2, y2, x3, y3: Integer;
   n1, n2, n3: TAffineVector): TAffineVector;
 var
@@ -600,8 +607,9 @@ begin
   AddVector(Result, VectorScale(n3, 1 - f3));
 end;
 
+//---------------------------------------------------------------------------
 procedure CalcObjectSpaceNormalMap(Width, Height: Integer;
-  NormalMap, Normals, TexCoords: TGLAffineVectorList);
+  NormalMap, Normals, TexCoords: TGSAffineVectorList);
 var
   i, X, Y, xs, xe, x1, y1, x2, y2, x3, y3: Integer;
   n, n1, n2, n3: TAffineVector;
@@ -686,13 +694,14 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 function CreateObjectSpaceNormalMap(Width, Height: Integer;
-  HiNormals, HiTexCoords: TGLAffineVectorList): TBitmap;
+  HiNormals, HiTexCoords: TGSAffineVectorList): TBitmap;
 var
   i: Integer;
-  NormalMap: TGLAffineVectorList;
+  NormalMap: TGSAffineVectorList;
 begin
-  NormalMap := TGLAffineVectorList.Create;
+  NormalMap := TGSAffineVectorList.Create;
   NormalMap.AddNulls(Width * Height);
   CalcObjectSpaceNormalMap(Width, Height, NormalMap, HiNormals, HiTexCoords);
 
@@ -709,8 +718,9 @@ begin
   NormalMap.Free;
 end;
 
+//---------------------------------------------------------------------------
 function CreateTangentSpaceNormalMap(Width, Height: Integer; HiNormals, HiTexCoords, LoNormals, LoTexCoords, Tangents,
-  BiNormals: TGLAffineVectorList): TBitmap;
+  BiNormals: TGSAffineVectorList): TBitmap;
 
   function NormalToTangentSpace(normal: TAffineVector; X, Y, x1, y1, x2, y2, x3, y3: Integer; m1, m2, m3: TAffineMatrix)
     : TAffineVector;
@@ -726,11 +736,11 @@ function CreateTangentSpaceNormalMap(Width, Height: Integer; HiNormals, HiTexCoo
 
 var
   i, X, Y, xs, xe, x1, y1, x2, y2, x3, y3: Integer;
-  NormalMap: TGLAffineVectorList;
+  NormalMap: TGSAffineVectorList;
   n: TAffineVector;
   m, m1, m2, m3: TAffineMatrix;
 begin
-  NormalMap := TGLAffineVectorList.Create;
+  NormalMap := TGSAffineVectorList.Create;
   NormalMap.AddNulls(Width * Height);
 
   CalcObjectSpaceNormalMap(Width, Height, NormalMap, HiNormals, HiTexCoords);
@@ -836,24 +846,18 @@ begin
         end;
       end;
   end;
-
   // Creates the bitmap
   Result := TBitmap.Create;
   Result.Width := Width;
   Result.Height := Height;
   Result.PixelFormat := pf24bit;
-
   // Paint bitmap with normal map normals (X,Y,Z) -> (R,G,B)
   for i := 0 to NormalMap.Count - 1 do
     Result.Canvas.Pixels[i mod Width, i div Height] := ConvertNormalToColor(NormalMap[i]);
-
   NormalMap.Free;
 end;
 
-
-// ------------------------------------------------------------------
-initialization
-// ------------------------------------------------------------------
+initialization //============================================================
 
 RegisterClass(TGLBumpmapHDS);
 

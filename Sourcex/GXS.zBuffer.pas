@@ -1,14 +1,11 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.zBuffer;
-
 (*
    ZBuffer retrieval and computations.
-   See readme.txt in the Demos/SpecialsFX/Shadows directory.
-   By René Lindsay.
+   RegisterClasses([TgxZShadows]);
 *)
-
    //--------These formulas are the key to making use of the z-Buffer--------
    //
    // dst (d): world distance
@@ -21,7 +18,6 @@ unit GXS.zBuffer;
    //z  :=(1-np/d)/(1-np/fp);  //calc from frustrum depth to z-buffer value
    //------------------------  z:=1-(fp/d-1)/(fp/np-1); //old FtoZ
    //------------------------------------------------------------------------
-
 interface
 
 {$I Stage.Defines.inc}
@@ -33,10 +29,10 @@ uses
 
   Stage.OpenGL4,
   Stage.VectorTypes,
-  GXS.PersistentClasses,
+  Stage.PersistentClasses,
   Stage.VectorGeometry,
-  GXS.Coordinates,
-  GXS.Color,
+  Stage.Coordinates,
+  Stage.Color,
 
   GXS.Scene,
   GXS.XOpenGL,
@@ -132,7 +128,7 @@ type
     FYRes: integer;
     Fsoft: boolean;
     FTolerance: single;
-    FColor: TgxColor;
+    FColor: TGSColor;
     SCol: TgxPixel32;
     //stepX, stepY :single;
     FTexturePrepared: Boolean;
@@ -167,7 +163,7 @@ type
     property Optimise: TOptimise read FOptimise write FOptimise;
     property Width: integer read FWidth write SetWidth;
     property Height: integer read FHeight write SetHeight;
-    property Color: TgxColor read FColor write FColor;
+    property Color: TGSColor read FColor write FColor;
     //          property Xres        :integer read FXRes write SetXRes;// default 64;
     //          property Yres        :integer read FYRes write SetYRes;// default 64;
     property Soft: Boolean read Fsoft write SetSoft;
@@ -179,9 +175,7 @@ type
     function CastShadow: boolean;
   end;
 
-//======================================================================
-implementation
-//======================================================================
+implementation //===========================================================
 
 constructor TgxZBuffer.Create;
 begin
@@ -643,7 +637,7 @@ constructor TgxZShadows.Create(AOwner: TComponent);
 begin
   inherited;
   ObjectStyle := ObjectStyle + [osDirectDraw, osNoVisibilityCulling];
-  FColor := TgxColor.Create(Self);
+  FColor := TGSColor.Create(Self);
   self.FDataSize := 0;
   self.FXRes := 64;
   self.FYRes := 64;
@@ -1296,11 +1290,8 @@ begin
   NotifyChange(Self);
 end;
 
-// ------------------------------------------------------------------
-initialization
-// ------------------------------------------------------------------
+initialization //============================================================
 
-  
   RegisterClasses([TgxZShadows]);
 
 end.

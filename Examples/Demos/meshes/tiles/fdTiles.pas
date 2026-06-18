@@ -20,12 +20,12 @@ uses
   Vcl.StdCtrls,
 
   Stage.VectorTypes,
-  GLS.Coordinates,
-  GLS.BaseClasses,
+  Stage.Coordinates,
+  Stage.BaseClasses,
   Stage.Keyboard,
   Stage.VectorGeometry,
   Stage.TextureFormat,
-  GLS.XCollection,
+  Stage.XCollection,
   Stage.Utils,
 
   GLS.Objects,
@@ -81,7 +81,7 @@ type
   public
     mx, my: Integer;
     tileX, tileY: Integer;
-    mip, translateOffset: TGLVector;
+    mip, translateOffset: TGSVector;
     translating: Boolean;
   end;
 
@@ -155,7 +155,7 @@ end;
 procedure TFormTiles.GLCadencer1Progress(Sender: TObject;
   const deltaTime, newTime: Double);
 var
-  ip: TGLVector;
+  ip: TGSVector;
   mp: TPoint;
   shiftDown: Boolean;
 begin

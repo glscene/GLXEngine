@@ -1,8 +1,7 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.FileDXF;
-
 (*
   Support-Code to load DXF (Drawing eXchange Files) TgxFreeForm or
   TgxActor Components.
@@ -10,9 +9,7 @@ unit GXS.FileDXF;
   Note that you must manually add this unit to one of your project's uses
   to enable support for DXF at run-time.
   Turn on TwoSideLighting in your Buffer! DXF-Faces have no defined winding order
-
 *)
-
 interface
 
 uses
@@ -22,7 +19,7 @@ uses
   Stage.VectorTypes,
   GXS.ApplicationFileIO,
   Stage.VectorGeometry,
-  GXS.VectorLists,
+  Stage.VectorLists,
   GXS.Scene,
   GXS.Texture,
   GXS.VectorFileObjects,
@@ -70,9 +67,7 @@ type
     procedure LoadFromStream(aStream: TStream); override;
   end;
 
-//========================================================================
-implementation
-//========================================================================
+implementation //============================================================
 
 procedure BuildNormals(m: TgxMeshObject); FORWARD;
 

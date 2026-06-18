@@ -18,13 +18,13 @@ uses
   Stage.VectorTypes,
   GLS.NGDManager,
   GLS.Objects,
-  GLS.PersistentClasses,
-  GLS.Coordinates,
+  Stage.PersistentClasses,
+  Stage.Coordinates,
   GLS.SimpleNavigation,
   GLS.Cadencer,
   GLS.SceneViewer,
 
-  GLS.BaseClasses,
+  Stage.BaseClasses,
   Stage.VectorGeometry,
   GLS.HUDObjects,
   GLS.BitmapFont,
@@ -83,9 +83,9 @@ function BuoyancyPlaneCallback(const collisionID: Integer; context: Pointer;
   const globalSpaceMatrix: PdFloat; globalSpacePlane: PdFloat): Integer;
   cdecl;
 var
-  BodyMatrix: TGLMatrix;
-  PlaneEquation: TGLVector;
-  pv: PGLVector;
+  BodyMatrix: TGSMatrix;
+  PlaneEquation: TGSVector;
+  pv: PGSVector;
   MyForm: TFormNewtonDensity;
 begin
   // Get the matrix of the actual body
@@ -99,7 +99,7 @@ begin
   PlaneEquation := MyForm.GLPlane1.Direction.AsVector;
   // the distance along this normal, to the origin.
   PlaneEquation.W := MyForm.GLPlane1.Position.Y;
-  PGLVector(globalSpacePlane)^ := PlaneEquation;
+  PGSVector(globalSpacePlane)^ := PlaneEquation;
   Result := 1;
 end;
 
@@ -152,7 +152,7 @@ end;
 procedure TFormNewtonDensity.MyForceAndTorqueDensity(const cbody: PNewtonBody;
   timestep: dFloat; threadIndex: Integer);
 var
-  worldGravity: TGLVector;
+  worldGravity: TGSVector;
   NGDDyn: TGLNGDDynamic;
   fluidDensity, fluidLinearViscosity, fluidAngularViscosity: Single;
 begin

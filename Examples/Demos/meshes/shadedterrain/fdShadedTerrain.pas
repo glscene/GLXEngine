@@ -22,12 +22,12 @@ uses
   Vcl.StdCtrls,
 
   GLS.Scene,
-  GLS.BaseClasses,
+  Stage.BaseClasses,
   Stage.VectorTypes,
   Stage.VectorGeometry,
   Stage.Keyboard,
-  GLS.XCollection,
-  GLS.Coordinates,
+  Stage.XCollection,
+  Stage.Coordinates,
 
   GLS.Objects,
   GLS.TerrainRenderer,
@@ -152,7 +152,7 @@ end;
 procedure TFormShadedTerrain.GLBumpmapHDS1NewTilePrepared(Sender: TGLBumpmapHDS;
   heightData: TGLHeightData; normalMapMaterial: TGLLibMaterial);
 var
-  Vec: TGLVector;
+  Vec: TGSVector;
 begin
   heightData.MaterialName := normalMapMaterial.Name;
   normalMapMaterial.Texture2Name := 'contrast';//'details', 'texture' or 'contrast';

@@ -35,7 +35,7 @@ interface
 
 uses
   Stage.VectorGeometry,
-  GXS.VectorLists,
+  Stage.VectorLists,
   Stage.VectorTypes,
   Stage.VectorTypesExt,
 

@@ -1,10 +1,10 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.FileHDR;
-
-(* HDR File support *)
-
+(*
+  HDR File support
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -40,7 +40,7 @@ type
     // defaults to 1.0
     fProgramType: string[16];
   public
-    class function Capabilities: TGLDataFileCapabilities; override;
+    class function Capabilities: TGSDataFileCapabilities; override;
     procedure LoadFromFile(const filename: string); override;
     procedure LoadFromStream(stream: TStream); override;
     procedure AssignFromTexture(textureContext: TGLContext; const textureHandle: Cardinal;
@@ -51,9 +51,7 @@ type
     property ProgramType: Ansistring read GetProgramType write SetProgramType;
   end;
 
-//---------------------------------------------------------------------
-implementation
-//---------------------------------------------------------------------
+implementation //============================================================
 
 // ------------------
 // ------------------ TGLHDRImage ------------------
@@ -296,13 +294,13 @@ begin
   end;
 end;
 
-class function TGLHDRImage.Capabilities: TGLDataFileCapabilities;
+class function TGLHDRImage.Capabilities: TGSDataFileCapabilities;
 begin
   Result := [dfcRead {, dfcWrite}];
 end;
 
-initialization
-  { Register this Fileformat-Handler with GLScene }
+initialization //============================================================
+
   RegisterRasterFormat('hdr', 'High Dynamic Range Image', TGLHDRImage);
 
 end.

@@ -1,6 +1,3 @@
-//
-// GXStage Graphics Engine
-//
 unit CUDA.ParallelPrimitives;
 (* CUDA Parallel Primitives *)
 // -------------------------------------------------------------
@@ -12,7 +9,6 @@ unit CUDA.ParallelPrimitives;
 // This source code is distributed under the terms of license.txt in
 // the root directory of this source distribution.
 // -------------------------------------------------------------
-
 interface
 
 const
@@ -158,7 +154,7 @@ function cudppRand(planHandle: TCUDPPHandle;
 function cudppRandSeed(const planHandle: TCUDPPHandle;
   seed: Cardinal): TCUDPPResult;stdcall;external CUDPPDLL;
 
-implementation //------------------------------------------------------------
+implementation //============================================================
 
 end.
 

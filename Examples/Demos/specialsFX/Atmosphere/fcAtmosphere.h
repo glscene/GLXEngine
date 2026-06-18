@@ -23,9 +23,9 @@
 #include "GLS.Atmosphere.hpp"
 #include "GLS.SimpleNavigation.hpp"
 #include "GLS.Behaviours.hpp"
-#include "GLS.Coordinates.hpp"
-#include "GLS.BaseClasses.hpp"
-#include "GLS.Color.hpp"
+#include "Stage.Coordinates.hpp"
+#include "Stage.BaseClasses.hpp"
+#include "Stage.Color.hpp"
 
 //---------------------------------------------------------------------------
 class TFormAtmosphere : public TForm

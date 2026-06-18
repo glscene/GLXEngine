@@ -1,8 +1,7 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXSL.ShaderCombiner;
-
 (*
     Allows to combine shaders in different sequences.
     Note, that can't just take 2 random shaders and combine them, because
@@ -11,7 +10,6 @@ unit GXSL.ShaderCombiner;
     multipass shaders, this unit does magic and allows to reuse and upgrade
     previously written shaders.
 *)
-
 interface
 
 {$I Stage.Defines.inc}
@@ -19,10 +17,11 @@ interface
 uses
   System.Classes,
 
-  GXS.Material,
-  GXS.Scene,
   Stage.VectorGeometry,
   Stage.Strings,
+
+  GXS.Material,
+  GXS.Scene,
   GXS.RenderContextInfo;
 
 type

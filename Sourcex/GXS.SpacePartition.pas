@@ -1,6 +1,6 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.SpacePartition;
 (*
   Space Partition speeds up geometrical queries, like what objects does A
@@ -27,8 +27,8 @@ uses
   Stage.VectorTypes,
   Stage.VectorGeometry,
 
-  GXS.GeometryBB,
-  GXS.PersistentClasses;
+  Stage.GeometryBB,
+  Stage.PersistentClasses;
 
 const
   COctree_LEAF_TRHESHOLD = 30;
@@ -58,7 +58,7 @@ type
   end;
 
   // Used to store the actual objects in the SpacePartition
-  TSpacePartitionLeaf = class(TgxPersistentObject)
+  TSpacePartitionLeaf = class(TGSPersistentObject)
   private
     FSpacePartition: TBaseSpacePartition;
     procedure SetSpacePartition(const Value: TBaseSpacePartition);
@@ -90,7 +90,7 @@ type
   end;
 
   // List for storing space partition leaves
-  TSpacePartitionLeafList = class(TgxPersistentObjectList)
+  TSpacePartitionLeafList = class(TGSPersistentObjectList)
   private
     function GetItems(I: Integer): TSpacePartitionLeaf;
     procedure SetItems(I: Integer; const Value: TSpacePartitionLeaf);
@@ -103,7 +103,7 @@ type
   TCullingMode = (CmFineCulling, CmGrossCulling);
 
   // Basic space partition, does not implement any actual space partitioning
-  TBaseSpacePartition = class(TgxPersistentObject)
+  TBaseSpacePartition = class(TGSPersistentObject)
   private
     FCullingMode: TCullingMode;
     // Query space for Leaves that intersect a cone, result is returned in QueryResult
@@ -409,32 +409,32 @@ type
   end;
 
   // ** OCTTREE
-  { Implements sector node that handles octrees }
+  // Implements sector node that handles octrees
   TSPOctreeNode = class(TSectorNode)
   public
-    { Create 8 TSPOctreeNode children }
+    // Create 8 TSPOctreeNode children
     procedure CreateChildren; override;
 
-    { Checks if an AABB fits completely inside this node }
+    // Checks if an AABB fits completely inside this node
     function AABBFitsInNode(const AAABB: TAABB): Boolean; override;
 
-    { Checks if an AABB intersects this node }
+    // Checks if an AABB intersects this node
     function AABBIntersectsNode(const AAABB: TAABB): Boolean; override;
 
-    { Checks if a BSphere fits completely inside this node }
+    // Checks if a BSphere fits completely inside this node
     function BSphereFitsInNode(const BSphere: TBSphere): Boolean; override;
 
-    { Checks if a BSphere intersects this node }
+    // Checks if a BSphere intersects this node
     function BSphereIntersectsNode(const BSphere: TBSphere): Boolean; override;
   end;
 
-  { Implements octrees }
+  // Implements octrees
   TOctreeSpacePartition = class(TSectoredSpacePartition)
   public
-    { Set size updates the size of the Octree }
+    // Set size updates the size of the Octree
     procedure SetSize(const Min, Max: TAffineVector);
 
-    { CreateNewNode creates a new TSPOctreeNode }
+    // CreateNewNode creates a new TSPOctreeNode
     function CreateNewNode(AParent: TSectorNode): TSectorNode; override;
   end;
 
@@ -488,9 +488,7 @@ function ExtendedFrustumMake(const AFrustum: TFrustum;
   const ACameraPosition, ALookVector: TAffineVector (* ;
     const AScreenWidth, AScreenHeight : integer (* *) ): TExtendedFrustum;
 
-//-------------------------------------------------
-implementation
-//-------------------------------------------------
+implementation //===========================================================
 
 (* This was copied from Octree.pas!
 
@@ -536,6 +534,7 @@ const
     (CMAX, CMID, CMID) // Lower Back Right
     );
 
+//---------------------------------------------------------------------------
 function ConeContainsBSphere(const Cone: TSPCone; BSphere: TBSphere)
   : TSpaceContains;
 var
@@ -580,8 +579,9 @@ begin
   end
   else
     Result := ScNoOverlap;
-end; // }
+end;
 
+//---------------------------------------------------------------------------
 function ExtendedFrustumIntersectsBSphere(const AExtendedFrustum
   : TExtendedFrustum; ABSphere: TBSphere): Boolean;
 begin
@@ -709,7 +709,7 @@ begin
     FSpacePartition.AddLeaf(Self);
 end;
 
-{ TSpacePartitionLeafList }
+// TSpacePartitionLeafList
 
 constructor TSpacePartitionLeafList.Create;
 begin
@@ -822,7 +822,7 @@ begin
   Result := 0;
 end;
 
-{ TLeavedSpacePartition }
+// TLeavedSpacePartition
 
 procedure TLeavedSpacePartition.AddLeaf(ALeaf: TSpacePartitionLeaf);
 begin
@@ -947,12 +947,12 @@ begin
     // Correct the node location
     if CurrentPenetrationDepth > 0 then
       FQueryResult.Add(Leaves[I]);
-  end; // }
+  end;
 
   Result := FQueryResult.Count;
 end;
 
-{ TSectorNode }
+// TSectorNode
 
 function TSectorNode.AABBFitsInNode(const AAABB: TAABB): Boolean;
 begin
@@ -1459,7 +1459,7 @@ begin
     end;
 end;
 
-{ TSectoredSpacePartition }
+// TSectoredSpacePartition
 
 procedure TSectoredSpacePartition.AddLeaf(ALeaf: TSpacePartitionLeaf);
 begin
@@ -1723,7 +1723,7 @@ begin
   Result := FQueryResult.Count;
 end;
 
-{ TSPOctreeNode }
+// TSPOctreeNode
 
 function TSPOctreeNode.AABBFitsInNode(const AAABB: TAABB): Boolean;
 begin
@@ -1792,7 +1792,7 @@ begin
   FChildCount := 8;
 end;
 
-{ TOctreeSpacePartition }
+// TOctreeSpacePartition
 
 function TOctreeSpacePartition.CreateNewNode(AParent: TSectorNode): TSectorNode;
 begin
@@ -1942,6 +1942,7 @@ begin
   FChildCount := 4;
 end;
 
+//---------------------------------------------------------------------------
 function TSPQuadtreeNode.GetChildForAABB(AABB: TAABB): TSectorNode;
 var
   Location: TAffineVector;
@@ -1974,7 +1975,7 @@ begin
   Result := nil;
 end;
 
-{ TQuadtreeSpacePartition }
+// TQuadtreeSpacePartition
 
 function TQuadtreeSpacePartition.CreateNewNode(AParent: TSectorNode)
   : TSectorNode;
@@ -1992,4 +1993,5 @@ begin
   RebuildTree(AABB);
 end;
 
+//---------------------------------------------------------------------------
 end.

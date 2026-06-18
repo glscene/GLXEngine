@@ -1,14 +1,12 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit Formats.HDRImage;
-
 (*
     Good for preview picture in OpenDialog,
     so you may include both HDRImage (preview) and GLFileHDR (loading)
+    TPicture.RegisterFileFormat('HDR', 'High Dynamic Range Image', THDRImage);
 *)
-
-
 interface
 
 {$I Stage.Defines.inc}
@@ -33,12 +31,11 @@ type
     procedure SaveToStream(stream: TStream); override;
   end;
 
-implementation //------------------------------------------------------------
+implementation //============================================================
 
 // ------------------
 // ------------------ THDRImage ------------------
 // ------------------
-
 procedure THDRImage.LoadFromStream(stream: TStream);
 var
   FullHDR: TGLHDRImage;
@@ -75,11 +72,11 @@ begin
   Assert(False, 'Not supported');
 end;
 
-initialization // ------------------------------------------------------------
+initialization //============================================================
 
   TPicture.RegisterFileFormat('HDR', 'High Dynamic Range Image', THDRImage);
 
-finalization // --------------------------------------------------------------
+finalization //==============================================================
 
   TPicture.UnregisterGraphicClass(THDRImage);
 

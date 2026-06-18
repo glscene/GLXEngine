@@ -1,10 +1,10 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.PolygonTesselation;
-
-(* Code to generate triangle strips and fans for polygons *)
-
+(*
+  Code to generate triangle strips and fans for polygons
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -13,23 +13,22 @@ uses
   Winapi.OpenGL,
   System.SysUtils,
 
-  GLS.OpenGLAdapter,
-  Stage.OpenGLTokens,
   Stage.VectorTypes,
-  GLS.VectorLists,
   Stage.VectorGeometry,
+  Stage.PersistentClasses,
+  Stage.OpenGLTokens,
+  Stage.VectorLists,
 
-  GLS.VectorFileObjects,
-  GLS.PersistentClasses;
+  Stage.OpenGLAdapter,
+  GLS.VectorFileObjects
+  ;
 
 (* Tesselates the polygon outlined by the Vertexes. And adds them to the first
    facegroup of the Mesh. *)
-procedure DoTesselate(Vertexes: TGLAffineVectorList; Mesh: TGLBaseMesh;
+procedure DoTesselate(Vertexes: TGSAffineVectorList; Mesh: TGLBaseMesh;
   normal: PAffineVector = nil; invertNormals: Boolean = False);
 
-//---------------------------------------------------------------------------
-implementation
-//---------------------------------------------------------------------------
+implementation //============================================================
 
 {$IFDEF USE_MULTITHREAD}
 threadvar
@@ -41,6 +40,7 @@ var
   TessVerticesCount, TessExtraVertices: Integer;
   TessVertices: PAffineVectorArray;
 
+//---------------------------------------------------------------------------
 procedure DoTessBegin(mode: Cardinal);
 {$IFDEF MSWINDOWS} stdcall;{$ELSE} cdecl;{$ENDIF}
 begin
@@ -52,37 +52,40 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure DoTessVertex3fv(v: PAffineVector);
 {$IFDEF MSWINDOWS} stdcall;{$ELSE} cdecl;{$ENDIF}
 begin
   TessFace.Add(TessMesh.Vertices.Add(v^), 0, 0);
 end;
 
+//---------------------------------------------------------------------------
 procedure DoTessEnd;
 {$IFDEF MSWINDOWS} stdcall;{$ELSE} cdecl;{$ENDIF}
 begin
 end;
 
+//---------------------------------------------------------------------------
 procedure DoTessError(errno: Cardinal);
 {$IFDEF MSWINDOWS} stdcall;{$ELSE} cdecl;{$ENDIF}
 begin
   Assert(False, IntToStr(errno) + ': ' + string(gluErrorString(errno)));
 end;
 
+//---------------------------------------------------------------------------
 function AllocNewVertex: PAffineVector;
 begin
   Inc(TessExtraVertices);
-
   // Allocate more memory if needed
   if TessExtraVertices > TessVerticesCount then
   begin
     TessVerticesCount := TessVerticesCount * 2;
     Reallocmem(TessVertices, TessVerticesCount * SizeOf(TAffineVector));
   end;
-
   Result := @TessVertices[TessExtraVertices - 1];
 end;
 
+//---------------------------------------------------------------------------
 procedure DoTessCombine(coords: PDoubleVector; vertex_data: Pointer; weight: PGLFloat; var outData: Pointer);
 {$IFDEF MSWINDOWS} stdcall;{$ELSE} cdecl;{$ENDIF}
 begin
@@ -90,7 +93,8 @@ begin
   SetVector(PAffineVector(outData)^, coords[0], coords[1], coords[2]);
 end;
 
-procedure DoTesselate(Vertexes: TGLAffineVectorList; Mesh: TGLBaseMesh; normal: PAffineVector = nil; invertNormals: Boolean = False);
+//---------------------------------------------------------------------------
+procedure DoTesselate(Vertexes: TGSAffineVectorList; Mesh: TGLBaseMesh; normal: PAffineVector = nil; invertNormals: Boolean = False);
 var
   Tess: PGLUTesselator;
   i: Integer;
@@ -104,30 +108,24 @@ begin
   end
   else
     TessMesh := Mesh.MeshObjects[0];
-
   // vertices count.
   TessVerticesCount := Vertexes.Count;
   // allocate extra buffer used by GLU in complex polygons.
-
   GetMem(TessVertices, TessVerticesCount * SizeOf(TAffineVector));
   // make a Tessellation GLU object.
   Tess := gluNewTess;
-
   // set up callback events
   gluTessCallback(Tess, GLU_TESS_BEGIN, @DoTessBegin);
   gluTessCallback(tess, GLU_TESS_VERTEX, @DoTessVertex3fv);
   gluTessCallback(tess, GLU_TESS_END, @DoTessEnd);
   gluTessCallback(tess, GLU_TESS_ERROR, @DoTessError);
   gluTessCallback(tess, GLU_TESS_COMBINE, @DoTessCombine);
-
   if Assigned(normal) then
     gluTessNormal(tess, normal^.X, normal^.Y, normal^.Z)
   else
     gluTessNormal(tess, 0, 1, 0);
-
   // start tesselation of polygon
   gluTessBeginPolygon(tess, nil);
-
   // build outline, a polygon can have multiple outlines.
   gluTessBeginContour(tess);
   TessExtraVertices := 0;
@@ -148,16 +146,14 @@ begin
     end;
   end;
   gluTessEndContour(tess);
-
   // End Tesselation of polygon, THIS is where the data is processed! (And all the events triggered!)
   gluTessEndPolygon(tess);
-
   // Delete the Tessellation GLU object.
   gluDeleteTess(tess);
-
   // deallocate extra buffer used by GLU in complex polygons.
   FreeMem(TessVertices, TessVerticesCount * SizeOf(TAffineVector));
 end;
 
+//---------------------------------------------------------------------------
 end.
 

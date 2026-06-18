@@ -1,10 +1,10 @@
 (*****************************************************************************
-                          GLScene Graphics Engine
+                          GLStage Graphics Engine
 ******************************************************************************)
 unit Stage.Logger;
 (*
   Activate USE_LOGGING in "GLS.inc" to turn on inner Scene logger.
-  You may have only one instance of TGLSLogger
+  You may have only one instance of TGSLogger
   To obtain it, call UserLog() function from any unit.
 *)
 interface
@@ -108,12 +108,10 @@ type
     FFlushBufferPeriod: Integer;
     FLogFile: Text; // TextFile.
     FDestroying: Boolean;
-
     FOriginalLogFileName: string; // Original name
     FCurrentLogFileName: string;
     // Current log file, if original exceeded certain size limit.
     FUsedLogFileNames: TStringList; // List of all created log files.
-
     FLogLevels: TLogLevels;
     FEnabled: Boolean;
     FBufferCriticalSection: TCriticalSection;
@@ -221,7 +219,7 @@ type
   end;
 
   // Abstract class for control logging.
-  TGLSLogger = class(TComponent)
+  TGSLogger = class(TComponent)
   private
     FReplaceAssertion: Boolean;
     FTimeFormat: TLogTimeFormat;
@@ -247,7 +245,7 @@ type
 
   TIDELogProc = procedure(const AMsg: string);
 
-// Return logger wich created by TGLSLogger component
+// Return logger wich created by TGSLogger component
 function UserLog: TLogSession;
 function ReadLine(var TextFile: Text): string;
 
@@ -258,43 +256,42 @@ function ReadLine(var TextFile: Text): string;
   custom parameters for user's application, for example a different log path
   (Often the EXE application directory is read-only).
 *)
-function GLSLogger(): TLogSession;
+function GSLogger(): TLogSession;
 procedure UseCustomGLSLogger(const ALogger: TLogSession);
 function ConstArrayToString(const Elements: array of const): String;
 
 var
   vIDELogProc: TIDELogProc;
 
-// --------------------------------------------------------------------------
-implementation
-// --------------------------------------------------------------------------
+implementation //============================================================
 
 var
-  v_GLSLogger: TLogSession;
+  v_GSLogger: TLogSession;
   vAssertErrorHandler: TAssertErrorProc;
-  vCurrentLogger: TGLSLogger;
+  vCurrentLogger: TGSLogger;
 
 // Inner logger. Create on first use, not in unit initialization. }
-function GLSLogger(): TLogSession;
+function GSLogger(): TLogSession;
 begin
-  if v_GLSLogger = nil then
+  if v_GSLogger = nil then
   begin
 {$IFDEF USE_LOGGING}
     v_GLSLogger := TLogSession.Init(Copy(ExtractFileName(ParamStr(0)), 1,
       Length(ExtractFileName(ParamStr(0))) - Length(ExtractFileExt(ParamStr(0)))
       ) + '.log', lfElapsed, llMax);
 {$ELSE}
-    v_GLSLogger := TLogSession.OnlyCreate;
+    v_GSLogger := TLogSession.OnlyCreate;
 {$ENDIF}
   end;
-  Result := v_GLSLogger;
+  Result := v_GSLogger;
 end;
 
+//---------------------------------------------------------------------------
 procedure UseCustomGLSLogger(const ALogger: TLogSession);
 begin
-  if (v_GLSLogger <> nil) then
-    v_GLSLogger.Destroy;
-  v_GLSLogger := ALogger;
+  if (v_GSLogger <> nil) then
+    v_GSLogger.Destroy;
+  v_GSLogger := ALogger;
 end;
 
 const
@@ -309,14 +306,16 @@ const
     'PWideChar   : ', 'AnsiString  : ', 'Currency    : ', 'Variant     : ',
     'Interface   : ', 'WideString  : ', 'Int64       : ', '#HLType     : ');
 
+//---------------------------------------------------------------------------
 // Function from HotLog by Olivier Touzot "QnnO".
+//---------------------------------------------------------------------------
 function GetOriginalValue(const s: String): String;
 // Called to remove the false 'AnsiString :' assertion, for pointers and objects
 begin
   Result := RightStr(s, Length(s) - 19);
 end;
 
-// Function from HotLog by Olivier Touzot "QnnO".
+//---------------------------------------------------------------------------
 function VarRecToStr(const vr: TVarRec): String;
 // See D6PE help topic "TVarRec"
 begin
@@ -359,7 +358,7 @@ begin
   end;
 end;
 
-// Function from HotLog by Olivier Touzot "QnnO".
+//---------------------------------------------------------------------------
 function GetBasicValue(const s: String; vKind: Byte): String;
 var
   iTmp: Integer;
@@ -389,7 +388,7 @@ begin
   end;
 end;
 
-// Function from HotLog by Olivier Touzot "QnnO".
+//---------------------------------------------------------------------------
 function ConstArrayToString(const Elements: array of const): String;
 // -2-> Returns à string, surrounded by parenthesis : '(elts[0]; ...; elts[n-1]);'
 // ("Basic infos" only.)
@@ -418,6 +417,7 @@ Begin
   eND;
 end;
 
+//---------------------------------------------------------------------------
 function UserLog: TLogSession;
 begin
   if Assigned(vCurrentLogger) then
@@ -426,6 +426,7 @@ begin
     Result := nil;
 end;
 
+//---------------------------------------------------------------------------
 function RemovePathAndExt(const AFileName: string): string;
 var
   lExtIndex: Integer;
@@ -435,6 +436,7 @@ begin
   Result := Copy(Result, 1, lExtIndex - 1);
 end;
 
+//---------------------------------------------------------------------------
 procedure LogedAssert(const Message, FileName: string; LineNumber: Integer;
   ErrorAddr: Pointer);
 begin
@@ -443,6 +445,7 @@ begin
   Abort;
 end;
 
+//---------------------------------------------------------------------------
 function FileSize(const AFileName: String): Integer;
 var
   sr: TSearchRec;
@@ -456,6 +459,7 @@ begin
     Result := -1;
 end;
 
+//---------------------------------------------------------------------------
 function ReadLine(var TextFile: Text): string;
 var
   i: Word;
@@ -481,10 +485,10 @@ begin
 end;
 
 // ------------------
-// ------------------ TGLSLogger ------------------
+// ------------------ TGSLogger ------------------
 // ------------------
 
-constructor TGLSLogger.Create(AOwner: TComponent);
+constructor TGSLogger.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
   FTimeFormat := lfElapsed;
@@ -493,7 +497,7 @@ begin
   vCurrentLogger := Self;
 end;
 
-destructor TGLSLogger.Destroy;
+destructor TGSLogger.Destroy;
 begin
   if vCurrentLogger = Self then
     vCurrentLogger := nil;
@@ -502,19 +506,19 @@ begin
   inherited Destroy;
 end;
 
-function TGLSLogger.GetLog: TLogSession;
+function TGSLogger.GetLog: TLogSession;
 begin
   if not Assigned(FLog) then
     FLog := TLogSession.Init(Name + '.log', FTimeFormat, FLogLevels);
   Result := FLog;
 end;
 
-procedure TGLSLogger.DoPrimary;
+procedure TGSLogger.DoPrimary;
 begin
   vCurrentLogger := Self;
 end;
 
-procedure TGLSLogger.SetReplaceAssertion(Value: Boolean);
+procedure TGSLogger.SetReplaceAssertion(Value: Boolean);
 begin
   if Value <> FReplaceAssertion then
   begin
@@ -635,7 +639,7 @@ end;
 procedure TLogSession.SetMode(const NewMode: TLogLevels);
 begin
 {$IFNDEF USE_LOGGING}
-  if Self = v_GLSLogger then
+  if Self = v_GSLogger then
     exit;
 {$ENDIF}
   FLogLevels := NewMode;
@@ -963,7 +967,7 @@ var
 begin
   FDestroying := True;
 {$IFNDEF USE_LOGGING}
-  if Self = v_GLSLogger then
+  if Self = v_GSLogger then
     exit;
 {$ENDIF}
   if FWriteInternalMessages then
@@ -985,8 +989,8 @@ begin
       Break;
     end;
 
-  if Self = v_GLSLogger then
-    v_GLSLogger := nil;
+  if Self = v_GSLogger then
+    v_GSLogger := nil;
 
   FUsedLogFileNames.Destroy;
   FBufferCriticalSection.Destroy;
@@ -1048,7 +1052,7 @@ begin
     exit;
 
 {$IFNDEF USE_LOGGING}
-  if Self = v_GLSLogger then
+  if Self = v_GSLogger then
     exit;
 {$ENDIF}
   if FBuffered then
@@ -1064,7 +1068,7 @@ begin
   end;
 
   // IDELogProc.
-  if (Self = v_GLSLogger) and Assigned(vIDELogProc) then
+  if (Self = v_GSLogger) and Assigned(vIDELogProc) then
     vIDELogProc('');
 end;
 
@@ -1128,7 +1132,7 @@ var
   line: string;
 begin
 {$IFNDEF USE_LOGGING}
-  if Self = v_GLSLogger then
+  if Self = v_GSLogger then
     exit;
 {$ENDIF}
   if not(ALevel in LogLevels) or not FEnabled then
@@ -1171,7 +1175,7 @@ begin
   end;
 
   // IDELogProc.
-  if (Self = v_GLSLogger) and Assigned(vIDELogProc) then
+  if (Self = v_GSLogger) and Assigned(vIDELogProc) then
     vIDELogProc('Scene: ' + line);
 
   // Message limit?
@@ -1233,11 +1237,11 @@ begin
   end;
 end;
 
-initialization //==============================================================
+initialization //===========================================================
 
-finalization
+finalization //=============================================================
 
-if (v_GLSLogger <> nil) then
-  v_GLSLogger.Destroy;
+if (v_GSLogger <> nil) then
+  v_GSLogger.Destroy;
 
 end.

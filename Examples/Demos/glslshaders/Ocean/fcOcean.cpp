@@ -7,9 +7,9 @@
 #include "fcOcean.h"
 // ---------------------------------------------------------------------------
 #pragma package(smart_init)
-#pragma link "GLS.BaseClasses"
+#pragma link "Stage.BaseClasses"
 #pragma link "GLS.Cadencer"
-#pragma link "GLS.Coordinates"
+#pragma link "Stage.Coordinates"
 
 #pragma link "Stage.OpenGLTokens"
 #pragma link "GLS.Graph"
@@ -20,7 +20,7 @@
 #pragma link "GLS.SkyDome"
 #pragma link "GLSL.UserShader"
 #pragma link "GLS.SceneViewer"
-#pragma link "GLS.OpenGLAdapter"
+#pragma link "Stage.OpenGLAdapter"
 
 #pragma resource "*.dfm"
 TFormOcean *FormOcean;
@@ -104,7 +104,7 @@ void __fastcall TFormOcean::GLUserShader1DoApply(TObject *Sender,
 	TGLRenderContextInfo &rci)
 
 {
-	TGLVector camPos;
+	TGSVector camPos;
 
 	programObject = new TGLProgramHandle();
 	programObject->UseProgramObject();
@@ -163,7 +163,7 @@ void __fastcall TFormOcean::DOOceanPlaneRender(TObject *Sender,
 
 {
 	int x, y;
-	TGLTexPointList *v;
+	TGSTexPointList *v;
 	bool cont;
 	TGLExtensionsAndEntryPoints *GL;
 
@@ -172,7 +172,7 @@ void __fastcall TFormOcean::DOOceanPlaneRender(TObject *Sender,
 	GL->EnableClientState(GL_VERTEX_ARRAY);
 
 	if (!vbo) {
-		v = new TGLTexPointList;
+		v = new TGSTexPointList;
 
 		v->Capacity = (cExtent + 1) * (cExtent + 1);
 		y = -cExtent;

@@ -21,6 +21,7 @@ uses
 
   Stage.VectorTypes,
   Stage.VectorGeometry,
+  Stage.PersistentClasses,
   Stage.Keyboard,
   Stage.TextureFormat,
 
@@ -29,10 +30,9 @@ uses
   GLS.Objects,
   GLS.GeomObjects,
   GLS.Context,
-  GLS.BaseClasses,
-  GLS.PersistentClasses,
+  Stage.BaseClasses,
   GLS.HudObjects,
-  GLS.Coordinates,
+  Stage.Coordinates,
   GLS.Screen,
   GLS.Material,
   GLS.Texture,
@@ -57,8 +57,8 @@ type
   TGLNavigator = class(TComponent)
   private
     FObject: TGLBaseSceneObject;
-    FVirtualRight: TGLVector;
-    FVirtualUp: TGLCoordinates;
+    FVirtualRight: TGSVector;
+    FVirtualUp: TGSCoordinates;
     FUseVirtualUp: boolean;
     FAutoUpdateObject: boolean;
     FMaxAngle: single;
@@ -73,8 +73,8 @@ type
       Operation: TOperation); override;
     procedure SetObject(NewObject: TGLBaseSceneObject); virtual;
     procedure SetUseVirtualUp(UseIt: boolean);
-    procedure SetVirtualUp(Up: TGLCoordinates);
-    function CalcRight: TGLVector;
+    procedure SetVirtualUp(Up: TGSCoordinates);
+    function CalcRight: TGSVector;
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
@@ -95,7 +95,7 @@ type
     property InvertHorizontalSteeringWhenUpsideDown: boolean
       read FInvertHorizontalSteeringWhenUpsideDown
       write FInvertHorizontalSteeringWhenUpsideDown default False;
-    property VirtualUp: TGLCoordinates read FVirtualUp write SetVirtualUp;
+    property VirtualUp: TGSCoordinates read FVirtualUp write SetVirtualUp;
     property MovingObject: TGLBaseSceneObject read FObject write SetObject;
     property UseVirtualUp: boolean read FUseVirtualUp write SetUseVirtualUp
       default False;
@@ -160,7 +160,7 @@ type
     FDelta, FFps, FTimer, FInactiveTime: single;
     FCube: TGLDummyCube;
     FSel: integer;
-    FSelPos: TGLVector;
+    FSelPos: TGSVector;
     FCam, FNaviCam: TGLCamera;
     FHud: TGLHUDSprite;
     FMem: TGLMemoryViewer;
@@ -168,11 +168,11 @@ type
     FReady, FMouse: boolean;
     FMouseRotation: boolean;
     FMousePos: TPoint;
-    FPosAnimationStart: TGLVector;
-    FPosAnimationEnd: TGLVector;
+    FPosAnimationStart: TGSVector;
+    FPosAnimationEnd: TGSVector;
   public
     constructor CreateAsChild(aParentOwner: TGLBaseSceneObject); reintroduce;
-    procedure DoProgress(const pt: TGLProgressTimes); override;
+    procedure DoProgress(const pt: TGSProgressTimes); override;
     procedure DoRender(var ARci: TGLRenderContextInfo;
       ARenderSelf, ARenderChildren: boolean); override;
     property SceneViewer: TGLSceneViewer read FViewer write FViewer;
@@ -190,7 +190,7 @@ implementation //==============================================================
 constructor TGLNavigator.Create(AOwner: TComponent);
 begin
   inherited;
-  FVirtualUp := TGLCoordinates.CreateInitialized(Self, ZHmgVector, csPoint);
+  FVirtualUp := TGSCoordinates.CreateInitialized(Self, ZHmgVector, csPoint);
   FCurrentVAngle := 0;
   FCurrentHAngle := 0;
 end;
@@ -239,7 +239,7 @@ begin
   inherited;
 end;
 
-Function TGLNavigator.CalcRight: TGLVector;
+Function TGLNavigator.CalcRight: TGSVector;
 
 begin
   If Assigned(FObject) then
@@ -257,7 +257,7 @@ end;
 procedure TGLNavigator.TurnHorizontal(Angle: single);
 
 Var
-  T: TGLVector;
+  T: TGSVector;
   U: TAffineVector;
   TempVal: single;
 
@@ -297,7 +297,7 @@ Var
   ExpectedAngle: single;
   CosAngle, SinAngle: single;
   TempVal: single;
-  Direction: TGLVector;
+  Direction: TGSVector;
 
 begin
   ExpectedAngle := FCurrentVAngle + Angle;
@@ -377,8 +377,8 @@ end;
 procedure TGLNavigator.Straighten;
 
 Var
-  R: TGLVector;
-  D: TGLVector;
+  R: TGSVector;
+  D: TGSVector;
   A: single;
 
 begin
@@ -410,7 +410,7 @@ begin
     FVirtualRight := CalcRight;
 end;
 
-procedure TGLNavigator.SetVirtualUp(Up: TGLCoordinates);
+procedure TGLNavigator.SetVirtualUp(Up: TGSCoordinates);
 begin
   FVirtualUp.Assign(Up);
   if csdesigning in componentstate then
@@ -774,9 +774,9 @@ begin
 
 end;
 
-procedure TGLNaviCube.DoProgress(const pt: TGLProgressTimes);
+procedure TGLNaviCube.DoProgress(const pt: TGSProgressTimes);
 const
-  tb: array [0 .. 1] of array [0 .. 3] of TGLVector = (((x: 0; Y: 20; z: 1;
+  tb: array [0 .. 1] of array [0 .. 3] of TGSVector = (((x: 0; Y: 20; z: 1;
     W: 0), (x: 1; Y: 20; z: 0; W: 0), (x: 0; Y: 20; z: - 1; W: 0), (x: - 1;
     Y: 20; z: 0; W: 0)), ((x: 0; Y: - 20; z: 1; W: 0), (x: 1; Y: - 20; z: 0;
     W: 0), (x: 0; Y: - 20; z: - 1; W: 0), (x: - 1; Y: - 20; z: 0; W: 0)));
@@ -784,10 +784,10 @@ var
   mp: TPoint;
   mover: boolean;
   i: integer;
-  v0, v1, v2, v: TGLVector;
+  v0, v1, v2, v: TGSVector;
   obj: TGLBaseSceneObject;
 
-  procedure moveTo(trgv: TGLVector);
+  procedure moveTo(trgv: TGSVector);
   begin
     FPosAnimationStart := FCam.Position.AsVector;
     FPosAnimationEnd := FCam.TargetObject.AbsoluteToLocal

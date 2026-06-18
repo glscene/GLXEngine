@@ -1,6 +1,6 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.FileMD2;
 
 (* Quake2 MD2 vector file format implementation. *)
@@ -24,7 +24,7 @@ type
     Based on code by Roger Cao. *)
   TGLMD2VectorFile = class(TGLVectorFile)
   public
-    class function Capabilities: TGLDataFileCapabilities; override;
+    class function Capabilities: TGSDataFileCapabilities; override;
     procedure LoadFromStream(aStream: TStream); override;
   end;
 
@@ -36,7 +36,7 @@ implementation
 // ------------------ TGLMD2VectorFile ------------------
 // ------------------
 
-class function TGLMD2VectorFile.Capabilities: TGLDataFileCapabilities;
+class function TGLMD2VectorFile.Capabilities: TGSDataFileCapabilities;
 begin
   Result := [dfcRead];
 end;

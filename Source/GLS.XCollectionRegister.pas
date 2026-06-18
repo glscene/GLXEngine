@@ -3,7 +3,8 @@
 ******************************************************************************)
 unit GLS.XCollectionRegister;
 (*
-  Register TXCollection property editor
+  Register TXCollection property editor for GLScene
+  RegisterPropertyEditor(TypeInfo(TXCollection), nil, '', TXCollectionProperty);
 *)
 interface
 
@@ -11,7 +12,7 @@ interface
 
 uses
   System.Classes,
-  GLS.XCollection,
+  Stage.XCollection,
 
   DesignEditors,
   DesignIntf;
@@ -31,13 +32,13 @@ uses
   FmXCollectionEditor;
 
 
-// ----------------- TXCollectionProperty ------------------------------------
-
+// ----------------- TXCollectionProperty -----------------------------------
 function TXCollectionProperty.GetAttributes: TPropertyAttributes;
 begin
   Result := [paDialog];
 end;
 
+//---------------------------------------------------------------------------
 procedure TXCollectionProperty.Edit;
 begin
   with XCollectionEditorForm do
@@ -47,11 +48,12 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure Register;
 begin
   RegisterPropertyEditor(TypeInfo(TXCollection), nil, '', TXCollectionProperty);
 end;
 
-initialization //==============================================================
+initialization //============================================================
 
 end.

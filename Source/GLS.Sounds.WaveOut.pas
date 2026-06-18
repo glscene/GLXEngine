@@ -1,10 +1,11 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.Sounds.WaveOut;
-
-(* Basic sound manager based on WinMM *)
-
+(*
+  Basic sound manager based on WinMM
+  RegisterClasses([TGLSMWaveOut]);
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -43,9 +44,7 @@ procedure PlayOnWaveOut(pcmData: Pointer; lengthInBytes: Integer;
 function PlayOnWaveOut(pcmData: Pointer; lengthInBytes: Integer;
   waveFormat: TWaveFormatEx): HWaveOut; overload;
 
-// -------------------------------------------------------------
-implementation
-// -------------------------------------------------------------
+implementation //============================================================
 
 type
   TSoundState = (ssPlaying, ssFinished);
@@ -58,6 +57,7 @@ type
 
   PWaveOutPlayingRec = ^TWaveOutPlayingRec;
 
+//---------------------------------------------------------------------------
 procedure _waveOutCallBack2(hwo: HWaveOut; uMsg: Cardinal;
   dwInstance, dwParam1, dwParam2: Integer); stdcall;
 begin
@@ -65,6 +65,7 @@ begin
     waveOutClose(hwo);
 end;
 
+//---------------------------------------------------------------------------
 function PlayOnWaveOut(pcmData: Pointer; lengthInBytes: Integer;
   waveFormat: TWaveFormatEx): HWaveOut;
 var
@@ -87,6 +88,7 @@ begin
   Result := hwo;
 end;
 
+//---------------------------------------------------------------------------
 procedure PlayOnWaveOut(pcmData: Pointer; lengthInBytes: Integer;
   sampling: TGLSoundSampling);
 var
@@ -99,23 +101,25 @@ end;
 // ------------------
 // ------------------ TGLSMWaveOut ------------------
 // ------------------
-
 constructor TGLSMWaveOut.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
   MaxChannels := 4;
 end;
 
+//---------------------------------------------------------------------------
 destructor TGLSMWaveOut.Destroy;
 begin
   inherited Destroy;
 end;
 
+//---------------------------------------------------------------------------
 function TGLSMWaveOut.DoActivate: Boolean;
 begin
   Result := True;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLSMWaveOut.DoDeActivate;
 var
   i: Integer;
@@ -124,6 +128,7 @@ begin
     KillSource(Sources[i]);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLSMWaveOut.KillSource(aSource: TGLBaseSoundSource);
 var
   pRec: PWaveOutPlayingRec;
@@ -159,6 +164,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLSMWaveOut.UpdateSources;
 var
   i, n: Integer;
@@ -223,7 +229,7 @@ begin
     end;
 end;
 
-initialization
+initialization //============================================================
 
 RegisterClasses([TGLSMWaveOut]);
 

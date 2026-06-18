@@ -1,10 +1,10 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.FileASE;
-
-(* ASE (ASCI Scene Export) file format support for Scene *)
-
+(*
+  ASE (ASCI Scene Export) file format support
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -16,7 +16,7 @@ uses
   GXS.ApplicationFileIO,
   Stage.VectorTypes,
   Stage.VectorGeometry,
-  GXS.VectorLists,
+  Stage.VectorLists,
   GXS.Texture,
   GXS.Material;
 
@@ -90,7 +90,7 @@ type
   TgxASEMeshObject = class(TObject)
   private
     FFaces: TgxASEFaceList;
-    FVertices: TgxAffineVectorList;
+    FVertices: TGSAffineVectorList;
     FMatrix: TMatrix4f;
     FInheritedPosition: TAffineVector;
     FInheritedScale: TAffineVector;
@@ -101,18 +101,18 @@ type
     FScale: TAffineVector;
     FScaleAxisAngle: Single;
     FScaleAxis: TAffineVector;
-    FTexChannels: array [0..GL_ASE_MAX_TEXURE_CHANNELS - 1] of TgxAffineVectorList;
+    FTexChannels: array [0..GL_ASE_MAX_TEXURE_CHANNELS - 1] of TGSAffineVectorList;
     FTexChannelsCount: Integer;
     FHasNormals: Boolean;
     FMaterialID: Integer;
-    function AddTexChannel: TgxAffineVectorList;
-    function GetTextChannel(Channel: Integer): TgxAffineVectorList;
+    function AddTexChannel: TGSAffineVectorList;
+    function GetTextChannel(Channel: Integer): TGSAffineVectorList;
   public
     constructor Create;
     destructor Destroy; override;
     property Faces: TgxASEFaceList read FFaces;
-    property Vertices: TgxAffineVectorList read FVertices;
-    property TextChannel[Channel: Integer]: TgxAffineVectorList read GetTextChannel;
+    property Vertices: TGSAffineVectorList read FVertices;
+    property TextChannel[Channel: Integer]: TGSAffineVectorList read GetTextChannel;
     property TextChannelsCount: Integer read FTexChannelsCount;
     property Matrix: TMatrix4f read FMatrix;
     property InheritedPosition: TAffineVector read FInheritedPosition;
@@ -279,9 +279,7 @@ type
   procedure ASESetPreferredTexture(aMap: TASETextureMap; aSubMaterialIndex: Integer = -1);
   procedure ASESetPreferredLightmap(aMap: TASETextureMap; aSubMaterialIndex: Integer = -1);
 
-//================================================================
-implementation
-//================================================================
+implementation //============================================================
 
 // ASE file tags
 const
@@ -803,14 +801,14 @@ var
   norm, tex, light: Boolean;
   lmt: array [0..2] of TAffineVector;
   subID: Integer;
-  vi: TgxIntegerList;
+  vi: TGSIntegerList;
 begin
   norm := aASEMesh.HasNormals;
   tex := aASEMesh.TextChannelsCount > 0;
   light := tex and (aASEMesh.TextChannelsCount > 1);
   subID := -1;
 
-  vi := TgxIntegerList.Create;
+  vi := TGSIntegerList.Create;
   if tex or norm then begin
     // here used NOT optimized storage
 
@@ -937,7 +935,7 @@ end;
 constructor TgxASEMeshObject.Create;
 begin
   FFaces := TgxASEFaceList.Create;
-  FVertices := TgxAffineVectorList.Create;
+  FVertices := TGSAffineVectorList.Create;
   FTexChannelsCount := 0;
   FHasNormals := False;
   FMaterialID := -1;
@@ -954,15 +952,15 @@ begin
   inherited;
 end;
 
-function TgxASEMeshObject.AddTexChannel: TgxAffineVectorList;
+function TgxASEMeshObject.AddTexChannel: TGSAffineVectorList;
 begin
   Assert(FTexChannelsCount < GL_ASE_MAX_TEXURE_CHANNELS, 'texture channels count maximum reached');
-  Result := TgxAffineVectorList.Create;
+  Result := TGSAffineVectorList.Create;
   FTexChannels[FTexChannelsCount] := Result;
   Inc(FTexChannelsCount);
 end;
 
-function TgxASEMeshObject.GetTextChannel(Channel: Integer): TgxAffineVectorList;
+function TgxASEMeshObject.GetTextChannel(Channel: Integer): TGSAffineVectorList;
 begin
   Result := FTexChannels[Channel];
 end;
@@ -1476,7 +1474,7 @@ procedure TgxASEVectorFile.ParseMeshTextureVertices(var aLineIndex: Integer; aMe
 var
   Data: string;
   Index: Integer;
-  channel: TgxAffineVectorList;
+  channel: TGSAffineVectorList;
 begin
   Inc(aLineIndex);
   Data := FStringData[aLineIndex];

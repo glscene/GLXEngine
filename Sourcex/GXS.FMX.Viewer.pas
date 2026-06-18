@@ -1,9 +1,9 @@
-//
-// This unit is part of the GLScene Project, http://glscene.org
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.FMX.Viewer;
 (*
-  GLScene viewer for FireMonkey
+  The FMX viewer
 *)
 interface
 
@@ -31,9 +31,9 @@ uses
   ;
 
 type
-  TGLSceneViewport = class() // should be not class(FMX.Types.TControl)
+  TgxSceneViewport = class(TComponent) // should be not class(FMX.Types.TControl)
   private
-    FGLSBuffer: TGLSceneBuffer;
+    FgxBuffer: TgxSceneBuffer;
     FFMXBuffer: FMX.Types.TBitmap;
     FFMXContext: FMX.Types3D.TContext3D;
     FMultisample: FMX.Types3D.TMultisample;
@@ -41,9 +41,9 @@ type
     FOwnDC: HDC;
     FDrawing: Boolean;
     FPostRender: TNotifyEvent;
-    procedure SetBuffer(const Value: TGLSceneBuffer);
-    function GetGLSceneCamera: TGLCamera;
-    procedure SetGLSceneCamera(const Value: TGLCamera);
+    procedure SetBuffer(const Value: TgxSceneBuffer);
+    function GetGLSceneCamera: TgxCamera;
+    procedure SetGLSceneCamera(const Value: TgxCamera);
     procedure CopyBuffer(Sender: TObject);
     procedure SetBeforeRender(const Value: TNotifyEvent);
     function GetBeforeRender: TNotifyEvent;
@@ -76,24 +76,25 @@ type
     *)
     property AfterRender: TNotifyEvent read GetAfterRender write SetAfterRender;
     // Access to buffer properties.
-    property Buffer: TGLSceneBuffer read FGLSBuffer write SetBuffer;
+    property Buffer: TgxSceneBuffer read FgxBuffer write SetBuffer;
     // Camera from which the scene is rendered.
-    property GLSceneCamera: TGLCamera read GetGLSceneCamera
+    property GLSceneCamera: TgxCamera read GetGLSceneCamera
       write SetGLSceneCamera;
   end;
 
-implementation //------------------------------------------
+implementation //============================================================
 
-constructor TGLSceneViewport.Create(AOwner: TComponent);
+//---------------------------------------------------------------------------
+constructor TgxSceneViewport.Create(AOwner: TComponent);
 var
   FMXH: TFmxHandle;
 begin
   inherited Create(AOwner);
-  FGLSBuffer := TGLSceneBuffer.Create(Self);
-  FGLSBuffer.ContextOptions := FGLSBuffer.ContextOptions + [roDestinationAlpha] - [roDoubleBuffer] - [roNoSwapBuffers] + [roDebugContext];
-  FGLSBuffer.BackgroundAlpha := 1.0;
-  FGLSBuffer.AccumBufferBits := 32;
-  FGLSBuffer.PostRender := CopyBuffer;
+  FgxBuffer := TgxSceneBuffer.Create(Self);
+  FgxBuffer.ContextOptions := FgxBuffer.ContextOptions + [roDestinationAlpha] - [roDoubleBuffer] - [roNoSwapBuffers] + [roDebugContext];
+  FgxBuffer.BackgroundAlpha := 1.0;
+  FgxBuffer.AccumBufferBits := 32;
+  FgxBuffer.PostRender := CopyBuffer;
   if Owner is TCommonCustomForm then
   begin
     FMXH := TCommonCustomForm(Owner).Handle;
@@ -107,9 +108,10 @@ begin
   FFMXContext := TContextManager.DefaultContextClass.CreateFromTexture(FFMXBuffer.Texture,FMultisample,False);
 end;
 
-destructor TGLSceneViewport.Destroy;
+//---------------------------------------------------------------------------
+destructor TgxSceneViewport.Destroy;
 begin
-  FreeAndNil(FGLSBuffer);
+  FreeAndNil(FgxBuffer);
   if FOwnDC <> 0 then
   begin
     ReleaseDC(FParentHandle, FOwnDC);
@@ -121,20 +123,22 @@ begin
   inherited;
 end;
 
-procedure TGLSceneViewport.Realign;
+//---------------------------------------------------------------------------
+procedure TgxSceneViewport.Realign;
 begin
   inherited Realign;
 
   if FFMXContext <> nil then
   begin
-    FGLSBuffer.DestroyRC; // Yar: Painfull, but Service Context, which is shared handles, will be no so much
+    FgxBuffer.DestroyRC; // Yar: Painfull, but Service Context, which is shared handles, will be no so much
     FFMXBuffer.SetSize(Trunc(Width), Trunc(Height));
     FFMXContext.SetSize(Trunc(Width), Trunc(Height));
     AlignObjects(Self, Margins, FFMXBuffer.Width, FFMXBuffer.Height, FLastWidth, FLastHeight, FDisableAlign);
   end;
 end;
 
-procedure TGLSceneViewport.CopyBuffer(Sender: TObject);
+//---------------------------------------------------------------------------
+procedure TgxSceneViewport.CopyBuffer(Sender: TObject);
 var
   tempBuffer: TGLEnum;
 begin
@@ -147,11 +151,11 @@ begin
       tempBuffer := GL_LEFT;
     glReadBuffer(GL_FRONT);
     glDrawBuffer(tempBuffer);
-    FGLSBuffer.RenderingContext.GLStates.ReadFrameBuffer := 0;
-    FGLSBuffer.RenderingContext.GLStates.DrawFrameBuffer := 0;
+    FgxBuffer.RenderingContext.GLStates.ReadFrameBuffer := 0;
+    FgxBuffer.RenderingContext.GLStates.DrawFrameBuffer := 0;
     glBlitFramebuffer(
-      0, FGLSBuffer.Height-1, FGLSBuffer.Width-1, 0,
-      0, 0,                   FGLSBuffer.Width-1, FGLSBuffer.Height-1,
+      0, FgxBuffer.Height-1, FgxBuffer.Width-1, 0,
+      0, 0,                   FgxBuffer.Width-1, FgxBuffer.Height-1,
       GL_COLOR_BUFFER_BIT, GL_NEAREST);
     glReadBuffer(tempBuffer);
     glDrawBuffer(GL_FRONT);
@@ -164,7 +168,7 @@ begin
 
   // Read framebuffer to operative memory
   // FFMXBuffer.Startline - E2003 Undeclared identifier: 'StartLine', changed to
-  glReadPixels(0, 0, FGLSBuffer.Width, FGLSBuffer.Height,
+  glReadPixels(0, 0, FgxBuffer.Width, FgxBuffer.Height,
       GL_BGRA, GL_UNSIGNED_BYTE, FFMXBuffer.ClassInfo);
   glFinish;
 
@@ -176,7 +180,8 @@ begin
     FPostRender(Self);
 end;
 
-procedure TGLSceneViewport.Paint;
+//---------------------------------------------------------------------------
+procedure TgxSceneViewport.Paint;
 var
   R: TRectF;
 begin
@@ -194,23 +199,23 @@ begin
 
   if FDrawing then Exit;
 
-  if (FGLSBuffer.Width <> FFMXBuffer.Width)
-    or (FGLSBuffer.Height <> FFMXBuffer.Height) then
+  if (FgxBuffer.Width <> FFMXBuffer.Width)
+    or (FgxBuffer.Height <> FFMXBuffer.Height) then
     Realign;
 
-  if FGLSBuffer.RenderingContext = nil then
+  if FgxBuffer.RenderingContext = nil then
   begin
     if FParentHandle <> 0 then
     begin
-      FGLSBuffer.Resize(0, 0, Trunc(Width), Trunc(Height));
+      FgxBuffer.Resize(0, 0, Trunc(Width), Trunc(Height));
       FOwnDC := GetDC(FParentHandle);
-      FGLSBuffer.CreateRC(FOwnDC, True, 1);
+      FgxBuffer.CreateRC(FOwnDC, True, 1);
       FFMXContext.BeginScene;
       FFMXContext.Clear([TClearTarget.ctColor], TAlphaColor($FF000000), 1.0, 0);
       FFMXContext.EndScene;
       FDrawing := True;
       try
-        FGLSBuffer.Render;
+        FgxBuffer.Render;
       finally
         FDrawing := False;
       end;
@@ -222,7 +227,7 @@ begin
     try
       if FFMXContext.BeginScene then
       begin
-        FGLSBuffer.Render;
+        FgxBuffer.Render;
         FFMXContext.EndScene;
       end;
     finally
@@ -231,43 +236,49 @@ begin
   end;
 end;
 
-procedure TGLSceneViewport.SetBeforeRender(const Value: TNotifyEvent);
+//---------------------------------------------------------------------------
+procedure TgxSceneViewport.SetBeforeRender(const Value: TNotifyEvent);
 begin
-  FGLSBuffer.BeforeRender := Value;
+  FgxBuffer.BeforeRender := Value;
 end;
 
-function TGLSceneViewport.GetBeforeRender: TNotifyEvent;
+function TgxSceneViewport.GetBeforeRender: TNotifyEvent;
 begin
-  Result := FGLSBuffer.BeforeRender;
+  Result := FgxBuffer.BeforeRender;
 end;
 
-procedure TGLSceneViewport.SetAfterRender(const Value: TNotifyEvent);
+//---------------------------------------------------------------------------
+procedure TgxSceneViewport.SetAfterRender(const Value: TNotifyEvent);
 begin
-  FGLSBuffer.AfterRender := Value;
+  FgxBuffer.AfterRender := Value;
 end;
 
-function TGLSceneViewport.GetAfterRender: TNotifyEvent;
+//---------------------------------------------------------------------------
+function TgxSceneViewport.GetAfterRender: TNotifyEvent;
 begin
- Result := FGLSBuffer.AfterRender;
+ Result := FgxBuffer.AfterRender;
 end;
 
-procedure TGLSceneViewport.SetBuffer(const Value: TGLSceneBuffer);
+//---------------------------------------------------------------------------
+procedure TgxSceneViewport.SetBuffer(const Value: TgxSceneBuffer);
 begin
-  FGLSBuffer.Assign(Value);
+  FgxBuffer.Assign(Value);
 end;
 
-function TGLSceneViewport.GetGLSceneCamera: TGLCamera;
+//---------------------------------------------------------------------------
+function TgxSceneViewport.GetGLSceneCamera: TgxCamera;
 begin
-  Result := FGLSBuffer.Camera;
+  Result := FgxBuffer.Camera;
 end;
 
-procedure TGLSceneViewport.SetGLSceneCamera(const Value: TGLCamera);
+//---------------------------------------------------------------------------
+procedure TgxSceneViewport.SetGLSceneCamera(const Value: TgxCamera);
 begin
-  FGLSBuffer.Camera := Value;
+  FgxBuffer.Camera := Value;
 end;
 
 initialization //-------------------------------------------------------------
 
-RegisterFmxClasses([TGLSceneViewport]);
+RegisterFmxClasses([TgxSceneViewport]);
 
 end.

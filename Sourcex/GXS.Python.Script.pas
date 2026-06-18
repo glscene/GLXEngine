@@ -12,7 +12,7 @@ uses
   System.Classes,
   System.SysUtils,
 
-  GXS.XCollection,
+  Stage.XCollection,
   GXS.ScriptBase,
   Stage.Manager,
 
@@ -29,7 +29,7 @@ type
   end;
 
   // Implements Python scripting functionality through the abstracted GLS.ScriptBase
-  TgxScriptPython = class(TgxScriptBase)
+  TgxScriptPython = class(TGSScriptBase)
   private
     FEngine: TgxPythonEngine;
     FEngineName: String;
@@ -40,7 +40,7 @@ type
     procedure WriteToFiler(writer: TWriter); override;
     procedure Loaded; override;
     procedure Notification(AComponent: TComponent; Operation: TOperation); override;
-    function GetState: TgxScriptState; override;
+    function GetState: TGSScriptState; override;
   public
     destructor Destroy; override;
     procedure Assign(Source: TPersistent); override;
@@ -236,7 +236,7 @@ begin
   end;
 end;
 
-function TgxScriptPython.GetState: TgxScriptState;
+function TgxScriptPython.GetState: TGSScriptState;
 begin
   Result := ssUncompiled;
   if Assigned(Engine) and FCompiled and FStarted then

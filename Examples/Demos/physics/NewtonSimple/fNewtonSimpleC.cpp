@@ -6,9 +6,9 @@
 #include "fNewtonSimpleC.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
-#pragma link "GLS.BaseClasses"
+#pragma link "Stage.BaseClasses"
 #pragma link "GLS.Cadencer"
-#pragma link "GLS.Coordinates"
+#pragma link "Stage.Coordinates"
 
 #pragma link "GLS.HUDObjects"
 #pragma link "Physics.NGDManager"
@@ -16,7 +16,7 @@
 #pragma link "GLS.Scene"
 #pragma link "GLS.SimpleNavigation"
 #pragma link "GLS.SceneViewer"
-#pragma link "GLS.XCollection"
+#pragma link "Stage.XCollection"
 #pragma resource "*.dfm"
 TForm1 *Form1;
 //---------------------------------------------------------------------------

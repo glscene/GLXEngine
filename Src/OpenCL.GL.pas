@@ -1,13 +1,4 @@
-﻿//
-// GXStage Graphics Engine
-//
-unit OpenCL.GL;
-
-(*
-   Conversion of OpenCL header file: cl_gl.h to CL_GL.pas,
-   from http://www.khronos.org/registry/cl/.
-*)
-
+﻿unit OpenCL.GL;
 ///*****************************************************************************
 // * Copyright (c) 2008-2020 The Khronos Group Inc.
 // *
@@ -30,7 +21,9 @@ unit OpenCL.GL;
 // * TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 // * MATERIALS OR THE USE OR OTHER DEALINGS IN THE MATERIALS.
 // ****************************************************************************/
-
+(*
+  Conversion of OpenCL header file from http://www.khronos.org/registry/cl/.
+*)
 interface
 
 uses

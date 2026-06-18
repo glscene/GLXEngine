@@ -25,9 +25,9 @@ uses
   GLS.BitmapFont,
   GLS.WindowsFont,
   GLS.HUDObjects,
-  GLS.Coordinates,
+  Stage.Coordinates,
 
-  GLS.BaseClasses,
+  Stage.BaseClasses,
   GLS.RenderContextInfo,
 
   DWS.Sript,

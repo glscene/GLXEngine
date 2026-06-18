@@ -27,8 +27,8 @@ uses
   GLS.Context,
   GLS.Scene,
   GLS.State,
-  GLS.Color,
-  GLS.BaseClasses,
+  Stage.Color,
+  Stage.BaseClasses,
   GLS.RenderContextInfo;
 
 type
@@ -48,7 +48,7 @@ type
 
   TGLVertexData = packed record
     textCoord: TTexPoint;
-    color: TGLVector;
+    color: TGSVector;
     normal: TAffineVector;
     coord: TVertex;
   end;
@@ -59,7 +59,7 @@ type
 
   (* Stores an interlaced vertex list for direct use in OpenGL.
     Locking (hardware passthrough) is supported, see "Locked" property for details. *)
-  TGLVertexList = class(TGLUpdateAbleObject)
+  TGLVertexList = class(TGSUpdateAbleObject)
   private
     FValues: PGLVertexDataArray;
     FCount: Integer;
@@ -98,10 +98,10 @@ type
       Use the NullVector, NullHmgVector or NullTexPoint constants for
       params you don't want to set. *)
     procedure AddVertex(const aVertex: TVertex; const aNormal: TAffineVector;
-      const aColor: TGLColorVector; const aTexPoint: TTexPoint); overload;
+      const aColor: TGSColorVector; const aTexPoint: TTexPoint); overload;
     //  Adds a vertex to the list, no texturing version.  
     procedure AddVertex(const vertex: TVertex; const normal: TAffineVector;
-      const color: TGLColorVector); overload;
+      const color: TGSColorVector); overload;
     //  Adds a vertex to the list, no texturing, not color version.  
     procedure AddVertex(const vertex: TVertex; const normal: TAffineVector); overload;
     //  Duplicates the vertex of given index and adds it at the end of the list. 
@@ -157,7 +157,7 @@ type
     FVertices: TGLVertexList;
     FMode: TGLMeshMode;
     FVertexMode: TGLVertexMode;
-    FAxisAlignedDimensionsCache: TGLVector;
+    FAxisAlignedDimensionsCache: TGSVector;
   protected
     procedure SetMode(AValue: TGLMeshMode);
     procedure SetVertices(AValue: TGLVertexList);
@@ -170,7 +170,7 @@ type
     procedure BuildList(var rci: TGLRenderContextInfo); override;
     procedure CalcNormals(Frontface: TGLFaceWinding);
     property Vertices: TGLVertexList read FVertices write SetVertices;
-    function AxisAlignedDimensionsUnscaled: TGLVector; override;
+    function AxisAlignedDimensionsUnscaled: TGSVector; override;
     procedure StructureChanged; override;
     function Length: Single;
     function Area: Single;
@@ -413,7 +413,7 @@ begin
 end;
 
 procedure TGLVertexList.AddVertex(const aVertex: TVertex;
-  const aNormal: TAffineVector; const aColor: TGLColorVector;
+  const aNormal: TAffineVector; const aColor: TGSColorVector;
   const aTexPoint: TTexPoint);
 begin
   if FCount = FCapacity then
@@ -431,7 +431,7 @@ begin
 end;
 
 procedure TGLVertexList.AddVertex(const vertex: TVertex;
-  const normal: TAffineVector; const color: TGLColorVector);
+  const normal: TAffineVector; const color: TGSColorVector);
 begin
   AddVertex(vertex, normal, color, NullTexPoint);
 end;
@@ -739,7 +739,7 @@ begin
     inherited Assign(Source);
 end;
 
-function TGLMesh.AxisAlignedDimensionsUnscaled: TGLVector;
+function TGLMesh.AxisAlignedDimensionsUnscaled: TGSVector;
 var
   dMin, dMax: TAffineVector;
 begin

@@ -1,10 +1,10 @@
-//
-// GXStage Graphics Engine
-//
+(*****************************************************************************
+                          GLStage Graphics Engine
+******************************************************************************)
 unit Stage.RGBE;
-
-(* Stage RGBE utils *)
-
+(*
+  Stage RGBE utils
+*)
 interface
 
 uses
@@ -21,12 +21,14 @@ procedure LoadRLEpixels(Stream: TStream; Dst: PSingle;
   Scanline_width, Num_scanlines: Integer);
 procedure LoadRGBEpixels(Stream: TStream; Dst: PSingle; Numpixels: Integer);
 
-implementation //----------------------------------------------------------
+implementation //============================================================
 
 type
   ERGBEexception = class(Exception);
 
+//--------------------------------------------------------------------------
 // Extract exponent and mantissa from X
+//--------------------------------------------------------------------------
 procedure Frexp(X: Extended; var Mantissa: Extended; var Exponent: Integer);
 begin
   Exponent := 0;
@@ -50,7 +52,9 @@ begin
   Ldexp := X * PowerSingle(2.0, P); // Result := X * (2^P)
 end;
 
+//--------------------------------------------------------------------------
 // standard conversion from float pixels to rgbe pixels
+//--------------------------------------------------------------------------
 procedure Float2rgbe(var RGBE: TVector4b; const Red, Green, Blue: Single);
 var
   V, M: Extended;
@@ -79,9 +83,11 @@ begin
   end;
 end;
 
+//--------------------------------------------------------------------------
 // standard conversion from rgbe to float pixels
 // note: Ward uses ldexp(col+0.5,exp-(128+8)).  However we wanted pixels
 // in the range [0,1] to map back into the range [0,1].
+//--------------------------------------------------------------------------
 procedure Rgbe2float(var Red, Green, Blue: Single; const RGBE: TVector4b);
 var
   F: Single;
@@ -101,6 +107,7 @@ begin
   end;
 end;
 
+//--------------------------------------------------------------------------
 procedure LoadRLEpixels(Stream: TStream; Dst: PSingle;
   Scanline_width, Num_scanlines: Integer);
 var
@@ -212,6 +219,7 @@ begin
     FreeMem(Scanline_buffer);
 end;
 
+//--------------------------------------------------------------------------
 procedure LoadRGBEpixels(Stream: TStream; Dst: PSingle; Numpixels: Integer);
 var
   RgbeTemp: TVector4b;
@@ -231,4 +239,5 @@ begin
   end;
 end;
 
+//--------------------------------------------------------------------------
 end.

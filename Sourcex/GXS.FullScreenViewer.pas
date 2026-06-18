@@ -1,10 +1,10 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.FullScreenViewer;
-
-(* A cross-platform full-screen viewer *)
-
+(*
+  A cross-platform full-screen viewer
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -27,10 +27,9 @@ uses
   GXS.Screen;
 
 type
-
   TgxScreenDepth = (sd8bits, sd16bits, sd24bits, sd32bits);
 
-  { A FullScreen viewer.
+  (* A FullScreen viewer.
     This non visual viewer will, when activated, use the full screen as rendering
     surface. It will also switch/restore videomode depending on the required
     width/height.
@@ -39,12 +38,12 @@ type
     instead of BlockTransfer (slower buffer flipping mode used for windowed
     OpenGL).
     Note: if you terminate the application either via a kill or in the IDE,
-    the original resolution isn't restored. }
+    the original resolution isn't restored. *)
   TgxFullScreenViewer = class(TgxNonVisualViewer)
   private
     FFormIsOwned: Boolean;
     FForm: TForm;
-    FOwnDC: THandle; // in VCL HWND;
+    FOwnDC: THandle; // in VCL was HWND;
     FScreenDepth: TgxScreenDepth;
     FActive: Boolean;
     FSwitchedResolution: Boolean;
@@ -53,19 +52,19 @@ type
     FOnMouseDown: TMouseEvent;
     FOnMouseUp: TMouseEvent;
     FOnMouseMove: TMouseMoveEvent;
-    FOnMouseWheel: TMouseWheelEvent; // in VCL TMouseWheelEvent;
-    FOnMouseWheelDown: TMouseWheelEvent; // in VCL TMouseWheelUpDownEvent;
-    FOnMouseWheelUp: TMouseWheelEvent; // in VCL TMouseWheelUpDownEvent;
+    FOnMouseWheel: TMouseWheelEvent; // in VCL was TMouseWheelEvent;
+    FOnMouseWheelDown: TMouseWheelEvent; // in VCL was TMouseWheelUpDownEvent;
+    FOnMouseWheelUp: TMouseWheelEvent; // in VCL was TMouseWheelUpDownEvent;
     FOnClick, FOnDblClick: TNotifyEvent;
     FOnKeyDown: TKeyEvent;
     FOnKeyUp: TKeyEvent;
-    FOnKeyPress: TKeyEvent; // In VCL TKeyPressEvent;
+    FOnKeyPress: TKeyEvent; // In VCL was TKeyPressEvent;
     FOnClose: TCloseEvent;
     FOnCloseQuery: TCloseQueryEvent;
     FStayOnTop: Boolean;
     FVSync: TgxSyncMode;
     FRefreshRate: Integer;
-    { TODO : E2003 Undeclared identifier: 'TCursor' }
+    // TODO : E2003 Undeclared identifier: 'TCursor'
     (*FCursor: TCursor;*)
     FPopupMenu: TPopupMenu;
     procedure SetScreenDepth(const val: TgxScreenDepth);
@@ -74,17 +73,17 @@ type
     procedure SetOnMouseUp(const val: TMouseEvent);
     procedure SetOnMouseMove(const val: TMouseMoveEvent);
     procedure SetOnMouseWheel(const val: TMouseWheelEvent);
-    procedure SetOnMouseWheelDown(const val: TMouseWheelEvent); //in VCL TMouseWheelUpDownEvent
-    procedure SetOnMouseWheelUp(const val: TMouseWheelEvent); //in VCL TMouseWheelUpDownEvent
+    procedure SetOnMouseWheelDown(const val: TMouseWheelEvent); //in VCL was TMouseWheelUpDownEvent
+    procedure SetOnMouseWheelUp(const val: TMouseWheelEvent); //in VCL was TMouseWheelUpDownEvent
     procedure SetOnClick(const val: TNotifyEvent);
     procedure SetOnDblClick(const val: TNotifyEvent);
     procedure SetOnCloseQuery(const val: TCloseQueryEvent);
     procedure SetOnClose(const val: TCloseEvent);
     procedure SetOnKeyUp(const val: TKeyEvent);
     procedure SetOnKeyDown(const val: TKeyEvent);
-    procedure SetOnKeyPress(const val: TKeyEvent); // in VCL TKeyPressEvent
+    procedure SetOnKeyPress(const val: TKeyEvent); // in VCL was TKeyPressEvent
     procedure SetStayOnTop(const val: Boolean);
-    { TODO : E2003 Undeclared identifier: 'TCursor' }
+    // TODO : E2003 Undeclared identifier: 'TCursor'
     (*procedure SetCursor(const val: TCursor);*)
     procedure SetPopupMenu(const val: TPopupMenu);
     procedure SetForm(aVal: TForm);
@@ -107,17 +106,17 @@ type
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
     procedure Render(baseObject: TgxBaseSceneObject = nil); override;
-    { Adjusts property so that current resolution will be used.
-      Call this method if you want to make sure video mode isn't switched. }
+    (* Adjusts property so that current resolution will be used.
+      Call this method if you want to make sure video mode isn't switched. *)
     procedure UseCurrentResolution;
     procedure BeginUpdate;
     procedure EndUpdate;
-    { Activates/deactivates full screen mode.  }
+    // Activates/deactivates full screen mode.
     property Active: Boolean read FActive write SetActive;
     procedure ReActivate;
-    { Read access to the underlying form handle.
+    (* Read access to the underlying form handle.
       Returns 0 (zero) if the viewer is not active or has not yet
-      instantiated its form. }
+      instantiated its form. *)
     property Handle: TWindowHandle read GetHandle;
     procedure Notification(AComponent: TComponent;
       Operation: TOperation); override;
@@ -131,31 +130,37 @@ type
     property ManualRendering: Boolean read FManualRendering
       write SetManualRendering;
     // It is not used in UNIX
-    { Requested ScreenDepth. }
+    // Requested ScreenDepth.
     property ScreenDepth: TgxScreenDepth read FScreenDepth write SetScreenDepth
       default sd32bits;
-    { Specifies if the underlying form is "fsStayOnTop".
+    (*
+      Specifies if the underlying form is "fsStayOnTop".
       The benefit of StayOnTop is that it hides the windows bar and
       other background windows. The "fsStayOnTop" is automatically
       switched off/on when the underlying form loses/gains focus.
       It is recommended not to use StayOnTop while running in the IDE
-      or during the debugging phase.  }
+      or during the debugging phase.
+    *)
     property StayOnTop: Boolean read FStayOnTop write SetStayOnTop
       default False;
-    { Specifies if the refresh should be synchronized with the VSync signal.
+    (*
+      Specifies if the refresh should be synchronized with the VSync signal.
       If the underlying OpenGL ICD does not support the WGL_EXT_swap_control
-      extension, this property is ignored. }
+      extension, this property is ignored.
+    *)
     property VSync: TgxSyncMode read FVSync write FVSync default vsmSync;
-    { Screen refresh rate.
+    (*
+      Screen refresh rate.
       Use zero for system default. This property allows you to work around
       the winxp bug that limits uses a refresh rate of 60hz when changeing
       resolution. it is however suggested to give the user the opportunity
       to adjust it instead of having a fixed value (expecially beyond
       75hz or for resolutions beyond 1024x768).
       the value will be automatically clamped to the highest value
-      *reported* compatible with the monitor. }
+      *reported* compatible with the monitor.
+    *)
     property RefreshRate: Integer read FRefreshRate write FRefreshRate;
-    { TODO : E2003 Undeclared identifier: 'TCursor' }
+    // TODO : E2003 Undeclared identifier: 'TCursor'
     (*property Cursor: TCursor read FCursor write SetCursor default crDefault;*)
     property PopupMenu: TPopupMenu read FPopupMenu write SetPopupMenu;
     property OnClose: TCloseEvent read FOnClose write SetOnClose;

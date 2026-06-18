@@ -20,9 +20,9 @@ uses
   System.Classes,
   System.SysUtils,
 
-  GXS.XCollection,
-  GXS.PersistentClasses,
-  GXS.BaseClasses,
+  Stage.XCollection,
+  Stage.PersistentClasses,
+  Stage.BaseClasses,
   Stage.VectorTypes,
   Stage.VectorGeometry,
   Stage.Spline,
@@ -253,7 +253,7 @@ type
     class function UniqueItem: boolean; override;
     procedure StartPathTravel;
     procedure StopPathTravel;
-    procedure DoProgress(const progressTime : TgxProgressTimes); override;
+    procedure DoProgress(const progressTime : TGSProgressTimes); override;
     function NextPath: integer;
     function PrevPath: integer;
     function FirstPath: integer;
@@ -1515,7 +1515,7 @@ begin
 end;
 
 //Calculate functions add into this method
-procedure TgxMovement.DoProgress(const progressTime : TgxProgressTimes);
+procedure TgxMovement.DoProgress(const progressTime : TGSProgressTimes);
 var
   Path: TgxMovementPath;
 begin

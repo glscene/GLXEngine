@@ -22,9 +22,9 @@ uses
   Stage.AnimationUtils,
   GLS.Scene,
   GLS.Objects,
-  GLS.Coordinates,
+  Stage.Coordinates,
   GLS.SceneViewer,
-  GLS.BaseClasses,
+  Stage.BaseClasses,
   GLS.Cadencer,
   GLS.BitmapFont,
   GLS.WindowsFont;
@@ -58,7 +58,7 @@ type
     Initial1iValue: Integer;
     Initial1sValue: single;
     Initial3fValue: TAffineVector;
-    Initial4fValue: TGLVector;
+    Initial4fValue: TGSVector;
     InitialPtValue: TSinglePoint;
   end;
 

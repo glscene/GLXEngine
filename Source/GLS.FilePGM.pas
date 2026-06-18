@@ -1,24 +1,25 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.FilePGM;
-
-(* PGM image loader *)
+(*
+  PGM image loader
+*)
+interface
 
 {$I Stage.Defines.inc}
-
-interface
 
 uses
   Winapi.OpenGL,
   System.Classes,
   System.SysUtils,
 
-  GLS.Context,
-  GLS.Graphics,
   Stage.TextureFormat,
   Stage.Strings,
+
   GLS.ApplicationFileIO,
+  GLS.Context,
+  GLS.Graphics,
 
   CUDA.Utility;
 
@@ -26,7 +27,7 @@ type
 
   TGLPGMImage = class(TGLBaseImage)
   public
-    class function Capabilities: TGLDataFileCapabilities; override;
+    class function Capabilities: TGSDataFileCapabilities; override;
     procedure LoadFromFile(const filename: string); override;
     procedure SaveToFile(const filename: string); override;
     procedure LoadFromStream(stream: TStream); override;
@@ -36,14 +37,11 @@ type
       const intFormat: TGLInternalFormat); reintroduce;
   end;
 
-// ------------------------------------------------------------------
-implementation
-// ------------------------------------------------------------------
+implementation //============================================================
 
 // ------------------
 // ------------------ TGLPGMImage ------------------
 // ------------------
-
 procedure TGLPGMImage.LoadFromFile(const filename: string);
 var
   w, h: Integer;
@@ -166,7 +164,7 @@ begin
   end;
 end;
 
-class function TGLPGMImage.Capabilities: TGLDataFileCapabilities;
+class function TGLPGMImage.Capabilities: TGSDataFileCapabilities;
 begin
   Result := [dfcRead, dfcWrite];
 end;

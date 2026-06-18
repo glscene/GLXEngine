@@ -8,9 +8,9 @@
 #include <Vcl.StdCtrls.hpp>
 #include <Vcl.Forms.hpp>
 #include <Vcl.Imaging.Jpeg.hpp>
-#include "GLS.BaseClasses.hpp"
+#include "Stage.BaseClasses.hpp"
 #include "GLS.Cadencer.hpp"
-#include "GLS.Coordinates.hpp"
+#include "Stage.Coordinates.hpp"
 
 #include "GLSL.CustomShader.hpp"
 #include "GLS.FBORenderer.hpp"
@@ -60,11 +60,11 @@ __published:	// IDE-managed Components
 	void __fastcall PrepareShadowMappingRender(TObject *Sender, TGLRenderContextInfo &rci);
 
 private:	// User declarations
-	TGLMatrix *FBiasMatrix;
-	TGLMatrix *FLightModelViewMatrix;
-	TGLMatrix *FLightProjMatrix;
-	TGLMatrix *FInvCameraMatrix;
-	TGLMatrix *FEyeToLightMatrix;
+	TGSMatrix *FBiasMatrix;
+	TGSMatrix *FLightModelViewMatrix;
+	TGSMatrix *FLightProjMatrix;
+	TGSMatrix *FInvCameraMatrix;
+	TGSMatrix *FEyeToLightMatrix;
 public:		// User declarations
 	__fastcall TForm1(TComponent* Owner);
 };

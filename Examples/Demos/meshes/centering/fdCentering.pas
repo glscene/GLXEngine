@@ -22,8 +22,8 @@ uses
   GLS.Objects,
   GLS.SceneViewer,
   GLS.File3DS,
-  GLS.Coordinates,
-  GLS.BaseClasses,
+  Stage.Coordinates,
+  Stage.BaseClasses,
   Stage.Utils;
 
 type

@@ -1,10 +1,11 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.CgRegister;
-
-(*  Registration unit for Cg shader package *)
-
+(*
+  Registration unit for Cg shader package
+  RegisterComponents('GLScene Shaders', [TCgShader, TCgBombShader]);
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -25,7 +26,7 @@ uses
 
 procedure Register;
 
-implementation //--------------------------------------------------------------
+implementation //============================================================
 
 procedure Register;
 begin

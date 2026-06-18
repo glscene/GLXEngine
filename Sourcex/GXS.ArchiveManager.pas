@@ -1,6 +1,6 @@
-﻿//
-// GXScene Graphics Engine
-//
+﻿(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.ArchiveManager;
 
 {$I Stage.Defines.inc}
@@ -12,7 +12,7 @@ uses
   System.SysUtils,
 
   Stage.Strings,
-  GXS.PersistentClasses,
+  Stage.PersistentClasses,
   GXS.ApplicationFileIO;
 
 Type
@@ -74,7 +74,7 @@ Type
   end;
 
   // List of registered classes
-  TgxArchiveFileFormatsList = class(TgxPersistentObjectList)
+  TgxArchiveFileFormatsList = class(TGSPersistentObjectList)
   public
     destructor Destroy; override;
     procedure Add(const Ext, Desc: string; DescID: Integer; AClass:
@@ -179,14 +179,13 @@ Type
   function ArcCreateFileStream(const fileName: string; mode: word): TStream;
   function ArcFileStreamExists(const fileName: string): boolean;
 
-// ------------------------------------------------------------------
-implementation
-// ------------------------------------------------------------------
+implementation //============================================================
 
 var
   vArchiveFileFormats: TgxArchiveFileFormatsList;
   vArchiveManager: TgxSArchiveManager;
 
+//---------------------------------------------------------------------------
 function GetArchiveFileFormats: TgxArchiveFileFormatsList;
 begin
   if not Assigned(vArchiveFileFormats) then
@@ -194,6 +193,7 @@ begin
   Result := vArchiveFileFormats;
 end;
 
+//---------------------------------------------------------------------------
 procedure RegisterArchiveFormat(const AExtension, ADescription: string;
   AClass: TgxBaseArchiveClass);
 begin
@@ -201,6 +201,7 @@ begin
   GetArchiveFileFormats.Add(AExtension, ADescription, 0, AClass);
 end;
 
+//---------------------------------------------------------------------------
 procedure UnregisterArchiveFormat(AClass: TgxBaseArchiveClass);
 begin
   if Assigned(vArchiveFileFormats) then
@@ -249,7 +250,6 @@ end;
 //--------------------------------------
 // TLibArchive
 //--------------------------------------
-
 constructor TLibArchive.Create(ACollection: TCollection);
 begin
   inherited Create(ACollection);
@@ -287,6 +287,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TLibArchive.LoadFromFile(aFileName: string);
 var
   ext: string;
@@ -367,6 +368,7 @@ begin
   vArchive.AddFromStream(aContentName, '', aF)
 end;
 
+//---------------------------------------------------------------------------
 procedure TLibArchive.AddFromFile(aFileName, aPath: string);
 begin
   if vArchive = nil then
@@ -727,13 +729,11 @@ begin
   FArchives.Delete(FArchives.IndexOf(aArchive));
 end;
 
-//--------------------------------------------------------
-initialization
-//--------------------------------------------------------
+initialization //============================================================
 
   RegisterClasses([TgxSArchiveManager, TLibArchives]);
 
-finalization
+finalization //==============================================================
 
   FreeAndNil(vArchiveFileFormats);
 

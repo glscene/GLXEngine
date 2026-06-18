@@ -12,22 +12,25 @@ interface
 uses
   Winapi.OpenGL,
   System.Classes,
+  System.SysUtils,
 
   Stage.OpenGLTokens,
   Stage.VectorTypes,
   Stage.VectorGeometry,
   Stage.Spline,
-  GLS.OpenGLAdapter,
-  GLS.Context,
-  GLS.BaseClasses,
-  GLS.Coordinates;
+  Stage.OpenGLAdapter,
+  Stage.BaseClasses,
+  Stage.Coordinates,
+
+  GLS.Context
+  ;
 
 type
   TGLNode = class(TCollectionItem)
   private
-    FCoords: TGLVector;
+    FCoords: TGSVector;
     FTagObject: TObject;
-    procedure SetAsVector(const Value: TGLVector);
+    procedure SetAsVector(const Value: TGSVector);
     procedure SetAsAffineVector(const Value: TAffineVector);
     function GetAsAffineVector: TAffineVector;
     procedure SetCoordinate(AIndex: Integer; AValue: TGLFloat);
@@ -43,7 +46,7 @@ type
     (* The coordinates viewed as a vector.
       Assigning a value to this property will trigger notification events,
       if you don't want so, use DirectVector instead. *)
-    property AsVector: TGLVector read FCoords write SetAsVector;
+    property AsVector: TGSVector read FCoords write SetAsVector;
     (* The coordinates viewed as an affine vector.
       Assigning a value to this property will trigger notification events,
       if you don't want so, use DirectVector instead.
@@ -72,10 +75,10 @@ type
     function Last: TGLNode;
     procedure NotifyChange; virtual;
     procedure EndUpdate; override;
-    // AddNode (TGLCustomCoordinates)
-    procedure AddNode(const Coords: TGLCustomCoordinates); overload;
+    // AddNode (TGSCustomCoordinates)
+    procedure AddNode(const Coords: TGSCustomCoordinates); overload;
     procedure AddNode(const X, Y, Z: TGLfloat); overload;
-    procedure AddNode(const Value: TGLVector); overload;
+    procedure AddNode(const Value: TGSVector); overload;
     procedure AddNode(const Value: TAffineVector); overload;
     procedure AddXYArc(XRadius, YRadius: Single; StartAngle, StopAngle: Single; NbSegments: Integer;
       const Center: TAffineVector);
@@ -111,7 +114,6 @@ type
 implementation //==============================================================
 
 uses
-  SysUtils,
   GLS.XOpenGL;
 
 // ------------------
@@ -150,7 +152,7 @@ begin
   Result := @FCoords;
 end;
 
-procedure TGLNode.SetAsVector(const Value: TGLVector);
+procedure TGLNode.SetAsVector(const Value: TGSVector);
 begin
   FCoords := Value;
   (Collection as TGLNodes).NotifyChange;
@@ -253,8 +255,8 @@ end;
 
 procedure TGLNodes.NotifyChange;
 begin
-  if (UpdateCount = 0) and (GetOwner <> nil) and (GetOwner is TGLUpdateAbleComponent) then
-    TGLUpdateAbleComponent(GetOwner).NotifyChange(Self);
+  if (UpdateCount = 0) and (GetOwner <> nil) and (GetOwner is TGSUpdateAbleComponent) then
+    TGSUpdateAbleComponent(GetOwner).NotifyChange(Self);
 end;
 
 procedure TGLNodes.EndUpdate;
@@ -265,7 +267,7 @@ begin
     NotifyChange;
 end;
 
-procedure TGLNodes.AddNode(const Coords: TGLCustomCoordinates);
+procedure TGLNodes.AddNode(const Coords: TGSCustomCoordinates);
 begin
   Add.AsVector := Coords.AsVector;
 end;
@@ -275,7 +277,7 @@ begin
   Add.AsVector := PointMake(X, Y, Z);
 end;
 
-procedure TGLNodes.AddNode(const Value: TGLVector);
+procedure TGLNodes.AddNode(const Value: TGSVector);
 begin
   Add.AsVector := Value;
 end;

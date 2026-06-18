@@ -1,24 +1,24 @@
-//
-// GLScene Graphics Engine
-//
-
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.ScriptBase;
-
 (*
-  An abstract scripting interface for GLScene
+  An abstract scripting interface
+  TGLScriptLibrary = class(TComponent)
+  RegisterClasses([TGLScriptLibrary, TGSScripts, TGSScriptBase]);
+
   This unit provides the base methods for compiling and executing scripts as
   well as calling scripted functions. No scripting APIs are implemented here,
   only abstracted functions.
 *)
-
 interface
 
 uses
   System.Classes,
-  GLS.XCollection;
+  Stage.XCollection;
 
 type
-  TGLScriptState = (
+  TGSScriptState = (
     ssUncompiled, // The script has yet to be compiled.
     ssCompileErrors, // Errors occurred while compiling.
     ssCompiled, // The script has been compiled and ready to be executed/started.
@@ -28,7 +28,7 @@ type
    (* The base script class that defines the abstract functions and properties.
     Don't use this class directly, use the script classes descended from this
     base class. *)
-  TGLScriptBase = class(TXCollectionItem)
+  TGSScriptBase = class(TXCollectionItem)
   private
     FText: TStringList;
     FDescription: String;
@@ -36,7 +36,7 @@ type
   protected
     procedure WriteToFiler(writer: TWriter); override;
     procedure ReadFromFiler(reader: TReader); override;
-    function GetState: TGLScriptState; virtual; abstract;
+    function GetState: TGSScriptState; virtual; abstract;
     procedure SetText(const Value: TStringList);
     procedure Notification(AComponent: TComponent; Operation: TOperation); virtual;
   public
@@ -50,28 +50,28 @@ type
     procedure Invalidate; virtual; abstract;
     function Call(aName: String; aParams: array of Variant): Variant; virtual; abstract;
     property Errors: TStringList read FErrors;
-    property State: TGLScriptState read GetState;
+    property State: TGSScriptState read GetState;
   published
     property Text: TStringList read FText write SetText;
     property Description: String read FDescription write FDescription;
   end;
 
   // XCollection descendant for storing and handling scripts.
-  TGLScripts = class(TXCollection)
+  TGSScripts = class(TXCollection)
   protected
-    function GetItems(index: Integer): TGLScriptBase;
+    function GetItems(index: Integer): TGSScriptBase;
   public
     procedure Assign(Source: TPersistent); override;
     class function ItemsClass: TXCollectionItemClass; override;
     function CanAdd(aClass: TXCollectionItemClass): Boolean; override;
-    property Items[index: Integer]: TGLScriptBase read GetItems; default;
+    property Items[index: Integer]: TGSScriptBase read GetItems; default;
   end;
 
   (* Encapsulation of the scripts XCollection to help with script handling at
      design-time. Links the scripts to Delphi's persistence model. *)
   TGLScriptLibrary = class(TComponent)
   private
-    FScripts: TGLScripts;
+    FScripts: TGSScripts;
   protected
     procedure DefineProperties(Filer: TFiler); override;
     procedure WriteScriptsData(Stream: TStream);
@@ -82,42 +82,42 @@ type
     constructor Create(aOwner: TComponent); override;
     destructor Destroy; override;
   published
-    property Scripts: TGLScripts read FScripts;
+    property Scripts: TGSScripts read FScripts;
   end;
 
-//========================================================
-implementation
-//========================================================
+implementation //============================================================
 
 // ---------------
-// --------------- TGLScriptBase ---------------
+// --------------- TGSScriptBase ---------------
 // ---------------
-
-constructor TGLScriptBase.Create(aOwner: TXCollection);
+constructor TGSScriptBase.Create(aOwner: TXCollection);
 begin
   inherited;
   FText := TStringList.Create;
   FErrors := TStringList.Create;
 end;
 
-destructor TGLScriptBase.Destroy;
+//---------------------------------------------------------------------------
+destructor TGSScriptBase.Destroy;
 begin
   FText.Free;
   FErrors.Free;
   inherited;
 end;
 
-procedure TGLScriptBase.Assign(Source: TPersistent);
+//---------------------------------------------------------------------------
+procedure TGSScriptBase.Assign(Source: TPersistent);
 begin
   inherited;
-  if Source is TGLScriptBase then
+  if Source is TGSScriptBase then
   begin
-    Text.Assign(TGLScriptBase(Source).Text);
-    Description := TGLScriptBase(Source).Description;
+    Text.Assign(TGSScriptBase(Source).Text);
+    Description := TGSScriptBase(Source).Description;
   end;
 end;
 
-procedure TGLScriptBase.ReadFromFiler(reader: TReader);
+//---------------------------------------------------------------------------
+procedure TGSScriptBase.ReadFromFiler(reader: TReader);
 var
   archiveVersion: Integer;
 begin
@@ -131,7 +131,8 @@ begin
   end;
 end;
 
-procedure TGLScriptBase.WriteToFiler(writer: TWriter);
+//---------------------------------------------------------------------------
+procedure TGSScriptBase.WriteToFiler(writer: TWriter);
 begin
   inherited;
   writer.WriteInteger(0);
@@ -142,59 +143,64 @@ begin
   end;
 end;
 
-procedure TGLScriptBase.SetText(const Value: TStringList);
+//---------------------------------------------------------------------------
+procedure TGSScriptBase.SetText(const Value: TStringList);
 begin
   Text.Assign(Value);
 end;
 
-procedure TGLScriptBase.Notification(AComponent: TComponent;
+//---------------------------------------------------------------------------
+procedure TGSScriptBase.Notification(AComponent: TComponent;
   Operation: TOperation);
 begin
   // Virtual
 end;
 
 // ---------------
-// --------------- TGLScripts ---------------
+// --------------- TGSScripts ---------------
 // ---------------
-
-procedure TGLScripts.Assign(Source: TPersistent);
+procedure TGSScripts.Assign(Source: TPersistent);
 begin
   inherited;
   // Nothing yet
 end;
 
-function TGLScripts.GetItems(index: Integer): TGLScriptBase;
+//---------------------------------------------------------------------------
+function TGSScripts.GetItems(index: Integer): TGSScriptBase;
 begin
-  Result := TGLScriptBase(inherited GetItems(index));
+  Result := TGSScriptBase(inherited GetItems(index));
 end;
 
-class function TGLScripts.ItemsClass: TXCollectionItemClass;
+//---------------------------------------------------------------------------
+class function TGSScripts.ItemsClass: TXCollectionItemClass;
 begin
-  Result := TGLScriptBase;
+  Result := TGSScriptBase;
 end;
 
-function TGLScripts.CanAdd(aClass: TXCollectionItemClass): Boolean;
+//---------------------------------------------------------------------------
+function TGSScripts.CanAdd(aClass: TXCollectionItemClass): Boolean;
 begin
-  Result := aClass.InheritsFrom(TGLScriptBase);
+  Result := aClass.InheritsFrom(TGSScriptBase);
 end;
 
 
 // ---------------
 // --------------- TGLScriptLibrary ---------------
 // ---------------
-
 constructor TGLScriptLibrary.Create(aOwner: TComponent);
 begin
   inherited;
-  FScripts := TGLScripts.Create(Self);
+  FScripts := TGSScripts.Create(Self);
 end;
 
+//---------------------------------------------------------------------------
 destructor TGLScriptLibrary.Destroy;
 begin
   FScripts.Free;
   inherited;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLScriptLibrary.DefineProperties(Filer: TFiler);
 begin
   inherited;
@@ -202,6 +208,7 @@ begin
     (Scripts.Count > 0));
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLScriptLibrary.WriteScriptsData(Stream: TStream);
 var
   writer: TWriter;
@@ -214,6 +221,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLScriptLibrary.ReadScriptsData(Stream: TStream);
 var
   reader: TReader;
@@ -226,12 +234,14 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLScriptLibrary.Loaded;
 begin
   inherited;
   Scripts.Loaded;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLScriptLibrary.Notification(AComponent: TComponent;
   Operation: TOperation);
 var
@@ -243,8 +253,8 @@ begin
   inherited;
 end;
 
-initialization //-------------------------------------------------------------
+initialization //============================================================
 
-RegisterClasses([TGLScriptLibrary, TGLScripts, TGLScriptBase]);
+RegisterClasses([TGLScriptLibrary, TGSScripts, TGSScriptBase]);
 
 end.

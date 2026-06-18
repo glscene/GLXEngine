@@ -8,7 +8,7 @@
         <AppType>Package</AppType>
         <FrameworkType>FMX</FrameworkType>
         <ProjectVersion>20.4</ProjectVersion>
-        <Platform Condition="'$(Platform)'==''">Win64</Platform>
+        <Platform Condition="'$(Platform)'==''">Win64x</Platform>
         <ProjectName Condition="'$(ProjectName)'==''">GXScene_RT</ProjectName>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Config)'=='Base' or '$(Base)'!=''">
@@ -123,6 +123,7 @@
         <DCC_CBuilderOutput>All</DCC_CBuilderOutput>
         <DCC_UnitSearchPath>..\Src;..\Sourcex;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
         <DCC_DcuOutput>.\$(Platform)\$(Config)</DCC_DcuOutput>
+        <DCC_Description>GXScene RT Components</DCC_Description>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win64)'!=''">
         <VerInfo_Locale>1033</VerInfo_Locale>
@@ -137,6 +138,7 @@
         <DCC_ObjOutput>..\lib\$(Platform)</DCC_ObjOutput>
         <DCC_UnitSearchPath>..\Src;..\Sourcex;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
         <DCC_DcuOutput>.\$(Platform)\$(Config)</DCC_DcuOutput>
+        <DCC_Description>GXScene RT Components</DCC_Description>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win64x)'!=''">
         <DCC_Namespace>Winapi;System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;$(DCC_Namespace)</DCC_Namespace>
@@ -146,6 +148,11 @@
         <VerInfo_Locale>1033</VerInfo_Locale>
         <DCC_UnitSearchPath>..\Src;..\Sourcex;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
         <DCC_DcuOutput>.\$(Platform)\$(Config)</DCC_DcuOutput>
+        <DCC_CBuilderOutput>All</DCC_CBuilderOutput>
+        <DCC_Description>GXScene RT Components</DCC_Description>
+        <DCC_BpiOutput>..\lib\$(Platform)</DCC_BpiOutput>
+        <DCC_HppOutput>..\include\$(Platform)</DCC_HppOutput>
+        <DCC_ObjOutput>..\lib\$(Platform)</DCC_ObjOutput>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1)'!=''">
         <DCC_LocalDebugSymbols>false</DCC_LocalDebugSymbols>
@@ -166,7 +173,7 @@
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
         <DCC_CBuilderOutput>All</DCC_CBuilderOutput>
-        <DCC_Description>GXScene Engine</DCC_Description>
+        <DCC_Description>GXScene RT Components</DCC_Description>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win64x)'!=''">
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
@@ -184,7 +191,7 @@
         <DCC_CBuilderOutput>All</DCC_CBuilderOutput>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <VerInfo_Keys>CompanyName=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductVersion=1.0.0.0;Comments=;ProgramID=com.embarcadero.$(MSBuildProjectName);FileDescription=$(MSBuildProjectName);ProductName=$(MSBuildProjectName)</VerInfo_Keys>
-        <DCC_Description>GLXEngine</DCC_Description>
+        <DCC_Description>GXScene RT Components</DCC_Description>
         <DCC_BpiOutput>..\lib\$(Platform)</DCC_BpiOutput>
         <DCC_HppOutput>..\include\$(Platform)</DCC_HppOutput>
         <DCC_ObjOutput>..\lib\$(Platform)</DCC_ObjOutput>
@@ -193,7 +200,7 @@
         <DCC_ObjOutput>..\lib\$(Platform)</DCC_ObjOutput>
         <DCC_BpiOutput>..\lib\$(Platform)</DCC_BpiOutput>
         <DCC_HppOutput>..\include\$(Platform)</DCC_HppOutput>
-        <DCC_Description>GXScene Platform</DCC_Description>
+        <DCC_Description>GXScene RT Components</DCC_Description>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
@@ -202,6 +209,10 @@
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <VerInfo_Keys>CompanyName=;FileDescription=$(MSBuildProjectName);FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+        <DCC_Description>GXScene RT Components</DCC_Description>
+        <DCC_BpiOutput>..\lib\$(Platform)</DCC_BpiOutput>
+        <DCC_ObjOutput>..\lib\$(Platform)</DCC_ObjOutput>
+        <DCC_HppOutput>..\include\$(Platform)</DCC_HppOutput>
     </PropertyGroup>
     <ItemGroup>
         <DelphiCompile Include="$(MainSource)">
@@ -209,237 +220,233 @@
         </DelphiCompile>
         <DCCReference Include="rtl.dcp"/>
         <DCCReference Include="fmx.dcp"/>
-        <DCCReference Include="..\SourceX\Formatx.DDSImage.pas"/>
-        <DCCReference Include="..\SourceX\Formatx.HDRImage.pas"/>
-        <DCCReference Include="..\SourceX\Formatx.TGA.pas"/>
+        <DCCReference Include="xmlrtl.dcp"/>
+        <DCCReference Include="fmxdae.dcp"/>
         <DCCReference Include="..\SourceX\GXS.AnimatedSprite.pas"/>
-        <DCCReference Include="..\SourceX\GXS.ApplicationFileIO.pas"/>
-        <DCCReference Include="..\SourceX\GXS.ArchiveManager.pas"/>
-        <DCCReference Include="..\SourceX\GXS.AsyncHDS.pas"/>
-        <DCCReference Include="..\SourceX\GXS.Atmosphere.pas"/>
-        <DCCReference Include="..\SourceX\GXS.AVIRecorder.pas"/>
-        <DCCReference Include="..\sourcex\GXS.BaseClasses.pas"/>
-        <DCCReference Include="..\SourceX\GXS.BSP.pas"/>
-        <DCCReference Include="..\SourceX\GXS.BaseMeshSilhouette.pas"/>
-        <DCCReference Include="..\SourceX\GXS.Behaviours.pas"/>
-        <DCCReference Include="..\SourceX\GXS.BitmapFont.pas"/>
-        <DCCReference Include="..\SourceX\GXS.Blur.pas"/>
-        <DCCReference Include="..\SourceX\GXS.BumpMapping.pas"/>
-        <DCCReference Include="..\SourceX\GXS.BumpmapHDS.pas"/>
-        <DCCReference Include="..\SourceX\GXS.Cadencer.pas"/>
-        <DCCReference Include="..\SourceX\GXS.CameraController.pas"/>
-        <DCCReference Include="..\SourceX\GXS.Canvas.pas"/>
-        <DCCReference Include="..\SourceX\GXS.CelShader.pas"/>
-        <DCCReference Include="..\SourceX\GXS.Collision.pas"/>
-        <DCCReference Include="..\SourceX\GXS.CompositeImage.pas"/>
-        <DCCReference Include="..\Sourcex\GXS.Coordinates.pas"/>
-        <DCCReference Include="..\SourceX\GXS.Console.pas"/>
-        <DCCReference Include="..\SourceX\GXS.Context.pas"/>
-        <DCCReference Include="..\SourceX\GXS.DCE.pas"/>
-        <DCCReference Include="..\SourceX\GXS.DCEMisc.pas"/>
-        <DCCReference Include="..\SourceX\GXS.EParticleMasksManager.pas"/>
-        <DCCReference Include="..\SourceX\GXS.EllipseCollision.pas"/>
-        <DCCReference Include="..\SourceX\GXS.ExplosionFx.pas"/>
-        <DCCReference Include="..\SourceX\GXS.Extrusion.pas"/>
-        <DCCReference Include="..\SourceX\GXS.FBO.pas"/>
-        <DCCReference Include="..\SourceX\GXS.FBORenderer.pas"/>
-        <DCCReference Include="..\SourceX\GXS.FPSMovement.pas"/>
-        <DCCReference Include="..\SourceX\GXS.Feedback.pas"/>
-        <DCCReference Include="..\SourceX\GXS.FileASE.pas"/>
-        <DCCReference Include="..\SourceX\GXS.File3DS.pas"/>
-        <DCCReference Include="..\SourceX\GXS.File3DSSceneObjects.pas"/>
-        <DCCReference Include="..\SourceX\GXS.FileB3D.pas"/>
-        <DCCReference Include="..\SourceX\GXS.FileBMP.pas"/>
-        <DCCReference Include="..\SourceX\GXS.FileGRD.pas"/>
-        <DCCReference Include="..\SourceX\GXS.FileGTS.pas"/>
-        <DCCReference Include="..\SourceX\GXS.FileDDS.pas"/>
-        <DCCReference Include="..\SourceX\GXS.FileDXF.pas"/>
-        <DCCReference Include="..\SourceX\GXS.FileHDR.pas"/>
-        <DCCReference Include="..\SourceX\GXS.FileGLTF.pas"/>
-        <DCCReference Include="..\SourceX\GXS.FileJPEG.pas"/>
-        <DCCReference Include="..\SourceX\GXS.FileLMTS.pas"/>
-        <DCCReference Include="..\SourceX\GXS.FileLWO.pas"/>
-        <DCCReference Include="..\SourceX\GXS.FileMD3.pas"/>
-        <DCCReference Include="..\SourceX\GXS.FileMD5.pas"/>
-        <DCCReference Include="..\SourceX\GXS.FileMDC.pas"/>
-        <DCCReference Include="..\SourceX\GXS.FileMP3.pas"/>
-        <DCCReference Include="..\SourceX\GXS.FileMS3D.pas"/>
-        <DCCReference Include="..\SourceX\GXS.FileNMF.pas"/>
-        <DCCReference Include="..\SourceX\GXS.FileNurbs.pas"/>
-        <DCCReference Include="..\SourceX\GXS.FileOBJ.pas"/>
-        <DCCReference Include="..\SourceX\GXS.FileOCT.pas"/>
-        <DCCReference Include="..\SourceX\GXS.FilePLY.pas"/>
-        <DCCReference Include="..\SourceX\GXS.FilePNG.pas"/>
-        <DCCReference Include="..\SourceX\GXS.FileQ3BSP.pas"/>
-        <DCCReference Include="..\SourceX\GXS.FileSMD.pas"/>
-        <DCCReference Include="..\SourceX\GXS.FileSTL.pas"/>
-        <DCCReference Include="..\SourceX\GXS.FileTGA.pas"/>
-        <DCCReference Include="..\SourceX\GXS.FileTIN.pas"/>
-        <DCCReference Include="..\SourceX\GXS.FileVRML.pas"/>
-        <DCCReference Include="..\SourceX\GXS.FileWAV.pas"/>
-        <DCCReference Include="..\SourceX\GXS.FileX.pas"/>
-        <DCCReference Include="..\SourceX\GXS.FireFX.pas"/>
-        <DCCReference Include="..\SourceX\GXS.FullScreenViewer.pas"/>
-        <DCCReference Include="..\SourceX\GXS.PolygonTesselation.pas"/>
-        <DCCReference Include="..\SourceX\GXS.GameMenu.pas"/>
-        <DCCReference Include="..\SourceX\GXS.GeomObjects.pas"/>
-        <DCCReference Include="..\SourceX\GXS.Gizmo.pas"/>
-        <DCCReference Include="..\SourceX\GXS.GizmoEx.pas"/>
-        <DCCReference Include="..\SourceX\GXS.Graph.pas"/>
-        <DCCReference Include="..\SourceX\GXS.Graphics.pas"/>
-        <DCCReference Include="..\SourceX\GXS.Gui.pas"/>
-        <DCCReference Include="..\SourceX\GXS.DynamicTexture.pas"/>
-        <DCCReference Include="..\SourceX\GXS.HUDObjects.pas"/>
-        <DCCReference Include="..\SourceX\GXS.HeightData.pas"/>
-        <DCCReference Include="..\SourceX\GXS.HeightTileFile.pas"/>
-        <DCCReference Include="..\SourceX\GXS.HeightTileFileHDS.pas"/>
-        <DCCReference Include="..\SourceX\GXS.HiddenLineShader.pas"/>
-        <DCCReference Include="..\SourceX\GXS.ImageUtils.pas"/>
-        <DCCReference Include="..\SourceX\GXS.Imposter.pas"/>
-        <DCCReference Include="..\SourceX\GXS.Isolines.pas"/>
-        <DCCReference Include="..\SourceX\GXS.Isosurface.pas"/>
-        <DCCReference Include="..\SourceX\GXS.Joystick.pas"/>
-        <DCCReference Include="..\SourceX\GXS.LensFlare.pas"/>
-        <DCCReference Include="..\SourceX\GXS.LinePFX.pas"/>
-        <DCCReference Include="..\SourceX\GXS.Material.pas"/>
-        <DCCReference Include="..\SourceX\GXS.MaterialMultiProxy.pas"/>
-        <DCCReference Include="..\SourceX\GXS.MaterialScript.pas"/>
-        <DCCReference Include="..\SourceX\GXS.Mesh.pas"/>
-        <DCCReference Include="..\SourceX\GXS.MeshBuilder.pas"/>
-        <DCCReference Include="..\SourceX\GXS.MeshCSG.pas"/>
-        <DCCReference Include="..\SourceX\GXS.MeshLines.pas"/>
-        <DCCReference Include="..\SourceX\GXS.MeshOptimizer.pas"/>
-        <DCCReference Include="..\SourceX\GXS.MeshUtils.pas"/>
-        <DCCReference Include="..\SourceX\GXS.Mirror.pas"/>
-        <DCCReference Include="..\SourceX\GXS.Movement.pas"/>
-        <DCCReference Include="..\SourceX\GXS.MultiMaterialShader.pas"/>
-        <DCCReference Include="..\SourceX\GXS.MultiPolygon.pas"/>
-        <DCCReference Include="..\SourceX\GXS.MultiProxy.pas"/>
-        <DCCReference Include="..\SourceX\GXS.MultisampleImage.pas"/>
-        <DCCReference Include="..\SourceX\GXS.Navigator.pas"/>
-        <DCCReference Include="..\SourceX\GXS.Nodes.pas"/>
-        <DCCReference Include="..\SourceX\GXS.ObjectManager.pas"/>
-        <DCCReference Include="..\SourceX\GXS.Objects.pas"/>
-        <DCCReference Include="..\SourceX\GXS.Octree.pas"/>
-        <DCCReference Include="..\Sourcex\GXS.OpenGLAdapter.pas"/>
-        <DCCReference Include="..\SourceX\GXS.InitOpenGL.pas"/>
-        <DCCReference Include="..\SourceX\GXS.OutlineShader.pas"/>
-        <DCCReference Include="..\SourceX\GXS.ParametricSurfaces.pas"/>
-        <DCCReference Include="..\SourceX\GXS.ParticleFX.pas"/>
-        <DCCReference Include="..\SourceX\GXS.Particles.pas"/>
-        <DCCReference Include="..\SourceX\GXS.Perlin.pas"/>
-        <DCCReference Include="..\SourceX\GXS.PerlinPFX.pas"/>
-        <DCCReference Include="..\SourceX\GXS.PictureRegisteredFormats.pas"/>
-        <DCCReference Include="..\SourceX\GXS.Portal.pas"/>
-        <DCCReference Include="..\SourceX\GXSL.PostEffects.pas"/>
-        <DCCReference Include="..\SourceX\GXS.ProcTextures.pas"/>
-        <DCCReference Include="..\SourceX\GXS.ProjectedTextures.pas"/>
-        <DCCReference Include="..\SourceX\GXS.ProxyObjects.pas"/>
-        <DCCReference Include="..\SourceX\GXS.ROAMPatch.pas"/>
-        <DCCReference Include="..\SourceX\GXS.Ragdoll.pas"/>
-        <DCCReference Include="..\SourceX\GXS.RandomHDS.pas"/>
-        <DCCReference Include="..\SourceX\GXS.RenderContextInfo.pas"/>
-        <DCCReference Include="..\SourceX\GXS.Scene.pas"/>
-        <DCCReference Include="..\SourceX\GXS.WinContext.pas"/>
-        <DCCReference Include="..\SourceX\GXS.SceneViewer.pas"/>
-        <DCCReference Include="..\SourceX\GXS.Screen.pas"/>
-        <DCCReference Include="..\SourceX\GXS.ScreenSaver.pas"/>
-        <DCCReference Include="..\SourceX\GXS.Selection.pas"/>
-        <DCCReference Include="..\SourceX\GXS.ShadowHDS.pas"/>
-        <DCCReference Include="..\SourceX\GXS.ShadowPlane.pas"/>
-        <DCCReference Include="..\SourceX\GXS.ShadowVolume.pas"/>
-        <DCCReference Include="..\SourceX\GXS.Silhouette.pas"/>
-        <DCCReference Include="..\SourceX\GXS.SimpleNavigation.pas"/>
-        <DCCReference Include="..\SourceX\GXS.Skydome.pas"/>
-        <DCCReference Include="..\SourceX\GXS.SmoothNavigator.pas"/>
-        <DCCReference Include="..\Sourcex\GXS.SoundManager.pas"/>
-        <DCCReference Include="..\SourceX\GXS.SoundFileObjects.pas"/>
-        <DCCReference Include="..\SourceX\GXS.SpaceText.pas"/>
-        <DCCReference Include="..\SourceX\GXS.SpatialPartitioning.pas"/>
-        <DCCReference Include="..\SourceX\GXS.State.pas"/>
-        <DCCReference Include="..\SourceX\GXS.TerrainRenderer.pas"/>
-        <DCCReference Include="..\SourceX\GXS.TexLensFlare.pas"/>
-        <DCCReference Include="..\SourceX\GXS.Texture.pas"/>
-        <DCCReference Include="..\SourceX\GXS.TextureCombiners.pas"/>
-        <DCCReference Include="..\SourceX\GXS.TextureImageEditors.pas"/>
-        <DCCReference Include="..\SourceX\GXS.TexturedHDS.pas"/>
-        <DCCReference Include="..\SourceX\GXS.ThorFX.pas"/>
-        <DCCReference Include="..\SourceX\GXS.TilePlane.pas"/>
-        <DCCReference Include="..\SourceX\GXS.TimeEventsMgr.pas"/>
-        <DCCReference Include="..\SourceX\GXS.Trail.pas"/>
-        <DCCReference Include="..\SourceX\GXS.Tree.pas"/>
-        <DCCReference Include="..\SourceX\GXS.VectorFileObjects.pas"/>
-        <DCCReference Include="..\SourceX\GXS.VerletClothify.pas"/>
-        <DCCReference Include="..\SourceX\GXS.VerletTypes.pas"/>
-        <DCCReference Include="..\SourceX\GXS.WaterPlane.pas"/>
-        <DCCReference Include="..\SourceX\GXS.Windows.pas"/>
-        <DCCReference Include="..\SourceX\GXS.WindowsFont.pas"/>
-        <DCCReference Include="..\SourceX\GXS.zBuffer.pas"/>
-        <DCCReference Include="..\SourceX\GXS.PAKArchive.pas"/>
-        <DCCReference Include="..\SourceX\GXS.SpacePartition.pas"/>
-        <DCCReference Include="..\SourceX\GXS.XOpenGL.pas"/>
-        <DCCReference Include="..\SourceX\GXS.ViewerOpenGL.pas"/>
-        <DCCReference Include="..\SourceX\GXSL.AsmShader.pas"/>
-        <DCCReference Include="..\SourceX\GXSL.BumpShaders.pas"/>
-        <DCCReference Include="..\SourceX\GXSL.CustomShader.pas"/>
-        <DCCReference Include="..\SourceX\GXSL.DiffuseSpecularShader.pas"/>
-        <DCCReference Include="..\SourceX\GXSL.PhongShader.pas"/>
-        <DCCReference Include="..\SourceX\GXSL.PostShaders.pas"/>
-        <DCCReference Include="..\SourceX\GXSL.ProjectedTextures.pas"/>
-        <DCCReference Include="..\SourceX\GXSL.Shader.pas"/>
-        <DCCReference Include="..\SourceX\GXSL.ShaderCombiner.pas"/>
-        <DCCReference Include="..\SourceX\GXSL.TextureShaders.pas"/>
-        <DCCReference Include="..\SourceX\GXSL.Parameter.pas"/>
-        <DCCReference Include="..\SourceX\GXSL.UserShader.pas"/>
-        <DCCReference Include="..\SourceX\GXSL.ShaderParameter.pas"/>
-        <DCCReference Include="..\SourceX\GXSL.ShapeShaders.pas"/>
-        <DCCReference Include="..\SourceX\GXSL.LineShaders.pas"/>
-        <DCCReference Include="..\SourceX\GXSL.MultiMaterialShader.pas"/>
-        <DCCReference Include="..\Sourcex\GXS.ScriptBase.pas"/>
-        <DCCReference Include="..\Sourcex\GXS.SmartObjects.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.ApplicationFileIO.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.ArchiveManager.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.AsyncHDS.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.AsyncTimer.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.Atmosphere.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.AVIRecorder.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.BaseMeshSilhouette.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.Behaviours.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.BitmapFont.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.Blur.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.BSP.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.BumpmapHDS.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.BumpMapping.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.Cadencer.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.CameraController.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.Canvas.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.CelShader.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.Collision.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.CompositeImage.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.Console.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.Context.pas"/>
         <DCCReference Include="..\Sourcex\GXS.CyborgManager.pas"/>
-        <DCCReference Include="..\Sourcex\GXS.PersistentClasses.pas"/>
-        <DCCReference Include="..\Sourcex\GXS.VectorLists.pas"/>
-        <DCCReference Include="..\Sourcex\GXS.Color.pas"/>
-        <DCCReference Include="..\Sourcex\GXS.CurvesAndSurfaces.pas"/>
-        <DCCReference Include="..\Sourcex\GXS.GeometryBB.pas"/>
-        <DCCReference Include="..\Sourcex\GXS.XCollection.pas"/>
-        <DCCReference Include="..\Sourcex\Formatx.DXTC.pas"/>
-        <DCCReference Include="..\Sourcex\Formatx.VFW.pas"/>
-        <DCCReference Include="..\Sourcex\Formatx.m3DS.pas"/>
-        <DCCReference Include="..\Sourcex\Formatx.m3DSConst.pas"/>
-        <DCCReference Include="..\Sourcex\Formatx.m3DSTypes.pas"/>
-        <DCCReference Include="..\Sourcex\Formatx.m3DSUtils.pas"/>
-        <DCCReference Include="..\Sourcex\Formatx.MD3.pas"/>
-        <DCCReference Include="..\Sourcex\Formatx.MD2.pas"/>
-        <DCCReference Include="..\Sourcex\Formatx.LWO.pas"/>
-        <DCCReference Include="..\Sourcex\Formatx.OCT.pas"/>
-        <DCCReference Include="..\Sourcex\Formatx.Q3BSP.pas"/>
-        <DCCReference Include="..\Sourcex\Formatx.X.pas"/>
-        <DCCReference Include="..\Sourcex\Formatx.VRML.pas"/>
-        <DCCReference Include="..\Sourcex\Formatx.Q3MD3.pas"/>
-        <DCCReference Include="..\Sourcex\Formatx.B3D.pas"/>
-        <DCCReference Include="..\Src\PasDblStrUtils.pas"/>
-        <DCCReference Include="..\Src\PasGLTF.pas"/>
-        <DCCReference Include="..\Src\PasJSON.pas"/>
-        <DCCReference Include="..\Src\Stage.AnimationUtils.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.DCE.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.DCEMisc.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.DynamicTexture.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.EllipseCollision.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.EParticleMasksManager.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.ExplosionFx.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.Extrusion.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.FBO.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.FBORenderer.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.Feedback.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.File3DS.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.File3DSSceneObjects.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.FileASE.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.FileB3D.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.FileBMP.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.FileDAE.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.FileDDS.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.FileDXF.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.FileGL2.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.FileGLTF.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.FileGRD.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.FileGTS.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.FileHDR.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.FileJPEG.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.FileLMTS.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.FileLWO.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.FileMD2.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.FileMD3.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.FileMD5.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.FileMDC.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.FileMP3.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.FileMS3D.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.FileNMF.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.FileNurbs.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.FileOBJ.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.FileOCT.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.FilePLY.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.FilePNG.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.FileQ3BSP.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.FileSMD.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.FileSTL.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.FileTGA.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.FileTIN.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.FileVRML.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.FileWAV.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.FileX.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.FireFX.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.FPSMovement.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.FullScreenViewer.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.GameMenu.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.GeomObjects.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.Gizmo.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.GizmoEx.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.Graph.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.Graphics.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.Gui.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.HeightData.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.HeightTileFile.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.HeightTileFileHDS.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.HiddenLineShader.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.HUDObjects.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.ImageUtils.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.Imposter.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.InitOpenGL.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.Isolines.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.Isosurface.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.Joystick.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.LensFlare.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.LinePFX.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.Material.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.MaterialMultiProxy.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.MaterialScript.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.Mesh.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.MeshBuilder.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.MeshCSG.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.MeshLines.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.MeshOptimizer.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.Mirror.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.Movement.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.MultiMaterialShader.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.MultiPolygon.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.MultiProxy.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.MultisampleImage.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.Navigator.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.Nodes.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.ObjectManager.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.Objects.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.Octree.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.OutlineShader.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.ParametricSurfaces.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.ParticleFX.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.Particles.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.Perlin.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.PerlinPFX.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.PictureRegisteredFormats.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.PolygonTesselation.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.Portal.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.ProcTextures.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.ProjectedTextures.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.ProxyObjects.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.Ragdoll.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.RandomHDS.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.RenderContextInfo.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.ROAMPatch.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.Scene.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.SceneViewer.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.Screen.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.ScreenSaver.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.Selection.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.ShadowHDS.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.ShadowPlane.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.ShadowVolume.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.SimpleNavigation.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.Skydome.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.SmartObjects.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.SmoothNavigator.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.SpacePartition.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.SpaceText.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.SpatialPartitioning.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.State.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.TerrainRenderer.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.TexLensFlare.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.Texture.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.TextureCombiners.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.TexturedHDS.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.TextureImageEditors.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.ThorFX.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.TilePlane.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.TimeEventsMgr.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.Trail.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.Tree.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.VectorFileObjects.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.VerletClothify.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.VerletTypes.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.ViewerOpenGL.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.WaterPlane.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.WinContext.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.Windows.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.WindowsFont.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.XOpenGL.pas"/>
+        <DCCReference Include="..\Sourcex\GXS.zBuffer.pas"/>
+        <DCCReference Include="..\Src\Stage.XCollection.pas"/>
+        <DCCReference Include="..\Sourcex\GXSL.AsmShader.pas"/>
+        <DCCReference Include="..\Sourcex\GXSL.BumpShaders.pas"/>
+        <DCCReference Include="..\Sourcex\GXSL.CustomShader.pas"/>
+        <DCCReference Include="..\Sourcex\GXSL.DiffuseSpecularShader.pas"/>
+        <DCCReference Include="..\Sourcex\GXSL.LineShaders.pas"/>
+        <DCCReference Include="..\Sourcex\GXSL.MultiMaterialShader.pas"/>
+        <DCCReference Include="..\Sourcex\GXSL.Parameter.pas"/>
+        <DCCReference Include="..\Sourcex\GXSL.PhongShader.pas"/>
+        <DCCReference Include="..\Sourcex\GXSL.PostEffects.pas"/>
+        <DCCReference Include="..\Sourcex\GXSL.PostShaders.pas"/>
+        <DCCReference Include="..\Sourcex\GXSL.ProjectedTextures.pas"/>
+        <DCCReference Include="..\Sourcex\GXSL.Shader.pas"/>
+        <DCCReference Include="..\Sourcex\GXSL.ShaderCombiner.pas"/>
+        <DCCReference Include="..\Sourcex\GXSL.ShaderParameter.pas"/>
+        <DCCReference Include="..\Sourcex\GXSL.ShapeShaders.pas"/>
+        <DCCReference Include="..\Sourcex\GXSL.TextureShaders.pas"/>
+        <DCCReference Include="..\Sourcex\GXSL.UserShader.pas"/>
+        <DCCReference Include="..\Src\Formats.B3D.pas"/>
+        <DCCReference Include="..\Src\Formats.DXTC.pas"/>
+        <DCCReference Include="..\Src\Formats.GL2.pas"/>
+        <DCCReference Include="..\Src\Formats.LWO.pas"/>
+        <DCCReference Include="..\Src\Formats.m3DS.pas"/>
+        <DCCReference Include="..\Src\Formats.m3DSConst.pas"/>
+        <DCCReference Include="..\Src\Formats.m3DSTypes.pas"/>
+        <DCCReference Include="..\Src\Formats.m3DSUtils.pas"/>
+        <DCCReference Include="..\Src\Formats.MD2.pas"/>
+        <DCCReference Include="..\Src\Formats.MD3.pas"/>
+        <DCCReference Include="..\Src\Formats.OCT.pas"/>
+        <DCCReference Include="..\Src\Formats.Q3BSP.pas"/>
+        <DCCReference Include="..\Src\Formats.VFW.pas"/>
+        <DCCReference Include="..\Src\Formats.VRML.pas"/>
+        <DCCReference Include="..\Src\Formats.X.pas"/>
+        <DCCReference Include="..\Src\Stage.BaseClasses.pas"/>
+        <DCCReference Include="..\Src\Stage.Color.pas"/>
+        <DCCReference Include="..\Src\Stage.Coordinates.pas"/>
+        <DCCReference Include="..\Src\Stage.CurvesAndSurfaces.pas"/>
         <DCCReference Include="..\Src\Stage.Generics.pas"/>
+        <DCCReference Include="..\Src\Stage.GeometryBB.pas"/>
         <DCCReference Include="..\Src\Stage.Keyboard.pas"/>
         <DCCReference Include="..\Src\Stage.Logger.pas"/>
         <DCCReference Include="..\Src\Stage.Manager.pas"/>
-        <DCCReference Include="..\Src\Stage.OpenGL4.pas"/>
+        <DCCReference Include="..\Src\Stage.MeshUtils.pas"/>
+        <DCCReference Include="..\Src\Stage.OpenGLAdapter.pas"/>
         <DCCReference Include="..\Src\Stage.OpenGLTokens.pas"/>
+        <DCCReference Include="..\Src\Stage.PersistentClasses.pas"/>
         <DCCReference Include="..\Src\Stage.PipelineTransform.pas"/>
         <DCCReference Include="..\Src\Stage.Polynomials.pas"/>
         <DCCReference Include="..\Src\Stage.RandomLib.pas"/>
         <DCCReference Include="..\Src\Stage.RedBlackTree.pas"/>
         <DCCReference Include="..\Src\Stage.RGBE.pas"/>
+        <DCCReference Include="..\Src\Stage.OpenGL4.pas"/>
+        <DCCReference Include="..\Src\Stage.ScriptBase.pas"/>
+        <DCCReference Include="..\Src\Stage.Silhouette.pas"/>
         <DCCReference Include="..\Src\Stage.Spline.pas"/>
         <DCCReference Include="..\Src\Stage.Strings.pas"/>
         <DCCReference Include="..\Src\Stage.TextureFormat.pas"/>
         <DCCReference Include="..\Src\Stage.Triangulation.pas"/>
         <DCCReference Include="..\Src\Stage.Utils.pas"/>
         <DCCReference Include="..\Src\Stage.VectorGeometry.pas"/>
+        <DCCReference Include="..\Src\Stage.VectorLists.pas"/>
         <DCCReference Include="..\Src\Stage.VectorTypes.pas"/>
         <DCCReference Include="..\Src\Stage.VectorTypesExt.pas"/>
         <BuildConfiguration Include="Base">
@@ -463,6 +470,12 @@
                     <Source Name="MainSource">GXScene_RT.dpk</Source>
                 </Source>
                 <Excluded_Packages>
+                    <Excluded_Packages Name="C:\Users\Public\Documents\Embarcadero\Studio\37.0\Bpl\GR32_DT.bpl">File C:\Users\Public\Documents\Embarcadero\Studio\37.0\Bpl\GR32_DT.bpl not found</Excluded_Packages>
+                    <Excluded_Packages Name="C:\Users\Public\Documents\Embarcadero\Studio\37.0\Bpl\GXScene_GBE_DTRT.bpl">File C:\Users\Public\Documents\Embarcadero\Studio\37.0\Bpl\GXScene_GBE_DTRT.bpl not found</Excluded_Packages>
+                    <Excluded_Packages Name="C:\Users\Public\Documents\Embarcadero\Studio\37.0\Bpl\GLScene_Sounds_DT.bpl">File C:\Users\Public\Documents\Embarcadero\Studio\37.0\Bpl\GLScene_Sounds_DT.bpl not found</Excluded_Packages>
+                    <Excluded_Packages Name="C:\Users\Public\Documents\Embarcadero\Studio\37.0\Bpl\GLScene_Physics_DT.bpl">File C:\Users\Public\Documents\Embarcadero\Studio\37.0\Bpl\GLScene_Physics_DT.bpl not found</Excluded_Packages>
+                    <Excluded_Packages Name="C:\Users\Public\Documents\Embarcadero\Studio\37.0\Bpl\GBComps.bpl">File C:\Users\Public\Documents\Embarcadero\Studio\37.0\Bpl\GBComps.bpl not found</Excluded_Packages>
+                    <Excluded_Packages Name="C:\Users\Public\Documents\Embarcadero\Studio\37.0\Bpl\rae.bpl">File C:\Users\Public\Documents\Embarcadero\Studio\37.0\Bpl\rae.bpl not found</Excluded_Packages>
                     <Excluded_Packages Name="$(BDSBIN)\bcboffice2k370.bpl">Embarcadero C++Builder Office 2000 Servers Package</Excluded_Packages>
                     <Excluded_Packages Name="$(BDSBIN)\bcbofficexp370.bpl">Embarcadero C++Builder Office XP Servers Package</Excluded_Packages>
                     <Excluded_Packages Name="$(BDSBIN)\dcloffice2k370.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
@@ -497,20 +510,20 @@
                 <DeployFile LocalName="$(BDS)\Redist\osx64\libcgsqlite3.dylib" Class="DependencyModule"/>
                 <DeployFile LocalName="C:\Users\Public\Documents\Embarcadero\Studio\20.0\Bpl\GXScene_RT.bpl" Configuration="Debug" Class="ProjectOutput"/>
                 <DeployFile LocalName="C:\Users\Public\Documents\Embarcadero\Studio\22.0\Bpl\Win64\GXScene_RT.bpl" Configuration="Debug" Class="ProjectOutput"/>
-                <DeployFile LocalName="C:\Users\Public\Documents\Embarcadero\Studio\23.0\Bpl\GXScene_RT.bpl" Configuration="Debug" Class="ProjectOutput">
+                <DeployFile LocalName="C:\Users\Public\Documents\Embarcadero\Studio\23.0\Bpl\Win64\GXScene_RT.bpl" Configuration="Debug" Class="ProjectOutput"/>
+                <DeployFile LocalName="C:\Users\Public\Documents\Embarcadero\Studio\37.0\Bpl\GXScene_RT.bpl" Configuration="Debug" Class="ProjectOutput">
                     <Platform Name="Win32">
                         <RemoteName>GXScene_RT.bpl</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="C:\Users\Public\Documents\Embarcadero\Studio\23.0\Bpl\Win64\GXScene_RT.bpl" Configuration="Debug" Class="ProjectOutput"/>
-                <DeployFile LocalName="C:\Users\Public\Documents\Embarcadero\Studio\23.0\Bpl\Win64\GXScene_RT.bpl" Configuration="Debug" Class="ProjectOutput">
+                <DeployFile LocalName="C:\Users\Public\Documents\Embarcadero\Studio\37.0\Bpl\Win64\GXScene_RT.bpl" Configuration="Debug" Class="ProjectOutput">
                     <Platform Name="Win64">
                         <RemoteName>GXScene_RT.bpl</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="C:\Users\Public\Documents\Embarcadero\Studio\23.0\Bpl\Win64x\GXScene_RT.bpl" Configuration="Debug" Class="ProjectOutput">
+                <DeployFile LocalName="C:\Users\Public\Documents\Embarcadero\Studio\37.0\Bpl\Win64x\GXScene_RT.bpl" Configuration="Debug" Class="ProjectOutput">
                     <Platform Name="Win64x">
                         <RemoteName>GXScene_RT.bpl</RemoteName>
                         <Overwrite>true</Overwrite>

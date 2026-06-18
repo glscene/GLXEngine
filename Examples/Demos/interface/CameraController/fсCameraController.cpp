@@ -8,10 +8,10 @@
 #include "fñCameraController.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
-#pragma link "GLS.BaseClasses"
+#pragma link "Stage.BaseClasses"
 #pragma link "GLS.Cadencer"
 #pragma link "GLS.CameraController"
-#pragma link "GLS.Coordinates"
+#pragma link "Stage.Coordinates"
 
 #pragma link "GLS.GeomObjects"
 #pragma link "GLS.Graph"
@@ -63,7 +63,7 @@ void __fastcall TForm1::GetInput(TButton *Sender)
   }
 }
 //---------------------------------------------------------------------------
-TGLVector __fastcall TForm1::OnGetCameraPosition(
+TGSVector __fastcall TForm1::OnGetCameraPosition(
 					   TGLNavigatorSmoothChangeVector* const ASender)
 {
   if (ASender == FCameraSmoothAnimator_AbsPos)
@@ -119,7 +119,7 @@ void __fastcall TForm1::btnZoomToDistanceClick(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TForm1::btnOrbitToPosClick(TObject *Sender)
 {
-  TGLVector lTargetPosition;
+  TGSVector lTargetPosition;
 
   GetInput(btnOrbitToPos);
   lTargetPosition = dcSphere->LocalToAbsolute(PointMake(DextX, DextY, DextZ));
@@ -147,7 +147,7 @@ void __fastcall TForm1::btSmoothOrbitClick(TObject *Sender)
   float lAngle; // In radians.
   float lTime;
   bool lNeedToRecalculateZoom;
-  TGLVector lTargetPosition;
+  TGSVector lTargetPosition;
 
   GetInput(btSmoothOrbit);
   lTargetPosition = dcSphere->LocalToAbsolute(PointMake(DextX, DextY, DextZ));
@@ -178,7 +178,7 @@ void __fastcall TForm1::btSmoothOrbitToPosAdvClick(TObject *Sender)
 {
   float lAngle; // In radians.
   float lTime;
-  TGLVector lTargetPosition;
+  TGSVector lTargetPosition;
 
   GetInput(btSmoothOrbitToPosAdv);
 
@@ -199,7 +199,7 @@ void __fastcall TForm1::btSmoothOrbitToPosAdvClick(TObject *Sender)
 
 void __fastcall TForm1::btnOrbitToPosAdvClick(TObject *Sender)
 {
-  TGLVector lTargetPosition;
+  TGSVector lTargetPosition;
 
   GetInput(btnOrbitToPosAdv);
   lTargetPosition = dcSphere->LocalToAbsolute(PointMake(DextX, DextY, DextZ));

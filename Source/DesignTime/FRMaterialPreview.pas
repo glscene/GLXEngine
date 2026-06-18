@@ -25,9 +25,9 @@ uses
   GLS.HUDObjects,
   GLS.SceneViewer,
   GLS.GeomObjects,
-  GLS.Color,
-  GLS.Coordinates,
-  GLS.BaseClasses,
+  Stage.Color,
+  Stage.Coordinates,
+  Stage.BaseClasses,
   GLS.Material;
 
 type

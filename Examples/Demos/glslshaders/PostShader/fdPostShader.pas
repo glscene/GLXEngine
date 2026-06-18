@@ -23,13 +23,13 @@ uses
   GLS.Context,
   Stage.VectorGeometry,
   GLS.GeomObjects,
-  GLS.Coordinates,
+  Stage.Coordinates,
   GLS.Objects,
   GLS.VectorFileObjects,
   GLS.SimpleNavigation,
 
   GLS.Material,
-  GLS.BaseClasses,
+  Stage.BaseClasses,
   GLSL.PostShaders,
   GLSL.PostEffects,
 

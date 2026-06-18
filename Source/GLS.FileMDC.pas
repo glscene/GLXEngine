@@ -1,8 +1,7 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.FileMDC;
-
 (*
   Code for loading animated MDC files into GLScene FreeForms
   and Actors.
@@ -12,7 +11,6 @@ unit GLS.FileMDC;
 
   Original code by Osman Turan (osmanturancom@yahoo.com)
 *)
-
 interface
 
 {$I Stage.Defines.inc}
@@ -121,7 +119,7 @@ type
 type
   TGLMDCVectorFile = class(TGLVectorFile)
   public
-    class function Capabilities: TGLDataFileCapabilities; override;
+    class function Capabilities: TGSDataFileCapabilities; override;
     procedure LoadFromStream(AStream: TStream); override;
   end;
 
@@ -133,7 +131,7 @@ implementation
 // ------------------ TGLMDCVectorFile ------------------
 // ------------------
 
-class function TGLMDCVectorFile.Capabilities: TGLDataFileCapabilities;
+class function TGLMDCVectorFile.Capabilities: TGSDataFileCapabilities;
 begin
   Result := [DfcRead];
 end;

@@ -1,14 +1,11 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.CelShader;
-
 (*
    A shader that applies cel shading through a vertex program
    and shade definition texture.
 *)
-
-
 interface
 
 {$I Stage.Defines.inc}
@@ -22,7 +19,7 @@ uses
 
   Stage.VectorTypes,
   Stage.VectorGeometry,
-  GXS.Color,
+  Stage.Color,
   Stage.TextureFormat,
 
   GXS.Texture,
@@ -58,11 +55,11 @@ type
     FOnGetIntensity: TgxCelShaderGetIntensity;
     FOutlinePass,
       FUnApplyShadeTexture: Boolean;
-    FOutlineColor: TgxColor;
+    FOutlineColor: TGSColor;
   protected
     procedure SetCelShaderOptions(const val: TgxCelShaderOptions);
     procedure SetOutlineWidth(const val: Single);
-    procedure SetOutlineColor(const val: TgxColor);
+    procedure SetOutlineColor(const val: TGSColor);
     procedure BuildShadeTexture;
     procedure Loaded; override;
     function GenerateVertexProgram: string;
@@ -75,13 +72,13 @@ type
   published
     property CelShaderOptions: TgxCelShaderOptions read FCelShaderOptions write
       SetCelShaderOptions;
-    property OutlineColor: TgxColor read FOutlineColor write SetOutlineColor;
+    property OutlineColor: TGSColor read FOutlineColor write SetOutlineColor;
     property OutlineWidth: Single read FOutlineWidth write SetOutlineWidth;
     property OnGetIntensity: TgxCelShaderGetIntensity read FOnGetIntensity write
       FOnGetIntensity;
   end;
 
-implementation // -----------------------------------------------------------
+implementation //============================================================
 
 // ------------------
 // ------------------ TgxCelShader ------------------
@@ -103,7 +100,7 @@ begin
     TextureMode := tmModulate;
   end;
 
-  FOutlineColor := TgxColor.Create(Self);
+  FOutlineColor := TGSColor.Create(Self);
   FOutlineColor.OnNotifyChange := NotifyChange;
   FOutlineColor.Initialize(clrBlack);
 
@@ -314,7 +311,7 @@ begin
   end;
 end;
 
-procedure TgxCelShader.SetOutlineColor(const val: TgxColor);
+procedure TgxCelShader.SetOutlineColor(const val: TGSColor);
 begin
   if val <> FOutlineColor then
   begin

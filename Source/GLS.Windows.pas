@@ -1,10 +1,13 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.Windows;
-
-(* OpenGL windows management classes and structures *)
-
+(*
+  OpenGL windows management classes and structures
+  RegisterClasses([TGLBaseControl, TGLPopupMenu, TGLForm, TGLPanel, TGLButton,
+  TGLCheckBox, TGLEdit, TGLLabel, TGLAdvancedLabel, TGLScrollbar, TGLStringGrid,
+  TGLCustomControl]);
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -19,27 +22,28 @@ uses
   Vcl.Controls,
   Vcl.Graphics,
 
-  Stage.OpenGLTokens,
-  GLS.PersistentClasses,
-  Stage.Strings,
-  GLS.Coordinates,
   Stage.VectorTypes,
+  Stage.OpenGLTokens,
+  Stage.VectorGeometry,
+  Stage.PersistentClasses,
+  Stage.Strings,
+  Stage.Utils,
+
+  Stage.Coordinates,
   GLS.Objects,
   GLS.State,
-  Stage.Utils,
   GLS.Scene,
   GLS.HudObjects,
   GLS.Material,
   GLS.Context,
   GLS.BitmapFont,
   GLS.WindowsFont,
-  Stage.VectorGeometry,
   GLS.Gui,
-  GLS.Color,
+  Stage.Color,
   GLS.ImageUtils,
   GLS.Texture,
   GLS.RenderContextInfo,
-  GLS.BaseClasses;
+  Stage.BaseClasses;
 
 type
   TGLBaseComponent = class(TGLBaseGuiObject)
@@ -83,7 +87,7 @@ type
     procedure DoChanges; virtual;
     procedure MoveGUI(XRel, YRel: Single);
     procedure PlaceGUI(XPos, YPos: Single);
-    procedure DoProgress(const progressTime: TGLProgressTimes); override;
+    procedure DoProgress(const progressTime: TGSProgressTimes); override;
     procedure DoRender(var rci: TGLRenderContextInfo; renderSelf, renderChildren: Boolean); override;
     procedure InternalRender(var rci: TGLRenderContextInfo; renderSelf, renderChildren: Boolean); virtual;
     property GUIRedraw: Boolean read FGUIRedraw write SetGUIRedraw;
@@ -161,16 +165,16 @@ type
   TGLBaseFontControl = class(TGLBaseControl)
   private
     FBitmapFont: TGLCustomBitmapFont;
-    FDefaultColor: TGLColorVector;
+    FDefaultColor: TGSColorVector;
   protected
     function GetDefaultColor: TColor;
     procedure SetDefaultColor(value: TColor);
     procedure SetBitmapFont(NewFont: TGLCustomBitmapFont);
     function GetBitmapFont: TGLCustomBitmapFont;
     procedure WriteTextAt(var rci: TGLRenderContextInfo; const X, Y: TGLFloat;
-      const Data: UnicodeString; const Color: TGLColorVector); overload;
+      const Data: UnicodeString; const Color: TGSColorVector); overload;
     procedure WriteTextAt(var rci: TGLRenderContextInfo; const X1, Y1, X2, Y2:
-      TGLFloat; const Data: UnicodeString; const Color: TGLColorVector); overload;
+      TGLFloat; const Data: UnicodeString; const Color: TGSColorVector); overload;
     function GetFontHeight: Integer;
   public
     constructor Create(AOwner: TComponent); override;
@@ -199,7 +203,7 @@ type
     FOnKeyUp: TKeyEvent;
     FOnKeyPress: TKeyPressEvent;
     FShiftState: TShiftState;
-    FFocusedColor: TGLColorVector;
+    FFocusedColor: TGSColorVector;
   protected
     procedure InternalKeyPress(var Key: Char); virtual;
     procedure InternalKeyDown(var Key: Word; Shift: TShiftState); virtual;
@@ -318,7 +322,7 @@ type
     Moving: Boolean;
     OldX: Integer;
     OldY: Integer;
-    FTitleColor: TGLColorVector;
+    FTitleColor: TGSColorVector;
     FTitleOffset: Single;
   protected
     procedure InternalMouseDown(Shift: TShiftState; Button: TMouseButton; X, Y: Integer); override;
@@ -528,7 +532,7 @@ type
     FColSelect: Boolean;
     FColumns: TStrings;
     FRows: TList;
-    FHeaderColor: TGLColorVector;
+    FHeaderColor: TGSColorVector;
     FMarginSize: Integer;
     FColumnSize: Integer;
     FRowHeight: Integer;
@@ -1642,9 +1646,9 @@ begin
 end;
 
 procedure TGLBaseFontControl.WriteTextAt(var rci: TGLRenderContextInfo; const X,
-  Y: TGLFloat; const Data: UnicodeString; const Color: TGLColorVector);
+  Y: TGLFloat; const Data: UnicodeString; const Color: TGSColorVector);
 var
-  Position: TGLVector;
+  Position: TGSVector;
 begin
   if Assigned(BitmapFont) then
   begin
@@ -1657,9 +1661,9 @@ begin
 end;
 
 procedure TGLBaseFontControl.WriteTextAt(var rci: TGLRenderContextInfo; const X1,
-  Y1, X2, Y2: TGLFloat; const Data: UnicodeString; const Color: TGLColorVector);
+  Y1, X2, Y2: TGLFloat; const Data: UnicodeString; const Color: TGSColorVector);
 var
-  Position: TGLVector;
+  Position: TGSVector;
 begin
   if Assigned(BitmapFont) then
   begin
@@ -2173,7 +2177,7 @@ end;
 procedure TGLForm.InternalRender(var rci: TGLRenderContextInfo; renderSelf,
   renderChildren: Boolean);
 var
-  ATitleColor: TGLColorVector;
+  ATitleColor: TGSColorVector;
 begin
   if Assigned(FGuiComponent) then
   begin
@@ -2486,7 +2490,7 @@ var
   TexHeight: Integer;
   Material: TGLMaterial;
   LibMaterial: TGLLibMaterial;
-  TextColor: TGLColorVector;
+  TextColor: TGSColorVector;
 begin
   if Pressed then
   begin
@@ -2771,9 +2775,9 @@ end;
 procedure TGLLabel.InternalRender(var rci: TGLRenderContextInfo; renderSelf,
   renderChildren: Boolean);
 var
-  TekstPos: TGLVector;
+  TekstPos: TGSVector;
   Tekst: UnicodeString;
-  TextColor: TGLColorVector;
+  TextColor: TGSColorVector;
 begin
   if Assigned(BitmapFont) then
   begin
@@ -3609,7 +3613,7 @@ begin
   inherited;
 end;
 
-procedure TGLBaseComponent.DoProgress(const progressTime: TGLProgressTimes);
+procedure TGLBaseComponent.DoProgress(const progressTime: TGSProgressTimes);
 begin
   inherited;
   if FDoChangesOnProgress then
@@ -3627,7 +3631,7 @@ begin
   ReGetRootControl;
 end;
 
-initialization //------------------------------------------------------------
+initialization //============================================================
 
 RegisterClasses([TGLBaseControl, TGLPopupMenu, TGLForm, TGLPanel, TGLButton,
   TGLCheckBox, TGLEdit, TGLLabel, TGLAdvancedLabel, TGLScrollbar, TGLStringGrid,

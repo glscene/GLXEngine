@@ -10,7 +10,7 @@
 #include <Vcl.ExtCtrls.hpp>
 #include <GIFImg.hpp>
 #include <Stage.Keyboard.hpp>
-#include "GLS.BaseClasses.hpp"
+#include "Stage.BaseClasses.hpp"
 #include "GLS.Scene.hpp"
 #include "GLS.SceneViewer.hpp"
 #include "GLS.Cadencer.hpp"
@@ -18,7 +18,7 @@
 #include "GLS.Sounds.BASS.hpp"
 #include "GLS.BitmapFont.hpp"
 #include "GLS.Material.hpp"
-#include "GLS.Coordinates.hpp"
+#include "Stage.Coordinates.hpp"
 #include "GLS.Objects.hpp"
 #include "GLS.LensFlare.hpp"
 #include "GLS.HUDObjects.hpp"

@@ -1,23 +1,25 @@
 //
 // GLScene Graphics Engine
 //
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLSL.AsmShader;
-
 (*
-    TGLAsmShader is a wrapper for all ARB shaders 
+    TGLAsmShader is a wrapper for all ARB shaders
     This component is only a template and has to be replaced with a
     proper version by someone who uses ARB shaders.
 *)
-
 interface
 
 uses
   System.Classes,
   System.SysUtils,
-  
+
   Stage.OpenGLTokens,
   Stage.VectorGeometry,
   Stage.VectorTypes,
+
   GLS.Texture,
   GLS.Context,
   GLSL.CustomShader,
@@ -38,7 +40,7 @@ type
     function GetAsVector2i: TVector2i; override;
     function GetAsVector3f: TVector3f; override;
     function GetAsVector3i: TVector3i; override;
-    function GetAsVector4f: TGLVector; override;
+    function GetAsVector4f: TGSVector; override;
     function GetAsVector4i: TVector4i; override;
 
     procedure SetAsVector1f(const Value: Single); override;

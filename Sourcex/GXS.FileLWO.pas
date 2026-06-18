@@ -1,10 +1,10 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.FileLWO;
-
-(* Support-code to load Lightwave LWO Files (v6.0+, partial support) *)
-
+(*
+  Support-code to load Lightwave LWO Files (v6.0+, partial support)
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -13,15 +13,15 @@ uses
   System.SysUtils,
   System.Classes,
   System.Math,
-  
+
   Stage.VectorTypes,
   Stage.VectorGeometry,
-  GXS.VectorLists,
+  Stage.VectorLists,
+
   GXS.Texture,
   GXS.Material,
   GXS.VectorFileObjects,
-
-  Formatx.LWO;
+  Formats.LWO;
 
 type
   TgxLWOVectorFile = class(TgxVectorFile)
@@ -37,9 +37,7 @@ type
     procedure LoadFromStream(aStream: TStream); override;
   end;
 
-//=============================================================================
-implementation
-//=============================================================================
+implementation //============================================================
 
 type
   PVector3f = ^TVector3f;
@@ -410,9 +408,7 @@ begin
     end;
 end;
 
-//---------------------------------------------------
-initialization
-//---------------------------------------------------
+initialization //============================================================
 
   RegisterVectorFileFormat('lwo', 'Lightwave3D object file (6.0 or above)', TgxLWOVectorFile);
 

@@ -1,15 +1,13 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.MeshCSG;
-
 (*
    Constructive Solid Geometry on mesh base.
    The CSG system uses BSP to optimize what triangles it considers.
    Its kept on a mesh basis to simplyfy things, it allways generates new BSP's,
    even if the meshes allready had BSP optimization.
 *)
-
 interface
 
 {$I Stage.Defines.inc}
@@ -24,16 +22,14 @@ uses
   GLS.VectorFileObjects,
   Stage.VectorGeometry,
   GLS.MeshBSP,
-  GLS.VectorLists;
+  Stage.VectorLists;
 
 type
   TCSGOperation = (CSG_Union, CSG_Subtraction, CSG_Intersection);
 
 procedure CSG_Operation(obj1, obj2: TGLMeshObject; Operation: TCSGOperation; Res: TGLMeshObject; const MaterialName1, MaterialName2: string);
 
-//-----------------------------------------------------------------------------
-implementation
-//-----------------------------------------------------------------------------
+implementation //============================================================
 
 const
   cOwnTriangleEpsilon = 1e-5;
@@ -508,8 +504,8 @@ procedure CSG_Operation(obj1, obj2: TGLMeshObject; Operation: TCSGOperation;
   Res: TGLMeshObject; const MaterialName1, MaterialName2: string);
 
 var
-  v1, t1, n1: TGLAffineVectorList;
-  v2, t2, n2: TGLAffineVectorList;
+  v1, t1, n1: TGSAffineVectorList;
+  v2, t2, n2: TGSAffineVectorList;
   BSP1, BSP2: TBSPMeshObject;
   FG1, FG2: TFGBSPNode;
   i: Integer;
@@ -526,8 +522,8 @@ begin
   FG1 := TFGBSPNode.CreateOwned(BSP1.FaceGroups);
   FG2 := TFGBSPNode.CreateOwned(BSP2.FaceGroups);
 
-  t1 := TGLAffineVectorList.Create;
-  n1 := TGLAffineVectorList.Create;
+  t1 := TGSAffineVectorList.Create;
+  n1 := TGSAffineVectorList.Create;
   v1 := obj1.ExtractTriangles(t1, n1);
 
   v1.TransformAsPoints(obj1.Owner.Owner.Matrix^);
@@ -538,8 +534,8 @@ begin
   BSP1.TexCoords := t1;
   FG1.VertexIndices.AddSerie(0, 1, BSP1.Vertices.Count);
 
-  t2 := TGLAffineVectorList.Create;
-  n2 := TGLAffineVectorList.Create;
+  t2 := TGSAffineVectorList.Create;
+  n2 := TGSAffineVectorList.Create;
   v2 := obj2.ExtractTriangles(t2, n2);
   v2.TransformAsPoints(obj2.Owner.Owner.Matrix^);
 

@@ -1,10 +1,10 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.WindowsFont;
-
-(* TFont Import into a BitmapFont using variable width...*)
-
+(*
+  TFont Import into a BitmapFont using variable width...
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -24,14 +24,13 @@ uses
   GXS.Texture,
   GXS.BitmapFont,
   GXS.RenderContextInfo,
-  GXS.VectorLists,
+  Stage.VectorLists,
   Stage.Utils,
   Stage.VectorGeometry,
   GXS.ApplicationFileIO,
   Stage.VectorTypes;
 
 type
-
   (* A bitmap font automatically built from a TFont.
      It works like a TgxBitmapfont, you set ranges and which chars are assigned
      to which indexes, however here you also set the Font property to any TFont
@@ -44,7 +43,7 @@ type
   TgxWindowsBitmapFont = class(TgxCustomBitmapFont)
   private
     FFont: TFont;
-    procedure SetList(const AList : TgxIntegerList);
+    procedure SetList(const AList : TGSIntegerList);
   protected
     procedure SetFont(value: TFont);
     procedure LoadWindowsFont; virtual;
@@ -73,9 +72,7 @@ type
     property Ranges stored StoreRanges;
   end;
 
-// ------------------------------------------------------------------
-implementation
-// ------------------------------------------------------------------
+implementation //============================================================
 
 const
   cDefaultLast = '}';
@@ -312,7 +309,7 @@ begin
   end;
 end;
 
-procedure TgxWindowsBitmapFont.SetList(const AList: TgxIntegerList);
+procedure TgxWindowsBitmapFont.SetList(const AList: TGSIntegerList);
 var
   i : integer;
   f, n, s : integer;
@@ -351,9 +348,9 @@ end;
 procedure TgxWindowsBitmapFont.EnsureChars(const AStart, AEnd: widechar);
 var
   c : WideChar;
-  ACharList : TgxIntegerList;
+  ACharList : TGSIntegerList;
 begin
-  ACharList := TgxIntegerList.Create;
+  ACharList := TGSIntegerList.Create;
   for c := AStart to AEnd do
       ACharList.Add(integer(c));
   SetList(ACharList);
@@ -364,9 +361,9 @@ end;
 procedure TgxWindowsBitmapFont.EnsureString(const s: String);
 var
   i : Integer;
-  ACharList : TgxIntegerList;
+  ACharList : TGSIntegerList;
 begin
-  ACharList := TgxIntegerList.Create;
+  ACharList := TGSIntegerList.Create;
   for i := Low(s) to High(s) do
       ACharList.Add(integer(s[i]));
   SetList(ACharList);
@@ -384,9 +381,7 @@ begin
   Result := GL_ALPHA;
 end;
 
-// ------------------------------------------------------------------
-initialization
-// ------------------------------------------------------------------
+initialization //============================================================
 
   Win32PlatformIsUnicode := (Win32Platform = VER_PLATFORM_WIN32_NT);
 

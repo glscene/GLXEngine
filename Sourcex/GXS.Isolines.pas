@@ -14,15 +14,15 @@ uses
   System.Generics.Collections,
 
   Stage.VectorGeometry,
-  GXS.VectorLists,
+  Stage.VectorLists,
   Stage.VectorTypes,
   Stage.VectorTypesExt,
   Stage.Spline,
 
   GXS.Objects,
   GXS.MultiPolygon,
-  GXS.Coordinates,
-  GXS.Color,
+  Stage.Coordinates,
+  Stage.Color,
   GXS.SpaceText,
   GXS.VectorFileObjects;
 
@@ -101,7 +101,7 @@ function GetNextIsoline(var Isoline: TgxIsoline): Boolean;
 
 // Defines contouring segments inside a triangle using elevations 
 procedure TriangleElevationSegments(const p1, p2, p3: TAffineVector;
-  ElevationDelta: Single; Segments: TgxAffineVectorList);
+  ElevationDelta: Single; Segments: TGSAffineVectorList);
 
 //----------------------------------------------------------------------
 implementation
@@ -389,7 +389,7 @@ begin
 end;
 
 procedure TriangleElevationSegments(const p1, p2, p3: TAffineVector;
-  ElevationDelta: Single; Segments: TgxAffineVectorList);
+  ElevationDelta: Single; Segments: TGSAffineVectorList);
 
   function SegmentIntersect(const a, b: TAffineVector; e: Single): Integer;
   var

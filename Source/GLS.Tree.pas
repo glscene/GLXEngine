@@ -1,10 +1,11 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.Tree;
-
 (*
   Dynamic tree generation in GLScene
+  RegisterClasses([TGLTree]);
+
   This code was adapted from the nVidia Tree Demo:
   http://developer.nvidia.com/object/Procedural_Tree.html
 
@@ -18,7 +19,6 @@ unit GLS.Tree;
   "AutoRebuild" flag - Rebuild tree after property change.
   Default: True
 *)
-
 interface
 
 {$I Stage.Defines.inc}
@@ -29,20 +29,21 @@ uses
   System.SysUtils,
   System.Math,
 
+  Stage.VectorTypes,
   Stage.OpenGLTokens,
+  Stage.VectorGeometry,
+  Stage.PersistentClasses,
+  Stage.Utils,
+
   GLS.Scene,
   GLS.State,
   GLS.Material,
-  Stage.VectorGeometry,
-  GLS.VectorLists,
+  Stage.VectorLists,
   GLS.VectorFileObjects,
   GLS.ApplicationFileIO,
   GLS.RenderContextInfo,
-  GLS.PersistentClasses,
   GLS.XOpenGL,
-  GLS.Context,
-  Stage.VectorTypes,
-  Stage.Utils;
+  GLS.Context;
 
 type
   TGLTree = class;
@@ -53,20 +54,20 @@ type
   private
     FOwner: TGLTree;
     FCount: Integer;
-    FVertices: TGLAffineVectorList;
-    FNormals: TGLAffineVectorList;
-    FTexCoords: TGLAffineVectorList;
+    FVertices: TGSAffineVectorList;
+    FNormals: TGSAffineVectorList;
+    FTexCoords: TGSAffineVectorList;
   public
    constructor Create(AOwner: TGLTree);
     destructor Destroy; override;
     procedure BuildList(var rci: TGLRenderContextInfo);
-    procedure AddNew(matrix: TGLMatrix);
+    procedure AddNew(matrix: TGSMatrix);
     procedure Clear;
     property Owner: TGLTree read FOwner;
     property Count: Integer read FCount;
-    property Vertices: TGLAffineVectorList read FVertices;
-    property Normals: TGLAffineVectorList read FNormals;
-    property TexCoords: TGLAffineVectorList read FTexCoords;
+    property Vertices: TGSAffineVectorList read FVertices;
+    property Normals: TGSAffineVectorList read FNormals;
+    property TexCoords: TGSAffineVectorList read FTexCoords;
   end;
 
   TGLTreeBranch = class
@@ -78,12 +79,12 @@ type
     FParent: TGLTreeBranch;
     FBranchID: Integer;
     FParentID: Integer;
-    FMatrix: TGLMatrix;
-    FLower: TGLIntegerList;
-    FUpper: TGLIntegerList;
+    FMatrix: TGSMatrix;
+    FLower: TGSIntegerList;
+    FUpper: TGSIntegerList;
     FCentralLeader: Boolean;
     procedure BuildBranch(branchNoise: TGLTreeBranchNoise;
-      const matrix: TGLMatrix; TexCoordY, Twist: Single; Level: Integer);
+      const matrix: TGSMatrix; TexCoordY, Twist: Single; Level: Integer);
   public
     constructor Create(AOwner: TGLTreeBranches; AParent: TGLTreeBranch);
     destructor Destroy; override;
@@ -92,24 +93,24 @@ type
     property Center: TGLTreeBranch read FCenter;
     property Right: TGLTreeBranch read FRight;
     property Parent: TGLTreeBranch read FParent;
-    property matrix: TGLMatrix read FMatrix;
-    property Lower: TGLIntegerList read FLower;
-    property Upper: TGLIntegerList read FUpper;
+    property matrix: TGSMatrix read FMatrix;
+    property Lower: TGSIntegerList read FLower;
+    property Upper: TGSIntegerList read FUpper;
   end;
 
   TGLTreeBranches = class
   private
     FOwner: TGLTree;
-    FSinList: TGLSingleList;
-    FCosList: TGLSingleList;
-    FVertices: TGLAffineVectorList;
-    FNormals: TGLAffineVectorList;
-    FTexCoords: TGLAffineVectorList;
-    FIndices: TGLIntegerList;
+    FSinList: TGSSingleList;
+    FCosList: TGSSingleList;
+    FVertices: TGSAffineVectorList;
+    FNormals: TGSAffineVectorList;
+    FTexCoords: TGSAffineVectorList;
+    FIndices: TGSIntegerList;
     FRoot: TGLTreeBranch;
     FCount: Integer;
     FBranchCache: TList;
-    FBranchIndices: TGLIntegerList;
+    FBranchIndices: TGSIntegerList;
     procedure BuildBranches;
   public
     constructor Create(AOwner: TGLTree);
@@ -117,11 +118,11 @@ type
     procedure BuildList(var rci: TGLRenderContextInfo);
     procedure Clear;
     property Owner: TGLTree read FOwner;
-    property SinList: TGLSingleList read FSinList;
-    property CosList: TGLSingleList read FCosList;
-    property Vertices: TGLAffineVectorList read FVertices;
-    property Normals: TGLAffineVectorList read FNormals;
-    property TexCoords: TGLAffineVectorList read FTexCoords;
+    property SinList: TGSSingleList read FSinList;
+    property CosList: TGSSingleList read FCosList;
+    property Vertices: TGSAffineVectorList read FVertices;
+    property Normals: TGSAffineVectorList read FNormals;
+    property TexCoords: TGSAffineVectorList read FTexCoords;
     property Count: Integer read FCount;
   end;
 
@@ -167,7 +168,7 @@ type
     FLeafBackMaterialName: TGLLibMaterialName;
     FBranchMaterialName: TGLLibMaterialName;
     FRebuildTree: Boolean;
-    FAxisAlignedDimensionsCache: TGLVector;
+    FAxisAlignedDimensionsCache: TGSVector;
   protected
    procedure SetDepth(const Value: Integer);
     procedure SetBranchFacets(const Value: Integer);
@@ -204,7 +205,7 @@ type
     procedure ForceTotalRebuild;
     procedure Clear;
     procedure GetExtents(var min, max: TAffineVector);
-    function AxisAlignedDimensionsUnscaled: TGLVector; override;
+    function AxisAlignedDimensionsUnscaled: TGSVector; override;
     procedure LoadFromStream(aStream: TStream);
     procedure SaveToStream(aStream: TStream);
     procedure LoadFromFile(const aFileName: String);
@@ -258,23 +259,21 @@ type
       write SetBranchMaterialName;
   end;
 
-// -----------------------------------------------------------------------------
-implementation
-// -----------------------------------------------------------------------------
+implementation //============================================================
 
-// -----------------------------------------------------------------------------
+// --------------------------------------------------------------------------
 // TGLTreeLeaves
-// -----------------------------------------------------------------------------
-
+// --------------------------------------------------------------------------
 constructor TGLTreeLeaves.Create(AOwner: TGLTree);
 begin
   FOwner := AOwner;
   FCount := 0;
-  FVertices := TGLAffineVectorList.Create;
-  FNormals := TGLAffineVectorList.Create;
-  FTexCoords := TGLAffineVectorList.Create;
+  FVertices := TGSAffineVectorList.Create;
+  FNormals := TGSAffineVectorList.Create;
+  FTexCoords := TGSAffineVectorList.Create;
 end;
 
+//---------------------------------------------------------------------------
 destructor TGLTreeLeaves.Destroy;
 begin
   FVertices.Free;
@@ -283,10 +282,11 @@ begin
   inherited;
 end;
 
-procedure TGLTreeLeaves.AddNew(matrix: TGLMatrix);
+//---------------------------------------------------------------------------
+procedure TGLTreeLeaves.AddNew(matrix: TGSMatrix);
 var
   radius: Single;
-  pos: TGLVector;
+  pos: TGSVector;
 begin
   radius := Owner.LeafSize;
   Inc(FCount);
@@ -306,6 +306,7 @@ begin
   FTexCoords.Add(YVector, XYVector);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLTreeLeaves.BuildList(var rci: TGLRenderContextInfo);
 var
   i: Integer;
@@ -362,17 +363,16 @@ begin
   FCount := 0;
 end;
 
-// -----------------------------------------------------------------------------
+// --------------------------------------------------------------------------
 // TGLTreeBranch
-// -----------------------------------------------------------------------------
-
+// --------------------------------------------------------------------------
 constructor TGLTreeBranch.Create(AOwner: TGLTreeBranches;
   AParent: TGLTreeBranch);
 begin
   FOwner := AOwner;
   FParent := AParent;
-  FUpper := TGLIntegerList.Create;
-  FLower := TGLIntegerList.Create;
+  FUpper := TGSIntegerList.Create;
+  FLower := TGSIntegerList.Create;
   FCentralLeader := False;
 
   // Skeletal construction helpers
@@ -398,8 +398,9 @@ begin
   inherited;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLTreeBranch.BuildBranch(branchNoise: TGLTreeBranchNoise;
-  const matrix: TGLMatrix; TexCoordY, Twist: Single; Level: Integer);
+  const matrix: TGSMatrix; TexCoordY, Twist: Single; Level: Integer);
 var
   i: Integer;
   Tree: TGLTree;
@@ -413,7 +414,7 @@ var
   LeftBranchNoise: TGLTreeBranchNoise;
   CenterBranchNoise: TGLTreeBranchNoise;
   RightBranchNoise: TGLTreeBranchNoise;
-  LeftMatrix, RightMatrix, CenterMatrix: TGLMatrix;
+  LeftMatrix, RightMatrix, CenterMatrix: TGSMatrix;
   central_leader: Boolean;
 begin
   Assert(Assigned(FOwner), 'Incorrect use of TGLTreeBranch');
@@ -606,21 +607,20 @@ begin
 
 end;
 
-// -----------------------------------------------------------------------------
+// --------------------------------------------------------------------------
 // TGLTreeBranches
-// -----------------------------------------------------------------------------
-
+// --------------------------------------------------------------------------
 constructor TGLTreeBranches.Create(AOwner: TGLTree);
 begin
   FOwner := AOwner;
-  FSinList := TGLSingleList.Create;
-  FCosList := TGLSingleList.Create;
-  FVertices := TGLAffineVectorList.Create;
-  FNormals := TGLAffineVectorList.Create;
-  FTexCoords := TGLAffineVectorList.Create;
-  FIndices := TGLIntegerList.Create;
+  FSinList := TGSSingleList.Create;
+  FCosList := TGSSingleList.Create;
+  FVertices := TGSAffineVectorList.Create;
+  FNormals := TGSAffineVectorList.Create;
+  FTexCoords := TGSAffineVectorList.Create;
+  FIndices := TGSIntegerList.Create;
   FBranchCache := TList.Create;
-  FBranchIndices := TGLIntegerList.Create;
+  FBranchIndices := TGSIntegerList.Create;
   FCount := 0;
 end;
 
@@ -638,6 +638,7 @@ begin
   inherited;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLTreeBranches.BuildBranches;
 var
   i: Integer;
@@ -703,8 +704,9 @@ begin
   gl.DisableClientState(GL_VERTEX_ARRAY);
 end;
 
+//---------------------------------------------------------------------------
 // Clear
-//
+//---------------------------------------------------------------------------
 procedure TGLTreeBranches.Clear;
 begin
   FSinList.Clear;
@@ -719,10 +721,9 @@ begin
   FCount := 0;
 end;
 
-// -----------------------------------------------------------------------------
+// --------------------------------------------------------------------------
 // TGLTreeBranchNoise
-// -----------------------------------------------------------------------------
-
+// --------------------------------------------------------------------------
 constructor TGLTreeBranchNoise.Create;
 begin
   FBranchNoise := Random;
@@ -735,6 +736,7 @@ begin
   inherited;
 end;
 
+//---------------------------------------------------------------------------
 function TGLTreeBranchNoise.GetLeft: TGLTreeBranchNoise;
 begin
   if not Assigned(FLeft) then
@@ -756,10 +758,9 @@ begin
   Result := FCenter;
 end;
 
-// -----------------------------------------------------------------------------
+// --------------------------------------------------------------------------
 // TGLTree
-// -----------------------------------------------------------------------------
-
+// --------------------------------------------------------------------------
 constructor TGLTree.Create(AOwner: TComponent);
 begin
   inherited;
@@ -799,6 +800,7 @@ begin
   FBranches.BuildBranches;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLTree.Notification(AComponent: TComponent; Operation: TOperation);
 begin
   if (Operation = opRemove) and (AComponent = FMaterialLibrary) then
@@ -838,7 +840,7 @@ procedure TGLTree.BuildMesh(GLBaseMesh: TGLBaseMesh);
     Frame: TGLSkeletonFrame);
   var
     trans: TTransformations;
-    mat: TGLMatrix;
+    mat: TGSMatrix;
     rot, pos: TAffineVector;
   begin
     bone.Name := 'Branch' + IntToStr(Branch.FBranchID);
@@ -901,7 +903,8 @@ begin
   GLBaseMesh.MeshObjects[0].Vertices.Add(Branches.Vertices);
   GLBaseMesh.MeshObjects[0].Normals.Add(Branches.Normals);
   GLBaseMesh.MeshObjects[0].TexCoords.Add(Branches.TexCoords);
-  { if GLBaseMesh is TGLActor then begin
+  (*
+  if GLBaseMesh is TGLActor then begin
     TGLActor(GLBaseMesh).Reference:=aarSkeleton;
     RecursBranches(Branches.FRoot,
     TGLSkeletonBone.CreateOwned(GLBaseMesh.Skeleton.RootBones),
@@ -915,7 +918,8 @@ begin
     SkelMesh.PrepareBoneMatrixInvertedMeshes;
 
     SkelMesh.ApplyCurrentSkeletonFrame(True);
-    end;// }
+    end;//
+    *)
   stride := (BranchFacets + 1) * 2;
   for i := 0 to (FBranches.FIndices.Count div stride) - 1 do
   begin
@@ -988,6 +992,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLTree.Clear;
 begin
   FLeaves.Clear;
@@ -1124,6 +1129,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLTree.SetCenterBranchConstant(const Value: Single);
 begin
   if Value <> CenterBranchConstant then
@@ -1134,6 +1140,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLTree.SetBranchMaterialName(const Value: TGLLibMaterialName);
 begin
   if Value <> FBranchMaterialName then
@@ -1252,6 +1259,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLTree.SaveToStream(aStream: TStream);
 var
   StrList: TStringList;
@@ -1280,6 +1288,7 @@ begin
   StrList.Free;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLTree.LoadFromFile(const aFileName: String);
 var
   stream: TStream;
@@ -1292,6 +1301,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLTree.SaveToFile(const aFileName: String);
 var
   stream: TStream;
@@ -1304,7 +1314,7 @@ begin
   end;
 end;
 
-
+//---------------------------------------------------------------------------
 procedure TGLTree.GetExtents(var min, max: TAffineVector);
 var
   lmin, lmax, bmin, bmax: TAffineVector;
@@ -1338,7 +1348,7 @@ begin
   max.Z := MaxFloat([lmin.Z, lmax.Z, bmin.Z, bmax.Z]);
 end;
 
-function TGLTree.AxisAlignedDimensionsUnscaled: TGLVector;
+function TGLTree.AxisAlignedDimensionsUnscaled: TGSVector;
 var
   dMin, dMax: TAffineVector;
 begin
@@ -1352,6 +1362,7 @@ begin
   SetVector(Result, FAxisAlignedDimensionsCache);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLTree.SetAutoCenter(const Value: Boolean);
 begin
   if Value <> FAutoCenter then
@@ -1362,6 +1373,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLTree.SetAutoRebuild(const Value: Boolean);
 begin
   if Value <> FAutoRebuild then
@@ -1370,7 +1382,7 @@ begin
   end;
 end;
 
-initialization
+initialization //============================================================
 
 RegisterClasses([TGLTree]);
 

@@ -1,3 +1,6 @@
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit fdIntensityMesh;
 
 interface
@@ -22,7 +25,7 @@ uses
 
   GLS.Scene,
   GLS.VectorFileObjects,
-  GLS.VectorLists,
+  Stage.VectorLists,
   GLS.SceneViewer,
   GLS.Mesh,
   GLS.Texture,
@@ -33,8 +36,8 @@ uses
   GLS.BitmapFont,
   GLS.WindowsFont,
   GLS.Material,
-  GLS.Coordinates,
-  GLS.BaseClasses,
+  Stage.Coordinates,
+  Stage.BaseClasses,
   GLS.RenderContextInfo,
   GLS.Graphics,
   GLS.State;

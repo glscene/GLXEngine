@@ -1,10 +1,11 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.File3DSSceneObjects;
-
-(* 3ds-specific scene objects. *)
-
+(*
+  3ds-specific scene objects.
+  RegisterClasses([TGLFile3DSLight, TGLFile3DSCamera, TGLFile3DSActor, TGLFile3DSFreeForm]);
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -15,12 +16,13 @@ uses
   System.SysUtils,
   System.Math,
 
-  GLS.OpenGLAdapter,
+  Stage.OpenGLAdapter,
   Stage.OpenGLTokens,
-  GLS.PersistentClasses,
-  GLS.Coordinates,
+  Stage.PersistentClasses,
+  Stage.Coordinates,
   Stage.VectorTypes,
   Stage.VectorGeometry,
+
   GLS.Context,
   GLS.Scene,
   GLS.VectorFileObjects,
@@ -30,32 +32,32 @@ uses
 type
   TGLFile3DSLight = class(TGLLightSource)
   private
-    FTargetPos: TGLCoordinates;
+    FTargetPos: TGSCoordinates;
     FHotSpot: Single;
     FMultipler: Single;
   public
     constructor Create(AOwner: TComponent); override;
     procedure DoRender(var rci: TGLRenderContextInfo; renderSelf, renderChildren: Boolean); override;
-    procedure CoordinateChanged(Sender: TGLCustomCoordinates); override;
+    procedure CoordinateChanged(Sender: TGSCustomCoordinates); override;
     destructor Destroy; override;
   published
-    property SpotTargetPos: TGLCoordinates read FTargetPos;
+    property SpotTargetPos: TGSCoordinates read FTargetPos;
     property HotSpot: Single read FHotSpot write FHotSpot;
     property Multipler: Single read FMultipler write FMultipler;
   end;
 
   TGLFile3DSCamera = class(TGLCamera)
   private
-    FTargetPos: TGLCoordinates;
+    FTargetPos: TGSCoordinates;
     FQuadCyl: array[0..1] of PGLUquadric;
     FQuadDisk: array[0..1] of PGLUquadric;
   public
     constructor Create(AOwner: TComponent); override;
     procedure DoRender(var rci: TGLRenderContextInfo; renderSelf, renderChildren: Boolean); override;
-    procedure CoordinateChanged(Sender: TGLCustomCoordinates); override;
+    procedure CoordinateChanged(Sender: TGSCustomCoordinates); override;
     destructor Destroy; override;
   published
-    property CameraTargetPos: TGLCoordinates read FTargetPos;
+    property CameraTargetPos: TGSCoordinates read FTargetPos;
     property RollAngle;
   end;
 
@@ -69,27 +71,27 @@ type
 
   TGLFile3DSFreeForm = class(TGLFreeForm)
   private
-    FTransfMat, FScaleMat, ParentMatrix: TGLMatrix;
+    FTransfMat, FScaleMat, ParentMatrix: TGSMatrix;
 
-    FS_Rot3DS: TGLCoordinates4;
-    FRot3DS: TGLCoordinates4;
-    FScale3DS: TGLCoordinates4;
+    FS_Rot3DS: TGSCoordinates4;
+    FRot3DS: TGSCoordinates4;
+    FScale3DS: TGSCoordinates4;
     procedure ReadMesh(Stream: TStream);
     procedure WriteMesh(Stream: TStream);
   protected
     procedure DefineProperties(Filer: TFiler); override;
   public
-    FRefMat: TGLMatrix;
+    FRefMat: TGSMatrix;
     constructor Create(AOWner: TComponent); override;
     destructor Destroy; override;
     procedure BuildList(var rci: TGLRenderContextInfo); override;
-    procedure CoordinateChanged(Sender: TGLCustomCoordinates); override;
-    function AxisAlignedDimensionsUnscaled: TGLVector; override;
-    function BarycenterAbsolutePosition: TGLVector; override;
+    procedure CoordinateChanged(Sender: TGSCustomCoordinates); override;
+    function AxisAlignedDimensionsUnscaled: TGSVector; override;
+    function BarycenterAbsolutePosition: TGSVector; override;
   published
-    property S_Rot3DS: TGLCoordinates4 read FS_Rot3DS;
-    property Rot3DS: TGLCoordinates4 read FRot3DS;
-    property Scale3DS: TGLCoordinates4 read FScale3DS;
+    property S_Rot3DS: TGSCoordinates4 read FS_Rot3DS;
+    property Rot3DS: TGSCoordinates4 read FRot3DS;
+    property Scale3DS: TGSCoordinates4 read FScale3DS;
   end;
 
 var
@@ -101,7 +103,7 @@ implementation
 
 function MakeRotationQuaternion(const axis: TAffineVector; angle: Single): TQuaternion;
 var
-  v: TGLVector;
+  v: TGSVector;
   halfAngle, invAxisLengthMult: Single;
 begin
   halfAngle := (angle) / 2;
@@ -116,11 +118,11 @@ begin
   Result.RealPart := v.W;
 end;
 
-function QuaternionToRotateMatrix(const Quaternion: TQuaternion): TGLMatrix;
+function QuaternionToRotateMatrix(const Quaternion: TQuaternion): TGSMatrix;
 var
   wx, wy, wz, xx, yy, yz, xy, xz, zz, x2, y2, z2: Single;
-  quat: TGLVector;
-  m: TGLMatrix;
+  quat: TGSVector;
+  m: TGSMatrix;
 begin
   quat := VectorMake(Quaternion.ImagPart);
   quat.W := Quaternion.RealPart;
@@ -163,7 +165,7 @@ constructor TGLFile3DSLight.Create(AOwner: TComponent);
 begin
   inherited;
 
-  FTargetPos := TGLCoordinates.CreateInitialized(self, VectorMake(NullVector), csPoint);
+  FTargetPos := TGSCoordinates.CreateInitialized(self, VectorMake(NullVector), csPoint);
   FHotSpot := 1;
   FMultipler := 1;
 end;
@@ -215,7 +217,7 @@ begin
   gl.PopMatrix;
 end;
 
-procedure TGLFile3DSLight.CoordinateChanged(Sender: TGLCustomCoordinates);
+procedure TGLFile3DSLight.CoordinateChanged(Sender: TGSCustomCoordinates);
 begin
   inherited;
 
@@ -235,7 +237,7 @@ var
 begin
   inherited;
 
-  FTargetPos := TGLCoordinates.CreateInitialized(self, VectorMake(NullVector), csPoint);
+  FTargetPos := TGSCoordinates.CreateInitialized(self, VectorMake(NullVector), csPoint);
 
   for I := 0 to 1 do
   begin
@@ -302,7 +304,7 @@ begin
   rci.GLStates.PolygonMode := pmFill;
 end;
 
-procedure TGLFile3DSCamera.CoordinateChanged(Sender: TGLCustomCoordinates);
+procedure TGLFile3DSCamera.CoordinateChanged(Sender: TGSCustomCoordinates);
 begin
   inherited;
 
@@ -328,18 +330,18 @@ end;
 
 procedure TGLFile3DSActor.ReadMesh(Stream: TStream);
 var
-  virt: TGLBinaryReader;
+  virt: TGSBinaryReader;
 begin
-  virt := TGLBinaryReader.Create(Stream);
+  virt := TGSBinaryReader.Create(Stream);
   MeshOBjects.ReadFromFiler(virt);
   virt.Free;
 end;
 
 procedure TGLFile3DSActor.WriteMesh(Stream: TStream);
 var
-  virt: TGLBinaryWriter;
+  virt: TGSBinaryWriter;
 begin
-  virt := TGLBinaryWriter.Create(Stream);
+  virt := TGSBinaryWriter.Create(Stream);
   MeshOBjects.WriteToFiler(virt);
   virt.Free;
 end;
@@ -356,9 +358,9 @@ begin
   FRefMat := IdentityHmgMatrix;
   FTransfMat := IdentityHmgMatrix;
   FScaleMat := IdentityHmgMatrix;
-  FS_Rot3DS := TGLCoordinates4.CreateInitialized(self, VectorMake(1, 0, 0), csVector);
-  FRot3DS := TGLCoordinates4.CreateInitialized(self, VectorMake(1, 0, 0), csVector);
-  FScale3DS := TGLCoordinates4.CreateInitialized(self, VectorMake(1, 1, 1), csVector);
+  FS_Rot3DS := TGSCoordinates4.CreateInitialized(self, VectorMake(1, 0, 0), csVector);
+  FRot3DS := TGSCoordinates4.CreateInitialized(self, VectorMake(1, 0, 0), csVector);
+  FScale3DS := TGSCoordinates4.CreateInitialized(self, VectorMake(1, 1, 1), csVector);
 
   ObjectStyle := [osDirectDraw];
 end;
@@ -374,10 +376,10 @@ end;
 
 procedure TGLFile3DSFreeForm.ReadMesh(Stream: TStream);
 var
-  v: TGLVector;
-  virt: TGLBinaryReader;
+  v: TGSVector;
+  virt: TGSBinaryReader;
 begin
-  virt := TGLBinaryReader.Create(Stream);
+  virt := TGSBinaryReader.Create(Stream);
 
   virt.read(FRefMat, sizeof(FRefMat));
   virt.read(v, sizeof(v));
@@ -393,10 +395,10 @@ end;
 
 procedure TGLFile3DSFreeForm.WriteMesh(Stream: TStream);
 var
-  virt: TGLBinaryWriter;
-  v: TGLVector;
+  virt: TGSBinaryWriter;
+  v: TGSVector;
 begin
-  virt := TGLBinaryWriter.Create(Stream);
+  virt := TGSBinaryWriter.Create(Stream);
 
   virt.write(FRefMat, sizeof(FRefMat));
   v := S_Rot3DS.AsVector;
@@ -434,7 +436,7 @@ begin
   ParentMatrix := MatrixMultiply(FTransfMat, ParentMatrix);
 end;
 
-procedure TGLFile3DSFreeForm.CoordinateChanged(Sender: TGLCustomCoordinates);
+procedure TGLFile3DSFreeForm.CoordinateChanged(Sender: TGSCustomCoordinates);
 var
   quat, quat1, quat2: TQuaternion;
 begin
@@ -456,10 +458,10 @@ begin
   end;
 end;
 
-function TGLFile3DSFreeForm.AxisAlignedDimensionsUnscaled: TGLVector;
+function TGLFile3DSFreeForm.AxisAlignedDimensionsUnscaled: TGSVector;
 var
   dMin, dMax: TAffineVector;
-  mat: TGLMatrix;
+  mat: TGSMatrix;
 begin
   MeshObjects.GetExtents(dMin, dMax);
   mat := ParentMatrix;
@@ -475,10 +477,10 @@ begin
   Result.W := 0;
 end;
 
-function TGLFile3DSFreeForm.BarycenterAbsolutePosition: TGLVector;
+function TGLFile3DSFreeForm.BarycenterAbsolutePosition: TGSVector;
 var
   dMin, dMax: TAffineVector;
-  mat: TGLMatrix;
+  mat: TGSMatrix;
 begin
   MeshObjects.GetExtents(dMin, dMax);
   mat := ParentMatrix;
@@ -496,9 +498,7 @@ begin
   Result := LocalToAbsolute(Result);
 end;
 
-//--------------------------------------------
-initialization
-//--------------------------------------------
+initialization //============================================================
 
   RegisterClasses([TGLFile3DSLight, TGLFile3DSCamera, TGLFile3DSActor, TGLFile3DSFreeForm]);
 

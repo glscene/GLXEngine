@@ -24,9 +24,9 @@ uses
   GLS.Texture,
 
   GLS.Material,
-  GLS.Coordinates,
+  Stage.Coordinates,
   Stage.Utils,
-  GLS.BaseClasses;
+  Stage.BaseClasses;
 
 type
   TFormFog = class(TForm)

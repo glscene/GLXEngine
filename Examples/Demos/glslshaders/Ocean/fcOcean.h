@@ -8,9 +8,9 @@
 #include <Vcl.StdCtrls.hpp>
 #include <Vcl.Forms.hpp>
 #include <Vcl.Imaging.jpeg.hpp>
-#include "GLS.BaseClasses.hpp"
+#include "Stage.BaseClasses.hpp"
 #include "GLS.Cadencer.hpp"
-#include "GLS.Coordinates.hpp"
+#include "Stage.Coordinates.hpp"
 
 #include "Stage.TextureFormat.hpp"
 #include "Stage.OpenGLTokens.hpp"
@@ -23,8 +23,8 @@
 #include "GLS.SkyDome.hpp"
 #include "GLSL.UserShader.hpp"
 #include "GLS.SceneViewer.hpp"
-#include "GLS.Color.hpp"
-#include "GLS.OpenGLAdapter.hpp"
+#include "Stage.Color.hpp"
+#include "Stage.OpenGLAdapter.hpp"
 #include "GLS.Context.hpp"
 #include "GLS.RenderContextInfo.hpp"
 #include "GLS.State.hpp"

@@ -21,8 +21,8 @@ uses
   GLS.Graph, Stage.VectorTypes,
   Stage.VectorGeometry,
  
-  GLS.Coordinates,
-  GLS.BaseClasses,
+  Stage.Coordinates,
+  Stage.BaseClasses,
 
   GLS.ODEManager;
 

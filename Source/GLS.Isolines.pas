@@ -1,10 +1,10 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.Isolines;
-
-(* Class and routines to output isolines *)
-
+(*
+  Class and routines to output isolines
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -19,12 +19,12 @@ uses
   Stage.VectorTypes,
   Stage.VectorTypesExt,
   Stage.Spline,
-  GLS.VectorLists,
-  GLS.Coordinates,
+  Stage.VectorLists,
+  Stage.Coordinates,
+  Stage.Color,
 
   GLS.Objects,
   GLS.MultiPolygon,
-  GLS.Color,
   GLS.SpaceText,
   GLS.VectorFileObjects;
 
@@ -102,7 +102,7 @@ function GetNextIsoline(var Isoline: TGLIsoline): Boolean;
 
 // Defines contouring segments inside a triangle using elevations
 procedure TriangleElevationSegments(const p1, p2, p3: TAffineVector;
-  ElevationDelta: Single; Segments: TGLAffineVectorList);
+  ElevationDelta: Single; Segments: TGSAffineVectorList);
 
 //----------------------------------------------------------------------
 implementation
@@ -390,7 +390,7 @@ begin
 end;
 
 procedure TriangleElevationSegments(const p1, p2, p3: TAffineVector;
-  ElevationDelta: Single; Segments: TGLAffineVectorList);
+  ElevationDelta: Single; Segments: TGSAffineVectorList);
 
   function SegmentIntersect(const a, b: TAffineVector; e: Single): Integer;
   var

@@ -1,8 +1,4 @@
-//
-// GXStage Graphics Engine
-//
 unit CUDA.Import;
-
 (*
  * Copyright 1993-2020 NVIDIA Corporation.  All rights reserved.
  *
@@ -1173,7 +1169,7 @@ function cuInitShell(Flags: Cardinal): TCUresult;stdcall;
 begin
   Result := cuInit_(Flags);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr,
+    GSLogger.LogErrorFmt(cudasFuncRetErr,
       [cuInitName, Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -1181,7 +1177,7 @@ function cuDriverGetVersionShell(out driverVersion: Integer): TCUresult;stdcall;
 begin
   Result := cuDriverGetVersion_(driverVersion);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr, [cuDriverGetVersionName,
+    GSLogger.LogErrorFmt(cudasFuncRetErr, [cuDriverGetVersionName,
       Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -1189,7 +1185,7 @@ function cuDeviceGetShell(var device: TCUdevice; ordinal: Integer): TCUresult;st
 begin
   Result := cuDeviceGet_(device, ordinal);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr,
+    GSLogger.LogErrorFmt(cudasFuncRetErr,
       [cuDeviceGet_Name, Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -1197,7 +1193,7 @@ function cuDeviceGetCountShell(var count: Integer): TCUresult;stdcall;
 begin
   Result := cuDeviceGetCount_(count);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr, [cuDeviceGetCountName,
+    GSLogger.LogErrorFmt(cudasFuncRetErr, [cuDeviceGetCountName,
       Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -1206,7 +1202,7 @@ function cuDeviceGetNameShell(name: PAnsiChar; len: Integer; dev: TCUdevice)
 begin
   Result := cuDeviceGetName_(name, len, dev);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr, [cuDeviceGetNameName,
+    GSLogger.LogErrorFmt(cudasFuncRetErr, [cuDeviceGetNameName,
       Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -1215,7 +1211,7 @@ function cuDeviceComputeCapabilityShell(var major: Integer; var minor: Integer;
 begin
   Result := cuDeviceComputeCapability_(major, minor, dev);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr, [cuDeviceComputeCapabilityName,
+    GSLogger.LogErrorFmt(cudasFuncRetErr, [cuDeviceComputeCapabilityName,
       Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -1223,7 +1219,7 @@ function cuDeviceTotalMemShell(bytes: PSize_t; dev: TCUdevice): TCUresult;stdcal
 begin
   Result := cuDeviceTotalMem_(bytes, dev);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr, [cuDeviceTotalMemName,
+    GSLogger.LogErrorFmt(cudasFuncRetErr, [cuDeviceTotalMemName,
       Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -1233,7 +1229,7 @@ stdcall;
 begin
   Result := cuDeviceGetProperties_(prop, dev);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr, [cuDeviceGetPropertiesName,
+    GSLogger.LogErrorFmt(cudasFuncRetErr, [cuDeviceGetPropertiesName,
       Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -1242,7 +1238,7 @@ function cuDeviceGetAttributeShell(pi: PSize_t; attrib: TCUdevice_attribute;
 begin
   Result := cuDeviceGetAttribute_(pi, attrib, dev);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr, [cuDeviceGetAttributeName,
+    GSLogger.LogErrorFmt(cudasFuncRetErr, [cuDeviceGetAttributeName,
       Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -1251,7 +1247,7 @@ function cuCtxCreateShell(var pctx: PCUcontext; Flags: Cardinal; dev: TCUdevice)
 begin
   Result := cuCtxCreate_(pctx, Flags, dev);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr,
+    GSLogger.LogErrorFmt(cudasFuncRetErr,
       [cuCtxCreateName, Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -1259,7 +1255,7 @@ function cuCtxDestroyShell(ctx: PCUcontext): TCUresult;stdcall;
 begin
   Result := cuCtxDestroy_(ctx);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr,
+    GSLogger.LogErrorFmt(cudasFuncRetErr,
       [cuCtxDestroyName, Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -1267,7 +1263,7 @@ function cuCtxAttachShell(var pctx: PCUcontext; Flags: Cardinal): TCUresult;stdc
 begin
   Result := cuCtxAttach_(pctx, Flags);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr,
+    GSLogger.LogErrorFmt(cudasFuncRetErr,
       [cuCtxAttachName, Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -1275,7 +1271,7 @@ function cuCtxDetachShell(ctx: PCUcontext): TCUresult;stdcall;
 begin
   Result := cuCtxDetach_(ctx);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr,
+    GSLogger.LogErrorFmt(cudasFuncRetErr,
       [cuCtxDetachName, Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -1283,7 +1279,7 @@ function cuCtxPushCurrentShell(ctx: PCUcontext): TCUresult;stdcall;
 begin
   Result := cuCtxPushCurrent_(ctx);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr, [cuCtxPushCurrentName,
+    GSLogger.LogErrorFmt(cudasFuncRetErr, [cuCtxPushCurrentName,
       Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -1291,7 +1287,7 @@ function cuCtxPopCurrentShell(var pctx: PCUcontext): TCUresult;stdcall;
 begin
   Result := cuCtxPopCurrent_(pctx);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr, [cuCtxPopCurrentName,
+    GSLogger.LogErrorFmt(cudasFuncRetErr, [cuCtxPopCurrentName,
       Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -1299,7 +1295,7 @@ function cuCtxGetDeviceShell(var device: TCUdevice): TCUresult;stdcall;
 begin
   Result := cuCtxGetDevice_(device);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr,
+    GSLogger.LogErrorFmt(cudasFuncRetErr,
       [cuCtxGetDeviceName, Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -1307,7 +1303,7 @@ function cuCtxSynchronizeShell: TCUresult;stdcall;
 begin
   Result := cuCtxSynchronize_;
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr, [cuCtxSynchronizeName,
+    GSLogger.LogErrorFmt(cudasFuncRetErr, [cuCtxSynchronizeName,
       Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -1316,7 +1312,7 @@ function cuModuleLoadShell(var module: PCUmodule; const fname: PAnsiChar)
 begin
   Result := cuModuleLoad_(module, fname);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr,
+    GSLogger.LogErrorFmt(cudasFuncRetErr,
       [cuModuleLoadName, Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -1325,7 +1321,7 @@ function cuModuleLoadDataShell(var module: PCUmodule; const image: PAnsiChar)
 begin
   Result := cuModuleLoadData_(module, image);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr, [cuModuleLoadDataName,
+    GSLogger.LogErrorFmt(cudasFuncRetErr, [cuModuleLoadDataName,
       Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -1336,7 +1332,7 @@ begin
   Result := cuModuleLoadDataEx_(module, image, numOptions, options,
     optionValues);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr, [cuModuleLoadDataExName,
+    GSLogger.LogErrorFmt(cudasFuncRetErr, [cuModuleLoadDataExName,
       Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -1345,7 +1341,7 @@ function cuModuleLoadFatBinaryShell(var module: PCUmodule; var fatCubin)
 begin
   Result := cuModuleLoadFatBinary_(module, fatCubin);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr, [cuModuleLoadFatBinaryName,
+    GSLogger.LogErrorFmt(cudasFuncRetErr, [cuModuleLoadFatBinaryName,
       Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -1353,7 +1349,7 @@ function cuModuleUnloadShell(hmod: PCUmodule): TCUresult;stdcall;
 begin
   Result := cuModuleUnload_(hmod);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr,
+    GSLogger.LogErrorFmt(cudasFuncRetErr,
       [cuModuleUnloadName, Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -1362,7 +1358,7 @@ function cuModuleGetFunctionShell(out hfunc: PCUfunction; hmod: PCUmodule;
 begin
   Result := cuModuleGetFunction_(hfunc, hmod, name);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr, [cuModuleGetFunctionName,
+    GSLogger.LogErrorFmt(cudasFuncRetErr, [cuModuleGetFunctionName,
       Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -1371,7 +1367,7 @@ function cuModuleGetGlobalShell(out dptr: TCUdeviceptr; var bytes: Cardinal;
 begin
   Result := cuModuleGetGlobal_(dptr, bytes, hmod, name);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr, [cuModuleGetGlobalName,
+    GSLogger.LogErrorFmt(cudasFuncRetErr, [cuModuleGetGlobalName,
       Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -1380,7 +1376,7 @@ function cuModuleGetTexRefShell(out pTexRef: PCUtexref; hmod: PCUmodule;
 begin
   Result := cuModuleGetTexRef_(pTexRef, hmod, name);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr, [cuModuleGetTexRefName,
+    GSLogger.LogErrorFmt(cudasFuncRetErr, [cuModuleGetTexRefName,
       Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -1388,7 +1384,7 @@ function cuMemGetInfoShell(var free: Cardinal; var total: Cardinal): TCUresult;s
 begin
   Result := cuMemGetInfo_(free, total);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr,
+    GSLogger.LogErrorFmt(cudasFuncRetErr,
       [cuMemGetInfoName, Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -1396,7 +1392,7 @@ function cuMemAllocShell(var dptr: TCUdeviceptr; bytesize: Cardinal): TCUresult;
 begin
   Result := cuMemAlloc_(dptr, bytesize);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr,
+    GSLogger.LogErrorFmt(cudasFuncRetErr,
       [cuMemAllocName, Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -1407,7 +1403,7 @@ begin
   Result := cuMemAllocPitch_(dptr, pPitch, WidthInBytes, Height,
     ElementSizeBytes);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr, [cuMemAllocPitchName,
+    GSLogger.LogErrorFmt(cudasFuncRetErr, [cuMemAllocPitchName,
       Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -1415,7 +1411,7 @@ function cuMemFreeShell(dptr: TCUdeviceptr): TCUresult;stdcall;
 begin
   Result := cuMemFree_(dptr);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr,
+    GSLogger.LogErrorFmt(cudasFuncRetErr,
       [cuMemFreeName, Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -1424,7 +1420,7 @@ function cuMemGetAddressRangeShell(var pbase: TCUdeviceptr; var psize: Cardinal;
 begin
   Result := cuMemGetAddressRange_(pbase, psize, dptr);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr, [cuMemGetAddressRangeName,
+    GSLogger.LogErrorFmt(cudasFuncRetErr, [cuMemGetAddressRangeName,
       Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -1432,7 +1428,7 @@ function cuMemAllocHostShell(var pp; bytesize: Cardinal): TCUresult;stdcall;
 begin
   Result := cuMemAllocHost_(pp, bytesize);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr,
+    GSLogger.LogErrorFmt(cudasFuncRetErr,
       [cuMemAllocHostName, Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -1440,7 +1436,7 @@ function cuMemFreeHostShell(p: Pointer): TCUresult;stdcall;
 begin
   Result := cuMemFreeHost_(p);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr,
+    GSLogger.LogErrorFmt(cudasFuncRetErr,
       [cuMemFreeHostName, Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -1449,7 +1445,7 @@ function cuMemHostAllocShell(var pp: Pointer; bytesize: Cardinal; Flags: Cardina
 begin
   Result := cuMemHostAlloc_(pp, bytesize, Flags);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr,
+    GSLogger.LogErrorFmt(cudasFuncRetErr,
       [cuMemHostAllocName, Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -1458,7 +1454,7 @@ function cuMemHostGetDevicePointerShell(var pdptr: TCUdeviceptr; p: Pointer;
 begin
   Result := cuMemHostGetDevicePointer_(pdptr, p, Flags);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr, [cuMemHostGetDevicePointerName,
+    GSLogger.LogErrorFmt(cudasFuncRetErr, [cuMemHostGetDevicePointerName,
       Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -1466,7 +1462,7 @@ function cuMemHostGetFlagsShell(var pFlags: Cardinal; var p): TCUresult;stdcall;
 begin
   Result := cuMemHostGetFlags_(pFlags, p);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr, [cuMemHostGetFlagsName,
+    GSLogger.LogErrorFmt(cudasFuncRetErr, [cuMemHostGetFlagsName,
       Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -1475,7 +1471,7 @@ function cuMemcpyHtoDShell(dstDevice: TCUdeviceptr; const srcHost: Pointer;
 begin
   Result := cuMemcpyHtoD_(dstDevice, srcHost, ByteCount);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr,
+    GSLogger.LogErrorFmt(cudasFuncRetErr,
       [cuMemcpyHtoDName, Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -1484,7 +1480,7 @@ function cuMemcpyDtoHShell(const dstHost: Pointer; srcDevice: TCUdeviceptr;
 begin
   Result := cuMemcpyDtoH_(dstHost, srcDevice, ByteCount);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr,
+    GSLogger.LogErrorFmt(cudasFuncRetErr,
       [cuMemcpyDtoHName, Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -1493,7 +1489,7 @@ function cuMemcpyDtoDShell(dstDevice: TCUdeviceptr; srcDevice: TCUdeviceptr;
 begin
   Result := cuMemcpyDtoD_(dstDevice, srcDevice, ByteCount);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr,
+    GSLogger.LogErrorFmt(cudasFuncRetErr,
       [cuMemcpyDtoDName, Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -1502,7 +1498,7 @@ function cuMemcpyDtoDAsyncShell(dstDevice: TCUdeviceptr;
 begin
   Result := cuMemcpyDtoDAsync_(dstDevice, srcDevice, ByteCount, hStream);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr, [cuMemcpyDtoDAsyncName,
+    GSLogger.LogErrorFmt(cudasFuncRetErr, [cuMemcpyDtoDAsyncName,
       Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -1511,7 +1507,7 @@ function cuMemcpyDtoAShell(dstArray: PCUarray; dstIndex: Cardinal;
 begin
   Result := cuMemcpyDtoA_(dstArray, dstIndex, srcDevice, ByteCount);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr,
+    GSLogger.LogErrorFmt(cudasFuncRetErr,
       [cuMemcpyDtoAName, Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -1520,7 +1516,7 @@ function cuMemcpyAtoDShell(dstDevice: TCUdeviceptr; hSrc: PCUarray;
 begin
   Result := cuMemcpyAtoD_(dstDevice, hSrc, SrcIndex, ByteCount);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr,
+    GSLogger.LogErrorFmt(cudasFuncRetErr,
       [cuMemcpyAtoDName, Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -1529,7 +1525,7 @@ function cuMemcpyHtoAShell(dstArray: PCUarray; dstIndex: Cardinal;
 begin
   Result := cuMemcpyHtoA_(dstArray, dstIndex, pSrc, ByteCount);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr,
+    GSLogger.LogErrorFmt(cudasFuncRetErr,
       [cuMemcpyHtoAName, Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -1538,7 +1534,7 @@ function cuMemcpyAtoHShell(dstHost: Pointer; srcArray: PCUarray;
 begin
   Result := cuMemcpyAtoH_(dstHost, srcArray, SrcIndex, ByteCount);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr,
+    GSLogger.LogErrorFmt(cudasFuncRetErr,
       [cuMemcpyAtoHName, Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -1547,7 +1543,7 @@ function cuMemcpyAtoAShell(dstArray: PCUarray; dstIndex: Cardinal;
 begin
   Result := cuMemcpyAtoA_(dstArray, dstIndex, srcArray, SrcIndex, ByteCount);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr,
+    GSLogger.LogErrorFmt(cudasFuncRetErr,
       [cuMemcpyAtoAName, Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -1555,7 +1551,7 @@ function cuMemcpy2DShell(const pCopy: PCUDA_MEMCPY2D): TCUresult;stdcall;
 begin
   Result := cuMemcpy2D_(pCopy);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr,
+    GSLogger.LogErrorFmt(cudasFuncRetErr,
       [cuMemcpy2DName, Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -1563,7 +1559,7 @@ function cuMemcpy2DUnalignedShell(var pCopy: TCUDA_MEMCPY2D): TCUresult;stdcall;
 begin
   Result := cuMemcpy2DUnaligned_(pCopy);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr, [cuMemcpy2DUnalignedName,
+    GSLogger.LogErrorFmt(cudasFuncRetErr, [cuMemcpy2DUnalignedName,
       Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -1571,7 +1567,7 @@ function cuMemcpy3DShell(var pCopy: TCUDA_MEMCPY3D): TCUresult;stdcall;
 begin
   Result := cuMemcpy3D_(pCopy);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr,
+    GSLogger.LogErrorFmt(cudasFuncRetErr,
       [cuMemcpy3DName, Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -1580,7 +1576,7 @@ function cuMemcpyHtoDAsyncShell(dstDevice: TCUdeviceptr; var srcHost;
 begin
   Result := cuMemcpyHtoDAsync_(dstDevice, srcHost, ByteCount, hStream);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr, [cuMemcpyHtoDAsyncName,
+    GSLogger.LogErrorFmt(cudasFuncRetErr, [cuMemcpyHtoDAsyncName,
       Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -1589,7 +1585,7 @@ function cuMemcpyDtoHAsyncShell(var dstHost; srcDevice: TCUdeviceptr;
 begin
   Result := cuMemcpyDtoHAsync_(dstHost, srcDevice, ByteCount, hStream);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr, [cuMemcpyDtoHAsyncName,
+    GSLogger.LogErrorFmt(cudasFuncRetErr, [cuMemcpyDtoHAsyncName,
       Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -1598,7 +1594,7 @@ function cuMemcpyHtoAAsyncShell(dstArray: PCUarray; dstIndex: Cardinal;
 begin
   Result := cuMemcpyHtoAAsync_(dstArray, dstIndex, pSrc, ByteCount, hStream);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr, [cuMemcpyHtoAAsyncName,
+    GSLogger.LogErrorFmt(cudasFuncRetErr, [cuMemcpyHtoAAsyncName,
       Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -1607,7 +1603,7 @@ function cuMemcpyAtoHAsyncShell(var dstHost; srcArray: PCUstream;
 begin
   Result := cuMemcpyAtoHAsync_(dstHost, srcArray, SrcIndex, ByteCount, hStream);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr, [cuMemcpyAtoHAsyncName,
+    GSLogger.LogErrorFmt(cudasFuncRetErr, [cuMemcpyAtoHAsyncName,
       Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -1616,7 +1612,7 @@ function cuMemcpy2DAsyncShell(var pCopy: TCUDA_MEMCPY2D; hStream: PCUstream)
 begin
   Result := cuMemcpy2DAsync_(pCopy, hStream);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr, [cuMemcpy2DAsyncName,
+    GSLogger.LogErrorFmt(cudasFuncRetErr, [cuMemcpy2DAsyncName,
       Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -1625,7 +1621,7 @@ function cuMemcpy3DAsyncShell(var pCopy: TCUDA_MEMCPY3D; hStream: PCUstream)
 begin
   Result := cuMemcpy3DAsync_(pCopy, hStream);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr, [cuMemcpy3DAsyncName,
+    GSLogger.LogErrorFmt(cudasFuncRetErr, [cuMemcpy3DAsyncName,
       Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -1634,7 +1630,7 @@ function cuMemsetD8Shell(dstDevice: TCUdeviceptr; ub: Byte; N: Cardinal)
 begin
   Result := cuMemsetD8_(dstDevice, ub, N);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr,
+    GSLogger.LogErrorFmt(cudasFuncRetErr,
       [cuMemsetD8Name, Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -1643,7 +1639,7 @@ function cuMemsetD16Shell(dstDevice: TCUdeviceptr; uw: Word; N: Cardinal)
 begin
   Result := cuMemsetD16_(dstDevice, uw, N);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr,
+    GSLogger.LogErrorFmt(cudasFuncRetErr,
       [cuMemsetD16Name, Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -1652,7 +1648,7 @@ function cuMemsetD32Shell(dstDevice: TCUdeviceptr; ui: Cardinal; N: Cardinal)
 begin
   Result := cuMemsetD32_(dstDevice, ui, N);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr,
+    GSLogger.LogErrorFmt(cudasFuncRetErr,
       [cuMemsetD32Name, Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -1661,7 +1657,7 @@ function cuMemsetD2D8Shell(dstDevice: TCUdeviceptr; dstPitch: Cardinal;
 begin
   Result := cuMemsetD2D8_(dstDevice, dstPitch, ub, Width, Height);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr,
+    GSLogger.LogErrorFmt(cudasFuncRetErr,
       [cuMemsetD2D8Name, Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -1670,7 +1666,7 @@ function cuMemsetD2D16Shell(dstDevice: TCUdeviceptr; dstPitch: Cardinal;
 begin
   Result := cuMemsetD2D16_(dstDevice, dstPitch, uw, Width, Height);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr,
+    GSLogger.LogErrorFmt(cudasFuncRetErr,
       [cuMemsetD2D16Name, Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -1679,7 +1675,7 @@ function cuMemsetD2D32Shell(dstDevice: TCUdeviceptr; dstPitch: Cardinal;
 begin
   Result := cuMemsetD2D32_(dstDevice, dstPitch, ui, Width, Height);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr,
+    GSLogger.LogErrorFmt(cudasFuncRetErr,
       [cuMemsetD2D32Name, Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -1688,7 +1684,7 @@ function cuFuncSetBlockShapeShell(hfunc: PCUfunction; x: Integer; y: Integer;
 begin
   Result := cuFuncSetBlockShape_(hfunc, x, y, z);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr, [cuFuncSetBlockShapeName,
+    GSLogger.LogErrorFmt(cudasFuncRetErr, [cuFuncSetBlockShapeName,
       Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -1698,7 +1694,7 @@ stdcall;
 begin
   Result := cuFuncSetSharedSize_(hfunc, bytes);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr, [cuFuncSetSharedSizeName,
+    GSLogger.LogErrorFmt(cudasFuncRetErr, [cuFuncSetSharedSizeName,
       Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -1707,7 +1703,7 @@ function cuFuncGetAttributeShell(var pi: Integer; attrib: TCUfunction_attribute;
 begin
   Result := cuFuncGetAttribute_(pi, attrib, hfunc);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr, [cuFuncGetAttributeName,
+    GSLogger.LogErrorFmt(cudasFuncRetErr, [cuFuncGetAttributeName,
       Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -1716,7 +1712,7 @@ function cuArrayCreateShell(var pHandle: PCUarray;
 begin
   Result := cuArrayCreate_(pHandle, pAllocateArray);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr,
+    GSLogger.LogErrorFmt(cudasFuncRetErr,
       [cuArrayCreateName, Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -1725,7 +1721,7 @@ function cuArrayGetDescriptorShell(var pArrayDescriptor: TCUDA_ARRAY_DESCRIPTOR;
 begin
   Result := cuArrayGetDescriptor_(pArrayDescriptor, hArray);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr, [cuArrayGetDescriptorName,
+    GSLogger.LogErrorFmt(cudasFuncRetErr, [cuArrayGetDescriptorName,
       Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -1733,7 +1729,7 @@ function cuArrayDestroyShell(hArray: PCUarray): TCUresult;stdcall;
 begin
   Result := cuArrayDestroy_(hArray);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr,
+    GSLogger.LogErrorFmt(cudasFuncRetErr,
       [cuArrayDestroyName, Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -1742,7 +1738,7 @@ function cuArray3DCreateShell(var pHandle: PCUarray;
 begin
   Result := cuArray3DCreate_(pHandle, pAllocateArray);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr, [cuArray3DCreateName,
+    GSLogger.LogErrorFmt(cudasFuncRetErr, [cuArray3DCreateName,
       Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -1751,7 +1747,7 @@ function cuArray3DGetDescriptorShell(var pArrayDescriptor
 begin
   Result := cuArray3DGetDescriptor_(pArrayDescriptor, hArray);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr, [cuArray3DGetDescriptorName,
+    GSLogger.LogErrorFmt(cudasFuncRetErr, [cuArray3DGetDescriptorName,
       Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -1759,7 +1755,7 @@ function cuTexRefCreateShell(var pTexRef: PCUtexref): TCUresult;stdcall;
 begin
   Result := cuTexRefCreate_(pTexRef);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr,
+    GSLogger.LogErrorFmt(cudasFuncRetErr,
       [cuTexRefCreateName, Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -1767,7 +1763,7 @@ function cuTexRefDestroyShell(hTexRef: PCUtexref): TCUresult;stdcall;
 begin
   Result := cuTexRefDestroy_(hTexRef);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr, [cuTexRefDestroyName,
+    GSLogger.LogErrorFmt(cudasFuncRetErr, [cuTexRefDestroyName,
       Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -1776,7 +1772,7 @@ function cuTexRefSetArrayShell(hTexRef: PCUtexref; hArray: PCUarray;
 begin
   Result := cuTexRefSetArray_(hTexRef, hArray, Flags);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr, [cuTexRefSetArrayName,
+    GSLogger.LogErrorFmt(cudasFuncRetErr, [cuTexRefSetArrayName,
       Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -1785,7 +1781,7 @@ function cuTexRefSetAddressShell(var ByteOffset: Cardinal; hTexRef: PCUtexref;
 begin
   Result := cuTexRefSetAddress_(ByteOffset, hTexRef, dptr, bytes);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr, [cuTexRefSetAddressName,
+    GSLogger.LogErrorFmt(cudasFuncRetErr, [cuTexRefSetAddressName,
       Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -1796,7 +1792,7 @@ stdcall;
 begin
   Result := cuTexRefSetAddress2D_(hTexRef, desc, dptr, Pitch);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr, [cuTexRefSetAddress2DName,
+    GSLogger.LogErrorFmt(cudasFuncRetErr, [cuTexRefSetAddress2DName,
       Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -1805,7 +1801,7 @@ function cuTexRefSetFormatShell(hTexRef: PCUtexref; fmt: TCUarray_format;
 begin
   Result := cuTexRefSetFormat_(hTexRef, fmt, NumPackedComponents);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr, [cuTexRefSetFormatName,
+    GSLogger.LogErrorFmt(cudasFuncRetErr, [cuTexRefSetFormatName,
       Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -1814,7 +1810,7 @@ function cuTexRefSetAddressModeShell(hTexRef: PCUtexref; dim: Integer;
 begin
   Result := cuTexRefSetAddressMode_(hTexRef, dim, am);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr, [cuTexRefSetAddressModeName,
+    GSLogger.LogErrorFmt(cudasFuncRetErr, [cuTexRefSetAddressModeName,
       Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -1823,7 +1819,7 @@ function cuTexRefSetFilterModeShell(hTexRef: PCUtexref; fm: TCUfilter_mode)
 begin
   Result := cuTexRefSetFilterMode_(hTexRef, fm);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr, [cuTexRefSetFilterModeName,
+    GSLogger.LogErrorFmt(cudasFuncRetErr, [cuTexRefSetFilterModeName,
       Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -1831,7 +1827,7 @@ function cuTexRefSetFlagsShell(hTexRef: PCUtexref; Flags: Cardinal): TCUresult;s
 begin
   Result := cuTexRefSetFlags_(hTexRef, Flags);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr, [cuTexRefSetFlagsName,
+    GSLogger.LogErrorFmt(cudasFuncRetErr, [cuTexRefSetFlagsName,
       Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -1840,7 +1836,7 @@ function cuTexRefGetAddressShell(var pdptr: TCUdeviceptr; hTexRef: PCUtexref)
 begin
   Result := cuTexRefGetAddress_(pdptr, hTexRef);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr, [cuTexRefGetAddressName,
+    GSLogger.LogErrorFmt(cudasFuncRetErr, [cuTexRefGetAddressName,
       Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -1849,7 +1845,7 @@ function cuTexRefGetArrayShell(var phArray: PCUarray; hTexRef: PCUtexref)
 begin
   Result := cuTexRefGetArray_(phArray, hTexRef);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr, [cuTexRefGetArrayName,
+    GSLogger.LogErrorFmt(cudasFuncRetErr, [cuTexRefGetArrayName,
       Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -1858,7 +1854,7 @@ function cuTexRefGetAddressModeShell(var pam: TCUaddress_mode;
 begin
   Result := cuTexRefGetAddressMode_(pam, hTexRef, dim);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr, [cuTexRefGetAddressModeName,
+    GSLogger.LogErrorFmt(cudasFuncRetErr, [cuTexRefGetAddressModeName,
       Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -1867,7 +1863,7 @@ function cuTexRefGetFilterModeShell(var pfm: TCUfilter_mode; hTexRef: PCUtexref)
 begin
   Result := cuTexRefGetFilterMode_(pfm, hTexRef);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr, [cuTexRefGetFilterModeName,
+    GSLogger.LogErrorFmt(cudasFuncRetErr, [cuTexRefGetFilterModeName,
       Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -1876,7 +1872,7 @@ function cuTexRefGetFormatShell(var pFormat: TCUarray_format;
 begin
   Result := cuTexRefGetFormat_(pFormat, pNumChannels, hTexRef);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr, [cuTexRefGetFormatName,
+    GSLogger.LogErrorFmt(cudasFuncRetErr, [cuTexRefGetFormatName,
       Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -1885,7 +1881,7 @@ function cuTexRefGetFlagsShell(var pFlags: Cardinal; hTexRef: PCUtexref)
 begin
   Result := cuTexRefGetFlags_(pFlags, hTexRef);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr, [cuTexRefGetFlagsName,
+    GSLogger.LogErrorFmt(cudasFuncRetErr, [cuTexRefGetFlagsName,
       Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -1893,7 +1889,7 @@ function cuParamSetSizeShell(hfunc: PCUfunction; numbytes: Cardinal): TCUresult;
 begin
   Result := cuParamSetSize_(hfunc, numbytes);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr,
+    GSLogger.LogErrorFmt(cudasFuncRetErr,
       [cuParamSetSizeName, Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -1902,7 +1898,7 @@ function cuParamSetiShell(hfunc: PCUfunction; offset: Integer; value: Cardinal)
 begin
   Result := cuParamSeti_(hfunc, offset, value);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr,
+    GSLogger.LogErrorFmt(cudasFuncRetErr,
       [cuParamSetiName, Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -1911,7 +1907,7 @@ function cuParamSetfShell(hfunc: PCUfunction; offset: Integer; value: Single)
 begin
   Result := cuParamSetf_(hfunc, offset, value);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr,
+    GSLogger.LogErrorFmt(cudasFuncRetErr,
       [cuParamSetfName, Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -1920,7 +1916,7 @@ function cuParamSetvShell(hfunc: PCUfunction; offset: Integer; var ptr;
 begin
   Result := cuParamSetv_(hfunc, offset, ptr, numbytes);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr,
+    GSLogger.LogErrorFmt(cudasFuncRetErr,
       [cuParamSetvName, Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -1929,7 +1925,7 @@ function cuParamSetTexRefShell(hfunc: PCUfunction; texunit: Integer;
 begin
   Result := cuParamSetTexRef_(hfunc, texunit, hTexRef);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr, [cuParamSetTexRefName,
+    GSLogger.LogErrorFmt(cudasFuncRetErr, [cuParamSetTexRefName,
       Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -1937,7 +1933,7 @@ function cuLaunchShell(f: PCUfunction): TCUresult;stdcall;
 begin
   Result := cuLaunch_(f);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr,
+    GSLogger.LogErrorFmt(cudasFuncRetErr,
       [cuLaunchName, Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -1946,7 +1942,7 @@ function cuLaunchGridShell(f: PCUfunction; grid_width: Integer;
 begin
   Result := cuLaunchGrid_(f, grid_width, grid_height);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr,
+    GSLogger.LogErrorFmt(cudasFuncRetErr,
       [cuLaunchGridName, Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -1955,7 +1951,7 @@ function cuLaunchGridAsyncShell(f: PCUfunction; grid_width: Integer;
 begin
   Result := cuLaunchGridAsync_(f, grid_width, grid_height, hStream);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr, [cuLaunchGridAsyncName,
+    GSLogger.LogErrorFmt(cudasFuncRetErr, [cuLaunchGridAsyncName,
       Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -1963,7 +1959,7 @@ function cuEventCreateShell(var phEvent: PCUevent; Flags: Cardinal): TCUresult;s
 begin
   Result := cuEventCreate_(phEvent, Flags);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr,
+    GSLogger.LogErrorFmt(cudasFuncRetErr,
       [cuEventCreateName, Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -1971,7 +1967,7 @@ function cuEventRecordShell(hEvent: PCUevent; hStream: PCUstream): TCUresult;std
 begin
   Result := cuEventRecord_(hEvent, hStream);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr,
+    GSLogger.LogErrorFmt(cudasFuncRetErr,
       [cuEventRecordName, Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -1979,7 +1975,7 @@ function cuEventQueryShell(hEvent: PCUevent): TCUresult;stdcall;
 begin
   Result := cuEventQuery_(hEvent);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr,
+    GSLogger.LogErrorFmt(cudasFuncRetErr,
       [cuEventQueryName, Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -1987,7 +1983,7 @@ function cuEventSynchronizeShell(hEvent: PCUevent): TCUresult;stdcall;
 begin
   Result := cuEventSynchronize_(hEvent);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr, [cuEventSynchronizeName,
+    GSLogger.LogErrorFmt(cudasFuncRetErr, [cuEventSynchronizeName,
       Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -1995,7 +1991,7 @@ function cuEventDestroyShell(hEvent: PCUevent): TCUresult;stdcall;
 begin
   Result := cuEventDestroy_(hEvent);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr,
+    GSLogger.LogErrorFmt(cudasFuncRetErr,
       [cuEventDestroyName, Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -2004,7 +2000,7 @@ function cuEventElapsedTimeShell(var pMilliseconds: Single; hStart: PCUevent;
 begin
   Result := cuEventElapsedTime_(pMilliseconds, hStart, hEnd);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr, [cuEventElapsedTimeName,
+    GSLogger.LogErrorFmt(cudasFuncRetErr, [cuEventElapsedTimeName,
       Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -2013,7 +2009,7 @@ function cuStreamCreateShell(var phStream: PCUstream; Flags: Cardinal)
 begin
   Result := cuStreamCreate_(phStream, Flags);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr,
+    GSLogger.LogErrorFmt(cudasFuncRetErr,
       [cuStreamCreateName, Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -2021,7 +2017,7 @@ function cuStreamQueryShell(hStream: PCUstream): TCUresult;stdcall;
 begin
   Result := cuStreamQuery_(hStream);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr,
+    GSLogger.LogErrorFmt(cudasFuncRetErr,
       [cuStreamQueryName, Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -2029,7 +2025,7 @@ function cuStreamSynchronizeShell(hStream: PCUstream): TCUresult;stdcall;
 begin
   Result := cuStreamSynchronize_(hStream);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr, [cuStreamSynchronizeName,
+    GSLogger.LogErrorFmt(cudasFuncRetErr, [cuStreamSynchronizeName,
       Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -2038,7 +2034,7 @@ stdcall;
 begin
   Result := cuStreamDestroy_(hStream);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr, [cuStreamDestroyName,
+    GSLogger.LogErrorFmt(cudasFuncRetErr, [cuStreamDestroyName,
       Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -2048,7 +2044,7 @@ stdcall;
 begin
   Result := cuGLCtxCreate_(pctx, Flags, device);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr,
+    GSLogger.LogErrorFmt(cudasFuncRetErr,
       [cuGLCtxCreateName, Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -2058,7 +2054,7 @@ stdcall;
 begin
   Result := cuGraphicsGLRegisterBuffer_(pCudaResource, buffer, Flags);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr, [cuGraphicsGLRegisterBufferName,
+    GSLogger.LogErrorFmt(cudasFuncRetErr, [cuGraphicsGLRegisterBufferName,
       Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -2067,7 +2063,7 @@ function cuGraphicsGLRegisterImageShell(var pCudaResource: PCUgraphicsResource;
 begin
   Result := cuGraphicsGLRegisterImage_(pCudaResource, image, target, Flags);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr, [cuGraphicsGLRegisterImageName,
+    GSLogger.LogErrorFmt(cudasFuncRetErr, [cuGraphicsGLRegisterImageName,
       Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -2075,7 +2071,7 @@ function cuWGLGetDeviceShell(var pDevice: TCUdevice; hGpu: HGPUNV): TCUresult;st
 begin
   Result := cuWGLGetDevice_(pDevice, hGpu);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr,
+    GSLogger.LogErrorFmt(cudasFuncRetErr,
       [cuWGLGetDeviceName, Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -2084,7 +2080,7 @@ function cuGraphicsUnregisterResourceShell(resource: PCUgraphicsResource)
 begin
   Result := cuGraphicsUnregisterResource_(resource);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr, [cuGraphicsUnregisterResourceName,
+    GSLogger.LogErrorFmt(cudasFuncRetErr, [cuGraphicsUnregisterResourceName,
       Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -2095,7 +2091,7 @@ begin
   Result := cuGraphicsSubResourceGetMappedArray_(pArray, resource, arrayIndex,
     mipLevel);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr,
+    GSLogger.LogErrorFmt(cudasFuncRetErr,
       [cuGraphicsSubResourceGetMappedArrayName,
       Get_CUDA_API_Error_String(Result)])
 end;
@@ -2105,7 +2101,7 @@ function cuGraphicsResourceGetMappedPointerShell(var pDevPtr: TCUdeviceptr;
 begin
   Result := cuGraphicsResourceGetMappedPointer_(pDevPtr, psize, resource);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr,
+    GSLogger.LogErrorFmt(cudasFuncRetErr,
       [cuGraphicsResourceGetMappedPointerName,
       Get_CUDA_API_Error_String(Result)])
 end;
@@ -2115,7 +2111,7 @@ function cuGraphicsResourceSetMapFlagsShell(resource: PCUgraphicsResource;
 begin
   Result := cuGraphicsResourceSetMapFlags_(resource, Flags);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr, [cuGraphicsResourceSetMapFlagsName,
+    GSLogger.LogErrorFmt(cudasFuncRetErr, [cuGraphicsResourceSetMapFlagsName,
       Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -2124,7 +2120,7 @@ function cuGraphicsMapResourcesShell(count: Cardinal;
 begin
   Result := cuGraphicsMapResources_(count, resources, hStream);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr, [cuGraphicsMapResourcesName,
+    GSLogger.LogErrorFmt(cudasFuncRetErr, [cuGraphicsMapResourcesName,
       Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -2133,7 +2129,7 @@ function cuGraphicsUnmapResourcesShell(count: Cardinal;
 begin
   Result := cuGraphicsUnmapResources_(count, resources, hStream);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr, [cuGraphicsUnmapResourcesName,
+    GSLogger.LogErrorFmt(cudasFuncRetErr, [cuGraphicsUnmapResourcesName,
       Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -2141,7 +2137,7 @@ function cuGLRegisterBufferObjectShell(buffer: Cardinal): TCUresult;stdcall;
 begin
   Result := cuGLRegisterBufferObject_(buffer);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr, [cuGLRegisterBufferObjectName,
+    GSLogger.LogErrorFmt(cudasFuncRetErr, [cuGLRegisterBufferObjectName,
       Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -2150,7 +2146,7 @@ function cuGLMapBufferObjectShell(var dptr: TCUdeviceptr; var size: Cardinal;
 begin
   Result := cuGLMapBufferObject_(dptr, size, buffer);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr, [cuGLMapBufferObjectName,
+    GSLogger.LogErrorFmt(cudasFuncRetErr, [cuGLMapBufferObjectName,
       Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -2158,7 +2154,7 @@ function cuGLUnmapBufferObjectShell(buffer: Cardinal): TCUresult;stdcall;
 begin
   Result := cuGLUnmapBufferObject_(buffer);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr, [cuGLUnmapBufferObjectName,
+    GSLogger.LogErrorFmt(cudasFuncRetErr, [cuGLUnmapBufferObjectName,
       Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -2166,7 +2162,7 @@ function cuGLUnregisterBufferObjectShell(buffer: Cardinal): TCUresult;stdcall;
 begin
   Result := cuGLUnregisterBufferObject_(buffer);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr, [cuGLUnregisterBufferObjectName,
+    GSLogger.LogErrorFmt(cudasFuncRetErr, [cuGLUnregisterBufferObjectName,
       Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -2175,7 +2171,7 @@ function cuGLSetBufferObjectMapFlagsShell(buffer: Cardinal; Flags: Cardinal)
 begin
   Result := cuGLSetBufferObjectMapFlags_(buffer, Flags);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr, [cuGLSetBufferObjectMapFlagsName,
+    GSLogger.LogErrorFmt(cudasFuncRetErr, [cuGLSetBufferObjectMapFlagsName,
       Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -2184,7 +2180,7 @@ function cuGLMapBufferObjectAsyncShell(var dptr: TCUdeviceptr;
 begin
   Result := cuGLMapBufferObjectAsync_(dptr, size, buffer, hStream);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr, [cuGLMapBufferObjectAsyncName,
+    GSLogger.LogErrorFmt(cudasFuncRetErr, [cuGLMapBufferObjectAsyncName,
       Get_CUDA_API_Error_String(Result)])
 end;
 
@@ -2193,7 +2189,7 @@ function cuGLUnmapBufferObjectAsyncShell(buffer: Cardinal; hStream: PCUstream)
 begin
   Result := cuGLUnmapBufferObjectAsync_(buffer, hStream);
   if Result <> CUDA_SUCCESS then
-    GLSLogger.LogErrorFmt(cudasFuncRetErr, [cuGLUnmapBufferObjectAsyncName,
+    GSLogger.LogErrorFmt(cudasFuncRetErr, [cuGLUnmapBufferObjectAsyncName,
       Get_CUDA_API_Error_String(Result)])
 end;
 

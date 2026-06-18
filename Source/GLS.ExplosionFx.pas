@@ -3,13 +3,15 @@
 ******************************************************************************)
 unit GLS.ExplosionFx;
 (*
-  Description: this effect explodes a mesh object into triangles
-  that fly over. You can define a default direction, in wich case
+  This effect explodes a mesh object into triangles that fly over.
+ 	RegisterXCollectionItemClass(TGLBExplosionFX);
+
+  You can define a default direction, in wich case
   the pieces of the mesh will follow that direction, only rotating,
   or if you define a null vector as the direction, a vector will be
   calculated for each triangle, based on the normal vector of that
   triangle, with a little random addition so things look better.
-  Pretty neat :)
+  Pretty neat.
 
   Note: the owner of this behaviour should be any class that derives
   from TGLBaseMesh class or any other class derived from TGLBaseMesh.
@@ -27,11 +29,12 @@ uses
   Stage.OpenGLTokens,
   Stage.VectorGeometry,
   Stage.VectorTypes,
+  Stage.VectorLists,
+  Stage.XCollection,
+  Stage.Coordinates,
+
   GLS.Scene,
   GLS.VectorFileObjects,
-  GLS.VectorLists,
-  GLS.XCollection,
-  GLS.Coordinates,
   GLS.RenderContextInfo,
   GLS.Context,
   GLS.State;
@@ -39,27 +42,27 @@ uses
 type
   TGLBExplosionFX = class(TGLObjectPreEffect)
   private
-    FTriList: TGLAffineVectorList;
-    FRotList: TGLAffineVectorList;
-    FDirList: TGLAffineVectorList;
-    FPosList: TGLAffineVectorList;
+    FTriList: TGSAffineVectorList;
+    FRotList: TGSAffineVectorList;
+    FDirList: TGSAffineVectorList;
+    FPosList: TGSAffineVectorList;
     FEnabled: boolean;
     FFaceCount: integer;
     FSpeed: single;
-    FDirection: TGLCoordinates;
+    FDirection: TGSCoordinates;
     FMaxSteps: integer;
     FStep: integer;
-    procedure SetTriList(Value: TGLAffineVectorList);
-    procedure SetRotList(Value: TGLAffineVectorList);
-    procedure SetDirList(Value: TGLAffineVectorList);
-    procedure SetPosList(Value: TGLAffineVectorList);
-    procedure SetDirection(value: TGLCoordinates);
+    procedure SetTriList(Value: TGSAffineVectorList);
+    procedure SetRotList(Value: TGSAffineVectorList);
+    procedure SetDirList(Value: TGSAffineVectorList);
+    procedure SetPosList(Value: TGSAffineVectorList);
+    procedure SetDirection(value: TGSCoordinates);
     procedure SetEnabled(value: boolean);
   protected
-    property TriList: TGLAffineVectorList read FTriList write SetTriList;
-    property RotList: TGLAffineVectorList read FRotList write SetRotList;
-    property DirList: TGLAffineVectorList read FDirList write SetDirList;
-    property PosList: TGLAffineVectorList read FPosList write SetPosList;
+    property TriList: TGSAffineVectorList read FTriList write SetTriList;
+    property RotList: TGSAffineVectorList read FRotList write SetRotList;
+    property DirList: TGSAffineVectorList read FDirList write SetDirList;
+    property PosList: TGSAffineVectorList read FPosList write SetPosList;
     property FaceCount: integer read FFAceCount write FFaceCount;
     procedure CacheInfo;
   public
@@ -76,7 +79,7 @@ type
   published
     property MaxSteps: integer read FMaxSteps write FMaxSteps;
     property Speed: single read FSpeed write FSpeed;
-    property Direction: TGLCoordinates read FDirection write SetDirection;
+    property Direction: TGSCoordinates read FDirection write SetDirection;
   end;
 
 implementation //==============================================================
@@ -87,11 +90,11 @@ implementation //==============================================================
 constructor TGLBExplosionFx.Create(aOwner: TXCollection);
 begin
   inherited Create(AOwner);
-  FTriList := TGLAffineVectorList.Create;
-  FRotList := TGLAffineVectorList.Create;
-  FDirList := TGLAffineVectorList.Create;
-  FPosList := TGLAffineVectorList.Create;
-  FDirection := TGLCoordinates.CreateInitialized(Self, NullHmgVector, csPoint);
+  FTriList := TGSAffineVectorList.Create;
+  FRotList := TGSAffineVectorList.Create;
+  FDirList := TGSAffineVectorList.Create;
+  FPosList := TGSAffineVectorList.Create;
+  FDirection := TGSCoordinates.CreateInitialized(Self, NullHmgVector, csPoint);
 end;
 
 //-----------------------------------------------------------------------------
@@ -119,31 +122,31 @@ begin
 end;
 
 //-----------------------------------------------------------------------------
-procedure TGLBExplosionFx.SetTriList(Value: TGLAffineVectorList);
+procedure TGLBExplosionFx.SetTriList(Value: TGSAffineVectorList);
 begin
   FTriList.Assign(Value);
 end;
 
 //-----------------------------------------------------------------------------
-procedure TGLBExplosionFx.SetRotList(Value: TGLAffineVectorList);
+procedure TGLBExplosionFx.SetRotList(Value: TGSAffineVectorList);
 begin
   FRotList.Assign(Value);
 end;
 
 //-----------------------------------------------------------------------------
-procedure TGLBExplosionFx.SetDirList(Value: TGLAffineVectorList);
+procedure TGLBExplosionFx.SetDirList(Value: TGSAffineVectorList);
 begin
   FDirList.Assign(Value);
 end;
 
 //-----------------------------------------------------------------------------
-procedure TGLBExplosionFx.SetPosList(Value: TGLAffineVectorList);
+procedure TGLBExplosionFx.SetPosList(Value: TGSAffineVectorList);
 begin
   FPosList.Assign(Value);
 end;
 
 //-----------------------------------------------------------------------------
-procedure TGLBExplosionFx.SetDirection(Value: TGLCoordinates);
+procedure TGLBExplosionFx.SetDirection(Value: TGSCoordinates);
 begin
   Value.Normalize;
   FDirection.Assign(Value);
@@ -172,7 +175,7 @@ procedure TGLBExplosionFx.CacheInfo;
 var
   Face: integer;
   p1, p2, p3, v1, v2, posi: TAffineVector;
-  Normal: TGLVector;
+  Normal: TGSVector;
 begin
   // make sure we can explode this object
   if not OwnerBaseSceneObject.InheritsFrom(TGLBaseMesh) then begin
@@ -226,7 +229,7 @@ procedure TGLBExplosionFX.Render(var rci : TGLRenderContextInfo);
 var
   Face: integer;
   dir, p1, p2, p3: TAffineVector;
-  mat: TGLMatrix;
+  mat: TGSMatrix;
 
 begin
   if not FEnabled then

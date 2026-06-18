@@ -1,10 +1,11 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.SceneViewer;
-
-(* Windows SceneViewer *)
-
+(*
+  Windows SceneViewer
+  RegisterClass(TgxSceneViewer);
+*)
 interface
 
 uses
@@ -23,7 +24,6 @@ uses
   FMX.Viewport3D,
 
   Stage.OpenGL4, // WGL_EXT_swap_control
-
   GXS.Scene,
   GXS.Context,
   GXS.WinContext;
@@ -185,7 +185,7 @@ procedure SetupVSync(const AVSyncMode : TgxSyncMode);
 var
  Handle: HWND;
 
-implementation // -----------------------------------------------------------
+implementation //============================================================
 
 // ------------------
 // ------------------ TgxSceneViewerFMX ------------------
@@ -554,7 +554,7 @@ begin
   end;
 end;
 
-initialization // ------------------------------------------------------------
+initialization //============================================================
 
   RegisterClass(TgxSceneViewer);
 

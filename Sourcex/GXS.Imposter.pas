@@ -21,12 +21,12 @@ uses
   Stage.VectorTypes,
   Stage.VectorGeometry,
   Stage.Utils,
-  GXS.PersistentClasses,
+  Stage.PersistentClasses,
   GXS.Graphics,
-  GXS.Color,
+  Stage.Color,
   GXS.RenderContextInfo,
-  GXS.Coordinates,
-  GXS.BaseClasses,
+  Stage.Coordinates,
+  Stage.BaseClasses,
   GXS.State,
   Stage.PipelineTransform,
   Stage.TextureFormat,
@@ -112,11 +112,11 @@ type
   TImposterReference = (irCenter, irTop, irBottom);
 
   // Abstract ImposterBuilder class.
-  TgxImposterBuilder = class(TgxUpdateAbleComponent)
+  TgxImposterBuilder = class(TGSUpdateAbleComponent)
   private
-    FBackColor: TgxColor;
-    FBuildOffset: TgxCoordinates;
-    FImposterRegister: TgxPersistentObjectList;
+    FBackColor: TGSColor;
+    FBuildOffset: TGSCoordinates;
+    FImposterRegister: TGSPersistentObjectList;
     FRenderPoint: TgxRenderPoint;
     FImposterOptions: TImposterOptions;
     FAlphaTreshold: Single;
@@ -126,11 +126,11 @@ type
   protected
     procedure SetRenderPoint(AValue: TgxRenderPoint);
     procedure RenderPointFreed(Sender: TObject);
-    procedure SetBackColor(AValue: TgxColor);
-    procedure SetBuildOffset(AValue: TgxCoordinates);
+    procedure SetBackColor(AValue: TGSColor);
+    procedure SetBuildOffset(AValue: TGSCoordinates);
     procedure SetImposterReference(AValue: TImposterReference);
     procedure InitializeImpostorTexture(const TextureSize: TPoint);
-    property ImposterRegister: TgxPersistentObjectList read FImposterRegister;
+    property ImposterRegister: TGSPersistentObjectList read FImposterRegister;
     procedure UnregisterImposter(imposter: TImposter);
     function CreateNewImposter: TImposter; virtual;
     procedure PrepareImposters(Sender: TObject; var rci: TgxRenderContextInfo);
@@ -164,10 +164,10 @@ type
     (* Background color for impostor rendering.
        Typically, you'll want to leave the alpha channel to zero, and pick
        as RGB as color that matches the impostor'ed objects edge colors most.*)
-    property BackColor: TgxColor read FBackColor write SetBackColor;
+    property BackColor: TGSColor read FBackColor write SetBackColor;
     (* Offset applied to the impostor'ed object during imposter construction.
        Can be used to manually tune the centering of objects. *)
-    property BuildOffset: TgxCoordinates read FBuildOffset write SetBuildOffset;
+    property BuildOffset: TGSCoordinates read FBuildOffset write SetBuildOffset;
     // Imposter rendering options
     property ImposterOptions: TImposterOptions read FImposterOptions write
       FImposterOptions default cDefaultImposterOptions;
@@ -550,9 +550,9 @@ end;
 constructor TgxImposterBuilder.Create(AOwner: TComponent);
 begin
   inherited;
-  FImposterRegister := TgxPersistentObjectList.Create;
-  FBackColor := TgxColor.CreateInitialized(Self, clrTransparent);
-  FBuildOffset := TgxCoordinates.CreateInitialized(Self, NullHmgPoint, CsPoint);
+  FImposterRegister := TGSPersistentObjectList.Create;
+  FBackColor := TGSColor.CreateInitialized(Self, clrTransparent);
+  FBuildOffset := TGSCoordinates.CreateInitialized(Self, NullHmgPoint, CsPoint);
   FImposterOptions := cDefaultImposterOptions;
   FAlphaTreshold := 0.5;
 end;
@@ -716,12 +716,12 @@ begin
   FRenderPoint := nil;
 end;
 
-procedure TgxImposterBuilder.SetBackColor(AValue: TgxColor);
+procedure TgxImposterBuilder.SetBackColor(AValue: TGSColor);
 begin
   FBackColor.Assign(AValue);
 end;
 
-procedure TgxImposterBuilder.SetBuildOffset(AValue: TgxCoordinates);
+procedure TgxImposterBuilder.SetBuildOffset(AValue: TGSCoordinates);
 begin
   FBuildOffset.Assign(AValue);
 end;
@@ -844,8 +844,8 @@ end;
 procedure TgxStaticImposterBuilderCoronas.NotifyChange;
 begin
   if (UpdateCount = 0) and (GetOwner <> nil) and (GetOwner is
-    TgxUpdateAbleComponent) then
-    TgxUpdateAbleComponent(GetOwner).NotifyChange(Self);
+    TGSUpdateAbleComponent) then
+    TGSUpdateAbleComponent(GetOwner).NotifyChange(Self);
 end;
 
 procedure TgxStaticImposterBuilderCoronas.EndUpdate;

@@ -26,7 +26,7 @@ uses
 
   Stage.OpenGLTokens,
   Stage.Utils,
-  GLS.OpenGLAdapter,
+  Stage.OpenGLAdapter,
   GLS.Scene,
   GLS.SceneViewer,
   GLS.Context;

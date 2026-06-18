@@ -1,6 +1,3 @@
-//
-// GXStage Graphics Engine
-//
 unit ModuleLoader;
 
 {******************************************************************}
@@ -58,7 +55,7 @@ function GetModuleSymbolEx(Module: TModuleHandle; SymbolName: PChar; var Accu: B
 function ReadModuleData(Module: TModuleHandle; SymbolName: PChar; var Buffer; Size: Cardinal): Boolean; stdcall;
 function WriteModuleData(Module: TModuleHandle; SymbolName: PChar; var Buffer; Size: Cardinal): Boolean; stdcall;
 
-implementation //-------------------------------------------------------------
+implementation //============================================================
 
 (* load the DLL file FileName
    the rules for FileName are those of LoadLibrary

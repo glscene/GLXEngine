@@ -1,3 +1,6 @@
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit fdChrismas;
 
 interface
@@ -21,7 +24,7 @@ uses
   Stage.Utils,
 
   GLS.Scene,
-  GLS.BaseClasses,
+  Stage.BaseClasses,
   GLS.VectorFileObjects,
   GLS.Objects,
   GLS.SceneViewer,
@@ -39,8 +42,8 @@ uses
   GLS.FileOBJ,
   GLS.GeomObjects,
   GLS.Material,
-  GLS.Coordinates,
-  GLS.Color,
+  Stage.Coordinates,
+  Stage.Color,
   GLS.SoundManager,
   GLS.Sounds.BASS,
   BASS.Import,

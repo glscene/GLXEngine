@@ -6,9 +6,9 @@
 #include "fObjmoveC.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
-#pragma link "GLS.BaseClasses"
+#pragma link "Stage.BaseClasses"
 #pragma link "GLS.BitmapFont"
-#pragma link "GLS.Coordinates"
+#pragma link "Stage.Coordinates"
 
 #pragma link "GLS.GeomObjects"
 #pragma link "GLS.HUDObjects"
@@ -22,7 +22,7 @@
 #pragma resource "*.dfm"
 TFormObjmove *FormObjmove;
 
-const TGLColorVector
+const TGSColorVector
   SelectionColor[]  = {0.243, 0.243, 0.243, 1.000};
 
 
@@ -32,10 +32,10 @@ void __fastcall TFormObjmove::FormCreate(TObject *Sender)
   UpdateHUDText();
 }
 //---------------------------------------------------------------------------
-TGLVector __fastcall TFormObjmove::MouseWorldPos(int X, int Y)
+TGSVector __fastcall TFormObjmove::MouseWorldPos(int X, int Y)
 {
-  TGLVector v;
-  TGLVector Result;
+  TGSVector v;
+  TGSVector Result;
 
   Y = Scene->Height - Y;
   if (CurrentPick)
@@ -133,7 +133,7 @@ void __fastcall TFormObjmove::SceneMouseDown(TObject *Sender, TMouseButton Butto
 void __fastcall TFormObjmove::SceneMouseMove(TObject *Sender, TShiftState Shift, int X, int Y)
 
 {
-  TGLVector newPos;
+  TGSVector newPos;
   SceneMouseMoveCnt++;
   if (Shift.Contains(ssLeft))
   {

@@ -1,13 +1,11 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.Octree;
-
 (*
   Octree management classes and structures.
   TODO: move the many public vars/fields to private/protected
 *)
-
 interface
 
 {$I Stage.Defines.inc}
@@ -16,8 +14,8 @@ uses
   System.Classes,
   Stage.VectorTypes,
   Stage.VectorGeometry,
-  GXS.VectorLists,
-  GXS.GeometryBB,
+  Stage.VectorLists,
+  Stage.GeometryBB,
   GXS.Context;
 
 type
@@ -90,14 +88,14 @@ type
     MeshCount: Integer; // number of meshes currently cut into the Octree
     ResultArray: array of PgxOctreeNode; // holds the result nodes of various calls
     // Needed this change - Used in ECMisc.pas
-    TriangleFiler: TgxAffineVectorList;
+    TriangleFiler: TGSAffineVectorList;
     procedure WalkSphereToLeaf(Onode: PgxOctreeNode; const P: TVector4f;
       Radius: Single);
     (* Initializes the tree from the triangle list.
       All triangles must be contained in the world extent to be properly
       taken into account. *)
     procedure InitializeTree(const AWorldMinExtent, AWorldMaxExtent
-      : TAffineVector; const ATriangles: TgxAffineVectorList;
+      : TAffineVector; const ATriangles: TGSAffineVectorList;
       const ATreeDepth: Integer);
     procedure DisposeTree;
     destructor Destroy; override;
@@ -110,27 +108,26 @@ type
     function TriangleIntersect(const V1, V2, V3: TAffineVector): Boolean;
     // Returns all triangles in the AABB.
     function GetTrianglesFromNodesIntersectingAABB(const ObjAABB: TAABB)
-      : TgxAffineVectorList;
+      : TGSAffineVectorList;
     // Returns all triangles in an arbitrarily placed cube
     function GetTrianglesFromNodesIntersectingCube(const ObjAABB: TAABB;
-      const ObjToSelf, SelfToObj: TMatrix4f): TgxAffineVectorList;
+      const ObjToSelf, SelfToObj: TMatrix4f): TGSAffineVectorList;
     // Checks if an AABB intersects a face on the octree
     function AABBIntersect(const AABB: TAABB; M1to2, M2to1: TMatrix4f;
-      Triangles: TgxAffineVectorList = nil): Boolean;
+      Triangles: TGSAffineVectorList = nil): Boolean;
     // function SphereIntersect(position:TAffineVector; radius:single);
   end;
 
-implementation //--------------------------------------------------------
+implementation //============================================================
 
-// ----------------------------------------------------------------------
+// --------------------------------------------------------------------------
 // Name  : CheckPointInSphere()
 // Input : point - point we wish to check for inclusion
 // sO - Origin of sphere
 // sR - radius of sphere
 // Notes :
 // Return: TRUE if point is in sphere, FALSE if not.
-// -----------------------------------------------------------------------
-
+// --------------------------------------------------------------------------
 function CheckPointInSphere(const Point, SO: TVector4f; const SR: Single)
   : Boolean;
 begin
@@ -147,7 +144,6 @@ end;
 // Notes : Triangle should be defined in clockwise order a,b,c
 // Return: TRUE if point is in triangle, FALSE if not.
 // -----------------------------------------------------------------------
-
 function CheckPointInTriangle(Point, A, B, C: TAffineVector): Boolean;
 var
   Total_angles: Single;
@@ -182,7 +178,6 @@ end;
 // Notes : Helper function for closestPointOnTriangle()
 // Return: closest point on line segment
 // -----------------------------------------------------------------------
-
 function ClosestPointOnLine(const A, B, P: TAffineVector): TAffineVector;
 var
   D, T: Double;
@@ -218,7 +213,7 @@ end;
 // Notes :
 // Return: closest point on triangle
 // -----------------------------------------------------------------------
-{
+(*
   function ClosestPointOnTriangle(const a, b, c, n, p: TAffineVector): TAffineVector;
   var
   dAB, dBC, dCA : Single;
@@ -251,7 +246,7 @@ end;
   else Result:=Rab;
   end;
   end;
-}
+*)
 
 // ----------------------------------------------------------------------
 // Name  : ClosestPointOnTriangleEdge()
@@ -262,7 +257,6 @@ end;
 // Notes :
 // Return: closest point on line triangle edge
 // -----------------------------------------------------------------------
-
 function ClosestPointOnTriangleEdge(const A, B, C, P: TAffineVector)
   : TAffineVector;
 var
@@ -680,7 +674,6 @@ end;
 // ------------------
 // ------------------ TOctree ------------------
 // ------------------
-
 const
   MIN = 0;
 
@@ -904,7 +897,7 @@ begin
 end;
 
 procedure TgxOctree.InitializeTree(const AWorldMinExtent, AWorldMaxExtent
-  : TAffineVector; const ATriangles: TgxAffineVectorList;
+  : TAffineVector; const ATriangles: TGSAffineVectorList;
   const ATreeDepth: Integer);
 var
   N: Integer;
@@ -915,7 +908,7 @@ begin
 
   // set up the filer data for this mesh
   if TriangleFiler = nil then
-    TriangleFiler := TgxAffineVectorList.Create;
+    TriangleFiler := TGSAffineVectorList.Create;
   TriangleFiler.Assign(ATriangles);
 
   New(Newnode);
@@ -1132,7 +1125,6 @@ begin
 end;
 
 //-----------------------------------------------------
-
 procedure TgxOctree.WalkTriToLeaf(Onode: PgxOctreeNode;
   const V1, V2, V3: TAffineFLTVector);
 begin
@@ -1440,9 +1432,9 @@ begin
 end;
 
 function TgxOctree.AABBIntersect(const AABB: TAABB; M1to2, M2to1: TMatrix4f;
-  Triangles: TgxAffineVectorList = nil): Boolean;
+  Triangles: TGSAffineVectorList = nil): Boolean;
 var
-  TriList: TgxAffineVectorList;
+  TriList: TGSAffineVectorList;
   I: Integer;
 begin
   // get triangles in nodes intersected by the aabb
@@ -1476,7 +1468,7 @@ begin
 end;
 
 function TgxOctree.GetTrianglesFromNodesIntersectingAABB(const ObjAABB: TAABB)
-  : TgxAffineVectorList;
+  : TGSAffineVectorList;
 var
   AABB1: TAABB;
 
@@ -1506,7 +1498,7 @@ var
 var
   I, K: Integer;
   P: PgxOctreeNode;
-  TriangleIndices: TgxIntegerList;
+  TriangleIndices: TGSIntegerList;
 
 begin
   // Calc AABBs
@@ -1516,8 +1508,8 @@ begin
   if Assigned(RootNode) then
     HandleNode(RootNode);
 
-  Result := TgxAffineVectorList.Create;
-  TriangleIndices := TgxIntegerList.Create;
+  Result := TGSAffineVectorList.Create;
+  TriangleIndices := TGSIntegerList.Create;
   try
     // fill the triangles from all nodes in the resultarray to AL
     for I := 0 to High(ResultArray) do
@@ -1539,7 +1531,7 @@ begin
 end;
 
 function TgxOctree.GetTrianglesFromNodesIntersectingCube(const ObjAABB: TAABB;
-  const ObjToSelf, SelfToObj: TMatrix4f): TgxAffineVectorList;
+  const ObjToSelf, SelfToObj: TMatrix4f): TGSAffineVectorList;
 var
   AABB1: TAABB;
   M1To2, M2To1: TMatrix4f;
@@ -1570,7 +1562,7 @@ var
 var
   I, K: Integer;
   P: PgxOctreeNode;
-  TriangleIndices: TgxIntegerList;
+  TriangleIndices: TGSIntegerList;
 begin
   // Calc AABBs
   AABB1 := ObjAABB;
@@ -1582,8 +1574,8 @@ begin
   if Assigned(RootNode) then
     HandleNode(RootNode);
 
-  Result := TgxAffineVectorList.Create;
-  TriangleIndices := TgxIntegerList.Create;
+  Result := TGSAffineVectorList.Create;
+  TriangleIndices := TGSIntegerList.Create;
   try
     // fill the triangles from all nodes in the resultarray to AL
     for I := 0 to High(ResultArray) do

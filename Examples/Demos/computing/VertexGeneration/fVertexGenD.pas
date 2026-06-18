@@ -18,10 +18,10 @@ uses
   GLS.Cadencer,
   GLS.SceneViewer,
  
-  GLS.BaseClasses,
+  Stage.BaseClasses,
   GLS.SimpleNavigation,
   GLS.Objects,
-  GLS.Coordinates,
+  Stage.Coordinates,
   GLS.Context,
 
   CUDA.APIComps,

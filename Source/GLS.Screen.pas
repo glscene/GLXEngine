@@ -1,10 +1,10 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.Screen;
-
-(* Routines to interact with the screen/desktop *)
-
+(*
+  Routines to interact with the screen/desktop
+*)
 interface
 
 uses
@@ -79,9 +79,7 @@ var
   vCurrentVideoMode: Integer = 0;
   vVideoModes: array of TGLVideoMode;
 
-// ------------------------------------------------------------------------------
-implementation
-// ------------------------------------------------------------------------------
+implementation //============================================================
 
 
 type
@@ -333,9 +331,7 @@ begin
   Result := Screen.Height;
 end;
 
-// ------------------------------------------------------------------
-initialization
-// ------------------------------------------------------------------
+initialization //============================================================
 
 finalization
 

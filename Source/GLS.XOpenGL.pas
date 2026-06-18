@@ -91,7 +91,7 @@ type
     property SecondTextureUnitForbidden: Boolean read FSecondTextureUnitForbidden;
   end;
 
-implementation //==============================================================
+implementation //============================================================
 
 uses
   GLS.Context;
@@ -101,7 +101,6 @@ uses
 // ------------------------------------------------------------------
 
 // --------- Complex (arbitrary) mapping
-
 procedure TexCoord2f_Arbitrary(s, t: TGLfloat);stdcall;
 var
   i: Integer;
@@ -110,6 +109,7 @@ begin
     gl.MultiTexCoord2f(xgl.FComplexMapping[i], s, t);
 end;
 
+//---------------------------------------------------------------------------
 procedure TexCoord2fv_Arbitrary(v: PGLfloat);stdcall;
 var
   i: Integer;
@@ -118,6 +118,7 @@ begin
     gl.MultiTexCoord2fv(xgl.FComplexMapping[i], v);
 end;
 
+//---------------------------------------------------------------------------
 procedure TexCoord3f_Arbitrary(s, t, r: TGLfloat);stdcall;
 var
   i: Integer;
@@ -126,6 +127,7 @@ begin
     gl.MultiTexCoord3f(xgl.FComplexMapping[i], s, t, r);
 end;
 
+//---------------------------------------------------------------------------
 procedure TexCoord3fv_Arbitrary(v: PGLfloat);stdcall;
 var
   i: Integer;
@@ -134,6 +136,7 @@ begin
     gl.MultiTexCoord3fv(xgl.FComplexMapping[i], v);
 end;
 
+//---------------------------------------------------------------------------
 procedure TexCoord4f_Arbitrary(s, t, r, q: TGLfloat);stdcall;
 var
   i: Integer;
@@ -142,6 +145,7 @@ begin
     gl.MultiTexCoord4f(xgl.FComplexMapping[i], s, t, r, q);
 end;
 
+//---------------------------------------------------------------------------
 procedure TexCoord4fv_Arbitrary(v: PGLfloat);stdcall;
 var
   i: Integer;
@@ -150,6 +154,7 @@ begin
     gl.MultiTexCoord4fv(xgl.FComplexMapping[i], v);
 end;
 
+//---------------------------------------------------------------------------
 procedure TexGenf_Arbitrary(coord, pname: Cardinal; param: TGLfloat);stdcall;
 var
   i: Integer;
@@ -161,6 +166,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TexGenfv_Arbitrary(coord, pname: Cardinal; params: PGLfloat);stdcall;
 var
   i: Integer;
@@ -172,6 +178,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TexGeni_Arbitrary(coord, pname: Cardinal; param: TGLint);stdcall;
 var
   i: Integer;
@@ -183,6 +190,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TexGeniv_Arbitrary(coord, pname: Cardinal; params: PGLint);stdcall;
 var
   i: Integer;
@@ -194,6 +202,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure Enable_Arbitrary(cap: Cardinal);stdcall;
 var
   i: Integer;
@@ -205,6 +214,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure Disable_Arbitrary(cap: Cardinal);stdcall;
 var
   i: Integer;
@@ -216,6 +226,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TexCoordPointer_Arbitrary(size: TGLint; atype: Cardinal; stride: TGLsizei; data: pointer);
 stdcall;
 var
@@ -228,6 +239,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure EnableClientState_Arbitrary(aArray: Cardinal);stdcall;
 var
   i: Integer;
@@ -239,6 +251,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure DisableClientState_Arbitrary(aArray: Cardinal);stdcall;
 var
   i: Integer;
@@ -250,74 +263,87 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 // --------- Second unit Texturing
-
+//---------------------------------------------------------------------------
 procedure TexCoord2f_Second(s, t: TGLfloat);stdcall;
 begin
   gl.MultiTexCoord2f(GL_TEXTURE1, s, t);
 end;
 
+//---------------------------------------------------------------------------
 procedure TexCoord2fv_Second(v: PGLfloat);stdcall;
 begin
   gl.MultiTexCoord2fv(GL_TEXTURE1, v);
 end;
 
+//---------------------------------------------------------------------------
 procedure TexCoord3f_Second(s, t, r: TGLfloat);stdcall;
 begin
   gl.MultiTexCoord3f(GL_TEXTURE1, s, t, r);
 end;
 
+//---------------------------------------------------------------------------
 procedure TexCoord3fv_Second(v: PGLfloat);stdcall;
 begin
   gl.MultiTexCoord3fv(GL_TEXTURE1, v);
 end;
 
+//---------------------------------------------------------------------------
 procedure TexCoord4f_Second(s, t, r, q: TGLfloat);stdcall;
 begin
   gl.MultiTexCoord4f(GL_TEXTURE1, s, t, r, q);
 end;
 
+//---------------------------------------------------------------------------
 procedure TexCoord4fv_Second(v: PGLfloat);stdcall;
 begin
   gl.MultiTexCoord4fv(GL_TEXTURE1, v);
 end;
 
+//---------------------------------------------------------------------------
 procedure TexGenf_Second(coord, pname: Cardinal; param: TGLfloat);stdcall;
 begin
   CurrentGLContext.GLStates.ActiveTexture := 1;
   gl.TexGenf(coord, pname, param);
 end;
 
+//---------------------------------------------------------------------------
 procedure TexGenfv_Second(coord, pname: Cardinal; params: PGLfloat);stdcall;
 begin
   CurrentGLContext.GLStates.ActiveTexture := 1;
   gl.TexGenfv(coord, pname, params);
 end;
 
+//---------------------------------------------------------------------------
 procedure TexGeni_Second(coord, pname: Cardinal; param: TGLint);stdcall;
 begin
   CurrentGLContext.GLStates.ActiveTexture := 1;
   gl.TexGeni(coord, pname, param);
 end;
 
+//---------------------------------------------------------------------------
 procedure TexGeniv_Second(coord, pname: Cardinal; params: PGLint);stdcall;
 begin
   CurrentGLContext.GLStates.ActiveTexture := 1;
   gl.TexGeniv(coord, pname, params);
 end;
 
+//---------------------------------------------------------------------------
 procedure Enable_Second(cap: Cardinal);stdcall;
 begin
   CurrentGLContext.GLStates.ActiveTexture := 1;
   gl.Enable(cap);
 end;
 
+//---------------------------------------------------------------------------
 procedure Disable_Second(cap: Cardinal);stdcall;
 begin
   CurrentGLContext.GLStates.ActiveTexture := 1;
   gl.Disable(cap);
 end;
 
+//---------------------------------------------------------------------------
 procedure TexCoordPointer_Second(size: TGLint; atype: Cardinal; stride:
   TGLsizei; data: pointer);stdcall;
 begin
@@ -326,6 +352,7 @@ begin
   gl.ClientActiveTexture(GL_TEXTURE0);
 end;
 
+//---------------------------------------------------------------------------
 procedure EnableClientState_Second(aArray: Cardinal);stdcall;
 begin
   gl.ClientActiveTexture(GL_TEXTURE1);
@@ -333,6 +360,7 @@ begin
   gl.ClientActiveTexture(GL_TEXTURE0);
 end;
 
+//---------------------------------------------------------------------------
 procedure DisableClientState_Second(aArray: Cardinal);stdcall;
 begin
   gl.ClientActiveTexture(GL_TEXTURE1);
@@ -340,44 +368,51 @@ begin
   gl.ClientActiveTexture(GL_TEXTURE0);
 end;
 
+//---------------------------------------------------------------------------
 // --------- Dual Texturing
-
+//---------------------------------------------------------------------------
 procedure TexCoord2f_Dual(s, t: TGLfloat);stdcall;
 begin
   gl.TexCoord2f(s, t);
   gl.MultiTexCoord2f(GL_TEXTURE1, s, t);
 end;
 
+//---------------------------------------------------------------------------
 procedure TexCoord2fv_Dual(v: PGLfloat);stdcall;
 begin
   gl.TexCoord2fv(v);
   gl.MultiTexCoord2fv(GL_TEXTURE1, v);
 end;
 
+//---------------------------------------------------------------------------
 procedure TexCoord3f_Dual(s, t, r: TGLfloat);stdcall;
 begin
   gl.TexCoord3f(s, t, r);
   gl.MultiTexCoord3f(GL_TEXTURE1, s, t, r);
 end;
 
+//---------------------------------------------------------------------------
 procedure TexCoord3fv_Dual(v: PGLfloat);stdcall;
 begin
   gl.TexCoord3fv(v);
   gl.MultiTexCoord3fv(GL_TEXTURE1, v);
 end;
 
+//---------------------------------------------------------------------------
 procedure TexCoord4f_Dual(s, t, r, q: TGLfloat);stdcall;
 begin
   gl.TexCoord4f(s, t, r, q);
   gl.MultiTexCoord4f(GL_TEXTURE1, s, t, r, q);
 end;
 
+//---------------------------------------------------------------------------
 procedure TexCoord4fv_Dual(v: PGLfloat);stdcall;
 begin
   gl.TexCoord4fv(v);
   gl.MultiTexCoord4fv(GL_TEXTURE1, v);
 end;
 
+//---------------------------------------------------------------------------
 procedure TexGenf_Dual(coord, pname: Cardinal; param: TGLfloat);stdcall;
 begin
   with CurrentGLContext.GLStates do
@@ -389,6 +424,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TexGenfv_Dual(coord, pname: Cardinal; params: PGLfloat);
 stdcall;
 begin
@@ -401,6 +437,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TexGeni_Dual(coord, pname: Cardinal; param: TGLint);stdcall;
 begin
   with CurrentGLContext.GLStates do
@@ -412,6 +449,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TexGeniv_Dual(coord, pname: Cardinal; params: PGLint);stdcall;
 begin
   with CurrentGLContext.GLStates do
@@ -423,6 +461,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure Enable_Dual(cap: Cardinal);stdcall;
 begin
   with CurrentGLContext.GLStates do
@@ -434,6 +473,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure Disable_Dual(cap: Cardinal);stdcall;
 begin
   with CurrentGLContext.GLStates do
@@ -445,6 +485,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TexCoordPointer_Dual(size: TGLint; atype: Cardinal; stride:
   TGLsizei; data: pointer);stdcall;
 begin
@@ -454,6 +495,7 @@ begin
   gl.ClientActiveTexture(GL_TEXTURE0);
 end;
 
+//---------------------------------------------------------------------------
 procedure EnableClientState_Dual(aArray: Cardinal);stdcall;
 begin
   gl.EnableClientState(aArray);
@@ -462,6 +504,7 @@ begin
   gl.ClientActiveTexture(GL_TEXTURE0);
 end;
 
+//---------------------------------------------------------------------------
 procedure DisableClientState_Dual(aArray: Cardinal);stdcall;
 begin
   gl.DisableClientState(aArray);
@@ -470,64 +513,79 @@ begin
   gl.ClientActiveTexture(GL_TEXTURE0);
 end;
 
+//---------------------------------------------------------------------------
 // --------- Null Texturing
-
+//---------------------------------------------------------------------------
 procedure TexCoord2f_Null(s, t: TGLfloat);stdcall;
 begin
 end;
 
+//---------------------------------------------------------------------------
 procedure TexCoord2fv_Null(v: PGLfloat);stdcall;
 begin
 end;
 
+//---------------------------------------------------------------------------
 procedure TexCoord3f_Null(s, t, r: TGLfloat);stdcall;
 begin
 end;
 
+//---------------------------------------------------------------------------
 procedure TexCoord3fv_Null(v: PGLfloat);stdcall;
 begin
 end;
 
+//---------------------------------------------------------------------------
 procedure TexCoord4f_Null(s, t, r, q: TGLfloat);stdcall;
 begin
 end;
 
+//---------------------------------------------------------------------------
 procedure TexCoord4fv_Null(v: PGLfloat);stdcall;
 begin
 end;
 
+//---------------------------------------------------------------------------
 procedure TexGenf_Null(coord, pname: Cardinal; param: TGLfloat);stdcall;
 begin
 end;
 
+//---------------------------------------------------------------------------
 procedure TexGenfv_Null(coord, pname: Cardinal; params: PGLfloat);stdcall;
 begin
 end;
 
+//---------------------------------------------------------------------------
 procedure TexGeni_Null(coord, pname: Cardinal; param: TGLint);stdcall;
 begin
 end;
 
+//---------------------------------------------------------------------------
 procedure TexGeniv_Null(coord, pname: Cardinal; params: PGLint);stdcall;
 begin
 end;
 
+//---------------------------------------------------------------------------
 procedure Enable_Null(cap: Cardinal);stdcall;
 begin
 end;
 
+//---------------------------------------------------------------------------
 procedure Disable_Null(cap: Cardinal);stdcall;
 begin
 end;
 
+//---------------------------------------------------------------------------
 procedure TexCoordPointer_Null(size: TGLint; atype: Cardinal; stride: TGLsizei; data: pointer);stdcall;
 begin
 end;
 
+//---------------------------------------------------------------------------
 procedure EnableClientState_Null(aArray: Cardinal);stdcall;
 begin
 end;
 
+//---------------------------------------------------------------------------
 procedure DisableClientState_Null(aArray: Cardinal);stdcall;
 begin
 end;
@@ -535,8 +593,6 @@ end;
 // ------------------------------------------------------------------
 // Redirections management functions
 // ------------------------------------------------------------------
-
-
 procedure TGLMultitextureCoordinator.BeginUpdate;
 begin
   if FUpdCount = 0 then
@@ -548,7 +604,7 @@ begin
     Inc(FUpdCount);
 end;
 
-
+//---------------------------------------------------------------------------
 procedure TGLMultitextureCoordinator.EndUpdate;
 begin
   Dec(FUpdCount);
@@ -566,7 +622,7 @@ begin
   end;
 end;
 
-
+//---------------------------------------------------------------------------
 procedure TGLMultitextureCoordinator.PushState;
 var
   i: Integer;
@@ -577,7 +633,7 @@ begin
   FStateStack[i] := MapTexCoordMode;
 end;
 
-
+//---------------------------------------------------------------------------
 procedure TGLMultitextureCoordinator.PopState;
 var
   i: Integer;
@@ -597,18 +653,19 @@ begin
   SetLength(FStateStack, i);
 end;
 
-
+//---------------------------------------------------------------------------
 procedure TGLMultitextureCoordinator.ForbidSecondTextureUnit;
 begin
   FSecondTextureUnitForbidden := True;
 end;
 
-
+//---------------------------------------------------------------------------
 procedure TGLMultitextureCoordinator.AllowSecondTextureUnit;
 begin
   FSecondTextureUnitForbidden := False;
 end;
 
+//---------------------------------------------------------------------------
 constructor TGLMultitextureCoordinator.Create;
 begin
   inherited;
@@ -616,7 +673,7 @@ begin
   MapTexCoordToNull;
 end;
 
-
+//---------------------------------------------------------------------------
 procedure TGLMultitextureCoordinator.MapTexCoordToNull;
 begin
   if FUpdCount <> 0 then
@@ -646,7 +703,7 @@ begin
   end;
 end;
 
-
+//---------------------------------------------------------------------------
 procedure TGLMultitextureCoordinator.MapTexCoordToMain;
 begin
   if FUpdCount <> 0 then
@@ -676,7 +733,7 @@ begin
   end;
 end;
 
-
+//---------------------------------------------------------------------------
 procedure TGLMultitextureCoordinator.MapTexCoordToSecond;
 begin
   if FSecondTextureUnitForbidden then
@@ -712,7 +769,7 @@ begin
   end;
 end;
 
-
+//---------------------------------------------------------------------------
 procedure TGLMultitextureCoordinator.MapTexCoordToDual;
 begin
   if FSecondTextureUnitForbidden then
@@ -748,7 +805,7 @@ begin
   end;
 end;
 
-
+//---------------------------------------------------------------------------
 procedure TGLMultitextureCoordinator.MapTexCoordToArbitrary(const units: array of Cardinal);
 var
   i, j, n: Integer;
@@ -795,7 +852,7 @@ begin
   end;
 end;
 
-
+//---------------------------------------------------------------------------
 procedure TGLMultitextureCoordinator.MapTexCoordToArbitrary(const bitWiseUnits: Cardinal);
 var
   i, n: Integer;
@@ -820,7 +877,7 @@ begin
   MapTexCoordToArbitrary(units);
 end;
 
-
+//---------------------------------------------------------------------------
 procedure TGLMultitextureCoordinator.MapTexCoordToArbitraryAdd(const bitWiseUnits: Cardinal);
 var
   n: Cardinal;
@@ -829,7 +886,7 @@ begin
   MapTexCoordToArbitrary(n or bitWiseUnits);
 end;
 
-
+//---------------------------------------------------------------------------
 function TGLMultitextureCoordinator.GetBitWiseMapping: Cardinal;
 var
   i, n: Cardinal;

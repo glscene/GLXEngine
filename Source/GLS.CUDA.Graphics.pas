@@ -1,10 +1,10 @@
-﻿//
-// GLScene Graphics Engine
-//
+﻿(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.CUDA.Graphics;
-
-(* CUDA Graphics for GLScene *)
-
+(*
+  CUDA Graphics for GLScene
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -23,12 +23,14 @@ uses
   GLS.Scene,
   GLS.Graphics,
   GLS.Material,
+
   Stage.Strings,
+  Stage.PersistentClasses,
   Stage.TextureFormat,
+
   GLS.Texture,
   GLSL.Shader,
   GLSL.ShaderParameter,
-  GLS.PersistentClasses,
   GLS.RenderContextInfo;
 
 

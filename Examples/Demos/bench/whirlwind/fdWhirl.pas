@@ -17,14 +17,14 @@ uses
   Vcl.ExtCtrls,
 
   Stage.VectorGeometry,
-  GLS.BaseClasses,
+  Stage.BaseClasses,
   GLS.Scene,
-  GLS.PersistentClasses,
+  Stage.PersistentClasses,
   GLS.SceneViewer,
   GLS.Particles,
   GLS.Cadencer,
   GLS.Objects,
-  GLS.Coordinates,
+  Stage.Coordinates,
   GLS.Behaviours;
 
 type

@@ -25,7 +25,7 @@ uses
   GLS.TerrainRenderer,
   GLS.Objects,
   GLS.HeightData,
-  GLS.XCollection,
+  Stage.XCollection,
   GLS.Cadencer,
   GLS.Texture,
   GLS.HUDObjects,
@@ -36,11 +36,11 @@ uses
   GLS.ODEManager,
   GLS.Navigator,
   GLS.GeomObjects,
-  GLS.Color,
+  Stage.Color,
 
   GLS.Material,
-  GLS.Coordinates,
-  GLS.BaseClasses,
+  Stage.Coordinates,
+  Stage.BaseClasses,
   GLS.State;
 
 type

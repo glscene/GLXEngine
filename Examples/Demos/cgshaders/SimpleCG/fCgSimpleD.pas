@@ -31,8 +31,8 @@ uses
   GLS.Graph,
 
   GLS.Material,
-  GLS.Coordinates,
-  GLS.BaseClasses,
+  Stage.Coordinates,
+  Stage.BaseClasses,
   Stage.Utils;
 
 type
@@ -154,7 +154,7 @@ end;
 
 procedure TFormCgSimple.CgShader1ApplyVP(CgProgram: TCgProgram; Sender: TObject);
 var
-  v : TGLVector;
+  v : TGSVector;
   Param: TCgParameter;
 begin
   // rotate light vector for the "simple lighting" vertex program

@@ -23,9 +23,9 @@ uses
   Stage.VectorGeometry,
   Stage.VectorTypes,
   GLS.SceneViewer,
-  GLS.Color,
-  GLS.Coordinates,
-  GLS.BaseClasses;
+  Stage.Color,
+  Stage.Coordinates,
+  Stage.BaseClasses;
 
 type
   TFormHeightField = class(TForm)
@@ -71,11 +71,11 @@ type
   private
 
     procedure Formula1(const X, Y: Single; var z: Single;
-      var Color: TGLColorVector; var texPoint: TTexPoint);
+      var Color: TGSColorVector; var texPoint: TTexPoint);
     procedure Formula2(const X, Y: Single; var z: Single;
-      var Color: TGLColorVector; var texPoint: TTexPoint);
+      var Color: TGSColorVector; var texPoint: TTexPoint);
     procedure Formula3(const X, Y: Single; var z: Single;
-      var Color: TGLColorVector; var texPoint: TTexPoint);
+      var Color: TGSColorVector; var texPoint: TTexPoint);
   public
     mx, my: Integer;
   end;
@@ -97,7 +97,7 @@ begin
 end;
 
 procedure TFormHeightField.Formula1(const X, Y: Single; var z: Single;
-  var Color: TGLColorVector; var texPoint: TTexPoint);
+  var Color: TGSColorVector; var texPoint: TTexPoint);
 begin
   // first formula
   z := VectorNorm(X, Y);
@@ -106,7 +106,7 @@ begin
 end;
 
 procedure TFormHeightField.Formula2(const X, Y: Single; var z: Single;
-  var Color: TGLColorVector; var texPoint: TTexPoint);
+  var Color: TGSColorVector; var texPoint: TTexPoint);
 begin
   // 2nd formula
   z := 0.5 * cos(X * 6.28) * sin(Sqrt(abs(Y)) * 6.28);
@@ -114,7 +114,7 @@ begin
 end;
 
 procedure TFormHeightField.Formula3(const X, Y: Single; var z: Single;
-  var Color: TGLColorVector; var texPoint: TTexPoint);
+  var Color: TGSColorVector; var texPoint: TTexPoint);
 begin
   // 3rd formula, dynamic
   z := 1 / (1 + VectorNorm(Sphere1.position.X - X, Sphere1.position.Y - Y));

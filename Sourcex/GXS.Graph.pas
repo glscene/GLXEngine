@@ -1,10 +1,10 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.Graph;
-
-(* Graph plotting objects for Scene *)
-
+(*
+  Graph plotting objects for Scene
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -13,23 +13,23 @@ uses
   System.Classes,
   System.SysUtils,
 
+  Stage.VectorTypes,
   Stage.OpenGL4,
-  GXS.XOpenGL,
-  GXS.Scene,
-  GXS.Context,
   Stage.VectorGeometry,
   GXS.Material,
+  Stage.VectorLists,
+  Stage.Color,
+  Stage.BaseClasses,
+
+  GXS.Scene,
   GXS.Objects,
-  GXS.VectorLists,
-  GXS.Color,
-  GXS.BaseClasses,
+  GXS.XOpenGL,
+  GXS.Context,
   GXS.RenderContextInfo,
-  GXS.State,
-  Stage.VectorTypes;
+  GXS.State;
 
 type
-
-  TgxSamplingScale = class(TgxUpdateAbleObject)
+  TgxSamplingScale = class(TGSUpdateAbleObject)
   private
     FMin: Single;
     FMax: Single;
@@ -61,9 +61,9 @@ type
   end;
 
   TgxHeightFieldGetHeightEvent = procedure(const x, y: Single; var z: Single;
-    var Color: TgxColorVector; var TexPoint: TTexPoint) of object;
+    var Color: TGSColorVector; var TexPoint: TTexPoint) of object;
   TgxHeightFieldGetHeight2Event = procedure(Sender: TObject; const x, y: Single;
-    var z: Single; var Color: TgxColorVector; var TexPoint: TTexPoint) of object;
+    var z: Single; var Color: TGSColorVector; var TexPoint: TTexPoint) of object;
 
   TgxHeightFieldOption = (hfoTextureCoordinates, hfoTwoSided);
   TgxHeightFieldOptions = set of TgxHeightFieldOption;
@@ -71,14 +71,15 @@ type
   TgxHeightFieldColorMode = (hfcmNone, hfcmEmission, hfcmAmbient, hfcmDiffuse,
     hfcmAmbientAndDiffuse);
 
-  { Renders a sampled height-field.
+  (*
+    Renders a sampled height-field.
     HeightFields are used to materialize z=f(x, y) surfaces, you can use it to
     render anything from math formulas to statistics. Most important properties
     of an height field are its sampling scales (X & Y) that determine the extents
     and the resolution of the base grid.
     The component will then invoke it OnGetHeight event to retrieve Z values for
     all of the grid points (values are retrieved only once for each point). Each
-    point may have an additionnal color and texture coordinate. }
+    point may have an additionnal color and texture coordinate. *)
   TgxHeightField = class(TgxSceneObject)
   private
     FOnGetHeight: TgxHeightFieldGetHeightEvent;
@@ -96,9 +97,9 @@ type
     procedure SetOnGetHeight2(const val: TgxHeightFieldGetHeight2Event);
     procedure SetColorMode(const val: TgxHeightFieldColorMode);
     procedure DefaultHeightField(const x, y: Single; var z: Single;
-      var Color: TgxColorVector; var TexPoint: TTexPoint);
+      var Color: TGSColorVector; var TexPoint: TTexPoint);
     procedure Height2Field(const x, y: Single; var z: Single;
-      var Color: TgxColorVector; var texPoint: TTexPoint);
+      var Color: TGSColorVector; var texPoint: TTexPoint);
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
@@ -111,17 +112,17 @@ type
       write SetXSamplingScale;
     property YSamplingScale: TgxSamplingScale read FYSamplingScale
       write SetYSamplingScale;
-    { Define if and how per vertex color is used. }
+    // Define if and how per vertex color is used.
     property ColorMode: TgxHeightFieldColorMode read FColorMode write SetColorMode
       default hfcmNone;
     property Options: TgxHeightFieldOptions read FOptions write SetOptions
       default [hfoTwoSided];
-    { Primary event to return heights. }
+    // Primary event to return heights.
     property OnGetHeight: TgxHeightFieldGetHeightEvent read FOnGetHeight
       write SetOnGetHeight;
-    { Alternate this event to return heights.
+    (* Alternate this event to return heights.
       This events passes an extra "Sender" parameter, it will be invoked
-      only if OnGetHeight isn't defined. }
+      only if OnGetHeight isn't defined. *)
     property OnGetHeight2: TgxHeightFieldGetHeight2Event read FOnGetHeight2
       write SetOnGetHeight2;
   end;
@@ -129,16 +130,15 @@ type
   TXYZGridPart = (gpX, gpY, gpZ);
   TXYZGridParts = set of TXYZGridPart;
 
-  { Rendering Style for grid lines.
+  (* Rendering Style for grid lines.
     - glsLine : a single line is used for each grid line (from Min to Max),
     this provides the fastest rendering
     - glsSegments : line segments are used between each node of the grid,
     this enhances perspective and quality, at the expense of computing
-    power. }
+    power. *)
   TXYZGridLinesStyle = (strLine, glsSegments);
 
-  { An XYZ Grid object.
-    Renders an XYZ grid using lines. }
+  // An XYZ Grid object. Renders an XYZ grid using lines.
   TgxXYZGrid = class(TgxLineBase)
   private
     FXSamplingScale: TgxSamplingScale;
@@ -169,19 +169,15 @@ type
     property Parts: TXYZGridParts read FParts write SetParts default [gpX, gpY];
     property LinesStyle: TXYZGridLinesStyle read FLinesStyle write SetLinesStyle
       default glsSegments;
-    { Adjusts lines smoothing (or antialiasing).
-      Obsolete, now maps to Antialiased property. }
+    // Adjusts lines smoothing. Obsolete, now maps to Antialiased property.
     property LinesSmoothing: Boolean write SetLinesSmoothing stored False;
   end;
 
-//=====================================================================
-implementation
-//=====================================================================
+implementation //============================================================
 
 // ------------------
 // ------------------ TgxSamplingScale ------------------
 // ------------------
-
 constructor TgxSamplingScale.Create(AOwner: TPersistent);
 begin
   inherited Create(AOwner);
@@ -336,7 +332,7 @@ end;
 procedure TgxHeightField.BuildList(var rci: TgxRenderContextInfo);
 type
   TRowData = packed record
-    Color: TgxColorVector;
+    Color: TGSColorVector;
     Z: Single;
     TexPoint: TTexPoint;
     Normal: TAffineVector;
@@ -572,7 +568,7 @@ end;
 //
 
 procedure TgxHeightField.DefaultHeightField(const x, y: Single; var z: Single;
-  var color: TgxColorVector; var texPoint: TTexPoint);
+  var color: TGSColorVector; var texPoint: TTexPoint);
 begin
   z := VectorNorm(x, y);
   z := cos(z * 12) / (2 * (z * 6.28 + 1));
@@ -583,7 +579,7 @@ end;
 //
 
 procedure TgxHeightField.Height2Field(const x, y: Single; var z: Single;
-  var color: TgxColorVector; var texPoint: TTexPoint);
+  var color: TGSColorVector; var texPoint: TTexPoint);
 begin
   FOnGetHeight2(Self, x, y, z, color, texPoint);
 end;
@@ -802,14 +798,7 @@ begin
   end;
 end;
 
-// -------------------------------------------------------------
-// -------------------------------------------------------------
-// -------------------------------------------------------------
-initialization
-
-// -------------------------------------------------------------
-// -------------------------------------------------------------
-// -------------------------------------------------------------
+initialization //============================================================
 
 RegisterClasses([TgxHeightField, TgxXYZGrid]);
 

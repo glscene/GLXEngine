@@ -1,7 +1,4 @@
-﻿//
-// GXStage Graphics Engine
-//
-unit SDL.Import;
+﻿unit SDL.Import;
 {*******************************************************************************
   Simple DirectMedia Layer
   

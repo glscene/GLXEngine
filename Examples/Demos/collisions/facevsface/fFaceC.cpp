@@ -8,9 +8,9 @@
 #include "fFaceC.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
-#pragma link "GLS.BaseClasses"
+#pragma link "Stage.BaseClasses"
 #pragma link "GLS.Collision"
-#pragma link "GLS.Coordinates"
+#pragma link "Stage.Coordinates"
 
 #pragma link "GLS.Objects"
 #pragma link "GLS.Scene"
@@ -157,7 +157,7 @@ void __fastcall TForm1::GLSceneViewer1MouseMove(
     TObject* Sender, TShiftState Shift, int X, int Y)
 {
     int dx, dy;
-    TGLVector VX, VY;
+    TGSVector VX, VY;
     TGLCamera* Camera;
 
     Camera = GLSceneViewer1->Camera;

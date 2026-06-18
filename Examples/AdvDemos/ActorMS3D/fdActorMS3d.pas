@@ -1,3 +1,6 @@
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit fdActorMS3d;
 
 interface
@@ -15,19 +18,20 @@ uses
   Vcl.Imaging.jpeg,
   Vcl.Imaging.pngimage,
 
+  Stage.BaseClasses,
   Stage.VectorGeometry,
   Stage.VectorTypes,
+  Stage.VectorLists,
+  GLS.ArchiveManager,
+  Stage.Coordinates,
+  GLS.FileZLIB,
   Stage.Utils,
 
-  Stage.PipelineTransform,
-  GLS.VectorLists,
   GLS.Cadencer,
   GLS.SceneViewer,
-  GLS.BaseClasses,
   GLS.Scene,
   GLS.VectorFileObjects,
   GLS.Objects,
-  GLS.Coordinates,
   GLS.GeomObjects,
   GLS.FileMS3D,
   GLS.Material,
@@ -40,10 +44,8 @@ uses
   GLS.Gui,
   GLS.Windows,
   GLS.State,
-  GLS.ArchiveManager,
   GLS.Context,
   GLS.CompositeImage,
-  GLS.FileZLIB,
   GLS.FileJPEG,
   GLS.FilePNG,
   GLS.FBORenderer,
@@ -74,7 +76,7 @@ type
     aniBox: TComboBox;
     aniPos: TTrackBar;
     Timer1: TTimer;
-    GLSArchiveManager1: TGLSArchiveManager;
+    GLSArchiveManager1: TGLArchiveManager;
     GLSLShader1: TGLSLShader;
     MatLib: TGLMaterialLibrary;
     procedure FormCreate(Sender: TObject);
@@ -106,16 +108,16 @@ var
   mdx: Integer;
   mdy: Integer;
 
-  FBiasMatrix: TGLMatrix;
-  FLightModelViewMatrix: TGLMatrix;
-  FLightProjMatrix: TGLMatrix;
-  FInvCameraMatrix: TGLMatrix;
-  FEyeToLightMatrix: TGLMatrix;
+  FBiasMatrix: TGSMatrix;
+  FLightModelViewMatrix: TGSMatrix;
+  FLightProjMatrix: TGSMatrix;
+  FInvCameraMatrix: TGSMatrix;
+  FEyeToLightMatrix: TGSMatrix;
 
-  FLightModelViewMatrix2: TGLMatrix;
-  FLightProjMatrix2: TGLMatrix;
-  FInvCameraMatrix2: TGLMatrix;
-  FEyeToLightMatrix2: TGLMatrix;
+  FLightModelViewMatrix2: TGSMatrix;
+  FLightProjMatrix2: TGSMatrix;
+  FInvCameraMatrix2: TGSMatrix;
+  FEyeToLightMatrix2: TGSMatrix;
 
 implementation //==============================================================
 

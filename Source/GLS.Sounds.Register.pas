@@ -1,10 +1,11 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.Sounds.Register;
-
-(* Design time registration code for the Sounds *)
-
+(*
+  Design time registration code for the Sounds
+  RegisterComponents('GLScene',[TGLSMBASS,TGLSMFMOD,TGLSMOpenAL,TGLSMWaveOut]);
+*)
 interface
 
 uses
@@ -17,7 +18,7 @@ uses
 
 procedure Register;
 
-implementation // ----------------------------------------------------------
+implementation //============================================================
 
 procedure Register;
 begin

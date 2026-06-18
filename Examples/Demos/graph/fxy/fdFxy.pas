@@ -18,12 +18,12 @@ uses
   Stage.VectorTypes,
   GLS.Objects,
   GLS.Graph,
-  GLS.Color,
+  Stage.Color,
   GLS.Scene,
   GLS.State,
   GLS.SceneViewer,
-  GLS.Coordinates,
-  GLS.BaseClasses,
+  Stage.Coordinates,
+  Stage.BaseClasses,
   GLS.AsyncTimer;
 
 type

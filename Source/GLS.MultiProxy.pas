@@ -1,10 +1,11 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.MultiProxy;
-
-(* Implements a multi-proxy objects, useful for discreet LOD. *)
-
+(*
+  Implements a multi-proxy objects, useful for discreet LOD
+  RegisterClasses([TGLMultiProxy]);
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -14,21 +15,19 @@ uses
   System.SysUtils,
 
   Stage.OpenGLTokens,
-  GLS.PersistentClasses,
+  Stage.VectorTypes,
+  Stage.PersistentClasses,
   Stage.VectorGeometry,
 
   GLS.Context,
   GLS.Scene,
-  GLS.Silhouette,
+  Stage.Silhouette,
   GLS.RenderContextInfo,
-  GLS.BaseClasses,
-  Stage.VectorTypes;
+  Stage.BaseClasses;
 
 type
-
   TGLMultiProxy = class;
-
-    // MasterObject description for a MultiProxy object 
+  // MasterObject description for a MultiProxy object
 	TGLMultiProxyMaster = class (TCollectionItem)
 	   private
          FMasterObject : TGLBaseSceneObject;
@@ -99,11 +98,11 @@ type
 	      procedure Assign(Source: TPersistent); override;
          procedure DoRender(var rci : TGLRenderContextInfo;
                             renderSelf, renderChildren : Boolean); override;
-         function AxisAlignedDimensionsUnscaled : TGLVector; override;
-         function RayCastIntersect(const rayStart, rayVector : TGLVector;
-                                 intersectPoint : PGLVector = nil;
-                                 intersectNormal : PGLVector = nil) : Boolean; override;
-         function GenerateSilhouette(const silhouetteParameters : TGLSilhouetteParameters) : TGLSilhouette; override;
+         function AxisAlignedDimensionsUnscaled : TGSVector; override;
+         function RayCastIntersect(const rayStart, rayVector : TGSVector;
+                                 intersectPoint : PGSVector = nil;
+                                 intersectNormal : PGSVector = nil) : Boolean; override;
+         function GenerateSilhouette(const silhouetteParameters : TGSSilhouetteParameters) : TGSSilhouette; override;
       published
          property MasterObjects : TGLMultiProxyMasters read FMasterObjects write SetMasterObjects;
          property ObjectsSorting;
@@ -120,13 +119,11 @@ type
          property Behaviours;
    end;
 
-//-------------------------------------------------------------
-implementation
-//-------------------------------------------------------------
+implementation //============================================================
+
 // ------------------
 // ------------------ TGLMultiProxyMaster ------------------
 // ------------------
-
 constructor TGLMultiProxyMaster.Create(Collection : TCollection);
 begin
 	inherited Create(Collection);
@@ -260,8 +257,8 @@ end;
 
 procedure TGLMultiProxyMasters.NotifyChange;
 begin
-   if (UpdateCount=0) and (GetOwner<>nil) and (GetOwner is TGLUpdateAbleComponent) then
-      TGLUpdateAbleComponent(GetOwner).NotifyChange(Self);
+   if (UpdateCount=0) and (GetOwner<>nil) and (GetOwner is TGSUpdateAbleComponent) then
+      TGSUpdateAbleComponent(GetOwner).NotifyChange(Self);
 end;
 
 procedure TGLMultiProxyMasters.EndUpdate;
@@ -353,7 +350,7 @@ begin
    else Result:=nil;
 end;
 
-function TGLMultiProxy.AxisAlignedDimensionsUnscaled : TGLVector;
+function TGLMultiProxy.AxisAlignedDimensionsUnscaled : TGSVector;
 var
    master : TGLBaseSceneObject;
 begin
@@ -363,11 +360,11 @@ begin
    end else Result:=inherited AxisAlignedDimensionsUnscaled;
 end;
 
-function TGLMultiProxy.RayCastIntersect(const rayStart, rayVector : TGLVector;
-                                 intersectPoint : PGLVector = nil;
-                                 intersectNormal : PGLVector = nil) : Boolean;
+function TGLMultiProxy.RayCastIntersect(const rayStart, rayVector : TGSVector;
+                                 intersectPoint : PGSVector = nil;
+                                 intersectNormal : PGSVector = nil) : Boolean;
 var
-   localRayStart, localRayVector : TGLVector;
+   localRayStart, localRayVector : TGSVector;
    master : TGLBaseSceneObject;
 begin
    master:=PrimaryMaster;
@@ -393,7 +390,7 @@ begin
    end else Result:=False;
 end;
 
-function TGLMultiProxy.GenerateSilhouette(const silhouetteParameters : TGLSilhouetteParameters) : TGLSilhouette;
+function TGLMultiProxy.GenerateSilhouette(const silhouetteParameters : TGSSilhouetteParameters) : TGSSilhouette;
 var
    master : TGLBaseSceneObject;
 begin
@@ -403,9 +400,7 @@ begin
    else Result:=nil;
 end;
 
-//-------------------------------------------------------------
-initialization
-//-------------------------------------------------------------
+initialization //============================================================
 
    RegisterClasses([TGLMultiProxy]);
 

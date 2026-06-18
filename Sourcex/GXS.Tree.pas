@@ -1,10 +1,10 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.Tree;
-
 (*
   Dynamic tree generation
+  RegisterClasses([TgxTree]);
 
   This code was adapted from the nVidia Tree Demo:
   http://developer.nvidia.com/object/Procedural_Tree.html
@@ -15,8 +15,8 @@ unit GXS.Tree;
     with low depth, or set it to zero, and have two-branched tree.
   Default : 0.5
   "AutoRebuild" flag  - Rebuild tree after property change.
-  Default: True *)
-
+  Default: True
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -29,7 +29,7 @@ uses
 
   GXS.XOpenGL,
   Stage.VectorGeometry,
-  GXS.VectorLists,
+  Stage.VectorLists,
   GXS.ApplicationFileIO,
   Stage.VectorTypes,
   Stage.Strings,
@@ -49,9 +49,9 @@ type
   private
     FOwner: TgxTree;
     FCount: Integer;
-    FVertices: TgxAffineVectorList;
-    FNormals: TgxAffineVectorList;
-    FTexCoords: TgxAffineVectorList;
+    FVertices: TGSAffineVectorList;
+    FNormals: TGSAffineVectorList;
+    FTexCoords: TGSAffineVectorList;
   public
     constructor Create(AOwner: TgxTree);
     destructor Destroy; override;
@@ -60,9 +60,9 @@ type
     procedure Clear;
     property Owner: TgxTree read FOwner;
     property Count: Integer read FCount;
-    property Vertices: TgxAffineVectorList read FVertices;
-    property Normals: TgxAffineVectorList read FNormals;
-    property TexCoords: TgxAffineVectorList read FTexCoords;
+    property Vertices: TGSAffineVectorList read FVertices;
+    property Normals: TGSAffineVectorList read FNormals;
+    property TexCoords: TGSAffineVectorList read FTexCoords;
   end;
 
   TgxTreeBranch = class
@@ -75,8 +75,8 @@ type
     FBranchID: Integer;
     FParentID: Integer;
     FMatrix: TMatrix4f;
-    FLower: TgxIntegerList;
-    FUpper: TgxIntegerList;
+    FLower: TGSIntegerList;
+    FUpper: TGSIntegerList;
     FCentralLeader: Boolean;
     procedure BuildBranch(branchNoise: TgxTreeBranchNoise;
       const matrix: TMatrix4f; TexCoordY, Twist: Single; Level: Integer);
@@ -89,23 +89,23 @@ type
     property Right: TgxTreeBranch read FRight;
     property Parent: TgxTreeBranch read FParent;
     property matrix: TMatrix4f read FMatrix;
-    property Lower: TgxIntegerList read FLower;
-    property Upper: TgxIntegerList read FUpper;
+    property Lower: TGSIntegerList read FLower;
+    property Upper: TGSIntegerList read FUpper;
   end;
 
   TgxTreeBranches = class
   private
     FOwner: TgxTree;
-    FSinList: TgxSingleList;
-    FCosList: TgxSingleList;
-    FVertices: TgxAffineVectorList;
-    FNormals: TgxAffineVectorList;
-    FTexCoords: TgxAffineVectorList;
-    FIndices: TgxIntegerList;
+    FSinList: TGSSingleList;
+    FCosList: TGSSingleList;
+    FVertices: TGSAffineVectorList;
+    FNormals: TGSAffineVectorList;
+    FTexCoords: TGSAffineVectorList;
+    FIndices: TGSIntegerList;
     FRoot: TgxTreeBranch;
     FCount: Integer;
     FBranchCache: TList;
-    FBranchIndices: TgxIntegerList;
+    FBranchIndices: TGSIntegerList;
     procedure BuildBranches;
   public
     constructor Create(AOwner: TgxTree);
@@ -113,11 +113,11 @@ type
     procedure BuildList(var rci: TgxRenderContextInfo);
     procedure Clear;
     property Owner: TgxTree read FOwner;
-    property SinList: TgxSingleList read FSinList;
-    property CosList: TgxSingleList read FCosList;
-    property Vertices: TgxAffineVectorList read FVertices;
-    property Normals: TgxAffineVectorList read FNormals;
-    property TexCoords: TgxAffineVectorList read FTexCoords;
+    property SinList: TGSSingleList read FSinList;
+    property CosList: TGSSingleList read FCosList;
+    property Vertices: TGSAffineVectorList read FVertices;
+    property Normals: TGSAffineVectorList read FNormals;
+    property TexCoords: TGSAffineVectorList read FTexCoords;
     property Count: Integer read FCount;
   end;
 
@@ -257,21 +257,18 @@ type
       write SetBranchMaterialName;
   end;
 
-//=========================================================================
-implementation
-//=========================================================================
+implementation //==========================================================
 
 // ------------------------------------------------------------------------
 // TgxTreeLeaves
 // ------------------------------------------------------------------------
-
 constructor TgxTreeLeaves.Create(AOwner: TgxTree);
 begin
   FOwner := AOwner;
   FCount := 0;
-  FVertices := TgxAffineVectorList.Create;
-  FNormals := TgxAffineVectorList.Create;
-  FTexCoords := TgxAffineVectorList.Create;
+  FVertices := TGSAffineVectorList.Create;
+  FNormals := TGSAffineVectorList.Create;
+  FTexCoords := TGSAffineVectorList.Create;
 end;
 
 destructor TgxTreeLeaves.Destroy;
@@ -370,8 +367,8 @@ constructor TgxTreeBranch.Create(AOwner: TgxTreeBranches;
 begin
   FOwner := AOwner;
   FParent := AParent;
-  FUpper := TgxIntegerList.Create;
-  FLower := TgxIntegerList.Create;
+  FUpper := TGSIntegerList.Create;
+  FLower := TGSIntegerList.Create;
   FCentralLeader := False;
 
   // Skeletal construction helpers
@@ -611,14 +608,14 @@ end;
 constructor TgxTreeBranches.Create(AOwner: TgxTree);
 begin
   FOwner := AOwner;
-  FSinList := TgxSingleList.Create;
-  FCosList := TgxSingleList.Create;
-  FVertices := TgxAffineVectorList.Create;
-  FNormals := TgxAffineVectorList.Create;
-  FTexCoords := TgxAffineVectorList.Create;
-  FIndices := TgxIntegerList.Create;
+  FSinList := TGSSingleList.Create;
+  FCosList := TGSSingleList.Create;
+  FVertices := TGSAffineVectorList.Create;
+  FNormals := TGSAffineVectorList.Create;
+  FTexCoords := TGSAffineVectorList.Create;
+  FIndices := TGSIntegerList.Create;
   FBranchCache := TList.Create;
-  FBranchIndices := TgxIntegerList.Create;
+  FBranchIndices := TGSIntegerList.Create;
   FCount := 0;
 end;
 
@@ -1365,9 +1362,7 @@ begin
   end;
 end;
 
-//-----------------------------------------------------
-initialization
-//-----------------------------------------------------
+initialization //===========================================================
 
 RegisterClasses([TgxTree]);
 

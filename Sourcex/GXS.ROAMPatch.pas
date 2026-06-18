@@ -1,10 +1,10 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.ROAMPatch;
-
-(* Class for managing a ROAM (square) patch *)
-
+(*
+  Class for managing a ROAM (square) patch
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -16,7 +16,7 @@ uses
   Stage.VectorTypes,
   GXS.XOpenGL,
   Stage.VectorGeometry,
-  GXS.VectorLists,
+  Stage.VectorLists,
   Stage.Strings,
   GXS.HeightData,
   GXS.Isolines,
@@ -63,10 +63,10 @@ type
   protected
     procedure SetHeightData(Val: TgxHeightData);
     procedure SetOcclusionSkip(Val: Integer);
-    procedure RenderROAM(Vertices: TgxAffineVectorList;
-      VertexIndices: TgxIntegerList; TexCoords: TgxTexPointList);
-    procedure RenderAsStrips(Vertices: TgxAffineVectorList;
-      VertexIndices: TgxIntegerList; TexCoords: TgxTexPointList);
+    procedure RenderROAM(Vertices: TGSAffineVectorList;
+      VertexIndices: TGSIntegerList; TexCoords: TGSTexPointList);
+    procedure RenderAsStrips(Vertices: TGSAffineVectorList;
+      VertexIndices: TGSIntegerList; TexCoords: TGSTexPointList);
   public
     constructor Create;
     destructor Destroy; override;
@@ -86,19 +86,19 @@ type
       The lists are assumed to have enough capacity to allow AddNC calls
       (additions without capacity check). High-resolution renders use
       display lists, and are assumed to be made together. *)
-    procedure RenderHighRes(Vertices: TgxAffineVectorList;
-      VertexIndices: TgxIntegerList; TexCoords: TgxTexPointList; ForceROAM: Boolean);
+    procedure RenderHighRes(Vertices: TGSAffineVectorList;
+      VertexIndices: TGSIntegerList; TexCoords: TGSTexPointList; ForceROAM: Boolean);
     (*  Render the patch by accumulating triangles.
       The lists are assumed to have enough capacity to allow AddNC calls
       (additions without capacity check).
       Once at least autoFlushVertexCount vertices have been accumulated,
       perform a FlushAccum *)
-    procedure RenderAccum(Vertices: TgxAffineVectorList;
-      VertexIndices: TgxIntegerList; TexCoords: TgxTexPointList;
+    procedure RenderAccum(Vertices: TGSAffineVectorList;
+      VertexIndices: TGSIntegerList; TexCoords: TGSTexPointList;
       AutoFlushVertexCount: Integer);
     // Render all vertices accumulated in the arrays and set their count back to zero.
-    class procedure FlushAccum(Vertices: TgxAffineVectorList;
-      VertexIndices: TgxIntegerList; TexCoords: TgxTexPointList);
+    class procedure FlushAccum(Vertices: TGSAffineVectorList;
+      VertexIndices: TGSIntegerList; TexCoords: TGSTexPointList);
     property HeightData: TgxHeightData read FHeightData write SetHeightData;
     property VertexScale: TAffineVector read FVertexScale write FVertexScale;
     property VertexOffset: TAffineVector read FVertexOffset write FVertexOffset;
@@ -127,10 +127,10 @@ type
 procedure SetROAMTrianglesCapacity(nb: Integer);
 function GetROAMTrianglesCapacity: Integer;
 // Draw contours on rendering terrain patches
-procedure DrawContours(Vertices: TgxAffineVectorList; VertexIndices: TgxIntegerList;
+procedure DrawContours(Vertices: TGSAffineVectorList; VertexIndices: TGSIntegerList;
   ContourInterval: Integer; ContourWidth: Integer; DecVal: Integer);
 
-implementation // -----------------------------------------------------------
+implementation //============================================================
 
 var
   FVBOVertHandle, FVBOTexHandle: TgxVBOArrayBufferHandle;
@@ -142,8 +142,8 @@ var
 
   RenderRaster: PSmallIntRaster;
   RenderIndices: PIntegerArray;
-  RenderVertices: TgxAffineVectorList;
-  RenderTexCoords: TgxTexPointList;
+  RenderVertices: TGSAffineVectorList;
+  RenderTexCoords: TGSTexPointList;
 
   TessMaxVariance: cardinal;
   TessMaxDepth: cardinal;
@@ -170,11 +170,11 @@ begin
   Result := vTriangleNodesCapacity;
 end;
 
-procedure DrawContours(Vertices: TgxAffineVectorList; VertexIndices: TgxIntegerList;
+procedure DrawContours(Vertices: TGSAffineVectorList; VertexIndices: TGSIntegerList;
   ContourInterval: Integer; ContourWidth: Integer; DecVal: Integer);
 var
   i: Integer;
-  Contours: TgxAffineVectorList;
+  Contours: TGSAffineVectorList;
   CurColor: TVector4f;
 
 begin
@@ -183,7 +183,7 @@ begin
     glPolygonOffset(1, 1);
     glEnable(GL_POLYGON_OFFSET_FILL);
     i := VertexIndices.Count - 3;
-    Contours := TgxAffineVectorList.Create;
+    Contours := TGSAffineVectorList.Create;
     while i >= 0 do
     begin
       TriangleElevationSegments(Vertices[VertexIndices[i]],
@@ -678,8 +678,8 @@ begin
   until not Fail;
 end;
 
-procedure TgxROAMPatch.RenderHighRes(vertices: TgxAffineVectorList;
-  VertexIndices: TgxIntegerList; TexCoords: TgxTexPointList; ForceROAM: Boolean);
+procedure TgxROAMPatch.RenderHighRes(vertices: TGSAffineVectorList;
+  VertexIndices: TGSIntegerList; TexCoords: TGSTexPointList; ForceROAM: Boolean);
 
 var
   Primitive: Cardinal;
@@ -727,8 +727,8 @@ begin
   glCallList(FListHandle.Handle);
 end;
 
-procedure TgxROAMPatch.RenderAccum(vertices: TgxAffineVectorList;
-  VertexIndices: TgxIntegerList; TexCoords: TgxTexPointList;
+procedure TgxROAMPatch.RenderAccum(vertices: TGSAffineVectorList;
+  VertexIndices: TGSIntegerList; TexCoords: TGSTexPointList;
   AutoFlushVertexCount: Integer);
 var
   OcclusionPassed: Boolean;
@@ -779,8 +779,8 @@ begin
 
 end;
 
-class procedure TgxROAMPatch.FlushAccum(vertices: TgxAffineVectorList;
-  VertexIndices: TgxIntegerList; TexCoords: TgxTexPointList);
+class procedure TgxROAMPatch.FlushAccum(vertices: TGSAffineVectorList;
+  VertexIndices: TGSIntegerList; TexCoords: TGSTexPointList);
 begin
   if VertexIndices.Count = 0 then
     Exit;
@@ -844,8 +844,8 @@ begin
   end;
 end;
 
-procedure TgxROAMPatch.RenderROAM(Vertices: TgxAffineVectorList;
-  VertexIndices: TgxIntegerList; TexCoords: TgxTexPointList);
+procedure TgxROAMPatch.RenderROAM(Vertices: TGSAffineVectorList;
+  VertexIndices: TGSIntegerList; TexCoords: TGSTexPointList);
 
   procedure ROAMRenderPoint(var p: TgxROAMRenderPoint; anX, anY: Integer);
   begin
@@ -878,8 +878,8 @@ begin
   VertexIndices.Count := (Cardinal(RenderIndices) - Cardinal(VertexIndices.List)) div SizeOf(Integer);
 end;
 
-procedure TgxROAMPatch.RenderAsStrips(vertices: TgxAffineVectorList;
-  VertexIndices: TgxIntegerList; TexCoords: TgxTexPointList);
+procedure TgxROAMPatch.RenderAsStrips(vertices: TGSAffineVectorList;
+  VertexIndices: TGSIntegerList; TexCoords: TGSTexPointList);
 
 var
   X, Y, baseTop, rowLength: Integer;
@@ -950,15 +950,13 @@ begin
   VertexIndices.Count := VertexIndices.Count - 1;
 end;
 
-// ------------------------------------------------------------------
-initialization
-// ------------------------------------------------------------------
+initialization //============================================================
 
 FVBOVertHandle := TgxVBOArrayBufferHandle.Create;
 FVBOTexHandle := TgxVBOArrayBufferHandle.Create;
 FVBOIndicesHandle := TgxVBOElementArrayHandle.Create;
 
-finalization //-------------------------------------------------------------
+finalization //=============================================================
 
 FVBOVertHandle.Free;
 FVBOTexHandle.Free;

@@ -29,7 +29,7 @@ package GLScene_Physics_DT;
 {$IMAGEBASE $400000}
 {$DEFINE DEBUG}
 {$ENDIF IMPLICITBUILDING}
-{$DESCRIPTION 'GLScene Physics Managers'}
+{$DESCRIPTION 'GLScene DT Physics Managers'}
 {$DESIGNONLY}
 {$IMPLICITBUILD ON}
 

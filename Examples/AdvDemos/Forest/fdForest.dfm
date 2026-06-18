@@ -11,6 +11,7 @@ object FormForest: TFormForest
   Font.Name = 'MS Sans Serif'
   Font.Style = []
   Position = poScreenCenter
+  WindowState = wsMaximized
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnDeactivate = FormDeactivate

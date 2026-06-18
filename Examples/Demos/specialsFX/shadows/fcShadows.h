@@ -12,10 +12,10 @@
 #include <Vcl.ExtCtrls.hpp>
 
 #include "GLS.AsyncTimer.hpp"
-#include "GLS.BaseClasses.hpp"
+#include "Stage.BaseClasses.hpp"
 #include "GLS.Behaviours.hpp"
 #include "GLS.Cadencer.hpp"
-#include "GLS.Coordinates.hpp"
+#include "Stage.Coordinates.hpp"
 
 #include "GLS.GeomObjects.hpp"
 #include "GLS.Graph.hpp"
@@ -99,7 +99,7 @@ __published:	// IDE-managed Components
 	void __fastcall AlphaBarChange(TObject *Sender);
 	void __fastcall GLCadencer1Progress(TObject *Sender, const double deltaTime, const double newTime);
 	void __fastcall HeightField1GetHeight2(TObject *Sender, const float x, const float y,
-          float &z, TGLColorVector &Color, TTexPoint &TexPoint);
+          float &z, TGSColorVector &Color, TTexPoint &TexPoint);
 
 
 

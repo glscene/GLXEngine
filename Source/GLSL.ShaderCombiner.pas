@@ -1,17 +1,17 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLSL.ShaderCombiner;
-
 (*
    Allows to combine shaders in different sequences.
+   RegisterClasses([TGLCustomShaderCombiner, TGLShaderCombiner]);
+
    Note, that can't just take 2 random shaders and combine them, because
    shaders often override the objects material and vertex data with a total
    disregard to what existed before it. But in some cases, especially with
    multipass shaders, this unit does magic and allows to reuse and upgrade
    previously written shaders.
 *)
-
 interface
 
 {$I Stage.Defines.inc}
@@ -217,9 +217,7 @@ begin
              FShaderOne.ShaderSupported and FShaderTwo.ShaderSupported;
 end;
 
-//-----------------------------------
-initialization
-//-----------------------------------
+initialization //============================================================
 
   RegisterClasses([TGLCustomShaderCombiner, TGLShaderCombiner]);
 

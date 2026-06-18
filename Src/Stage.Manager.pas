@@ -1,6 +1,6 @@
-//
-// GXStage Graphics Engine
-//
+(*****************************************************************************
+                          GLStage Graphics Engine
+******************************************************************************)
 unit Stage.Manager;
 (*
   Managers are used to manage many different kinds of clients in GLScene.
@@ -20,7 +20,7 @@ procedure DeRegisterManager(aManager: TComponent);
 function FindManager(classType: TComponentClass; const managerName: String)
   : TComponent;
 
-implementation // ------------------------------------------------------------
+implementation //============================================================
 
 var
   vManagers: TList;
@@ -55,11 +55,9 @@ begin
         end;
 end;
 
-// ============================================================
-initialization
-// ============================================================
+initialization //============================================================
 
-finalization
+finalization // =============================================================
 
 vManagers.Free;
 vManagers := nil;

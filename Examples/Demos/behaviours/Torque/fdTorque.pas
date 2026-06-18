@@ -15,15 +15,15 @@ uses
 
   GLS.Objects,
   GLS.Scene,
-  GLS.PersistentClasses,
+  Stage.PersistentClasses,
   GLS.Cadencer,
   GLS.SceneViewer,
 
-  GLS.Coordinates,
-  GLS.BaseClasses,
+  Stage.Coordinates,
+  Stage.BaseClasses,
   GLS.Behaviours,
   GLS.HUDObjects,
-  GLS.Color,
+  Stage.Color,
   GLS.BitmapFont,
   GLS.GeomObjects,
   GLS.RenderContextInfo,
@@ -107,7 +107,7 @@ procedure TFormTorque.GLSceneViewer1MouseDown(Sender: TObject; Button: TMouseBut
   Shift: TShiftState; X, Y: Integer);
 var
   pickedObject: TGLCustomSceneObject;
-  oldColor: TGLColorVector;
+  oldColor: TGSColorVector;
   rci: TGLRenderContextInfo;
 begin
   // if an object is picked...

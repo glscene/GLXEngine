@@ -21,12 +21,12 @@ uses
   GLS.Objects,
   GLS.Particles,
   GLS.SceneViewer,
-  GLS.Color,
+  Stage.Color,
   GLS.MultiProxy,
   GLS.Texture,
 
-  GLS.Coordinates,
-  GLS.BaseClasses;
+  Stage.Coordinates,
+  Stage.BaseClasses;
 
 type
   TFormMultiProxy = class(TForm)

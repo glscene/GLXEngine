@@ -1,8 +1,7 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.SpacePartition;
-
 (*
   Space Partition speeds up geometrical queries, like what objects does an overlap.
   Note that the class TGLOctreeSpacePartition is optimized for dynamic scenes with
@@ -25,7 +24,6 @@ unit GLS.SpacePartition;
   3 coordinates (x,y,z); each of which are flagged separately. Also note that these
   flags are based on the Y vector being the up vector.
 *)
-
 interface
 
 {$I Stage.Defines.inc}
@@ -37,15 +35,16 @@ uses
   System.Math,
 
   Stage.OpenGLTokens,
-  GLS.Scene,
-  GLS.Coordinates,
   Stage.VectorTypes,
   Stage.VectorGeometry,
-  GLS.GeometryBB,
+  Stage.PersistentClasses,
+  Stage.Coordinates,
+  Stage.GeometryBB,
+
+  GLS.Scene,
   GLS.Context,
   GLS.RenderContextInfo,
   GLS.SceneViewer,
-  GLS.PersistentClasses,
   GLS.State;
 
 const
@@ -76,7 +75,7 @@ type
   end;
 
   // Used to store the actual objects in the SpacePartition
-  TGLSpacePartitionLeaf = class(TGLPersistentObject)
+  TGLSpacePartitionLeaf = class(TGSPersistentObject)
   private
     FSpacePartition: TGLBaseSpacePartition;
     procedure SetSpacePartition(const Value: TGLBaseSpacePartition);
@@ -109,7 +108,7 @@ type
   end;
 
   // List for storing space partition leaves
-  TGLSpacePartitionLeafList = class(TGLPersistentObjectList)
+  TGLSpacePartitionLeafList = class(TGSPersistentObjectList)
   private
     function GetItems(I: Integer): TGLSpacePartitionLeaf;
     procedure SetItems(I: Integer; const Value: TGLSpacePartitionLeaf);
@@ -132,7 +131,7 @@ type
   TGLCullingMode = (CmFineCulling, CmGrossCulling);
 
   // Basic space partition, does not implement any actual space partitioning
-  TGLBaseSpacePartition = class(TGLPersistentObject)
+  TGLBaseSpacePartition = class(TGSPersistentObject)
   private
     FCullingMode: TGLCullingMode;
     // Query space for Leaves that intersect a cone, result is returned through QueryResult
@@ -508,9 +507,7 @@ function ExtendedFrustumMake(const AFrustum: TFrustum; const ANearDist, AFarDist
   const ACameraPosition, ALookVector: TAffineVector { ;
   const AScreenWidth, AScreenHeight : integer { } ): TGLExtendedFrustum;
 
-//---------------------------------------------------
-implementation
-//---------------------------------------------------
+implementation //============================================================
 
 const
   CMIN = 0;

@@ -1,18 +1,16 @@
-﻿//
-// GLScene Graphics Engine
-//
+﻿(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.SmartObjects;
-
 (*
   The objects that have built-in properties and methods to support sound, vision,
-  physics, and finding shortest paths through mezza obstacles, hightfields or terrains. 
-  They should have AI to conduct dialogues and make independent decisions. 
+  physics, and finding shortest paths through mezza obstacles, hightfields or terrains.
+  They should have AI to conduct dialogues and make independent decisions.
   The smart spatial objects are used to interact with other smart objects and cyborgs.
 
   The registered classes:
    [TGLSmartGerm, TGLSmartCells, TGLSmartSwarm, TGLSmartNet, TGLCyborg, TGLCyborgs]
 *)
-
 interface
 
 {$I Stage.Defines.inc}
@@ -30,27 +28,27 @@ uses
   Stage.VectorGeometry,
   Stage.VectorTypes,
   Stage.VectorTypesExt,
+  Stage.PersistentClasses,
   Stage.Strings,
   Stage.PipelineTransform,
 
   GLS.Scene,
-  GLS.VectorLists,
-  GLS.PersistentClasses,
-  GLS.Silhouette,
+  Stage.VectorLists,
+  Stage.Silhouette,
   GLS.Texture,
   GLS.Material,
   GLS.Mesh,
   GLS.Octree,
-  GLS.GeometryBB,
+  Stage.GeometryBB,
   GLS.Objects,
   GLS.GeomObjects,
   GLS.ApplicationFileIO,
   GLS.Context,
-  GLS.Color,
+  Stage.Color,
   GLS.Selection,
   GLS.RenderContextInfo,
-  GLS.Coordinates,
-  GLS.BaseClasses,
+  Stage.Coordinates,
+  Stage.BaseClasses,
   GLS.VectorFileObjects,
   GLS.SoundManager,
   GLS.SoundFileObjects;
@@ -70,7 +68,7 @@ type
   TGLCyborgThinks = class(TCollection);
 
   // A list of thinking periods for TGLCyborgThinkMode
-  TGLCyborgThinksList = class(TGLPersistentObjectList);
+  TGLCyborgThinksList = class(TGSPersistentObjectList);
 
 const
   cDefaultCyborgOptions = [coCollide];
@@ -100,7 +98,7 @@ type
     destructor Destroy; override;
     procedure Assign(Source: TPersistent); override;
     procedure BuildList(var rci: TGLRenderContextInfo); override;
-    procedure DoProgress(const progressTime: TGLProgressTimes); override;
+    procedure DoProgress(const progressTime: TGSProgressTimes); override;
     procedure LoadFromStream(const Filename: string; aStream: TStream); override;
     procedure SwitchToThinking(anThinking: TGLCyborgThinks; smooth: Boolean = False);
     function CurrentThinking: string;
@@ -144,18 +142,16 @@ var
   vGLSmartObjectsAllocate: Boolean = True;
   vGLSmartObjectsEnableByDefault: Boolean = True;
 
-// ------------------------------------------------------------------
-implementation
-// ------------------------------------------------------------------
+implementation //============================================================
 
 var
   vCyborgsFileFormat: TGLCyborgThinksList;
   vNextRenderGroupID: Integer = 1;
 
 
-// ------------------------------------------------------------------
-{ TGLCyborg }
-
+// --------------------------------------------------------------------------
+// TGLCyborg
+// --------------------------------------------------------------------------
 procedure TGLCyborg.Assign(Source: TPersistent);
 begin
   inherited;
@@ -185,7 +181,7 @@ begin
   inherited;
 end;
 
-procedure TGLCyborg.DoProgress(const progressTime: TGLProgressTimes);
+procedure TGLCyborg.DoProgress(const progressTime: TGSProgressTimes);
 begin
   inherited;
 //
@@ -234,9 +230,9 @@ begin
 end;
 
 
-// ------------------------------------------------------------------
-{ TGLSwartSwarm }
-
+// --------------------------------------------------------------------------
+// TGLSwartSwarm
+// --------------------------------------------------------------------------
 procedure TGLSwartSwarm.Assign(Source: TPersistent);
 begin
   inherited;
@@ -255,12 +251,11 @@ begin
   inherited;
 end;
 
-initialization
-// ------------------------------------------------------------------
+initialization //===========================================================
 
   RegisterClasses([TGLCyborg (*, TGLSmartSwarm*)]);
 
-finalization
+finalization //=============================================================
 
 FreeAndNil(vCyborgsFileFormat);
 

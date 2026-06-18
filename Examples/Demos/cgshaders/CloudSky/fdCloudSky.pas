@@ -28,10 +28,10 @@ uses
   GLS.SkyDome,
   GLS.Texture,
   GLS.FileTGA,
-  GLS.XCollection,
+  Stage.XCollection,
   GLS.Material,
-  GLS.Coordinates,
-  GLS.BaseClasses,
+  Stage.Coordinates,
+  Stage.BaseClasses,
   GLS.SimpleNavigation,
 
   GLS.CgShader;

@@ -28,8 +28,8 @@ uses
   GLS.FileWAV,
   GLS.FileMP3,
 
-  GLS.Coordinates,
-  GLS.BaseClasses,
+  Stage.Coordinates,
+  Stage.BaseClasses,
   Stage.Utils
   ;
 

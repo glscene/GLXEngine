@@ -1,10 +1,10 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.File3DPDF;
-
-(* 3D PDF converter of GLScene's models *)
-
+(*
+  3D PDF converter of glsm's models
+*)
 interface
 
 uses
@@ -14,13 +14,15 @@ uses
   System.SysUtils,
   System.StrUtils,
 
-  Stage.VectorTypes,
-  GLS.PersistentClasses,
-  Stage.VectorGeometry,
-  GLS.VectorLists,
-  GLS.VectorFileObjects,
   GLS.ApplicationFileIO,
-  Stage.Utils;
+  Stage.VectorTypes,
+  Stage.PersistentClasses,
+  Stage.VectorGeometry,
+  Stage.Utils,
+  Stage.VectorLists,
+
+  GLS.VectorFileObjects
+  ;
 
 type
   (* The IDTF vector file (Intermediate Data Text File).
@@ -29,14 +31,14 @@ type
   private
     procedure BuildNormals(m: TGLMeshObject);
   public
-    class function Capabilities: TGLDataFileCapabilities; override;
+    class function Capabilities: TGSDataFileCapabilities; override;
     procedure SaveToStream(aStream: TStream); override;
   end;
 
   // The U3D vector file (using IDTF and U3DConverter).
   TGLU3DVectorFile = class(TGLIDTFVectorFile)
   public
-    class function Capabilities: TGLDataFileCapabilities; override;
+    class function Capabilities: TGSDataFileCapabilities; override;
     procedure SaveToStream(aStream: TStream); override;
   end;
 
@@ -44,9 +46,7 @@ var
   // global variable for accing the IDTF->U3D converter
   IDTFConverterFileName: string;
 
-//=========================================================
-implementation
-//=========================================================
+implementation //============================================================
 
 const
   ConstIDTFTemplate =
@@ -195,7 +195,7 @@ end;
 //    TGLIDTFVectorFile
 //=============================
 
-class function TGLIDTFVectorFile.Capabilities: TGLDataFileCapabilities;
+class function TGLIDTFVectorFile.Capabilities: TGSDataFileCapabilities;
 begin
   Result := [dfcWrite];
 end;
@@ -260,7 +260,7 @@ var
   FaceCount, ModelPositionCount, NormalCount, I, J: Integer;
   FacePositionList, NormalList, ModelPositionList, ModelNormalList, FaceShadingList: String;
   Lines: TStringList;
-  Indicies: TGLIntegerList;
+  Indicies: TGSIntegerList;
 
   function FormatVector(const AVector: TAffineVector): string;
   begin
@@ -334,7 +334,7 @@ end;
 //      TGLU3DVectorFile
 //==================================
 
-class function TGLU3DVectorFile.Capabilities: TGLDataFileCapabilities;
+class function TGLU3DVectorFile.Capabilities: TGSDataFileCapabilities;
 begin
   Result := [dfcWrite];
 end;
@@ -367,16 +367,12 @@ begin
   DeleteFile(TempOutFile);
 end;
 
-// ------------------------------------------------------------------
-initialization
-// ------------------------------------------------------------------
+initialization //============================================================
 
   USFormat:= TFormatSettings.Create('en_us');
   IDTFConverterFileName:= IncludeTrailingPathDelimiter(ExtractFilePath(ParamStr(0))) + 'IDTFConverter.exe';
 
-  // register formats
   RegisterVectorFileFormat('idtf', 'Intermediate Data Text File', TGLIDTFVectorFile);
   RegisterVectorFileFormat('u3d', 'Universal 3D', TGLU3DVectorFile);
-
 
 end.

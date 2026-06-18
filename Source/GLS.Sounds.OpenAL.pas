@@ -1,6 +1,6 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.Sounds.OpenAL;
 (*
   OpenAL based sound-manager http://www.openal.org
@@ -29,7 +29,7 @@ uses
   Stage.VectorTypes,
   GLS.Scene,
   Stage.VectorGeometry,
-  GLS.Coordinates,
+  Stage.Coordinates,
   GLS.SoundManager,
   GLS.SoundFileObjects;
 
@@ -59,7 +59,7 @@ type
 
   EOpenALError = Exception;
 
-implementation // -----------------------------------------------------------
+implementation //============================================================
 
 uses
   OpenAL.Import {al, alut, alTypes};
@@ -83,17 +83,18 @@ end;
 // ------------------
 // ------------------ TGLSMOpenAL ------------------
 // ------------------
-
 constructor TGLSMOpenAL.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
 end;
 
+//---------------------------------------------------------------------------
 destructor TGLSMOpenAL.Destroy;
 begin
   inherited Destroy;
 end;
 
+//---------------------------------------------------------------------------
 function TGLSMOpenAL.DoActivate: Boolean;
 var
   dummy: array of PALbyte;
@@ -120,6 +121,7 @@ begin
   Result := true;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLSMOpenAL.DoDeActivate;
 var
   i: Integer;
@@ -132,6 +134,7 @@ begin
   alutExit;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLSMOpenAL.NotifyMasterVolumeChange;
 begin
   if FActivated then
@@ -140,6 +143,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLSMOpenAL.Notify3DFactorsChanged;
 begin
   if FActivated then
@@ -148,6 +152,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLSMOpenAL.NotifyEnvironmentChanged;
 begin
   if FActivated then
@@ -160,6 +165,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLSMOpenAL.KillSource(aSource: TGLBaseSoundSource);
 var
   i, currentBufferTag, bufferCount: Integer;
@@ -196,6 +202,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLSMOpenAL.UpdateSource(aSource: TGLBaseSoundSource);
 var
   a: TALint;
@@ -283,6 +290,7 @@ begin
   inherited UpdateSource(aSource);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLSMOpenAL.MuteSource(aSource: TGLBaseSoundSource; muted: Boolean);
 begin
   if muted then
@@ -291,6 +299,7 @@ begin
     alSourcef(aSource.ManagerTag, AL_MAX_GAIN, 1.0);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLSMOpenAL.PauseSource(aSource: TGLBaseSoundSource; paused: Boolean);
 begin
   if not paused then
@@ -302,9 +311,10 @@ begin
     alSourcePause(aSource.ManagerTag);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLSMOpenAL.UpdateSources;
 var
-  pos, dir, up, vel: TGLVector;
+  pos, dir, up, vel: TGSVector;
   DirUp: array [0 .. 5] of TALfloat; // orientation
 begin
   ListenerCoordinates(pos, vel, dir, up);
@@ -322,16 +332,19 @@ begin
   inherited;
 end;
 
+//---------------------------------------------------------------------------
 function TGLSMOpenAL.EAXSupported: Boolean;
 begin
   Result := alIsExtensionPresent(PAnsiChar('EAX2.0'));
 end;
 
+//---------------------------------------------------------------------------
 function TGLSMOpenAL.GetDefaultFrequency(aSource: TGLBaseSoundSource): Integer;
 begin
   Result := -1;
 end;
 
+//---------------------------------------------------------------------------
 function TGLSMOpenAL.GetALFormat(sampling: TGLSoundSampling): Integer;
 begin
   Result := 0;
@@ -353,4 +366,5 @@ begin
     end;
 end;
 
+//---------------------------------------------------------------------------
 end.

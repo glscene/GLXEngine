@@ -15,7 +15,7 @@
 #pragma package(smart_init)
 #pragma link "Stage.OpenGLTokens"
 #pragma link "Stage.Keyboard"
-#pragma link "GLS.OpenGLAdapter"
+#pragma link "Stage.OpenGLAdapter"
 #pragma link "GLS.BitmapFont"
 #pragma link "GLS.Cadencer"
 #pragma link "GLS.GeomObjects"
@@ -30,8 +30,8 @@
 #pragma link "GLS.Context"
 #pragma link "GLS.File3DS"
 
-#pragma link "GLS.BaseClasses"
-#pragma link "GLS.Coordinates"
+#pragma link "Stage.BaseClasses"
+#pragma link "Stage.Coordinates"
 
 #pragma link "GLS.Material"
 #pragma link "GLS.SimpleNavigation"

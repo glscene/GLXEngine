@@ -1,10 +1,10 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.FilePLY;
-
-(* PLY (Stanford Triangle Format) vector file format implementation *)
-
+(*
+  PLY (Stanford Triangle Format) vector file format implementation
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -14,7 +14,7 @@ uses
   System.SysUtils,
 
   Stage.VectorGeometry,
-  GLS.VectorLists,
+  Stage.VectorLists,
   GLS.VectorFileObjects,
   GLS.ApplicationFileIO,
   Stage.Utils;
@@ -27,7 +27,7 @@ type
     without specified normals, and will ignore most header specifications. *)
   TGLPLYVectorFile = class(TGLVectorFile)
   public
-    class function Capabilities: TGLDataFileCapabilities; override;
+    class function Capabilities: TGSDataFileCapabilities; override;
     procedure LoadFromStream(aStream: TStream); override;
   end;
 
@@ -39,7 +39,7 @@ implementation
 // ------------------ TGLPLYVectorFile ------------------
 // ------------------
 
-class function TGLPLYVectorFile.Capabilities: TGLDataFileCapabilities;
+class function TGLPLYVectorFile.Capabilities: TGSDataFileCapabilities;
 begin
   Result := [dfcRead];
 end;

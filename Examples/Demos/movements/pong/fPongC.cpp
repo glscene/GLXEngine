@@ -6,9 +6,9 @@
 #include "fPongC.h"
 // ---------------------------------------------------------------------------
 #pragma package(smart_init)
-#pragma link "GLS.BaseClasses"
+#pragma link "Stage.BaseClasses"
 #pragma link "GLS.Cadencer"
-#pragma link "GLS.Coordinates"
+#pragma link "Stage.Coordinates"
 
 #pragma link "GLS.Material"
 #pragma link "GLS.Objects"
@@ -62,7 +62,7 @@ void __fastcall TFormPong::GLSceneViewer1MouseMove(TObject *Sender,
 // ---------------------------------------------------------------------------
 void __fastcall TFormPong::GLCadencer1Progress(TObject *Sender,
 	const double deltaTime, const double newTime) {
-	TGLVector newBallPos;
+	TGSVector newBallPos;
 	// gameOver is True as soon as the ball is behind the pad, but we don't end
 	// the game immediately so the user can realize he has lost
 	if ((!gameOver) && (deltaTime > 0)) {

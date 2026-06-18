@@ -1,8 +1,7 @@
-﻿//
-// GXScene Graphics Engine
-//
+﻿(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.Extrusion;
-
 (*
   Extrusion objects are solids defined by the
   surface described by a moving curve.
@@ -12,7 +11,6 @@ unit GXS.Extrusion;
   All extrusion objects use actually the same kind of "parts",
   one common type should do.
 *)
-
 interface
 
 {$I Stage.Defines.inc}
@@ -25,17 +23,17 @@ uses
   System.Classes,
   System.Math,
 
-  GXS.XOpenGL,
   Stage.VectorTypes,
-  GXS.VectorLists,
+  Stage.VectorLists,
   Stage.VectorGeometry,
+  Stage.Color,
   Stage.Spline,
 
+  GXS.Scene,
+  GXS.XOpenGL,
   GXS.Context,
   GXS.Objects,
-  GXS.Scene,
   GXS.MultiPolygon,
-  GXS.Color,
   GXS.RenderContextInfo,
   GXS.Nodes,
   GXS.State;
@@ -154,13 +152,13 @@ type
   TgxPipeNode = class(TgxNode)
   private
     FRadiusFactor: Single;
-    FColor: TgxColor;
+    FColor: TGSColor;
     FTexCoordT: Single;
   protected
     function GetDisplayName: string; override;
     procedure SetRadiusFactor(const val: Single);
     function StoreRadiusFactor: Boolean;
-    procedure SetColor(const val: TgxColor);
+    procedure SetColor(const val: TGSColor);
     procedure ColorChanged(sender: TObject);
     function StoreTexCoordT: Boolean;
   public
@@ -169,7 +167,7 @@ type
     procedure Assign(Source: TPersistent); override;
   published
     property RadiusFactor: Single read FRadiusFactor write SetRadiusFactor stored StoreRadiusFactor;
-    property Color: TgxColor read FColor write SetColor;
+    property Color: TGSColor read FColor write SetColor;
     property TexCoordT: Single read FTexCoordT write FTexCoordT stored StoreTexCoordT;
   end;
 
@@ -240,14 +238,11 @@ type
     property NormalSmoothAngle: Single read FNormalSmoothAngle write SetNormalSmoothAngle;
   end;
 
-// ------------------------------------------------------------------
-implementation
-// ------------------------------------------------------------------
+implementation //============================================================
 
 // ------------------
 // ------------------ TgxRevolutionSolid ------------------
 // ------------------
-
 constructor TgxRevolutionSolid.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
@@ -669,7 +664,7 @@ constructor TgxPipeNode.Create(Collection: TCollection);
 begin
   inherited Create(Collection);
   FRadiusFactor := 1.0;
-  FColor := TgxColor.CreateInitialized(Self, clrBlack, ColorChanged);
+  FColor := TGSColor.CreateInitialized(Self, clrBlack, ColorChanged);
   FTexCoordT := 1.0;
 end;
 
@@ -715,7 +710,7 @@ begin
   Result := (FTexCoordT <> 1.0);
 end;
 
-procedure TgxPipeNode.SetColor(const val: TgxColor);
+procedure TgxPipeNode.SetColor(const val: TGSColor);
 begin
   FColor.Assign(val);
 end;
@@ -908,7 +903,7 @@ type
 
   TRowData = record
     node: array of TNodeData;
-    Color: TgxColorVector;
+    Color: TGSColorVector;
     center: TVector3f;
     textcoordT: Single;
   end;

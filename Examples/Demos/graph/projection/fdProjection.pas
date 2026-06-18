@@ -15,12 +15,12 @@ uses
   GLS.SceneViewer,
   GLS.Texture,
   Stage.VectorGeometry,
-  GLS.VectorLists,
+  Stage.VectorLists,
   GLS.RenderContextInfo,
   GLS.State,
   Stage.VectorTypes,
-  GLS.Coordinates,
-  GLS.BaseClasses,
+  Stage.Coordinates,
+  Stage.BaseClasses,
   GLS.GeomObjects,
   GLS.Graph;
 
@@ -73,9 +73,9 @@ end;
 procedure TFormProjection.DirectOpenGLRender(Sender: TObject; var rci: TGLRenderContextInfo);
 var
   i: Integer;
-  mat: TGLMatrix;
-  p, pProj: TGLVector;
-  planePoint, planeNormal: TGLVector;
+  mat: TGSMatrix;
+  p, pProj: TGSVector;
+  planePoint, planeNormal: TGSVector;
   plane: THmgPlane;
 begin
   // Here we recover our plane point and normal...

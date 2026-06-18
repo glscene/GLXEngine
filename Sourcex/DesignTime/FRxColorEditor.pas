@@ -26,7 +26,7 @@ uses
 
   Stage.VectorTypes,
   Stage.VectorGeometry,
-  GXS.Color,
+  Stage.Color,
   GXS.Texture;
 
 type

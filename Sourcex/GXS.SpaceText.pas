@@ -1,9 +1,10 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.SpaceText;
 (*
   3D Text component.
+  RegisterClass(TgxSpaceText);
 
   Note: You can get valid extents (including AABB's) of this component only
   after it has been rendered for the first time. It means if you ask its
@@ -165,9 +166,7 @@ procedure ReleaseFontManager;
 var
   vFontManagerMsgID: Cardinal;
 
-// ------------------------------------------------------------------
-implementation
-// ------------------------------------------------------------------
+implementation //============================================================
 
 const
   cFontManagerMsg = 'Scene FontManagerMessage';
@@ -844,14 +843,12 @@ begin
     TObject(Clients[i]).DefaultHandler(hMsg);
 end;
 
-// -------------------------------------------------------------
-initialization
-// -------------------------------------------------------------
+initialization //============================================================
 
 vFontManagerMsgID := RegisterWindowMessage(cFontManagerMsg);
 RegisterClass(TgxSpaceText);
 
-finalization
+finalization //==============================================================
 
 ReleaseFontManager;
 

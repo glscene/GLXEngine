@@ -14,16 +14,16 @@
 #include <Vcl.ExtCtrls.hpp>
 #include <Vcl.Imaging.jpeg.hpp>
 
-#include "GLS.BaseClasses.hpp"
+#include "Stage.BaseClasses.hpp"
 #include "GLS.Cadencer.hpp"
-#include "GLS.Coordinates.hpp"
+#include "Stage.Coordinates.hpp"
 
 #include "GLS.Material.hpp"
 #include "GLS.Scene.hpp"
 #include "GLS.VectorFileObjects.hpp"
 #include "GLS.SceneViewer.hpp"
 
-#include "GLS.MeshUtils.hpp"
+#include "Stage.MeshUtils.hpp"
 #include "Stage.VectorGeometry.hpp"
 
 #include "GLS.FileTGA.hpp"
@@ -33,7 +33,7 @@
 #include "GLS.FileSMD.hpp"
 
 #include "Stage.Utils.hpp"
-#include "GLS.MeshUtils.hpp"
+#include "Stage.MeshUtils.hpp"
 
 
 //---------------------------------------------------------------------------

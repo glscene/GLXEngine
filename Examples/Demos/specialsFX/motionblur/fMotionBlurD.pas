@@ -22,8 +22,8 @@ uses
   GLS.GeomObjects,
   Stage.Utils,
  
-  GLS.Coordinates,
-  GLS.BaseClasses, GLS.VectorFileObjects;
+  Stage.Coordinates,
+  Stage.BaseClasses, GLS.VectorFileObjects;
 
 type
   TFormMotionBlur = class(TForm)

@@ -1,10 +1,10 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXSL.PostShaders;
-
-(* Post shaders that simulate shader visions for a mask or the entire scene *)
-
+(*
+  Post shaders that simulate shader visions for a mask or the entire scene
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -12,16 +12,17 @@ interface
 uses
   System.Classes,
 
-  GXS.Texture,
-  GXS.Scene,
   Stage.VectorTypes,
   Stage.VectorGeometry,
+  Stage.TextureFormat,
+
+  GXS.Texture,
+  GXS.Scene,
   GXS.Context,
   GXS.Material,
   GXSL.Shader,
   GXSL.CustomShader,
-  GXS.RenderContextInfo,
-  Stage.TextureFormat;
+  GXS.RenderContextInfo;
 
 // Custom class for GLSLxPostBlurShader. A shader that blurs the entire scene }
 type
@@ -263,14 +264,11 @@ type
     property NoiseTexName;
   end;
 
-//----------------------------------------------------------------------
-implementation
-//----------------------------------------------------------------------
+implementation //============================================================
 
 //-------------------------------------
 // TgxslCustomPostBlurShader
 //-------------------------------------
-
 constructor TgxslCustomPostBlurShader.Create(
   AOwner: TComponent);
 begin

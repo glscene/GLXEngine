@@ -9,10 +9,10 @@
 #include <Vcl.Forms.hpp>
 #include <Vcl.ComCtrls.hpp>
 #include <Vcl.ExtCtrls.hpp>
-#include "GLS.BaseClasses.hpp"
+#include "Stage.BaseClasses.hpp"
 #include "GLS.BitmapFont.hpp"
 #include "GLS.Cadencer.hpp"
-#include "GLS.Coordinates.hpp"
+#include "Stage.Coordinates.hpp"
 #include "GLS.HeightData.hpp"
 #include "GLS.HeightTileFileHDS.hpp"
 #include "GLS.HUDObjects.hpp"
@@ -80,9 +80,9 @@ public:
 	bool WaterPlane;
 	bool WasAboveWater;
 	float HelpOpacity;
-	TGLAffineVectorList *WakeVertices;
-	TGLAffineVectorList *WakeStretch;
-	TGLSingleList *WakeTime;
+	TGSAffineVectorList *WakeVertices;
+	TGSAffineVectorList *WakeStretch;
+	TGSSingleList *WakeTime;
 	float gull1Angle, gull2Angle, gull3Angle;
 	bool gull1Direction, gull2Direction, gull3Direction;
 	void ResetMousePos(void);

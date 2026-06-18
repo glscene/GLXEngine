@@ -10,10 +10,10 @@
 #include <Vcl.ExtCtrls.hpp>
 
 #include "GLS.AsyncTimer.hpp"
-#include "GLS.BaseClasses.hpp"
+#include "Stage.BaseClasses.hpp"
 #include "GLS.BitmapFont.hpp"
 #include "GLS.Cadencer.hpp"
-#include "GLS.Coordinates.hpp"
+#include "Stage.Coordinates.hpp"
 
 #include "GLS.EParticleMasksManager.hpp"
 #include "GLS.GeomObjects.hpp"

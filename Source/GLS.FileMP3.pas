@@ -1,10 +1,10 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.FileMP3;
-
-(* Support for MP3 format. *)
-
+(*
+  Support for MP3 format.
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -23,8 +23,8 @@ type
          data : array of Byte; // used to store MP3 bitstream
       protected
       public
-         function CreateCopy(AOwner: TPersistent) : TGLDataFile; override;
-         class function Capabilities : TGLDataFileCapabilities; override;
+         function CreateCopy(AOwner: TPersistent) : TGSDataFile; override;
+         class function Capabilities : TGSDataFileCapabilities; override;
          procedure LoadFromStream(Stream: TStream); override;
          procedure SaveToStream(Stream: TStream); override;
          procedure PlayOnWaveOut; override;
@@ -43,7 +43,7 @@ implementation
 // ------------------ TGLMP3File ------------------
 // ------------------
 
-function TGLMP3File.CreateCopy(AOwner: TPersistent) : TGLDataFile;
+function TGLMP3File.CreateCopy(AOwner: TPersistent) : TGSDataFile;
 begin
    Result:=inherited CreateCopy(AOwner);
    if Assigned(Result) then begin
@@ -51,7 +51,7 @@ begin
    end;
 end;
 
-class function TGLMP3File.Capabilities : TGLDataFileCapabilities;
+class function TGLMP3File.Capabilities : TGSDataFileCapabilities;
 begin
    Result:=[dfcRead, dfcWrite];
 end;

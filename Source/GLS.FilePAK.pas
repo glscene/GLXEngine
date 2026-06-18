@@ -31,7 +31,7 @@ type
       FileLength: integer;
    end;
 
-  TPAKArchive=class(TGLBaseArchive)
+  TPAKArchive=class(TGSBaseArchive)
     private
       FHeader: TPakHeader;
       FStream: TFileStream;

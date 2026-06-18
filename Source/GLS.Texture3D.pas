@@ -1,6 +1,6 @@
-//
-// The GaLaXy Engine graphics. The unit of GLScene
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.Texture3D;
 (*
   A class for 3D textures
@@ -21,17 +21,18 @@ uses
   Vcl.StdCtrls,
 
   Stage.VectorGeometry,
+  Stage.BaseClasses,
+
   GLS.Scene,
   GLS.Objects,
   GLS.SceneViewer,
   GLS.Texture,
   GLS.Context,
-  GLS.Cadencer,
-  GLS.BaseClasses;
+  GLS.Cadencer;
 
 
 type
-  TGLTexture3D = class (TGLUpdateAbleObject)
+  TGLTexture3D = class (TGSUpdateAbleObject)
   protected
     FDataType : Longword;
     FSizeX : Integer;

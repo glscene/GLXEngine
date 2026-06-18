@@ -1,10 +1,10 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.FBO;
-
-(* Implements FBO support *)
-
+(*
+  Implements FBO support
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -21,7 +21,7 @@ uses
   GXS.Context,
   GXS.State,
   GXS.Texture,
-  GXS.Color,
+  Stage.Color,
   GXS.RenderContextInfo,
   GXS.MultisampleImage,
   GXS.Graphics,
@@ -143,9 +143,7 @@ type
     property Level: Integer read FLevel write SetLevel;
   end;
 
-//------------------------------------------
-implementation
-//------------------------------------------
+implementation //============================================================
 
 //------------------------------------------
 // TgxRenderbuffer
@@ -652,7 +650,7 @@ end;
 procedure TgxFrameBuffer.Render(var rci: TgxRenderContextInfo; baseObject:
   TgxBaseSceneObject);
 var
-  backColor: TgxColorVector;
+  backColor: TGSColorVector;
   buffer: TgxSceneBuffer;
 begin
   Bind;

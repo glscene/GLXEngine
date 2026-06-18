@@ -1,6 +1,6 @@
-//
-// GXStage Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit CUDA.Utility;
 
 (* CUDA Utility Wraper of cutil. Note:  *)
@@ -61,7 +61,7 @@ procedure CloseCUTIL;
 function InitCUTILFromLibrary(const LibName: WideString): Boolean;
 function IsCUTILInitialized: Boolean;
 
-implementation // -------------------------------------------------------------
+implementation //=============================================================
 
 const
   INVALID_MODULEHANDLE = 0;
@@ -142,9 +142,7 @@ begin
   result := (CUTILHandle <> INVALID_MODULEHANDLE);
 end;
 
-//-----------------------------------------------
-initialization
-//-----------------------------------------------
+initialization //============================================================
 
 finalization
 

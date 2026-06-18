@@ -19,8 +19,8 @@ uses
   GLS.Collision,
   GLS.SceneViewer,
 
-  GLS.Coordinates,
-  GLS.BaseClasses;
+  Stage.Coordinates,
+  Stage.BaseClasses;
 
 type
   TFormSphere = class(TForm)

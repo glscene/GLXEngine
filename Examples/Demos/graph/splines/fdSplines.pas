@@ -15,8 +15,8 @@ uses
   GLS.Objects,
   GLS.SceneViewer,
  
-  GLS.Coordinates,
-  GLS.BaseClasses,
+  Stage.Coordinates,
+  Stage.BaseClasses,
   Stage.VectorGeometry;
 
 type

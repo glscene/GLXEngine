@@ -22,11 +22,11 @@ uses
   GLS.Objects,
   GLS.Particles,
   GLS.Behaviours,
-  GLS.PersistentClasses,
+  Stage.PersistentClasses,
   GLS.Cadencer,
   GLS.SceneViewer,
-  GLS.Coordinates,
-  GLS.BaseClasses,
+  Stage.Coordinates,
+  Stage.BaseClasses,
   GLS.SimpleNavigation;
 
 type

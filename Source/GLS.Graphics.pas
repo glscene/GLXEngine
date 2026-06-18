@@ -34,15 +34,15 @@ uses
   Stage.TextureFormat,
   Stage.VectorGeometry,
   Stage.Strings,
+  Stage.PersistentClasses,
+  GLS.ApplicationFileIO,
+  Stage.Utils,
+  Stage.Logger,
 
   GLS.State,
-  GLS.ApplicationFileIO,
-  GLS.PersistentClasses,
   GLS.Context,
   GLS.ImageUtils,
-  GLS.Color,
-  Stage.Utils,
-  Stage.Logger;
+  Stage.Color;
 
 {$DEFINE PRF_HACK_PASSES}
 
@@ -78,7 +78,7 @@ type
 
   TGLImagePiramid = array[TGLImageLODRange] of TGLImageLevelDesc;
 
-  TGLBaseImage = class(TGLDataFile)
+  TGLBaseImage = class(TGSDataFile)
   private
     FSourceStream: TStream;
     FStreamLevel: TGLImageLODRange;
@@ -322,7 +322,7 @@ type
   end;
 
   // Stores registered raster file formats.
-  TGLRasterFileFormatsList = class(TGLPersistentObjectList)
+  TGLRasterFileFormatsList = class(TGSPersistentObjectList)
   public
     destructor Destroy; override;
     procedure Add(const Ext, Desc: string; DescID: Integer; AClass:
@@ -1252,7 +1252,7 @@ begin
       fDataType, GL_UNSIGNED_BYTE,
       GetWidth, GetHeight);
   except
-    GLSLogger.LogError(Format(strCantConvertImg, [ClassName]));
+    GSLogger.LogError(Format(strCantConvertImg, [ClassName]));
     SetErrorImage;
     FreeMem(newData);
     Exit;
@@ -1952,7 +1952,7 @@ begin
       Read(Temp, SizeOf(Integer)); // Version
       if Temp > 0 then
       begin
-        GLSLogger.LogError(Format(strUnknownArchive, [Self.ClassType, Temp]));
+        GSLogger.LogError(Format(strUnknownArchive, [Self.ClassType, Temp]));
         Abort;
       end;
       Read(FLOD[0].Width, SizeOf(Integer));
@@ -2989,7 +2989,7 @@ begin
       fData := newData;
     except
       FreeMem(newData);
-      GLSLogger.LogError(Format(strCantConvertImg, [ClassName]));
+      GSLogger.LogError(Format(strCantConvertImg, [ClassName]));
       SetErrorImage;
     end;
   end;
@@ -3074,11 +3074,9 @@ end;
 {$ENDIF}
 
 
-//----------------------------------------------------------------------------
-initialization
-//----------------------------------------------------------------------------
+initialization //============================================================
 
-finalization
+finalization //==============================================================
 
   FreeAndNil(vRasterFileFormats);
 

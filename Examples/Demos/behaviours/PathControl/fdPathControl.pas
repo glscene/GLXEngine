@@ -25,8 +25,8 @@ uses
   GLS.SceneViewer,
   GLS.ImageUtils,
  
-  GLS.Coordinates,
-  GLS.BaseClasses,
+  Stage.Coordinates,
+  Stage.BaseClasses,
   Stage.Utils,
   GLS.SimpleNavigation;
 

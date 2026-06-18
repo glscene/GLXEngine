@@ -7,8 +7,8 @@
 #include "fcFormula.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
-#pragma link "GLS.BaseClasses"
-#pragma link "GLS.Coordinates"
+#pragma link "Stage.BaseClasses"
+#pragma link "Stage.Coordinates"
 
 #pragma link "GLS.Mesh"
 #pragma link "GLS.Objects"
@@ -36,7 +36,7 @@ TAffineVector __fastcall TForm1::MakeVect(const float aX, const float aY)
 //---------------------------------------------------------------------------
 
 void __fastcall TForm1::AddTriangle(const TAffineVector p1,
-	const TAffineVector p2, const TAffineVector p3, const TGLColorVector color)
+	const TAffineVector p2, const TAffineVector p3, const TGSColorVector color)
 {
 	Mesh1->Vertices->AddVertex(p1, NullVector, color);
 	Mesh1->Vertices->AddVertex(p2, NullVector, color);

@@ -1,10 +1,10 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.FileGRD;
-
-(* GRD (Grid Text Format) vector file format implementation *)
-
+(*
+  GRD (Grid Text Format) vector file format implementation
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -40,18 +40,15 @@ type
       const WordDelims: TSysCharSet): Integer;
   end;
 
-//=======================================================================
-implementation
-//=======================================================================
-
-//-------------------
-// ------------------ TgxGRDVectorFile ------------------
-// ------------------
+implementation //============================================================
 
 const
   dSURFBLANKVAL = 1.70141E38; // default value in Surfer for blanking
   NODATA_value =  -9999; //default value in GIS ArcInfo for blanking
 
+//-------------------
+// ------------------ TgxGRDVectorFile ------------------
+// ------------------
 class function TgxGRDVectorFile.Capabilities: TDataFileCapabilities;
 begin
   Result := [dfcRead];
@@ -237,9 +234,7 @@ begin
   end;
 end;
 
-// ------------------------------------------------------------------
-initialization
-// ------------------------------------------------------------------
+initialization //============================================================
 
 RegisterVectorFileFormat('grd', 'ArcInfo/Surfer grids', TgxGRDVectorFile);
 

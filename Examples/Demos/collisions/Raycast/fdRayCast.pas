@@ -20,13 +20,13 @@ uses
   Stage.Utils,
   GLS.Scene,
   GLS.Objects,
-  GLS.BaseClasses,
+  Stage.BaseClasses,
   GLS.Texture,
   GLS.Cadencer,
   GLS.SceneViewer,
   GLS.GeomObjects,
-  GLS.Color,
-  GLS.Coordinates;
+  Stage.Color,
+  Stage.Coordinates;
 
 type
   TFormRayCast = class(TForm)
@@ -65,8 +65,8 @@ implementation //=============================================================
 
 procedure TFormRayCast.BUCastClick(Sender: TObject);
 var
-  o, v, vLight, light, iPoint, iNormal: TGLVector;
-  up, right, dir: TGLVector;
+  o, v, vLight, light, iPoint, iNormal: TGSVector;
+  up, right, dir: TGSVector;
   x, y, dx, dy: Integer;
   f, d: Single;
   color: TColor;

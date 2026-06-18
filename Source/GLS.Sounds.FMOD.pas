@@ -1,8 +1,7 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.Sounds.FMOD;
-
 (*
   FMOD based sound-manager (http://www.fmod.org/, free for freeware).
   Unsupported feature(s) :
@@ -10,7 +9,6 @@ unit GLS.Sounds.FMOD;
   looping (sounds are played either once or forever)
   sound cones
 *)
-
 interface
 
 {$I Stage.Defines.inc}
@@ -55,9 +53,7 @@ type
     property MaxChannels default 32;
   end;
 
-// ---------------------------------------------------------------------
-implementation
-// ---------------------------------------------------------------------
+implementation //============================================================
 
 type
   TFMODInfo = record
@@ -67,7 +63,8 @@ type
 
   PFMODInfo = ^TFMODInfo;
 
-procedure VectorToFMODVector(const aVector: TGLVector; var aFMODVector: TFSoundVector);
+//---------------------------------------------------------------------------
+procedure VectorToFMODVector(const aVector: TGSVector; var aFMODVector: TFSoundVector);
 begin
   aFMODVector.X := aVector.X;
   aFMODVector.Y := aVector.Y;
@@ -77,18 +74,19 @@ end;
 // ------------------
 // ------------------ TGLSMFMOD ------------------
 // ------------------
-
 constructor TGLSMFMOD.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
   MaxChannels := 32;
 end;
 
+//---------------------------------------------------------------------------
 destructor TGLSMFMOD.Destroy;
 begin
   inherited Destroy;
 end;
 
+//---------------------------------------------------------------------------
 function TGLSMFMOD.DoActivate: Boolean;
 var
   cap: Cardinal;
@@ -128,6 +126,7 @@ begin
   Result := True;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLSMFMOD.DoDeActivate;
 begin
   FSOUND_StopSound(FSOUND_ALL);
@@ -136,12 +135,14 @@ begin
   FEAXCapable := False;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLSMFMOD.NotifyMasterVolumeChange;
 begin
   if FActivated then
     FSOUND_SetSFXMasterVolume(Round(MasterVolume * 255));
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLSMFMOD.Notify3DFactorsChanged;
 begin
   if FActivated then
@@ -152,11 +153,12 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLSMFMOD.NotifyEnvironmentChanged;
 var
   SoundRevProps: TFSoundReverbProperties;
 begin
-   if FActivated and EAXSupported then 
+   if FActivated and EAXSupported then
    begin
       case Environment of
          seDefault :          SoundRevProps := FSOUND_PRESET_GENERIC;
@@ -192,6 +194,7 @@ begin
    end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLSMFMOD.KillSource(aSource: TGLBaseSoundSource);
 var
   p: PFMODInfo;
@@ -208,10 +211,11 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLSMFMOD.UpdateSource(aSource: TGLBaseSoundSource);
 var
   p: PFMODInfo;
-  objPos, objVel: TGLVector;
+  objPos, objVel: TGSVector;
   position, velocity: TFSoundVector;
 begin
   if (sscSample in aSource.Changes) then
@@ -273,6 +277,7 @@ begin
   inherited UpdateSource(aSource);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLSMFMOD.MuteSource(aSource: TGLBaseSoundSource; muted: Boolean);
 var
   p: PFMODInfo;
@@ -284,6 +289,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLSMFMOD.PauseSource(aSource: TGLBaseSoundSource; paused: Boolean);
 var
   p: PFMODInfo;
@@ -295,9 +301,10 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLSMFMOD.UpdateSources;
 var
-  objPos, objVel, objDir, objUp: TGLVector;
+  objPos, objVel, objDir, objUp: TGSVector;
   position, velocity, fwd, top: TFSoundVector;
 begin
   // update listener
@@ -312,16 +319,19 @@ begin
   FSOUND_Update;
 end;
 
+//---------------------------------------------------------------------------
 function TGLSMFMOD.CPUUsagePercent: Single;
 begin
   Result := FSOUND_GetCPUUsage;
 end;
 
+//---------------------------------------------------------------------------
 function TGLSMFMOD.EAXSupported: Boolean;
 begin
   Result := FEAXCapable;
 end;
 
+//---------------------------------------------------------------------------
 function TGLSMFMOD.GetDefaultFrequency(aSource: TGLBaseSoundSource): Integer;
 var
   p: PFMODInfo;
@@ -336,4 +346,5 @@ begin
    end;
 end;
 
+//---------------------------------------------------------------------------
 end.

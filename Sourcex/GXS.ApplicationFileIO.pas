@@ -1,6 +1,6 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.ApplicationFileIO;
 (*
   Components and functions that abstract file I/O access for an application.
@@ -15,7 +15,7 @@ uses
   System.Classes,
   System.SysUtils,
 
-  GXS.BaseClasses,
+  Stage.BaseClasses,
   Stage.Strings;
 
 const
@@ -68,7 +68,7 @@ type
     file-based one just call these, and stream-based behaviours allow for more
     enhancement (such as other I/O abilities, compression, cacheing, etc.)
     to this class, without the need to rewrite subclasses. *)
-  TgxDataFile = class(TgxUpdateAbleObject)
+  TgxDataFile = class(TGSUpdateAbleObject)
   private
     FOwner : TPersistent;
     FResourceName: string;
@@ -108,16 +108,18 @@ var
   vGXAFIOCreateFileStream: TgxAFIOCreateFileStream = nil;
   vGXAFIOFileStreamExists: TgxAFIOFileStreamExists = nil;
 
-implementation // ------------------------------------------------------------
+implementation //============================================================
 
 var
   vAFIO: TgxApplicationFileIO = nil;
 
+//---------------------------------------------------------------------------
 function ApplicationFileIODefined: Boolean;
 begin
   Result := (Assigned(vGxAFIOCreateFileStream) and Assigned(vGxAFIOFileStreamExists)) or Assigned(vAFIO);
 end;
 
+//---------------------------------------------------------------------------
 function FileStreamExists(const fileName: string): Boolean;
 begin
   if Assigned(vGxAFIOFileStreamExists) then
@@ -131,6 +133,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 function CreateResourceStream(const ResName: string; ResType: PChar)
   : TgxResourceStream;
 var
@@ -144,6 +147,7 @@ begin
     raise Exception.Create('Can''t create stream of application resource "%ResName"');
 end;
 
+//---------------------------------------------------------------------------
 function StrToResType(const AStrRes: string): TgxApplicationResource;
 begin
   if AStrRes = '[SAMPLERS]' then
@@ -165,13 +169,13 @@ end;
 // ------------------
 // ------------------ TgxApplicationFileIO ------------------
 // ------------------
-
 constructor TgxApplicationFileIO.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
   vAFIO := Self;
 end;
 
+//---------------------------------------------------------------------------
 destructor TgxApplicationFileIO.Destroy;
 begin
   vAFIO := nil;
@@ -181,23 +185,25 @@ end;
 // ------------------
 // ------------------ TgxDataFile ------------------
 // ------------------
-
 constructor TgxDataFile.Create(AOwner: TPersistent);
 begin
    inherited Create(AOwner);
    FOwner := AOwner;
 end;
 
+//---------------------------------------------------------------------------
 destructor TgxDataFile.Destroy;
 begin
    inherited;
 end;
 
+//---------------------------------------------------------------------------
 class function TgxDataFile.Capabilities : TDataFileCapabilities;
 begin
   Result := [dfcRead];
 end;
 
+//---------------------------------------------------------------------------
 function TgxDataFile.CreateCopy(AOwner: TPersistent): TgxDataFile;
 begin
   if Self <> nil then
@@ -206,6 +212,7 @@ begin
     Result := nil;
 end;
 
+//---------------------------------------------------------------------------
 procedure TgxDataFile.LoadFromFile(const fileName: string);
 var
   fs: TStream;
@@ -219,6 +226,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TgxDataFile.SaveToFile(const fileName: string);
 var
   fs: TStream;
@@ -232,23 +240,27 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 function TgxDataFile.GetOwner : TPersistent;
 begin
    Result:=FOwner;
 end;
 
+//---------------------------------------------------------------------------
 procedure TgxDataFile.LoadFromStream(Stream: TStream);
 begin
   Assert(False, 'Import for ' + ClassName + ' to ' + Stream.ClassName +
     ' not available.');
 end;
 
+//---------------------------------------------------------------------------
 procedure TgxDataFile.SaveToStream(Stream: TStream);
 begin
   Assert(False, 'Export for ' + ClassName + ' to ' + Stream.ClassName +
     ' not available.');
 end;
 
+//---------------------------------------------------------------------------
 procedure TgxDataFile.SetResourceName(const AName: string);
 begin
   FResourceName := AName;

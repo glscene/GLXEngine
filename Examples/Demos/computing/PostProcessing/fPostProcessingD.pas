@@ -16,7 +16,7 @@ uses
 
   Stage.TextureFormat
   GLS.Scene,
-  GLS.Coordinates,
+  Stage.Coordinates,
   GLS.Objects,
   GLS.GeomObjects,
   GLS.Material,
@@ -24,7 +24,7 @@ uses
   GLS.Cadencer,
   GLS.SceneViewer,
  
-  GLS.BaseClasses,
+  Stage.BaseClasses,
   GLS.FBORenderer,
   GLS.HUDObjects,
 

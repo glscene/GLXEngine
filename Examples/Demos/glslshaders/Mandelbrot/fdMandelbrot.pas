@@ -26,16 +26,16 @@ uses
   GLS.Cadencer,
   GLS.Scene,
   GLS.Context,
-  GLS.XCollection,
+  Stage.XCollection,
   GLS.FileTGA,
   GLS.HUDObjects,
   GLS.BitmapFont,
   GLS.WindowsFont,
   GLS.Material,
-  GLS.Coordinates,
+  Stage.Coordinates,
 
   GLS.RenderContextInfo,
-  GLS.BaseClasses,
+  Stage.BaseClasses,
   GLSL.CustomShader,
   GLSL.Shader;
 

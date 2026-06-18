@@ -1,10 +1,11 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.WindowsContext;
-
-(* Windows specific Context *)
-
+(*
+  Windows specific Context
+  RegisterGLContextClass(TGLWindowsContext);
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -20,7 +21,7 @@ uses
 
   Stage.VectorTypes,
   Stage.OpenGLTokens,
-  GLS.OpenGLAdapter,
+  Stage.OpenGLAdapter,
   Stage.PipelineTransform,
   GLS.Context,
   GLS.State,
@@ -515,15 +516,15 @@ begin
       GLStates.MultisampleFilterHint := hintDontCare;
 
     if rcoDebug in Options then
-      GLSLogger.LogWarning(strDriverNotSupportDebugRC);
+      GSLogger.LogWarning(strDriverNotSupportDebugRC);
     if rcoOGL_ES in Options then
-      GLSLogger.LogWarning(strDriverNotSupportOESRC);
+      GSLogger.LogWarning(strDriverNotSupportOESRC);
     (* if ForwardContext then
       LogWarning(strDriverNotSupportFRC);
       ForwardContext := False; *)
   end
   else
-    GLSLogger.LogInfo(strTmpRC_Created);
+    GSLogger.LogInfo(strTmpRC_Created);
 end;
 
 procedure TGLWindowsContext.CreateNewContext(aDC: HDC);
@@ -577,7 +578,7 @@ begin
         Abort;
       AddIAttrib(WGL_CONTEXT_FLAGS_ARB, WGL_CONTEXT_FORWARD_COMPATIBLE_BIT_ARB);
       if rcoOGL_ES in Options then
-        GLSLogger.LogWarning(strOESvsForwardRC);
+        GSLogger.LogWarning(strOESvsForwardRC);
     end
     else if rcoOGL_ES in Options then
     begin
@@ -589,7 +590,7 @@ begin
         bOES := True;
       end
       else
-        GLSLogger.LogError(strDriverNotSupportOESRC);
+        GSLogger.LogError(strDriverNotSupportOESRC);
     end;
 
     if rcoDebug in Options then
@@ -615,7 +616,7 @@ begin
         PropagateSharedContext;
       end
       else
-        GLSLogger.LogWarning(strFailedToShare)
+        GSLogger.LogWarning(strFailedToShare)
     end;
 
     if FRC = 0 then
@@ -624,9 +625,9 @@ begin
       if FRC = 0 then
       begin
         if False (* GLStates.ForwardContext *) then
-          GLSLogger.LogErrorFmt(strForwardContextFailed, [GetLastError, SysErrorMessage(GetLastError)])
+          GSLogger.LogErrorFmt(strForwardContextFailed, [GetLastError, SysErrorMessage(GetLastError)])
         else
-          GLSLogger.LogErrorFmt(strBackwardContextFailed, [GetLastError, SysErrorMessage(GetLastError)]);
+          GSLogger.LogErrorFmt(strBackwardContextFailed, [GetLastError, SysErrorMessage(GetLastError)]);
         Abort;
       end;
     end;
@@ -635,7 +636,7 @@ begin
 
     if not wglMakeCurrent(FDC, FRC) then
     begin
-      GLSLogger.LogErrorFmt(strContextActivationFailed, [GetLastError, SysErrorMessage(GetLastError)]);
+      GSLogger.LogErrorFmt(strContextActivationFailed, [GetLastError, SysErrorMessage(GetLastError)]);
       Abort;
     end;
 
@@ -649,9 +650,9 @@ begin
       GLStates.MultisampleFilterHint := hintDontCare;
 
     (* if GLStates.ForwardContext then
-      GLSLogger.LogInfo(strFRC_created); *)
+      GSLogger.LogInfo(strFRC_created); *)
     if bOES then
-      GLSLogger.LogInfo(strOESRC_created);
+      GSLogger.LogInfo(strOESRC_created);
     bSuccess := True;
   finally
     ///  GLStates.ForwardContext := GLStates.ForwardContext and bSuccess;
@@ -794,7 +795,7 @@ begin
         sharedRC := FShareContext;
         DoDestroyContext;
         FShareContext := sharedRC;
-        GLSLogger.LogInfo('Temporary rendering context destroyed');
+        GSLogger.LogInfo('Temporary rendering context destroyed');
       end;
     finally
       ReleaseDC(0, tempDC);
@@ -861,7 +862,7 @@ begin
          and (FAcceleration = chaHardware) then
     begin
       FAcceleration := chaSoftware;
-      GLSLogger.LogWarning(strFailHWRC);
+      GSLogger.LogWarning(strFailHWRC);
     end;
   end;
 
@@ -882,7 +883,7 @@ begin
         PropagateSharedContext;
       end
       else
-        GLSLogger.LogWarning('DoCreateContext - Failed to share contexts with resource context');
+        GSLogger.LogWarning('DoCreateContext - Failed to share contexts with resource context');
     end;
   end;
 end;
@@ -995,7 +996,7 @@ begin
                     Abort;
                   AddIAttrib(WGL_CONTEXT_FLAGS_ARB, WGL_CONTEXT_FORWARD_COMPATIBLE_BIT_ARB);
                   if rcoOGL_ES in Options then
-                    GLSLogger.LogWarning(strOESvsForwardRC);
+                    GSLogger.LogWarning(strOESvsForwardRC);
                 end
                 else if rcoOGL_ES in Options then
                 begin
@@ -1006,7 +1007,7 @@ begin
                     AddIAttrib(WGL_CONTEXT_FLAGS_ARB, WGL_CONTEXT_ES2_PROFILE_BIT_EXT);
                   end
                   else
-                    GLSLogger.LogError(strDriverNotSupportOESRC);
+                    GSLogger.LogError(strDriverNotSupportOESRC);
                 end;
 
                 if rcoDebug in Options then
@@ -1027,9 +1028,9 @@ begin
 {$IFDEF USE_LOGGING}
                 begin
                   if False { GLStates.ForwardContext } then
-                    GLSLogger.LogErrorFmt(strForwardContextFailed, [GetLastError, SysErrorMessage(GetLastError)])
+                    GSLogger.LogErrorFmt(strForwardContextFailed, [GetLastError, SysErrorMessage(GetLastError)])
                   else
-                    GLSLogger.LogErrorFmt(strBackwardContextFailed, [GetLastError, SysErrorMessage(GetLastError)]);
+                    GSLogger.LogErrorFmt(strBackwardContextFailed, [GetLastError, SysErrorMessage(GetLastError)]);
                   Abort;
                 end;
 {$ELSE}
@@ -1042,7 +1043,7 @@ begin
                 localRC := wglCreateContext(localDC);
                 if localRC = 0 then
                 begin
-                  GLSLogger.LogErrorFmt(strBackwardContextFailed, [GetLastError, SysErrorMessage(GetLastError)]);
+                  GSLogger.LogErrorFmt(strBackwardContextFailed, [GetLastError, SysErrorMessage(GetLastError)]);
                   Abort;
                 end;
               end;
@@ -1079,7 +1080,7 @@ begin
   if ((pfDescriptor.dwFlags and PFD_GENERIC_FORMAT) > 0) and (FAcceleration = chaHardware) then
   begin
     FAcceleration := chaSoftware;
-    GLSLogger.LogWarning(strFailHWRC);
+    GSLogger.LogWarning(strFailHWRC);
   end;
 
   Activate;
@@ -1104,13 +1105,13 @@ begin
       PropagateSharedContext;
     end
     else
-      GLSLogger.LogWarning('DoCreateContext - Failed to share contexts with resource context');
+      GSLogger.LogWarning('DoCreateContext - Failed to share contexts with resource context');
   end;
 
   if Assigned(FShareContext) and (FShareContext.RC <> 0) then
   begin
     if not wglShareLists(FShareContext.RC, FRC) then
-      GLSLogger.LogWarning(strFailedToShare)
+      GSLogger.LogWarning(strFailedToShare)
     else
     begin
       FSharedContexts.Add(FShareContext);
@@ -1121,11 +1122,11 @@ begin
   Deactivate;
 
   { if GLStates.ForwardContext then
-    GLSLogger.LogInfo('PBuffer ' + strFRC_created);
+    GSLogger.LogInfo('PBuffer ' + strFRC_created);
     if bOES then
-    GLSLogger.LogInfo('PBuffer ' + strOESRC_created);
+    GSLogger.LogInfo('PBuffer ' + strOESRC_created);
     if not (GLStates.ForwardContext or bOES) then
-    GLSLogger.LogInfo(strPBufferRC_created); }
+    GSLogger.LogInfo(strPBufferRC_created); }
 end;
 
 function TGLWindowsContext.DoShareLists(aContext: TGLContext): Boolean;
@@ -1156,7 +1157,7 @@ begin
 
   if FRC <> 0 then
     if not wglDeleteContext(FRC) then
-      GLSLogger.LogErrorFmt(strDeleteContextFailed, [GetLastError, SysErrorMessage(GetLastError)]);
+      GSLogger.LogErrorFmt(strDeleteContextFailed, [GetLastError, SysErrorMessage(GetLastError)]);
 
   FRC := 0;
   FDC := 0;
@@ -1167,7 +1168,7 @@ procedure TGLWindowsContext.DoActivate;
 begin
   if not wglMakeCurrent(FDC, FRC) then
   begin
-    GLSLogger.LogErrorFmt(strContextActivationFailed, [GetLastError, SysErrorMessage(GetLastError)]);
+    GSLogger.LogErrorFmt(strContextActivationFailed, [GetLastError, SysErrorMessage(GetLastError)]);
     Abort;
   end;
 
@@ -1179,7 +1180,7 @@ procedure TGLWindowsContext.DoDeactivate;
 begin
   if not wglMakeCurrent(0, 0) then
   begin
-    GLSLogger.LogErrorFmt(strContextDeactivationFailed, [GetLastError, SysErrorMessage(GetLastError)]);
+    GSLogger.LogErrorFmt(strContextDeactivationFailed, [GetLastError, SysErrorMessage(GetLastError)]);
     Abort;
   end;
 end;
@@ -1211,9 +1212,7 @@ begin
   Result := Pointer(FDC);
 end;
 
-// ------------------------------------------------------------------
-initialization
-// ------------------------------------------------------------------
+initialization //============================================================
 
 RegisterGLContextClass(TGLWindowsContext);
 

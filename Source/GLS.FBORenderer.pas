@@ -1,10 +1,11 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.FBORenderer;
-
-(* Implements FBO support *)
-
+(*
+  Implements FBO support
+  RegisterClasses([TGLFBORenderer]);
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -20,12 +21,12 @@ uses
   Stage.VectorTypes,
   Stage.VectorGeometry,
 
-  GLS.PersistentClasses,
+  Stage.PersistentClasses,
   Stage.PipelineTransform,
   GLS.Scene,
   GLS.Texture,
   GLS.Context,
-  GLS.Color,
+  Stage.Color,
   GLS.Material,
   GLS.RenderContextInfo,
   GLS.State,
@@ -188,7 +189,7 @@ type
     FPostInitialize: TNotifyEvent;
     FAfterRender: TGLDirectRenderEvent;
     FPreInitialize: TNotifyEvent;
-    FBackgroundColor: TGLColor;
+    FBackgroundColor: TGSColor;
     FClearOptions: TGLFBOClearOptions;
     FAspect: Single;
     FSceneScaleFactor: Single;
@@ -196,7 +197,7 @@ type
     FPostGenerateMipmap: Boolean;
     FMaxSize: Integer;
     FMaxAttachment: Integer;
-    FStoreCamera: array[0..2] of TGLVector;
+    FStoreCamera: array[0..2] of TGSVector;
     FOnSetTextureTargets: TSetTextureTargetsEvent;
     // implementing IGLMaterialLibrarySupported
     function GetMaterialLibrary: TGLAbstractMaterialLibrary;
@@ -216,7 +217,7 @@ type
     procedure SetCamera(const Value: TGLCamera);
     procedure SetEnabledRenderBuffers(const Value: TGLEnabledRenderBuffers);
     procedure SetTargetVisibility(const Value: TGLFBOTargetVisibility);
-    procedure SetBackgroundColor(const Value: TGLColor);
+    procedure SetBackgroundColor(const Value: TGSColor);
     function StoreSceneScaleFactor: Boolean;
     function StoreAspect: Boolean;
     procedure SetUseLibraryAsMultiTarget(Value: Boolean);
@@ -264,7 +265,7 @@ type
       write SetDepthTextureName;
     property MaterialLibrary: TGLAbstractMaterialLibrary read GetMaterialLibrary
       write SetMaterialLibrary;
-    property BackgroundColor: TGLColor read FBackgroundColor write SetBackgroundColor;
+    property BackgroundColor: TGSColor read FBackgroundColor write SetBackgroundColor;
     property ClearOptions: TGLFBOClearOptions read FClearOptions
       write FClearOptions;
     (* Camera used for rendering to the FBO
@@ -315,15 +316,12 @@ type
       write FOnSetTextureTargets;
   end;
 
-//======================================================================
-implementation
-//======================================================================
+implementation //===========================================================
 
 
 //---------------------------------------
 //---------- TGLRenderbuffer
 //---------------------------------------
-
 constructor TGLRenderbuffer.Create;
 begin
   inherited Create;
@@ -808,7 +806,7 @@ end;
 procedure TGLFrameBuffer.Render(var rci: TGLRenderContextInfo; baseObject:
   TGLBaseSceneObject);
 var
-  backColor: TGLColorVector;
+  backColor: TGSColorVector;
   buffer: TGLSceneBuffer;
 begin
   Bind;
@@ -895,7 +893,7 @@ begin
     bEmpty := False;
   end;
   if not bEmpty and (GetStringStatus(s) <> fsComplete) then
-    GLSLogger.LogErrorFmt('Framebuffer error: %s. Deactivated', [s]);
+    GSLogger.LogErrorFmt('Framebuffer error: %s. Deactivated', [s]);
   Handle.NotifyDataUpdated;
 end;
 
@@ -979,7 +977,7 @@ begin
   inherited;
   ObjectStyle := [osDirectDraw, osNoVisibilityCulling];
   FFbo := TGLFrameBuffer.Create;
-  FBackgroundColor := TGLColor.Create(Self);
+  FBackgroundColor := TGSColor.Create(Self);
   FUseLibraryAsMultiTarget := False;
   FForceTextureDimensions := True;
   FWidth := 256;
@@ -1081,7 +1079,7 @@ procedure TGLFBORenderer.Initialize;
       ForceDimensions(colorTex);
     if FColorAttachment >= FMaxAttachment then
     begin
-      GLSLogger.LogError
+      GSLogger.LogError
         ('Number of color attachments out of GL_MAX_COLOR_ATTACHMENTS');
       Visible := False;
       Abort;
@@ -1114,12 +1112,12 @@ begin
   if Width > FMaxSize then
   begin
     FWidth := FMaxSize;
-    GLSLogger.LogWarningFmt('%s.Width out of GL_MAX_RENDERBUFFER_SIZE', [Name]);
+    GSLogger.LogWarningFmt('%s.Width out of GL_MAX_RENDERBUFFER_SIZE', [Name]);
   end;
   if Height > FMaxSize then
   begin
     FHeight := FMaxSize;
-    GLSLogger.LogWarningFmt('%s.Height out of GL_MAX_RENDERBUFFER_SIZE', [Name]);
+    GSLogger.LogWarningFmt('%s.Height out of GL_MAX_RENDERBUFFER_SIZE', [Name]);
   end;
 
   FFbo.Width := Width;
@@ -1149,7 +1147,7 @@ begin
   begin
     if not(gl.ARB_draw_buffers or gl.ATI_draw_buffers) then
     begin
-      GLSLogger.LogError('Hardware do not support MRT');
+      GSLogger.LogError('Hardware do not support MRT');
       Active := False;
       exit;
     end;
@@ -1278,8 +1276,8 @@ procedure TGLFBORenderer.RenderToFBO(var ARci: TGLRenderContextInfo);
 
 type
   TGLStoredStates = record
-    ColorClearValue: TGLColorVector;
-    ColorWriteMask: TGLColorMask;
+    ColorClearValue: TGSColorVector;
+    ColorWriteMask: TGSColorMask;
     Tests: TGLStates;
   end;
 
@@ -1306,7 +1304,7 @@ type
   end;
 
 var
-  backColor: TGLColorVector;
+  backColor: TGSColorVector;
   buffer: TGLSceneBuffer;
   savedStates: TGLStoredStates;
   w, h: Integer;
@@ -1317,7 +1315,7 @@ begin
 
   if not TGLFramebufferHandle.IsSupported then
   begin
-    GLSLogger.LogError('Framebuffer not supported - deactivated');
+    GSLogger.LogError('Framebuffer not supported - deactivated');
     Active := False;
     Exit;
   end;
@@ -1342,7 +1340,7 @@ begin
     FFbo.Bind;
     if FFbo.GetStringStatus(s) <> fsComplete then
     begin
-      GLSLogger.LogErrorFmt('Framebuffer error: %s. Deactivated', [s]);
+      GSLogger.LogErrorFmt('Framebuffer error: %s. Deactivated', [s]);
       Active := False;
       Exit;
     end;
@@ -1420,7 +1418,7 @@ begin
   end;
 end;
 
-procedure TGLFBORenderer.SetBackgroundColor(const Value: TGLColor);
+procedure TGLFBORenderer.SetBackgroundColor(const Value: TGSColor);
 begin
   FBackgroundColor.Assign(Value);
 end;
@@ -1635,9 +1633,7 @@ begin
   Result := FFbo.Level;
 end;
 
-//-------------------------------------------------
-initialization
-//-------------------------------------------------
+initialization //============================================================
 
 RegisterClasses([TGLFBORenderer]);
 

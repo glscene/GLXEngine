@@ -23,8 +23,8 @@
 #include <GLS.Extrusion.hpp>
 #include "GLS.Texture.hpp"
 #include "GLS.Objects.hpp"
-#include "GLS.BaseClasses.hpp"
-#include "GLS.Coordinates.hpp"
+#include "Stage.BaseClasses.hpp"
+#include "Stage.Coordinates.hpp"
 
 #include "GLS.VerletTypes.hpp"
 

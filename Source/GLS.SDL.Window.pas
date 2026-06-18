@@ -1,17 +1,17 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.SDL.Window;
-
 (*
   Non visual wrapper around basic SDL window features.
+  RegisterComponents('GLScene Utils', [TSDLWindow]);
+
   Notes:
   Unit must ultimately *NOT* make use of any platform specific stuff,
   *EVEN* through the use of conditionals.
   SDL-specifics should also be avoided in the "interface" section.
   This component uses a header conversion for SDL from http://libsdl.org
 *)
-
 interface
 
 uses
@@ -21,7 +21,7 @@ uses
 
   Stage.OpenGLTokens,
   Stage.VectorGeometry,
-  GLS.OpenGLAdapter,
+  Stage.OpenGLAdapter,
   Stage.VectorTypes,
   GLS.State,
   GLS.Context,
@@ -184,10 +184,7 @@ function SDL_getenv(const name: PAnsiChar): PAnsiChar;
 
 procedure Register;
 
-// ---------------------------------------------------------------------
-implementation
-
-// ---------------------------------------------------------------------
+implementation //============================================================
 
 var
   vSDLCS: TCriticalSection;
@@ -200,6 +197,7 @@ type
     procedure DoPollEvents;
   end;
 
+//---------------------------------------------------------------------------
 procedure RaiseSDLError(const msg: String = '');
 begin
   if msg <> '' then
@@ -208,6 +206,7 @@ begin
     raise ESDLError.Create(SDL_GetError);
 end;
 
+//---------------------------------------------------------------------------
 function _putenv(const variable: PAnsiChar): Integer; cdecl;
   external 'MSVCRT.DLL';
 
@@ -216,8 +215,10 @@ begin
   Result := _putenv(variable);
 end;
 
+//---------------------------------------------------------------------------
 function getenv(const name: PAnsiChar): PAnsiChar; cdecl; external 'MSVCRT.DLL';
 
+//---------------------------------------------------------------------------
 function SDL_getenv(const name: PAnsiChar): PAnsiChar;
 begin
   Result := getenv(name);
@@ -226,7 +227,6 @@ end;
 // ------------------
 // ------------------ TSDLEventThread ------------------
 // ------------------
-
 procedure TSDLEventThread.Execute;
 begin
   try
@@ -252,6 +252,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TSDLEventThread.DoPollEvents;
 begin
   // no need for a CS here, we're in the main thread
@@ -262,7 +263,6 @@ end;
 // ------------------
 // ------------------ TSDLWindow ------------------
 // ------------------
-
 constructor TSDLWindow.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
@@ -275,12 +275,14 @@ begin
   FOptions := cDefaultSDLWindowOptions;
 end;
 
+//---------------------------------------------------------------------------
 destructor TSDLWindow.Destroy;
 begin
   Close;
   inherited Destroy;
 end;
 
+//---------------------------------------------------------------------------
 procedure TSDLWindow.SetWidth(const val: Integer);
 begin
   if FWidth <> val then
@@ -288,6 +290,7 @@ begin
       FWidth := val;
 end;
 
+//---------------------------------------------------------------------------
 procedure TSDLWindow.SetHeight(const val: Integer);
 begin
   if FHeight <> val then
@@ -295,16 +298,19 @@ begin
       FHeight := val;
 end;
 
+//---------------------------------------------------------------------------
 procedure TSDLWindow.SetPixelDepth(const val: TSDLWindowPixelDepth);
 begin
   FPixelDepth := val;
 end;
 
+//---------------------------------------------------------------------------
 procedure TSDLWindow.SetOptions(const val: TSDLWindowOptions);
 begin
   FOptions := val;
 end;
 
+//---------------------------------------------------------------------------
 function TSDLWindow.BuildSDLVideoFlags: Cardinal;
 var
   videoInfo: PSDL_RendererInfo;
@@ -326,6 +332,7 @@ begin
     Result := Result + SDL_SWSURFACE; // for compatibility with SDL 1.2 only!
 end;
 
+//---------------------------------------------------------------------------
 procedure TSDLWindow.SetSDLGLAttributes;
 begin
   case PixelDepth of
@@ -356,6 +363,7 @@ begin
     SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 0)
 end;
 
+//---------------------------------------------------------------------------
 procedure TSDLWindow.CreateOrRecreateSDLSurface;
 const
   cPixelDepthToBpp: array [Low(TSDLWindowPixelDepth)
@@ -382,6 +390,7 @@ begin
     ResizeGLWindow;
 end;
 
+//---------------------------------------------------------------------------
 procedure TSDLWindow.SetupSDLEnvironmentValues;
 var
   envVal: String;
@@ -397,6 +406,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TSDLWindow.Open;
 begin
   if Active then
@@ -421,6 +431,7 @@ begin
     StartThread;
 end;
 
+//---------------------------------------------------------------------------
 procedure TSDLWindow.Close;
 begin
   if not Active then
@@ -434,12 +445,14 @@ begin
   vSDLActive := False;
 end;
 
+//---------------------------------------------------------------------------
 procedure TSDLWindow.UpdateWindow;
 begin
   if Active then
     CreateOrRecreateSDLSurface;
 end;
 
+//---------------------------------------------------------------------------
 procedure TSDLWindow.SwapBuffers;
 begin
   if Active then
@@ -449,6 +462,7 @@ begin
       SDL_RenderPresent(SDLWindow);
 end;
 
+//---------------------------------------------------------------------------
 procedure TSDLWindow.ResizeGLWindow;
 var
   RC: TGLContext;
@@ -458,6 +472,7 @@ begin
     RC.GLStates.ViewPort := Vector4iMake(0, 0, Width, Height);
 end;
 
+//---------------------------------------------------------------------------
 procedure TSDLWindow.SetActive(const val: Boolean);
 begin
   if val <> FActive then
@@ -467,6 +482,7 @@ begin
       Close;
 end;
 
+//---------------------------------------------------------------------------
 procedure TSDLWindow.SetCaption(const val: String);
 begin
   if FCaption <> val then
@@ -477,12 +493,14 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TSDLWindow.SetThreadSleepLength(const val: Integer);
 begin
   if val >= 0 then
     FThreadSleepLength := val;
 end;
 
+//---------------------------------------------------------------------------
 procedure TSDLWindow.SetThreadPriority(const val: TThreadPriority);
 begin
   FThreadPriority := val;
@@ -490,6 +508,7 @@ begin
     FThread.Priority := val;
 end;
 
+//---------------------------------------------------------------------------
 procedure TSDLWindow.SetThreadedEventPolling(const val: Boolean);
 begin
   if FThreadedEventPolling <> val then
@@ -505,6 +524,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TSDLWindow.StartThread;
 begin
   if Active and ThreadedEventPolling and (not Assigned(FThread)) then
@@ -517,6 +537,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TSDLWindow.StopThread;
 begin
   if Assigned(FThread) then
@@ -531,6 +552,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TSDLWindow.PollEvents;
 var
   event: TSDL_Event;
@@ -571,12 +593,13 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure Register;
 begin
   RegisterComponents('GLScene Utils', [TSDLWindow]);
 end;
 
-initialization // -----------------------------------------------------------
+initialization //============================================================
 
 // We DON'T free this stuff manually, automatic release will take care of this
 vSDLCS := TCriticalSection.Create;

@@ -1,14 +1,12 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.Canvas;
-
 (*
    Implements a basic Canvas-like interface over for OpenGL
    This class can be used for generic OpenGL applications and has no dependencies
    to the GXScene core units (only to base units).
 *)
-
 interface
 
 {$I Stage.Defines.inc}
@@ -21,10 +19,10 @@ uses
   System.Math,
   FMX.Graphics,
 
-  Stage.VectorGeometry,
-  GXS.Color,
-  GXS.Context,
   Stage.VectorTypes,
+  Stage.VectorGeometry,
+  Stage.Color,
+  GXS.Context,
   GXS.State;
 
 type
@@ -124,9 +122,9 @@ type
     procedure FillRect(const x1, y1, x2, y2: Single); overload;
     // Draw the (x1,y1)-(x2, y2) rectangle (filled with given gradient's color). 
     procedure FillRectGradient(const x1, y1, x2, y2: Single;
-      const x1y1Color, x2y1Color, x2y2Color, x1y2Color: TgxColorVector); overload;
+      const x1y1Color, x2y1Color, x2y2Color, x1y2Color: TGSColorVector); overload;
     procedure FillRectGradient(const x1, y1, x2, y2: Integer;
-      const x1y1Color, x2y1Color, x2y2Color, x1y2Color: TgxColorVector); overload;
+      const x1y1Color, x2y1Color, x2y2Color, x1y2Color: TGSColorVector); overload;
     {Draws an ellipse with (x1,y1)-(x2, y2) bounding rectangle. }
     procedure EllipseBB(const x1, y1, x2, y2: Integer); overload;
     procedure EllipseBB(const x1, y1, x2, y2: Single); overload;
@@ -141,18 +139,18 @@ type
     { Draw a filled gradient ellipse.
     OpenGL will use the last PenColor and PenAlpha as the center color and do gradient to edge of ellipse using the edgeColor parameter. }
     procedure FillEllipseGradient(const x, y, xRadius, yRadius: Single;
-      const edgeColor: TgxColorVector); overload;
+      const edgeColor: TGSColorVector); overload;
     procedure FillEllipseGradient(const x, y: Integer;
-      const xRadius, yRadius: Integer; const edgeColor: TgxColorVector); overload;
+      const xRadius, yRadius: Integer; const edgeColor: TGSColorVector); overload;
     procedure FillEllipseGradient(const x, y, Radius: Single;
-      const edgeColor: TgxColorVector); overload;
-    { Draw an elliptical arc. 
-       The points (x1, y1) and (x2, y2) specify the bounding rectangle. 
-       An ellipse formed by the specified bounding rectangle defines the curve of the arc. 
-       The arc extends in the current drawing direction from the point where it intersects the radial from the center of the bounding rectangle to the (x3, y3) point. 
-       The arc ends where it intersects the radial from the center of the bounding rectangle to the (x4, y4) point. 
-       If the starting point and ending point are the same, a complete ellipse is drawn. 
-       Use the ArcDirection property to get and set the current drawing direction for a device context. 
+      const edgeColor: TGSColorVector); overload;
+    { Draw an elliptical arc.
+       The points (x1, y1) and (x2, y2) specify the bounding rectangle.
+       An ellipse formed by the specified bounding rectangle defines the curve of the arc.
+       The arc extends in the current drawing direction from the point where it intersects the radial from the center of the bounding rectangle to the (x3, y3) point.
+       The arc ends where it intersects the radial from the center of the bounding rectangle to the (x4, y4) point.
+       If the starting point and ending point are the same, a complete ellipse is drawn.
+       Use the ArcDirection property to get and set the current drawing direction for a device context.
        The default drawing direction is counterclockwise. }
     procedure Arc(const x1, y1, x2, y2, x3, y3, x4, y4: Integer); overload;
     procedure Arc(const x1, y1, x2, y2, x3, y3, x4, y4: Single); overload;
@@ -166,7 +164,7 @@ type
     property ArcDirection: TgxArcDirection read FArcDirection write FArcDirection;
   end;
 
-implementation //-------------------------------------------------------------
+implementation //============================================================
 
 const
   cNoPrimitive = MaxInt;
@@ -525,7 +523,7 @@ begin
 end;
 
 procedure TgxCanvas.FillRectGradient(const x1, y1, x2, y2: Single;
-  const x1y1Color, x2y1Color, x2y2Color, x1y2Color: TgxColorVector);
+  const x1y1Color, x2y1Color, x2y2Color, x1y2Color: TGSColorVector);
 begin
   StartPrimitive(GL_QUADS);
   glColor4f(x1y1Color.X, x1y1Color.Y, x1y1Color.Z, x1y1Color.W);
@@ -543,7 +541,7 @@ begin
 end;
 
 procedure TgxCanvas.FillRectGradient(const x1, y1, x2, y2: Integer;
-  const x1y1Color, x2y1Color, x2y2Color, x1y2Color: TgxColorVector);
+  const x1y1Color, x2y1Color, x2y2Color, x1y2Color: TGSColorVector);
 begin
   StartPrimitive(GL_QUADS);
   glColor4f(x1y1Color.X, x1y1Color.Y, x1y1Color.Z, x1y1Color.W);
@@ -560,7 +558,7 @@ begin
   glColor4fv(@FCurrentPenColorVector);
 end;
 
-procedure TgxCanvas.FillEllipseGradient(const x, y: Integer; const xRadius, yRadius: Integer; const edgeColor: TgxColorVector);
+procedure TgxCanvas.FillEllipseGradient(const x, y: Integer; const xRadius, yRadius: Integer; const edgeColor: TGSColorVector);
 begin
   StartPrimitive(GL_TRIANGLE_FAN);
 
@@ -576,7 +574,7 @@ begin
   glColor4fv(@FCurrentPenColorVector);
 end;
 
-procedure TgxCanvas.FillEllipseGradient(const x, y, xRadius, yRadius: Single; const edgeColor: TgxColorVector);
+procedure TgxCanvas.FillEllipseGradient(const x, y, xRadius, yRadius: Single; const edgeColor: TGSColorVector);
 begin
   StartPrimitive(GL_TRIANGLE_FAN);
   glVertex2f(x, y); // really necessary now :)
@@ -588,7 +586,7 @@ begin
   glColor4fv(@FCurrentPenColorVector);
 end;
 
-procedure TgxCanvas.FillEllipseGradient(const x, y, Radius: Single; const edgeColor: TgxColorVector);
+procedure TgxCanvas.FillEllipseGradient(const x, y, Radius: Single; const edgeColor: TGSColorVector);
 begin
   FillEllipseGradient(x, y, Radius, Radius, edgeColor);
 end;

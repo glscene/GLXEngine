@@ -1,8 +1,7 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.ObjectManager;
-
 (*
    The object manager is used for registering classes together with a category,
    description + icon, so that they can be displayed visually.  This can then
@@ -12,7 +11,6 @@ unit GXS.ObjectManager;
    TODO: add some notification code, so that when a scene object is registered/
    unregistered, any editor that is using the object manager can be notified.
 *)
-
 interface
 
 {$I Stage.Defines.inc}
@@ -24,11 +22,11 @@ uses
   FMX.Graphics,
   FMX.Controls,
   FMX.Menus,
+
   GXS.ImageUtils,
   GXS.Scene;
 
 type
-
   PSceneObjectEntry = ^TgxSceneObjectEntry;
   // holds a relation between an scene object class, its global identification,
   // its location in the object stock and its icon reference
@@ -79,11 +77,9 @@ type
     property ObjectRootIndex: Integer read FObjectRootIndex;
   end;
 
-// ------------------------------------------------------------------
-implementation
-// ------------------------------------------------------------------
+implementation //============================================================
 
-//----------------- TgxObjectManager ---------------------------------------------
+//----------------- TgxObjectManager ----------------------------------------
 
 constructor TgxObjectManager.Create(AOwner: TComponent);
 begin
@@ -379,7 +375,7 @@ begin
   end;
 end;
 
-initialization
+initialization //============================================================
 
 end.
 

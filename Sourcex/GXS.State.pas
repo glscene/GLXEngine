@@ -1,8 +1,7 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.State;
-
 (* Tools for managing an application-side cache of OpenGL state *)
 
 (*
@@ -19,7 +18,6 @@ unit GXS.State;
  DONE: remove stTexture1D, 2D, etc from TGLState if possible, since they are
  per texture-unit + also deprecated in OpenGL 3+
  *)
-
 interface
 
 {$I Stage.Defines.inc}
@@ -38,7 +36,7 @@ uses
   Stage.VectorGeometry,
   Stage.Utils,
 
-  GXS.Color;
+  Stage.Color;
 
 const
   VERTEX_ATTR_NUM = 16;
@@ -139,8 +137,8 @@ type
   TgxCullFaceMode = (cmFront, cmBack, cmFrontAndBack);
   //  TSingleCullFaceMode = cmFront..cmBack;
 
-  TgxColorComponent = (ccRed, ccGreen, ccBlue, ccAlpha);
-  TgxColorMask = set of TgxColorComponent;
+  TGSColorComponent = (ccRed, ccGreen, ccBlue, ccAlpha);
+  TGSColorMask = set of TGSColorComponent;
 
 const
   cAllColorComponents = [ccRed, ccGreen, ccBlue, ccAlpha];
@@ -150,7 +148,6 @@ const
   MAX_HARDWARE_UNIFORM_BUFFER_BINDING = 75;
 
 type
-
   TgxHintType = (hintDontCare, hintFastest, hintNicest);
 
   TgxLightSourceState = packed record
@@ -185,10 +182,10 @@ type
 
   TgxMaterialLevel = (mlAuto, mlFixedFunction, mlMultitexturing, mlSM3, mlSM4, mlSM5);
 
-  { Manages an application-side cache of OpenGL states and parameters.
+  (* Manages an application-side cache of OpenGL states and parameters.
      Purpose of this class is to eliminate redundant state and parameter
      changes, and there will typically be no more than one state cache per
-     OpenGL context. }
+     OpenGL context. *)
   TgxStateCache = class
   private
     // Legacy state
@@ -300,7 +297,7 @@ type
     FEnableColorLogicOp: GLboolean;
     FLogicOpMode: TgxLogicOp;
     // Framebuffer control state
-    FColorWriteMask: array[0..15] of TgxColorMask;
+    FColorWriteMask: array[0..15] of TGSColorMask;
     FDepthWriteMask: Boolean;
     FStencilWriteMask: GLuint;
     FStencilBackWriteMask: GLuint;
@@ -441,8 +438,8 @@ type
     procedure SetEnableColorLogicOp(const Value: GLboolean);
     procedure SetLogicOpMode(const Value: TgxLogicOp);
     // Framebuffer control
-    function GetColorWriteMask(Index: Integer): TgxColorMask;
-    procedure SetColorWriteMask(Index: Integer; const Value: TgxColorMask);
+    function GetColorWriteMask(Index: Integer): TGSColorMask;
+    procedure SetColorWriteMask(Index: Integer; const Value: TGSColorMask);
     procedure SetDepthWriteMask(const Value: Boolean);
     procedure SetStencilWriteMask(const Value: GLuint);
     procedure SetStencilBackWriteMask(const Value: GLuint);
@@ -729,31 +726,30 @@ type
       back facing primitives. *)
     property StencilBackPassDepthFail: TgxStencilOp read FStencilBackPassDepthFail;
     // write SetStencilBackPassDepthFail;
-  { The operation to perform when stencil test passes + depth test passes on
-     back facing primitives. }
+    (* The operation to perform when stencil test passes + depth test passes on
+     back facing primitives. *)
     property StencilBackPassDepthPass: TgxStencilOp read FStencilBackPassDepthPass;
     // write SetStencilBackPassDepthPass;
-  { Used to set stencil Function, Reference + Mask values, for both front +
-     back facing primitives. }
+    (* Used to set stencil Function, Reference + Mask values, for both front +
+     back facing primitives. *)
     procedure SetStencilFunc(const func: TgxStencilFunction; const ref: GLint; const mask: GLuint);
     (* Used to set stencil Function, Reference + Mask values for either the
       front or back facing primitives (or both, which is the same as calling
       SetStencilFunc). *)
-    procedure SetStencilFuncSeparate(const face: TgxCullFaceMode; const func: TgxStencilFunction; const ref: GLint; 
+    procedure SetStencilFuncSeparate(const face: TgxCullFaceMode; const func: TgxStencilFunction; const ref: GLint;
 	   const mask: GLuint);  inline;
-    { Used to set the StencilFail, StencilPassDepthFail + StencilPassDepthPass
-       in one go. }
+    // Used to set the StencilFail, StencilPassDepthFail + StencilPassDepthPass in one go.
     procedure SetStencilOp(const fail, zfail, zpass: TgxStencilOp); inline;
-    { Used to set the StencilFail, StencilPassDepthFail + StencilPassDepthPass
-       in one go, for either front or back facing primitives. }
+    (* Used to set the StencilFail, StencilPassDepthFail + StencilPassDepthPass
+       in one go, for either front or back facing primitives. *)
     procedure SetStencilOpSeparate(const face: TgxCullFaceMode; const sfail, dpfail, dppass: TgxStencilOp);
 
-    { Enables/disables depth testing. }
+    // Enables/disables depth testing.
     property EnableDepthTest: GLboolean read FEnableDepthTest write SetEnableDepthTest;
-    { The depth function.  Used to determine whether to keep a fragment or
-       discard it, depending on the current value stored in the depth buffer. }
+    (* The depth function.  Used to determine whether to keep a fragment or
+       discard it, depending on the current value stored in the depth buffer. *)
     property DepthFunc: TgxDepthFunction read FDepthFunc write SetDepthFunc;
-    { Enables/disables blending for each draw buffer. }
+    // Enables/disables blending for each draw buffer.
     property EnableBlend[Index: Integer]: GLboolean read GetEnableBlend write SetEnableBlend;
     { The weighting factor used in blending equation, for source RGB. }
     property BlendSrcRGB: TgxBlendFunction read FBlendSrcRGB;
@@ -764,52 +760,52 @@ type
     (* The weighting factor used in blending equation, for destination RGB. *)
     property BlendDstRGB: TgxDstBlendFunction read FBlendDstRGB;
     // write SetBlendDstRGB;
-  { The weighting factor used in blending equation, for destination alpha. }
+    // The weighting factor used in blending equation, for destination alpha.
     property BlendDstAlpha: TgxDstBlendFunction read FBlendDstAlpha;
     // write SetBlendDstAlpha;
-  { Sets the weighting factors to be used by the blending equation, for both color + alpha. }
+    // Sets the weighting factors to be used by the blending equation, for both color + alpha.
     procedure SetBlendFunc(const Src: TgxBlendFunction; const Dst: TgxDstBlendFunction);
-    { Sets the weighting factors to be used by the blending equation, with
-       separate values used for color + alpha components. }
-    procedure SetBlendFuncSeparate(const SrcRGB: TgxBlendFunction; const DstRGB: TgxDstBlendFunction; 
+    (* Sets the weighting factors to be used by the blending equation, with
+       separate values used for color + alpha components. *)
+    procedure SetBlendFuncSeparate(const SrcRGB: TgxBlendFunction; const DstRGB: TgxDstBlendFunction;
 	  const SrcAlpha: TgxBlendFunction; const DstAlpha: TgxDstBlendFunction); inline;
-    { The blending equation.  Determines how the incoming source fragment's
-       RGB are combined with the destination RGB. }
+    (* The blending equation.  Determines how the incoming source fragment's
+       RGB are combined with the destination RGB. *)
     property BlendEquationRGB: TgxBlendEquation read FBlendEquationRGB;
     // write SetBlendEquationRGB;
-  { The blending equation.  Determines how the incoming source fragment's
-     alpha values are combined with the destination alpha values. }
+    (* The blending equation.  Determines how the incoming source fragment's
+     alpha values are combined with the destination alpha values. *)
     property BlendEquationAlpha: TgxBlendEquation read FBlendEquationAlpha;
     // write SetBlendEquationAlpha;
     // Sets the blend equation for RGB + alpha to the same value.
     procedure SetBlendEquation(const mode: TgxBlendEquation);
     // Sets the blend equations for RGB + alpha separately.
     procedure SetBlendEquationSeparate(const modeRGB, modeAlpha: TgxBlendEquation);
-    { A constant blend color, that can be used in the blend equation. }
+    // A constant blend color, that can be used in the blend equation.
     property BlendColor: TVector4f read FBlendColor write SetBlendColor;
-    { Enables/disables framebuffer SRGB. }
+    // Enables/disables framebuffer SRGB.
     property EnableFramebufferSRGB: GLboolean read FEnableFramebufferSRGB write SetEnableFramebufferSRGB;
     // Enables/disables dithering.
     property EnableDither: GLboolean read FEnableDither write SetEnableDither;
     // Enables/disables color logic op.
     property EnableColorLogicOp: GLboolean read FEnableColorLogicOp write SetEnableColorLogicOp;
-    { Logic op mode. }
+    // Logic op mode.
     property LogicOpMode: TgxLogicOp read FLogicOpMode write SetLogicOpMode;
     // Framebuffer control
-    { The color write mask, for each draw buffer. }
-    property ColorWriteMask[Index: Integer]: TgxColorMask read GetColorWriteMask
+    // The color write mask, for each draw buffer.
+    property ColorWriteMask[Index: Integer]: TGSColorMask read GetColorWriteMask
     write SetColorWriteMask;
-    { Set the color write mask for all draw buffers. }
-    procedure SetColorMask(mask: TgxColorMask);
-    { The depth write mask. }
+    // Set the color write mask for all draw buffers.
+    procedure SetColorMask(mask: TGSColorMask);
+    // The depth write mask.
     property DepthWriteMask: Boolean read FDepthWriteMask write SetDepthWriteMask;
-    { The stencil write mask. }
+    // The stencil write mask.
     property StencilWriteMask: GLuint read FStencilWriteMask write SetStencilWriteMask;
-    { The stencil back write mask. }
+    // The stencil back write mask.
     property StencilBackWriteMask: GLuint read FStencilBackWriteMask write SetStencilBackWriteMask;
-    { The color clear value. }
+    // The color clear value.
     property ColorClearValue: TVector4f read FColorClearValue write SetColorClearValue;
-    { The depth clear value. }
+    // The depth clear value.
     property DepthClearValue: Single read FDepthClearValue write SetDepthClearValue;
     // The stencil clear value.
     property StencilClearValue: GLuint read FStencilClearValue write SetStencilClearValue;
@@ -820,7 +816,7 @@ type
     // set both draw + read framebuffer.
     procedure SetFrameBuffer(const Value: GLuint);
     //property FrameBuffer: GLuint read FDrawFrameBuffer write SetFrameBuffer;
-    { Currently bound render buffer. }
+    // Currently bound render buffer.
     property RenderBuffer: GLuint read FRenderBuffer write SetRenderBuffer;
     // Pixels
     (* Controls whether byte swapping occurs during pixel unpacking. *)
@@ -1017,7 +1013,7 @@ const
   cGLBufferBindingTarget: array[TgxBufferBindingTarget] of GLEnum =
     (GL_UNIFORM_BUFFER, GL_TRANSFORM_FEEDBACK_BUFFER);
 
-implementation //------------------------------------------------------
+implementation //============================================================
 
 uses
   GXS.Context;
@@ -1664,7 +1660,7 @@ begin
 end;
 
 procedure TgxStateCache.SetColorWriteMask(Index: Integer;
-  const Value: TgxColorMask);
+  const Value: TGSColorMask);
 begin
   if FColorWriteMask[Index] <> Value then
   begin
@@ -2035,7 +2031,7 @@ begin
   end;
 end;
 
-function TgxStateCache.GetColorWriteMask(Index: Integer): TgxColorMask;
+function TgxStateCache.GetColorWriteMask(Index: Integer): TGSColorMask;
 begin
   Result := FColorWriteMask[Index];
 end;
@@ -2603,7 +2599,7 @@ begin
   end;
 end;
 
-procedure TgxStateCache.SetColorMask(mask: TgxColorMask);
+procedure TgxStateCache.SetColorMask(mask: TGSColorMask);
 var
   i: integer;
   Color : GLBoolean;

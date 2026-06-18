@@ -31,11 +31,11 @@ uses
   GLS.ShadowPlane,
   GLS.Navigator,
   GLS.VerletTypes,
-  GLS.XCollection,
-  GLS.Color,
+  Stage.XCollection,
+  Stage.Color,
 
-  GLS.Coordinates,
-  GLS.BaseClasses;
+  Stage.Coordinates,
+  Stage.BaseClasses;
 
 const
   cMaxWindMag = 8;

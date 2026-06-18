@@ -1,6 +1,3 @@
-//
-// GXStage Graphics Engine
-//
 unit NGD.Import;
 
 (* Copyright (c) <2003-2014> <Julio Jerez, Newton Game Dynamics>

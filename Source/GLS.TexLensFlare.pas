@@ -1,10 +1,11 @@
-//
-// GLScene Graphics Engine
-//
-
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.TexLensFlare;
-
-(* Texture-based Lens flare object. *)
+(*
+  Texture-based Lens flare object.
+  RegisterClasses([TGLTextureLensFlare]);
+*)
 
 interface
 
@@ -14,17 +15,18 @@ uses
   Winapi.OpenGL,
   System.Classes,
   
-  GLS.Scene,
-  GLS.PersistentClasses,
+  Stage.VectorTypes,
+  Stage.OpenGLTokens,
   Stage.VectorGeometry,
+  Stage.PersistentClasses,
+
+  GLS.Scene,
   GLS.Objects,
   GLS.Texture,
-  Stage.OpenGLTokens,
   GLS.Context,
   GLS.RenderContextInfo,
-  GLS.BaseClasses,
-  GLS.State,
-  Stage.VectorTypes;
+  Stage.BaseClasses,
+  GLS.State;
 
 type
 
@@ -54,7 +56,7 @@ type
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
     procedure BuildList(var rci: TGLRenderContextInfo); override;
-    procedure DoProgress(const progressTime: TGLProgressTimes); override;
+    procedure DoProgress(const progressTime: TGSProgressTimes); override;
   published
     // MaxRadius of the flare.
     property Size: integer read FSize write SetSize default 50;
@@ -302,7 +304,7 @@ begin
 end;
 
 
-procedure TGLTextureLensFlare.DoProgress(const progressTime: TGLProgressTimes);
+procedure TGLTextureLensFlare.DoProgress(const progressTime: TGSProgressTimes);
 begin
   FDeltaTime := progressTime.deltaTime;
   inherited;
@@ -347,9 +349,7 @@ begin
   StructureChanged;
 end;
 
-// ------------------------------------------------------------------
-initialization
-// ------------------------------------------------------------------
+initialization //============================================================
 
   RegisterClasses([TGLTextureLensFlare]);
 

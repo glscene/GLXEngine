@@ -22,7 +22,7 @@ uses
   GXS.ApplicationFileIO,
   Stage.VectorGeometry,
   Stage.VectorTypes,
-  GXS.VectorLists,
+  Stage.VectorLists,
   GXS.BSP,
   GXS.Texture,
   GXS.Graphics,
@@ -31,7 +31,7 @@ uses
   GXS.Material,
   Stage.TextureFormat,
 
-  Formatx.Q3BSP;
+  Formats.Q3BSP;
 
 type
 

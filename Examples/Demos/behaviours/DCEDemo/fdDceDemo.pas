@@ -21,7 +21,7 @@ uses
 
   GLS.Scene,
   GLS.Objects,
-  GLS.PersistentClasses,
+  Stage.PersistentClasses,
   GLS.Cadencer,
   GLS.SceneViewer,
   GLS.DCE,
@@ -33,16 +33,16 @@ uses
   GLS.BitmapFont,
   GLS.WindowsFont,
   GLS.HUDObjects,
-  GLS.Coordinates,
+  Stage.Coordinates,
   GLS.FileMD2,
   GLS.File3DS,
   GLS.Context,
   GLS.EllipseCollision,
   GLS.RenderContextInfo,
-  GLS.XCollection,
+  Stage.XCollection,
   GLS.ProxyObjects,
   GLS.State,
-  GLS.BaseClasses;
+  Stage.BaseClasses;
 
 type
   TFormDCE = class(TForm)
@@ -196,7 +196,7 @@ procedure TFormDCE.AddMushrooms;
 var
   i: Integer;
   proxy: TGLFreeFormProxy;
-  S: TGLVector;
+  S: TGSVector;
   f: Single;
 begin
   // spawn some more mushrooms using proxy objects

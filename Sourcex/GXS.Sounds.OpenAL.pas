@@ -31,7 +31,7 @@ uses
   Stage.VectorTypes,
   GXS.Scene,
   Stage.VectorGeometry,
-  GXS.Coordinates,
+  Stage.Coordinates,
   GXS.SoundManager,
   GXS.SoundFileObjects;
 

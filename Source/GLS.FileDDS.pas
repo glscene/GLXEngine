@@ -4,6 +4,7 @@
 unit GLS.FileDDS;
 (*
   DDS File support - Direct Draw Surface
+  RegisterRasterFormat('dds', 'Direct Draw Surface', TGLDDSImage);
 *)
 interface
 
@@ -37,7 +38,7 @@ type
   private
     procedure FlipSurface(ChangeData: PGLubyte; W, H, D: integer);
   public
-    class function Capabilities: TGLDataFileCapabilities; override;
+    class function Capabilities: TGSDataFileCapabilities; override;
     procedure LoadFromFile(const Filename: string); override;
     procedure SaveToFile(const Filename: string); override;
     procedure LoadFromStream(Stream: TStream); override;
@@ -730,7 +731,7 @@ begin
 end;
 
 // --------------------------------------------------------------------------
-class function TGLDDSImage.Capabilities: TGLDataFileCapabilities;
+class function TGLDDSImage.Capabilities: TGSDataFileCapabilities;
 begin
   Result := [dfcRead, dfcWrite];
 end;

@@ -1,8 +1,7 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.FileDXF;
-
 (*
   Support-Code to load DXF (Drawing eXchange Files) TGLFreeForm or
   TGLActor Components in GLScene.
@@ -10,7 +9,6 @@ unit GLS.FileDXF;
   to enable support for DXF at run-time.
   Turn on TwoSideLighting in your Buffer! DXF-Faces have no defined winding order
 *)
-
 interface
 
 uses
@@ -18,15 +16,16 @@ uses
   System.SysUtils,
 
   Stage.VectorTypes,
-  GLS.PersistentClasses,
-  GLS.ApplicationFileIO,
+  Stage.PersistentClasses,
   Stage.VectorGeometry,
-  GLS.VectorLists,
+  Stage.Utils,
+
+  Stage.VectorLists,
   GLS.Scene,
+  GLS.ApplicationFileIO,
   GLS.Texture,
   GLS.VectorFileObjects,
-  GLS.Material,
-  Stage.Utils;
+  GLS.Material;
 
 type
   TGLDXFVectorFile = class(TGLVectorFile)
@@ -68,7 +67,7 @@ type
     procedure ReadEntities(basemesh: TGLBaseMesh);
 
   public
-    class function Capabilities: TGLDataFileCapabilities; override;
+    class function Capabilities: TGSDataFileCapabilities; override;
     procedure LoadFromStream(aStream: TStream); override;
   end;
 
@@ -126,7 +125,7 @@ const
     result := (S.Position >= S.Size);
   end;
 
-  class function TGLDXFVectorFile.Capabilities: TGLDataFileCapabilities;
+  class function TGLDXFVectorFile.Capabilities: TGSDataFileCapabilities;
   begin
     result := [dfcRead];
   end;

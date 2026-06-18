@@ -17,14 +17,14 @@ uses
 
   GXS.XOpenGL,
   Stage.VectorTypes,
-  GXS.PersistentClasses,
+  Stage.PersistentClasses,
   GXS.Scene,
-  GXS.Coordinates,
+  Stage.Coordinates,
   Stage.VectorGeometry,
   GXS.Objects,
   GXS.BitmapFont,
   GXS.ImageUtils,
-  GXS.Color,
+  Stage.Color,
   GXS.RenderContextInfo,
   GXS.Context,
   GXS.State;
@@ -79,14 +79,14 @@ type
     FRotation: Single;
     FAlignment: TAlignment;
     FLayout: TgxTextLayout;
-    FModulateColor: TgxColor;
+    FModulateColor: TGSColor;
   protected
     procedure SetBitmapFont(const val: TgxCustomBitmapFont);
     procedure SetText(const val: UnicodeString);
     procedure SetRotation(const val: Single);
     procedure SetAlignment(const val: TAlignment);
     procedure SetLayout(const val: TgxTextLayout);
-    procedure SetModulateColor(const val: TgxColor);
+    procedure SetModulateColor(const val: TGSColor);
     procedure Notification(AComponent: TComponent;
       Operation: TOperation); override;
     procedure RenderTextAtPosition(const X, Y, Z: Single;
@@ -116,7 +116,7 @@ type
        Possible values : tlTop, tlCenter, tlBottom *)
     property Layout: TgxTextLayout read FLayout write SetLayout default tlTop;
     { Color modulation, can be used for fade in/out too. }
-    property ModulateColor: TgxColor read FModulateColor write SetModulateColor;
+    property ModulateColor: TGSColor read FModulateColor write SetModulateColor;
   end;
 
   (* Position (X, Y and X) is in absolute coordinates. This component converts
@@ -281,7 +281,7 @@ constructor TgxHUDText.Create(AOwner: TComponent);
 begin
   inherited;
   ObjectStyle := ObjectStyle + [osDirectDraw, osNoVisibilityCulling];
-  FModulateColor := TgxColor.CreateInitialized(Self, clrWhite);
+  FModulateColor := TGSColor.CreateInitialized(Self, clrWhite);
 end;
 
 destructor TgxHUDText.Destroy;
@@ -339,7 +339,7 @@ begin
   StructureChanged;
 end;
 
-procedure TgxHUDText.SetModulateColor(const val: TgxColor);
+procedure TgxHUDText.SetModulateColor(const val: TGSColor);
 begin
   FModulateColor.Assign(val);
 end;

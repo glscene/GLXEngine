@@ -8,9 +8,9 @@
 #include "fBoxSphereC.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
-#pragma link "GLS.BaseClasses"
+#pragma link "Stage.BaseClasses"
 #pragma link "GLS.Cadencer"
-#pragma link "GLS.Coordinates"
+#pragma link "Stage.Coordinates"
 
 #pragma link "GLS.Graph"
 #pragma link "GLS.Objects"
@@ -44,10 +44,10 @@ void __fastcall TForm1::CheckBox04Click(TObject *Sender)
 //---------------------------------------------------------------------------
 
 // Generates random rotation for matrix. It remains a scale.
-TGLMatrix RandomRotation(TGLMatrix const &aMatrix)
+TGSMatrix RandomRotation(TGSMatrix const &aMatrix)
 {
   TAffineVector aScale;
-  TGLMatrix mat;
+  TGSMatrix mat;
   int I;
 
   // Save scale.

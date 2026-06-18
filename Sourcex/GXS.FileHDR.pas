@@ -1,10 +1,10 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.FileHDR;
-
-(* HDR File support *)
-
+(*
+  HDR File support
+*)
 interface
 
 uses
@@ -21,7 +21,6 @@ uses
   Stage.Strings,
 
   GXS.ApplicationFileIO,
-
   GXS.Context,
   GXS.Graphics;
 
@@ -52,9 +51,7 @@ type
     property ProgramType: Ansistring read GetProgramType write SetProgramType;
   end;
 
-//====================================================================
-implementation
-//====================================================================
+implementation //============================================================
 
 // ------------------
 // ------------------ TgxHDRImage ------------------
@@ -297,9 +294,7 @@ begin
   Result := [dfcRead { , dfcWrite } ];
 end;
 
-//-------------------------------------------------------------------
-initialization
-//-------------------------------------------------------------------
+initialization //============================================================
 
   RegisterRasterFormat('hdr', 'High Dynamic Range Image', TgxHDRImage);
 

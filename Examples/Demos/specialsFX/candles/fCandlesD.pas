@@ -22,8 +22,8 @@ uses
   GLS.SceneViewer,
   GLS.GeomObjects,
 
-  GLS.Coordinates,
-  GLS.BaseClasses;
+  Stage.Coordinates,
+  Stage.BaseClasses;
 
 type
   TFormCandles = class(TForm)

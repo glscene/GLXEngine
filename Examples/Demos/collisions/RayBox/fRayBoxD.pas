@@ -26,8 +26,8 @@ uses
   Stage.VectorGeometry,
 
   GLS.Material,
-  GLS.Coordinates,
-  GLS.BaseClasses;
+  Stage.Coordinates,
+  Stage.BaseClasses;
 
 type
   TFormRayBox = class(TForm)

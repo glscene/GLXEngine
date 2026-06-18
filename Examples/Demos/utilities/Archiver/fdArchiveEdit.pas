@@ -24,18 +24,18 @@ uses
 
   GLS.ArchiveManager,
   GLS.SceneViewer,
-  GLS.BaseClasses,
+  Stage.BaseClasses,
   GLS.Scene,
   GLS.SimpleNavigation,
   GLS.Material,
   GLS.VectorFileObjects,
   GLS.Objects,
-  GLS.Coordinates,
+  Stage.Coordinates,
   GLS.Graphics,
   GLS.State,
   GLS.CompositeImage,
   GLS.FileJPEG,
-  GLS.PAKArchive,
+  Stage.PAKArchive,
   GLS.FileZLIB,
 
   GLS.FileMS3D,
@@ -84,7 +84,7 @@ type
     GLFreeForm1: TGLFreeForm;
     GLMaterialLibrary1: TGLMaterialLibrary;
     GLSimpleNavigation1: TGLSimpleNavigation;
-    GLSArchiveManager1: TGLSArchiveManager;
+    GLSArchiveManager1: TGLArchiveManager;
     GLCube1: TGLCube;
     PanelTree: TPanel;
     TreeView: TTreeView;
@@ -124,8 +124,8 @@ type
 var
   Form1: TForm1;
   CurPath, Selection: string;
-  ArchiveManager: TGLSArchiveManager;
-  Archive: TGLLibArchive;
+  ArchiveManager: TGLArchiveManager;
+  Archive: TGSLibArchive;
   vMenu: TMenuItem;
 
 implementation //==============================================================
@@ -148,7 +148,7 @@ begin
  // Bmp.LoadFromResourceName(HInstance, 'icons');
   ImageList1.AddMasked(Bmp, clWhite);
   Bmp.Free;
-  ArchiveManager := TGLSArchiveManager.Create(Self);
+  ArchiveManager := TGLArchiveManager.Create(Self);
   Archive := ArchiveManager.Archives.Add;
   vMenu := None1;
 end;

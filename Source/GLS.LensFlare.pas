@@ -23,12 +23,12 @@ uses
   Stage.PipelineTransform,
   Stage.Utils,
   Stage.TextureFormat,
-  GLS.PersistentClasses,
-  GLS.BaseClasses,
+  Stage.PersistentClasses,
+  Stage.BaseClasses,
   GLS.Scene,
   GLS.Objects,
   GLS.Context,
-  GLS.Color,
+  Stage.Color,
   GLS.RenderContextInfo,
   GLS.State;
 
@@ -40,22 +40,22 @@ type
   (* The actual gradients between two colors are, of course, calculated by OpenGL.
      The start and end colors of a gradient are stored to represent the color of
      lens flare elements. *)
-  TGLFlareGradient = class(TGLUpdateAbleObject)
+  TGLFlareGradient = class(TGSUpdateAbleObject)
   private
-    FFromColor: TGLColor;
-    FToColor: TGLColor;
+    FFromColor: TGSColor;
+    FToColor: TGSColor;
   protected
-    procedure SetFromColor(const val: TGLColor);
-    procedure SetToColor(const val: TGLColor);
+    procedure SetFromColor(const val: TGSColor);
+    procedure SetToColor(const val: TGSColor);
   public
     constructor Create(AOwner: TPersistent); override;
     constructor CreateInitialized(AOwner: TPersistent;
-      const fromColor, toColor: TGLColorVector);
+      const fromColor, toColor: TGSColorVector);
     destructor Destroy; override;
     procedure Assign(Source: TPersistent); override;
   published
-    property FromColor: TGLColor read FFromColor write SetFromColor;
-    property ToColor: TGLColor read FToColor write SetToColor;
+    property FromColor: TGSColor read FFromColor write SetFromColor;
+    property ToColor: TGSColor read FToColor write SetToColor;
   end;
 
 const
@@ -123,7 +123,7 @@ type
     destructor Destroy; override;
     procedure Notification(AComponent: TComponent; Operation: TOperation); override;
     procedure BuildList(var rci: TGLRenderContextInfo); override;
-    procedure DoProgress(const progressTime: TGLProgressTimes); override;
+    procedure DoProgress(const progressTime: TGSProgressTimes); override;
     (* Prepares pre-rendered texture to speed up actual rendering.
        Will use the currently active context as scratch space, and will
        automatically do nothing if things have already been prepared,
@@ -197,13 +197,13 @@ implementation //============================================================
 constructor TGLFlareGradient.Create(AOwner: TPersistent);
 begin
   inherited;
-  FFromColor := TGLColor.Create(Self);
-  FToColor := TGLColor.Create(Self);
+  FFromColor := TGSColor.Create(Self);
+  FToColor := TGSColor.Create(Self);
 end;
 
 //---------------------------------------------------------------------------
 constructor TGLFlareGradient.CreateInitialized(AOwner: TPersistent;
-  const fromColor, toColor: TGLColorVector);
+  const fromColor, toColor: TGSColorVector);
 begin
   Create(AOwner);
   FFromColor.Initialize(fromColor);
@@ -230,13 +230,13 @@ begin
 end;
 
 //---------------------------------------------------------------------------
-procedure TGLFlareGradient.SetFromColor(const val: TGLColor);
+procedure TGLFlareGradient.SetFromColor(const val: TGSColor);
 begin
   FFromColor.Assign(val);
 end;
 
 //---------------------------------------------------------------------------
-procedure TGLFlareGradient.SetToColor(const val: TGLColor);
+procedure TGLFlareGradient.SetToColor(const val: TGSColor);
 begin
   FToColor.Assign(val);
 end;
@@ -455,7 +455,7 @@ var
   screenPos: TAffineVector;
   flareInViewPort, dynamicSize: Boolean;
   oldSeed: LongInt;
-  projMatrix: TGLMatrix;
+  projMatrix: TGSMatrix;
   CurrentBuffer: TGLSceneBuffer;
 begin
   if (rci.drawState = dsPicking) then
@@ -652,7 +652,7 @@ begin
 end;
 
 //---------------------------------------------------------------------------
-procedure TGLLensFlare.DoProgress(const progressTime: TGLProgressTimes);
+procedure TGLLensFlare.DoProgress(const progressTime: TGSProgressTimes);
 begin
   inherited;
   FDeltaTime := progressTime.deltaTime;

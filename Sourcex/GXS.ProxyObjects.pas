@@ -1,10 +1,11 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.ProxyObjects;
-
-(* Implements specific proxying classes *)
-
+(*
+  Implements specific proxying classes
+  RegisterClasses([{TGSColorProxy,} TgxFreeFormProxy, TgxActorProxy, TgxMaterialProxy]);
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -14,9 +15,9 @@ uses
   System.Classes,
   System.SysUtils,
 
-  GXS.XCollection,
-  GXS.BaseClasses,
-  GXS.PersistentClasses,
+  Stage.XCollection,
+  Stage.BaseClasses,
+  Stage.PersistentClasses,
   Stage.VectorGeometry,
   Stage.VectorTypes,
   Stage.Strings,
@@ -35,7 +36,7 @@ type
      This proxy object can have a unique color. Note that multi-material
      objects (Freeforms linked to a material library f.i.) won't honour
      the color. *)
-  TgxColorProxy = class(TgxProxyObject)
+  TGSColorProxy = class(TgxProxyObject)
   private
     FFrontColor: TgxFaceProperties;
     function GetMasterMaterialObject: TgxCustomSceneObject;
@@ -139,7 +140,7 @@ type
     FEndFrame: Integer;
     FLastFrame: Integer;
     FCurrentFrameDelta: Single;
-    FCurrentTime: TgxProgressTimes;
+    FCurrentTime: TGSProgressTimes;
     FAnimation: TgxActorAnimationName;
     FTempLibMaterialName: string;
     FMasterLibMaterial: TgxLibMaterial;
@@ -147,7 +148,7 @@ type
     FBonesMatrices: TStringList;
     FStoreBonesMatrix: boolean;
     FStoredBoneNames: TStrings;
-    FOnBeforeRender: TgxProgressEvent;
+    FOnBeforeRender: TGSProgressEvent;
     FAnimationMode: TgxActorProxyAnimationMode;
     procedure SetAnimation(const Value: TgxActorAnimationName);
     procedure SetMasterActorObject(const Value: TgxActor);
@@ -159,7 +160,7 @@ type
     function GetMaterialLibrary: TgxAbstractMaterialLibrary;
     procedure SetStoreBonesMatrix(const Value: boolean);
     procedure SetStoredBoneNames(const Value: TStrings);
-    procedure SetOnBeforeRender(const Value: TgxProgressEvent);
+    procedure SetOnBeforeRender(const Value: TGSProgressEvent);
   protected
     procedure DoStoreBonesMatrices;
       // stores matrices of bones of the current frame rendered
@@ -170,12 +171,12 @@ type
       override;
     procedure DoRender(var ARci: TgxRenderContextInfo;
       ARenderSelf, ARenderChildren: Boolean); override;
-    procedure DoProgress(const progressTime: TgxProgressTimes); override;
+    procedure DoProgress(const progressTime: TGSProgressTimes); override;
     property CurrentFrame: Integer read FCurrentFrame;
     property StartFrame: Integer read FStartFrame;
     property EndFrame: Integer read FEndFrame;
     property CurrentFrameDelta: Single read FCurrentFrameDelta;
-    property CurrentTime: TgxProgressTimes read FCurrentTime;
+    property CurrentTime: TGSProgressTimes read FCurrentTime;
     (*
      Gets the Bones Matrix in the current animation frame.
      (since the masterobject is shared between all proxies,
@@ -224,29 +225,29 @@ type
       SetStoredBoneNames;
     (* Event allowing to apply extra transformations (f.ex: bone rotations) to the referenced
        Actor on order to have the proxy render these changes.  *)
-    property OnBeforeRender: TgxProgressEvent read FOnBeforeRender write
+    property OnBeforeRender: TGSProgressEvent read FOnBeforeRender write
       SetOnBeforeRender;
   end;
 
-implementation //-------------------------------------------------------------
+implementation //============================================================
 
 // ------------------
-// ------------------ TgxColorProxy ------------------
+// ------------------ TGSColorProxy ------------------
 // ------------------
 
-constructor TgxColorProxy.Create(AOwner: TComponent);
+constructor TGSColorProxy.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
   FFrontColor := TgxFaceProperties.Create(Self);
 end;
 
-destructor TgxColorProxy.Destroy;
+destructor TGSColorProxy.Destroy;
 begin
   FFrontColor.Free;
   inherited Destroy;
 end;
 
-procedure TgxColorProxy.DoRender(var ARci: TgxRenderContextInfo;
+procedure TGSColorProxy.DoRender(var ARci: TgxRenderContextInfo;
   ARenderSelf, ARenderChildren: Boolean);
 var
   gotMaster, masterGotEffects, oldProxySubObject: Boolean;
@@ -282,17 +283,17 @@ begin
   ClearStructureChanged;
 end;
 
-function TgxColorProxy.GetMasterMaterialObject: TgxCustomSceneObject;
+function TGSColorProxy.GetMasterMaterialObject: TgxCustomSceneObject;
 begin
   Result := TgxCustomSceneObject(inherited MasterObject);
 end;
 
-procedure TgxColorProxy.SetFrontColor(AValue: TgxFaceProperties);
+procedure TGSColorProxy.SetFrontColor(AValue: TgxFaceProperties);
 begin
   FFrontColor.Assign(AValue);
 end;
 
-procedure TgxColorProxy.SetMasterMaterialObject(
+procedure TGSColorProxy.SetMasterMaterialObject(
   const Value: TgxCustomSceneObject);
 begin
   inherited SetMasterObject(Value);
@@ -443,7 +444,7 @@ begin
   inherited;
 end;
 
-procedure TgxActorProxy.DoProgress(const progressTime: TgxProgressTimes);
+procedure TgxActorProxy.DoProgress(const progressTime: TGSProgressTimes);
 begin
   inherited;
   FCurrentTime := progressTime;
@@ -777,7 +778,7 @@ begin
   end;
 end;
 
-procedure TgxActorProxy.SetOnBeforeRender(const Value: TgxProgressEvent);
+procedure TgxActorProxy.SetOnBeforeRender(const Value: TGSProgressEvent);
 begin
   FOnBeforeRender := Value;
 end;
@@ -913,10 +914,9 @@ begin
   end;
 end;
 
-initialization //-------------------------------------------------------------
+initialization //============================================================
 
-  RegisterClasses([TgxColorProxy, TgxFreeFormProxy, TgxActorProxy,
-    TgxMaterialProxy]);
+  RegisterClasses([{TGSColorProxy,} TgxFreeFormProxy, TgxActorProxy, TgxMaterialProxy]);
 
 end.
 

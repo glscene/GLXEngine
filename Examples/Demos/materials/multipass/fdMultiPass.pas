@@ -19,12 +19,12 @@ uses
   GLS.Context,
   GLS.GeomObjects,
   GLS.State,
-  GLS.Color,
+  Stage.Color,
   GLS.Material,
-  GLS.Coordinates,
+  Stage.Coordinates,
  
   GLS.RenderContextInfo,
-  GLS.BaseClasses;
+  Stage.BaseClasses;
 
 type
   TFormMultiPass = class(TForm)
@@ -63,7 +63,7 @@ type
 
   THiddenLineShader = class(TGLShader)
   private
-    BackgroundColor, LineColor: TGLColorVector;
+    BackgroundColor, LineColor: TGSColorVector;
     PassCount: Integer;
   public
     procedure DoApply(var rci: TGLRenderContextInfo; Sender: TObject); override;
@@ -72,7 +72,7 @@ type
 
   TOutLineShader = class(TGLShader)
   private
-    BackgroundColor, LineColor: TGLColorVector;
+    BackgroundColor, LineColor: TGSColorVector;
     OutlineSmooth, Lighting: Boolean;
     OutlineWidth, Oldlinewidth: Single;
     PassCount: Integer;

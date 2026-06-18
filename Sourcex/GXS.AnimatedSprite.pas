@@ -1,10 +1,10 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.AnimatedSprite;
-
-(* A sprite that uses a scrolling texture for animation *)
-
+(*
+  A sprite that uses a scrolling texture for animation
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -17,17 +17,17 @@ uses
   System.SysUtils,
   System.Math,
 
-  GXS.XCollection,
+  Stage.XCollection,
   Stage.VectorTypes,
   Stage.VectorGeometry,
-  GXS.PersistentClasses,
+  Stage.PersistentClasses,
+  Stage.BaseClasses,
   Stage.Strings,
 
   GXS.Scene,
   GXS.Context,
   GXS.Material,
   GXS.RenderContextInfo,
-  GXS.BaseClasses,
   GXS.State;
 
 type
@@ -220,7 +220,7 @@ type
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
     procedure BuildList(var rci: TgxRenderContextInfo); override;
-    procedure DoProgress(const progressTime: TgxProgressTimes); override;
+    procedure DoProgress(const progressTime: TGSProgressTimes); override;
     // Steps the current animation to the next frame
     procedure NextFrame;
   published
@@ -269,9 +269,7 @@ type
       FOnStartFrameReached;
   end;
 
-// -----------------------------------------------------------------------------
-implementation
-// -----------------------------------------------------------------------------
+implementation //============================================================
 
 // ----------
 // ---------- TgxSpriteAnimFrame ----------
@@ -809,7 +807,7 @@ begin
 end;
 {$WARNINGS On}
 
-procedure TgxAnimatedSprite.DoProgress(const progressTime: TgxProgressTimes);
+procedure TgxAnimatedSprite.DoProgress(const progressTime: TGSProgressTimes);
 var
   i, intr: Integer;
 begin

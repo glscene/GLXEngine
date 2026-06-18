@@ -1,10 +1,10 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.FileMD5;
-
-(* Doom3 MD5 mesh and animation vector file format implementation. *)
-
+(*
+  Doom3 MD5 mesh and animation vector file format implementation
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -13,13 +13,14 @@ uses
   System.Classes,
   System.SysUtils,
 
-  GLS.VectorFileObjects,
-  GLS.PersistentClasses,
-  Stage.Utils,
-  GLS.ApplicationFileIO,
   Stage.VectorTypes,
   Stage.VectorGeometry,
-  GLS.VectorLists;
+  Stage.PersistentClasses,
+  Stage.Utils,
+
+  GLS.VectorFileObjects,
+  GLS.ApplicationFileIO,
+  Stage.VectorLists;
 
 type
 
@@ -28,13 +29,13 @@ type
     FMD5String, FTempString, FBoneNames: TStringList;
     FCurrentPos: Integer;
     FBasePose: TGLSkeletonFrame;
-    FFramePositions: TGLAffineVectorList;
-    FFrameQuaternions: TGLQuaternionList;
-    FJointFlags: TGLIntegerList;
+    FFramePositions: TGSAffineVectorList;
+    FFrameQuaternions: TGSQuaternionList;
+    FJointFlags: TGSIntegerList;
     FNumFrames, FFirstFrame, FFrameRate, FNumJoints: Integer;
     function ReadLine: String;
   public
-    class function Capabilities: TGLDataFileCapabilities; override;
+    class function Capabilities: TGSDataFileCapabilities; override;
     procedure LoadFromStream(aStream: TStream); override;
   end;
 
@@ -65,7 +66,7 @@ begin
   until (Result <> '') or (FCurrentPos >= FMD5String.Count);
 end;
 
-class function TGLMD5VectorFile.Capabilities: TGLDataFileCapabilities;
+class function TGLMD5VectorFile.Capabilities: TGSDataFileCapabilities;
 begin
   Result := [dfcRead];
 end;
@@ -126,7 +127,7 @@ procedure TGLMD5VectorFile.LoadFromStream(aStream: TStream);
     bonename: String;
     pos: TAffineVector;
     quat: TQuaternion;
-    mat, rmat: TGLMatrix;
+    mat, rmat: TGSMatrix;
     ParentBoneID: Integer;
     bone, parentbone: TGLSkeletonBone;
   begin
@@ -202,18 +203,18 @@ procedure TGLMD5VectorFile.LoadFromStream(aStream: TStream);
     mesh: TGLSkeletonMeshObject;
     fg: TFGVertexIndexList;
     vnum, wnum, numverts, numweights: Integer;
-    VertexWeightID, VertexWeightCount, VertexBoneRef: TGLIntegerList;
-    VertexWeight: TGLSingleList;
-    VertexWeighted: TGLAffineVectorList;
+    VertexWeightID, VertexWeightCount, VertexBoneRef: TGSIntegerList;
+    VertexWeight: TGSSingleList;
+    VertexWeighted: TGSAffineVectorList;
     blendedVert, transformedVert: TAffineVector;
     i, j, k: Integer;
-    mat: TGLMatrix;
+    mat: TGSMatrix;
   begin
-    VertexWeightID := TGLIntegerList.Create;
-    VertexWeightCount := TGLIntegerList.Create;
-    VertexBoneRef := TGLIntegerList.Create;
-    VertexWeight := TGLSingleList.Create;
-    VertexWeighted := TGLAffineVectorList.Create;
+    VertexWeightID := TGSIntegerList.Create;
+    VertexWeightCount := TGSIntegerList.Create;
+    VertexBoneRef := TGSIntegerList.Create;
+    VertexWeight := TGSSingleList.Create;
+    VertexWeighted := TGSAffineVectorList.Create;
 
     numverts := 0;
 
@@ -332,7 +333,7 @@ procedure TGLMD5VectorFile.LoadFromStream(aStream: TStream);
   begin
     if not Assigned(FJointFlags) then
     begin
-      FJointFlags := TGLIntegerList.Create;
+      FJointFlags := TGSIntegerList.Create;
       Assert(Owner.Skeleton.Frames.Count > 0,
         'The md5mesh file must be loaded before md5anim files!');
       FJointFlags.Count := Owner.Skeleton.Frames[0].Position.Count;
@@ -478,8 +479,8 @@ begin
         if (temp = 'numjoints') then
         begin
           FNumJoints := StrToInt(FTempString[1]);
-          FFramePositions := TGLAffineVectorList.Create;
-          FFrameQuaternions := TGLQuaternionList.Create;
+          FFramePositions := TGSAffineVectorList.Create;
+          FFrameQuaternions := TGSQuaternionList.Create;
           if Owner.Skeleton.Frames.Count = 0 then
           begin
             FBasePose := TGLSkeletonFrame.CreateOwned(Owner.Skeleton.Frames);

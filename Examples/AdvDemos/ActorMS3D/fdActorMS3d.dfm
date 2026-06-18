@@ -213,7 +213,7 @@ object FormActorms3d: TFormActorms3d
     Left = 264
     Top = 84
   end
-  object GLSArchiveManager1: TGLSArchiveManager
+  object GLSArchiveManager1: TGLArchiveManager
     Archives = <
       item
         Name = 'LibArchive'

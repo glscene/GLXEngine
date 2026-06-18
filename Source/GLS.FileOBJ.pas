@@ -1,6 +1,6 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.FileOBJ;
 (*
     Loading Wavefront OBJ Files into FreeForms
@@ -21,13 +21,13 @@ uses
 
   Stage.VectorTypes,
   GLS.ApplicationFileIO,
-  GLS.PersistentClasses,
+  Stage.PersistentClasses,
   Stage.VectorGeometry,
   GLS.Scene,  
   GLS.VectorFileObjects,
-  GLS.VectorLists,  
+  Stage.VectorLists,  
   GLS.Texture,  
-  GLS.Color,
+  Stage.Color,
   GLS.RenderContextInfo, 
   GLS.Material,
   Stage.Utils;
@@ -55,7 +55,7 @@ type
     procedure Error(const msg: string);
     procedure CalcMissingOBJNormals(mesh: TGLMeshObject);
   public
-    class function Capabilities: TGLDataFileCapabilities; override;
+    class function Capabilities: TGSDataFileCapabilities; override;
     procedure LoadFromStream(aStream: TStream); override;
     procedure SaveToStream(aStream: TStream); override;
   end;
@@ -89,7 +89,7 @@ type
     procedure Prepare;
     function MaterialStringProperty(const materialName, propertyName: string): string;
     function MaterialVectorProperty(const materialName, propertyName: string;
-      const defaultValue: TGLVector): TGLVector;
+      const defaultValue: TGSVector): TGSVector;
   end;
 
 var
@@ -105,7 +105,7 @@ uses
   Stage.OpenGLTokens,
   GLS.XOpenGL,
   GLS.Context,
-  GLS.MeshUtils;
+  Stage.MeshUtils;
 
 function StreamEOF(S: TStream): Boolean;
 begin
@@ -154,7 +154,7 @@ type
   private
     FMode: TOBJFGMode;
     FName: string;
-    FPolygonVertices: TGLIntegerList;
+    FPolygonVertices: TGSIntegerList;
     FCurrentVertexCount: integer;
     FShowNormals: boolean;
     procedure PolygonComplete; (* Current polygon completed. Adds FCurrentVertexCount
@@ -164,17 +164,17 @@ type
     procedure Assign(Source: TPersistent); override;
     constructor CreateOwned(aOwner: TglFaceGroups); override;
     destructor Destroy; override;
-    procedure WriteToFiler(writer: TGLVirtualWriter); override;
-    procedure ReadFromFiler(reader: TGLVirtualReader); override;
+    procedure WriteToFiler(writer: TGSVirtualWriter); override;
+    procedure ReadFromFiler(reader: TGSVirtualReader); override;
     procedure Add(VertexIdx, NormalIdx, TexCoordIdx: Integer);
     procedure BuildList(var mrci: TGLRenderContextInfo); override;
-    procedure AddToTriangles(aList: TGLAffineVectorList;
-      aTexCoords: TGLAffineVectorList = nil;
-      aNormals: TGLAffineVectorList = nil); override;
+    procedure AddToTriangles(aList: TGSAffineVectorList;
+      aTexCoords: TGSAffineVectorList = nil;
+      aNormals: TGSAffineVectorList = nil); override;
     function TriangleCount: Integer; override;
     property Mode: TOBJFGMode read FMode write SetMode;
     property Name: string read FName write FName;
-    property PolygonVertices: TGLIntegerList read FPolygonVertices;
+    property PolygonVertices: TGSIntegerList read FPolygonVertices;
     property ShowNormals: boolean read FShowNormals write FShowNormals;
   end;
 
@@ -211,7 +211,7 @@ begin
   Assert(VertexIndices.Count = 0, 'Decide on the mode before adding vertices.');
   FMode := aMode;
   if FMode = objfgmmPolygons then
-    FPolygonVertices := TGLIntegerList.Create
+    FPolygonVertices := TGSIntegerList.Create
   else
   begin
     FPolygonVertices.Free;
@@ -360,12 +360,12 @@ begin
   end;
 end;
 
-procedure TOBJFGVertexNormalTexIndexList.AddToTriangles(aList: TGLAffineVectorList;
-  aTexCoords: TGLAffineVectorList = nil;
-  aNormals: TGLAffineVectorList = nil);
+procedure TOBJFGVertexNormalTexIndexList.AddToTriangles(aList: TGSAffineVectorList;
+  aTexCoords: TGSAffineVectorList = nil;
+  aNormals: TGSAffineVectorList = nil);
 var
   i, j, n, n0: Integer;
-  vertexList, texCoordList, normalsList: TGLAffineVectorList;
+  vertexList, texCoordList, normalsList: TGSAffineVectorList;
 begin
   vertexList := Owner.Owner.Vertices;
   texCoordList := Owner.Owner.TexCoords;
@@ -535,7 +535,7 @@ begin
   raise E;
 end;
 
-class function TGLOBJVectorFile.Capabilities: TGLDataFileCapabilities;
+class function TGLOBJVectorFile.Capabilities: TGSDataFileCapabilities;
 begin
   Result := [dfcRead, dfcWrite];
 end;
@@ -1350,7 +1350,7 @@ begin
 end;
 
 function TGLMTLFile.MaterialVectorProperty(const materialName, propertyName: string;
-  const defaultValue: TGLVector): TGLVector;
+  const defaultValue: TGSVector): TGSVector;
 var
   i: Integer;
   sl: TStringList;
@@ -1388,7 +1388,7 @@ begin
     else
     begin
       if FPolygonVertices = nil then
-        FPolygonVertices := TGLIntegerList.Create;
+        FPolygonVertices := TGSIntegerList.Create;
       FPolygonVertices.Assign(TOBJFGVertexNormalTexIndexList(Source).FPolygonVertices);
     end;
   end
@@ -1397,7 +1397,7 @@ begin
 end;
 
 procedure TOBJFGVertexNormalTexIndexList.ReadFromFiler(
-  reader: TGLVirtualReader);
+  reader: TGSVirtualReader);
 var
   archiveVersion: Integer;
 begin
@@ -1412,7 +1412,7 @@ begin
 
     if FMode = objfgmmPolygons then
     begin
-      FPolygonVertices := TGLIntegerList.Create;
+      FPolygonVertices := TGSIntegerList.Create;
       FPolygonVertices.ReadFromFiler(reader);
     end;  
   end
@@ -1421,7 +1421,7 @@ begin
 end;
 
 procedure TOBJFGVertexNormalTexIndexList.WriteToFiler(
-  writer: TGLVirtualWriter);
+  writer: TGSVirtualWriter);
 begin
   inherited WriteToFiler(writer);
   with writer do

@@ -1,10 +1,11 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.FileBMP;
-
-(* Graphic engine friendly loading of BMP image *)
-
+(*
+  Graphic engine friendly loading of BMP image
+  RegisterRasterFormat('bmp', 'Bitmap Image File', TGLBMPImage);
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -46,7 +47,7 @@ type
     procedure SaveToFile(const filename: string); override;
     procedure LoadFromStream(stream: TStream); override;
     procedure SaveToStream(stream: TStream); override;
-    class function Capabilities: TGLDataFileCapabilities; override;
+    class function Capabilities: TGSDataFileCapabilities; override;
     procedure AssignFromTexture(textureContext: TGLContext;
       const textureHandle: Cardinal;
       textureTarget: TGLTextureTarget;
@@ -54,7 +55,7 @@ type
       const intFormat: TGLInternalFormat); reintroduce;
   end;
 
-implementation //-------------------------------------------------------------
+implementation //============================================================
 
 const
 
@@ -546,12 +547,12 @@ begin
   {$Message Hint 'TGLBMPImage.AssignFromTexture not yet implemented' }
 end;
 
-class function TGLBMPImage.Capabilities: TGLDataFileCapabilities;
+class function TGLBMPImage.Capabilities: TGSDataFileCapabilities;
 begin
   Result := [dfcRead (*, dfcWrite*)];
 end;
 
-initialization //-------------------------------------------------------------
+initialization //=============================================================
 
   RegisterRasterFormat('bmp', 'Bitmap Image File', TGLBMPImage);
 

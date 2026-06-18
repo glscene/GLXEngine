@@ -1,6 +1,6 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.Console;
 (*
    The console is a popdown window that appears on a game for text output/input.
@@ -45,10 +45,10 @@ uses
   FMX.Graphics,
 
   Stage.VectorTypes,
-  GXS.PersistentClasses,
+  Stage.PersistentClasses,
   Stage.Strings,
   Stage.Utils,
-  GXS.Coordinates,
+  Stage.Coordinates,
 
   GXS.Scene,
   GXS.Objects,
@@ -375,9 +375,7 @@ type
     property OnProgress;
   end;
 
-//-------------------------------------------
-implementation
-//-------------------------------------------
+implementation //============================================================
 
 const
   STR_NO_DUPLICATE_NAMES_ALLOWED = 'Duplicate names not allowed!';
@@ -390,7 +388,6 @@ const
 //-------------------------------------------
 // TgxCustomConsole
 //-------------------------------------------
-
 procedure TgxCustomConsole.ProcessInternalCommandClearScreen(const
   ConsoleCommand: TgxConsoleCommand; const Console: TgxCustomConsole; var Command:
   TgxUserInputCommand);

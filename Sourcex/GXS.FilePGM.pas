@@ -1,7 +1,6 @@
-//
-// Graphic Scene Engine, http://glscene.org
-//
-
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.FilePGM;
 
 {$I Stage.Defines.inc}
@@ -9,10 +8,14 @@ unit GXS.FilePGM;
 interface
 
 uses
-  System.Classes, System.SysUtils,
-  Winapi.OpenGL, Winapi.OpenGLext,
+  System.Classes,
+  System.SysUtils,
+  Winapi.OpenGL,
+  Winapi.OpenGLext,
 
-  GXS.Context, GXS.Graphics, Stage.TextureFormat,
+  Stage.TextureFormat,
+  GXS.Context,
+  GXS.Graphics,
   GXS.ApplicationFileIO;
 
 type
@@ -32,18 +35,16 @@ type
       reintroduce;
   end;
 
-
-
-implementation
+implementation //============================================================
 
 uses
   GXS.CUDAUtility;
 
-  // ------------------
-  // ------------------ TgxPGMImage ------------------
-  // ------------------
+// ------------------
+// ------------------ TgxPGMImage ------------------
+// ------------------
 
-  // LoadFromFile
+// LoadFromFile
   //
 procedure TgxPGMImage.LoadFromFile(const filename: string);
 var

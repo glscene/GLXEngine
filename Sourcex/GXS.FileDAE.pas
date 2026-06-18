@@ -1,12 +1,11 @@
-//
-// Graphic Scene Engine, http://glscene.org
-//
-{
-	Quake2 MD2 vector file format implementation. 
-	 
-}
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.FileDAE;
+(*
+	Quake2 MD2 vector file format implementation.
 
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -34,23 +33,16 @@ type
          procedure LoadFromStream(aStream : TStream); override;
    end;
 
-// ------------------------------------------------------------------
-// ------------------------------------------------------------------
-// ------------------------------------------------------------------
-implementation
+implementation //============================================================
+
 // ------------------
 // ------------------ TgxDAEVectorFile ------------------
 // ------------------
-
-// Capabilities
-//
 class function TgxFileDAE.Capabilities : TDataFileCapabilities;
 begin
    Result:=[dfcRead];
 end;
 
-// LoadFromStream
-//
 procedure TgxFileDAE.LoadFromStream(aStream : TStream);
 var
    i, j : Integer;
@@ -118,13 +110,7 @@ begin
    end;
 end;
 
-// ------------------------------------------------------------------
-// ------------------------------------------------------------------
-// ------------------------------------------------------------------
-initialization
-// ------------------------------------------------------------------
-// ------------------------------------------------------------------
-// ------------------------------------------------------------------
+initialization //============================================================
 
    RegisterVectorFileFormat('dae', 'COLLADA model files', TgxFileDAE);
 

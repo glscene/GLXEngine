@@ -7,9 +7,9 @@
 #include "fcActorProxy.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
-#pragma link "GLS.BaseClasses"
+#pragma link "Stage.BaseClasses"
 #pragma link "GLS.Cadencer"
-#pragma link "GLS.Coordinates"
+#pragma link "Stage.Coordinates"
 
 #pragma link "GLS.GeomObjects"
 #pragma link "GLS.Material"
@@ -19,7 +19,7 @@
 #pragma link "GLS.VectorFileObjects"
 #pragma link "GLS.SceneViewer"
 #pragma link "GLS.FileSMD"
-#pragma link "GLS.BaseClasses"
+#pragma link "Stage.BaseClasses"
 #pragma resource "*.dfm"
 TFormActorProxy *FormActorProxy;
 //---------------------------------------------------------------------------
@@ -70,10 +70,10 @@ void __fastcall TFormActorProxy::GLSceneViewer1MouseMove(TObject *Sender, TShift
 
 void __fastcall TFormActorProxy::DoRaycastStuff()
 {
-   TGLVector rayStart;
-   TGLVector rayVector;
-   TGLVector iPoint;
-   TGLVector iNormal;
+   TGSVector rayStart;
+   TGSVector rayVector;
+   TGSVector iPoint;
+   TGSVector iNormal;
 
    SetVector(rayStart, GLCamera1->AbsolutePosition);
    SetVector(rayVector, GLSceneViewer1->Buffer->ScreenToVector(

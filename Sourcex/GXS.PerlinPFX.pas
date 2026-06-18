@@ -1,10 +1,11 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.PerlinPFX;
-
-(* PFX particle effects revolving around the use of Perlin noise *)
-
+(*
+  PFX particle effects revolving around the use of Perlin noise
+  RegisterClasses([TgxPerlinPFXManager]);
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -104,10 +105,7 @@ type
     function Noise(const v: TVector4f): Single; overload;
   end;
 
-
-// ------------------------------------------------------------------
-implementation
-// ------------------------------------------------------------------
+implementation //============================================================
 
 // ------------------
 // ------------------ TgxPerlinPFXManager ------------------
@@ -435,9 +433,7 @@ begin
 end;
 
 
-// ------------------------------------------------------------------
-initialization
-// ------------------------------------------------------------------
+initialization //============================================================
 
    RegisterClasses([TgxPerlinPFXManager]);
 

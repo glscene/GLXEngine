@@ -13,8 +13,8 @@
 #include <Stage.VectorGeometry.hpp>
 #include <GLS.Scene.hpp>
 #include <GLS.Objects.hpp>
-#include "GLS.BaseClasses.hpp"
-#include "GLS.Coordinates.hpp"
+#include "Stage.BaseClasses.hpp"
+#include "Stage.Coordinates.hpp"
         // Pascal unit
 //---------------------------------------------------------------------------
 class TFormPointto:public TForm

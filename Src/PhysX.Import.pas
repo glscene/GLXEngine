@@ -1,6 +1,3 @@
-//
-// GXStage Graphics Engine
-//
 unit PhysX.Import;
 
 interface
@@ -42,8 +39,6 @@ procedure CreateBox(actor: pdword; sx,sy,sz,dens: single); stdcall; external Phy
 procedure CreateSphere(actor: pdword; rad: single; dens: single); stdcall; external PhysXDLL;
 procedure CreateCylinder(actor: pdword; rad: single; height: single; dens: single); stdcall; external PhysXDLL;
 
-//--------------------------------------------
-implementation
-//--------------------------------------------
+implementation //============================================================
 
 end.

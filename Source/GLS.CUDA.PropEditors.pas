@@ -1,6 +1,6 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.CUDA.PropEditors;
 
 interface
@@ -63,7 +63,7 @@ type
 
 function FindCuFile(var AModuleName: string): Boolean;
 
-implementation //-------------------------------------------------------------
+implementation //============================================================
 
 uses
   CUDA.Parser,

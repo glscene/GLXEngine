@@ -1,11 +1,10 @@
-//
-// GLScene Graphics Engine
-//
-
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.MaterialScript;
-
-(* Material Script Batch loader for TGLMaterialLibrary for runtime. *)
-
+(*
+  Material Script Batch loader for TGLMaterialLibrary for runtime.
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -20,8 +19,8 @@ uses
   Stage.TextureFormat,
   GLS.Graphics,
   Stage.Utils,
-  GLS.Color,
-  GLS.Coordinates,
+  Stage.Color,
+  Stage.Coordinates,
   GLS.Material,
   GLS.State;
 
@@ -95,9 +94,9 @@ type
     Infini: Longint;
     Done: Boolean;
     NewMat: TGLLibMaterial;
-    TmpCoords: TGLCoordinates;
-    TmpColor: TGLColor;
-    TmpCoords4: TGLCoordinates4;
+    TmpCoords: TGSCoordinates;
+    TmpColor: TGSColor;
+    TmpCoords4: TGSCoordinates4;
     TmpStr: string;
     procedure SeTGLShaderItems(const Value: TGLShaderItems);
     procedure SeTGLMaterialLibraryItems(const Value: TGLMaterialLibraryItems);
@@ -191,9 +190,7 @@ type
       write SetOverwrite;
   end;
 
-// ----------------------------------------------------------------------
-implementation
-// ----------------------------------------------------------------------
+implementation //============================================================
 
 procedure TGLShaderItem.SetShader(const Value: TGLShader);
 begin
@@ -1319,4 +1316,5 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 end.

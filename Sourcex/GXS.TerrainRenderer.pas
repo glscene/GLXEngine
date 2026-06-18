@@ -1,15 +1,13 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.TerrainRenderer;
-
 (*
   The Brute-force terrain renderer.
 
   NOTA : multi-materials terrain support is not yet optimized to minimize
   texture switches (in case of resued tile textures).
 *)
-
 interface
 
 {$I Stage.Defines.inc}
@@ -19,15 +17,16 @@ uses
   System.Classes,
   System.SysUtils,
 
-  GXS.XOpenGL,
   Stage.VectorTypes,
   Stage.VectorGeometry,
   Stage.Utils,
-  GXS.VectorLists,
+  Stage.VectorLists,
+  Stage.Coordinates,
+
   GXS.Scene,
   GXS.HeightData,
   GXS.Material,
-  GXS.Coordinates,
+  GXS.XOpenGL,
   GXS.Context,
   GXS.ROAMPatch,
   GXS.RenderContextInfo,
@@ -64,9 +63,9 @@ type
     FLastTriangleCount: Integer;
     FTilesPerTexture: single;
     FMaxCLODTriangles, FCLODPrecision: Integer;
-    FBufferVertices: TgxAffineVectorList;
-    FBufferTexPoints: TgxTexPointList;
-    FBufferVertexIndices: TgxIntegerList;
+    FBufferVertices: TGSAffineVectorList;
+    FBufferTexPoints: TGSTexPointList;
+    FBufferVertexIndices: TGSIntegerList;
     FMaterialLibrary: TgxMaterialLibrary;
     FOnGetTerrainBounds: TGetTerrainBoundsEvent;
     FOnPatchPostRender: TPatchPostRenderEvent;
@@ -195,9 +194,7 @@ type
     property ContourWidth: Integer read FContourWidth write FContourWidth default 1;
   end;
 
-// ===================================================================
-implementation
-// ===================================================================
+implementation //============================================================
 
 function HashKey(const xLeft, yTop: Integer): Integer;
 begin
@@ -222,9 +219,9 @@ begin
   FMaxCLODTriangles := 65536;
   FCLODPrecision := 100;
   FOcclusionTesselate := totTesselateIfVisible;
-  FBufferVertices := TgxAffineVectorList.Create;
-  FBufferTexPoints := TgxTexPointList.Create;
-  FBufferVertexIndices := TgxIntegerList.Create;
+  FBufferVertices := TGSAffineVectorList.Create;
+  FBufferTexPoints := TGSTexPointList.Create;
+  FBufferVertexIndices := TGSIntegerList.Create;
   TileManagement := [tmClearUsedFlags, tmMarkUsedTiles, tmReleaseUnusedTiles, tmAllocateNewTiles];
 end;
 

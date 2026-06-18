@@ -1,23 +1,26 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.BaseMeshSilhouette;
-
-(* Silhouette classes for BaseMesh and FaceGroups *)
-
+(*
+  Silhouette classes for BaseMesh and FaceGroups
+*)
 interface
 
 {$I Stage.Defines.inc}
 
 uses
   System.Classes,
+
   Stage.VectorGeometry,
-  GXS.VectorLists,
-  GXS.VectorFileObjects,
-  GXS.Silhouette;
+  Stage.VectorLists,
+  Stage.Silhouette,
+
+  GXS.VectorFileObjects
+  ;
 
 type
-  TgxFaceGroupConnectivity = class(TConnectivity)
+  TgxFaceGroupConnectivity = class(TGSConnectivity)
   private
     FMeshObject: TgxMeshObject;
     FOwnsVertices: boolean;
@@ -32,31 +35,31 @@ type
     destructor Destroy; override;
   end;
 
-  TgxBaseMeshConnectivity = class(TBaseConnectivity)
+  TgxBaseMeshConnectivity = class(TGSBaseConnectivity)
   private
     FBaseMesh: TgxBaseMesh;
     FFaceGroupConnectivityList: TList;
     function GetFaceGroupConnectivity(i: integer): TgxFaceGroupConnectivity;
-    function GetConnectivityCount: integer;
+    function GeTGSConnectivityCount: integer;
     procedure SetBaseMesh(const Value: TgxBaseMesh);
   protected
     function GetEdgeCount: integer; override;
     function GetFaceCount: integer; override;
   public
-    property ConnectivityCount: integer read GetConnectivityCount;
+    property ConnectivityCount: integer read GeTGSConnectivityCount;
     property FaceGroupConnectivity[i: integer]: TgxFaceGroupConnectivity read GetFaceGroupConnectivity;
     property BaseMesh: TgxBaseMesh read FBaseMesh write SetBaseMesh;
     procedure Clear(SaveFaceGroupConnectivity: boolean);
     // Builds the connectivity information. 
     procedure RebuildEdgeList;
-    procedure CreateSilhouette(const SilhouetteParameters: TgxSilhouetteParameters; var aSilhouette: TgxSilhouette;
+    procedure CreateSilhouette(const SilhouetteParameters: TGSSilhouetteParameters; var aSilhouette: TGSSilhouette;
 	  AddToSilhouette: boolean); 
     constructor Create(APrecomputeFaceNormal: boolean); override;
     constructor CreateFromMesh(aBaseMesh: TgxBaseMesh);
     destructor Destroy; override;
   end;
 
-implementation //-------------------------------------------------------------
+implementation //=============================================================
 
 // ------------------
 // ------------------ TgxFaceGroupConnectivity ------------------
@@ -160,7 +163,6 @@ procedure TgxFaceGroupConnectivity.RebuildEdgeList;
 // ------------------
 // ------------------ TgxBaseMeshConnectivity ------------------
 // ------------------
-
 procedure TgxBaseMeshConnectivity.RebuildEdgeList;
   var
     i: integer;
@@ -220,12 +222,12 @@ procedure TgxBaseMeshConnectivity.SetBaseMesh(const Value: TgxBaseMesh);
     end;
   end;
 
-procedure TgxBaseMeshConnectivity.CreateSilhouette(const SilhouetteParameters: TgxSilhouetteParameters; var aSilhouette: TgxSilhouette; AddToSilhouette: boolean);
+procedure TgxBaseMeshConnectivity.CreateSilhouette(const SilhouetteParameters: TGSSilhouetteParameters; var aSilhouette: TGSSilhouette; AddToSilhouette: boolean);
 var
   i: integer;
 begin
   if aSilhouette = nil then
-    aSilhouette := TgxSilhouette.Create
+    aSilhouette := TGSSilhouette.Create
   else
     aSilhouette.Flush;
 
@@ -240,7 +242,7 @@ destructor TgxBaseMeshConnectivity.Destroy;
     inherited;
   end;
 
-function TgxBaseMeshConnectivity.GetConnectivityCount: integer;
+function TgxBaseMeshConnectivity.GeTGSConnectivityCount: integer;
   begin
     result := FFaceGroupConnectivityList.Count;
   end;

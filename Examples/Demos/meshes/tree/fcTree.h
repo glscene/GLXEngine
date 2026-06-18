@@ -24,8 +24,8 @@
 #include "GLS.Objects.hpp"
 #include "GLS.Scene.hpp"
 #include "ComCtrls.hpp"
-#include "GLS.BaseClasses.hpp"
-#include "GLS.Coordinates.hpp"
+#include "Stage.BaseClasses.hpp"
+#include "Stage.Coordinates.hpp"
 
 #include "GLS.Material.hpp"
 #include "GLS.FileTGA.hpp"

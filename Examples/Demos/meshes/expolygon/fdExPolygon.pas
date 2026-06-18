@@ -15,7 +15,7 @@ uses
   Vcl.Dialogs,
 
   Stage.VectorTypes,
-  GLS.BaseClasses,
+  Stage.BaseClasses,
   Stage.VectorGeometry,
   GLS.Scene, GLS.Objects,
   GLS.GeomObjects,
@@ -23,7 +23,7 @@ uses
   GLS.MultiPolygon,
   GLS.SceneViewer,
   GLS.Material,
-  GLS.Coordinates;
+  Stage.Coordinates;
 
 type
   TVektor = record

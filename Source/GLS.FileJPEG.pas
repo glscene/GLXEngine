@@ -1,6 +1,6 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.FileJPEG;
 
 (* Methods for loading Jpeg images *)
@@ -36,7 +36,7 @@ type
     procedure SetSmoothing(const AValue: boolean);
   public
     constructor Create; override;
-    class function Capabilities: TGLDataFileCapabilities; override;
+    class function Capabilities: TGSDataFileCapabilities; override;
     procedure LoadFromFile(const filename: string); override;
     procedure SaveToFile(const filename: string); override;
     procedure LoadFromStream(AStream: TStream); override;
@@ -173,7 +173,7 @@ begin
     FSmoothing := AValue;
 end;
 
-class function TGLJPEGImage.Capabilities: TGLDataFileCapabilities;
+class function TGLJPEGImage.Capabilities: TGSDataFileCapabilities;
 begin
   Result := [dfcRead {, dfcWrite}];
 end;

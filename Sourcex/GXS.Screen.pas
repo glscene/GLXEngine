@@ -1,10 +1,10 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.Screen;
-
-(* Routines to interact with the screen/desktop *)
-
+(*
+  Routines to interact with the screen/desktop
+*)
 interface
 
 uses
@@ -80,9 +80,7 @@ var
   vCurrentVideoMode: Integer = 0;
   vVideoModes: array of TgxVideoMode;
 
-// ------------------------------------------------------------------------------
-implementation
-// ------------------------------------------------------------------------------
+implementation //============================================================
 
 
 type
@@ -334,9 +332,9 @@ begin
   Result := Trunc(Screen.Height);
 end;
 
-initialization // -----------------------------------------------------------
+initialization //============================================================
 
-finalization
+finalization //==============================================================
 
 if vCurrentVideoMode <> 0 then
   RestoreDefaultMode; // set default video mode

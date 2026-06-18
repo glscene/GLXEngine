@@ -1,10 +1,10 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.GameMenu;
-
-(* Manages a basic game menu UI *)
-
+(*
+  Manages a basic game menu UI
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -17,11 +17,12 @@ uses
   System.SysUtils,
 
   Stage.VectorTypes,
+  Stage.Coordinates,
+  Stage.Color,
+
   GXS.Scene,
-  GXS.Coordinates,
   GXS.Material,
   GXS.BitmapFont,
-  GXS.Color,
   GXS.RenderContextInfo,
   GXS.Canvas,
   GXS.Context;
@@ -30,7 +31,7 @@ type
 
   TgxGameMenuScale = (gmsNormal, gms1024x768);
 
-  { Classic game menu interface made of several lines. }
+  // Classic game menu interface made of several lines.
   TgxGameMenu = class(TgxSceneObject, IgxMaterialLibrarySupported)
   private
     FItems: TStrings;
@@ -38,8 +39,8 @@ type
     FFont: TgxCustomBitmapFont;
     FMarginVert, FMarginHorz, FSpacing: Integer;
     FMenuScale: TgxGameMenuScale;
-    FBackColor: TgxColor;
-    FInactiveColor, FActiveColor, FDisabledColor: TgxColor;
+    FBackColor: TGSColor;
+    FInactiveColor, FActiveColor, FDisabledColor: TGSColor;
     FMaterialLibrary: TgxMaterialLibrary;
     FTitleMaterialName: TgxLibMaterialName;
     FTitleWidth, FTitleHeight: Integer;
@@ -54,10 +55,10 @@ type
     procedure SetMarginVert(AValue: Integer);
     procedure SetSpacing(AValue: Integer);
     procedure SetFont(AValue: TgxCustomBitmapFont);
-    procedure SetBackColor(AValue: TgxColor);
-    procedure SetInactiveColor(AValue: TgxColor);
-    procedure SetActiveColor(AValue: TgxColor);
-    procedure SetDisabledColor(AValue: TgxColor);
+    procedure SetBackColor(AValue: TGSColor);
+    procedure SetInactiveColor(AValue: TGSColor);
+    procedure SetActiveColor(AValue: TGSColor);
+    procedure SetDisabledColor(AValue: TGSColor);
     function GetEnabled(AIndex: Integer): Boolean;
     procedure SetEnabled(AIndex: Integer; AValue: Boolean);
     procedure SetItems(AValue: TStrings);
@@ -88,10 +89,10 @@ type
     property TitleMaterialName: string read FTitleMaterialName write SetTitleMaterialName;
     property TitleWidth: Integer read FTitleWidth write SetTitleWidth default 0;
     property TitleHeight: Integer read FTitleHeight write SetTitleHeight default 0;
-    property BackColor: TgxColor read FBackColor write SetBackColor;
-    property InactiveColor: TgxColor read FInactiveColor write SetInactiveColor;
-    property ActiveColor: TgxColor read FActiveColor write SetActiveColor;
-    property DisabledColor: TgxColor read FDisabledColor write SetDisabledColor;
+    property BackColor: TGSColor read FBackColor write SetBackColor;
+    property InactiveColor: TGSColor read FInactiveColor write SetInactiveColor;
+    property ActiveColor: TGSColor read FActiveColor write SetActiveColor;
+    property DisabledColor: TGSColor read FDisabledColor write SetDisabledColor;
     property Items: TStrings read FItems write SetItems;
     property Selected: Integer read FSelected write SetSelected default -1;
     property OnSelectedChanged: TNotifyEvent read FOnSelectedChanged write FOnSelectedChanged;
@@ -112,9 +113,7 @@ type
     property Effects;
   end;
 
-// ------------------------------------------------------------------
-implementation
-// ------------------------------------------------------------------
+implementation //============================================================
 
 // ------------------
 // ------------------ TgxGameMenu ------------------
@@ -131,10 +130,10 @@ begin
   FMarginVert := 16;
   FSpacing := 16;
   FMenuScale := gmsNormal;
-  FBackColor := TgxColor.CreateInitialized(Self, clrTransparent, NotifyChange);
-  FInactiveColor := TgxColor.CreateInitialized(Self, clrGray75, NotifyChange);
-  FActiveColor := TgxColor.CreateInitialized(Self, clrWhite, NotifyChange);
-  FDisabledColor := TgxColor.CreateInitialized(Self, clrGray60, NotifyChange);
+  FBackColor := TGSColor.CreateInitialized(Self, clrTransparent, NotifyChange);
+  FInactiveColor := TGSColor.CreateInitialized(Self, clrGray75, NotifyChange);
+  FActiveColor := TGSColor.CreateInitialized(Self, clrWhite, NotifyChange);
+  FDisabledColor := TGSColor.CreateInitialized(Self, clrGray60, NotifyChange);
 end;
 
 destructor TgxGameMenu.Destroy;
@@ -165,7 +164,7 @@ var
   Canvas: TgxCanvas;
   buffer: TgxSceneBuffer;
   i, w, h, tw, Y: Integer;
-  Color: TgxColorVector;
+  Color: TGSColorVector;
   libMat: TgxLibMaterial;
 begin
   if Font = nil then
@@ -328,22 +327,22 @@ begin
     FFont.FreeNotification(Self);
 end;
 
-procedure TgxGameMenu.SetBackColor(AValue: TgxColor);
+procedure TgxGameMenu.SetBackColor(AValue: TGSColor);
 begin
   FBackColor.Assign(AValue);
 end;
 
-procedure TgxGameMenu.SetInactiveColor(AValue: TgxColor);
+procedure TgxGameMenu.SetInactiveColor(AValue: TGSColor);
 begin
   FInactiveColor.Assign(AValue);
 end;
 
-procedure TgxGameMenu.SetActiveColor(AValue: TgxColor);
+procedure TgxGameMenu.SetActiveColor(AValue: TGSColor);
 begin
   FActiveColor.Assign(AValue);
 end;
 
-procedure TgxGameMenu.SetDisabledColor(AValue: TgxColor);
+procedure TgxGameMenu.SetDisabledColor(AValue: TGSColor);
 begin
   FDisabledColor.Assign(AValue);
 end;
@@ -449,10 +448,7 @@ begin
   Result := FMaterialLibrary;
 end;
 
-// ------------------------------------------------------------------
-initialization
-
-// ------------------------------------------------------------------
+initialization //============================================================
 
 RegisterClass(TgxGameMenu);
 

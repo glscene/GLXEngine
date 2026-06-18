@@ -1,10 +1,10 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.Cadencer;
-
-(* Cadencing composant for ease Progress processing *)
-
+(*
+  Cadencing composant for ease Progress processing
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -19,7 +19,7 @@ uses
   FMX.Forms,
 
   GXS.Scene,
-  GXS.BaseClasses;
+  Stage.BaseClasses;
 
 type
 
@@ -62,7 +62,7 @@ type
     FCurrentTime: Double;
     FOriginTime: Double;
     FMaxDeltaTime, FMinDeltaTime, FFixedDeltaTime: Double;
-  	FOnProgress, FOnTotalProgress : TgxProgressEvent;
+  	FOnProgress, FOnTotalProgress : TGSProgressEvent;
     FProgressing: Integer;
     procedure SetCurrentTime(const Value: Double);
   protected
@@ -82,8 +82,8 @@ type
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
-    procedure Subscribe(aComponent: TgxCadenceAbleComponent);
-    procedure UnSubscribe(aComponent: TgxCadenceAbleComponent);
+    procedure Subscribe(aComponent: TGSCadenceAbleComponent);
+    procedure UnSubscribe(aComponent: TGSCadenceAbleComponent);
     (* Allows to manually trigger a progression.
      Time stuff is handled automatically.
      If cadencer is disabled, this functions does nothing. *)
@@ -151,13 +151,13 @@ type
      help for the "sleep" procedure in delphi for details). *)
     property SleepLength: Integer read FSleepLength write FSleepLength default -1;
     // Happens AFTER scene was progressed.
-    property OnProgress: TgxProgressEvent read FOnProgress write FOnProgress;
+    property OnProgress: TGSProgressEvent read FOnProgress write FOnProgress;
     // Happens AFTER all iterations with fixed delta time.
-    property OnTotalProgress : TgxProgressEvent read FOnTotalProgress write FOnTotalProgress;
+    property OnTotalProgress : TGSProgressEvent read FOnTotalProgress write FOnTotalProgress;
   end;
 
   // Adds a property to connect/subscribe to a cadencer.
-  TgxCustomCadencedComponent = class(TgxUpdateAbleComponent)
+  TgxCustomCadencedComponent = class(TGSUpdateAbleComponent)
   private
     FCadencer: TgxCadencer;
   protected
@@ -174,15 +174,12 @@ type
     property Cadencer;
   end;
 
-// ---------------------------------------------------------------------
-implementation
-// ---------------------------------------------------------------------
+implementation //=============================================================
 
 const
   cTickCadencer = 'TickCadencer';
 
 type
-  // TASAPHandler
   TASAPHandler = class
   private
     FTooFastCounter: Integer;
@@ -200,6 +197,7 @@ var
   vHandler: TASAPHandler;
   vCounterFrequency: Int64;
 
+//---------------------------------------------------------------------------
 procedure RegisterASAPCadencer(aCadencer: TgxCadencer);
 begin
   if aCadencer.Mode = cmASAP then
@@ -367,7 +365,7 @@ begin
   inherited Destroy;
 end;
 
-procedure TgxCadencer.Subscribe(aComponent: TgxCadenceAbleComponent);
+procedure TgxCadencer.Subscribe(aComponent: TGSCadenceAbleComponent);
 begin
   if not Assigned(FSubscribedCadenceableComponents) then
     FSubscribedCadenceableComponents := TList.Create;
@@ -378,7 +376,7 @@ begin
   end;
 end;
 
-procedure TgxCadencer.UnSubscribe(aComponent: TgxCadenceAbleComponent);
+procedure TgxCadencer.UnSubscribe(aComponent: TGSCadenceAbleComponent);
 var
   i: Integer;
 begin
@@ -519,7 +517,7 @@ var
   deltaTime, newTime, totalDelta: Double;
   fullTotalDelta, firstLastTime : Double;
   i: Integer;
-  pt: TgxProgressTimes;
+  pt: TGSProgressTimes;
 begin
   // basic protection against infinite loops,
     // shall never happen, unless there is a bug in user code
@@ -585,7 +583,7 @@ begin
             while Assigned(FSubscribedCadenceableComponents) and
               (i <= FSubscribedCadenceableComponents.Count - 1) do
             begin
-              TgxCadenceAbleComponent(FSubscribedCadenceableComponents[i]).DoProgress(pt);
+              TGSCadenceAbleComponent(FSubscribedCadenceableComponents[i]).DoProgress(pt);
               i := i + 1;
             end;
             if Assigned(FOnProgress) and (not (csDesigning in ComponentState))

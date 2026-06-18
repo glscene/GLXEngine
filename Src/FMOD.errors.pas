@@ -1,6 +1,3 @@
-//
-// GXStage Graphics Engine
-//
 unit FMOD.errors;
 
 (* ===============================================================================================
@@ -38,9 +35,7 @@ uses
 
 function FMOD_ErrorString(ErrorCode: TFModErrors): PChar;
 
-//---------------------------------------
-implementation
-//---------------------------------------
+implementation //============================================================
 
 function FMOD_ErrorString(ErrorCode: TFModErrors): PChar;
 begin

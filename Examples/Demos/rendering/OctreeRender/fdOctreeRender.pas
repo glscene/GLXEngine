@@ -22,17 +22,17 @@ uses
   GLS.SceneViewer,
   Stage.VectorGeometry,
   Stage.VectorTypes,
-  GLS.GeometryBB,
+  Stage.GeometryBB,
   GLS.Texture,
   GLS.SpacePartition,
 
-  GLS.Coordinates,
+  Stage.Coordinates,
   GLS.RenderContextInfo,
   GLS.State,
   GLS.SimpleNavigation,
   GLS.Material,
   GLS.Context,
-  GLS.BaseClasses;
+  Stage.BaseClasses;
 
 const
   cBOX_SIZE = 14.2;

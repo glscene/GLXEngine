@@ -1,17 +1,17 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.SDL.Context;
-
 (*
    SDL specific Context and Viewer.
+   RegisterComponents('GLScene Utils', [TSDLViewer]);
+
    NOTA: SDL notifies use of context destruction *after* it happened, this prevents
          clean release of allocated stuff and requires a temporary switch to
          "ignore OpenGL errors" mode during destruction, thus potentially
          leaking memory (depending on hardware drivers willingness to perform
          automatic releases)
 *)
-
 interface
 
 uses
@@ -19,7 +19,7 @@ uses
   System.Classes,
   System.SysUtils,
 
-  GLS.OpenGLAdapter,
+  Stage.OpenGLAdapter,
   GLS.XOpenGL,
   GLS.Context,
   GLS.Scene,
@@ -88,12 +88,11 @@ type
 
 procedure Register;
 
-implementation // ------------------------------------------------------------
+implementation //============================================================
 
 // ------------------
 // ------------------ TSDLViewer ------------------
 // ------------------
-
 constructor TSDLViewer.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
@@ -101,16 +100,19 @@ begin
   Height := 480;
 end;
 
+//---------------------------------------------------------------------------
 destructor TSDLViewer.Destroy;
 begin
   inherited Destroy;
 end;
 
+//---------------------------------------------------------------------------
 procedure TSDLViewer.DoBufferStructuralChange(Sender: TObject);
 begin
   // ignore that, supporting it with SDL is not very praticable as of now...
 end;
 
+//---------------------------------------------------------------------------
 procedure TSDLViewer.PrepareGLContext;
 begin
   with Buffer.RenderingContext as TSDLContext do
@@ -129,6 +131,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TSDLViewer.Render(baseObject: TGLBaseSceneObject = nil);
 begin
   LoadOpenGL;
@@ -139,11 +142,13 @@ begin
   Buffer.Render(baseObject);
 end;
 
+//---------------------------------------------------------------------------
 function TSDLViewer.Active: Boolean;
 begin
   Result := Assigned(Buffer.RenderingContext) and Buffer.RenderingContext.IsValid;
 end;
 
+//---------------------------------------------------------------------------
 procedure TSDLViewer.SetCaption(const val: string);
 begin
   if val <> FCaption then
@@ -156,16 +161,19 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TSDLViewer.DoOnOpen(sender: TObject);
 begin
   // nothing yet
 end;
 
+//---------------------------------------------------------------------------
 procedure TSDLViewer.DoOnClose(sender: TObject);
 begin
   // nothing yet
 end;
 
+//---------------------------------------------------------------------------
 procedure TSDLViewer.DoOnResize(sender: TObject);
 begin
   with Buffer.RenderingContext as TSDLContext do
@@ -178,12 +186,14 @@ begin
     FOnResize(Self);
 end;
 
+//---------------------------------------------------------------------------
 procedure TSDLViewer.DoOnSDLEvent(sender: TObject; const event: TSDL_Event);
 begin
   if Assigned(FOnSDLEvent) then
     FOnSDLEvent(sender, event);
 end;
 
+//---------------------------------------------------------------------------
 procedure TSDLViewer.DoOnEventPollDone(sender: TObject);
 begin
   if Assigned(FOnEventPollDone) then
@@ -193,13 +203,13 @@ end;
 // ------------------
 // ------------------ TSDLContext ------------------
 // ------------------
-
 constructor TSDLContext.Create;
 begin
   inherited Create;
   FSDLWin := TSDLWindow.Create(nil);
 end;
 
+//---------------------------------------------------------------------------
 destructor TSDLContext.Destroy;
 var
   oldIgnore: Boolean;
@@ -216,6 +226,7 @@ begin
   FreeAndNil(FSDLWin);
 end;
 
+//---------------------------------------------------------------------------
 procedure TSDLContext.DoCreateContext(outputDevice: HDC);
 var
   sdlOpt: TSDLWindowOptions;
@@ -249,17 +260,20 @@ begin
   MakeGLCurrent;
 end;
 
+//---------------------------------------------------------------------------
 procedure TSDLContext.DoCreateMemoryContext(outputDevice: HWND; width, height: Integer; BufferCount: integer);
 begin
   raise Exception.Create(ClassName + ': Memory contexts not supported');
 end;
 
+//---------------------------------------------------------------------------
 function TSDLContext.DoShareLists(aContext: TGLContext): Boolean;
 begin
   // nothing (only one context at all times... no need to share)
   Result := False;
 end;
 
+//---------------------------------------------------------------------------
 procedure TSDLContext.DoDestroyContext;
 begin
   // Beware, SDL will also terminate the application
@@ -267,41 +281,46 @@ begin
   FSDLWin.Close;
 end;
 
+//---------------------------------------------------------------------------
 procedure TSDLContext.DoActivate;
 begin
   if not FGL.IsInitialized then
     FGL.Initialize;
 end;
 
+//---------------------------------------------------------------------------
 procedure TSDLContext.DoDeactivate;
 begin
   // nothing particular (only one context, always active)
 end;
 
+//---------------------------------------------------------------------------
 function TSDLContext.IsValid: Boolean;
 begin
   Result := (Assigned(FSDLWin) and (FSDLWin.Active)) or FSimulatedValidity;
 end;
 
+//---------------------------------------------------------------------------
 procedure TSDLContext.SwapBuffers;
 begin
   FSDLWin.SwapBuffers;
 end;
 
+//---------------------------------------------------------------------------
 function TSDLContext.RenderOutputDevice: Pointer;
 begin
   // unsupported
   Result := nil;
 end;
 
-
+//---------------------------------------------------------------------------
 procedure Register;
 begin
-  RegisterComponents('GLScene', [TSDLViewer]);
+  RegisterComponents('GLScene Utils', [TSDLViewer]);
 end;
 
 
-initialization // ------------------------------------------------------------
+initialization //============================================================
 
   RegisterClass(TSDLViewer);
   RegisterGLContextClass(TSDLContext);

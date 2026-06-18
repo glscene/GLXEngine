@@ -1,15 +1,14 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.ShadowPlane;
-
 (*
    Implements a basic shadow plane.
+   RegisterClasses([TgxShadowPlane]);
 
    It is strongly recommended to read and understand the explanations in the
    materials/mirror demo before using this component.
 *)
-
 interface
 
 {$I Stage.Defines.inc}
@@ -23,7 +22,7 @@ uses
   FMX.Effects,
 
   Stage.VectorTypes,
-  GXS.PersistentClasses,
+  Stage.PersistentClasses,
   Stage.VectorGeometry,
   Stage.Utils,
   GXS.ImageUtils,
@@ -31,7 +30,7 @@ uses
   Stage.PipelineTransform,
   GXS.Context,
   GXS.Objects,
-  GXS.Color,
+  Stage.Color,
   GXS.RenderContextInfo,
   GXS.State,
   Stage.TextureFormat;
@@ -64,14 +63,14 @@ type
     FRendering: Boolean;
     FShadowingObject: TgxBaseSceneObject;
     FShadowedLight: TgxLightSource;
-    FShadowColor: TgxColor;
+    FShadowColor: TGSColor;
     FShadowOptions: TShadowPlaneOptions;
     FOnBeginRenderingShadows, FOnEndRenderingShadows: TNotifyEvent;
   protected
     procedure Notification(AComponent: TComponent; Operation: TOperation); override;
     procedure SetShadowingObject(const val: TgxBaseSceneObject);
     procedure SetShadowedLight(const val: TgxLightSource);
-    procedure SetShadowColor(const val: TgxColor);
+    procedure SetShadowColor(const val: TGSColor);
     procedure SetShadowOptions(const val: TShadowPlaneOptions);
   public
     constructor Create(AOwner: TComponent); override;
@@ -87,7 +86,7 @@ type
     property ShadowedLight: TgxLightSource read FShadowedLight write SetShadowedLight;
     (* The shadow's color.
        This color is transparently blended to make shadowed area darker. *)
-    property ShadowColor: TgxColor read FShadowColor write SetShadowColor;
+    property ShadowColor: TGSColor read FShadowColor write SetShadowColor;
     (* Controls rendering options.
        spoUseStencil: plane area is stenciled, prevents shadowing
           objects to be visible on the sides of the mirror (stencil buffer
@@ -106,9 +105,7 @@ type
     property OnEndRenderingShadows: TNotifyEvent read FOnEndRenderingShadows write FOnEndRenderingShadows;
   end;
 
-//-------------------------------------------------------------
-implementation
-//-------------------------------------------------------------
+implementation //============================================================
 
 // ------------------
 // ------------------ TgxShadowPlane ------------------
@@ -116,12 +113,12 @@ implementation
 
 constructor TgxShadowPlane.Create(AOwner: Tcomponent);
 const
-  cDefaultShadowColor: TgxColorVector = (X:0; Y:0; Z:0; W:0.5);
+  cDefaultShadowColor: TGSColorVector = (X:0; Y:0; Z:0; W:0.5);
 begin
   inherited Create(AOwner);
   FShadowOptions := cDefaultShadowPlaneOptions;
   ObjectStyle := ObjectStyle + [osDirectDraw];
-  FShadowColor := TgxColor.CreateInitialized(Self, cDefaultShadowColor);
+  FShadowColor := TGSColor.CreateInitialized(Self, cDefaultShadowColor);
 end;
 
 destructor TgxShadowPlane.Destroy;
@@ -319,7 +316,7 @@ begin
 end;
 
 
-procedure TgxShadowPlane.SetShadowColor(const val: TgxColor);
+procedure TgxShadowPlane.SetShadowColor(const val: TGSColor);
 begin
   FShadowColor.Assign(val);
 end;
@@ -345,9 +342,7 @@ begin
   end;
 end;
 
-//-------------------------------------------------------------
-initialization
-//-------------------------------------------------------------
+initialization //============================================================
 
   RegisterClasses([TgxShadowPlane]);
 

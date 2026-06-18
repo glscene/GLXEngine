@@ -12,7 +12,7 @@ uses
   Vcl.ExtCtrls,
 
   GLS.Scene,
-  GLS.PersistentClasses,
+  Stage.PersistentClasses,
   GLS.Objects,
   GLS.Extrusion,
   GLS.Cadencer,
@@ -20,10 +20,10 @@ uses
   Stage.VectorTypes,
   GLS.Texture,
   GLS.SceneViewer,
-  GLS.Color,
+  Stage.Color,
 
-  GLS.Coordinates,
-  GLS.BaseClasses;
+  Stage.Coordinates,
+  Stage.BaseClasses;
 
 type
   TFormTentacles = class(TForm)

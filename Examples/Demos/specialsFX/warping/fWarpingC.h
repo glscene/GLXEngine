@@ -12,8 +12,8 @@
 #include "GLS.Graph.hpp"
 #include "GLS.Scene.hpp"
 #include "GLS.SceneViewer.hpp"
-#include "GLS.BaseClasses.hpp"
-#include "GLS.Coordinates.hpp"
+#include "Stage.BaseClasses.hpp"
+#include "Stage.Coordinates.hpp"
 
 #include "GLS.FileJPEG.hpp"
 #include "jpeg.hpp"

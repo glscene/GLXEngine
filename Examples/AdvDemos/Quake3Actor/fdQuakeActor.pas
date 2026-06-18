@@ -1,3 +1,6 @@
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit fdQuakeActor;
 
 interface
@@ -15,20 +18,21 @@ uses
   Vcl.Imaging.JPeg,
   Vcl.Dialogs,
 
+  Stage.VectorTypes,
+  Stage.VectorGeometry,
+  Stage.PersistentClasses,
+
   GLS.Cadencer,
   GLS.Scene,
   GLS.Objects,
-  Stage.VectorTypes,
   GLS.SceneViewer,
   GLS.VectorFileObjects,
-  GLS.PersistentClasses,
   GLS.ShadowPlane,
-  Stage.VectorGeometry,
   GLS.Texture,
   GLS.ParticleFX,
   GLS.Material,
-  GLS.Coordinates,
-  GLS.BaseClasses,
+  Stage.Coordinates,
+  Stage.BaseClasses,
 
   GLS.FileMD3, // MD3 loading into GLScene
   GLS.FileQ3MD3; // Quake3 helper structures and functions
@@ -84,7 +88,7 @@ type
   public
     LegsTags, TorsoTags, WeaponTags: TMD3TagList;
     procedure BuildModel;
-    function InterpolateMatrix(m1, m2: TGLMatrix; delta: single): TGLMatrix;
+    function InterpolateMatrix(m1, m2: TGSMatrix; delta: single): TGSMatrix;
   end;
 
 var
@@ -280,7 +284,7 @@ begin
 end;
 
 //----------------------------------------------------------------------------
-function TFormQuakeActor.InterpolateMatrix(m1, m2: TGLMatrix; delta: single): TGLMatrix;
+function TFormQuakeActor.InterpolateMatrix(m1, m2: TGSMatrix; delta: single): TGSMatrix;
 var
   i, j: Integer;
 begin
@@ -296,7 +300,7 @@ end;
 procedure TFormQuakeActor.GLCadencer1Progress(Sender: TObject;
   const deltaTime, newTime: Double);
 var
-  m1, m2: TGLMatrix;
+  m1, m2: TGSMatrix;
 begin
   // Set the transform for the torso
   m1 := LegsTags.GetTransform('tag_torso', Legs.CurrentFrame);

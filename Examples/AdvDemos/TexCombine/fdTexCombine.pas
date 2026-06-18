@@ -1,3 +1,6 @@
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit fdTexCombine;
 
 interface
@@ -23,18 +26,19 @@ uses
   Vcl.ImgList,
   Vcl.Imaging.Jpeg,
 
+  Stage.VectorGeometry,
+  Stage.Utils,
+
   GLS.Objects,
   GLS.HUDObjects,
   GLS.Scene,
   GLS.SceneViewer,
   GLS.FileTGA,
-  GLS.Coordinates,
-  GLS.BaseClasses,
+  Stage.Coordinates,
+  Stage.BaseClasses,
   GLS.Texture,
   GLS.Graphics,
-  Stage.VectorGeometry,
-  GLS.State,
-  Stage.Utils;
+  GLS.State;
 
 type
   TTTBMain = class(TForm)

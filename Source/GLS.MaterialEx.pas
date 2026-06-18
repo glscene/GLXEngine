@@ -1,8 +1,7 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.MaterialEx;
-
 (*
   Handles extended material and it components:
   textures, samplers, combiners, shaders and etc.
@@ -15,7 +14,6 @@ unit GLS.MaterialEx;
    - economy mode for texture binding to active units,
      i.e. if textures less than maximum units may be not one binding occur per frame.
 *)
-
 interface
 
 {$I Stage.Defines.inc}
@@ -29,29 +27,30 @@ uses
   Vcl.Graphics,
 
   Stage.OpenGLTokens,
-  GLS.RenderContextInfo,
-  Stage.PipelineTransform,
-  GLS.BaseClasses,
-  GLS.Context,
   Stage.VectorTypes,
+  Stage.VectorGeometry,
+  Stage.PersistentClasses,
+  Stage.PipelineTransform,
+  Stage.TextureFormat,
+  Stage.Strings,
+  Stage.Utils,
+  Stage.Logger,
+
+  Stage.BaseClasses,
+  GLS.Context,
+  GLS.RenderContextInfo,
   GLS.Material,
   GLS.Texture,
-  GLS.Color,
-  GLS.Coordinates,
-  Stage.VectorGeometry,
+  Stage.Color,
+  Stage.Coordinates,
   GLS.Graphics,
-  GLS.PersistentClasses,
   GLS.State,
-  Stage.TextureFormat,
-  GLS.XCollection,
+  Stage.XCollection,
   GLS.TextureCombiners,
   GLSL.ShaderParameter,
   GLS.ApplicationFileIO,
-  Stage.Strings,
   GLS.ImageUtils,
-  Stage.Utils,
-  GLS.XOpenGL,
-  Stage.Logger;
+  GLS.XOpenGL;
 
 type
 
@@ -73,21 +72,21 @@ type
       IGLMaterialLibrarySupported)
   private
     FNameHashKey: Integer;
-    FUserList: TGLPersistentObjectList;
+    FUserList: TGSPersistentObjectList;
     FDefferedInit: Boolean;
     FNotifying: Boolean;
     FIsValid: Boolean;
-    function GetUserList: TGLPersistentObjectList;
+    function GetUserList: TGSPersistentObjectList;
     function GetMaterialLibraryEx: TGLMaterialLibraryEx;
   protected
     procedure SetName(const AValue: TGLMaterialComponentName); override;
     procedure NotifyChange(Sender: TObject); virtual;
-    property UserList: TGLPersistentObjectList read GetUserList;
+    property UserList: TGSPersistentObjectList read GetUserList;
     procedure DoOnPrepare(Sender: TGLContext); virtual; abstract;
   public
     destructor Destroy; override;
-    procedure RegisterUser(AUser: TGLUpdateAbleObject);
-    procedure UnregisterUser(AUser: TGLUpdateAbleObject);
+    procedure RegisterUser(AUser: TGSUpdateAbleObject);
+    procedure UnregisterUser(AUser: TGSUpdateAbleObject);
     function GetUserCount: Integer;
     function GetMaterialLibrary: TGLAbstractMaterialLibrary;
     property MaterialLibrary: TGLMaterialLibraryEx read GetMaterialLibraryEx;
@@ -102,7 +101,7 @@ type
 
   CGLBaseMaterialCollectionItem = class of TGLBaseMaterialCollectionItem;
 
-  TGLLibMaterialProperty = class(TGLUpdateAbleObject, IGLMaterialLibrarySupported)
+  TGLLibMaterialProperty = class(TGSUpdateAbleObject, IGLMaterialLibrarySupported)
   protected
     FEnabled: Boolean;
     FNextPassName: TGLLibMaterialName;
@@ -132,7 +131,7 @@ type
     FLODBias: Integer;
     FLODBiasFract: Single;
     FWrap: array[0..2] of TGLSeparateTextureWrap;
-    FBorderColor: TGLColor;
+    FBorderColor: TGSColor;
     FCompareMode: TGLTextureCompareMode;
     FCompareFunc: TGLDepthFunction;
     FDecodeSRGB: Boolean;
@@ -142,7 +141,7 @@ type
     procedure SetFilteringQuality(AValue: TGLTextureFilteringQuality);
     function GetWrap(Index: Integer): TGLSeparateTextureWrap;
     procedure SetWrap(Index: Integer; AValue: TGLSeparateTextureWrap);
-    procedure SetBorderColor(const AValue: TGLColor);
+    procedure SetBorderColor(const AValue: TGSColor);
     procedure SetCompareMode(AValue: TGLTextureCompareMode);
     procedure SetCompareFunc(AValue: TGLDepthFunction);
     procedure SetDecodeSRGB(AValue: Boolean);
@@ -175,7 +174,7 @@ type
     property WrapZ: TGLSeparateTextureWrap index 2 read GetWrap write SetWrap
       default twRepeat;
     // Texture border color.
-    property BorderColor: TGLColor read FBorderColor
+    property BorderColor: TGSColor read FBorderColor
       write SetBorderColor;
     // Compare mode and function for depth texture
     property CompareMode: TGLTextureCompareMode read FCompareMode
@@ -375,7 +374,7 @@ type
 
   (* Swizzle the components of a texture fetches in
         shader or fixed-function pipeline. *)
-  TGLTextureSwizzling = class(TGLUpdateAbleObject)
+  TGLTextureSwizzling = class(TGSUpdateAbleObject)
   private
     FSwizzles: TglSwizzleVector;
     function GetSwizzle(AIndex: Integer): TGLTextureSwizzle;
@@ -403,47 +402,47 @@ type
     FLibSamplerName: TGLMaterialComponentName;
     FLibTexture: TGLAbstractTexture;
     FLibSampler: TGLTextureSampler;
-    FTextureOffset, FTextureScale: TGLCoordinates;
+    FTextureOffset, FTextureScale: TGSCoordinates;
     FTextureRotate: Single;
     FTextureMatrixIsIdentity: Boolean;
     FTextureOverride: Boolean;
-    FTextureMatrix: TGLMatrix;
+    FTextureMatrix: TGSMatrix;
     FMappingMode: TGLTextureMappingMode;
-    FEnvColor: TGLColor;
-    FMapSCoordinates: TGLCoordinates4;
-    FMapTCoordinates: TGLCoordinates4;
-    FMapRCoordinates: TGLCoordinates4;
-    FMapQCoordinates: TGLCoordinates4;
+    FEnvColor: TGSColor;
+    FMapSCoordinates: TGSCoordinates4;
+    FMapTCoordinates: TGSCoordinates4;
+    FMapRCoordinates: TGSCoordinates4;
+    FMapQCoordinates: TGSCoordinates4;
     FSwizzling: TGLTextureSwizzling;
     function GetLibTextureName: TGLMaterialComponentName;
     function GetLibSamplerName: TGLMaterialComponentName;
     procedure SetLibTextureName(const AValue: TGLMaterialComponentName);
     procedure SetLibSamplerName(const AValue: TGLMaterialComponentName);
-    function GetTextureOffset: TGLCoordinates;
-    procedure SetTextureOffset(const AValue: TGLCoordinates);
+    function GetTextureOffset: TGSCoordinates;
+    procedure SetTextureOffset(const AValue: TGSCoordinates);
     function StoreTextureOffset: Boolean;
-    function GetTextureScale: TGLCoordinates;
-    procedure SetTextureScale(const AValue: TGLCoordinates);
+    function GetTextureScale: TGSCoordinates;
+    procedure SetTextureScale(const AValue: TGSCoordinates);
     function StoreTextureScale: Boolean;
-    procedure SetTextureMatrix(const AValue: TGLMatrix);
+    procedure SetTextureMatrix(const AValue: TGSMatrix);
     procedure SetTextureRotate(AValue: Single);
     function StoreTextureRotate: Boolean;
     procedure SetMappingMode(const AValue: TGLTextureMappingMode);
-    function GetMappingSCoordinates: TGLCoordinates4;
-    procedure SetMappingSCoordinates(const AValue: TGLCoordinates4);
+    function GetMappingSCoordinates: TGSCoordinates4;
+    procedure SetMappingSCoordinates(const AValue: TGSCoordinates4);
     function StoreMappingSCoordinates: Boolean;
-    function GetMappingTCoordinates: TGLCoordinates4;
-    procedure SetMappingTCoordinates(const AValue: TGLCoordinates4);
+    function GetMappingTCoordinates: TGSCoordinates4;
+    procedure SetMappingTCoordinates(const AValue: TGSCoordinates4);
     function StoreMappingTCoordinates: Boolean;
-    function GetMappingRCoordinates: TGLCoordinates4;
-    procedure SetMappingRCoordinates(const AValue: TGLCoordinates4);
+    function GetMappingRCoordinates: TGSCoordinates4;
+    procedure SetMappingRCoordinates(const AValue: TGSCoordinates4);
     function StoreMappingRCoordinates: Boolean;
-    function GetMappingQCoordinates: TGLCoordinates4;
-    procedure SetMappingQCoordinates(const AValue: TGLCoordinates4);
+    function GetMappingQCoordinates: TGSCoordinates4;
+    procedure SetMappingQCoordinates(const AValue: TGSCoordinates4);
     function StoreMappingQCoordinates: Boolean;
     procedure SetSwizzling(const AValue: TGLTextureSwizzling);
     function StoreSwizzling: Boolean;
-    procedure SetEnvColor(const AValue: TGLColor);
+    procedure SetEnvColor(const AValue: TGSColor);
     procedure CalculateTextureMatrix;
     procedure ApplyMappingMode;
     procedure UnApplyMappingMode;
@@ -458,19 +457,19 @@ type
     function IsValid: Boolean;
     procedure Apply(var ARci: TGLRenderContextInfo);
     procedure UnApply(var ARci: TGLRenderContextInfo);
-    property TextureMatrix: TGLMatrix read FTextureMatrix write SetTextureMatrix;
+    property TextureMatrix: TGSMatrix read FTextureMatrix write SetTextureMatrix;
   published
     property LibTextureName: TGLMaterialComponentName read GetLibTextureName
       write SetLibTextureName;
     property LibSamplerName: TGLMaterialComponentName read GetLibSamplerName
       write SetLibSamplerName;
-    property TextureOffset: TGLCoordinates read GetTextureOffset write
+    property TextureOffset: TGSCoordinates read GetTextureOffset write
       SetTextureOffset stored StoreTextureOffset;
     (* Texture coordinates scaling.
        Scaling is applied before applying the offset, and is applied
        to the texture coordinates, meaning that a scale factor of (2, 2, 2)
        will make your texture look twice smaller. *)
-    property TextureScale: TGLCoordinates read GetTextureScale write
+    property TextureScale: TGSCoordinates read GetTextureScale write
       SetTextureScale stored StoreTextureScale;
     (* Texture coordinates rotating.
        Rotating is applied after applying offset and scale,
@@ -478,7 +477,7 @@ type
     property TextureRotate: Single read FTextureRotate write
       SetTextureRotate stored StoreTextureRotate;
     // Texture Environment color.
-    property EnvColor: TGLColor read FEnvColor write SetEnvColor;
+    property EnvColor: TGSColor read FEnvColor write SetEnvColor;
     (* Texture coordinates mapping mode.
     This property controls automatic texture coordinates generation. *)
     property MappingMode: TGLTextureMappingMode read FMappingMode write
@@ -486,13 +485,13 @@ type
     (* Texture mapping coordinates mode for S, T, R and Q axis.
     This property stores the coordinates for automatic texture
     coordinates generation. *)
-    property MappingSCoordinates: TGLCoordinates4 read GetMappingSCoordinates
+    property MappingSCoordinates: TGSCoordinates4 read GetMappingSCoordinates
       write SetMappingSCoordinates stored StoreMappingSCoordinates;
-    property MappingTCoordinates: TGLCoordinates4 read GetMappingTCoordinates
+    property MappingTCoordinates: TGSCoordinates4 read GetMappingTCoordinates
       write SetMappingTCoordinates stored StoreMappingTCoordinates;
-    property MappingRCoordinates: TGLCoordinates4 read GetMappingRCoordinates
+    property MappingRCoordinates: TGSCoordinates4 read GetMappingRCoordinates
       write SetMappingRCoordinates stored StoreMappingRCoordinates;
-    property MappingQCoordinates: TGLCoordinates4 read GetMappingQCoordinates
+    property MappingQCoordinates: TGSCoordinates4 read GetMappingQCoordinates
       write SetMappingQCoordinates stored StoreMappingQCoordinates;
     // Texture color fetching parameters.
     property Swizzling: TGLTextureSwizzling read FSwizzling write
@@ -717,7 +716,7 @@ type
   end;
 
 
-  TGLAbstractShaderUniform = class(TGLUpdateAbleObject, IShaderParameter)
+  TGLAbstractShaderUniform = class(TGSUpdateAbleObject, IShaderParameter)
   protected
     FName: string;
     FNameHashCode: Integer;
@@ -737,7 +736,7 @@ type
     function GetFloat: Single; virtual;
     function GetVec2: TVector2f; virtual;
     function GetVec3: TVector3f; virtual;
-    function GetVec4: TGLVector; virtual;
+    function GetVec4: TGSVector; virtual;
     function GetInt: TGLint; virtual;
     function GetIVec2: TVector2i; virtual;
     function GetIVec3: TVector3i; virtual;
@@ -786,7 +785,7 @@ type
     function GetFloat: Single; override;
     function GetVec2: TVector2f; override;
     function GetVec3: TVector3f; override;
-    function GetVec4: TGLVector; override;
+    function GetVec4: TGSVector; override;
     function GetInt: TGLInt; override;
     function GetIVec2: TVector2i; override;
     function GetIVec3: TVector3i; override;
@@ -892,12 +891,12 @@ type
     FShaders: array[TGLShaderType] of TGLShaderEx;
     FIsValid: Boolean;
     FInfoLog: string;
-    FUniforms: TGLPersistentObjectList;
+    FUniforms: TGSPersistentObjectList;
     FAutoFill: Boolean;
     function GetLibShaderName(AType: TGLShaderType): string;
     procedure SetLibShaderName(AType: TGLShaderType; const AValue: string);
     function GetUniform(const AName: string): IShaderParameter;
-    class procedure ReleaseUniforms(AList: TGLPersistentObjectList);
+    class procedure ReleaseUniforms(AList: TGSPersistentObjectList);
     property LibVertexShaderName: TGLMaterialComponentName index shtVertex
       read GetLibShaderName write SetLibShaderName;
     property LibFragmentShaderName: TGLMaterialComponentName index shtFragment
@@ -1324,11 +1323,11 @@ begin
     Result := 0;
 end;
 
-function TGLBaseMaterialCollectionItem.GetUserList: TGLPersistentObjectList;
+function TGLBaseMaterialCollectionItem.GetUserList: TGSPersistentObjectList;
 begin
   if FUserList = nil then
   begin
-    FUserList := TGLPersistentObjectList.Create;
+    FUserList := TGSPersistentObjectList.Create;
     FNotifying := False;
   end;
   Result := FUserList;
@@ -1343,19 +1342,19 @@ begin
   FNotifying := True;
   if GetUserCount > 0 then
     for I := 0 to FUserList.Count - 1 do
-      TGLUpdateAbleObject(FUserList[I]).NotifyChange(Self);
+      TGSUpdateAbleObject(FUserList[I]).NotifyChange(Self);
   FNotifying := False;
 end;
 
 procedure TGLBaseMaterialCollectionItem.RegisterUser(
-  AUser: TGLUpdateAbleObject);
+  AUser: TGSUpdateAbleObject);
 begin
   if not FNotifying and (UserList.IndexOf(AUser) < 0) then
     UserList.Add(AUser);
 end;
 
 procedure TGLBaseMaterialCollectionItem.UnregisterUser(
-  AUser: TGLUpdateAbleObject);
+  AUser: TGSUpdateAbleObject);
 begin
   if not FNotifying then
     UserList.Remove(AUser);
@@ -1869,7 +1868,7 @@ begin
     begin
       gl.ClearError;
       CurrentGLContext.GLStates.ActiveTextureEnabled[FHandle.Target] := False;
-      GLSLogger.LogErrorFmt('Unable to create texture "%s"', [Self.Name]);
+      GSLogger.LogErrorFmt('Unable to create texture "%s"', [Self.Name]);
       Abort;
     end
     else
@@ -1993,7 +1992,7 @@ begin
           end;
           LImage.LevelPixelBuffer[Level].UnBind;
           LImage.LevelStreamingState[Level] := ssTransfered;
-          GLSLogger.LogDebug(Format('Texture "%s" level %d loaded', [Name, Level]));
+          GSLogger.LogDebug(Format('Texture "%s" level %d loaded', [Name, Level]));
         end;
 
       ssTransfered:
@@ -2233,7 +2232,7 @@ begin
         begin // no SourceFile
           FImage := TGLImage.Create;
           FImage.SetErrorImage;
-          GLSLogger.LogErrorFmt('Source file of texture "%s" image not found',
+          GSLogger.LogErrorFmt('Source file of texture "%s" image not found',
             [Self.Name]);
         end;
       end; // if bReadFromSource
@@ -2247,7 +2246,7 @@ begin
         if IsDesignTime then
           InformationDlg(Self.Name + ' - ' + E.ClassName + ': ' + E.Message)
         else
-          GLSLogger.LogError(Self.Name + ' - ' + E.ClassName + ': ' +
+          GSLogger.LogError(Self.Name + ' - ' + E.ClassName + ': ' +
             E.Message);
       end;
     end;
@@ -2479,7 +2478,7 @@ begin
   FWrap[0] := twRepeat;
   FWrap[1] := twRepeat;
   FWrap[2] := twRepeat;
-  FBorderColor := TGLColor.CreateInitialized(Self, clrTransparent);
+  FBorderColor := TGSColor.CreateInitialized(Self, clrTransparent);
   FCompareMode := tcmNone;
   FCompareFunc := cfLequal;
   FDecodeSRGB := True;
@@ -2589,7 +2588,7 @@ begin
       FWrap[0] := TGLSeparateTextureWrap(ReadInteger);
       FWrap[1] := TGLSeparateTextureWrap(ReadInteger);
       FWrap[2] := TGLSeparateTextureWrap(ReadInteger);
-      Read(FBorderColor.AsAddress^, SizeOf(TGLColorVector));
+      Read(FBorderColor.AsAddress^, SizeOf(TGSColorVector));
       FCompareMode := TGLTextureCompareMode(ReadInteger);
       FCompareFunc := TGLDepthFunction(ReadInteger);
       FDecodeSRGB := ReadBoolean;
@@ -2599,7 +2598,7 @@ begin
   end;
 end;
 
-procedure TGLTextureSampler.SetBorderColor(const AValue: TGLColor);
+procedure TGLTextureSampler.SetBorderColor(const AValue: TGSColor);
 begin
   FBorderColor.Assign(AValue);
   NotifyChange(Self);
@@ -2700,7 +2699,7 @@ begin
     WriteInteger(Integer(FWrap[0]));
     WriteInteger(Integer(FWrap[1]));
     WriteInteger(Integer(FWrap[2]));
-    Write(FBorderColor.AsAddress^, SizeOf(TGLColorVector));
+    Write(FBorderColor.AsAddress^, SizeOf(TGSColorVector));
     WriteInteger(Integer(FCompareMode));
     WriteInteger(Integer(FCompareFunc));
     WriteBoolean(FDecodeSRGB);
@@ -2778,7 +2777,7 @@ begin
           if IsDesignTime then
             InformationDlg(E.ClassName + ': ' + E.Message)
           else
-            GLSLogger.LogError(E.ClassName + ': ' + E.Message);
+            GSLogger.LogError(E.ClassName + ': ' + E.Message);
         end;
       end;
       FHandle.NotifyDataUpdated;
@@ -3179,7 +3178,7 @@ end;
 procedure TGLMultitexturingProperties.Apply(var ARci: TGLRenderContextInfo);
 var
   N, U: Integer;
-  LDir: TGLVector;
+  LDir: TGSVector;
 begin
   if FEnabled then
   begin
@@ -3674,7 +3673,7 @@ begin
   FTextureMatrix := IdentityHmgMatrix;
   FEnabled := False;
   FSwizzling := TGLTextureSwizzling.Create(Self);
-  FEnvColor := TGLColor.CreateInitialized(Self, clrTransparent);
+  FEnvColor := TGSColor.CreateInitialized(Self, clrTransparent);
 end;
 
 destructor TGLTextureProperties.Destroy;
@@ -3710,51 +3709,51 @@ begin
     Result := '';
 end;
 
-function TGLTextureProperties.GetMappingQCoordinates: TGLCoordinates4;
+function TGLTextureProperties.GetMappingQCoordinates: TGSCoordinates4;
 begin
   if not Assigned(FMapQCoordinates) then
-    FMapQCoordinates := TGLCoordinates4.CreateInitialized(Self, WHmgVector,
+    FMapQCoordinates := TGSCoordinates4.CreateInitialized(Self, WHmgVector,
       csVector);
   Result := FMapQCoordinates;
 end;
 
-function TGLTextureProperties.GetMappingRCoordinates: TGLCoordinates4;
+function TGLTextureProperties.GetMappingRCoordinates: TGSCoordinates4;
 begin
   if not Assigned(FMapRCoordinates) then
-    FMapRCoordinates := TGLCoordinates4.CreateInitialized(Self, ZHmgVector,
+    FMapRCoordinates := TGSCoordinates4.CreateInitialized(Self, ZHmgVector,
       csVector);
   Result := FMapRCoordinates;
 end;
 
-function TGLTextureProperties.GetMappingSCoordinates: TGLCoordinates4;
+function TGLTextureProperties.GetMappingSCoordinates: TGSCoordinates4;
 begin
   if not Assigned(FMapSCoordinates) then
-    FMapSCoordinates := TGLCoordinates4.CreateInitialized(Self, XHmgVector,
+    FMapSCoordinates := TGSCoordinates4.CreateInitialized(Self, XHmgVector,
       csVector);
   Result := FMapSCoordinates;
 end;
 
-function TGLTextureProperties.GetMappingTCoordinates: TGLCoordinates4;
+function TGLTextureProperties.GetMappingTCoordinates: TGSCoordinates4;
 begin
   if not Assigned(FMapTCoordinates) then
-    FMapTCoordinates := TGLCoordinates4.CreateInitialized(Self, YHmgVector,
+    FMapTCoordinates := TGSCoordinates4.CreateInitialized(Self, YHmgVector,
       csVector);
   Result := FMapTCoordinates;
 end;
 
-function TGLTextureProperties.GetTextureOffset: TGLCoordinates;
+function TGLTextureProperties.GetTextureOffset: TGSCoordinates;
 begin
   if not Assigned(FTextureOffset) then
     FTextureOffset :=
-      TGLCoordinates3.CreateInitialized(Self, NullHmgVector, csPoint);
+      TGSCoordinates3.CreateInitialized(Self, NullHmgVector, csPoint);
   Result := FTextureOffset;
 end;
 
-function TGLTextureProperties.GetTextureScale: TGLCoordinates;
+function TGLTextureProperties.GetTextureScale: TGSCoordinates;
 begin
   if not Assigned(FTextureScale) then
     FTextureScale :=
-      TGLCoordinates3.CreateInitialized(Self, VectorMake(1, 1, 1, 1), csVector);
+      TGSCoordinates3.CreateInitialized(Self, VectorMake(1, 1, 1, 1), csVector);
   Result := FTextureScale;
 end;
 
@@ -3851,7 +3850,7 @@ begin
         if IsDesignTime then
           InformationDlg('Can not use write only attachment as texture')
         else
-          GLSLogger.LogErrorFmt('Attempt to use write only attachment "%s" as texture',
+          GSLogger.LogErrorFmt('Attempt to use write only attachment "%s" as texture',
             [LTexture.Name]);
         NotifyChange(Self);
         exit;
@@ -3874,25 +3873,25 @@ begin
 end;
 
 procedure TGLTextureProperties.SetMappingQCoordinates(
-  const AValue: TGLCoordinates4);
+  const AValue: TGSCoordinates4);
 begin
   MappingQCoordinates.Assign(AValue);
 end;
 
 procedure TGLTextureProperties.SetMappingRCoordinates(
-  const AValue: TGLCoordinates4);
+  const AValue: TGSCoordinates4);
 begin
   MappingRCoordinates.Assign(AValue);
 end;
 
 procedure TGLTextureProperties.SetMappingSCoordinates(
-  const AValue: TGLCoordinates4);
+  const AValue: TGSCoordinates4);
 begin
   MappingSCoordinates.Assign(AValue);
 end;
 
 procedure TGLTextureProperties.SetMappingTCoordinates(
-  const AValue: TGLCoordinates4);
+  const AValue: TGSCoordinates4);
 begin
   MappingTCoordinates.Assign(AValue);
 end;
@@ -3902,16 +3901,16 @@ begin
   FSwizzling.Assign(AValue);
 end;
 
-procedure TGLTextureProperties.SetTextureMatrix(const AValue: TGLMatrix);
+procedure TGLTextureProperties.SetTextureMatrix(const AValue: TGSMatrix);
 begin
   FTextureMatrixIsIdentity := CompareMem(@AValue.V[0], @IdentityHmgMatrix.V[0],
-    SizeOf(TGLMatrix));
+    SizeOf(TGSMatrix));
   FTextureMatrix := AValue;
   FTextureOverride := True;
   NotifyChange(Self);
 end;
 
-procedure TGLTextureProperties.SetTextureOffset(const AValue: TGLCoordinates);
+procedure TGLTextureProperties.SetTextureOffset(const AValue: TGSCoordinates);
 begin
   TextureOffset.Assign(AValue);
   CalculateTextureMatrix;
@@ -3927,7 +3926,7 @@ begin
   end;
 end;
 
-procedure TGLTextureProperties.SetTextureScale(const AValue: TGLCoordinates);
+procedure TGLTextureProperties.SetTextureScale(const AValue: TGSCoordinates);
 begin
   TextureScale.Assign(AValue);
   CalculateTextureMatrix;
@@ -3986,7 +3985,7 @@ begin
 end;
 
 procedure TGLTextureProperties.SetEnvColor(const AValue:
-  TGLColor);
+  TGSColor);
 begin
   FEnvColor.Assign(AValue);
   NotifyChange(Self);
@@ -4112,10 +4111,10 @@ begin
             FInfoLog := 'Compilation successful';
         end
         else if FIsValid then
-          GLSLogger.LogInfoFmt('Shader "%s" compilation successful - %s',
+          GSLogger.LogInfoFmt('Shader "%s" compilation successful - %s',
             [Name, FHandle[FShaderType].InfoLog])
         else
-          GLSLogger.LogErrorFmt('Shader "%s" compilation failed - %s',
+          GSLogger.LogErrorFmt('Shader "%s" compilation failed - %s',
             [Name, FHandle[FShaderType].InfoLog]);
         FHandle[FShaderType].NotifyDataUpdated;
       end;
@@ -4133,7 +4132,7 @@ begin
       if IsDesignTime then
         InformationDlg(E.ClassName + ': ' + E.Message)
       else
-        GLSLogger.LogError(E.ClassName + ': ' + E.Message);
+        GSLogger.LogError(E.ClassName + ': ' + E.Message);
     end;
   end;
 end;
@@ -4289,11 +4288,11 @@ end;
 
 procedure TGLLibMaterialProperty.NotifyChange(Sender: TObject);
 var
-  NA: IGLNotifyAble;
+  NA: IGSNotifyAble;
 begin
   if Assigned(Owner) then
   begin
-    if Supports(Owner, IGLNotifyAble, NA) then
+    if Supports(Owner, IGSNotifyAble, NA) then
       NA.NotifyChange(Self)
   end;
   if Assigned(OnNotifyChange) then
@@ -4418,7 +4417,7 @@ begin
   FHandle := TGLProgramHandle.Create;
   FHandle.OnPrapare := DoOnPrepare;
   FEnabled := False;
-  FUniforms := TGLPersistentObjectList.Create;
+  FUniforms := TGSPersistentObjectList.Create;
   FAutoFill := True;
 end;
 
@@ -4447,7 +4446,7 @@ end;
 procedure TGLBaseShaderModel.DoOnPrepare(Sender: TGLContext);
 var
   T: TGLShaderType;
-  LUniforms: TGLPersistentObjectList;
+  LUniforms: TGSPersistentObjectList;
   LUniform, LUniform2: TGLShaderUniform;
   ID: Cardinal;
   I, J, C: Integer;
@@ -4537,7 +4536,7 @@ begin
               end;
 
               // Get uniforms
-              LUniforms := TGLPersistentObjectList.Create;
+              LUniforms := TGSPersistentObjectList.Create;
 
               gl.GetProgramiv(ID, GL_ACTIVE_UNIFORMS, @C);
               for I := 0 to C - 1 do
@@ -4625,19 +4624,19 @@ begin
                 if (GLSLData = GLSLTypeUndefined) and (GLSLSampler =
                   GLSLSamplerUndefined) then
                 begin
-                  GLSLogger.LogWarningFmt(
+                  GSLogger.LogWarningFmt(
                     'Detected active uniform "%s" with unknown type', [UName]);
                   continue;
                 end
                 else if GLSLData <> GLSLTypeUndefined then
                 begin
-                  GLSLogger.LogInfoFmt('Detected active uniform: %s %s',
+                  GSLogger.LogInfoFmt('Detected active uniform: %s %s',
                     [cGLSLTypeString[GLSLData], UName]);
                 end
                 else
                 begin
                   bSampler := True;
-                  GLSLogger.LogInfoFmt('Detected active uniform: %s %s',
+                  GSLogger.LogInfoFmt('Detected active uniform: %s %s',
                     [cGLSLSamplerString[GLSLSampler], UName]);
                 end;
 
@@ -4750,10 +4749,10 @@ begin
               FInfoLog := 'Link successful';
           end
           else if FIsValid then
-            GLSLogger.LogInfoFmt('Program "%s" link successful - %s',
+            GSLogger.LogInfoFmt('Program "%s" link successful - %s',
               [GetMaterial.Name, FHandle.InfoLog])
           else
-            GLSLogger.LogErrorFmt('Program "%s" link failed! - %s',
+            GSLogger.LogErrorFmt('Program "%s" link failed! - %s',
               [GetMaterial.Name, FHandle.InfoLog]);
         end;
       end
@@ -4771,7 +4770,7 @@ begin
         if IsDesignTime then
           InformationDlg(E.ClassName + ': ' + E.Message)
         else
-          GLSLogger.LogError(E.ClassName + ': ' + E.Message);
+          GSLogger.LogError(E.ClassName + ': ' + E.Message);
       end;
     end;
 end;
@@ -4826,7 +4825,7 @@ begin
 end;
 
 class procedure TGLBaseShaderModel.ReleaseUniforms(
-  AList: TGLPersistentObjectList);
+  AList: TGSPersistentObjectList);
 var
   I: Integer;
 begin
@@ -4863,7 +4862,7 @@ begin
 
   if not IsDesignTime then
   begin
-    GLSLogger.LogErrorFmt('Attempt to use unknow uniform "%s" for material "%s"',
+    GSLogger.LogErrorFmt('Attempt to use unknow uniform "%s" for material "%s"',
       [AName, GetMaterial.Name]);
     U := TGLAbstractShaderUniform.Create(Self);
     U._AddRef;
@@ -4986,7 +4985,7 @@ begin
   else
   begin
     gl.Begin_ := vStoreBegin;
-    GLSLogger.LogError('glBegin called with unsupported primitive for tessellation');
+    GSLogger.LogError('glBegin called with unsupported primitive for tessellation');
     Abort;
   end;
 end;
@@ -5601,7 +5600,7 @@ begin
         if IsDesignTime then
           InformationDlg('Can not use write only attachment as texture')
         else
-          GLSLogger.LogErrorFmt('Attempt to write only attachment "%s" for uniform "%s"',
+          GSLogger.LogErrorFmt('Attempt to write only attachment "%s" for uniform "%s"',
             [LTexture.Name, Name]);
         NotifyChange(Self);
         exit;
@@ -5773,7 +5772,7 @@ begin
   FillChar(Result, SizeOf(Result), $00);
 end;
 
-function TGLAbstractShaderUniform.GetVec4: TGLVector;
+function TGLAbstractShaderUniform.GetVec4: TGSVector;
 begin
   FillChar(Result, SizeOf(Result), $00);
 end;
@@ -5982,7 +5981,7 @@ begin
   gl.GetUniformfv(GetProgram, FLocation, @Result);
 end;
 
-function TGLShaderUniform.GetVec4: TGLVector;
+function TGLShaderUniform.GetVec4: TGSVector;
 begin
   gl.GetUniformfv(GetProgram, FLocation, @Result);
 end;
@@ -6578,7 +6577,7 @@ begin
   if gl.GetError <> GL_NO_ERROR then
   begin
     gl.ClearError;
-    GLSLogger.LogErrorFmt('Unable to create attachment "%s"', [Self.Name]);
+    GSLogger.LogErrorFmt('Unable to create attachment "%s"', [Self.Name]);
     exit;
   end
   else
@@ -6977,10 +6976,10 @@ begin
               FInfoLog := 'Compilation successful';
           end
           else if FIsValid then
-            GLSLogger.LogInfoFmt('Program "%s" compilation successful - %s',
+            GSLogger.LogInfoFmt('Program "%s" compilation successful - %s',
               [Name, FHandle.InfoLog])
           else
-            GLSLogger.LogErrorFmt('Program "%s" compilation failed - %s',
+            GSLogger.LogErrorFmt('Program "%s" compilation failed - %s',
               [Name, FHandle.InfoLog]);
           FHandle.NotifyDataUpdated;
         end
@@ -6989,7 +6988,7 @@ begin
           if IsDesignTime then
             FInfoLog := 'No source'
           else
-            GLSLogger.LogInfoFmt('Program "%s" has no source code', [Name]);
+            GSLogger.LogInfoFmt('Program "%s" has no source code', [Name]);
           FIsValid := False;
         end;
       end;
@@ -7007,7 +7006,7 @@ begin
       if IsDesignTime then
         InformationDlg(E.ClassName + ': ' + E.Message)
       else
-        GLSLogger.LogError(E.ClassName + ': ' + E.Message);
+        GSLogger.LogError(E.ClassName + ': ' + E.Message);
     end;
   end;
 end;
@@ -7077,7 +7076,7 @@ begin
   end;
 end;
 
-initialization
+initialization //============================================================
 
   RegisterClasses(
     [
@@ -7102,7 +7101,7 @@ initialization
 
   vStandartUniformAutoSetExecutor := TStandartUniformAutoSetExecutor.Create;
 
-finalization
+finalization //==============================================================
 
   vStandartUniformAutoSetExecutor.Destroy;
 

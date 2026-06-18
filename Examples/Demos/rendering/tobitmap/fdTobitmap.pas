@@ -21,10 +21,10 @@ uses
   GLS.HUDObjects,
   GLS.SpaceText,
  
-  GLS.Coordinates,
+  Stage.Coordinates,
   GLS.Graphics,
   Stage.Utils,
-  GLS.BaseClasses;
+  Stage.BaseClasses;
 
 type
   TForm1 = class(TForm)

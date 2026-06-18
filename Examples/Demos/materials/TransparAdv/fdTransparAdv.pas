@@ -18,15 +18,15 @@ uses
   Stage.VectorTypes,
   GLS.Context,
   GLS.State,
-  GLS.Color,
+  Stage.Color,
   GLS.Scene,
   GLS.Objects,
-  GLS.Coordinates,
+  Stage.Coordinates,
   GLS.FileJPEG,
   GLS.SimpleNavigation,
   GLS.Material,
   GLS.Cadencer,
-  GLS.BaseClasses,
+  Stage.BaseClasses,
   GLS.SceneViewer,
   GLSL.Shader,
   GLSL.CustomShader,
@@ -38,7 +38,7 @@ uses
   GLS.HUDObjects,
   GLS.BitmapFont,
   GLS.WindowsFont,
-  GLS.XCollection,
+  Stage.XCollection,
   Stage.Keyboard,
   GLS.CompositeImage,
 
@@ -132,11 +132,11 @@ end;
 //---------------------------------------------------------------------------
 procedure TFormTransparAdv.CreateShapes;
 const
-  vLtBlue: TGLColorVector = (X: 0.00; Y: 0.00; Z: 1.00; W:0.90);
-  vLtPink: TGLColorVector = (X: 0.40; Y:0.00; Z:0.20; W:0.50);
-  vLtYellow: TGLColorVector = (X: 0.98; Y:0.96; Z:0.14; W:0.30);
-  vLtMagenta: TGLColorVector = (X: 0.83; Y:0.04; Z:0.83; W:0.70);
-  vLtGreen: TGLColorVector = (X: 0.05; Y:0.98; Z:0.14; W:0.30);
+  vLtBlue: TGSColorVector = (X: 0.00; Y: 0.00; Z: 1.00; W:0.90);
+  vLtPink: TGSColorVector = (X: 0.40; Y:0.00; Z:0.20; W:0.50);
+  vLtYellow: TGSColorVector = (X: 0.98; Y:0.96; Z:0.14; W:0.30);
+  vLtMagenta: TGSColorVector = (X: 0.83; Y:0.04; Z:0.83; W:0.70);
+  vLtGreen: TGSColorVector = (X: 0.05; Y:0.98; Z:0.14; W:0.30);
 var
   vd: array [0 .. 3] of TGLVertexData;
 

@@ -1,6 +1,10 @@
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GBE.Heightmap;
 (*
   The TGBEHeightmap allows you to generate a heightmap.
+  RegisterComponents('GXScene GBE', [TGBEHeightmap]);
   Based on code by Gregory Bersegeay
 *)
 interface

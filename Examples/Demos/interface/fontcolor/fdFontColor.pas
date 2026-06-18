@@ -22,9 +22,9 @@ uses
   GLS.TimeEventsMgr,
   GLS.GeomObjects,
 
-  GLS.Coordinates,
+  Stage.Coordinates,
   Stage.Utils,
-  GLS.BaseClasses;
+  Stage.BaseClasses;
 
 type
   TFormFontColor = class(TForm)

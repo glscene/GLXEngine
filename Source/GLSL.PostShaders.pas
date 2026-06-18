@@ -1,9 +1,7 @@
-//
-// GLScene Graphics Engine
-//
-
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLSL.PostShaders;
-
 (*
   Post shaders that simulate shader visions for a mask or the entire scene:
     - TLSLPostBlurShader;
@@ -15,7 +13,6 @@ unit GLSL.PostShaders;
     - TGLSLPostFrostShader;
     - TGLSLPostTroubleShader;
 *)
-
 interface
 
 {$I Stage.Defines.inc}
@@ -1286,7 +1283,6 @@ begin
           if Index <> -1 then
             SetNoiseTexTexture(nil);
         end;
-
         FMaterialLibrary := nil;
       end;
 end;

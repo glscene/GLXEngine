@@ -25,8 +25,8 @@
 #include "GLS.Objects.hpp"
 #include "GLS.TerrainRenderer.hpp"
 #include "GLS.Scene.hpp"
-#include "GLS.BaseClasses.hpp"
-#include "GLS.Coordinates.hpp"
+#include "Stage.BaseClasses.hpp"
+#include "Stage.Coordinates.hpp"
 
 #include "GLS.Material.hpp"
 #include "GLS.FileMP3.hpp"

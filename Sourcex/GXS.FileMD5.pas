@@ -1,21 +1,23 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.FileMD5;
-
-(* Doom3 MD5 mesh and animation vector file format implementation *)
-
+(*
+  Doom3 MD5 mesh and animation vector file format implementation
+*)
 interface
 
 uses
   System.Classes,
   System.SysUtils,
+
   GXS.VectorFileObjects,
-  Stage.Utils,
   GXS.ApplicationFileIO,
+
+  Stage.Utils,
   Stage.VectorTypes,
   Stage.VectorGeometry,
-  GXS.VectorLists;
+  Stage.VectorLists;
 
 type
 
@@ -24,9 +26,9 @@ type
     FMD5String, FTempString, FBoneNames: TStringList;
     FCurrentPos: Integer;
     FBasePose: TgxSkeletonFrame;
-    FFramePositions: TgxAffineVectorList;
-    FFrameQuaternions: TgxQuaternionList;
-    FJointFlags: TgxIntegerList;
+    FFramePositions: TGSAffineVectorList;
+    FFrameQuaternions: TGSQuaternionList;
+    FJointFlags: TGSIntegerList;
     FNumFrames, FFirstFrame, FFrameRate, FNumJoints: Integer;
 
     function ReadLine: String;
@@ -39,14 +41,11 @@ type
 var
   vMD5TextureExtensions: TStringList;
 
-// ------------------------------------------------------------------
-implementation
-// ------------------------------------------------------------------
+implementation //============================================================
 
 // -----------
 // ----------- TgxMD5VectorFile -----------
 // -----------
-
 function TgxMD5VectorFile.ReadLine: String;
 begin
   Result := '';
@@ -200,18 +199,18 @@ procedure TgxMD5VectorFile.LoadFromStream(aStream: TStream);
     mesh: TgxSkeletonMeshObject;
     fg: TgxFGVertexIndexList;
     vnum, wnum, numverts, numweights: Integer;
-    VertexWeightID, VertexWeightCount, VertexBoneRef: TgxIntegerList;
-    VertexWeight: TgxSingleList;
-    VertexWeighted: TgxAffineVectorList;
+    VertexWeightID, VertexWeightCount, VertexBoneRef: TGSIntegerList;
+    VertexWeight: TGSSingleList;
+    VertexWeighted: TGSAffineVectorList;
     blendedVert, transformedVert: TAffineVector;
     i, j, k: Integer;
     mat: TMatrix4f;
   begin
-    VertexWeightID := TgxIntegerList.Create;
-    VertexWeightCount := TgxIntegerList.Create;
-    VertexBoneRef := TgxIntegerList.Create;
-    VertexWeight := TgxSingleList.Create;
-    VertexWeighted := TgxAffineVectorList.Create;
+    VertexWeightID := TGSIntegerList.Create;
+    VertexWeightCount := TGSIntegerList.Create;
+    VertexBoneRef := TGSIntegerList.Create;
+    VertexWeight := TGSSingleList.Create;
+    VertexWeighted := TGSAffineVectorList.Create;
 
     numverts := 0;
 
@@ -330,7 +329,7 @@ procedure TgxMD5VectorFile.LoadFromStream(aStream: TStream);
   begin
     if not Assigned(FJointFlags) then
     begin
-      FJointFlags := TgxIntegerList.Create;
+      FJointFlags := TGSIntegerList.Create;
       Assert(Owner.Skeleton.Frames.Count > 0,
         'The md5mesh file must be loaded before md5anim files!');
       FJointFlags.Count := Owner.Skeleton.Frames[0].Position.Count;
@@ -476,8 +475,8 @@ begin
         if (temp = 'numjoints') then
         begin
           FNumJoints := StrToInt(FTempString[1]);
-          FFramePositions := TgxAffineVectorList.Create;
-          FFrameQuaternions := TgxQuaternionList.Create;
+          FFramePositions := TGSAffineVectorList.Create;
+          FFrameQuaternions := TGSQuaternionList.Create;
           if Owner.Skeleton.Frames.Count = 0 then
           begin
             FBasePose := TgxSkeletonFrame.CreateOwned(Owner.Skeleton.Frames);
@@ -587,14 +586,7 @@ begin
   Add('.tga');
 end;
 
-// ------------------------------------------------------------------
-// ------------------------------------------------------------------
-// ------------------------------------------------------------------
-finalization
-
-// ------------------------------------------------------------------
-// ------------------------------------------------------------------
-// ------------------------------------------------------------------
+finalization //==============================================================
 
 vMD5TextureExtensions.Free;
 

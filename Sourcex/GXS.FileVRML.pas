@@ -1,10 +1,10 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.FileVRML;
-
-(* Preliminary VRML vector file support *)
-
+(*
+  Preliminary VRML vector file support
+*)
 interface
 
 uses
@@ -14,14 +14,13 @@ uses
 
   Stage.VectorTypes,
   Stage.VectorGeometry,
-  GXS.VectorLists,
+  Stage.VectorLists,
+  Stage.MeshUtils,
 
   GXS.ApplicationFileIO,
   GXS.VectorFileObjects,
   GXS.Material,
-  GXS.MeshUtils,
-
-  Formatx.VRML;
+  Formats.VRML;
 
 type
 
@@ -31,13 +30,10 @@ type
     procedure LoadFromStream(aStream: TStream); override;
   end;
 
-  // ------------------------------------------------------------------
-implementation
+implementation //============================================================
 
-// ------------------------------------------------------------------
-
-procedure TessellatePolygon(PolyVerts: TgxAffineVectorList;
-  PolyIndices, TriIndices: TgxIntegerList);
+procedure TessellatePolygon(PolyVerts: TGSAffineVectorList;
+  PolyIndices, TriIndices: TGSIntegerList);
 
   function IsPolyClockWise: Boolean;
   var
@@ -80,10 +76,10 @@ var
   i, j, prev, next, min_vert, min_prev, min_next: Integer;
   PolyCW, NoPointsInTriangle: Boolean;
   V: TAffineMatrix;
-  temp: TgxIntegerList;
+  temp: TGSIntegerList;
   min_dist, d, area: Single;
 begin
-  temp := TgxIntegerList.Create;
+  temp := TGSIntegerList.Create;
   try
     PolyCW := IsPolyClockWise;
     temp.Assign(PolyIndices);
@@ -242,12 +238,12 @@ var
     newfg: TgxFGVertexIndexList;
     fg: TFGVertexNormalTexIndexList;
     vertices, normals, texcoords, triNormals, newVertices, newNormals,
-      newTexCoords: TgxAffineVectorList;
-    optimized: TgxIntegerList;
+      newTexCoords: TGSAffineVectorList;
+    optimized: TGSIntegerList;
     cosAngle: Single;
     normal: TAffineVector;
     s, t: array [0 .. 2] of Integer;
-    n: array [0 .. 2] of TgxIntegerList;
+    n: array [0 .. 2] of TGSIntegerList;
     smooth, hasVertices, hasNormals, hasNormalIndices, hasTexCoords,
       hasTexCoordIndices: Boolean;
   begin
@@ -261,16 +257,16 @@ var
     if not hasVertices then
       Exit;
 
-    vertices := TgxAffineVectorList.Create;
-    normals := TgxAffineVectorList.Create;
-    texcoords := TgxAffineVectorList.Create;
-    newVertices := TgxAffineVectorList.Create;
-    newNormals := TgxAffineVectorList.Create;
-    newTexCoords := TgxAffineVectorList.Create;
-    triNormals := TgxAffineVectorList.Create;
-    n[0] := TgxIntegerList.Create;
-    n[1] := TgxIntegerList.Create;
-    n[2] := TgxIntegerList.Create;
+    vertices := TGSAffineVectorList.Create;
+    normals := TGSAffineVectorList.Create;
+    texcoords := TGSAffineVectorList.Create;
+    newVertices := TGSAffineVectorList.Create;
+    newNormals := TGSAffineVectorList.Create;
+    newTexCoords := TGSAffineVectorList.Create;
+    triNormals := TGSAffineVectorList.Create;
+    n[0] := TGSIntegerList.Create;
+    n[1] := TGSIntegerList.Create;
+    n[2] := TGSIntegerList.Create;
     for i := 0 to mesh.FaceGroups.Count - 1 do
     begin
       fg := TFGVertexNormalTexIndexList(mesh.FaceGroups[i]);
@@ -439,10 +435,10 @@ var
   procedure RecursNodes(node: TVRMLNode);
   var
     i, j, n: Integer;
-    points: TgxSingleList;
-    indices, fgindices: TgxIntegerList;
+    points: TGSSingleList;
+    indices, fgindices: TGSIntegerList;
     fg: TFGVertexNormalTexIndexList;
-    face: TgxIntegerList;
+    face: TGSIntegerList;
     tempLibMat: TgxLibMaterial;
     saveTransform, mat: TMatrix4f;
     saveMaterial: TgxLibMaterial;
@@ -524,7 +520,7 @@ var
     begin
       fg := TFGVertexNormalTexIndexList.CreateOwned(mesh.FaceGroups);
       mesh.Mode := momFaceGroups;
-      face := TgxIntegerList.Create;
+      face := TGSIntegerList.Create;
       if Assigned(currentMaterial) then
         fg.MaterialName := currentMaterial.Name;
       for n := 0 to node.Count - 1 do
@@ -604,10 +600,7 @@ begin
   end;
 end;
 
-// ------------------------------------------------------------------
-initialization
-
-// ------------------------------------------------------------------
+initialization //============================================================
 
 RegisterVectorFileFormat('wrl', 'VRML files', TgxVRMLVectorFile);
 

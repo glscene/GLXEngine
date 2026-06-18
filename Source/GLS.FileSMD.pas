@@ -1,26 +1,27 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.FileSMD;
-
-(* SMD vector file format implementation *)
-
+(*
+  SMD vector file format implementation
+*)
 interface
 
 uses
   System.Classes,
   System.SysUtils,
 
-  GLS.VectorFileObjects,
-  GLS.VectorLists,
-  GLS.Texture,
-  GLS.PersistentClasses,
-  GLS.ApplicationFileIO,
+  Stage.PersistentClasses,
   Stage.VectorTypes,
   Stage.VectorGeometry,
-  GLS.Material,
   Stage.Strings,
-  Stage.Utils;
+  Stage.Utils,
+  Stage.VectorLists,
+
+  GLS.VectorFileObjects,
+  GLS.Texture,
+  GLS.Material,
+  GLS.ApplicationFileIO;
 
 type
   (* The SMD vector file is Half-life's skeleton format.
@@ -31,7 +32,7 @@ type
     (the one with mesh data) be read first. *)
   TGLSMDVectorFile = class(TGLVectorFile)
   public
-    class function Capabilities: TGLDataFileCapabilities; override;
+    class function Capabilities: TGSDataFileCapabilities; override;
     procedure LoadFromStream(aStream: TStream); override;
     procedure SaveToStream(aStream: TStream); override;
   end;
@@ -44,7 +45,7 @@ implementation
 // ------------------ TGLSMDVectorFile ------------------
 // ------------------
 
-class function TGLSMDVectorFile.Capabilities: TGLDataFileCapabilities;
+class function TGLSMDVectorFile.Capabilities: TGSDataFileCapabilities;
 begin
   Result := [dfcRead, dfcWrite];
 end;

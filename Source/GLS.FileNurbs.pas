@@ -1,10 +1,10 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.FileNurbs;
-
-(* Loading Nurbs surfaces vector files. *)
-
+(*
+  Loading Nurbs surfaces vector files.
+*)
 interface
 
 uses
@@ -14,7 +14,7 @@ uses
   Stage.VectorTypes,
   GLS.VectorFileObjects,
   Stage.VectorGeometry,
-  GLS.VectorLists,
+  Stage.VectorLists,
   GLS.ApplicationFileIO,
   GLS.ParametricSurfaces,
   Stage.Utils;
@@ -23,7 +23,7 @@ type
 
   TGLNurbsVectorFile = class(TGLVectorFile)
   public
-    class function Capabilities: TGLDataFileCapabilities; override;
+    class function Capabilities: TGSDataFileCapabilities; override;
     procedure LoadFromStream(stream: TStream); override;
   end;
 
@@ -35,7 +35,7 @@ implementation
 // ------------------ TGLNurbsVectorFile ------------------
 // ------------------
 
-class function TGLNurbsVectorFile.Capabilities: TGLDataFileCapabilities;
+class function TGLNurbsVectorFile.Capabilities: TGSDataFileCapabilities;
 begin
   Result := [dfcRead];
 end;
@@ -53,7 +53,7 @@ procedure TGLNurbsVectorFile.LoadFromStream(stream: TStream);
   end;
 
   function ReadSingleArray(sl: TStrings; idx: Integer;
-    list: TGLSingleList): Integer;
+    list: TGSSingleList): Integer;
   var
     k: Integer;
     buf: String;
@@ -79,7 +79,7 @@ procedure TGLNurbsVectorFile.LoadFromStream(stream: TStream);
   end;
 
   function ReadVectorArray(sl: TStrings; idx: Integer;
-    list: TGLAffineVectorList): Integer;
+    list: TGSAffineVectorList): Integer;
   var
     buf: String;
     vals: TStringList;
@@ -110,7 +110,7 @@ var
   i, j: Integer;
   surface: TMOParametricSurface;
   invert: Boolean;
-  invControlPoints: TGLAffineVectorList;
+  invControlPoints: TGSAffineVectorList;
 begin
   ss := TStringStream.Create('');
   sl := TStringList.Create;
@@ -161,7 +161,7 @@ begin
 
     if invert then
     begin
-      invControlPoints := TGLAffineVectorList.Create;
+      invControlPoints := TGSAffineVectorList.Create;
       for i := surface.CountV - 1 downto 0 do
         for j := 0 to surface.CountU - 1 do
           invControlPoints.Add(surface.ControlPoints[i * surface.CountU + j]);

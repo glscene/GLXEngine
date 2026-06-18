@@ -4,6 +4,8 @@
 unit GLS.Atmosphere;
 (*
   This unit contains classes that imitate an atmosphere around a planet.
+  RegisterClasses([TGLCustomAtmosphere, TGLAtmosphere]);
+
   1) Eats a lot of CPU (reduces FPS from 1240 to 520 on my PC with cSlices=100)
   2) Alpha in LowAtmColor, HighAtmColor is ignored.
 *)
@@ -16,15 +18,16 @@ uses
   System.SysUtils,
   System.Classes,
 
+  Stage.VectorTypes,
   Stage.OpenGLTokens,
+  Stage.VectorGeometry,
+  Stage.Strings,
+  Stage.Color,
+
   GLS.Scene,
   GLS.Objects,
   GLS.Cadencer,
-  Stage.VectorTypes,
-  Stage.VectorGeometry,
   GLS.Context,
-  Stage.Strings,
-  GLS.Color,
   GLS.RenderContextInfo,
   GLS.State;
 
@@ -51,8 +54,8 @@ type
     FPlanetRadius: Single;
     FAtmosphereRadius: Single;
     FOpacity: Single;
-    FLowAtmColor: TGLColor;
-    FHighAtmColor: TGLColor;
+    FLowAtmColor: TGSColor;
+    FHighAtmColor: TGSColor;
     FSun: TGLBaseSceneObject;
     procedure SetSun(const Value: TGLBaseSceneObject);
     procedure SetAtmosphereRadius(const Value: Single);
@@ -62,8 +65,8 @@ type
     function StoreOpacity: Boolean;
     function StorePlanetRadius: Boolean;
     procedure SetSlices(const Value: Integer);
-    procedure SetLowAtmColor(const AValue: TGLColor);
-    procedure SetHighAtmColor(const AValue: TGLColor);
+    procedure SetLowAtmColor(const AValue: TGSColor);
+    procedure SetHighAtmColor(const AValue: TGSColor);
     function StoreLowAtmColor: Boolean;
     function StoreHighAtmColor: Boolean;
   protected
@@ -79,9 +82,9 @@ type
     property PlanetRadius: Single read FPlanetRadius write SetPlanetRadius
       stored StorePlanetRadius;
     // Use value slightly lower than actual radius, for antialiasing effect
-    property LowAtmColor: TGLColor read FLowAtmColor write SetLowAtmColor
+    property LowAtmColor: TGSColor read FLowAtmColor write SetLowAtmColor
       stored StoreLowAtmColor;
-    property HighAtmColor: TGLColor read FHighAtmColor write SetHighAtmColor
+    property HighAtmColor: TGSColor read FHighAtmColor write SetHighAtmColor
       stored StoreHighAtmColor;
     property BlendingMode: TGLAtmosphereBlendingMode read FBlendingMode
       write FBlendingMode default abmOneMinusSrcAlpha;
@@ -96,7 +99,7 @@ type
     procedure DoRender(var rci: TGLRenderContextInfo;
       renderSelf, renderChildren: Boolean); override;
     // Used to determine extents
-    function AxisAlignedDimensionsUnscaled: TGLVector; override;
+    function AxisAlignedDimensionsUnscaled: TGSVector; override;
   end;
 
   TGLAtmosphere = class(TGLCustomAtmosphere)
@@ -118,7 +121,7 @@ type
     property Effects;
   end;
 
-implementation //=====================================================
+implementation //============================================================
 
 const
   EPS = 0.0001;
@@ -126,23 +129,26 @@ const
     1 / 7, 1 / 8, 1 / 9, 1 / 10, 1 / 11, 1 / 12, 1 / 13, 1 / 14, 1 / 15, 1 / 16,
     1 / 17, 1 / 18, 1 / 19, 1 / 20);
 
+//---------------------------------------------------------------------------
 procedure TGLCustomAtmosphere.SetOptimalAtmosphere(const ARadius: Single);
 begin
   FAtmosphereRadius := ARadius + 0.25;
   FPlanetRadius := ARadius - 0.07;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLCustomAtmosphere.SetOptimalAtmosphere2(const ARadius: Single);
 begin
   FAtmosphereRadius := ARadius + ARadius / 15;
   FPlanetRadius := ARadius - ARadius / 50;
 end;
 
+//---------------------------------------------------------------------------
 constructor TGLCustomAtmosphere.Create(AOwner: TComponent);
 begin
   inherited;
-  FLowAtmColor := TGLColor.Create(Self);
-  FHighAtmColor := TGLColor.Create(Self);
+  FLowAtmColor := TGSColor.Create(Self);
+  FHighAtmColor := TGSColor.Create(Self);
   FOpacity := 2.1;
   SetSlices(60);
   FAtmosphereRadius := 3.55;
@@ -152,6 +158,7 @@ begin
   FBlendingMode := abmOneMinusSrcAlpha;
 end;
 
+//---------------------------------------------------------------------------
 destructor TGLCustomAtmosphere.Destroy;
 begin
   FreeAndNil(FLowAtmColor);
@@ -161,18 +168,19 @@ begin
   inherited;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLCustomAtmosphere.DoRender(var rci: TGLRenderContextInfo;
   renderSelf, renderChildren: Boolean);
 var
   radius, invAtmosphereHeight: Single;
-  sunPos, eyePos, lightingVector: TGLVector;
-  diskNormal, diskRight, diskUp: TGLVector;
+  sunPos, eyePos, lightingVector: TGSVector;
+  diskNormal, diskRight, diskUp: TGSVector;
 
-  function AtmosphereColor(const rayStart, rayEnd: TGLVector): TGLColorVector;
+  function AtmosphereColor(const rayStart, rayEnd: TGSVector): TGSColorVector;
   var
     I, n: Integer;
-    atmPoint, normal: TGLVector;
-    altColor: TGLColorVector;
+    atmPoint, normal: TGSVector;
+    altColor: TGSColorVector;
     alt, rayLength, contrib, decay, intensity, invN: Single;
   begin
     Result := clrTransparent;
@@ -212,11 +220,11 @@ var
     Result.W := n * contrib * Opacity * 0.1;
   end;
 
-  function ComputeColor(var rayDest: TGLVector; mayHitGround: Boolean)
-    : TGLColorVector;
+  function ComputeColor(var rayDest: TGSVector; mayHitGround: Boolean)
+    : TGSColorVector;
   var
-    ai1, ai2, pi1, pi2: TGLVector;
-    rayVector: TGLVector;
+    ai1, ai2, pi1, pi2: TGSVector;
+    rayVector: TGSVector;
   begin
     rayVector := VectorNormalize(VectorSubtract(rayDest, eyePos));
     if RayCastSphereIntersect(eyePos, rayVector, NullHmgPoint,
@@ -331,6 +339,7 @@ begin
   inherited;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLCustomAtmosphere.TogleBlendingMode;
 begin
   if FBlendingMode = abmOneMinusSrcAlpha then
@@ -339,6 +348,7 @@ begin
     FBlendingMode := abmOneMinusSrcAlpha;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLCustomAtmosphere.Assign(Source: TPersistent);
 begin
   inherited;
@@ -355,6 +365,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLCustomAtmosphere.SetSun(const Value: TGLBaseSceneObject);
 begin
   if FSun <> nil then
@@ -364,7 +375,8 @@ begin
     FSun.FreeNotification(Self);
 end;
 
-function TGLCustomAtmosphere.AxisAlignedDimensionsUnscaled: TGLVector;
+//---------------------------------------------------------------------------
+function TGLCustomAtmosphere.AxisAlignedDimensionsUnscaled: TGSVector;
 begin
   Result.X := FAtmosphereRadius;
   Result.Y := Result.X;
@@ -372,6 +384,7 @@ begin
   Result.W := 0;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLCustomAtmosphere.Notification(AComponent: TComponent;
   Operation: TOperation);
 begin
@@ -380,6 +393,7 @@ begin
     FSun := nil;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLCustomAtmosphere.SetAtmosphereRadius(const Value: Single);
 begin
   FAtmosphereRadius := Value;
@@ -387,6 +401,7 @@ begin
     FPlanetRadius := FAtmosphereRadius / 1.01;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLCustomAtmosphere.SetPlanetRadius(const Value: Single);
 begin
   FPlanetRadius := Value;
@@ -394,6 +409,7 @@ begin
     FAtmosphereRadius := FPlanetRadius * 1.01;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLCustomAtmosphere.EnableGLBlendingMode(StateCache: TGLStateCache);
 begin
   case FBlendingMode of
@@ -407,21 +423,25 @@ begin
   StateCache.Enable(stAlphaTest);
 end;
 
+//---------------------------------------------------------------------------
 function TGLCustomAtmosphere.StoreAtmosphereRadius: Boolean;
 begin
   Result := Abs(FAtmosphereRadius - 3.55) > EPS;
 end;
 
+//---------------------------------------------------------------------------
 function TGLCustomAtmosphere.StoreOpacity: Boolean;
 begin
   Result := Abs(FOpacity - 2.1) > EPS;
 end;
 
+//---------------------------------------------------------------------------
 function TGLCustomAtmosphere.StorePlanetRadius: Boolean;
 begin
   Result := Abs(FPlanetRadius - 3.395) > EPS;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLCustomAtmosphere.SetSlices(const Value: Integer);
 begin
   if Value > 0 then
@@ -431,23 +451,26 @@ begin
     SetLength(sinCache, FSlices + 1);
     PrepareSinCosCache(sinCache, cosCache, 0, 360);
 
-    GetMem(pVertex, 2 * (FSlices + 1) * SizeOf(TGLVector));
-    GetMem(pColor, 2 * (FSlices + 1) * SizeOf(TGLVector));
+    GetMem(pVertex, 2 * (FSlices + 1) * SizeOf(TGSVector));
+    GetMem(pColor, 2 * (FSlices + 1) * SizeOf(TGSVector));
   end
   else
     raise EGLAtmosphereException.Create('Slices must be more than0!');
 end;
 
-procedure TGLCustomAtmosphere.SetHighAtmColor(const AValue: TGLColor);
+//---------------------------------------------------------------------------
+procedure TGLCustomAtmosphere.SetHighAtmColor(const AValue: TGSColor);
 begin
   FHighAtmColor.Assign(AValue);
 end;
 
-procedure TGLCustomAtmosphere.SetLowAtmColor(const AValue: TGLColor);
+//---------------------------------------------------------------------------
+procedure TGLCustomAtmosphere.SetLowAtmColor(const AValue: TGSColor);
 begin
   FLowAtmColor.Assign(AValue);
 end;
 
+//---------------------------------------------------------------------------
 function TGLCustomAtmosphere.StoreHighAtmColor: Boolean;
 begin
   Result := not VectorEquals(FHighAtmColor.Color, VectorMake(0, 0, 1, 1));
@@ -458,9 +481,7 @@ begin
   Result := not VectorEquals(FLowAtmColor.Color, VectorMake(1, 1, 1, 1));
 end;
 
-// --------------------------------------
-initialization
-// --------------------------------------
+initialization //============================================================
 
 RegisterClasses([TGLCustomAtmosphere, TGLAtmosphere]);
 

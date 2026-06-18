@@ -24,10 +24,10 @@
 #include "GLS.Scene.hpp"
 #include "GLS.Cadencer.hpp"
 #include "GLS.SceneViewer.hpp"
-#include "GLS.BaseClasses.hpp"
+#include "Stage.BaseClasses.hpp"
 #include "GLS.Objects.hpp"
 #include "GLS.BitmapFont.hpp"
-#include "GLS.Coordinates.hpp"
+#include "Stage.Coordinates.hpp"
 #include "GLS.HeightData.hpp"
 #include "GLS.HeightTileFileHDS.hpp"
 #include "GLS.HUDObjects.hpp"
@@ -36,7 +36,7 @@
 #include "GLS.SkyDome.hpp"
 #include "GLS.TerrainRenderer.hpp"
 
-#include "GLS.VectorLists.hpp"
+#include "Stage.VectorLists.hpp"
 #include "GLS.VectorFileObjects.hpp"
 #include "GLS.WindowsFont.hpp"
 
@@ -94,9 +94,9 @@ public:		// User declarations
 	bool WasAboveWater;
 	float HelpOpacity;
 
-	TGLAffineVectorList *WakeVertices;
-	TGLAffineVectorList *WakeStretch;
-	TGLSingleList *WakeTime;
+	TGSAffineVectorList *WakeVertices;
+	TGSAffineVectorList *WakeStretch;
+	TGSSingleList *WakeTime;
 	void ResetMousePos(void);
 	float WaterPhase(const float px, const float py);
 	float WaterHeight(const float px, const float py);

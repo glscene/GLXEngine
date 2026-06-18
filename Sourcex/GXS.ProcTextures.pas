@@ -1,10 +1,11 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.ProcTextures;
-
-(* Procedural textures *)
-
+(*
+  Procedural textures
+  RegisterTextureImageClass(TgxProcTextureNoise);
+*)
 interface
 
 uses
@@ -14,11 +15,10 @@ uses
   System.Math,
 
   Stage.VectorGeometry,
-  Stage.Strings,
+  Stage.TextureFormat,
 
   GXS.Texture,
-  GXS.Graphics,
-  Stage.TextureFormat;
+  GXS.Graphics;
 
 const
   GRADIENT_TABLE_SIZE = 256;
@@ -721,9 +721,7 @@ begin
   PERM[255] := 52;
 end;
 
-// ------------------------------------------------------------------
-initialization
-// ------------------------------------------------------------------
+initialization //============================================================
 
   RegisterTextureImageClass(TgxProcTextureNoise);
 

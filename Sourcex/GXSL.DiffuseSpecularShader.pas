@@ -1,8 +1,7 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXSL.DiffuseSpecularShader;
-
 (*
     This is a collection of GLSL Diffuse Specular shaders, comes in these variaties
               (to know what these suffixes and prefixes mean see GXS.CustomShader.pas):
@@ -18,7 +17,6 @@ unit GXSL.DiffuseSpecularShader;
      2) TgxSLDiffuseSpecularShader takes all Light parameters directly
       from OpenGL (that includes TgxLightSource's)
 *)
-
 interface
 
 {$I Stage.Defines.inc}
@@ -27,9 +25,9 @@ uses
   System.Classes,
   System.SysUtils,
 
-  GXS.PersistentClasses,
+  Stage.PersistentClasses,
   Stage.VectorGeometry,
-  GXS.Color,
+  Stage.Color,
   Stage.Strings,
 
   GXS.Scene,
@@ -155,7 +153,7 @@ type
     property FogSupport;
   end;
 
-implementation //--------------------------------------------------------------
+implementation //============================================================
 
 procedure GetVertexProgramCode(const Code: TStrings;
   AFogSupport: Boolean; var rci: TgxRenderContextInfo);
@@ -801,7 +799,8 @@ begin
   inherited;
 end;
 
-initialization
+initialization //============================================================
+
   RegisterClasses([
                   TgxCustomGLSLDiffuseSpecularShader,
                   TgxCustomGLSLDiffuseSpecularShaderMT,

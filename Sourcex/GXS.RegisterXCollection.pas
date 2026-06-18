@@ -17,7 +17,7 @@ uses
   DesignIntf,
   DesignEditors,
   }
-  GXS.XCollection;
+  Stage.XCollection;
 
 type
   TPropertyAttribute = (paValueList, paSubProperties, paDialog, paMultiSelect,

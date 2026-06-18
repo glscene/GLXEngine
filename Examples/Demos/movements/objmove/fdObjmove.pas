@@ -26,10 +26,10 @@ uses
   GLS.SceneViewer,
   GLS.SpaceText,
   GLS.GeomObjects,
-  GLS.Color,
+  Stage.Color,
 
-  GLS.Coordinates,
-  GLS.BaseClasses,
+  Stage.Coordinates,
+  Stage.BaseClasses,
   GLS.BitmapFont,
   GLS.WindowsFont,
   GLS.HUDObjects;
@@ -70,17 +70,17 @@ type
     procedure ShowAxesClick(Sender: TObject);
     procedure ButtonResetClick(Sender: TObject);
   private
-    lastMouseWorldPos: TGLVector;
+    lastMouseWorldPos: TGSVector;
     movingOnZ: Boolean;
     CurrentPick: TGLCustomSceneObject;
     SceneMouseMoveCnt: Integer;
-    function MouseWorldPos(X, Y: Integer): TGLVector;
+    function MouseWorldPos(X, Y: Integer): TGSVector;
     procedure UpdateHUDText;
     procedure ProcessPick(pick: TGLBaseSceneObject);
   end;
 
 const
-  SelectionColor: TGLColorVector = (X : 0.243; Y : 0.243; Z: 0.243; W : 1.000);
+  SelectionColor: TGSColorVector = (X : 0.243; Y : 0.243; Z: 0.243; W : 1.000);
 
 var
   FormObjmove: TFormObjmove;
@@ -98,9 +98,9 @@ end;
 
 //------------------------------------------------------------------
 
-function TFormObjmove.MouseWorldPos(X, Y: Integer): TGLVector;
+function TFormObjmove.MouseWorldPos(X, Y: Integer): TGSVector;
 var
-  v: TGLVector;
+  v: TGSVector;
 begin
   Y := Scene.Height - Y;
   if Assigned(CurrentPick) then
@@ -165,7 +165,7 @@ end;
 procedure TFormObjmove.SceneMouseMove(Sender: TObject; Shift: TShiftState;
   X, Y: Integer);
 var
-  newPos: TGLVector;
+  newPos: TGSVector;
 begin
   Inc(SceneMouseMoveCnt);
   Assert(SceneMouseMoveCnt < 2);

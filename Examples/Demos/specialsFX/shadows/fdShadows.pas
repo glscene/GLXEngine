@@ -18,7 +18,7 @@ uses
   
   Stage.VectorTypes, 
   Stage.VectorGeometry, 
-  GLS.BaseClasses,
+  Stage.BaseClasses,
   GLS.Scene, 
   GLS.Graph, 
   GLS.Objects, 
@@ -31,7 +31,7 @@ uses
   GLS.SceneViewer, 
   GLS.GeomObjects,
   GLS.Material, 
-  GLS.Coordinates, 
+  Stage.Coordinates, 
   GLS.Behaviours, 
   Stage.Utils;
 

@@ -1,15 +1,15 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.ShadowVolume;
-
 (*
    Implements basic shadow volumes support.
+   RegisterClasses([TGLShadowVolume]);
+
    Be aware that only objects that support silhouette determination have a chance
    to cast correct shadows. Transparent/blended/shader objects among the receivers
    or the casters will be rendered incorrectly.
 *)
-
 interface
 
 {$I Stage.Defines.inc}
@@ -20,28 +20,26 @@ uses
   System.SysUtils,
 
   Stage.OpenGLTokens,
-  GLS.Scene,
+  Stage.VectorTypes,
   Stage.VectorGeometry,
-  GLS.Context,
-  GLS.Silhouette,
-  GLS.PersistentClasses,
-  GLS.Coordinates,
+  Stage.PersistentClasses,
   Stage.PipelineTransform,
-  GLS.GeometryBB,
-  GLS.Color,
+  Stage.VectorLists,
+  Stage.Silhouette,
+  Stage.Coordinates,
+  Stage.GeometryBB,
+  Stage.Color,
+  Stage.Logger,
+
+  GLS.Scene,
+  GLS.Context,
   GLS.Selection,
   GLS.RenderContextInfo,
-  GLS.VectorLists,
-  GLS.State,
-  Stage.VectorTypes,
-  Stage.Logger;
-
+  GLS.State;
 
 type
-
   TGLShadowVolume = class;
-
-  (*
+ (*
    Determines when a shadow volume should generate a cap at the beginning and
    end of the volume. This is ONLY necessary when there's a chance that the
    camera could end up inside the shadow _or_ between the light source and
@@ -119,14 +117,16 @@ type
   // Specifies an individual shadow casting light.
   TGLShadowVolumeLight = class(TGLShadowVolumeCaster)
   private
-    FSilhouettes: TGLPersistentObjectList;
+    FSilhouettes: TGSPersistentObjectList;
   protected
     function GetLightSource: TGLLightSource;
     procedure SetLightSource(const ls: TGLLightSource);
-    function GetCachedSilhouette(AIndex: Integer): TGLSilhouette; inline;
-    procedure StoreCachedSilhouette(AIndex: Integer; ASil: TGLSilhouette);
-    {Compute and setup scissor clipping rect for the light.
-       Returns true if a scissor rect was setup }
+    function GetCachedSilhouette(AIndex: Integer): TGSSilhouette; inline;
+    procedure StoreCachedSilhouette(AIndex: Integer; ASil: TGSSilhouette);
+    (*
+     Compute and setup scissor clipping rect for the light.
+     Returns true if a scissor rect was setup
+    *)
     function SetupScissorRect(worldAABB: PAABB; var rci: TGLRenderContextInfo): Boolean;
   public
     constructor Create(ACollection: TCollection); override;
@@ -198,7 +198,7 @@ type
     FCapping: TGLShadowVolumeCapping;
     FOptions: TGLShadowVolumeOptions;
     FMode: TGLShadowVolumeMode;
-    FDarkeningColor: TGLColor;
+    FDarkeningColor: TGSColor;
   protected
     procedure Notification(AComponent: TComponent; Operation: TOperation); override;
     procedure SetActive(const val: Boolean);
@@ -206,7 +206,7 @@ type
     procedure SetOccluders(const val: TGLShadowVolumeCasters);
     procedure SetOptions(const val: TGLShadowVolumeOptions);
     procedure SetMode(const val: TGLShadowVolumeMode);
-    procedure SetDarkeningColor(const val: TGLColor);
+    procedure SetDarkeningColor(const val: TGSColor);
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
@@ -233,17 +233,14 @@ type
     // Shadow rendering mode.
     property Mode: TGLShadowVolumeMode read FMode write SetMode default svmAccurate;
     // Darkening color used in svmDarkening mode.
-    property DarkeningColor: TGLColor read FDarkeningColor write SetDarkeningColor;
+    property DarkeningColor: TGSColor read FDarkeningColor write SetDarkeningColor;
   end;
 
-//-------------------------------------------------------------
-implementation
-//-------------------------------------------------------------
+implementation //============================================================
 
 // ------------------
 // ------------------ TGLShadowVolumeCaster ------------------
 // ------------------
-
 constructor TGLShadowVolumeCaster.Create(ACollection: TCollection);
 begin
   inherited Create(ACollection);
@@ -255,11 +252,13 @@ type
   // Required for Delphi 5 support ?
   THackOwnedCollection = class(TOwnedCollection);
 
+//---------------------------------------------------------------------------
 function TGLShadowVolumeCaster.GetGLShadowVolume: TGLShadowVolume;
 begin
   Result := TGLShadowVolume(THackOwnedCollection(Collection).GetOwner);
 end;
 
+//---------------------------------------------------------------------------
 destructor TGLShadowVolumeCaster.Destroy;
 begin
   if Assigned(FCaster) then
@@ -267,6 +266,7 @@ begin
   inherited;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLShadowVolumeCaster.Assign(Source: TPersistent);
 begin
   if Source is TGLShadowVolumeCaster then
@@ -279,6 +279,7 @@ begin
   inherited;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLShadowVolumeCaster.SetCaster(const val: TGLBaseSceneObject);
 begin
   if FCaster <> val then
@@ -292,6 +293,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLShadowVolumeCaster.RemoveNotification(aComponent: TComponent);
 begin
   if aComponent = FCaster then
@@ -303,6 +305,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 function TGLShadowVolumeCaster.GetDisplayName: string;
 begin
   if Assigned(FCaster) then
@@ -322,11 +325,10 @@ end;
 // ------------------
 // ------------------ TGLShadowVolumeLight ------------------
 // ------------------
-
 constructor TGLShadowVolumeLight.Create(ACollection: TCollection);
 begin
   inherited Create(ACollection);
-  FSilhouettes := TGLPersistentObjectList.Create;
+  FSilhouettes := TGSPersistentObjectList.Create;
 end;
 
 destructor TGLShadowVolumeLight.Destroy;
@@ -352,16 +354,16 @@ begin
 end;
 
 function TGLShadowVolumeLight.GetCachedSilhouette(AIndex: Integer):
-  TGLSilhouette;
+  TGSSilhouette;
 begin
   if AIndex < FSilhouettes.Count then
-    Result := TGLSilhouette(FSilhouettes[AIndex])
+    Result := TGSSilhouette(FSilhouettes[AIndex])
   else
     Result := nil;
 end;
 
 procedure TGLShadowVolumeLight.StoreCachedSilhouette(AIndex: Integer; ASil:
-  TGLSilhouette);
+  TGSSilhouette);
 begin
   while AIndex >= FSilhouettes.Count do
     FSilhouettes.Add(nil);
@@ -376,10 +378,10 @@ end;
 function TGLShadowVolumeLight.SetupScissorRect(worldAABB: PAABB; var rci:
   TGLRenderContextInfo): Boolean;
 var
-  mvp: TGLMatrix;
+  mvp: TGSMatrix;
   ls: TGLLightSource;
   aabb: TAABB;
-  clipRect: TGClipRect;
+  clipRect: TGSClipRect;
 begin
   ls := LightSource;
   if (EffectiveRadius <= 0) or (not ls.Attenuated) then
@@ -496,7 +498,7 @@ begin
   FCapping := svcAlways;
   FMode := svmAccurate;
   FOptions := [svoCacheSilhouettes, svoScissorClips];
-  FDarkeningColor := TGLColor.CreateInitialized(Self, VectorMake(0, 0, 0, 0.5));
+  FDarkeningColor := TGSColor.CreateInitialized(Self, VectorMake(0, 0, 0, 0.5));
 end;
 
 destructor TGLShadowVolume.Destroy;
@@ -581,7 +583,7 @@ begin
   end;
 end;
 
-procedure TGLShadowVolume.SetDarkeningColor(const val: TGLColor);
+procedure TGLShadowVolume.SetDarkeningColor(const val: TGSColor);
 begin
   FDarkeningColor.Assign(val);
 end;
@@ -627,15 +629,15 @@ var
   i, k: Integer;
   lightSource: TGLLightSource;
   lightCaster: TGLShadowVolumeLight;
-  sil: TGLSilhouette;
+  sil: TGSSilhouette;
   lightID: Cardinal;
   obj: TGLBaseSceneObject;
   caster: TGLShadowVolumeCaster;
   opaques, opaqueCapping: TList;
-  silParams: TGLSilhouetteParameters;
+  silParams: TGSSilhouetteParameters;
   worldAABB: TAABB;
   pWorldAABB: PAABB;
-  PM: TGLMatrix;
+  PM: TGSMatrix;
 begin
   if not Active then
   begin
@@ -947,9 +949,7 @@ begin
   end;
 end;
 
-//-------------------------------------------------------------
-initialization
-//-------------------------------------------------------------
+initialization //============================================================
 
   RegisterClasses([TGLShadowVolume]);
 

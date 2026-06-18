@@ -1,14 +1,12 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.BumpmapHDS;
-
 (*
   Implements a HDS that automatically generates an elevation bumpmap.
   The object-space elevation bumpmap can be used for dynamic terrain lighting.
   A bumpmap texture is generated for each terrain tile, and placed into a TgxMaterialLibrary.
 *)
-
 interface
 
 {$I Stage.Defines.inc}
@@ -20,7 +18,7 @@ uses
 
   GXS.HeightData,
   GXS.Graphics,
-  GXS.Coordinates,
+  Stage.Coordinates,
   Stage.VectorGeometry,
   Stage.Utils,
   GXS.Texture,
@@ -95,9 +93,7 @@ type
     property OnSourceDataFetched;
   end;
 
-// ------------------------------------------------------------------
-implementation
-// ------------------------------------------------------------------
+implementation //============================================================
 
 const
   cDefaultBumpScale = 0.01;

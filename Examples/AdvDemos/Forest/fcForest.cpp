@@ -6,10 +6,10 @@
 #include "fcForest.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
-#pragma link "GLS.BaseClasses"
+#pragma link "Stage.BaseClasses"
 #pragma link "GLS.BitmapFont"
 #pragma link "GLS.Cadencer"
-#pragma link "GLS.Coordinates"
+#pragma link "Stage.Coordinates"
 #pragma link "GLS.HeightData"
 #pragma link "GLS.HeightTileFileHDS"
 #pragma link "GLS.HUDObjects"
@@ -117,7 +117,7 @@ __fastcall TForm1::TForm1(TComponent* Owner)
 void __fastcall TForm1::addTree()
 {
 	TGLFreeForm* tree;
-	TGLVector s;
+	TGSVector s;
 	float f;
 	int x[16] = { -230, -300, -400, -430, -437, -444, -460, -482, -350, -270,
 		-500, -285, -600, -620, -635, -642 };
@@ -195,7 +195,7 @@ void __fastcall TForm1::GLCadencerProgress(TObject *Sender, const double DeltaTi
 {
 	float Speed, Alpha, f;
 	float TerrainHeight, SurfaceHeight;
-	TGLVector Sbp;
+	TGSVector Sbp;
 	POINT NewMousePos;
 
 	if (shark1Pos) {
@@ -252,7 +252,7 @@ void __fastcall TForm1::GLCadencerProgress(TObject *Sender, const double DeltaTi
 		}
 	}
 
-	TGLVector housePos = GLHouse->AbsolutePosition;
+	TGSVector housePos = GLHouse->AbsolutePosition;
 	const float circleRadius = 150.0f; // flying radius
 	const float flightHeight = 100.0f; // height over house
 	const float gullSpeed = 0.5f;      // velocity of flying
@@ -586,11 +586,11 @@ void __fastcall TForm1::TerrainHeightDataPostRender(TGLRenderContextInfo &rci,
 void __fastcall TForm1::DOWakeProgress(TObject *Sender, const double DeltaTime, const double NewTime)
 {
 	int i;
-	TGLVector sbp, sbr;
+	TGSVector sbp, sbr;
 	if (WakeVertices == NULL) {
-		WakeVertices = new TGLAffineVectorList();
-		WakeStretch = new TGLAffineVectorList();
-		WakeTime = new TGLSingleList();
+		WakeVertices = new TGSAffineVectorList();
+		WakeStretch = new TGSAffineVectorList();
+		WakeTime = new TGSSingleList();
 	}
 	i = 0;
 	while (i < WakeVertices->Count) {
@@ -626,7 +626,7 @@ void __fastcall TForm1::DOWakeRender(TObject *Sender, TGLRenderContextInfo &rci)
 {
 	int i, n;
 	TVector3f p;
-	TGLVector sbp;
+	TGSVector sbp;
 	float c;
 
 	if (!(WakeVertices) && (!((FFSailBoat->Visible) || (WaterPlane)))) {

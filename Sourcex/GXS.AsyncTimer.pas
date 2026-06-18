@@ -1,6 +1,6 @@
-//
-// GXScene Graphics Engine
-//
+(*****************************************************************************
+                          GXScene Graphics Engine
+******************************************************************************)
 unit GXS.AsyncTimer;
 (*
   Asynchronous timer component (actual 1 ms resolution).

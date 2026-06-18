@@ -1,6 +1,6 @@
-//
-// GXStage Graphics Engine
-//
+(*****************************************************************************
+                          GLStage Graphics Engine
+******************************************************************************)
 unit Stage.Keyboard;
 (*
   Provides on demand state of any key on the keyboard as well as a set of
@@ -64,7 +64,7 @@ procedure KeyboardNotifyWheelMoved(wheelDelta: Integer);
 var
   vLastWheelDelta: Integer;
 
-implementation // ------------------------------------------------------------
+implementation //============================================================
 
 const
   cLBUTTON = 'Left Mouse Button';
@@ -103,6 +103,7 @@ const
   c7 = '/';
   c8 = '\';
 
+//---------------------------------------------------------------------------
 function IsKeyDown(c: Char): Boolean;
 var
   vk: Integer;
@@ -115,6 +116,7 @@ begin
     Result := False;
 end;
 
+//---------------------------------------------------------------------------
 function IsKeyDown(vk: TVirtualKeyCode): Boolean;
 begin
   case vk of
@@ -136,6 +138,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 function KeyPressed(minVkCode: TVirtualKeyCode = 0): TVirtualKeyCode;
 var
   i: Integer;
@@ -164,6 +167,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 function VirtualKeyCodeToKeyName(vk: TVirtualKeyCode): String;
 var
   nSize: Integer;
@@ -228,6 +232,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 function KeyNameToVirtualKeyCode(const keyName: String): TVirtualKeyCode;
 var
   i: Integer;
@@ -244,6 +249,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 function CharToVirtualKeyCode(c: Char): TVirtualKeyCode;
 begin
   Result := VkKeyScan(c) and $FF;
@@ -251,6 +257,7 @@ begin
     Result := -1;
 end;
 
+//---------------------------------------------------------------------------
 procedure KeyboardNotifyWheelMoved(wheelDelta: Integer);
 begin
   vLastWheelDelta := wheelDelta;

@@ -1,6 +1,6 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.FileSTL;
 (*
   Support-code to load STL Files into TGLFreeForm-Components in GLScene.
@@ -23,7 +23,7 @@ uses
 
   Stage.VectorTypes,
   Stage.VectorGeometry,
-  GLS.VectorLists,
+  Stage.VectorLists,
   GLS.VectorFileObjects,
   Stage.Utils;
 
@@ -47,7 +47,7 @@ type
 
   TGLSTLVectorFile = class(TGLVectorFile)
   public
-    class function Capabilities: TGLDataFileCapabilities; override;
+    class function Capabilities: TGSDataFileCapabilities; override;
     procedure LoadFromStream(aStream: TStream); override;
     procedure SaveToStream(aStream: TStream); override;
   end;
@@ -77,7 +77,7 @@ const
 // ------------------ TGLSTLVectorFile ------------------
 // ------------------
 
-class function TGLSTLVectorFile.Capabilities: TGLDataFileCapabilities;
+class function TGLSTLVectorFile.Capabilities: TGSDataFileCapabilities;
 begin
    Result := [dfcRead, dfcWrite];
 end;
@@ -284,7 +284,7 @@ var
   I: Integer;
   DataFace: TSTLFace;
   Header: TSTLHeader;
-  List: TGLAffineVectorList;
+  List: TGSAffineVectorList;
 const
   cHeaderTag = 'STL export';
 begin

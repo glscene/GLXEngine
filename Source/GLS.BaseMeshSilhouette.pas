@@ -1,23 +1,25 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.BaseMeshSilhouette;
-
-(* Silhouette classes for GLBaseMesh and FaceGroups. *)
-
+(*
+  Silhouette classes for GLBaseMesh and FaceGroups
+*)
 interface
 
 {$I Stage.Defines.inc}
 
 uses
-  System.Classes, 
-  Stage.VectorGeometry, 
-  GLS.VectorLists, 
-  GLS.VectorFileObjects, 
-  GLS.Silhouette;
+  System.Classes,
+
+  Stage.VectorGeometry,
+  Stage.VectorLists,
+  Stage.Silhouette,
+
+  GLS.VectorFileObjects;
 
 type
-  TGLFaceGroupConnectivity = class(TGLConnectivity)
+  TGLFaceGroupConnectivity = class(TGSConnectivity)
   private
     FMeshObject: TGLMeshObject;
     FOwnsVertices: boolean;
@@ -32,7 +34,7 @@ type
     destructor Destroy; override;
   end;
 
-  TGLBaseMeshConnectivity = class(TGLBaseConnectivity)
+  TGLBaseMeshConnectivity = class(TGSBaseConnectivity)
   private
     FBaseMesh: TGLBaseMesh;
     FFaceGroupConnectivityList: TList;
@@ -49,24 +51,21 @@ type
     procedure Clear(SaveFaceGroupConnectivity: boolean);
     // Builds the connectivity information.
     procedure RebuildEdgeList;
-    procedure CreateSilhouette(const silhouetteParameters: TGLSilhouetteParameters; var aSilhouette: TGLSilhouette;
+    procedure CreateSilhouette(const silhouetteParameters: TGSSilhouetteParameters; var aSilhouette: TGSSilhouette;
 	  AddToSilhouette: boolean); override;
     constructor Create(APrecomputeFaceNormal: boolean); override;
     constructor CreateFromMesh(aBaseMesh: TGLBaseMesh);
     destructor Destroy; override;
   end;
 
-//==============================================================================
-implementation
-//==============================================================================
+implementation //============================================================
 
 uses
-  GLS.PersistentClasses;
+  Stage.PersistentClasses;
 
 // ------------------
 // ------------------ TGLFaceGroupConnectivity ------------------
 // ------------------
-
 procedure TGLFaceGroupConnectivity.Clear;
   begin
     if Assigned(FVertices) then
@@ -83,12 +82,14 @@ procedure TGLFaceGroupConnectivity.Clear;
       inherited;
   end;
 
+//---------------------------------------------------------------------------
 constructor TGLFaceGroupConnectivity.Create(APrecomputeFaceNormal: boolean);
   begin
     inherited;
     FOwnsVertices := true;
   end;
 
+//---------------------------------------------------------------------------
 procedure TGLFaceGroupConnectivity.SetMeshObject(const Value: TGLMeshObject);
   begin
     Clear;
@@ -100,12 +101,14 @@ procedure TGLFaceGroupConnectivity.SetMeshObject(const Value: TGLMeshObject);
     RebuildEdgeList;
   end;
 
+//---------------------------------------------------------------------------
 constructor TGLFaceGroupConnectivity.CreateFromMesh(aMeshObject: TGLMeshObject; APrecomputeFaceNormal: boolean);
   begin
     Create(APrecomputeFaceNormal);
     MeshObject := aMeshObject;
   end;
 
+//---------------------------------------------------------------------------
 destructor TGLFaceGroupConnectivity.Destroy;
   begin
     if FOwnsVertices then
@@ -114,6 +117,7 @@ destructor TGLFaceGroupConnectivity.Destroy;
     inherited;
   end;
 
+//---------------------------------------------------------------------------
 procedure TGLFaceGroupConnectivity.RebuildEdgeList;
   var
     iFaceGroup, iFace, iVertex: integer;
@@ -163,7 +167,6 @@ procedure TGLFaceGroupConnectivity.RebuildEdgeList;
 // ------------------
 // ------------------ TGLBaseMeshConnectivity ------------------
 // ------------------
-
 procedure TGLBaseMeshConnectivity.RebuildEdgeList;
   var
     i: integer;
@@ -172,6 +175,7 @@ procedure TGLBaseMeshConnectivity.RebuildEdgeList;
       FaceGroupConnectivity[i].RebuildEdgeList;
   end;
 
+//---------------------------------------------------------------------------
 procedure TGLBaseMeshConnectivity.Clear(SaveFaceGroupConnectivity: boolean);
   var
     i: integer;
@@ -190,18 +194,21 @@ procedure TGLBaseMeshConnectivity.Clear(SaveFaceGroupConnectivity: boolean);
     end;
   end;
 
+//---------------------------------------------------------------------------
 constructor TGLBaseMeshConnectivity.Create(APrecomputeFaceNormal: boolean);
   begin
     FFaceGroupConnectivityList := TList.Create;
     inherited;
   end;
 
+//---------------------------------------------------------------------------
 constructor TGLBaseMeshConnectivity.CreateFromMesh(aBaseMesh: TGLBaseMesh);
   begin
     Create(not(aBaseMesh is TGLActor));
     BaseMesh := aBaseMesh;
   end;
 
+//---------------------------------------------------------------------------
 procedure TGLBaseMeshConnectivity.SetBaseMesh(const Value: TGLBaseMesh);
   var
     i: integer;
@@ -224,19 +231,21 @@ procedure TGLBaseMeshConnectivity.SetBaseMesh(const Value: TGLBaseMesh);
     end;
   end;
 
-procedure TGLBaseMeshConnectivity.CreateSilhouette(const silhouetteParameters: TGLSilhouetteParameters; 
-  var aSilhouette: TGLSilhouette; AddToSilhouette: boolean);
+//---------------------------------------------------------------------------
+procedure TGLBaseMeshConnectivity.CreateSilhouette(const silhouetteParameters: TGSSilhouetteParameters;
+  var aSilhouette: TGSSilhouette; AddToSilhouette: boolean);
 var
   i: integer;
 begin
   if aSilhouette = nil then
-    aSilhouette := TGLSilhouette.Create
+    aSilhouette := TGSSilhouette.Create
   else
     aSilhouette.Flush;
   for i := 0 to ConnectivityCount - 1 do
     FaceGroupConnectivity[i].CreateSilhouette(silhouetteParameters, aSilhouette, true);
 end;
 
+//---------------------------------------------------------------------------
 destructor TGLBaseMeshConnectivity.Destroy;
   begin
     Clear(false);
@@ -244,11 +253,13 @@ destructor TGLBaseMeshConnectivity.Destroy;
     inherited;
   end;
 
+//---------------------------------------------------------------------------
 function TGLBaseMeshConnectivity.GetConnectivityCount: integer;
   begin
     result := FFaceGroupConnectivityList.Count;
   end;
 
+//---------------------------------------------------------------------------
 function TGLBaseMeshConnectivity.GetEdgeCount: integer;
   var
     i: integer;
@@ -258,6 +269,7 @@ function TGLBaseMeshConnectivity.GetEdgeCount: integer;
       result := result + FaceGroupConnectivity[i].EdgeCount;
   end;
 
+//---------------------------------------------------------------------------
 function TGLBaseMeshConnectivity.GetFaceCount: integer;
   var
     i: integer;
@@ -267,9 +279,11 @@ function TGLBaseMeshConnectivity.GetFaceCount: integer;
       result := result + FaceGroupConnectivity[i].FaceCount;
   end;
 
+//---------------------------------------------------------------------------
 function TGLBaseMeshConnectivity.GetFaceGroupConnectivity(i: integer): TGLFaceGroupConnectivity;
   begin
     result := TGLFaceGroupConnectivity(FFaceGroupConnectivityList[i]);
   end;
 
+//---------------------------------------------------------------------------
 end.

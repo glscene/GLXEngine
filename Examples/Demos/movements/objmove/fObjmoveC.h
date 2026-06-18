@@ -22,10 +22,10 @@
 #include "GLS.SceneViewer.hpp"
 #include "GLS.SpaceText.hpp"
 #include "GLS.GeomObjects.hpp"
-#include "GLS.Color.hpp"
+#include "Stage.Color.hpp"
 
-#include "GLS.Coordinates.hpp"
-#include "GLS.BaseClasses.hpp"
+#include "Stage.Coordinates.hpp"
+#include "Stage.BaseClasses.hpp"
 #include "GLS.BitmapFont.hpp"
 #include "GLS.WindowsFont.hpp"
 #include "GLS.HUDObjects.hpp"
@@ -68,11 +68,11 @@ __published:	// IDE-managed Components
 	void __fastcall FormKeyUp(TObject *Sender, WORD &Key, TShiftState Shift);
 
 private:	// User declarations
-	TGLVector lastMouseWorldPos;
+	TGSVector lastMouseWorldPos;
 	bool movingOnZ;
 	TGLCustomSceneObject *CurrentPick;
 	int SceneMouseMoveCnt;
-	TGLVector __fastcall MouseWorldPos(int X, int Y);
+	TGSVector __fastcall MouseWorldPos(int X, int Y);
 	void __fastcall UpdateHUDText();
 	void __fastcall ProcessPick(TGLBaseSceneObject* pick);
 public:		// User declarations

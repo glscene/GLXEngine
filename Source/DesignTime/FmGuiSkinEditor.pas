@@ -32,8 +32,8 @@ uses
   GLS.Gui, 
   GLS.Graphics, 
   Stage.Utils,
-  GLS.Coordinates,
-  GLS.BaseClasses, 
+  Stage.Coordinates,
+  Stage.BaseClasses, 
   GLS.Material;
 
 type

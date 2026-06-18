@@ -1,10 +1,10 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.CUDA.Register;
-
-(*  Registration unit for GPU Computing package *)
-
+(*
+  Registration unit for GPU Computing package
+*)
 interface
 
 uses
@@ -27,7 +27,7 @@ uses
 
 procedure Register;
 
-implementation //-------------------------------------------------------------
+implementation //============================================================
 
 uses
   CUDA.RunTime,
@@ -50,7 +50,7 @@ begin
      'CUDA Computing', HInstance);
 end;
 
-initialization //------------------------------------------------------
+initialization //============================================================
 
   vFindCuFileFunc := FindCuFile;
 

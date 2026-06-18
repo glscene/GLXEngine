@@ -1,10 +1,10 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.FileB3D;
-
-(* B3D VectorFile class to load Blitz 3D model files *)
-
+(*
+  B3D VectorFile class to load Blitz 3D model files
+*)
 interface
 
 uses
@@ -14,19 +14,19 @@ uses
   Stage.VectorTypes,
   Stage.VectorGeometry,
   Stage.TextureFormat,
+  Stage.VectorLists,
 
-  GLS.VectorFileObjects,
   GLS.ApplicationFileIO,
+  GLS.VectorFileObjects,
   GLS.Texture,
   GLS.Material,
-  GLS.VectorLists,
 
   Formats.B3D;
 
 type
   TGLB3DVectorFile = class(TGLVectorFile)
   public
-    class function Capabilities: TGLDataFileCapabilities; override;
+    class function Capabilities: TGSDataFileCapabilities; override;
     procedure LoadFromStream(AStream: TStream); override;
   end;
 
@@ -36,7 +36,7 @@ implementation
 
 // ------------------------------ TGLB3DVectorFile ------------------------------
 
-class function TGLB3DVectorFile.Capabilities: TGLDataFileCapabilities;
+class function TGLB3DVectorFile.Capabilities: TGSDataFileCapabilities;
 begin
   Result := [DfcRead];
 end;
@@ -58,11 +58,11 @@ var
   Vertex: PVertexData;
   Triangles: PTRISChunk;
   V, V1: TAffineVector;
-  Matrix: TGLMatrix;
+  Matrix: TGSMatrix;
   MatLib: TGLMaterialLibrary;
   LightLib: TGLMaterialLibrary;
   RotQuat: TQuaternion;
-  RotMat: TGLMatrix;
+  RotMat: TGSMatrix;
 
   function GetOrAllocateMaterial(MaterialNum: Integer; AMat: TB3DMaterial;
     ATex: TB3DTexture; ALightmap: TB3DTexture): string;

@@ -6,9 +6,9 @@
 #include "fcActorMS3d.h"
 // ---------------------------------------------------------------------------
 #pragma package(smart_init)
-#pragma link "GLS.BaseClasses"
+#pragma link "Stage.BaseClasses"
 #pragma link "GLS.Cadencer"
-#pragma link "GLS.Coordinates"
+#pragma link "Stage.Coordinates"
 
 #pragma link "GLSL.CustomShader"
 #pragma link "GLS.FBORenderer"
@@ -48,7 +48,7 @@ int mdx, mdy;
 TMatrix4f FBiasMatrix;
 TMatrix4f FLightModelViewMatrix;
 TMatrix4f FLightProjMatrix;
-TGLMatrix FInvCameraMatrix;
+TGSMatrix FInvCameraMatrix;
 TMatrix4f FEyeToLightMatrix;
 
 TMatrix4f FLightModelViewMatrix2;
@@ -165,11 +165,11 @@ void __fastcall TFormDancer::FormCreate(TObject* Sender)
 
 	// Loading map for the earth
 	SetCurrentDir(Path + "//map//");
-	Globus->Material->Texture->Image->LoadFromFile("earth.jpg");
+///	Globus->Material->Texture->Image->LoadFromFile("earth.jpg");
 
 	// Loading other textures as assets directly to objects
 	SetCurrentDir(Path + "//texture//");
-	GLPlane1->Material->Texture->Image->LoadFromFile("floor_parquet.jpg");
+///	GLPlane1->Material->Texture->Image->LoadFromFile("floor_parquet.jpg");
 
 
 	Actor1->AnimationMode = aamNone;

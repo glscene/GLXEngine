@@ -1,14 +1,12 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.FileQ3BSP;
-
 (*
   Support-code to load Q3BSP Files into TGLFreeForm-Components in GLScene.
   Note that you must manually add this unit to one of your project's uses
   to enable support for OBJ & OBJF at run-time.
 *)
-
 interface
 
 {$I Stage.Defines.inc}
@@ -22,7 +20,7 @@ uses
   GLS.ApplicationFileIO,
   Stage.VectorGeometry,
   Stage.VectorTypes,
-  GLS.VectorLists,
+  Stage.VectorLists,
   Formats.Q3BSP,
   GLS.MeshBSP,
   GLS.Texture,
@@ -37,7 +35,7 @@ type
   //The Q3BSP vector file (Quake III BSP).
   TGLQ3BSPVectorFile = class(TGLVectorFile)
   public
-    class function Capabilities: TGLDataFileCapabilities; override;
+    class function Capabilities: TGSDataFileCapabilities; override;
      procedure LoadFromStream(aStream: TStream); override;
   end;
 
@@ -55,7 +53,7 @@ implementation
 // ------------------ TGLSTLVectorFile ------------------
 // ------------------
 
-class function TGLQ3BSPVectorFile.Capabilities: TGLDataFileCapabilities;
+class function TGLQ3BSPVectorFile.Capabilities: TGSDataFileCapabilities;
 begin
   Result := [dfcRead];
 end;

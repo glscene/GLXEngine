@@ -7,8 +7,8 @@
 #include "fcHFPick.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
-#pragma link "GLS.BaseClasses"
-#pragma link "GLS.Coordinates"
+#pragma link "Stage.BaseClasses"
+#pragma link "Stage.Coordinates"
 
 #pragma link "GLS.Graph"
 #pragma link "GLS.Scene"
@@ -38,7 +38,7 @@ void __fastcall TFormHFPick::FormCreate(TObject* Sender)
 //---------------------------------------------------------------------------
 
 void __fastcall TFormHFPick::HeightFieldGetHeight2(TObject *Sender, const float x,
-		  const float y, float &z, TGLColorVector &Color, TTexPoint &TexPoint)
+		  const float y, float &z, TGSColorVector &Color, TTexPoint &TexPoint)
 
 {
 	int ix, iy;

@@ -27,8 +27,8 @@ uses
   GLS.SceneViewer,
   GLS.GeomObjects,
 
-  GLS.Coordinates,
-  GLS.BaseClasses,
+  Stage.Coordinates,
+  Stage.BaseClasses,
   GLS.File3DS,
   Stage.Utils;
 
@@ -92,7 +92,7 @@ procedure TFormMushroom.AddMushrooms;
 var
   i: Integer;
   proxy: TGLProxyObject;
-  s: TGLVector;
+  s: TGSVector;
   f: Single;
 begin
   // spawn some more mushrooms using proxy objects
