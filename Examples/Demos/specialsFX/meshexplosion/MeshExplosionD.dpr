@@ -17,7 +17,7 @@ program MeshExplosionD;
 
 uses
   Forms,
-  fMeshExplosionD in 'fMeshExplosionD.pas' {FormMeshExplosion};
+  fdMeshExplosion in 'fdMeshExplosion.pas' {FormMeshExplosion};
 
 {$R *.RES}
 

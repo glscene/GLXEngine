@@ -128,28 +128,28 @@
         <DelphiCompile Include="$(MainSource)">
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
-        <DCCReference Include="Source\fGLForm.pas">
+        <DCCReference Include="Source\fdGLForm.pas">
             <Form>GLForm</Form>
         </DCCReference>
-        <DCCReference Include="Source\fGLDialog.pas">
+        <DCCReference Include="Source\fdGLDialog.pas">
             <Form>GLDialog</Form>
         </DCCReference>
-        <DCCReference Include="Source\fGLSViewer.pas">
-            <Form>frmGLSViewer</Form>
+        <DCCReference Include="Source\fdGLSViewer.pas">
+            <Form>FormGLSViewer</Form>
         </DCCReference>
-        <DCCReference Include="Source\uGlobals.pas"/>
-        <DCCReference Include="Source\uSettings.pas"/>
-        <DCCReference Include="Source\dImages.pas">
-            <Form>dmImages</Form>
+        <DCCReference Include="Source\udGlobals.pas"/>
+        <DCCReference Include="Source\udRegistry.pas"/>
+        <DCCReference Include="Source\ddImages.pas">
+            <Form>DataModuleImages</Form>
             <DesignClass>TDataModule</DesignClass>
         </DCCReference>
-        <DCCReference Include="Source\fGLAbout.pas">
+        <DCCReference Include="Source\fdGLAbout.pas">
             <Form>GLAbout</Form>
         </DCCReference>
-        <DCCReference Include="Source\fGLOptions.pas">
+        <DCCReference Include="Source\fdGLOptions.pas">
             <Form>FormOptions</Form>
         </DCCReference>
-        <DCCReference Include="Source\dDialogs.pas">
+        <DCCReference Include="Source\ddDialogs.pas">
             <Form>dmDialogs</Form>
             <FormType>dfm</FormType>
             <DesignClass>TDataModule</DesignClass>
@@ -175,13 +175,14 @@
                     <Source Name="MainSource">GLSViewerD.dpr</Source>
                 </Source>
                 <Excluded_Packages>
-                    <Excluded_Packages Name="C:\Users\Public\Documents\Embarcadero\Studio\23.0\Bpl\GLXEngine_DTRT.bpl">File C:\Users\Public\Documents\Embarcadero\Studio\23.0\Bpl\GLXEngine_DTRT.bpl not found</Excluded_Packages>
-                    <Excluded_Packages Name="C:\Users\Public\Documents\Embarcadero\Studio\23.0\Bpl\GXScene_GBE.bpl">GXScene GBE</Excluded_Packages>
-                    <Excluded_Packages Name="C:\Users\Public\Documents\Embarcadero\Studio\23.0\Bpl\GBComps.bpl">Geoblock - Components</Excluded_Packages>
-                    <Excluded_Packages Name="$(BDSBIN)\bcboffice2k290.bpl">Embarcadero C++Builder Office 2000 Servers Package</Excluded_Packages>
-                    <Excluded_Packages Name="$(BDSBIN)\bcbofficexp290.bpl">Embarcadero C++Builder Office XP Servers Package</Excluded_Packages>
-                    <Excluded_Packages Name="$(BDSBIN)\dcloffice2k290.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
-                    <Excluded_Packages Name="$(BDSBIN)\dclofficexp290.bpl">Microsoft Office XP Sample Automation Server Wrapper Components</Excluded_Packages>
+                    <Excluded_Packages Name="C:\Users\Public\Documents\Embarcadero\Studio\37.0\Bpl\GR32_DT.bpl">File C:\Users\Public\Documents\Embarcadero\Studio\37.0\Bpl\GR32_DT.bpl not found</Excluded_Packages>
+                    <Excluded_Packages Name="C:\Users\Public\Documents\Embarcadero\Studio\37.0\Bpl\GXScene_GBE_DTRT.bpl">File C:\Users\Public\Documents\Embarcadero\Studio\37.0\Bpl\GXScene_GBE_DTRT.bpl not found</Excluded_Packages>
+                    <Excluded_Packages Name="C:\Users\Public\Documents\Embarcadero\Studio\37.0\Bpl\GBComps.bpl">File C:\Users\Public\Documents\Embarcadero\Studio\37.0\Bpl\GBComps.bpl not found</Excluded_Packages>
+                    <Excluded_Packages Name="C:\Users\Public\Documents\Embarcadero\Studio\37.0\Bpl\rae.bpl">File C:\Users\Public\Documents\Embarcadero\Studio\37.0\Bpl\rae.bpl not found</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\bcboffice2k370.bpl">Embarcadero C++Builder Office 2000 Servers Package</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\bcbofficexp370.bpl">Embarcadero C++Builder Office XP Servers Package</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\dcloffice2k370.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\dclofficexp370.bpl">Microsoft Office XP Sample Automation Server Wrapper Components</Excluded_Packages>
                 </Excluded_Packages>
             </Delphi.Personality>
             <Platforms>

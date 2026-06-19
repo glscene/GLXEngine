@@ -31,6 +31,8 @@ object FormHierarchy: TFormHierarchy
     PenAsTouch = False
     Align = alClient
     TabOrder = 0
+    ExplicitLeft = -8
+    ExplicitTop = 24
   end
   object CBPlay: TCheckBox
     Left = 587

@@ -1,0 +1,66 @@
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
+unit fdGLDialog;
+
+interface
+
+uses
+  Winapi.Windows, 
+  Winapi.Messages,
+  System.SysUtils, 
+  System.Variants,
+  System.Classes, 
+  Vcl.Graphics, 
+  Vcl.Controls, 
+  Vcl.Forms,
+  Vcl.Dialogs, 
+  Vcl.StdCtrls, 
+  Vcl.ExtCtrls,
+
+  fdGLForm;
+
+type
+  TGLDialog = class(TGLForm)
+    PanelTop: TPanel;
+    PanelMiddle: TPanel;
+    PanelBottom: TPanel;
+    ButtonOK: TButton;
+    ButtonCancel: TButton;
+    ButtonHelp: TButton;
+    Memo: TMemo;
+    procedure ButtonHelpClick(Sender: TObject);
+  public
+    function Execute: boolean; virtual;
+    procedure ReadIniFile; override;
+  private
+  end;
+
+var
+  GLDialog: TGLDialog;
+
+implementation //=============================================================
+
+{$R *.dfm}
+
+//----------------------------------------------------------------------------
+procedure TGLDialog.ButtonHelpClick(Sender: TObject);
+begin
+  Application.HelpContext(HelpContext);
+end;
+
+//----------------------------------------------------------------------------
+function TGLDialog.Execute: boolean;
+begin
+  Result := ShowModal = mrOk;
+end;
+
+//----------------------------------------------------------------------------
+procedure TGLDialog.ReadIniFile;
+begin
+  inherited;
+  //
+end;
+
+//----------------------------------------------------------------------------
+end.

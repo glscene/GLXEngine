@@ -14,7 +14,7 @@ program BeerD;
 
 uses
   Forms,
-  fBeerD in 'fBeerD.pas' {FormBeer};
+  fdBeer in 'fdBeer.pas' {FormBeer};
 
 {$R *.res}
 

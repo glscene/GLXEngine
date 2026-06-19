@@ -1,3 +1,6 @@
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit fdSmoothNavi;
 
 interface
@@ -17,6 +20,7 @@ uses
   Stage.Coordinates,
   Stage.BaseClasses,
   Stage.XCollection,
+
   GLS.Cadencer,
   GLS.SceneViewer,
   GLS.GeomObjects,

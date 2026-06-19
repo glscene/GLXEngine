@@ -1,5 +1,6 @@
-//---------------------------------------------------------------------------
-
+/*****************************************************************************
+						  GLScene Graphics Engine
+******************************************************************************/
 #include <vcl.h>
 #pragma hdrstop
 
@@ -88,7 +89,7 @@ void __fastcall TFormAtmosphere::Button10Click(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TFormAtmosphere::Button9Click(TObject *Sender)
 {
-  GLCamera1->AdjustDistanceToTarget((float)1 / 1.1);
+  GLCamera1->AdjustDistanceToTarget((float)1 / 0.5);
 }
 //---------------------------------------------------------------------------
 

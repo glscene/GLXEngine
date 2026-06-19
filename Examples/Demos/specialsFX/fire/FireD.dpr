@@ -18,7 +18,7 @@ program FireD;
 
 uses
   Forms,
-  fFireD in 'fFireD.pas' {FormFire};
+  fdFire in 'fdFire.pas' {FormFire};
 
 {$R *.RES}
 

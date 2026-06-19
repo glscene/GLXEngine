@@ -4,7 +4,7 @@
 #pragma hdrstop
 #include <tchar.h>
 //---------------------------------------------------------------------------
-USEFORM("fMeshExplosionC.cpp", FormMeshExplosion);
+USEFORM("fcMeshExplosion.cpp", FormMeshExplosion);
 //---------------------------------------------------------------------------
 int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 {

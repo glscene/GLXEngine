@@ -16,7 +16,7 @@ program CandlesD;
 
 uses
   Forms,
-  fCandlesD in 'fCandlesD.pas' {FormCandles};
+  fdCandles in 'fdCandles.pas' {FormCandles};
 
 {$R *.RES}
 

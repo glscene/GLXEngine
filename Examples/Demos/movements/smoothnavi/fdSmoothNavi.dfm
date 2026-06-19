@@ -3,8 +3,8 @@ object FormSmoothnavi: TFormSmoothnavi
   Top = 150
   ActiveControl = GLSceneViewer1
   Caption = 'Smooth Navigator'
-  ClientHeight = 420
-  ClientWidth = 628
+  ClientHeight = 674
+  ClientWidth = 879
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -20,22 +20,23 @@ object FormSmoothnavi: TFormSmoothnavi
   object GLSceneViewer1: TGLSceneViewer
     Left = 0
     Top = 0
-    Width = 628
-    Height = 373
+    Width = 879
+    Height = 627
     Camera = GLCamera1
     Buffer.BackgroundColor = clNavy
-    FieldOfView = 149.984252929687500000
+    FieldOfView = 161.876480102539100000
     PenAsTouch = False
     Align = alClient
     OnMouseDown = GLSceneViewer1MouseDown
     OnMouseMove = GLSceneViewer1MouseMove
     TabOrder = 0
-    ExplicitWidth = 636
+    ExplicitWidth = 628
+    ExplicitHeight = 373
   end
   object Panel3: TPanel
     Left = 0
-    Top = 373
-    Width = 628
+    Top = 627
+    Width = 879
     Height = 47
     Align = alBottom
     BevelOuter = bvNone

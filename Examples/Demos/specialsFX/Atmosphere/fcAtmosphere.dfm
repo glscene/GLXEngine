@@ -21,7 +21,7 @@ object FormAtmosphere: TFormAtmosphere
     Height = 530
     Camera = GLCamera1
     Buffer.BackgroundColor = clBlack
-    FieldOfView = 166.785736083984400000
+    FieldOfView = 158.146911621093800000
     PenAsTouch = False
     Align = alClient
     TabOrder = 0
@@ -154,10 +154,11 @@ object FormAtmosphere: TFormAtmosphere
     Left = 176
     Top = 16
     object GLCamera1: TGLCamera
-      DepthOfView = 1000.000000000000000000
-      FocalLength = 30.000000000000000000
+      DepthOfView = 10000.000000000000000000
+      FocalLength = 50.000000000000000000
       TargetObject = CameraTarget
-      Position.Coordinates = {0000A0400000803F0000A0400000803F}
+      CameraStyle = csInfinitePerspective
+      Position.Coordinates = {0000A0400000803F0000A0C00000803F}
       Direction.Coordinates = {00000000000080BF0000000000000000}
       Up.Coordinates = {00000000000000000000803F00000000}
     end

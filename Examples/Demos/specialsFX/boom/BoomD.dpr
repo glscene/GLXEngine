@@ -22,7 +22,7 @@ program BoomD;
 
 uses
   Forms,
-  fBoomD in 'fBoomD.pas' {FormBoom};
+  fdBoom in 'fdBoom.pas' {FormBoom};
 
 {$R *.RES}
 
