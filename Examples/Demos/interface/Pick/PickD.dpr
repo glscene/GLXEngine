@@ -14,12 +14,12 @@ program PickD;
 
 uses
   Forms,
-  fdPick in 'fdPick.pas' {Form1};
+  fdPick in 'fdPick.pas' {FormPick};
 
 {$R *.RES}
 
 begin
   Application.Initialize;
-  Application.CreateForm(TForm1, Form1);
+  Application.CreateForm(TFormPick, FormPick);
   Application.Run;
 end.

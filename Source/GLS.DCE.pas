@@ -1,9 +1,13 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.DCE;
 (*
-  Dynamic Collision Engine
+  Dynamic Collision Engine. The registered classes are:
+  [TGLDCEManager];
+  RegisterXCollectionItemClass(TGLDCEStatic);
+  RegisterXCollectionItemClass(TGLDCEDynamic);
+
   How to use:
   - Add a DCEManager to you form and configure its properties
   - Add a Dynamic Collision Behavior to you object
@@ -37,14 +41,14 @@ uses
   Stage.Manager,
   Stage.XCollection,
   Stage.VectorLists,
+  Stage.Strings,
 
   GLS.Scene,
   GLS.VectorFileObjects,
   GLS.EllipseCollision,
   GLS.TerrainRenderer,
   GLS.ProxyObjects,
-  GLS.MultiProxy,
-  Stage.Strings;
+  GLS.MultiProxy;
 
 type
   // Only csEllipsoid can have dynamic behaviour
@@ -286,12 +290,9 @@ const
     y: - 1; z: - 1), (x: - 1; y: - 1; z: - 1), (x: - 1; y: 1; z: - 1));
 
 
-// ----------------------------------------------------------------
-implementation
-// ----------------------------------------------------------------
+implementation //============================================================
 
 // ------------------------ DCE Misc -----------------------------
-
 procedure ECSetCollisionRange(var MovePack: TECMovePack);
 var
   N: TAffineVector;
@@ -305,6 +306,7 @@ begin
   MovePack.CollisionRange := MaxXYZComponent(N);
 end;
 
+//---------------------------------------------------------------------------
 procedure ECResetColliders(var MovePack: TECMovePack);
 begin
   SetLength(MovePack.TriMeshes, 0);
@@ -312,6 +314,7 @@ begin
   SetLength(MovePack.Colliders, 0);
 end;
 
+//---------------------------------------------------------------------------
 procedure ECAddFreeForm(var MovePack: TECMovePack; FreeForm: TGLBaseSceneObject;
   Solid: Boolean; ObjectID: Integer);
 var
@@ -362,6 +365,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure ECAddBox(var MovePack: TECMovePack; BoxObj: TGLBaseSceneObject;
   BoxSize: TAffineVector; Solid: Boolean; ObjectID: Integer);
 var
@@ -409,6 +413,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure ECAddTerrain(var MovePack: TECMovePack;
   TerrainRenderer: TGLTerrainRenderer; Resolution: single; Solid: Boolean;
   ObjectID: Integer);
@@ -472,6 +477,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure ECAddEllipsoid(var MovePack: TECMovePack;
   ePos, eRadius: TAffineVector; Solid: Boolean; ObjectID: Integer);
 var
@@ -496,7 +502,6 @@ begin
 end;
 
 // --------------------------- DCE ---------------------------------
-
 function RotateVectorByObject(obj: TGLBaseSceneObject; const v: TAffineVector)
   : TAffineVector;
 var
@@ -506,6 +511,7 @@ begin
   SetVector(result, VectorTransform(v2, obj.Matrix^));
 end;
 
+//---------------------------------------------------------------------------
 constructor TGLDCEManager.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
@@ -521,6 +527,7 @@ begin
   RegisterManager(Self);
 end;
 
+//---------------------------------------------------------------------------
 destructor TGLDCEManager.Destroy;
 begin
   DeRegisterAllStatics;
@@ -532,16 +539,19 @@ begin
   inherited Destroy;
 end;
 
+//---------------------------------------------------------------------------
 function TGLDCEManager.GetDynamicCount: Integer;
 begin
   result := FDynamics.count;
 end;
 
+//---------------------------------------------------------------------------
 function TGLDCEManager.GetStaticCount: Integer;
 begin
   result := FStatics.count;
 end;
 
+//---------------------------------------------------------------------------
 function TGLDCEManager.MoveByDistance(var Body: TGLDCEDynamic;
   deltaS, deltaAbsS: TAffineVector): single;
 var
@@ -756,6 +766,7 @@ begin
   result := TotalFriction;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLDCEManager.Step(deltaTime: Double);
 var
   i: Integer;
@@ -768,12 +779,14 @@ begin
         DoMove(deltaTime);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLDCEManager.SetWorldDirection(const Value: TGSCoordinates);
 begin
   FWorldDirection := Value;
   FWorldDirection.Normalize;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLDCEManager.SetWorldScale(const Value: single);
 begin
   if Value = 0 then
@@ -784,6 +797,7 @@ begin
     FWorldScale := Value;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLDCEManager.RegisterStatic(aClient: TGLDCEStatic);
 begin
   if Assigned(aClient) then
@@ -794,6 +808,7 @@ begin
     end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLDCEManager.DeRegisterStatic(aClient: TGLDCEStatic);
 begin
   if Assigned(aClient) then
@@ -803,6 +818,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLDCEManager.DeRegisterAllStatics;
 var
   i: Integer;
@@ -813,6 +829,7 @@ begin
   FStatics.Clear;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLDCEManager.RegisterDynamic(aClient: TGLDCEDynamic);
 begin
   if Assigned(aClient) then
@@ -823,6 +840,7 @@ begin
     end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLDCEManager.DeRegisterDynamic(aClient: TGLDCEDynamic);
 begin
   if Assigned(aClient) then
@@ -832,6 +850,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLDCEManager.DeRegisterAllDynamics;
 var
   i: Integer;
@@ -845,7 +864,6 @@ end;
 // ---------------------
 // TGLDCEStatic
 // ---------------------
-
 procedure TGLDCEStatic.Assign(Source: TPersistent);
 begin
   if Source is TGLDCEStatic then
@@ -862,6 +880,7 @@ begin
   inherited Assign(Source);
 end;
 
+//---------------------------------------------------------------------------
 constructor TGLDCEStatic.Create(AOwner: TXCollection);
 begin
   inherited Create(AOwner);
@@ -873,6 +892,7 @@ begin
   FBounceFactor := 0;
 end;
 
+//---------------------------------------------------------------------------
 destructor TGLDCEStatic.Destroy;
 begin
   Manager := nil;
@@ -880,16 +900,19 @@ begin
   inherited Destroy;
 end;
 
+//---------------------------------------------------------------------------
 class function TGLDCEStatic.FriendlyDescription: String;
 begin
   result := 'Static Collision-detection registration';
 end;
 
+//---------------------------------------------------------------------------
 class function TGLDCEStatic.FriendlyName: String;
 begin
   result := 'DCE Static Collider';
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLDCEStatic.Loaded;
 var
   mng: TComponent;
@@ -904,6 +927,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLDCEStatic.WriteToFiler(writer: TWriter);
 begin
   with writer do
@@ -925,6 +949,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLDCEStatic.ReadFromFiler(reader: TReader);
 var
   archiveVersion: Integer;
@@ -947,6 +972,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLDCEStatic.SetBounceFactor(const Value: single);
 begin
   FBounceFactor := Value;
@@ -956,6 +982,7 @@ begin
     FBounceFactor := 1;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLDCEStatic.SetFriction(const Value: single);
 begin
   FFriction := Value;
@@ -965,6 +992,7 @@ begin
     FFriction := 100;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLDCEStatic.SetManager(const val: TGLDCEManager);
 begin
   if val <> FManager then
@@ -976,11 +1004,13 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLDCEStatic.SetShape(const Value: TDCEShape);
 begin
   FShape := Value;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLDCEStatic.SetSize(const Value: TGSCoordinates);
 begin
   FSize.Assign(Value);
@@ -992,40 +1022,45 @@ begin
     FSize.z := 0.1;
 end;
 
-//-----------------------------
-// TGLDCEDynamic
-//-----------------------------
-
+//---------------------------------------------------------------------------
+//                              TGLDCEDynamic
+//---------------------------------------------------------------------------
 procedure TGLDCEDynamic.ApplyAccel(NewAccel: TAffineVector);
 begin
   AddVector(FAccel, NewAccel);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLDCEDynamic.ApplyAccel(x, y, z: single);
 begin
   AddVector(FAccel, AffineVectorMake(x, y, z));
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLDCEDynamic.ApplyAbsAccel(NewAccel: TAffineVector);
 begin
   AddVector(FAbsAccel, NewAccel);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLDCEDynamic.ApplyAbsAccel(x, y, z: single);
 begin
   AddVector(FAbsAccel, AffineVectorMake(x, y, z));
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLDCEDynamic.StopAccel;
 begin
   SetVector(FAccel, NullVector);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLDCEDynamic.StopAbsAccel;
 begin
   SetVector(FAbsAccel, NullVector);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLDCEDynamic.Assign(Source: TPersistent);
 begin
   if Source is TGLDCEDynamic then
@@ -1044,6 +1079,7 @@ begin
   inherited Assign(Source);
 end;
 
+//---------------------------------------------------------------------------
 constructor TGLDCEDynamic.Create(AOwner: TXCollection);
 begin
   inherited Create(AOwner);
@@ -1063,6 +1099,7 @@ begin
   FGravSpeed := NullVector;
 end;
 
+//---------------------------------------------------------------------------
 destructor TGLDCEDynamic.Destroy;
 begin
   Manager := nil;
@@ -1070,6 +1107,7 @@ begin
   inherited Destroy;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLDCEDynamic.DoMove(deltaTime: Double);
 var
   fGround, fAir, G: single;
@@ -1160,6 +1198,7 @@ begin
   FAbsAccel := NullVector;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLDCEDynamic.DoProgress(const progressTime: TGSProgressTimes);
 begin
   inherited DoProgress(progressTime);
@@ -1173,16 +1212,19 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 class function TGLDCEDynamic.FriendlyDescription: String;
 begin
   result := 'Dynamic Collision-detection registration';
 end;
 
+//---------------------------------------------------------------------------
 class function TGLDCEDynamic.FriendlyName: String;
 begin
   result := 'DCE Dynamic Collider';
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLDCEDynamic.Jump(jHeight, jSpeed: single);
 begin
   if (not FJumping) and (FInGround) and
@@ -1199,6 +1241,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLDCEDynamic.Loaded;
 var
   mng: TComponent;
@@ -1213,12 +1256,14 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLDCEDynamic.Move(deltaS: TAffineVector; deltaTime: Double);
 begin
   ScaleVector(deltaS, deltaTime);
   FManager.MoveByDistance(Self, NullVector, deltaS);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLDCEDynamic.MoveTo(Position: TAffineVector; Amount: single);
 begin
   SubtractVector(Position,
@@ -1226,6 +1271,7 @@ begin
   Move(Position, Amount);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLDCEDynamic.WriteToFiler(writer: TWriter);
 begin
   with writer do
@@ -1249,6 +1295,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLDCEDynamic.ReadFromFiler(reader: TReader);
 var
   archiveVersion: Integer;
@@ -1273,6 +1320,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLDCEDynamic.SetBounceFactor(const Value: single);
 begin
   FBounceFactor := Value;
@@ -1282,6 +1330,7 @@ begin
     FBounceFactor := 1;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLDCEDynamic.SetFriction(const Value: single);
 begin
   FFriction := Value;
@@ -1291,6 +1340,7 @@ begin
     FFriction := 100;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLDCEDynamic.SetManager(const val: TGLDCEManager);
 begin
   if val <> FManager then
@@ -1302,6 +1352,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLDCEDynamic.SetSize(const Value: TGSCoordinates);
 begin
   FSize.Assign(Value);
@@ -1313,8 +1364,7 @@ begin
     FSize.z := 0.1;
 end;
 
-// ----------------------------------------------------------------
-
+//---------------------------------------------------------------------------
 function GetOrCreateDCEStatic(behaviours: TGLBehaviours): TGLDCEStatic;
 var
   i: Integer;
@@ -1326,11 +1376,13 @@ begin
     result := TGLDCEStatic.Create(behaviours);
 end;
 
+//---------------------------------------------------------------------------
 function GetOrCreateDCEStatic(obj: TGLBaseSceneObject): TGLDCEStatic;
 begin
   result := GetOrCreateDCEStatic(obj.behaviours);
 end;
 
+//---------------------------------------------------------------------------
 function GetOrCreateDCEDynamic(behaviours: TGLBehaviours): TGLDCEDynamic;
 var
   i: Integer;
@@ -1342,19 +1394,18 @@ begin
     result := TGLDCEDynamic.Create(behaviours);
 end;
 
+//---------------------------------------------------------------------------
 function GetOrCreateDCEDynamic(obj: TGLBaseSceneObject): TGLDCEDynamic;
 begin
   result := GetOrCreateDCEDynamic(obj.behaviours);
 end;
 
-// ------------------------------------------------------------------
-initialization
-// ------------------------------------------------------------------
+initialization //============================================================
 
 RegisterXCollectionItemClass(TGLDCEStatic);
 RegisterXCollectionItemClass(TGLDCEDynamic);
 
-finalization
+finalization //==============================================================
 
 UnregisterXCollectionItemClass(TGLDCEStatic);
 UnregisterXCollectionItemClass(TGLDCEDynamic);

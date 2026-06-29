@@ -1,3 +1,6 @@
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit fdGizmo;
 
 interface
@@ -27,7 +30,8 @@ uses
   GLS.Gizmo,
  
   Stage.Coordinates,
-  Stage.BaseClasses, GLS.VectorFileObjects;
+  Stage.BaseClasses,
+  GLS.VectorFileObjects;
 
 type
   TFormGizmo = class(TForm)

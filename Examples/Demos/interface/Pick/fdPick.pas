@@ -1,3 +1,6 @@
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit fdPick;
 
 interface
@@ -24,7 +27,7 @@ uses
   GLS.SimpleNavigation;
 
 type
-  TForm1 = class(TForm)
+  TFormPick = class(TForm)
     GLScene1: TGLScene;
     glsViewer: TGLSceneViewer;
     GLCamera1: TGLCamera;
@@ -48,14 +51,15 @@ type
   end;
 
 var
-  Form1: TForm1;
+  FormPick: TFormPick;
 
-implementation //==============================================================
+implementation //============================================================
 
 {$R *.DFM}
 
 
-procedure TForm1.FormCreate(Sender: TObject);
+//---------------------------------------------------------------------------
+procedure TFormPick.FormCreate(Sender: TObject);
 var
   I: Integer;
   NumPoints: Integer;
@@ -80,8 +84,8 @@ begin
   end;
 end;
 
-//----------------------------------------------------------------------------
-procedure TForm1.glsViewerMouseMove(Sender: TObject; Shift: TShiftState;
+//---------------------------------------------------------------------------
+procedure TFormPick.glsViewerMouseMove(Sender: TObject; Shift: TShiftState;
   X, Y: Integer);
 var
   pickedObject: TGLCustomSceneObject;
@@ -109,8 +113,8 @@ begin
   end;
 end;
 
-//----------------------------------------------------------------------------
-procedure TForm1.glsViewerMouseDown(Sender: TObject; Button: TMouseButton;
+//---------------------------------------------------------------------------
+procedure TFormPick.glsViewerMouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 var
   pickedObject: TGLCustomSceneObject;

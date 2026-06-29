@@ -1,3 +1,6 @@
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit fdWinFont;
 
 interface
@@ -52,21 +55,20 @@ type
     procedure MIPickFontClick(Sender: TObject);
     procedure MIViewTextureClick(Sender: TObject);
   private
-
   public
-
   end;
 
 var
   FormWinFont: TFormWinFont;
 
-implementation //==============================================================
+implementation //============================================================
 
 uses
   fdWinTexture;
 
 {$R *.DFM}
 
+//---------------------------------------------------------------------------
 procedure TFormWinFont.FormCreate(Sender: TObject);
 begin
   // sorry, couldn't resist again...
@@ -87,6 +89,7 @@ begin
   WindowsBitmapFont1.EnsureString(HUDText1.Text);
 end;
 
+//---------------------------------------------------------------------------
 procedure TFormWinFont.MIPickFontClick(Sender: TObject);
 begin
   FontDialog1.Font := WindowsBitmapFont1.Font;
@@ -97,6 +100,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TFormWinFont.MIViewTextureClick(Sender: TObject);
 begin
   with FormFontTexture.Image1 do
@@ -108,6 +112,7 @@ begin
   FormFontTexture.Show;
 end;
 
+//---------------------------------------------------------------------------
 procedure TFormWinFont.GLCadencer1Progress(Sender: TObject;
   const deltaTime, newTime: Double);
 begin
@@ -118,6 +123,7 @@ begin
   GLSceneViewer1.Invalidate;
 end;
 
+//---------------------------------------------------------------------------
 procedure TFormWinFont.Timer1Timer(Sender: TObject);
 begin
   MIFPS.Caption := Format('%.1f FPS - %d x %d Font Texture',
@@ -126,9 +132,11 @@ begin
   GLSceneViewer1.ResetPerformanceMonitor;
 end;
 
+//---------------------------------------------------------------------------
 procedure TFormWinFont.GLSceneViewer1Click(Sender: TObject);
 begin
   Teapot1.Visible := not Teapot1.Visible;
 end;
 
+//---------------------------------------------------------------------------
 end.

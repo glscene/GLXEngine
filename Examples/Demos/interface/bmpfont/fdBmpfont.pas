@@ -1,3 +1,6 @@
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit fdBmpfont;
 
 interface
@@ -14,14 +17,15 @@ uses
 
   Stage.VectorTypes,
   Stage.Utils,
+  Stage.Coordinates,
+  Stage.BaseClasses,
+
   GLS.Scene,
   GLS.HUDObjects,
   GLS.Objects,
   GLS.Cadencer,
   GLS.BitmapFont,
   GLS.GeomObjects,
-  Stage.Coordinates,
-  Stage.BaseClasses,
   GLS.SceneViewer;
 
 type

@@ -668,8 +668,6 @@ object Form1: TForm1
           Material.MaterialLibrary = GLMaterialLibrary1
           Material.LibMaterialName = 'transparent blue'
           Radius = 2.000000000000000000
-          Slices = 32
-          Stacks = 32
         end
         object GLCylinder1: TGLCylinder
           Material.MaterialLibrary = GLMaterialLibrary1

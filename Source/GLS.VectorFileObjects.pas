@@ -40,11 +40,11 @@ uses
   Stage.Coordinates,
   Stage.BaseClasses,
   Stage.Silhouette,
-  GLS.ApplicationFileIO,
   Stage.Color,
   Stage.GeometryBB,
   Stage.MeshUtils,
 
+  GLS.ApplicationFileIO,
   GLS.Scene,
   GLS.Texture,
   GLS.Material,
@@ -1272,7 +1272,7 @@ type
     property CurrentFrame: Integer read FCurrentFrame write SetCurrentFrame default 0;
     // Value in the [0; 1] range expressing the delta to the next frame. 
     property CurrentFrameDelta: Single read FCurrentFrameDelta write FCurrentFrameDelta;
-    // Frame interpolation mode (afpNone/afpLinear). 
+    // Frame interpolation mode (afpNone/afpLinear).
     property FrameInterpolation: TGLActorFrameInterpolation read FFrameInterpolation
 	  write FFrameInterpolation default afpLinear;
     // See TGLActorAnimationMode. 

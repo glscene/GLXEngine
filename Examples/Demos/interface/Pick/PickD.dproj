@@ -126,7 +126,7 @@
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
         <DCCReference Include="fdPick.pas">
-            <Form>Form1</Form>
+            <Form>FormPick</Form>
         </DCCReference>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>

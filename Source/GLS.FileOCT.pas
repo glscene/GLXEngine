@@ -27,8 +27,8 @@ uses
 
 type
 
-  // The OCT vector file (FSRad output).  
-  TGLOCTGLVectorFile = class(TGLVectorFile)
+  // The OCT vector file (FSRad output).
+  TGLOCTVectorFile = class(TGLVectorFile)
   public
     class function Capabilities: TGSDataFileCapabilities; override;
     procedure LoadFromStream(aStream: TStream); override;
@@ -39,20 +39,17 @@ var
   vGLFileOCTLightmapGammaCorrection: single = 1; // Scaling factor, 1.0 = unchanged
   vGLFileOCTAllocateMaterials: boolean = True; // Flag to avoid loading materials (useful for IDE Ext or scene editors)
 
-// ------------------------------------------------------------------
-implementation
-// ------------------------------------------------------------------
+implementation //============================================================
 
 // ------------------
-// ------------------ TGLOCTGLVectorFile ------------------
+// ------------------ TGLOCTVectorFile ------------------
 // ------------------
-
-class function TGLOCTGLVectorFile.Capabilities: TGSDataFileCapabilities;
+class function TGLOCTVectorFile.Capabilities: TGSDataFileCapabilities;
 begin
   Result := [dfcRead];
 end;
 
-procedure TGLOCTGLVectorFile.LoadFromStream(aStream: TStream);
+procedure TGLOCTVectorFile.LoadFromStream(aStream: TStream);
 var
   i, y, n: integer;
   oct: TOCTFile;
@@ -139,11 +136,9 @@ begin
   end;
 end;
 
-// ------------------------------------------------------------------
-initialization
-// ------------------------------------------------------------------
+initialization //===========================================================
 
-  RegisterVectorFileFormat('oct', 'FSRad OCT files', TGLOCTGLVectorFile);
+  RegisterVectorFileFormat('oct', 'FSRad OCT files', TGLOCTVectorFile);
 
 end.
 

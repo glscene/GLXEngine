@@ -1,24 +1,32 @@
 unit fdWinTexture;
 
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 interface
 
 uses
-  Windows, Messages, System.SysUtils, System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
-  ExtCtrls;
+  Winapi.Windows,
+  Winapi.Messages,
+  System.SysUtils,
+  System.Classes,
+  Vcl.Graphics,
+  Vcl.Controls,
+  Vcl.Forms,
+  Vcl.Dialogs,
+  Vcl.ExtCtrls;
 
 type
   TFormFontTexture = class(TForm)
     Image1: TImage;
   private
-    { Déclarations privées }
   public
-    { Déclarations publiques }
   end;
 
 var
   FormFontTexture: TFormFontTexture;
 
-implementation
+implementation //============================================================
 
 {$R *.DFM}
 

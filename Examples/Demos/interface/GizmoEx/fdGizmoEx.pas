@@ -1,3 +1,6 @@
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit fdGizmoEx;
 
 interface
@@ -15,21 +18,19 @@ uses
   Vcl.Buttons,
   Vcl.ComCtrls,
 
-  
-  GLS.Scene,
   Stage.PersistentClasses,
-  GLS.Cadencer,
-  GLS.Objects,
   Stage.VectorTypes,
-  GLS.SceneViewer,
   Stage.XCollection,
-
-  Stage.Utils,
-  GLS.GizmoEx,
-
   Stage.Coordinates,
   Stage.BaseClasses,
   Stage.VectorGeometry,
+  Stage.Utils,
+
+  GLS.Scene,
+  GLS.Cadencer,
+  GLS.Objects,
+  GLS.SceneViewer,
+  GLS.GizmoEx,
   GLS.GeomObjects,
   GLS.BitmapFont,
   GLS.WindowsFont,
@@ -188,10 +189,11 @@ var
   FVectorLength: Single;
   FCreationScenarious: integer;
 
-implementation
+implementation //============================================================
 
 {$R *.dfm}
 
+//---------------------------------------------------------------------------
 procedure SettingsObj(Obj: TGLBaseSceneObject; Step: Integer; Length: TGSVector);
 begin
   if (Obj is TGLCube) then
@@ -225,6 +227,7 @@ begin
     end;
 end;
 
+//---------------------------------------------------------------------------
 function TFormGizmoEx.ObjectName(value: string): string;
 var
   i: integer;
@@ -238,6 +241,7 @@ begin
    end;
 end;
 
+//---------------------------------------------------------------------------
 function TFormGizmoEx.MouseWorldPos(const X, Y: Integer; isy: boolean = false): TGSVector;
 var
   v: TGSVector;
@@ -254,6 +258,7 @@ begin
        (v, GLTargetCamera.AbsolutePosition.Z, Result)
 end;
 
+//---------------------------------------------------------------------------
 procedure TFormGizmoEx.UpdateTreeView;
 var
    I: Integer;
@@ -316,28 +321,32 @@ var
    TreeView1.Items.EndUpdate();
 end;
 
-
+//---------------------------------------------------------------------------
 procedure TFormGizmoEx.GLCadencer1Progress(Sender: TObject; const DeltaTime, newTime: Double);
 begin
   Viewer.Invalidate;
 end;
 
+//---------------------------------------------------------------------------
 procedure TFormGizmoEx.OptPickModeClick(Sender: TObject);
 begin
   Gizmo.PickMode := TGLGizmoExPickMode(OptPickMode.ItemIndex);
 end;
 
+//---------------------------------------------------------------------------
 procedure TFormGizmoEx.SpeedButton14Click(Sender: TObject);
 begin
   gizmo.Enabled := not ((SpeedButton18.Down or SpeedButton15.Down) or SpeedButton14.Down);
   CheckBox12.Checked := Gizmo.Enabled;
 end;
 
+//---------------------------------------------------------------------------
 procedure TFormGizmoEx.SpeedButton16Click(Sender: TObject);
 begin
   Gizmo.Enabled := not (Sender as TSpeedButton).Down;
 end;
 
+//---------------------------------------------------------------------------
 procedure TFormGizmoEx.SpeedButton17Click(Sender: TObject);
 begin
   GLTargetCamera.Position.SetPoint(0, 0, 0);
@@ -345,6 +354,7 @@ begin
   GLTargetCamera.Up.SetVector(0, 1, 0);
 end;
 
+//---------------------------------------------------------------------------
 procedure TFormGizmoEx.SpeedButton1Click(Sender: TObject);
 begin
   (Sender as TSpeedButton).Down:=false;
@@ -367,6 +377,7 @@ begin
   SpeedButton17.Down := false;
 end;
 
+//---------------------------------------------------------------------------
 procedure TFormGizmoEx.SpeedButton6MouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
@@ -375,6 +386,7 @@ begin
   Panel4.Top:= SpeedButton6.Top+SpeedButton6.Height;
 end;
 
+//---------------------------------------------------------------------------
 procedure TFormGizmoEx.SpeedButton7MouseUp(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
@@ -404,6 +416,7 @@ begin
  SpeedButton6.Down:=false;
 end;
 
+//---------------------------------------------------------------------------
 procedure TFormGizmoEx.ViewerMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
 begin
   mx := X;
@@ -418,7 +431,6 @@ begin
     pos:=GLTargetCamera.Position.AsVector;
     MouseMoving:=true;
   end;
-
 
   //Create Cube With Mouse
   if SpeedButton16.Down then
@@ -475,6 +487,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TFormGizmoEx.ViewerMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
 
 begin
@@ -520,13 +533,12 @@ begin
   my := Y;
 end;
 
+//---------------------------------------------------------------------------
 procedure TFormGizmoEx.ViewerMouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
 begin
  //
   MouseMoving:=false;
   gizmo.viewerMouseUp(X, Y);
-
-
   if TMouseButton(Button)=mbRight then
   begin
     if gizmo.CursorSelectingRegion then
@@ -570,17 +582,17 @@ begin
      FCreationScenarious := FCreationScenarious + 1;
      MouseMoving := true;
   end;
-
 end;
 
+//---------------------------------------------------------------------------
 procedure TFormGizmoEx.ViewerMouseWheel(Sender: TObject; Shift: TShiftState;
   WheelDelta: Integer; MousePos: TPoint; var Handled: Boolean);
 begin
   Camera.AdjustDistanceToTarget(Power(1.1, WheelDelta / 120));
   Gizmo.UpdateGizmo;
-
 end;
 
+//---------------------------------------------------------------------------
 procedure TFormGizmoEx.FormShow(Sender: TObject);
 begin
   Viewer.SetFocus;
@@ -596,12 +608,14 @@ begin
 end;
 
 
+//---------------------------------------------------------------------------
 procedure TFormGizmoEx.edAutoZoomFactorKeyPress(Sender: TObject; var Key: Char);
 begin
   if not CharInSet(Key,['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '.', ',']) then
     Key := #0;
 end;
 
+//---------------------------------------------------------------------------
 procedure TFormGizmoEx.CheckBox12Click(Sender: TObject);
 var
   check: Boolean;
@@ -613,7 +627,6 @@ begin
     2: Gizmo.ExcludeClassname:= Check;
     3: Gizmo.EnableLoopCursorMoving := Check;
     4: Gizmo.EnableMultiSelection:= Check;
-
     5: Gizmo.EnableActionHistory:= Check;
     6: Gizmo.ShowBoundingBox := Check;
     7: Gizmo.ShowAxisLabel := Check;
@@ -636,7 +649,6 @@ begin
         Gizmo.VisibleInfoLabels := Gizmo.VisibleInfoLabels + [vliCoords]
       else
         Gizmo.VisibleInfoLabels := Gizmo.VisibleInfoLabels - [vliCoords];
-
     12: Gizmo.NoZWrite := Check;
     13: Gizmo.AntiAliasedLines := Check;
     14: Gizmo.CanChangeWithChildren := Check;
@@ -657,6 +669,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TFormGizmoEx.edtGizmoThicknessChange(Sender: TObject);
 var
   value: Extended;
@@ -674,6 +687,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TFormGizmoEx.ColorBox1Change(Sender: TObject);
 begin
   case (Sender as TColorBox).Tag of
@@ -684,6 +698,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TFormGizmoEx.ComboBox3Change(Sender: TObject);
 begin
   case ComboBox3.ItemIndex of
@@ -692,11 +707,13 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TFormGizmoEx.ComboBox4Change(Sender: TObject);
 begin
   Gizmo.ReferenceCoordSystem:=TGLGizmoExReferenceCoordinateSystem(ComboBox4.ItemIndex);
 end;
 
+//---------------------------------------------------------------------------
 procedure TFormGizmoEx.FormCreate(Sender: TObject);
 begin
   Gizmo := TGLGizmoEx.Create(Self);
@@ -706,11 +723,13 @@ begin
   FCreationScenarious := -1;
 end;
 
+//---------------------------------------------------------------------------
 procedure TFormGizmoEx.FormDestroy(Sender: TObject);
 begin
   Gizmo.Free;
 end;
 
+//---------------------------------------------------------------------------
 procedure TFormGizmoEx.FormKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
@@ -718,12 +737,14 @@ begin
   Gizmo. CanRemoveObjFromSelectionList:=(Key=VK_MENU);
 end;
 
+//---------------------------------------------------------------------------
 procedure TFormGizmoEx.FormKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
   Gizmo.CanAddObjToSelectionList:=false;
   Gizmo. CanRemoveObjFromSelectionList:=false;
 end;
 
+//---------------------------------------------------------------------------
 procedure TFormGizmoEx.FormMouseWheel(Sender: TObject; Shift: TShiftState;
   WheelDelta: Integer; MousePos: TPoint; var Handled: Boolean);
 begin
@@ -731,12 +752,13 @@ begin
   gizmo.UpdateGizmo;
 end;
 
+//---------------------------------------------------------------------------
 procedure TFormGizmoEx.Timer1Timer(Sender: TObject);
 begin
   Panel1.Caption := Viewer.FramesPerSecondText();
   Viewer.ResetPerformanceMonitor;
-
   if GLScene1.IsUpdating then UpdateTreeView;
 end;
 
+//---------------------------------------------------------------------------
 end.

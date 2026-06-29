@@ -93,14 +93,11 @@ type
     property Enabled: boolean read FEnabled write SetEnabled default True;
   end;
 
-// --------------------------------------------
-implementation
-// --------------------------------------------
+implementation //============================================================
 
 // ------------------
 // ------------------ TGLTimeEventsMGR ------------------
 // ------------------
-
 constructor TGLTimeEventsMGR.Create(aOwner: TComponent);
 begin
   inherited;
@@ -109,6 +106,7 @@ begin
   FEvents := TTimeEvents.Create(self);
 end;
 
+//---------------------------------------------------------------------------
 destructor TGLTimeEventsMGR.Destroy;
 begin
   Cadencer := nil;
@@ -116,6 +114,7 @@ begin
   inherited Destroy;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLTimeEventsMGR.Notification(AComponent: TComponent;
   Operation: TOperation);
 begin
@@ -124,6 +123,7 @@ begin
   inherited;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLTimeEventsMGR.SetCadencer(const val: TGLCadencer);
 begin
   if FCadencer <> val then
@@ -136,11 +136,13 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLTimeEventsMGR.SetEvents(const val: TTimeEvents);
 begin
   FEvents.Assign(val);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLTimeEventsMGR.DoProgress(const progressTime: TGSProgressTimes);
 var
   i: Integer;
@@ -197,38 +199,43 @@ end;
 // ------------------
 // ------------------ TTimeEvents ------------------
 // ------------------
-
 constructor TTimeEvents.Create(aOwner: TComponent);
 begin
   Owner := aOwner;
   inherited Create(TTimeEvent);
 end;
 
+//---------------------------------------------------------------------------
 function TTimeEvents.GetOwner: TPersistent;
 begin
   Result := Owner;
 end;
 
+//---------------------------------------------------------------------------
 procedure TTimeEvents.SetItems(index: Integer; const val: TTimeEvent);
 begin
   inherited Items[index] := val;
 end;
 
+//---------------------------------------------------------------------------
 function TTimeEvents.GetItems(index: Integer): TTimeEvent;
 begin
   Result := TTimeEvent(inherited Items[index]);
 end;
 
+//---------------------------------------------------------------------------
 function TTimeEvents.Add: TTimeEvent;
 begin
   Result := (inherited Add) as TTimeEvent;
 end;
 
+//---------------------------------------------------------------------------
 function TTimeEvents.FindItemID(ID: Integer): TTimeEvent;
 begin
   Result := (inherited FindItemID(ID)) as TTimeEvent;
 end;
 
+//---------------------------------------------------------------------------
 function TTimeEvents.EventByName(const name: String): TTimeEvent;
 var
   i: Integer;
@@ -246,7 +253,6 @@ end;
 // ------------------
 // ------------------ TTimeEvent ------------------
 // ------------------
-
 constructor TTimeEvent.Create(Collection: TCollection);
 begin
   inherited Create(Collection);
@@ -256,11 +262,13 @@ begin
   FEnabled := True;
 end;
 
+//---------------------------------------------------------------------------
 destructor TTimeEvent.Destroy;
 begin
   inherited Destroy;
 end;
 
+//---------------------------------------------------------------------------
 function TTimeEvent.GetDisplayName: String;
 begin
   case EventType of
@@ -275,6 +283,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TTimeEvent.SetName(const val: String);
 var
   i: Integer;
@@ -291,6 +300,7 @@ begin
     FName := val;
 end;
 
+//---------------------------------------------------------------------------
 procedure TTimeEvent.DoEvent(const CurTime: Double);
 begin
   if Assigned(FOnEvent) then
@@ -301,6 +311,7 @@ begin
   Inc(FTickCount);
 end;
 
+//---------------------------------------------------------------------------
 procedure TTimeEvent.SetEnabled(const Value: boolean);
 begin
   FEnabled := Value;
@@ -308,4 +319,5 @@ begin
     .Cadencer.CurrentTime;
 end;
 
+//---------------------------------------------------------------------------
 end.

@@ -1,3 +1,6 @@
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.CyborgManager;
 (*
   The CyborgManager is a class that provides a way to manage
@@ -11,6 +14,7 @@ interface
 uses
   System.SysUtils,
   System.Classes,
+
   GLS.Scene,
   GLS.Objects,
   GLS.SmartObjects,
@@ -42,10 +46,9 @@ type
     property Path: string read FModelPath write SetPathToModel;
   end;
 
-// ============================================================================
-implementation
-// ============================================================================
+implementation //============================================================
 
+//---------------------------------------------------------------------------
 constructor TGLCyborgManager.Create(AMaster: TGLDummyCube; APath: string);
 begin
   // Set the master object
@@ -58,7 +61,7 @@ begin
   SetPathToModel(APath);
 end;
 
-// --------------------------------
+//---------------------------------------------------------------------------
 destructor TGLCyborgManager.Destroy;
 var
   i: Integer;
@@ -71,7 +74,7 @@ begin
   inherited;
 end;
 
-// --------------------------------------------------------------
+//---------------------------------------------------------------------------
 function TGLCyborgManager.LoadModel(AFilename: string): TGLCyborg;
 var
   i: Integer;
@@ -91,7 +94,7 @@ begin
   end;
 end;
 
-// ----------------------------------------------------------
+//---------------------------------------------------------------------------
 procedure TGLCyborgManager.SetPathToModel(const Value: String);
 var
   Len: Integer;
@@ -110,4 +113,5 @@ begin
       .LoadFromFile(FModelPath + FModelList.Strings[i]);
 end;
 
+//---------------------------------------------------------------------------
 end.

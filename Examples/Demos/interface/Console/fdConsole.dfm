@@ -67,8 +67,7 @@ object FormConsole: TFormConsole
       Align = alClient
       Caption = 'Console options'
       TabOrder = 0
-      ExplicitTop = 233
-      ExplicitHeight = 158
+      ExplicitHeight = 198
       object Label1: TLabel
         Left = 61
         Top = 79

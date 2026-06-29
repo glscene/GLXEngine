@@ -1,3 +1,6 @@
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit fdGameMenu;
 
 interface
@@ -72,10 +75,11 @@ var
   sMenu: String = 'menu line ';
 
 
-implementation
+implementation //============================================================
 
 {$R *.dfm}
 
+//---------------------------------------------------------------------------
 procedure TFormGameMenu.FormCreate(Sender: TObject);
 begin
   var Path: TFileName := GetCurrentAssetPath();
@@ -99,6 +103,7 @@ begin
   GameMenu.Position.Y := 200;
 end;
 
+//---------------------------------------------------------------------------
 procedure TFormGameMenu.FormKeyPress(Sender: TObject; var Key: Char);
 begin
   if IsKeyDown('W') then GameMenu.SelectPrev;
@@ -112,18 +117,21 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TFormGameMenu.GLCadencer1Progress(Sender: TObject; const deltaTime,
   newTime: Double);
 begin
   GLSceneViewer1.Invalidate;
 end;
 
+//---------------------------------------------------------------------------
 procedure TFormGameMenu.GLSceneViewer1MouseMove(Sender: TObject;
   Shift: TShiftState; X, Y: Integer);
 begin
   GameMenu.MouseMenuSelect(X, Y);
 end;
 
+//---------------------------------------------------------------------------
 procedure TFormGameMenu.GLSceneViewer1MouseDown(Sender: TObject;
   Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
 begin
@@ -132,6 +140,7 @@ begin
     ShowMessage(sMessage + '"'+GameMenu.SelectedText+'"');
 end;
 
+//---------------------------------------------------------------------------
 procedure TFormGameMenu.ShowTitleCheckboxClick(Sender: TObject);
 begin
   if GameMenu.TitleHeight = 0 then
@@ -140,9 +149,11 @@ begin
    GameMenu.TitleHeight := 0;
 end;
 
+//---------------------------------------------------------------------------
 procedure TFormGameMenu.MainPanelResize(Sender: TObject);
 begin
   GameMenu.Position.X := MainPanel.Width div 2;
 end;
 
+//---------------------------------------------------------------------------
 end.

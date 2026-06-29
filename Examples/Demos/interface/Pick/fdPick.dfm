@@ -1,4 +1,4 @@
-object Form1: TForm1
+object FormPick: TFormPick
   Left = 227
   Top = 96
   BorderStyle = bsDialog

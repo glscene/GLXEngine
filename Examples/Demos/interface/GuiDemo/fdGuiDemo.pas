@@ -1,3 +1,6 @@
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit fdGuiDemo;
 
 interface
@@ -64,19 +67,18 @@ type
     procedure FormKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure GLButton1ButtonClick(Sender: TObject);
   private
-     
   public
-     
     constructor Create(AOwner: TComponent); override;
   end;
 
 var
   FormGuidemo: TFormGuidemo;
 
-implementation
+implementation //============================================================
 
 {$R *.DFM}
 
+//---------------------------------------------------------------------------
 constructor TFormGuidemo.Create(AOwner: TComponent);
 begin
   inherited;
@@ -84,6 +86,7 @@ begin
   WindowsBitmapFont1.EnsureString(GLForm1.Caption);
 end;
 
+//---------------------------------------------------------------------------
 procedure TFormGuidemo.GLCadencer1Progress(Sender: TObject;
   const deltaTime, newTime: Double);
 begin
@@ -92,12 +95,14 @@ begin
   GLSceneViewer1.Invalidate;
 end;
 
+//---------------------------------------------------------------------------
 procedure TFormGuidemo.Timer1Timer(Sender: TObject);
 begin
   miFPS.Caption := Format('%.1f FPS', [GLSceneViewer1.FramesPerSecond]);
   GLSceneViewer1.ResetPerformanceMonitor;
 end;
 
+//---------------------------------------------------------------------------
 procedure TFormGuidemo.WindowsFont1Click(Sender: TObject);
 begin
   FontDialog1.Font := WindowsBitmapFont1.Font;
@@ -105,40 +110,47 @@ begin
     WindowsBitmapFont1.Font := FontDialog1.Font;
 end;
 
+//---------------------------------------------------------------------------
 procedure TFormGuidemo.GLSceneViewer1MouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
   GLForm1.MouseDown(Sender, TMouseButton(Button), Shift, X, Y);
 end;
 
+//---------------------------------------------------------------------------
 procedure TFormGuidemo.GLSceneViewer1MouseMove(Sender: TObject; Shift: TShiftState;
   X, Y: Integer);
 begin
   GLForm1.MouseMove(Sender, Shift, X, Y);
 end;
 
+//---------------------------------------------------------------------------
 procedure TFormGuidemo.GLSceneViewer1MouseUp(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
   GLForm1.MouseUp(Sender, TMouseButton(Button), Shift, X, Y);
 end;
 
+//---------------------------------------------------------------------------
 procedure TFormGuidemo.FormKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
   GLForm1.KeyDown(Sender, Key, Shift);
 end;
 
+//---------------------------------------------------------------------------
 procedure TFormGuidemo.FormKeyPress(Sender: TObject; var Key: Char);
 begin
   GLForm1.KeyPress(Sender, Key);
 end;
 
+//---------------------------------------------------------------------------
 procedure TFormGuidemo.FormKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
   GLForm1.KeyUp(Sender, Key, Shift);
 end;
 
+//---------------------------------------------------------------------------
 procedure TFormGuidemo.GLButton1ButtonClick(Sender: TObject);
 Var
   OldCaption: String;
@@ -148,4 +160,5 @@ begin
   GLEdit1.Caption := OldCaption;
 end;
 
+//---------------------------------------------------------------------------
 end.
