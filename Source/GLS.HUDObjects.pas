@@ -31,7 +31,6 @@ uses
   GLS.Texture;
 
 type
-
   (*
     A rectangular area, NOT perspective projected.
     (x, y) coordinates map directly to the viewport (in pixels) and refer
@@ -170,6 +169,7 @@ begin
   FYTiles := 1;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLHUDSprite.SetXTiles(const val: Integer);
 begin
   if val <> FXTiles then
@@ -179,6 +179,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLHUDSprite.SetYTiles(const val: Integer);
 begin
   if val <> FYTiles then
@@ -188,6 +189,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLHUDSprite.DoRender(var rci: TGLRenderContextInfo;
   renderSelf, renderChildren: Boolean);
 var
@@ -276,12 +278,13 @@ begin
     Self.renderChildren(0, Count - 1, rci);
 end;
 
+//---------------------------------------------------------------------------
 function TGLHUDSprite.StoreHeight: Boolean;
 begin
   Result := Abs(Height - 16) > 0.001;
 end;
 
-
+//---------------------------------------------------------------------------
 function TGLHUDSprite.StoreWidth: Boolean;
 begin
   Result := Abs(Height - 16) > 0.001;
@@ -297,7 +300,7 @@ begin
   FModulateColor := TGSColor.CreateInitialized(Self, clrWhite);
 end;
 
-
+//---------------------------------------------------------------------------
 destructor TGLHUDText.Destroy;
 begin
   FModulateColor.Free;
@@ -305,6 +308,7 @@ begin
   inherited;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLHUDText.Notification(AComponent: TComponent;
   Operation: TOperation);
 begin
@@ -313,6 +317,7 @@ begin
   inherited;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLHUDText.SetBitmapFont(const val: TGLCustomBitmapFont);
 begin
   if val <> FBitmapFont then
@@ -329,35 +334,41 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLHUDText.SetText(const val: UnicodeString);
 begin
   FText := val;
   StructureChanged;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLHUDText.SetRotation(const val: Single);
 begin
   FRotation := val;
   StructureChanged;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLHUDText.SetAlignment(const val: TAlignment);
 begin
   FAlignment := val;
   StructureChanged;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLHUDText.SetLayout(const val: TTextLayout);
 begin
   FLayout := val;
   StructureChanged;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLHUDText.SetModulateColor(const val: TGSColor);
 begin
   FModulateColor.Assign(val);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLHUDText.RenderTextAtPosition(const X, Y, Z: Single;
   var rci: TGLRenderContextInfo);
 var
@@ -392,6 +403,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLHUDText.DoRender(var rci: TGLRenderContextInfo;
   renderSelf, renderChildren: Boolean);
 begin
@@ -410,6 +422,7 @@ begin
   Position.Y := 0.5;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLResolutionIndependantHUDText.DoRender(var rci: TGLRenderContextInfo;
   renderSelf, renderChildren: Boolean);
 begin

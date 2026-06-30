@@ -31,19 +31,17 @@ type
     procedure LoadFromStream(aStream: TStream); override;
   end;
 
-// ------------------------------------------------------------------
-implementation
-// ------------------------------------------------------------------
+implementation //============================================================
 
 // ------------------
 // ------------------ TGLPLYVectorFile ------------------
 // ------------------
-
 class function TGLPLYVectorFile.Capabilities: TGSDataFileCapabilities;
 begin
   Result := [dfcRead];
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLPLYVectorFile.LoadFromStream(aStream: TStream);
 var
   i, nbVertices, nbFaces: Integer;
@@ -101,9 +99,7 @@ begin
   end;
 end;
 
-// ------------------------------------------------------------------
-initialization
-// ------------------------------------------------------------------
+initialization //============================================================
 
 RegisterVectorFileFormat('ply', 'Stanford triangle format', TGLPLYVectorFile);
 

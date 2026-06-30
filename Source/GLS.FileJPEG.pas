@@ -2,9 +2,9 @@
                           GLScene Graphics Engine
 ******************************************************************************)
 unit GLS.FileJPEG;
-
-(* Methods for loading Jpeg images *)
-
+(*
+  Methods for loading Jpeg images
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -55,10 +55,9 @@ type
 
 procedure Jpeg2Bmp(const BmpFileName, JpgFileName: string);
 
-//---------------------------------------------------------------------
-implementation
-//---------------------------------------------------------------------
+implementation //============================================================
 
+//---------------------------------------------------------------------------
 procedure Jpeg2Bmp(const BmpFileName, JpgFileName: string);
 var
   Bmp: TBitmap;
@@ -76,12 +75,9 @@ begin
   end;
 end;
 
-
-
 // ------------------
 // ------------------ TGLJPEGImage ------------------
 // ------------------
-
 constructor TGLJPEGImage.Create;
 begin
   inherited;
@@ -90,6 +86,7 @@ begin
   FDither := False;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLJPEGImage.LoadFromFile(const filename: string);
 var
   fs: TStream;
@@ -108,6 +105,7 @@ begin
     raise EInvalidRasterFile.CreateFmt('File %s not found', [filename]);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLJPEGImage.SaveToFile(const filename: string);
 var
   fs: TStream;
@@ -121,6 +119,7 @@ begin
   ResourceName := filename;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLJPEGImage.LoadFromStream(AStream: TStream);
 var
   JpegImage: TJpegImage;
@@ -155,11 +154,13 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLJPEGImage.SaveToStream(AStream: TStream);
 begin
-
+  //
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLJPEGImage.AssignFromTexture(textureContext: TGLContext;
   const textureHandle: Cardinal; textureTarget: TGLTextureTarget;
   const CurrentFormat: boolean; const intFormat: TGLInternalFormat);
@@ -167,6 +168,7 @@ begin
 
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLJPEGImage.SetSmoothing(const AValue: boolean);
 begin
   if FSmoothing <> AValue then
@@ -178,9 +180,7 @@ begin
   Result := [dfcRead {, dfcWrite}];
 end;
 
-//-----------------------------------
-initialization
-//-----------------------------------
+initialization //============================================================
 
   RegisterRasterFormat('jpg', 'Joint Photographic Experts Group Image',
     TGLJPEGImage);

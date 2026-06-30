@@ -32,19 +32,17 @@ type
         procedure LoadFromStream(aStream : TStream); override;
    end;
 
-// ------------------------------------------------------------------
-implementation
-// ------------------------------------------------------------------
+implementation //============================================================
 
 // ------------------
 // ------------------ TGLTINVectorFile ------------------
 // ------------------
-
 class function TGLTINVectorFile.Capabilities : TGSDataFileCapabilities;
 begin
    Result:=[dfcRead];
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLTINVectorFile.LoadFromStream(aStream : TStream);
 var
    i, j : Integer;
@@ -115,7 +113,7 @@ begin
           VertArr[j].Z := GLStrToFloatDef(tl[2]);
           Inc(j);
         until (j = NVert);
-        Inc(i);  
+        Inc(i);
 		tl.DelimitedText := sl[i];
         NTri := StrToInt(tl[1]);
         j := 0;
@@ -139,9 +137,7 @@ begin
   end;
 end;
 
-// ------------------------------------------------------------------
-initialization
-// ------------------------------------------------------------------
+initialization //============================================================
 
    RegisterVectorFileFormat('tin', 'Triangular Irregular Network', TGLTINVectorFile);
 

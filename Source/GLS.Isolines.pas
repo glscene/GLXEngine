@@ -104,9 +104,7 @@ function GetNextIsoline(var Isoline: TGLIsoline): Boolean;
 procedure TriangleElevationSegments(const p1, p2, p3: TAffineVector;
   ElevationDelta: Single; Segments: TGSAffineVectorList);
 
-//----------------------------------------------------------------------
-implementation
-//----------------------------------------------------------------------
+implementation //============================================================
 
 var
   ii, jj: Integer;
@@ -119,6 +117,7 @@ var
   LineX1, LineY1, LineX2, LineY2: TVectorArr;
 
 
+//---------------------------------------------------------------------------
 function EqAdd(a, b: integer): integer;
 begin
   if a = b then
@@ -127,8 +126,8 @@ begin
     Result := 0;
 end;
 
+//---------------------------------------------------------------------------
 procedure Initialize_Contouring;
-
 var
   i, j: Integer;
   Maxnp: Integer;
@@ -162,6 +161,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure Release_Memory_Isoline;
 begin
   SetLength(Visited, 0);
@@ -172,6 +172,7 @@ begin
   SetLength(LineY2, 0);
 end;
 
+//---------------------------------------------------------------------------
 procedure Cuts(const g: TMatrixArr; i, j: Integer; var s: array of Integer);
 begin
   s[0] := 0;
@@ -197,6 +198,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure Intercept(const g: TMatrixArr; i, j, s: Integer; var x, y: Single);
 begin
   case s of
@@ -223,6 +225,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 function Free_Exit(const Visited: TByteMatrixArr;
   i, j, NX, NY, Lexit: Integer): Boolean;
 var
@@ -241,6 +244,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TraceIsoline(i, j, Lexit, NX, NY: Integer; const Grid: TMatrixArr;
   const Visited: TByteMatrixArr; var LineX, LineY: TVectorArr;
   var NP: Integer; var OffGrid: Boolean);
@@ -389,6 +393,7 @@ begin
   Result := False;
 end;
 
+//---------------------------------------------------------------------------
 procedure TriangleElevationSegments(const p1, p2, p3: TAffineVector;
   ElevationDelta: Single; Segments: TGSAffineVectorList);
 
@@ -442,6 +447,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 constructor TGLIsolines.Create(AOwner: TComponent);
 begin
   LineList := TList.Create;
@@ -449,6 +455,7 @@ begin
   Nodes.Create(Self);
 end;
 
+//---------------------------------------------------------------------------
 destructor TGLIsolines.Destroy;
 begin
   FreeList;
@@ -456,6 +463,7 @@ begin
   inherited;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLIsolines.FreeList;
 var
   i: integer;
@@ -471,6 +479,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLIsolines.MakeIsolines(var Depths: TMatrixArr; bmSize: integer;
   StartDepth, EndDepth: Single; Interval: Integer);
 var
@@ -492,6 +501,7 @@ begin
   IsolineState := ilsReady;
 end;
 
+//---------------------------------------------------------------------------
 constructor TGLIsoline.Create(LineSize: Integer);
 begin
   inherited Create;
@@ -499,6 +509,7 @@ begin
   Getmem(Line, NP * 2 * Sizeof(Single));
 end;
 
+//---------------------------------------------------------------------------
 destructor TGLIsoline.Destroy;
 begin
   inherited;
@@ -507,6 +518,7 @@ begin
   NP := 0;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLIsolines.Conrec(PlaneSFindex:Integer;PlaneSF:TGLfreeForm; Data: TMatrixArr; ilb, iub, jlb, jub: Integer;
   X: TVectorArr; Y: TVectorArr;  NC: Integer; HgtL: TVectorArr;
   Z_Kfix: Single; res3Dmax,res3Dmin: Single);
@@ -612,9 +624,9 @@ begin
                     xh[0] := (X[i] + X[i + 1]) / 2;
                     yh[0] := (Y[j] + Y[j + 1]) / 2;
                   end; // if m>0 then else
-              if h[m] > 0 then      
+              if h[m] > 0 then
 			    sh[m] := 1
-              else If h[m] < 0 then 
+              else If h[m] < 0 then
 			    sh[m] := -1
               else
                 sh[m] := 0;
@@ -799,8 +811,7 @@ begin
     end; // ----  -for i
   end; // ----  -for j
 end;
-// ------ End of ----------------------------------------------------------------
-
+//---------------------------------------------------------------------------
 end.
 
 

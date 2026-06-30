@@ -42,14 +42,11 @@ type
 var
   vMD5TextureExtensions: TStringList;
 
-// ------------------------------------------------------------------
-implementation
-// ------------------------------------------------------------------
+implementation //============================================================
 
 // -----------
 // ----------- TGLMD5VectorFile -----------
 // -----------
-
 function TGLMD5VectorFile.ReadLine: String;
 begin
   Result := '';
@@ -66,11 +63,13 @@ begin
   until (Result <> '') or (FCurrentPos >= FMD5String.Count);
 end;
 
+//---------------------------------------------------------------------------
 class function TGLMD5VectorFile.Capabilities: TGSDataFileCapabilities;
 begin
   Result := [dfcRead];
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMD5VectorFile.LoadFromStream(aStream: TStream);
 
   procedure AllocateMaterial(var shader: String);
@@ -105,6 +104,7 @@ procedure TGLMD5VectorFile.LoadFromStream(aStream: TStream);
     shader := '';
   end;
 
+  //---------------------------------------------------------------------------
   function QuaternionMakeFromImag(ix, iy, iz: Single): TQuaternion;
   var
     rr: Single;
@@ -122,6 +122,7 @@ procedure TGLMD5VectorFile.LoadFromStream(aStream: TStream);
     end;
   end;
 
+  //---------------------------------------------------------------------------
   procedure ReadBone(BoneNum: Integer; BoneString: String);
   var
     bonename: String;
@@ -178,6 +179,7 @@ procedure TGLMD5VectorFile.LoadFromStream(aStream: TStream);
     FBasePose.Quaternion[BoneNum] := quat;
   end;
 
+  //---------------------------------------------------------------------------
   procedure ReadJoints;
   var
     temp: String;
@@ -197,6 +199,7 @@ procedure TGLMD5VectorFile.LoadFromStream(aStream: TStream);
     Owner.Skeleton.RootBones.PrepareGlobalMatrices;
   end;
 
+  //---------------------------------------------------------------------------
   procedure ReadMesh;
   var
     temp, shader: String;
@@ -326,6 +329,7 @@ procedure TGLMD5VectorFile.LoadFromStream(aStream: TStream);
     VertexWeighted.Free;
   end;
 
+  //---------------------------------------------------------------------------
   procedure ReadHierarchy;
   var
     temp: String;
@@ -350,6 +354,7 @@ procedure TGLMD5VectorFile.LoadFromStream(aStream: TStream);
     until temp = '}';
   end;
 
+  //---------------------------------------------------------------------------
   procedure ReadBaseFrame;
   var
     temp: String;
@@ -375,6 +380,7 @@ procedure TGLMD5VectorFile.LoadFromStream(aStream: TStream);
     until temp = '}';
   end;
 
+  //---------------------------------------------------------------------------
   procedure ReadFrame(framenum: Integer);
   var
     temp: String;
@@ -437,6 +443,7 @@ procedure TGLMD5VectorFile.LoadFromStream(aStream: TStream);
     end;
   end;
 
+  //---------------------------------------------------------------------------
   procedure InitializeMeshes;
   var
     i: Integer;
@@ -569,10 +576,7 @@ begin
   end;
 end;
 
-// ------------------------------------------------------------------
-initialization
-
-// ------------------------------------------------------------------
+initialization //============================================================
 
 RegisterVectorFileFormat('md5mesh', 'Doom3 mesh files', TGLMD5VectorFile);
 RegisterVectorFileFormat('md5anim', 'Doom3 animation files', TGLMD5VectorFile);
@@ -586,10 +590,7 @@ begin
   Add('.tga');
 end;
 
-// ------------------------------------------------------------------
-finalization
-
-// ------------------------------------------------------------------
+finalization //==============================================================
 
 vMD5TextureExtensions.Free;
 

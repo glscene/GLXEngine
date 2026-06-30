@@ -6,7 +6,6 @@ unit GLS.ImageUtils;
   Main purpose is as a fallback in cases where there is no other way
   to process images like in GR32
 *)
-
 // TODO: Complite InfToXXX
 // TODO: BPTC decompression
 // TODO: S3TC compression
@@ -150,19 +149,20 @@ type
     NumColors: Integer; // Number of entries in the device's color table.
   end;
 
-//----------------------------------------------------------------------------
-
+//---------------------------------------------------------------------------
 function GLOKMessageBox(const Text, Caption: string): Integer;
 begin
   Result := Application.MessageBox(PChar(Text), PChar(Caption), MB_OK);
 end;
 
+//---------------------------------------------------------------------------
 procedure GLLoadBitmapFromInstance(Instance: LongInt; ABitmap: TBitmap;
   const AName: string);
 begin
   ABitmap.Handle := LoadBitmap(Instance, PChar(AName));
 end;
 
+//---------------------------------------------------------------------------
 procedure Swap(var A, B: Integer); inline;
 var
   C: Integer;
@@ -172,14 +172,16 @@ begin
   B := C;
 end;
 
-// ------------------------------ OpenGL format image to RGBA Float
-
+//---------------------------------------------------------------------------
+// OpenGL format image to RGBA Float
+//---------------------------------------------------------------------------
 procedure UnsupportedToImf(ASource: Pointer; ADest: PIntermediateFormatArray;
   AColorFormat: Cardinal; AWidth, AHeight: Integer);
 begin
   raise EGLImageUtils.Create('Unimplemented type of conversion');
 end;
 
+//---------------------------------------------------------------------------
 procedure UbyteToImf(ASource: Pointer; ADest: PIntermediateFormatArray;
   AColorFormat: Cardinal; AWidth, AHeight: Integer);
 var
@@ -302,6 +304,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure Ubyte332ToImf(ASource: Pointer; ADest: PIntermediateFormatArray;
   AColorFormat: Cardinal; AWidth, AHeight: Integer);
 var
@@ -345,6 +348,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure Ubyte233RToImf(ASource: Pointer; ADest: PIntermediateFormatArray;
   AColorFormat: Cardinal; AWidth, AHeight: Integer);
 var
@@ -388,6 +392,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure ByteToImf(ASource: Pointer; ADest: PIntermediateFormatArray;
   AColorFormat: Cardinal; AWidth, AHeight: Integer);
 var
@@ -509,6 +514,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure UShortToImf(ASource: Pointer; ADest: PIntermediateFormatArray;
   AColorFormat: Cardinal; AWidth, AHeight: Integer);
 var
@@ -630,6 +636,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure ShortToImf(ASource: Pointer; ADest: PIntermediateFormatArray;
   AColorFormat: Cardinal; AWidth, AHeight: Integer);
 var
@@ -751,6 +758,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure UIntToImf(ASource: Pointer; ADest: PIntermediateFormatArray;
   AColorFormat: Cardinal; AWidth, AHeight: Integer);
 var
@@ -872,6 +880,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure IntToImf(ASource: Pointer; ADest: PIntermediateFormatArray;
   AColorFormat: Cardinal; AWidth, AHeight: Integer);
 var
@@ -993,6 +1002,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure FloatToImf(ASource: Pointer; ADest: PIntermediateFormatArray;
   AColorFormat: Cardinal; AWidth, AHeight: Integer);
 var
@@ -1114,6 +1124,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure HalfFloatToImf(ASource: Pointer; ADest: PIntermediateFormatArray;
   AColorFormat: Cardinal; AWidth, AHeight: Integer);
 var
@@ -1235,6 +1246,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure UInt8888ToImf(ASource: Pointer; ADest: PIntermediateFormatArray;
   AColorFormat: Cardinal; AWidth, AHeight: Integer);
 var
@@ -1283,6 +1295,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure UInt8888RevToImf(ASource: Pointer; ADest: PIntermediateFormatArray;
   AColorFormat: Cardinal; AWidth, AHeight: Integer);
 var
@@ -1331,6 +1344,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure UShort4444ToImf(ASource: Pointer; ADest: PIntermediateFormatArray;
   AColorFormat: Cardinal; AWidth, AHeight: Integer);
 var
@@ -1379,6 +1393,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure UShort4444RevToImf(ASource: Pointer; ADest: PIntermediateFormatArray;
   AColorFormat: Cardinal; AWidth, AHeight: Integer);
 var
@@ -1427,6 +1442,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure UShort565ToImf(ASource: Pointer; ADest: PIntermediateFormatArray;
   AColorFormat: Cardinal; AWidth, AHeight: Integer);
 var
@@ -1471,6 +1487,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure UShort565RevToImf(ASource: Pointer; ADest: PIntermediateFormatArray;
   AColorFormat: Cardinal; AWidth, AHeight: Integer);
 var
@@ -1515,6 +1532,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure UShort5551ToImf(ASource: Pointer; ADest: PIntermediateFormatArray;
   AColorFormat: Cardinal; AWidth, AHeight: Integer);
 var
@@ -1562,6 +1580,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure UShort5551RevToImf(ASource: Pointer; ADest: PIntermediateFormatArray;
   AColorFormat: Cardinal; AWidth, AHeight: Integer);
 var
@@ -1609,6 +1628,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure UInt_10_10_10_2_ToImf(ASource: Pointer;
   ADest: PIntermediateFormatArray; AColorFormat: Cardinal;
   AWidth, AHeight: Integer);
@@ -1657,6 +1677,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure UInt_10_10_10_2_Rev_ToImf(ASource: Pointer;
   ADest: PIntermediateFormatArray; AColorFormat: Cardinal;
   AWidth, AHeight: Integer);
@@ -1706,8 +1727,9 @@ begin
 end;
 
 
-// ------------------------------ Decompression
-
+//---------------------------------------------------------------------------
+// Decompression
+//---------------------------------------------------------------------------
 procedure DecodeColor565(col: Word; out R, G, B: Byte);
 begin
   R := col and $1F;
@@ -1715,6 +1737,7 @@ begin
   B := (col shr 11) and $1F;
 end;
 
+//---------------------------------------------------------------------------
 procedure DXT1_ToImf(ASource: Pointer; ADest: PIntermediateFormatArray;
   AColorFormat: Cardinal; AWidth, AHeight: Integer);
 var
@@ -1724,8 +1747,8 @@ var
   bitmask: Cardinal;
   temp: PGLubyte;
   r0, g0, b0, r1, g1, b1: Byte;
-begin
 
+begin
   temp := PGLubyte(ASource);
   for y := 0 to (AHeight div 4) - 1 do
   begin
@@ -1795,6 +1818,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure DXT3_ToImf(ASource: Pointer; ADest: PIntermediateFormatArray;
   AColorFormat: Cardinal; AWidth, AHeight: Integer);
 var
@@ -1883,6 +1907,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure DXT5_ToImf(ASource: Pointer; ADest: PIntermediateFormatArray;
   AColorFormat: Cardinal; AWidth, AHeight: Integer);
 var
@@ -2001,6 +2026,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure Decode48BitBlock(ACode: Int64; out ABlock: TU48BitBlock); overload;
 var
   x, y: Byte;
@@ -2013,6 +2039,7 @@ begin
     end;
 end;
 
+//---------------------------------------------------------------------------
 procedure Decode48BitBlock(ACode: Int64; out ABlock: T48BitBlock); overload;
 var
   x, y: Byte;
@@ -2025,6 +2052,7 @@ begin
     end;
 end;
 
+//---------------------------------------------------------------------------
 procedure LATC1_ToImf(ASource: Pointer; ADest: PIntermediateFormatArray;
   AColorFormat: Cardinal; AWidth, AHeight: Integer);
 var
@@ -2107,6 +2135,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure SLATC1_ToImf(ASource: Pointer; ADest: PIntermediateFormatArray;
   AColorFormat: Cardinal; AWidth, AHeight: Integer);
 var
@@ -2189,6 +2218,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure LATC2_ToImf(ASource: Pointer; ADest: PIntermediateFormatArray;
   AColorFormat: Cardinal; AWidth, AHeight: Integer);
 var
@@ -2325,6 +2355,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure SLATC2_ToImf(ASource: Pointer; ADest: PIntermediateFormatArray;
   AColorFormat: Cardinal; AWidth, AHeight: Integer);
 var
@@ -2462,6 +2493,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure RGTC1_ToImf(ASource: Pointer; ADest: PIntermediateFormatArray;
   AColorFormat: Cardinal; AWidth, AHeight: Integer);
 var
@@ -2544,6 +2576,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure SRGTC1_ToImf(ASource: Pointer; ADest: PIntermediateFormatArray;
   AColorFormat: Cardinal; AWidth, AHeight: Integer);
 var
@@ -2626,6 +2659,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure RGTC2_ToImf(ASource: Pointer; ADest: PIntermediateFormatArray;
   AColorFormat: Cardinal; AWidth, AHeight: Integer);
 var
@@ -2762,6 +2796,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure SRGTC2_ToImf(ASource: Pointer; ADest: PIntermediateFormatArray;
   AColorFormat: Cardinal; AWidth, AHeight: Integer);
 var
@@ -2901,14 +2936,16 @@ begin
   end;
 end;
 
-// ------------------------------ RGBA Float to OpenGL format image
-
+//---------------------------------------------------------------------------
+// RGBA Float to OpenGL format image
+//---------------------------------------------------------------------------
 procedure UnsupportedFromImf(ASource: PIntermediateFormatArray; ADest: Pointer;
   AColorFormat: Cardinal; AWidth, AHeight: Integer);
 begin
   raise EGLImageUtils.Create('Unimplemented type of conversion');
 end;
 
+//---------------------------------------------------------------------------
 procedure ImfToUbyte(ASource: PIntermediateFormatArray; ADest: Pointer;
   AColorFormat: Cardinal; AWidth, AHeight: Integer);
 var
@@ -3075,6 +3112,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure ImfToByte(ASource: PIntermediateFormatArray; ADest: Pointer;
   AColorFormat: Cardinal; AWidth, AHeight: Integer);
 var
@@ -3241,6 +3279,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure ImfToUShort(ASource: PIntermediateFormatArray; ADest: Pointer;
   AColorFormat: Cardinal; AWidth, AHeight: Integer);
 var
@@ -3407,6 +3446,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure ImfToShort(ASource: PIntermediateFormatArray; ADest: Pointer;
   AColorFormat: Cardinal; AWidth, AHeight: Integer);
 var
@@ -3573,6 +3613,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure ImfToUInt(ASource: PIntermediateFormatArray; ADest: Pointer;
   AColorFormat: Cardinal; AWidth, AHeight: Integer);
 var
@@ -3739,6 +3780,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure ImfToInt(ASource: PIntermediateFormatArray; ADest: Pointer;
   AColorFormat: Cardinal; AWidth, AHeight: Integer);
 var
@@ -3905,6 +3947,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure ImfToFloat(ASource: PIntermediateFormatArray; ADest: Pointer;
   AColorFormat: Cardinal; AWidth, AHeight: Integer);
 const
@@ -4074,6 +4117,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure ImfToHalf(ASource: PIntermediateFormatArray; ADest: Pointer;
   AColorFormat: Cardinal; AWidth, AHeight: Integer);
 const
@@ -4243,7 +4287,9 @@ begin
   end;
 end;
 
-// ------------------------------ Compression
+//---------------------------------------------------------------------------
+// Compression
+//---------------------------------------------------------------------------
 { function FloatTo565(const AColor: TIntermediateFormat): Integer;
   var
   r, g, b: Integer;
@@ -4342,7 +4388,9 @@ end;
   WriteColourBlock( a, b, remapped, block );
   end; }
 
-// ------------------------------ Image filters
+//---------------------------------------------------------------------------
+// Image filters
+//---------------------------------------------------------------------------
 function ImageBoxFilter(Value: Single): Single;
 begin
   if (Value > -0.5) and (Value <= 0.5) then
@@ -4351,6 +4399,7 @@ begin
     Result := 0.0;
 end;
 
+//---------------------------------------------------------------------------
 function ImageTriangleFilter(Value: Single): Single;
 begin
   if Value < 0.0 then
@@ -4361,6 +4410,7 @@ begin
     Result := 0.0;
 end;
 
+//---------------------------------------------------------------------------
 function ImageHermiteFilter(Value: Single): Single;
 begin
   if Value < 0.0 then
@@ -4371,6 +4421,7 @@ begin
     Result := 0;
 end;
 
+//---------------------------------------------------------------------------
 function ImageBellFilter(Value: Single): Single;
 begin
   if Value < 0.0 then
@@ -4386,6 +4437,7 @@ begin
     Result := 0.0;
 end;
 
+//---------------------------------------------------------------------------
 function ImageSplineFilter(Value: Single): Single;
 var
   temp: Single;
@@ -4406,6 +4458,7 @@ begin
     Result := 0.0;
 end;
 
+//---------------------------------------------------------------------------
 function ImageLanczos3Filter(Value: Single): Single;
 const
   Radius = 3.0;
@@ -4424,6 +4477,7 @@ begin
     Result := 0.0;
 end;
 
+//---------------------------------------------------------------------------
 function ImageMitchellFilter(Value: Single): Single;
 const
   B = 1.0 / 3.0;
@@ -4453,11 +4507,13 @@ end;
 const
   cInvThree = 1.0 / 3.0;
 
+  //---------------------------------------------------------------------------
 procedure ImageAlphaFromIntensity(var AColor: TIntermediateFormat);
 begin
   AColor.A := (AColor.R + AColor.B + AColor.G) * cInvThree;
 end;
 
+//---------------------------------------------------------------------------
 procedure ImageAlphaSuperBlackTransparent(var AColor: TIntermediateFormat);
 begin
   if (AColor.R = 0.0) and (AColor.B = 0.0) and (AColor.G = 0.0) then
@@ -4466,6 +4522,7 @@ begin
     AColor.A := 255.0;
 end;
 
+//---------------------------------------------------------------------------
 procedure ImageAlphaLuminance(var AColor: TIntermediateFormat);
 begin
   AColor.A := (AColor.R + AColor.B + AColor.G) * cInvThree;
@@ -4474,11 +4531,13 @@ begin
   AColor.B := AColor.A;
 end;
 
+//---------------------------------------------------------------------------
 procedure ImageAlphaLuminanceSqrt(var AColor: TIntermediateFormat);
 begin
   AColor.A := Sqrt((AColor.R + AColor.B + AColor.G) * cInvThree);
 end;
 
+//---------------------------------------------------------------------------
 procedure ImageAlphaOpaque(var AColor: TIntermediateFormat);
 begin
   AColor.A := 255.0;
@@ -4487,6 +4546,7 @@ end;
 var
   vTopLeftColor: TIntermediateFormat;
 
+  //---------------------------------------------------------------------------
 procedure ImageAlphaTopLeftPointColorTransparent
   (var AColor: TIntermediateFormat);
 begin
@@ -4494,6 +4554,7 @@ begin
     AColor.A := 0.0;
 end;
 
+//---------------------------------------------------------------------------
 procedure ImageAlphaInverseLuminance(var AColor: TIntermediateFormat);
 begin
   AColor.A := 255.0 - (AColor.R + AColor.B + AColor.G) * cInvThree;
@@ -4502,6 +4563,7 @@ begin
   AColor.B := AColor.A;
 end;
 
+//---------------------------------------------------------------------------
 procedure ImageAlphaInverseLuminanceSqrt(var AColor: TIntermediateFormat);
 begin
   AColor.A := 255.0 - Sqrt((AColor.R + AColor.B + AColor.G) * cInvThree);
@@ -4510,6 +4572,7 @@ end;
 var
   vBottomRightColor: TIntermediateFormat;
 
+//---------------------------------------------------------------------------
 procedure ImageAlphaBottomRightPointColorTransparent
   (var AColor: TIntermediateFormat);
 begin
@@ -4537,8 +4600,7 @@ type
   TCListList = array [0 .. MaxInt div (2 * SizeOf(TCList))] of TCList;
   PCListList = ^TCListList;
 
-  // ------------------------------ Data type conversion table
-
+// ------------------------------ Data type conversion table
 type
   TConvertTableRec = record
     type_: Cardinal;
@@ -4649,6 +4711,7 @@ const
     (type_: GL_COMPRESSED_SIGNED_RG_RGTC2; proc1: SRGTC2_ToImf;
     proc2: UnsupportedFromImf));
 
+//---------------------------------------------------------------------------
 procedure ConvertImage(const ASrc: Pointer; const ADst: Pointer;
   ASrcColorFormat, ADstColorFormat: Cardinal;
   ASrcDataType, ADstDataType: Cardinal; AWidth, AHeight: Integer);
@@ -4707,6 +4770,7 @@ begin
   FreeMem(tempBuf);
 end;
 
+//---------------------------------------------------------------------------
 procedure RescaleImage(const ASrc: Pointer; const ADst: Pointer;
   AColorFormat: Cardinal; ADataType: Cardinal; AFilter: TImageFilterFunction;
   ASrcWidth, ASrcHeight, ADstWidth, ADstHeight: Integer);
@@ -4965,6 +5029,7 @@ begin
   FreeMem(tempBuf1);
 end;
 
+//---------------------------------------------------------------------------
 procedure Div2(var Value: Integer); inline;
 begin
   Value := Value div 2;
@@ -4972,6 +5037,7 @@ begin
     Value := 1;
 end;
 
+//---------------------------------------------------------------------------
 procedure Build2DMipmap(const ASrc: Pointer; const ADst: TPointerArray;
   AColorFormat: Cardinal; ADataType: Cardinal; AFilter: TImageFilterFunction;
   ASrcWidth, ASrcHeight: Integer);
@@ -5181,6 +5247,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure AlphaGammaBrightCorrection(const ASrc: Pointer;
   AColorFormat: Cardinal; ADataType: Cardinal; ASrcWidth, ASrcHeight: Integer;
   anAlphaProc: TImageAlphaProc; ABrightness: Single; AGamma: Single);
@@ -5244,7 +5311,7 @@ begin
   FreeMem(tempBuf1);
 end;
 
-
+//---------------------------------------------------------------------------
 function StringToColorAdvancedSafe(const Str: string;
   const Default: TColor): TColor;
 begin
@@ -5252,12 +5319,14 @@ begin
     Result := Default;
 end;
 
+//---------------------------------------------------------------------------
 function StringToColorAdvanced(const Str: string): TColor;
 begin
   if not TryStringToColorAdvanced(Str, Result) then
     raise EGLUtilsException.CreateResFmt(@strInvalidColor, [Str]);
 end;
 
+//---------------------------------------------------------------------------
 function TryStringToColorAdvanced(const Str: string;
   var OutColor: TColor): Boolean;
 var
@@ -5285,8 +5354,7 @@ begin
   end;
 end;
 
-//--------------------------------------------------------------------------
-
+//---------------------------------------------------------------------------
 function GetDeviceCapabilities: TDeviceCapabilities;
 var
   device: HDC;
@@ -5303,18 +5371,19 @@ begin
 end;
 
 
-// -------------------------------------------------------------------------
-
+//---------------------------------------------------------------------------
 function GetDeviceLogicalPixelsX(device: HDC): Integer;
 begin
   Result := GetDeviceCapabilities().Xdpi;
 end;
 
+//---------------------------------------------------------------------------
 function GetCurrentColorDepth: Integer;
 begin
   Result := GetDeviceCapabilities().Depth;
 end;
 
+//---------------------------------------------------------------------------
 function PixelFormatToColorBits(aPixelFormat: TPixelFormat): Integer;
 begin
   case aPixelFormat of
@@ -5339,23 +5408,25 @@ begin
   end;
 end;
 
-//-------------------------------------------------------------------------
-
+//---------------------------------------------------------------------------
 procedure InformationDlg(const msg: string);
 begin
   ShowMessage(msg);
 end;
 
+//---------------------------------------------------------------------------
 function QuestionDlg(const msg: string): Boolean;
 begin
   Result := (MessageDlg(msg, mtConfirmation, [mbYes, mbNo], 0) = mrYes);
 end;
 
+//---------------------------------------------------------------------------
 function InputDlg(const aCaption, aPrompt, aDefault: string): string;
 begin
   Result := InputBox(aCaption, aPrompt, aDefault);
 end;
 
+//---------------------------------------------------------------------------
 function SavePictureDialog(var aFileName: string;
   const aTitle: string = ''): Boolean;
 var
@@ -5378,6 +5449,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 function OpenPictureDialog(var aFileName: string;
   const aTitle: string = ''): Boolean;
 var
@@ -5400,6 +5472,6 @@ begin
   end;
 end;
 
-// ----------------------------------------------------------------------------
+// --------------------------------------------------------------------------
 
 end.

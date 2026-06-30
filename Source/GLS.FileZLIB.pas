@@ -21,7 +21,7 @@ uses
 const
    SIGN = 'ZLIB'; //Signature for compressed zlib.
 
-Type
+type
    TZLibHeader = record
       Signature: array[0..3] of AnsiChar;
       DirOffset: integer;

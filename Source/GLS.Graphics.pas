@@ -378,8 +378,9 @@ implementation //==============================================================
 var
   vRasterFileFormats: TGLRasterFileFormatsList;
 
-// ------------------------------ Raster File Registries
-
+//---------------------------------------------------------------------------
+// Raster File Registries
+//---------------------------------------------------------------------------
 function GetRasterFileFormats: TGLRasterFileFormatsList;
 begin
   if not Assigned(vRasterFileFormats) then
@@ -387,6 +388,7 @@ begin
   Result := vRasterFileFormats;
 end;
 
+//---------------------------------------------------------------------------
 procedure RegisterRasterFormat(const AExtension, ADescription: string;
   AClass: TGLBaseImageClass);
 begin
@@ -394,23 +396,27 @@ begin
   GetRasterFileFormats.Add(AExtension, ADescription, 0, AClass);
 end;
 
+//---------------------------------------------------------------------------
 procedure UnregisterRasterFormat(AClass: TGLBaseImageClass);
 begin
   if Assigned(vRasterFileFormats) then
     vRasterFileFormats.Remove(AClass);
 end;
 
+//---------------------------------------------------------------------------
 function RasterFileFormatExtensionByIndex(index: Integer): string;
 begin
   Result := GetRasterFileFormats.FindExtByIndex(index);
 end;
 
+//---------------------------------------------------------------------------
 destructor TGLRasterFileFormatsList.Destroy;
 begin
   Clean;
   inherited;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLRasterFileFormatsList.Add(const Ext, Desc: string; DescID: Integer;
   AClass: TGLBaseImageClass);
 var
@@ -427,6 +433,7 @@ begin
   inherited Add(newRec);
 end;
 
+//---------------------------------------------------------------------------
 function TGLRasterFileFormatsList.FindExt(Ext: string): TGLBaseImageClass;
 var
   i: Integer;
@@ -444,6 +451,7 @@ begin
   Result := nil;
 end;
 
+//---------------------------------------------------------------------------
 function TGLRasterFileFormatsList.FindFromFileName(const fileName: string):
   TGLBaseImageClass;
 var
@@ -457,6 +465,7 @@ begin
       [Ext, 'GLFile' + UpperCase(Ext)]);
 end;
 
+//---------------------------------------------------------------------------
 function TGLRasterFileFormatsList.FindFromStream(const AStream: TStream): TGLBaseImageClass;
 var
   Ext: string;
@@ -484,6 +493,7 @@ begin
       [Ext, 'GLFile' + UpperCase(Ext)]);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLRasterFileFormatsList.Remove(AClass: TGLBaseImageClass);
 var
   i: Integer;
@@ -495,6 +505,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLRasterFileFormatsList.BuildFilterStrings(
   imageFileClass: TGLBaseImageClass;
   var descriptions, filters: string;
@@ -536,6 +547,7 @@ begin
       [sAllFilter, filters, descriptions]);
 end;
 
+//---------------------------------------------------------------------------
 function TGLRasterFileFormatsList.FindExtByIndex(index: Integer;
   formatsThatCanBeOpened: Boolean = True;
   formatsThatCanBeSaved: Boolean = False): string;
@@ -565,7 +577,7 @@ begin
   end;
 end;
 
-//----------------------------------------------------------------------------
+//---------------------------------------------------------------------------
 procedure Div2(var Value: Integer);
 begin
   Value := Value div 2;
@@ -573,7 +585,7 @@ begin
     Inc(Value);
 end;
 
-//----------------------------------------------------------------------------
+//---------------------------------------------------------------------------
 function GetImageLodNumber(w, h, d: integer; IsVolume: Boolean): Integer;
 var
   L: Integer;
@@ -591,15 +603,15 @@ begin
   Result := L;
 end;
 
-//----------------------------------------------------------------------------
+//---------------------------------------------------------------------------
 procedure CalcImagePiramid(var APiramid: TGLImagePiramid);
 begin
   //
 end;
 
-//----------------------------------------------------------------------------
+//---------------------------------------------------------------------------
 //                                RGBA Utils
-//----------------------------------------------------------------------------
+//---------------------------------------------------------------------------
 procedure GammaCorrectRGBArray(base: Pointer; pixelCount: Integer;
   gamma: Single);
 var
@@ -627,7 +639,7 @@ begin
   end;
 end;
 
-//----------------------------------------------------------------------------
+//---------------------------------------------------------------------------
 procedure GammaCorrectRGBAArray(base: Pointer; pixelCount: Integer;
   gamma: Single);
 var

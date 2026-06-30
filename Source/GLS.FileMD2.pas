@@ -2,9 +2,9 @@
                           GLScene Graphics Engine
 ******************************************************************************)
 unit GLS.FileMD2;
-
-(* Quake2 MD2 vector file format implementation. *)
-
+(*
+  Quake2 MD2 vector file format implementation.
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -28,19 +28,17 @@ type
     procedure LoadFromStream(aStream: TStream); override;
   end;
 
-// ------------------------------------------------------------------
-implementation
-// ------------------------------------------------------------------
+implementation //============================================================
 
 // ------------------
 // ------------------ TGLMD2VectorFile ------------------
 // ------------------
-
 class function TGLMD2VectorFile.Capabilities: TGSDataFileCapabilities;
 begin
   Result := [dfcRead];
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMD2VectorFile.LoadFromStream(aStream: TStream);
 var
   i, j: Integer;
@@ -110,10 +108,7 @@ begin
   end;
 end;
 
-// ------------------------------------------------------------------
-initialization
-
-// ------------------------------------------------------------------
+initialization //============================================================
 
 RegisterVectorFileFormat('md2', 'Quake II model files', TGLMD2VectorFile);
 

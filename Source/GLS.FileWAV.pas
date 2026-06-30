@@ -16,7 +16,6 @@ uses
   GLS.SoundFileObjects;
 
 type
-
   // Support for Windows WAV format.
   TGLWAVFile = class(TGLSoundFile)
   private
@@ -39,9 +38,7 @@ type
     function LengthInBytes: Integer; override;
   end;
 
-// ------------------------------------------------------
-implementation
-// ------------------------------------------------------
+implementation //============================================================
 
 {$IFDEF MSWINDOWS}
 
@@ -54,10 +51,10 @@ type
 const
   WAVE_Format_ADPCM = 2;
 {$ENDIF}
-  // ------------------
-  // ------------------ TGLWAVFile ------------------
-  // ------------------
 
+// ------------------
+// ------------------ TGLWAVFile ------------------
+// ------------------
 function TGLWAVFile.CreateCopy(AOwner: TPersistent): TGSDataFile;
 begin
   Result := inherited CreateCopy(AOwner);
@@ -70,11 +67,13 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 class function TGLWAVFile.Capabilities: TGSDataFileCapabilities;
 begin
   Result := [dfcRead, dfcWrite];
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLWAVFile.LoadFromStream(Stream: TStream);
 {$IFDEF MSWINDOWS}
 var
@@ -155,12 +154,14 @@ begin
 {$ENDIF}
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLWAVFile.SaveToStream(Stream: TStream);
 begin
   if Length(data) > 0 then
     Stream.Write(data[0], Length(data));
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLWAVFile.PlayOnWaveOut;
 begin
 {$IFDEF MSWINDOWS}
@@ -169,6 +170,7 @@ begin
   // GLSM.SoundFileObjects.PlayOnWaveOut(PCMData, LengthInBytes, waveFormat);
 end;
 
+//---------------------------------------------------------------------------
 function TGLWAVFile.WAVData: Pointer;
 begin
   if Length(data) > 0 then
@@ -177,11 +179,13 @@ begin
     Result := nil;
 end;
 
+//---------------------------------------------------------------------------
 function TGLWAVFile.WAVDataSize: Integer;
 begin
   Result := Length(data);
 end;
 
+//---------------------------------------------------------------------------
 function TGLWAVFile.PCMData: Pointer;
 begin
 {$IFDEF MSWINDOWS}
@@ -194,14 +198,13 @@ begin
 {$ENDIF}
 end;
 
+//---------------------------------------------------------------------------
 function TGLWAVFile.LengthInBytes: Integer;
 begin
   Result := FPCMDataLength;
 end;
 
-//----------------------------------------------------
-initialization
-//----------------------------------------------------
+initialization //============================================================
 
 RegisterSoundFileFormat('wav', 'Windows WAV files', TGLWAVFile);
 

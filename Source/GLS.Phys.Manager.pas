@@ -198,6 +198,7 @@ type
 
 implementation //============================================================
 
+//---------------------------------------------------------------------------
 procedure TGLPhysManager.Notification(AComponent: TComponent;
   Operation: TOperation);
 begin
@@ -208,6 +209,7 @@ begin
   *)
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLPhysManager.DefineProperties(Filer: TFiler);
 begin
   inherited DefineProperties(Filer);
@@ -215,6 +217,7 @@ begin
     (Assigned(fForces) and (fForces.Count > 0)));
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLPhysManager.Loaded;
 begin
   inherited Loaded;
@@ -222,6 +225,7 @@ begin
     fForces.Loaded;
 end;
 
+//---------------------------------------------------------------------------
 function TGLPhysManager.FindObjectByName(Name: String): TGLBaseSceneObject;
 var
   i: Integer;
@@ -241,6 +245,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 function TGLPhysManager.FindForceFieldEmitterByName(Name: String)
   : TGLBaseSceneObject;
 var
@@ -258,6 +263,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLPhysManager.WriteForces(stream: TStream);
 var
   writer: TWriter;
@@ -271,6 +277,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLPhysManager.ReadForces(stream: TStream);
 var
   reader: TReader;
@@ -283,21 +290,25 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLPhysManager.SetForces(const val: TGLForces);
 begin
   Forces.Assign(val);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLPhysManager.SetInertias(const val: TList);
 begin
   fInertias.Assign(val);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLPhysManager.SetForceFieldEmitters(const val: TList);
 begin
   fForceFieldEmitters.Assign(val);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLPhysManager.SetScene(const val: TGLScene);
 begin
   // fScene:=val;
@@ -311,6 +322,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 function TGLPhysManager.GetForces: TGLForces;
 begin
   if not Assigned(fForces) then
@@ -318,12 +330,12 @@ begin
   Result := fForces;
 end;
 
+//---------------------------------------------------------------------------
 // Not accurate yet, because Forces should be re-calculated for each KVector.
 // Since forces will depend on distances between objects, then this will require
 // a central physics manager, that calculates KVector for all objects, then calculate forces
 // between objects for this new estimated state.
-//
-
+//---------------------------------------------------------------------------
 function TDESolver.StateToArray(): TStateArray;
 var
   i { ,j } : Integer;
@@ -341,6 +353,7 @@ begin
   Result := StateArray;
 end;
 
+//---------------------------------------------------------------------------
 procedure TDESolver.ArrayToState(StateArray: TStateArray);
 var
   i: Integer;
@@ -356,16 +369,19 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 constructor TDESolver.Create(aOwner: TGLPhysManager);
 begin
   Self.Owner := aOwner;
 end;
 
+//---------------------------------------------------------------------------
 destructor TDESolver.Destroy;
 begin
   //
 end;
 
+//---------------------------------------------------------------------------
 function TDESolverExplicit.CalcStateDot(): TStateArray;
 var
   i { ,j } : Integer;
@@ -387,6 +403,7 @@ begin
   Result := state;
 end;
 
+//---------------------------------------------------------------------------
 procedure TDESolverRungeKutta4.Solve(DeltaTime: Real);
 var
   // X,X0:TStateArray;
@@ -434,6 +451,7 @@ begin
   // tempState.Free();
 end;
 
+//---------------------------------------------------------------------------
 procedure TDESolverEuler.Solve(DeltaTime: Real);
 var
   i, j: Integer;
@@ -491,6 +509,7 @@ begin
   // NormalizeQuaternion(AngularOrientation);
 end;
 
+//---------------------------------------------------------------------------
 constructor TGLPhysManager.Create(aOwner: TComponent);
 begin
   inherited Create(aOwner);
@@ -501,6 +520,7 @@ begin
   ///RegisterManager(Self);
 end;
 
+//---------------------------------------------------------------------------
 destructor TGLPhysManager.Destroy;
 begin
   // fScene:=nil;
@@ -513,11 +533,13 @@ begin
   inherited Destroy;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLPhysManager.Assign(Source: TPersistent);
 begin
   inherited Assign(Source);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLPhysManager.SetDESolver(SolverType: TDESolverType);
 var
   tempSolver: TDESolver;
@@ -553,6 +575,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLPhysManager.RegisterInertia(aInertia: TGLBaseInertia);
 begin
   if Assigned(aInertia) then
@@ -565,6 +588,7 @@ begin
     end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLPhysManager.DeRegisterInertia(aInertia: TGLBaseInertia);
 begin
   if Assigned(aInertia) then
@@ -574,9 +598,9 @@ begin
     DESolver.StateSize := DESolver.StateSize - aInertia.StateSize;
     SetLength(DESolver.StateArray, DESolver.StateSize);
   end;
-
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLPhysManager.DeRegisterAllInertias;
 var
   i: Integer;
@@ -600,6 +624,7 @@ begin
     end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLPhysManager.DeRegisterForceFieldEmitter
   (aForceField: TGLBaseForceFieldEmitter);
 begin
@@ -610,6 +635,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLPhysManager.DeRegisterAllForceFieldEmitters;
 var
   i: Integer;
@@ -620,6 +646,7 @@ begin
   fForceFieldEmitters.Clear;
 end;
 
+//---------------------------------------------------------------------------
 function TGLPhysManager.CalculateKE(): Real;
 var
   Total: Real;
@@ -634,6 +661,7 @@ begin
   Result := Total;
 end;
 
+//---------------------------------------------------------------------------
 function TGLPhysManager.CalculatePE(): Real;
 var
   Total: Real;
@@ -648,42 +676,46 @@ begin
   Result := Total;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLPhysManager.CalculateNextState(DeltaTime: Real);
 begin
   if Assigned(DESolver) then
     DESolver.Solve(DeltaTime);
 end;
 
+//---------------------------------------------------------------------------
 constructor TGLForces.Create(aOwner: TPersistent);
 begin
   // Assert(aOwner is TGLBaseSceneObject);
   inherited Create(aOwner);
 end;
 
-{ destructor TGLForces.Destroy;
+(* destructor TGLForces.Destroy;
   begin
   inherited Destroy;
   end;
-}
+*)
 
+//---------------------------------------------------------------------------
 class function TGLForces.ItemsClass: TXCollectionItemClass;
 begin
   Result := TGLForce;
 end;
 
+//---------------------------------------------------------------------------
 function TGLForces.GetForce(index: Integer): TGLForce;
 begin
   Result := TGLForce(Items[index]);
 end;
 
+//---------------------------------------------------------------------------
 function TGLForces.CanAdd(aClass: TXCollectionItemClass): Boolean;
 begin
   Result := { (not aClass.InheritsFrom(TGLEffect)) and }
     (inherited CanAdd(aClass));
 end;
 
-// -----------------------------------------------------------------------------
-
+//---------------------------------------------------------------------------
 procedure TGLBaseInertia.SetManager(const val: TGLPhysManager);
 begin
   if val <> FManager then
@@ -696,6 +728,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLBaseInertia.Loaded;
 var
   mng: TComponent;
@@ -710,6 +743,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLBaseInertia.WriteToFiler(writer: TWriter);
 begin
   inherited;
@@ -724,6 +758,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLBaseInertia.ReadFromFiler(reader: TReader);
 begin
   inherited;
@@ -737,18 +772,21 @@ begin
   // Loaded;     //DB100
 end;
 
+//---------------------------------------------------------------------------
 constructor TGLBaseInertia.Create(aOwner: TXCollection);
 begin
   inherited Create(aOwner);
   FDampingEnabled := true;
 end;
 
+//---------------------------------------------------------------------------
 destructor TGLBaseInertia.Destroy;
 begin
   SetManager(nil);
   inherited Destroy;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLBaseInertia.Assign(Source: TPersistent);
 begin
   if Source.ClassType = Self.ClassType then
@@ -760,50 +798,58 @@ begin
   inherited Assign(Source);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLBaseInertia.StateToArray(var StateArray: TStateArray;
   StatePos: Integer);
 begin
 end;
 
-procedure TGLBaseInertia.ArrayToState( { var } StateArray: TStateArray;
+//---------------------------------------------------------------------------
+procedure TGLBaseInertia.ArrayToState( (* var *) StateArray: TStateArray;
   StatePos: Integer);
 begin
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLBaseInertia.CalcStateDot(var StateArray: TStateArray;
   StatePos: Integer);
 begin
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLBaseInertia.RemoveForces();
 begin
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLBaseInertia.CalculateForceFieldForce(ForceFieldEmitter
   : TGLBaseForceFieldEmitter);
 begin
 end;
 
+//---------------------------------------------------------------------------
 function TGLBaseInertia.CalculateKE(): Real;
 begin
   Result := 0;
 end;
 
+//---------------------------------------------------------------------------
 function TGLBaseInertia.CalculatePE(): Real;
 begin
   Result := 0;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLBaseInertia.CalcAuxiliary();
 begin
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLBaseInertia.SetUpStartingState();
 begin
 end;
 
-// -----------------------------------------------------------------------------
-
+//---------------------------------------------------------------------------
 procedure TGLBaseForceFieldEmitter.SetManager(const val: TGLPhysManager);
 begin
   if val <> FManager then
@@ -815,6 +861,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLBaseForceFieldEmitter.Loaded;
 var
   mng: TComponent;
@@ -829,6 +876,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLBaseForceFieldEmitter.WriteToFiler(writer: TWriter);
 begin
   inherited; // Dan Bartlett
@@ -842,6 +890,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLBaseForceFieldEmitter.ReadFromFiler(reader: TReader);
 begin
   inherited;
@@ -854,17 +903,20 @@ begin
   // Loaded;  //DB100
 end;
 
+//---------------------------------------------------------------------------
 constructor TGLBaseForceFieldEmitter.Create(aOwner: TXCollection);
 begin
   inherited Create(aOwner);
 end;
 
+//---------------------------------------------------------------------------
 destructor TGLBaseForceFieldEmitter.Destroy;
 begin
   SetManager(nil);
   inherited Destroy;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLBaseForceFieldEmitter.Assign(Source: TPersistent);
 begin
   if Source.ClassType = Self.ClassType then
@@ -874,7 +926,9 @@ begin
   inherited Assign(Source);
 end;
 
+//---------------------------------------------------------------------------
 // CalculateForceField
+//---------------------------------------------------------------------------
 function TGLBaseForceFieldEmitter.CalculateForceField(Body: TGLBaseSceneObject)
   : TAffineVector;
 begin

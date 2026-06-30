@@ -34,10 +34,7 @@ type
   ETGAException = class(Exception)
   end;
 
-  // ------------------------------------------------------------------
-implementation
-
-// ------------------------------------------------------------------
+implementation //============================================================
 
 type
   TTGAHeader = packed record
@@ -55,6 +52,7 @@ type
     ImageDescriptor: Byte;
   end;
 
+//---------------------------------------------------------------------------
 procedure ReadAndUnPackRLETGA24(stream: TStream; destBuf: PAnsiChar;
   totalSize: Integer);
 type
@@ -94,6 +92,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure ReadAndUnPackRLETGA32(stream: TStream; destBuf: PAnsiChar;
   totalSize: Integer);
 type
@@ -136,17 +135,18 @@ end;
 // ------------------
 // ------------------ TTGAImage ------------------
 // ------------------
-
 constructor TTGAImage.Create;
 begin
   inherited Create;
 end;
 
+//---------------------------------------------------------------------------
 destructor TTGAImage.Destroy;
 begin
   inherited Destroy;
 end;
 
+//---------------------------------------------------------------------------
 procedure TTGAImage.LoadFromStream(stream: TStream);
 var
   header: TTGAHeader;
@@ -238,6 +238,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TTGAImage.SaveToStream(stream: TStream);
 var
   y, rowSize: Integer;
@@ -264,15 +265,11 @@ begin
     stream.Write(ScanLine[Height - y - 1]^, rowSize);
 end;
 
-// ------------------------------------------------------------------
-
-initialization
-
-// ------------------------------------------------------------------
+initialization //============================================================
 
 TPicture.RegisterFileFormat('tga', 'Targa', TTGAImage);
 
-finalization
+finalization //==============================================================
 
 TPicture.UnregisterGraphicClass(TTGAImage);
 

@@ -1,13 +1,12 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.DynamicTexture;
-
 (*
   Adds a dynamic texture image, which allows for easy updating of
   texture data.
+  RegisterGLTextureImageClass(TGLDynamicTextureImage);
 *)
-
 interface
 
 {$I Stage.Defines.inc}
@@ -74,9 +73,7 @@ type
     property UsePBO: boolean read FUsePBO write SetUsePBO;
   end;
 
-// ---------------------------------------------------------
-implementation
-// ---------------------------------------------------------
+implementation //============================================================
 
 uses
   Stage.VectorGeometry;
@@ -84,7 +81,6 @@ uses
 // ----------------------------------
 // TGLDynamicTextureImage
 // ----------------------------------
-
 procedure TGLDynamicTextureImage.BeginUpdate;
 var
   LTarget: TGLTextureTarget;
@@ -135,9 +131,7 @@ begin
       ttTextureCubeArray: ;
     end;
   end;
-
   gl.CheckError;
-
   if assigned(FPBO) then
   begin
     FPBO.Bind;
@@ -147,19 +141,19 @@ begin
   begin
     FData := FBuffer;
   end;
-
   gl.CheckError;
   FDirtyRect := GetGLRect(0, 0, Width, Height);
 end;
 
+//---------------------------------------------------------------------------
 constructor TGLDynamicTextureImage.Create(AOwner: TPersistent);
 begin
   inherited Create(AOwner);
-
   FUseBGR := true;
   FUsePBO := true;
 end;
 
+//---------------------------------------------------------------------------
 destructor TGLDynamicTextureImage.Destroy;
 begin
   FreePBO;
@@ -167,6 +161,7 @@ begin
   inherited Destroy;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLDynamicTextureImage.EndUpdate;
 var
   d: pointer;
@@ -186,11 +181,9 @@ begin
   begin
     d := FBuffer;
   end;
-
   LTarget := TGLTexture(OwnerTexture).TextureHandle.Target;
   CurrentGLContext.GLStates.TextureBinding[0, LTarget] :=
     TGLTexture(OwnerTexture).Handle;
-
   case LTarget of
     ttNoShape: ;
     ttTexture1D: ;
@@ -210,14 +203,13 @@ begin
     ttTexture2DMultisampleArray: ;
     ttTextureCubeArray: ;
   end;
-
   if assigned(FPBO) then
     FPBO.UnBind;
-
   FData := nil;
   gl.CheckError;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLDynamicTextureImage.FreeBuffer;
 begin
   if assigned(FBuffer) then
@@ -227,6 +219,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLDynamicTextureImage.FreePBO;
 begin
   if assigned(FPBO) then
@@ -236,21 +229,25 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 class function TGLDynamicTextureImage.FriendlyName: String;
 begin
   Result := 'Dynamic Texture';
 end;
 
+//---------------------------------------------------------------------------
 class function TGLDynamicTextureImage.FriendlyDescription: String;
 begin
   Result := 'Dynamic Texture - optimised for changes at runtime';
 end;
 
+//---------------------------------------------------------------------------
 function TGLDynamicTextureImage.GetBitsPerPixel: integer;
 begin
   Result := 8 * GetTextureElementSize(TGLTexture(OwnerTexture).TextureFormatEx);
 end;
 
+//---------------------------------------------------------------------------
 function TGLDynamicTextureImage.GetDataFormat: integer;
 var
   Data, color: Cardinal;
@@ -259,11 +256,13 @@ begin
   Result := Data;
 end;
 
+//---------------------------------------------------------------------------
 function TGLDynamicTextureImage.GetTexSize: integer;
 begin
   Result := Width * Height * BitsPerPixel div 8;
 end;
 
+//---------------------------------------------------------------------------
 function TGLDynamicTextureImage.GetTextureFormat: integer;
 var
   Data, color: Cardinal;
@@ -279,6 +278,7 @@ begin
   Result := color;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLDynamicTextureImage.NotifyChange(Sender: TObject);
 begin
   if FTexSize <> GetTexSize then
@@ -289,6 +289,7 @@ begin
   inherited;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLDynamicTextureImage.SetDirtyRectangle(const Value: TRect);
 begin
   FDirtyRect.Left := MaxInteger(Value.Left, 0);
@@ -297,6 +298,7 @@ begin
   FDirtyRect.Bottom := MinInteger(Value.Bottom, Height);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLDynamicTextureImage.SetUsePBO(const Value: boolean);
 begin
   Assert(FUpdating = 0, 'Cannot change PBO settings while updating');
@@ -310,9 +312,7 @@ begin
   end;
 end;
 
-// ----------------------------------
-initialization
-// ----------------------------------
+initialization //============================================================
 
 RegisterGLTextureImageClass(TGLDynamicTextureImage);
 

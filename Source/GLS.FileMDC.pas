@@ -123,19 +123,17 @@ type
     procedure LoadFromStream(AStream: TStream); override;
   end;
 
-// ------------------------------------------------------------------
-implementation
-// ------------------------------------------------------------------
+implementation //============================================================
 
 // ------------------
 // ------------------ TGLMDCVectorFile ------------------
 // ------------------
-
 class function TGLMDCVectorFile.Capabilities: TGSDataFileCapabilities;
 begin
   Result := [DfcRead];
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMDCVectorFile.LoadFromStream(AStream: TStream);
 
 type
@@ -320,9 +318,7 @@ begin
   end;
 end;
 
-// ------------------------------------------------------------------
-initialization
-// ------------------------------------------------------------------
+initialization //============================================================
 
 RegisterVectorFileFormat('mdc', 'MDC files', TGLMDCVectorFile);
 

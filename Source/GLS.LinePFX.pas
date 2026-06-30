@@ -87,27 +87,32 @@ begin
   FDefaultLength := 1;
 end;
 
+//---------------------------------------------------------------------------
 destructor TGLLinePFXManager.Destroy;
 begin
   inherited Destroy;
 end;
 
+//---------------------------------------------------------------------------
 class function TGLLinePFXManager.ParticlesClass: TGLParticleClass;
 begin
   Result := TGLLineParticle;
 end;
 
+//---------------------------------------------------------------------------
 function TGLLinePFXManager.CreateParticle: TGLParticle;
 begin
   Result := inherited CreateParticle;
   TGLLineParticle(Result).FLength := DefaultLength;
 end;
 
+//---------------------------------------------------------------------------
 function TGLLinePFXManager.TexturingMode: Cardinal;
 begin
   Result := 0;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLLinePFXManager.InitializeRendering(var rci: TGLRenderContextInfo);
 var
   i: Integer;
@@ -124,11 +129,13 @@ begin
   FNvy := VectorNormalize(Fvy);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLLinePFXManager.BeginParticles(var rci: TGLRenderContextInfo);
 begin
   ApplyBlendingMode(rci);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLLinePFXManager.RenderParticle(var rci: TGLRenderContextInfo;
   aParticle: TGLParticle);
 var
@@ -173,16 +180,19 @@ begin
   gl.End_;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLLinePFXManager.EndParticles(var rci: TGLRenderContextInfo);
 begin
   UnapplyBlendingMode(rci);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLLinePFXManager.FinalizeRendering(var rci: TGLRenderContextInfo);
 begin
   inherited;
 end;
 
+//---------------------------------------------------------------------------
 function TGLLinePFXManager.StoreDefaultLength: Boolean;
 begin
   Result := (FDefaultLength <> 1);
@@ -202,6 +212,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLLineParticle.ReadFromFiler(reader: TGSVirtualReader);
 var
   archiveVersion: Integer;

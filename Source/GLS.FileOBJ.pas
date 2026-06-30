@@ -39,7 +39,6 @@ const
   LineLen = 100; 
 
 type
-
   TGLOBJVectorFile = class(TGLVectorFile)
   private
     FSourceStream: TStream; // Load from this stream 
@@ -96,9 +95,7 @@ var
   (* If enabled, main mesh will be splitted into multiple mesh from facegroup data.*)
   vGLFileOBJ_SplitMesh: boolean = False;
 
-// ------------------------------------------------------------------
-implementation
-// ------------------------------------------------------------------
+implementation //============================================================
 
 uses
   Stage.Strings,
@@ -107,19 +104,23 @@ uses
   GLS.Context,
   Stage.MeshUtils;
 
+//---------------------------------------------------------------------------
 function StreamEOF(S: TStream): Boolean;
 begin
   // Is the stream at its end?
   Result := (S.Position >= S.Size);
 end;
 
+//---------------------------------------------------------------------------
 function Rest(const s: string; Count: integer): string;
 // Return the right part of s including s[Count].
 begin
   Result := copy(s, Count, Length(s) - Count + 1);
 end;
 
+//---------------------------------------------------------------------------
 // Return the next Delimiter-delimited Token from the string s and remove it from s
+//---------------------------------------------------------------------------
 function NextToken(var s: string; delimiter: Char): string;
 var
   p: Integer;
@@ -137,7 +138,8 @@ begin
   end;
 end;
 
-(* ** TOBJFGVertexNormalTexIndexList ******************************************
+(*
+    TOBJFGVertexNormalTexIndexList
   - adds support for polygons and for "missing" normals and
     texture-coordinates. Pass -1 to Add for the index of a missing object.
   - Polygons are defined by counting off the number of vertices added to the
@@ -178,6 +180,7 @@ type
     property ShowNormals: boolean read FShowNormals write FShowNormals;
   end;
 
+//---------------------------------------------------------------------------
 constructor TOBJFGVertexNormalTexIndexList.CreateOwned(aOwner: TGLFaceGroups);
 begin
   inherited CreateOwned(aOwner);
@@ -185,18 +188,21 @@ begin
   //FShowNormals:=True;
 end;
 
+//---------------------------------------------------------------------------
 destructor TOBJFGVertexNormalTexIndexList.Destroy;
 begin
   FPolygonVertices.Free;
   inherited Destroy;
 end;
 
+//---------------------------------------------------------------------------
 procedure TOBJFGVertexNormalTexIndexList.Add(VertexIdx, NormalIdx, TexCoordIdx: Integer);
 begin
   inherited Add(VertexIdx, NormalIdx, TexCoordIdx);
   inc(FCurrentVertexCount);
 end;
 
+//---------------------------------------------------------------------------
 procedure TOBJFGVertexNormalTexIndexList.PolygonComplete;
 begin
   Assert(FMode = objfgmmPolygons, 'PolygonComplete may only be called for Facegroups with Mode=objfgmmPolygons.');
@@ -204,6 +210,7 @@ begin
   FCurrentVertexCount := 0;
 end;
 
+//---------------------------------------------------------------------------
 procedure TOBJFGVertexNormalTexIndexList.SetMode(aMode: TOBJFGMode);
 begin
   if aMode = FMode then
@@ -219,6 +226,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TOBJFGVertexNormalTexIndexList.BuildList(var mrci: TGLRenderContextInfo);
 var
   VertexPool: PAffineVectorArray;
@@ -360,6 +368,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TOBJFGVertexNormalTexIndexList.AddToTriangles(aList: TGSAffineVectorList;
   aTexCoords: TGSAffineVectorList = nil;
   aNormals: TGSAffineVectorList = nil);
@@ -431,6 +440,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 function TOBJFGVertexNormalTexIndexList.TriangleCount: Integer;
 var
   i: Integer;
@@ -459,7 +469,6 @@ end;
 // ------------------
 // ------------------ TGLOBJVectorFile ------------------
 // ------------------
-
 procedure TGLOBJVectorFile.ReadLine;
 var
   j: Integer;
@@ -526,6 +535,7 @@ begin
   SetLength(FLine, j - 1);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLOBJVectorFile.Error(const msg: string);
 var
   E: EGLOBJFileError;
@@ -535,11 +545,13 @@ begin
   raise E;
 end;
 
+//---------------------------------------------------------------------------
 class function TGLOBJVectorFile.Capabilities: TGSDataFileCapabilities;
 begin
   Result := [dfcRead, dfcWrite];
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLOBJVectorFile.CalcMissingOBJNormals(mesh: TGLMeshObject);
 var
   vertexPool: PAffineVectorArray;
@@ -616,6 +628,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLOBJVectorFile.LoadFromStream(aStream: TStream);
 var
   hv: THomogeneousVector;
@@ -1072,6 +1085,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLOBJVectorFile.SaveToStream(aStream: TStream);
 var
   OldDecimalSeparator: char;
@@ -1302,7 +1316,6 @@ end;
 // ------------------
 // ------------------ TGLMTLFile ------------------
 // ------------------
-
 procedure TGLMTLFile.Prepare;
 var
   i: Integer;
@@ -1321,6 +1334,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 function TGLMTLFile.MaterialStringProperty(const materialName, propertyName: string): string;
 var
   i, n: Integer;
@@ -1349,6 +1363,7 @@ begin
   Result := '';
 end;
 
+//---------------------------------------------------------------------------
 function TGLMTLFile.MaterialVectorProperty(const materialName, propertyName: string;
   const defaultValue: TGSVector): TGSVector;
 var
@@ -1374,6 +1389,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TOBJFGVertexNormalTexIndexList.Assign(Source: TPersistent);
 begin
   if Source is TOBJFGVertexNormalTexIndexList then
@@ -1396,6 +1412,7 @@ begin
     inherited;
 end;
 
+//---------------------------------------------------------------------------
 procedure TOBJFGVertexNormalTexIndexList.ReadFromFiler(
   reader: TGSVirtualReader);
 var
@@ -1414,12 +1431,13 @@ begin
     begin
       FPolygonVertices := TGSIntegerList.Create;
       FPolygonVertices.ReadFromFiler(reader);
-    end;  
+    end;
   end
   else
     RaiseFilerException(archiveVersion);
 end;
 
+//---------------------------------------------------------------------------
 procedure TOBJFGVertexNormalTexIndexList.WriteToFiler(
   writer: TGSVirtualWriter);
 begin
@@ -1438,9 +1456,7 @@ begin
   end;
 end;
 
-//-------------------------------------------------
-initialization
-//-------------------------------------------------
+initialization //============================================================
 
   RegisterVectorFileFormat('obj', 'WaveFront model file', TGLOBJVectorFile);
   RegisterVectorFileFormat('objf', 'Stripe model file', TGLOBJVectorFile);

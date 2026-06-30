@@ -44,7 +44,6 @@ type
    end;
 
 type
-
   TGLSTLVectorFile = class(TGLVectorFile)
   public
     class function Capabilities: TGSDataFileCapabilities; override;
@@ -58,10 +57,8 @@ type
   var
 {$ENDIF}
   STLUseEmbeddedColors: Boolean;
-  
-// ------------------------------------------------------------------
-implementation
-// ------------------------------------------------------------------
+
+implementation //============================================================
 
 const
   cSOLID_LABEL = 'SOLID';
@@ -76,12 +73,12 @@ const
 // ------------------
 // ------------------ TGLSTLVectorFile ------------------
 // ------------------
-
 class function TGLSTLVectorFile.Capabilities: TGSDataFileCapabilities;
 begin
    Result := [dfcRead, dfcWrite];
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLSTLVectorFile.LoadFromStream(aStream: TStream);
 var
   Sl: TStringList;
@@ -279,6 +276,7 @@ begin
    end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLSTLVectorFile.SaveToStream(aStream: TStream);
 var
   I: Integer;
@@ -309,9 +307,7 @@ begin
    end;
 end;
 
-// ------------------------------------------------------------------
-initialization
-// ------------------------------------------------------------------
+initialization //============================================================
 
   STLUseEmbeddedColors := False;
   RegisterVectorFileFormat('stl', 'Stereolithography files', TGLSTLVectorFile);

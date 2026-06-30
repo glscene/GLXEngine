@@ -179,6 +179,7 @@ function GetOrCreateFPSMovement(obj: TGLBaseSceneObject): TGLBFPSMovement; overl
 
 implementation //============================================================
 
+//---------------------------------------------------------------------------
 function GetFPSMovement(behaviours: TGLBehaviours): TGLBFPSMovement; overload;
 var
   i: integer;
@@ -190,11 +191,13 @@ begin
     Result := nil;
 end;
 
+//---------------------------------------------------------------------------
 function GetFPSMovement(obj: TGLBaseSceneObject): TGLBFPSMovement; overload;
 begin
   Result := GetFPSMovement(obj.behaviours);
 end;
 
+//---------------------------------------------------------------------------
 function GetOrCreateFPSMovement(behaviours: TGLBehaviours)
   : TGLBFPSMovement; overload;
 var
@@ -207,6 +210,7 @@ begin
     Result := TGLBFPSMovement.Create(behaviours);
 end;
 
+//---------------------------------------------------------------------------
 function GetOrCreateFPSMovement(obj: TGLBaseSceneObject)
   : TGLBFPSMovement; overload;
 begin
@@ -223,6 +227,7 @@ begin
   FCollisionGroup := 0;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMapCollectionItem.setMap(value: TGLFreeForm);
 begin
   assert(owner.owner.InheritsFrom(TGLFPSMovementManager));
@@ -233,6 +238,7 @@ begin
     FMap.FreeNotification(TComponent(owner.owner));
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMapCollectionItem.WriteToFiler(writer: TWriter);
 begin
   inherited WriteToFiler(writer);
@@ -247,6 +253,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMapCollectionItem.ReadFromFiler(reader: TReader);
 var
   archiveVersion: integer;
@@ -261,6 +268,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMapCollectionItem.Loaded;
 begin
   if FMapName <> '' then
@@ -271,6 +279,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 class function TGLMapCollectionItem.FriendlyName: String;
 begin
   Result := 'FPSMovementMap';
@@ -284,6 +293,7 @@ begin
   Result := TGLMapCollectionItem;
 end;
 
+//---------------------------------------------------------------------------
 function TGLMapCollection.addMap(Map: TGLFreeForm; CollisionGroup: integer = 0)
   : TGLMapCollectionItem;
 begin
@@ -298,6 +308,7 @@ begin
   add(Result);
 end;
 
+//---------------------------------------------------------------------------
 function TGLMapCollection.findMap(mapFreeForm: TGLFreeForm)
   : TGLMapCollectionItem;
 var
@@ -331,6 +342,7 @@ begin
   RegisterManager(self);
 end;
 
+//---------------------------------------------------------------------------
 destructor TGLFPSMovementManager.Destroy;
 begin
   DeRegisterManager(self);
@@ -338,6 +350,7 @@ begin
   inherited Destroy;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLFPSMovementManager.Loaded;
 begin
   inherited Loaded;
@@ -345,16 +358,17 @@ begin
     Maps.Loaded;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLFPSMovementManager.DefineProperties(Filer: TFiler);
 begin
   inherited;
   // FOriginalFiler := Filer;
-
   Filer.DefineBinaryProperty('MapsData', ReadMaps, WriteMaps,
     (assigned(FMaps) and (FMaps.count > 0)));
   // FOriginalFiler:=nil;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLFPSMovementManager.WriteMaps(stream: TStream);
 var
   writer: TWriter;
@@ -367,6 +381,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLFPSMovementManager.ReadMaps(stream: TStream);
 var
   reader: TReader;
@@ -379,6 +394,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLFPSMovementManager.SetNavigator(value: TGLNavigator);
 begin
   if assigned(FNavigator) then
@@ -388,6 +404,7 @@ begin
     value.FreeNotification(self);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLFPSMovementManager.setScene(value: TGLScene);
 begin
   if assigned(FScene) then
@@ -397,6 +414,7 @@ begin
     FScene.FreeNotification(self);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLFPSMovementManager.Notification(AComponent: TComponent;
   Operation: TOperation);
 var
@@ -419,6 +437,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLFPSMovementManager.DrawArrows(intPoint, intNormal, Ray: TGSVector;
   Arrow1, Arrow2: TGLArrowLine);
 begin
@@ -433,6 +452,7 @@ begin
   Arrow2.Visible := True;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLFPSMovementManager.SphereSweepAndSlide(behaviour: TGLBFPSMovement;
   SphereStart: TGSVector; var Velocity, newPosition: TGSVector;
   sphereRadius: single);
@@ -449,6 +469,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 function TGLFPSMovementManager.SphereSweepAndSlide(freeform: TGLFreeForm;
   behaviour: TGLBFPSMovement; SphereStart: TGSVector;
   var Velocity, newPosition: TGSVector; sphereRadius: single): boolean;
@@ -583,7 +604,6 @@ end;
 // ------------------
 // ------------------ TGLBFPSMovement ------------------
 // ------------------
-
 constructor TGLBFPSMovement.Create(aOwner: TXCollection);
 
   procedure setupArrow(arrow: TGLArrowLine; color: TColor);
@@ -691,6 +711,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLBFPSMovement.Loaded;
 var
   mng: TComponent;
@@ -705,6 +726,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLBFPSMovement.setShowArrows(value: boolean);
 begin
   FShowArrows := value;
@@ -722,6 +744,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLBFPSMovement.MoveForward(Distance: single);
 var
   prevObj: TGLBaseSceneObject;
@@ -734,6 +757,7 @@ begin
   Manager.Navigator.MovingObject := prevObj;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLBFPSMovement.StrafeHorizontal(Distance: single);
 var
   prevObj: TGLBaseSceneObject;
@@ -746,6 +770,7 @@ begin
   Manager.Navigator.MovingObject := prevObj;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLBFPSMovement.StrafeVertical(Distance: single);
 var
   prevObj: TGLBaseSceneObject;
@@ -758,6 +783,7 @@ begin
   Manager.Navigator.MovingObject := prevObj;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLBFPSMovement.TurnHorizontal(Angle: single);
 var
   prevObj: TGLBaseSceneObject;
@@ -770,6 +796,7 @@ begin
   Manager.Navigator.MovingObject := prevObj;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLBFPSMovement.TurnVertical(Angle: single);
 var
   prevObj: TGLBaseSceneObject;
@@ -782,6 +809,7 @@ begin
   Manager.Navigator.MovingObject := prevObj;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLBFPSMovement.Straighten;
 var
   prevObj: TGLBaseSceneObject;
@@ -794,15 +822,14 @@ begin
   Manager.Navigator.MovingObject := prevObj;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLBFPSMovement.DoProgress(const progressTime: TGSProgressTimes);
 var
   newPosition: TGSVector;
   CollisionState: TGLCollisionState;
 begin
   inherited DoProgress(progressTime);
-
   assert(assigned(Manager), 'FPS Manager not assigned to behaviour.');
-
   // make arrowlines invisible (they are made visible in SphereSweepAndSlide)
   ArrowLine1.Visible := false;
   ArrowLine2.Visible := false;
@@ -851,6 +878,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLBFPSMovement.RenderArrowLines(Sender: TObject;
   var rci: TGLRenderContextInfo);
 var
@@ -897,7 +925,7 @@ initialization //============================================================
 RegisterXCollectionItemClass(TGLMapCollectionItem);
 RegisterXCollectionItemClass(TGLBFPSMovement);
 
-finalization
+finalization //==============================================================
 
 UnregisterXCollectionItemClass(TGLMapCollectionItem);
 UnregisterXCollectionItemClass(TGLBFPSMovement);

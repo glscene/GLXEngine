@@ -16,11 +16,12 @@ uses
   VCL.Imaging.pngimage,
 
   Stage.OpenGLTokens,
+  Stage.TextureFormat,
   Stage.Strings,
+
   GLS.Context,
   GLS.Graphics,
-  GLS.ApplicationFileIO,
-  Stage.TextureFormat;
+  GLS.ApplicationFileIO;
 
 type
 
@@ -39,14 +40,11 @@ type
       reintroduce;
   end;
 
-// --------------------------------------------------------------
-implementation
-// --------------------------------------------------------------
+implementation //============================================================
 
 // ------------------
 // ------------------ TGLPNGImage ------------------
 // ------------------
-
 procedure TGLPNGImage.LoadFromFile(const filename: string);
 var
   fs: TStream;
@@ -65,6 +63,7 @@ begin
     raise EInvalidRasterFile.CreateFmt('File %s not found', [filename]);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLPNGImage.SaveToFile(const filename: string);
 var
   fs: TStream;
@@ -78,6 +77,7 @@ begin
   ResourceName := filename;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLPNGImage.LoadFromStream(AStream: TStream);
 var
   pngimage: TPngImage;
@@ -93,6 +93,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLPNGImage.SaveToStream(AStream: TStream);
 var
   pngimage: TPngImage;
@@ -105,6 +106,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLPNGImage.AssignFromTexture(textureContext: TGLContext;
   const textureHandle: Cardinal; textureTarget: TGLTextureTarget;
   const CurrentFormat: Boolean; const intFormat: TGLInternalFormat);
@@ -167,14 +169,13 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 class function TGLPNGImage.Capabilities: TGSDataFileCapabilities;
 begin
   Result := [dfcRead, dfcWrite];
 end;
 
-// ---------------------------------------------------
-initialization
-// ---------------------------------------------------
+initialization //============================================================
 
 RegisterRasterFormat('png', 'Portable Network Graphic', TGLPNGImage);
 

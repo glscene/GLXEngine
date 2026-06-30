@@ -25,20 +25,18 @@ type
       procedure LoadFromStream(aStream : TStream); override;
   end;
 
-// ------------------------------------------------------------------
-implementation
-// ------------------------------------------------------------------
+implementation //============================================================
 
 
 // ------------------
 // ------------------ TGLMD3VectorFile ------------------
 // ------------------
-
 class function TGLMD3VectorFile.Capabilities : TGSDataFileCapabilities;
 begin
   Result:=[dfcRead];
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMD3VectorFile.LoadFromStream(aStream : TStream);
 var
   i,j,k,
@@ -132,9 +130,7 @@ begin
   end;
 end;
 
-// ------------------------------------------------------------------
-initialization
-// ------------------------------------------------------------------
+initialization //============================================================
 
    RegisterVectorFileFormat('md3', 'MD3 files', TGLMD3VectorFile);
 

@@ -904,15 +904,15 @@ var
   vCustomColliderClass: TdGeomClass;
   vCustomColliderClassNum: Integer;
 
-// ------------------------------------------------------------------
-implementation
-// ------------------------------------------------------------------
+implementation //============================================================
 
+//---------------------------------------------------------------------------
 procedure nearCallBack(Data: Pointer; o1, o2: PdxGeom); cdecl;
 begin
   TGLODEManager(Data).Collision(o1, o2);
 end;
 
+//---------------------------------------------------------------------------
 function GetBodyFromObject(anObject: TObject): PdxBody;
 begin
   Result := nil;
@@ -921,6 +921,7 @@ begin
       Result := TGLODEDynamic(anObject).Body;
 end;
 
+//---------------------------------------------------------------------------
 function GetBodyFromGLSceneObject(anObject: TGLBaseSceneObject): PdxBody;
 var
   temp: TGLODEDynamic;
@@ -934,6 +935,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 function GetSurfaceFromObject(anObject: TObject): TGLODECollisionSurface;
 var
   ODEBehaviour: TGLODEBehaviour;
@@ -953,6 +955,7 @@ begin
     end;
 end;
 
+//---------------------------------------------------------------------------
 function IsGLODEObject(Obj: TGLBaseSceneObject): Boolean;
 var
   temp: TGLODEDynamic;
@@ -965,17 +968,20 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure RegisterGLSceneObject(anObject: TGLBaseSceneObject);
 begin
   if vODEObjectRegister.IndexOf(anObject) = -1 then
     vODEObjectRegister.Add(anObject);
 end;
 
+//---------------------------------------------------------------------------
 procedure UnregisterGLSceneObject(anObject: TGLBaseSceneObject);
 begin
   vODEObjectRegister.Remove(anObject);
 end;
 
+//---------------------------------------------------------------------------
 function GetGLSceneObject(anObjectName: String): TGLBaseSceneObject;
 var
   i: Integer;
@@ -989,37 +995,43 @@ begin
     end;
 end;
 
+//---------------------------------------------------------------------------
 function GetODEStatic(Obj: TGLBaseSceneObject): TGLODEStatic;
 begin
   Result := TGLODEStatic(Obj.Behaviours.GetByClass(TGLODEStatic));
 end;
 
+//---------------------------------------------------------------------------
 function GetOrCreateOdeStatic(Obj: TGLBaseSceneObject): TGLODEStatic;
 begin
   Result := TGLODEStatic(Obj.GetOrCreateBehaviour(TGLODEStatic));
 end;
 
+//---------------------------------------------------------------------------
 function GetODEDynamic(Obj: TGLBaseSceneObject): TGLODEDynamic;
 begin
   Result := TGLODEDynamic(Obj.Behaviours.GetByClass(TGLODEDynamic));
 end;
 
+//---------------------------------------------------------------------------
 function GetOrCreateOdeDynamic(Obj: TGLBaseSceneObject): TGLODEDynamic;
 begin
   Result := TGLODEDynamic(Obj.GetOrCreateBehaviour(TGLODEDynamic));
 end;
 
-
+//---------------------------------------------------------------------------
 function GetODEHeightField(obj: TGLBaseSceneObject): TGLODEHeightField;
 begin
   Result:= TGLODEHeightField(obj.Behaviours.GetByClass(TGLODEHeightField));
 end;
 
+//---------------------------------------------------------------------------
 function GetOrCreateODEHeightField(obj: TGLBaseSceneObject): TGLODEHeightField;
 begin
   Result:= TGLODEHeightField(obj.GetOrCreateBehaviour(TGLODEHeightField));
 end;
 
+//---------------------------------------------------------------------------
 function GetColliderFromGeom(aGeom: PdxGeom): TGLODECustomCollider;
 var
   temp: TObject;
@@ -1031,6 +1043,7 @@ begin
       Result:= TGLODECustomCollider(temp);
 end;
 
+//---------------------------------------------------------------------------
 function ContactSort(Item1, Item2: Pointer): Integer;
 var
   c1, c2: TGLODEContactPoint;
@@ -1045,6 +1058,7 @@ begin
     result := 1;
 end;
 
+//---------------------------------------------------------------------------
 function CollideSphere(o1, o2: PdxGeom; flags: Integer; contact: PdContactGeom;
   skip: Integer): Integer; cdecl;
 var
@@ -1089,6 +1103,7 @@ begin
   Collider.SetTransform(IdentityHMGMatrix);
 end;
 
+//---------------------------------------------------------------------------
 function CollideBox(o1, o2: PdxGeom; flags: Integer; contact: PdContactGeom;
   skip: Integer): Integer; cdecl;
 var
@@ -1171,6 +1186,7 @@ begin
   Collider.SetTransform(IdentityHMGMatrix);
 end;
 
+//---------------------------------------------------------------------------
 function CollideCapsule(o1, o2: PdxGeom; flags: Integer; contact: PdContactGeom;
   skip: Integer): Integer; cdecl;
 var
@@ -1218,6 +1234,7 @@ begin
   Collider.SetTransform(IdentityHMGMatrix);
 end;
 
+//---------------------------------------------------------------------------
 function CollideCylinder(o1, o2: PdxGeom; flags: Integer;
   contact: PdContactGeom; skip: Integer): Integer; cdecl;
 var
@@ -1264,11 +1281,11 @@ begin
       end;
     end;
   end;
-
   Result := Collider.ApplyContacts(o1, o2, flags, contact, skip);
   Collider.SetTransform(IdentityHMGMatrix);
 end;
 
+//---------------------------------------------------------------------------
 function GetCustomColliderFn(num: Integer): TdColliderFn; cdecl;
 begin
   if num = dSphereClass then
@@ -1287,7 +1304,6 @@ end;
 // ---------------
 // --------------- TGLODEManager ---------------
 // ---------------
-
 constructor TGLODEManager.Create(AOwner: TComponent);
 begin
   FWorld := nil;
@@ -1306,7 +1322,7 @@ begin
   FIterations:= 3;
   MaxContacts:= 8;
 
-  if not (csDesigning in ComponentState) then 
+  if not (csDesigning in ComponentState) then
   begin
     FWorld := dWorldCreate;
     FSpace := dHashSpaceCreate(nil);
@@ -1322,6 +1338,7 @@ begin
   RegisterManager(Self);
 end;
 
+//---------------------------------------------------------------------------
 destructor TGLODEManager.Destroy;
 begin
   RenderPoint := nil;
@@ -1351,32 +1368,38 @@ begin
   inherited Destroy;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLODEManager.RegisterODEBehaviour(ODEBehaviour: TGLODEBehaviour);
 begin
   FODEBehaviours.Add(ODEBehaviour);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLODEManager.UnregisterODEBehaviour(ODEBehaviour: TGLODEBehaviour);
 begin
   FODEBehaviours.Remove(ODEBehaviour);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLODEManager.Loaded;
 begin
   GravityChange(Self);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLODEManager.SetGravity(Value: TGSCoordinates);
 begin
   FGravity.SetPoint(Value.DirectX, Value.DirectY, Value.DirectZ);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLODEManager.GravityChange(Sender: TObject);
 begin
   if Assigned(FWorld) then
     dWorldSetGravity(FWorld, FGravity.X, FGravity.Y, FGravity.Z);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLODEManager.CalcContact(Object1, Object2: TObject; var Contact: TdContact);
 var
   Surface1, Surface2: TGLODECollisionSurface;
@@ -1386,7 +1409,6 @@ begin
   Surface2 := GetSurfaceFromObject(Object2);
   if not(Assigned(Surface1) and Assigned(Surface2)) then
     Exit;
-
   with Contact.Surface do
   begin
     // Average the involved contact information and assign it to the contact.
@@ -1413,6 +1435,7 @@ begin
     FRFContactList.Add(Object2);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLODEManager.Collision(g1, g2: PdxGeom);
 var
   i, flags, num_contacts: Integer;
@@ -1490,6 +1513,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLODEManager.Step(deltaTime: double);
 var
   i: Integer;
@@ -1667,7 +1691,6 @@ end;
 // ---------------
 // --------------- TGLODECollisionSurface ---------------
 // ---------------
-
 constructor TGLODECollisionSurface.Create(AOwner: TPersistent);
 begin
   inherited Create;
@@ -2037,7 +2060,6 @@ end;
 // ---------------
 // --------------- TGLODEDynamic ---------------
 // ---------------
-
 constructor TGLODEDynamic.Create(AOwner: TXCollection);
 begin
   inherited;
@@ -2324,7 +2346,6 @@ end;
 // ---------------
 // --------------- TGLODEStatic ---------------
 // ---------------
-
 constructor TGLODEStatic.Create(AOwner: TXCollection);
 begin
   inherited;
@@ -2372,7 +2393,6 @@ begin
     Exit;
 
   FElements.Initialize;
-
   inherited;
 end;
 
@@ -2482,7 +2502,6 @@ end;
 // ---------------
 // --------------- TGLODEElementBase ---------------
 // ---------------
-
 constructor TGLODEElementBase.Create(AOwner: TXCollection);
 begin
   inherited;
@@ -2796,7 +2815,6 @@ end;
 // ---------------
 // --------------- TGLODEElementBox ---------------
 // ---------------
-
 procedure TGLODEElementBox.Render(var rci: TGLRenderContextInfo);
 begin
   gl.PushMatrix;
@@ -2842,11 +2860,11 @@ begin
     Exit;
   if not IsODEInitialized then
     Exit;
-
   FGeomElement := dCreateBox(nil, FBoxWidth, FBoxHeight, FBoxDepth);
   inherited;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLODEElementBox.WriteToFiler(writer: TWriter);
 begin
   inherited;
@@ -2957,7 +2975,6 @@ end;
 // ---------------
 // --------------- TGLODEElementSphere ---------------
 // ---------------
-
 procedure TGLODEElementSphere.Render(var rci: TGLRenderContextInfo);
 var
   AngTop, AngBottom, AngStart, AngStop, StepV, StepH: double;
@@ -3109,7 +3126,6 @@ end;
 // ---------------
 // --------------- TGLODEElementCapsule ---------------
 // ---------------
-
 procedure TGLODEElementCapsule.Render(var rci: TGLRenderContextInfo);
 var
   i, J, Stacks, Slices: Integer;
@@ -3210,16 +3226,19 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 class function TGLODEElementCapsule.FriendlyName: String;
 begin
   Result := 'Capsule';
 end;
 
+//---------------------------------------------------------------------------
 class function TGLODEElementCapsule.FriendlyDescription: String;
 begin
   Result := 'The ODE capped cylinder element implementation';
 end;
 
+//---------------------------------------------------------------------------
 class function TGLODEElementCapsule.ItemCategory: String;
 begin
   Result := 'Primitives';
@@ -3278,7 +3297,6 @@ end;
 // ---------------
 // --------------- TGLODEElementCylinder ---------------
 // ---------------
-
 procedure TGLODEElementCylinder.Render(var rci: TGLRenderContextInfo);
 var
   i, J, Stacks, Slices: Integer;
@@ -3370,16 +3388,19 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 class function TGLODEElementCylinder.FriendlyName: String;
 begin
   Result := 'Cylinder';
 end;
 
+//---------------------------------------------------------------------------
 class function TGLODEElementCylinder.FriendlyDescription: String;
 begin
   Result := 'The ODE cylinder element implementation';
 end;
 
+//---------------------------------------------------------------------------
 class function TGLODEElementCylinder.ItemCategory: String;
 begin
   Result := 'Primitives';
@@ -3437,7 +3458,6 @@ end;
 // ---------------
 // --------------- TGLODEElementTriMesh ---------------
 // ---------------
-
 constructor TGLODEElementTriMesh.Create(AOwner: TXCollection);
 begin
   inherited;
@@ -3464,10 +3484,10 @@ begin
     3 * SizeOf(Single), FVertices.Count, @FIndices.List[0], FIndices.Count,
     3 * SizeOf(Integer));
   FGeomElement := dCreateTriMesh(nil, FTriMeshData, nil, nil, nil);
-
   inherited;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLODEElementTriMesh.Finalize;
 begin
   if not FInitialized then
@@ -3549,7 +3569,6 @@ end;
 // ---------------
 // --------------- TGLODEElementPlane ---------------
 // ---------------
-
 procedure TGLODEElementPlane.Initialize;
 begin
   if FInitialized then
@@ -3616,7 +3635,6 @@ end;
 // ---------------
 // --------------- TGLODEJoints ---------------
 // ---------------
-
 class function TGLODEJoints.ItemsClass: TXCollectionItemClass;
 begin
   Result := TGLODEJointBase;
@@ -3630,6 +3648,7 @@ begin
     Joint[i].Initialize;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLODEJoints.Finalize;
 var
   i: Integer;
@@ -3647,7 +3666,6 @@ end;
 // ---------------
 // --------------- TGLODEJointList ---------------
 // ---------------
-
 constructor TGLODEJointList.Create(AOwner: TComponent);
 begin
   inherited;
@@ -3719,7 +3737,6 @@ end;
 // ---------------
 // --------------- TGLODEJointBase ---------------
 // ---------------
-
 constructor TGLODEJointBase.Create(AOwner: TXCollection);
 begin
   inherited;
@@ -3982,7 +3999,6 @@ end;
 // ---------------
 // --------------- TGLODEJointParams ---------------
 // ---------------
-
 constructor TGLODEJointParams.Create(AOwner: TPersistent);
 begin
   inherited Create;
@@ -4194,6 +4210,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLODEJointParams.SetBounce(const Value: TdReal);
 begin
   if Value <> FBounce then
@@ -4206,6 +4223,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLODEJointParams.SetCFM(const Value: TdReal);
 begin
   if Value <> FCFM then
@@ -4218,6 +4236,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLODEJointParams.SetStopERP(const Value: TdReal);
 begin
   if Value <> FStopERP then
@@ -4230,6 +4249,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLODEJointParams.SetStopCFM(const Value: TdReal);
 begin
   if Value <> FStopCFM then
@@ -4298,7 +4318,6 @@ end;
 // ---------------
 // --------------- TGLODEJointHinge ---------------
 // ---------------
-
 constructor TGLODEJointHinge.Create(AOwner: TXCollection);
 begin
   inherited;
@@ -4309,10 +4328,9 @@ begin
   FAxisParams := TGLODEJointParams.Create(Self);
   FAxisParams.SetCallback := SetAxisParam;
   FAxisParams.GetCallback := GetAxisParam;
-
 end;
 
- 
+//---------------------------------------------------------------------------
 destructor TGLODEJointHinge.Destroy;
 begin
   FAnchor.Free;
@@ -4428,7 +4446,6 @@ end;
 // ---------------
 // --------------- TGLODEJointBall ---------------
 // ---------------
-
 constructor TGLODEJointBall.Create(AOwner: TXCollection);
 begin
   inherited;
@@ -4500,7 +4517,6 @@ end;
 // ---------------
 // --------------- TGLODEJointSlider ---------------
 // ---------------
-
 constructor TGLODEJointSlider.Create(AOwner: TXCollection);
 begin
   inherited;
@@ -4511,7 +4527,7 @@ begin
   FAxisParams.GetCallback := GetAxisParam;
 end;
 
- 
+
 destructor TGLODEJointSlider.Destroy;
 begin
   FAxis.Free;
@@ -4566,11 +4582,13 @@ begin
     dJointSetSliderAxis(FJointID, FAxis.X, FAxis.Y, FAxis.Z);
 end;
 
+//---------------------------------------------------------------------------
 class function TGLODEJointSlider.FriendlyName: String;
 begin
   Result := 'Slider';
 end;
 
+//---------------------------------------------------------------------------
 class function TGLODEJointSlider.FriendlyDescription: String;
 begin
   Result := 'ODE Slider joint implementation';
@@ -4613,7 +4631,6 @@ end;
 // ---------------
 // --------------- TGLODEJointFixed ---------------
 // ---------------
-
 procedure TGLODEJointFixed.Initialize;
 begin
   if (not IsODEInitialized) or (FInitialized) then
@@ -4622,6 +4639,7 @@ begin
   inherited;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLODEJointFixed.WriteToFiler(writer: TWriter);
 begin
   inherited;
@@ -4631,6 +4649,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLODEJointFixed.ReadFromFiler(reader: TReader);
 begin
   inherited;
@@ -4640,11 +4659,13 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 class function TGLODEJointFixed.FriendlyName: String;
 begin
   Result := 'Fixed';
 end;
 
+//---------------------------------------------------------------------------
 class function TGLODEJointFixed.FriendlyDescription: String;
 begin
   Result := 'ODE Fixed joint implementation';
@@ -4654,7 +4675,6 @@ end;
 // ---------------
 // --------------- TGLODEJointHinge2 ---------------
 // ---------------
-
 constructor TGLODEJointHinge2.Create(AOwner: TXCollection);
 begin
   inherited;
@@ -4757,11 +4777,13 @@ begin
     dJointSetHinge2Axis2(FJointID, FAxis2.X, FAxis2.Y, FAxis2.Z);
 end;
 
+//---------------------------------------------------------------------------
 class function TGLODEJointHinge2.FriendlyName: String;
 begin
   Result := 'Hinge2';
 end;
 
+//---------------------------------------------------------------------------
 class function TGLODEJointHinge2.FriendlyDescription: String;
 begin
   Result := 'ODE Double Axis Hinge joint implementation';
@@ -4839,7 +4861,6 @@ end;
 // ---------------
 // --------------- TGLODEJointUniversal ---------------
 // ---------------
-
 constructor TGLODEJointUniversal.Create(AOwner: TXCollection);
 begin
   inherited;
@@ -4859,7 +4880,7 @@ begin
   JointOptions := [joBothObjectsMustBeAssigned];
 end;
 
-
+//---------------------------------------------------------------------------
 destructor TGLODEJointUniversal.Destroy;
 begin
   FAnchor.Free;
@@ -4892,6 +4913,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLODEJointUniversal.ReadFromFiler(reader: TReader);
 begin
   inherited;
@@ -4915,6 +4937,7 @@ begin
   Axis2Params.ApplyFlagged;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLODEJointUniversal.AnchorChange(Sender: TObject);
 begin
   if IsAttached then
@@ -4943,11 +4966,13 @@ begin
     dJointSetUniversalAxis2(FJointID, FAxis2.X, FAxis2.Y, FAxis2.Z);
 end;
 
+//---------------------------------------------------------------------------
 class function TGLODEJointUniversal.FriendlyName: String;
 begin
   Result := 'Universal';
 end;
 
+//---------------------------------------------------------------------------
 class function TGLODEJointUniversal.FriendlyDescription: String;
 begin
   Result := 'ODE Universal joint implementation';
@@ -5000,6 +5025,7 @@ begin
     Result := False;
 end;
 
+//---------------------------------------------------------------------------
 function TGLODEJointUniversal.GetAxis1Param(Param: Integer; var Value: TdReal): Boolean;
 begin
   if IsAttached then
@@ -5025,7 +5051,6 @@ end;
 // ---------------
 // --------------- TGLODECustomCollider --------------
 // ---------------
-
 constructor TGLODECustomCollider.Create(AOwner: TXCollection);
 begin
   inherited;
@@ -5118,6 +5143,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLODECustomCollider.ClearContacts;
 begin
   FContactList.Clear;
@@ -5227,6 +5253,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLODECustomCollider.SetContactColor(const Value: TGSColor);
 begin
   FContactColor.Assign(Value);
@@ -5244,7 +5271,6 @@ end;
 // ---------------
 // --------------- TGLODEHeightField --------------
 // ---------------
-
 constructor TGLODEHeightField.Create(AOwner: TXCollection);
 var
   Allow: Boolean;
@@ -5286,6 +5312,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 class function TGLODEHeightField.FriendlyName: string;
 begin
   Result := 'ODE HeightField Collider';
@@ -5311,6 +5338,7 @@ begin
         Result := True;
 end;
 
+//---------------------------------------------------------------------------
 function TGLODEHeightField.Collide(aPos: TAffineVector; var Depth: Single;
   var cPos, cNorm: TAffineVector): Boolean;
 
@@ -5401,10 +5429,7 @@ begin
     Result := False;
 end;
 
-
-// ------------------------------------------------------------------
-initialization
-// ------------------------------------------------------------------
+initialization //============================================================
 
 vODEObjectRegister := TList.Create;
 
@@ -5427,9 +5452,7 @@ RegisterXCollectionItemClass(TGLODEJointUniversal);
 
 RegisterXCollectionItemClass(TGLODEHeightField);
 
-// ------------------------------------------------------------------
-finalization
-// ------------------------------------------------------------------
+finalization //==============================================================
 
 vODEObjectRegister.Free;
 

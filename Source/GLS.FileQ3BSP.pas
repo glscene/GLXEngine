@@ -45,19 +45,17 @@ var
   vQ3BSPLightmapBrightness: Single = 2; // scaling factor, 1.0 = unchanged
   vGLFileQ3BSPLoadMaterials: boolean = True; // Flag to avoid loading materials (useful for IDE Extentions)
 
-// ------------------------------------------------------------------
-implementation
-// ------------------------------------------------------------------
+implementation //============================================================
 
 // ------------------
 // ------------------ TGLSTLVectorFile ------------------
 // ------------------
-
 class function TGLQ3BSPVectorFile.Capabilities: TGSDataFileCapabilities;
 begin
   Result := [dfcRead];
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLQ3BSPVectorFile.LoadFromStream(aStream: TStream);
 
   function LocateTextureFile(const texName: string): string;
@@ -264,9 +262,7 @@ begin
   mo.CleanupUnusedNodes;
 end;
 
-// ------------------------------------------------------------------
-initialization
-// ------------------------------------------------------------------
+initialization //============================================================
 
   RegisterVectorFileFormat('q3bsp', 'Quake3 BSP files', TGLQ3BSPVectorFile);
 

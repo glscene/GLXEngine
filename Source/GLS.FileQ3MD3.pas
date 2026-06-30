@@ -53,10 +53,9 @@ procedure LoadQ3Anims(Animations: TGLActorAnimations; Strings: TStrings;
    running this to keep everything nice and clean. *)
 procedure LoadQ3Skin(const FileName: string; Actor: TGLActor);
 
-// -----------------------------------------------------------------------
-implementation
-// -----------------------------------------------------------------------
+implementation //============================================================
 
+//---------------------------------------------------------------------------
 procedure LoadQ3Anims(Animations: TGLActorAnimations; const FileName: string;
   const NamePrefix: string);
 var
@@ -68,6 +67,7 @@ begin
   AnimStrings.Free;
 end;
 
+//---------------------------------------------------------------------------
 procedure LoadQ3Anims(Animations: TGLActorAnimations; Strings: TStrings;
   const NamePrefix: string);
 var
@@ -168,6 +168,7 @@ begin
   anim.Free;
 end;
 
+//---------------------------------------------------------------------------
 procedure LoadQ3Skin(const FileName: string; Actor: TGLActor);
 const
   // This list can be expanded if necessary
@@ -265,7 +266,6 @@ end;
 // ------------------
 // ------------------ TMD3TagList ------------------
 // ------------------
-
 procedure TMD3TagList.LoadFromFile(const FileName: String);
 var
   fs: TStream;
@@ -281,6 +281,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TMD3TagList.LoadFromStream(AStream: TStream);
 var
   MD3Header: TMD3Header;
@@ -300,11 +301,13 @@ begin
   AStream.Read(FTags[0], FNumTags * FNumFrames * SizeOf(TMD3Tag));
 end;
 
+//---------------------------------------------------------------------------
 function TMD3TagList.GetTag(index: Integer): TMD3Tag;
 begin
   result := FTags[index];
 end;
 
+//---------------------------------------------------------------------------
 function TMD3TagList.GetTransform(const TagName: string;
   Frame: Integer): TGSMatrix;
 var
@@ -329,4 +332,5 @@ begin
     result.V[3].V[i] := Tag.vPosition.V[i];
 end;
 
+//---------------------------------------------------------------------------
 end.

@@ -25,7 +25,6 @@ const
   SIGN_COMPRESSED = 'PACZ'; // Signature for compressed pak.
 
 type
-
   TZCompressedMode = (Good, Fast, Auto, None);
 
   TPakHeader = record
@@ -91,13 +90,12 @@ function PAKFileStreamExists(const FileName: string): Boolean;
 var
   ActiveVfsPAK: TGLVfsPAK;
 
-// ---------------------------------------------------------------------
-implementation
-// ---------------------------------------------------------------------
+implementation //============================================================
 
 var
   Dir: TFileSection;
 
+//---------------------------------------------------------------------------
 function BackToSlash(const s: string): string;
 var
   i: integer;
@@ -110,6 +108,7 @@ begin
       Result[i] := s[i];
 end;
 
+//---------------------------------------------------------------------------
 function PAKCreateFileStream(const FileName: string; Mode: word): TStream;
 var
   i: integer;
@@ -153,6 +152,7 @@ begin
   Result.Free;
 end;
 
+//---------------------------------------------------------------------------
 function PAKFileStreamExists(const FileName: string): Boolean;
 var
   i: integer;
@@ -173,17 +173,18 @@ end;
 // --------------------------
 // TGLVfsPAK
 // --------------------------
-
 function TGLVfsPAK.GetStreamNumber: integer;
 begin
   Result := FStreamList.IndexOf(FStream);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLVfsPAK.SetStreamNumber(i: integer);
 begin
   FStream := TFileStream(FStreamList[i]);
 end;
 
+//---------------------------------------------------------------------------
 constructor TGLVfsPAK.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
@@ -197,6 +198,7 @@ begin
   FCompressed := False;
 end;
 
+//---------------------------------------------------------------------------
 constructor TGLVfsPAK.Create(AOwner: TComponent;
   const CbrMode: TZCompressedMode);
 begin
@@ -205,6 +207,7 @@ begin
   FCompressed := FCompressionLevel <> None;
 end;
 
+//---------------------------------------------------------------------------
 destructor TGLVfsPAK.Destroy;
 begin
   vAFIOCreateFileStream := nil;
@@ -218,11 +221,13 @@ begin
   inherited Destroy;
 end;
 
+//---------------------------------------------------------------------------
 function TGLVfsPAK.GetFileCount: integer;
 begin
   Result := FHeader.DirLength div SizeOf(TFileSection);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLVfsPAK.MakeFileList;
 var
   i: integer;
@@ -236,6 +241,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLVfsPAK.LoadFromFile(const FileName: string; Mode: word);
 var
   l: integer;
@@ -291,6 +297,7 @@ begin
   FStreamList.Add(FStream);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLVfsPAK.ClearPakFiles;
 begin
   SetLength(FHeaderList, 0);
@@ -301,6 +308,7 @@ begin
   ActiveVfsPAK := nil;
 end;
 
+//---------------------------------------------------------------------------
 function TGLVfsPAK.GetFile(index: integer): TStream;
 begin
   FStream.Seek(FHeader.DirOffset + SizeOf(TFileSection) * index,
@@ -312,11 +320,13 @@ begin
   Result.Position := 0;
 end;
 
+//---------------------------------------------------------------------------
 function TGLVfsPAK.FileExists(const FileName: string): Boolean;
 begin
   Result := (FFiles.IndexOf(FileName) > -1);
 end;
 
+//---------------------------------------------------------------------------
 function TGLVfsPAK.GetFile(const FileName: string): TStream;
 begin
   Result := nil;
@@ -324,6 +334,7 @@ begin
     Result := GetFile(FFiles.IndexOf(FileName));
 end;
 
+//---------------------------------------------------------------------------
 function TGLVfsPAK.GetFileSize(index: integer): integer;
 begin
   FStream.Seek(FHeader.DirOffset + SizeOf(TFileSection) * index,
@@ -332,6 +343,7 @@ begin
   Result := Dir.FileLength;
 end;
 
+//---------------------------------------------------------------------------
 function TGLVfsPAK.GetFileSize(const FileName: string): integer;
 begin
   Result := -1;
@@ -340,7 +352,7 @@ begin
 end;
 
 {$WARNINGS OFF}
-
+//---------------------------------------------------------------------------
 procedure TGLVfsPAK.AddFromStream(const FileName, Path: string; F: TStream);
 var
   Temp: TMemoryStream;
@@ -372,7 +384,7 @@ begin
 end;
 
 {$WARNINGS ON}
-
+//---------------------------------------------------------------------------
 procedure TGLVfsPAK.AddFromFile(const FileName, Path: string);
 var
   F: TFileStream;
@@ -387,6 +399,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLVfsPAK.AddEmptyFile(const FileName, Path: string);
 var
   F: TMemoryStream;
@@ -399,6 +412,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLVfsPAK.RemoveFile(index: integer);
 var
   Temp: TMemoryStream;
@@ -442,12 +456,14 @@ begin
   MakeFileList;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLVfsPAK.RemoveFile(const FileName: string);
 begin
   if Self.FileExists(FileName) then
     RemoveFile(FFiles.IndexOf(FileName));
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLVfsPAK.Extract(index: integer; const NewName: string);
 var
   s: TFileStream;
@@ -461,10 +477,12 @@ begin
   s.Free;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLVfsPAK.Extract(const FileName, NewName: string);
 begin
   if Self.FileExists(FileName) then
     Extract(FFiles.IndexOf(FileName), NewName);
 end;
 
+//---------------------------------------------------------------------------
 end.

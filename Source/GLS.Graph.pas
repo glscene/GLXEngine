@@ -4,7 +4,7 @@
 unit GLS.Graph;
 (*
   Graph plotting objects:
-  - TGLSamplingScale, TGLHeightField, TGLXYZGrid;
+  RegisterClasses([TGLHeightField, TGLXYZGrid]);
 *)
 interface
 
@@ -31,7 +31,6 @@ uses
   GLS.State;
 
 type
-
   TGLSamplingScale = class(TGSUpdateAbleObject)
   private
     FMin: Single;
@@ -184,11 +183,13 @@ begin
   FStep := 0.1;
 end;
 
+//---------------------------------------------------------------------------
 destructor TGLSamplingScale.Destroy;
 begin
   inherited Destroy;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLSamplingScale.Assign(Source: TPersistent);
 begin
   if Source is TGLSamplingScale then
@@ -203,6 +204,7 @@ begin
     inherited Assign(Source);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLSamplingScale.SetMin(const val: Single);
 begin
   FMin := val;
@@ -211,6 +213,7 @@ begin
   NotifyChange(Self);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLSamplingScale.SetMax(const val: Single);
 begin
   FMax := val;
@@ -219,12 +222,14 @@ begin
   NotifyChange(Self);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLSamplingScale.SetOrigin(const val: Single);
 begin
   FOrigin := val;
   NotifyChange(Self);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLSamplingScale.SetStep(const val: Single);
 begin
   if val > 0 then
@@ -234,6 +239,7 @@ begin
   NotifyChange(Self);
 end;
 
+//---------------------------------------------------------------------------
 function TGLSamplingScale.StepBase: Single;
 begin
   if FOrigin <> FMin then
@@ -249,16 +255,19 @@ begin
     Result := FMin;
 end;
 
+//---------------------------------------------------------------------------
 function TGLSamplingScale.MaxStepCount: Integer;
 begin
   Result := Round(0.5 + (Max - Min) / Step);
 end;
 
+//---------------------------------------------------------------------------
 function TGLSamplingScale.IsValid: Boolean;
 begin
   Result := (Max <> Min);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLSamplingScale.SetBaseStepMaxToVars(var Base, Step, Max: Single;
   samplingEnabled: Boolean = True);
 begin
@@ -278,7 +287,6 @@ end;
 // ------------------
 // ------------------ TGLHeightField ------------------
 // ------------------
-
 constructor TGLHeightField.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
@@ -287,6 +295,7 @@ begin
   FOptions := [hfoTwoSided];
 end;
 
+//---------------------------------------------------------------------------
 destructor TGLHeightField.Destroy;
 begin
   FXSamplingScale.Free;
@@ -294,6 +303,7 @@ begin
   inherited Destroy;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLHeightField.Assign(Source: TPersistent);
 begin
   if Source is TGLHeightField then
@@ -307,6 +317,7 @@ begin
   inherited Assign(Source);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLHeightField.NotifyChange(Sender: TObject);
 begin
   if Sender is TGLSamplingScale then
@@ -314,6 +325,7 @@ begin
   inherited NotifyChange(Sender);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLHeightField.BuildList(var rci: TGLRenderContextInfo);
 type
   TRowData = packed record
@@ -490,16 +502,19 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLHeightField.SetXSamplingScale(const val: TGLSamplingScale);
 begin
   FXSamplingScale.Assign(val);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLHeightField.SetYSamplingScale(const val: TGLSamplingScale);
 begin
   FYSamplingScale.Assign(val);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLHeightField.SetOptions(const val: TGLHeightFieldOptions);
 begin
   if FOptions <> val then
@@ -509,12 +524,14 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLHeightField.SetOnGetHeight(const val: TGLHeightFieldGetHeightEvent);
 begin
   FOnGetHeight := val;
   StructureChanged;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLHeightField.SetOnGetHeight2(const val
   : TGLHeightFieldGetHeight2Event);
 begin
@@ -522,6 +539,7 @@ begin
   StructureChanged;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLHeightField.SetColorMode(const val: TGLHeightFieldColorMode);
 begin
   if val <> FColorMode then
@@ -531,6 +549,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLHeightField.DefaultHeightField(const x, y: Single; var z: Single;
   var color: TGSColorVector; var texPoint: TTexPoint);
 begin
@@ -539,6 +558,7 @@ begin
   color := clrGray80;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLHeightField.Height2Field(const x, y: Single; var z: Single;
   var color: TGSColorVector; var texPoint: TTexPoint);
 begin
@@ -548,7 +568,6 @@ end;
 // ------------------
 // ------------------ TGLXYZGrid ------------------
 // ------------------
-
 constructor TGLXYZGrid.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
@@ -559,6 +578,7 @@ begin
   FLinesStyle := glsSegments;
 end;
 
+//---------------------------------------------------------------------------
 destructor TGLXYZGrid.Destroy;
 begin
   FXSamplingScale.Free;
@@ -567,6 +587,7 @@ begin
   inherited Destroy;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLXYZGrid.Assign(Source: TPersistent);
 begin
   if Source is TGLXYZGrid then
@@ -580,21 +601,25 @@ begin
   inherited Assign(Source);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLXYZGrid.SetXSamplingScale(const val: TGLSamplingScale);
 begin
   FXSamplingScale.Assign(val);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLXYZGrid.SetYSamplingScale(const val: TGLSamplingScale);
 begin
   FYSamplingScale.Assign(val);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLXYZGrid.SetZSamplingScale(const val: TGLSamplingScale);
 begin
   FZSamplingScale.Assign(val);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLXYZGrid.SetParts(const val: TGLXYZGridParts);
 begin
   if FParts <> val then
@@ -604,6 +629,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLXYZGrid.SetLinesStyle(const val: TGLXYZGridLinesStyle);
 begin
   if FLinesStyle <> val then
@@ -613,11 +639,13 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLXYZGrid.SetLinesSmoothing(const val: Boolean);
 begin
   AntiAliased := val;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLXYZGrid.NotifyChange(Sender: TObject);
 begin
   if Sender is TGLSamplingScale then
@@ -625,6 +653,7 @@ begin
   inherited NotifyChange(Sender);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLXYZGrid.BuildList(var rci: TGLRenderContextInfo);
 var
   xBase, x, xStep, xMax, yBase, y, yStep, yMax, zBase, z, zStep, zMax: Single;

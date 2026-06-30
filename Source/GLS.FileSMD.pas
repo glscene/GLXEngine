@@ -37,19 +37,17 @@ type
     procedure SaveToStream(aStream: TStream); override;
   end;
 
-// ------------------------------------------------------------------
-implementation
-// ------------------------------------------------------------------
+implementation //============================================================
 
 // ------------------
 // ------------------ TGLSMDVectorFile ------------------
 // ------------------
-
 class function TGLSMDVectorFile.Capabilities: TGSDataFileCapabilities;
 begin
   Result := [dfcRead, dfcWrite];
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLSMDVectorFile.LoadFromStream(aStream: TStream);
 
   procedure AllocateMaterial(const name: String);
@@ -262,6 +260,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLSMDVectorFile.SaveToStream(aStream: TStream);
 var
   str, nodes: TStrings;
@@ -350,9 +349,7 @@ begin
   end;
 end;
 
-// ------------------------------------------------------------------
-initialization
-// ------------------------------------------------------------------
+initialization //============================================================
 
 RegisterVectorFileFormat('smd', 'Half-Life SMD files', TGLSMDVectorFile);
 

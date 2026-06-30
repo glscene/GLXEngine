@@ -28,7 +28,6 @@ uses
   Stage.BaseClasses;
 
 type
-
   TGLBaseGuiObject = class(TGLBaseSceneObject)
   private
     FRecursiveVisible: Boolean;
@@ -193,10 +192,9 @@ const
 
 function IsInRect(const R: TGUIRect; X, Y: Single): Boolean; inline;
 
-// ------------------------------------------------------
-implementation
-// ------------------------------------------------------
+implementation //============================================================
 
+//---------------------------------------------------------------------------
 function IsInRect(const R: TGUIRect; X, Y: Single): Boolean; inline;
 
 begin
@@ -206,13 +204,13 @@ end;
 // ------------------
 // ------------------ TGLBaseGuiObject ------------------
 // ------------------
-
 constructor TGLBaseGuiObject.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
   FRecursiveVisible := Visible;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLBaseGuiObject.SetLeft(const Value: TGLFloat);
 var
   NewPosX: TGLFloat;
@@ -238,6 +236,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 function TGLBaseGuiObject.GetLeft: TGLFloat;
 begin
   if Assigned(Parent) and (Parent is TGLBaseGuiObject) then
@@ -246,6 +245,7 @@ begin
     Result := Position.X;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLBaseGuiObject.SetTop(const Value: TGLFloat);
 var
   NewPosY: TGLFloat;
@@ -271,6 +271,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 function TGLBaseGuiObject.GetTop: TGLFloat;
 begin
   if Assigned(Parent) and (Parent is TGLBaseGuiObject) then
@@ -279,6 +280,7 @@ begin
     Result := Position.Y;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLBaseGuiObject.SetWidth(const val: TGLFloat);
 begin
   if FWidth <> val then
@@ -288,6 +290,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLBaseGuiObject.SetHeight(const val: TGLFloat);
 begin
   if FHeight <> val then
@@ -297,6 +300,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLBaseGuiObject.NotifyHide;
 var
   child: TGLBaseSceneObject;
@@ -314,6 +318,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLBaseGuiObject.NotifyShow;
 var
   child: TGLBaseSceneObject;
@@ -331,6 +336,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLBaseGuiObject.AddChild(AChild: TGLBaseSceneObject);
 begin
   inherited;
@@ -343,6 +349,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLBaseGuiObject.Insert(aIndex: Integer; AChild: TGLBaseSceneObject);
 begin
   inherited;
@@ -355,6 +362,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLBaseGuiObject.SetVisible(aValue: Boolean);
 begin
   if Visible <> aValue then
@@ -382,6 +390,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 constructor TGLGuiLayout.Create(AOwner: TComponent);
 begin
   FGuiComponentList := TList.Create;
@@ -390,6 +399,7 @@ begin
   FMaterial := TGLMaterial.Create(Self);
 end;
 
+//---------------------------------------------------------------------------
 destructor TGLGuiLayout.Destroy;
 begin
   Clear;
@@ -399,6 +409,7 @@ begin
   FGuiComponentList.Free;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGuiLayout.SetFileName(newName: string);
 begin
   if newName <> FFileName then
@@ -412,6 +423,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGuiLayout.LoadFromFile(FN: string);
 var
   Stream: TMemoryStream;
@@ -427,6 +439,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGuiLayout.SaveToFile(FN: string);
 var
   Stream: TMemoryStream;
@@ -441,6 +454,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGuiLayout.AddGuiComponent(Component: TGSUpdateAbleComponent);
 begin
   if FGuiComponentList.IndexOf(Component) < 0 then
@@ -450,12 +464,14 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGuiLayout.RemoveGuiComponent(Component: TGSUpdateAbleComponent);
 begin
   FGuiComponentList.Remove(Component);
   RemoveFreeNotification(Component);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGuiLayout.Assign(Source: TPersistent);
 var
   LLayout: TGLGuiLayout;
@@ -485,6 +501,7 @@ begin
     inherited; // Assign Error
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGuiLayout.Clear;
 var
   xc: Integer;
@@ -497,6 +514,7 @@ begin
   NotifyChange(Self);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGuiLayout.NotifyChange(Sender: TObject);
 var
   xc: Integer;
@@ -506,6 +524,7 @@ begin
     TGSUpdateAbleComponent(FGuiComponentList[xc]).NotifyChange(Self);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGuiLayout.LoadFromStream(Stream: TStream);
 
 var
@@ -554,6 +573,7 @@ begin
   NotifyChange(Self);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGuiLayout.SaveToStream(Stream: TStream);
 var
   TmpComponent: TGLGuiComponent;
@@ -611,23 +631,27 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 constructor TGLGuiComponentList.Create(AOwner: TGLGuiLayout);
 begin
   inherited Create(AOwner, TGLGuiComponent);
   FLayout := AOwner;
 end;
 
+//---------------------------------------------------------------------------
 function TGLGuiComponentList.GetOwner: TPersistent;
 begin
   Result := FLayout;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGuiComponentList.SetItems(index: Integer;
   const val: TGLGuiComponent);
 begin
   inherited Items[index] := val;
 end;
 
+//---------------------------------------------------------------------------
 function TGLGuiComponentList.FindItem(name: TGLGuiComponentName)
   : TGLGuiComponent;
 var
@@ -648,11 +672,13 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 function TGLGuiComponentList.GetItems(index: Integer): TGLGuiComponent;
 begin
   Result := TGLGuiComponent(inherited Items[index]);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGuiComponent.RenderToArea(X1, Y1, X2, Y2: TGLFloat;
   var Res: TGUIDrawResult; Refresh: Boolean = True; Scale: TGLFloat = 1);
 var
@@ -1091,49 +1117,58 @@ begin
   gl.End_;
 end;
 
+//---------------------------------------------------------------------------
 function TGLGuiComponent.GetOwnerList: TGLGuiComponentList;
 begin
   Result := GetOwner as TGLGuiComponentList;
 end;
 
+//---------------------------------------------------------------------------
 function TGLGuiComponent.GetDisplayName: string;
 begin
   Result := FName;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGuiComponent.SetName(const val: TGLGuiComponentName);
 begin
   FName := val;
 end;
 
+//---------------------------------------------------------------------------
 constructor TGLGuiComponent.Create(Collection: TCollection);
 begin
   inherited;
   FElements := TGLGuiElementList.Create(Self);
 end;
 
+//---------------------------------------------------------------------------
 destructor TGLGuiComponent.Destroy;
 begin
   FElements.Free;
   inherited;
 end;
 
+//---------------------------------------------------------------------------
 constructor TGLGuiElementList.Create(AOwner: TGLGuiComponent);
 begin
   inherited Create(AOwner, TGLGuiElement);
   FGuiComponent := AOwner;
 end;
 
+//---------------------------------------------------------------------------
 function TGLGuiElementList.GetOwner: TPersistent;
 begin
   Result := FGuiComponent;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGuiElementList.SetItems(index: Integer; const val: TGLGuiElement);
 begin
   inherited Items[index] := val;
 end;
 
+//---------------------------------------------------------------------------
 function TGLGuiElementList.IndexOf(const Item: TGLGuiElement): Integer;
 var
   i: Integer;
@@ -1148,21 +1183,25 @@ begin
       end;
 end;
 
+//---------------------------------------------------------------------------
 function TGLGuiElementList.GetItems(index: Integer): TGLGuiElement;
 begin
   Result := TGLGuiElement(inherited Items[index]);
 end;
 
+//---------------------------------------------------------------------------
 function TGLGuiElement.GetDisplayName: string;
 begin
   Result := FName;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGuiElement.SetName(const val: TGLGuiElementName);
 begin
   FName := val;
 end;
 
+//---------------------------------------------------------------------------
 constructor TGLGuiElement.Create(Collection: TCollection);
 begin
   inherited;
@@ -1172,6 +1211,7 @@ begin
   FScale := TGSCoordinates2.CreateInitialized(Self, XYHmgVector, csPoint2D);
 end;
 
+//---------------------------------------------------------------------------
 destructor TGLGuiElement.Destroy;
 begin
   FTopLeft.Free;
@@ -1180,6 +1220,7 @@ begin
   inherited;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGuiLayout.Notification(AComponent: TComponent;
   Operation: TOperation);
 begin
@@ -1190,10 +1231,11 @@ begin
     else
       FGuiComponentList.Remove(AComponent);
   end;
-  NotifyChange(Self); // EG : looks suspicious...
+  NotifyChange(Self); // looks suspicious...
   inherited;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGuiComponent.AssignTo(Dest: TPersistent);
 begin
   if Dest is TGLGuiComponent then
@@ -1204,6 +1246,7 @@ begin
     inherited;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGuiElementList.AssignTo(Dest: TPersistent);
 var
   i: Integer;
@@ -1219,6 +1262,7 @@ begin
     inherited;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGuiElement.AssignTo(Dest: TPersistent);
 var
   element: TGLGuiElement;
@@ -1226,7 +1270,6 @@ begin
   if Dest is TGLGuiElement then
   begin
     element := TGLGuiElement(Dest);
-
     element.TopLeft.Assign(TopLeft);
     element.BottomRight.Assign(BottomRight);
     element.Scale.Assign(Scale);
@@ -1237,4 +1280,5 @@ begin
     inherited;
 end;
 
+//---------------------------------------------------------------------------
 end.

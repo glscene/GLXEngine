@@ -32,9 +32,7 @@ type
     procedure LoadFromStream(aStream: TStream); override;
   end;
 
-//============================================
-implementation
-//============================================
+implementation //============================================================
 
 uses
   Stage.VectorGeometry,
@@ -45,6 +43,7 @@ uses
 type
   PVector3f = ^TVector3f;
 
+//---------------------------------------------------------------------------
 function CalcTriNorm(v1, v2, v3: TVec12): TVector3f;
 var
   e1, e2: TVector3f;
@@ -64,7 +63,6 @@ type
 //-----------------------------------------
 // TGLLWOVectorFile
 //-----------------------------------------
-
 procedure TGLLWOVectorFile.AddLayr(Layr: TLWLayr; LWO: TLWObjectFile);
 var
   Idx: Integer;
@@ -108,6 +106,7 @@ begin
   FPnts := nil;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLLWOVectorFile.AddPnts(Pnts: TLWPnts; Mesh: TGLMeshObject);
 var
   i: Integer;
@@ -125,6 +124,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLLWOVectorFile.AddPols(Pols: TLWPols; Mesh: TGLMeshObject);
 var
   Idx: Integer;
@@ -241,6 +241,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLLWOVectorFile.AddSurf(Surf: TLWSurf; LWO: TLWObjectFile);
 var
   matLib: TGLMaterialLibrary;
@@ -352,58 +353,45 @@ begin
               end;
             end;
           end;
-
         end;
-
       end;
-
     end;
-
   end;
-
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLLWOVectorFile.AddVMap(VMap: TLWVMap; Mesh: TGLMeshObject);
 var
   i: integer;
 begin
-
   with VMap, Mesh do
   begin
-
     // texture coords
     if VMapType = VMAP_TYPE_TXUV then
     begin
-
       for i := 0 to ValueCount - 1 do
         TexCoords.Items[Value[i].vert] := AffineVectorMake(Value[i].values[0], Value[i].values[1], 0);
-
     end
     else
-
       {// vertex weight map} if VMapType = VMAP_TYPE_WGHT then
       begin
         {Todo: WeightMap import}
-
       end
       else
-
         {// vertex morph (relative)} if VMapType = VMAP_TYPE_MORF then
         begin
           {Todo: Morph target (relative) import}
-
         end
         else
-
           {// vertex morph (absolute)} if VMapType = VMAP_TYPE_SPOT then
           begin
             {Todo: Morph target (absolute) import}
 
           end;
-
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLLWOVectorFile.LoadFromStream(aStream: TStream);
 var
   Ind: Integer;
@@ -450,7 +438,7 @@ initialization //============================================================
 
   RegisterVectorFileFormat('lwo', 'Lightwave3D object file (6.0 or above)', TGLLWOVectorFile);
 
-finalization
+finalization //==============================================================
 
 end.
 

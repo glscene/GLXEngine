@@ -134,6 +134,7 @@ begin
   FDisabledColor := TGSColor.CreateInitialized(Self, clrGray60, NotifyChange);
 end;
 
+//---------------------------------------------------------------------------
 destructor TGLGameMenu.Destroy;
 begin
   inherited;
@@ -145,6 +146,7 @@ begin
   FDisabledColor.Free;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGameMenu.Notification(AComponent: TComponent; Operation: TOperation);
 begin
   inherited;
@@ -157,6 +159,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGameMenu.BuildList(var rci: TGLRenderContextInfo);
 var
   canvas: TGLCanvas;
@@ -256,6 +259,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGameMenu.SelectNext;
 var
   i: Integer;
@@ -268,6 +272,7 @@ begin
     Selected := i;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGameMenu.SelectPrev;
 var
   i: Integer;
@@ -280,6 +285,7 @@ begin
     Selected := i;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGameMenu.SetMenuScale(AValue: TGLGameMenuScale);
 begin
   if FMenuScale <> AValue then
@@ -289,6 +295,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGameMenu.SetMarginHorz(AValue: Integer);
 begin
   if FMarginHorz <> AValue then
@@ -298,6 +305,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGameMenu.SetMarginVert(AValue: Integer);
 begin
   if FMarginVert <> AValue then
@@ -307,6 +315,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGameMenu.SetSpacing(AValue: Integer);
 begin
   if FSpacing <> AValue then
@@ -316,6 +325,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGameMenu.SetFont(AValue: TGLCustomBitmapFont);
 begin
   if FFont <> nil then
@@ -325,43 +335,51 @@ begin
     FFont.FreeNotification(Self);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGameMenu.SetBackColor(AValue: TGSColor);
 begin
   FBackColor.Assign(AValue);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGameMenu.SetInactiveColor(AValue: TGSColor);
 begin
   FInactiveColor.Assign(AValue);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGameMenu.SetActiveColor(AValue: TGSColor);
 begin
   FActiveColor.Assign(AValue);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGameMenu.SetDisabledColor(AValue: TGSColor);
 begin
   FDisabledColor.Assign(AValue);
 end;
 
+//---------------------------------------------------------------------------
 function TGLGameMenu.GetEnabled(AIndex: Integer): Boolean;
 begin
   Result := not Boolean(Cardinal(FItems.Objects[AIndex]));
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGameMenu.SetEnabled(AIndex: Integer; AValue: Boolean);
 begin
   FItems.Objects[AIndex] := TObject(pointer(Cardinal(ord(not AValue))));
   StructureChanged;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGameMenu.SetItems(AValue: TStrings);
 begin
   FItems.Assign(AValue);
   SetSelected(Selected);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGameMenu.SetSelected(AValue: Integer);
 begin
   if AValue < -1 then
@@ -377,6 +395,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 function TGLGameMenu.GetSelectedText: string;
 begin
   if Cardinal(Selected) < Cardinal(FItems.Count) then
@@ -385,6 +404,7 @@ begin
     Result := '';
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGameMenu.SetMaterialLibrary(AValue: TGLMaterialLibrary);
 begin
   if FMaterialLibrary <> nil then
@@ -394,6 +414,7 @@ begin
     FMaterialLibrary.FreeNotification(Self);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGameMenu.SetTitleMaterialName(const AValue: string);
 begin
   if FTitleMaterialName <> AValue then
@@ -403,6 +424,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGameMenu.SetTitleWidth(AValue: Integer);
 begin
   if AValue < 0 then
@@ -414,6 +436,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGameMenu.SetTitleHeight(AValue: Integer);
 begin
   if AValue < 0 then
@@ -425,12 +448,14 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGameMenu.ItemsChanged(Sender: TObject);
 begin
   SetSelected(FSelected);
   StructureChanged;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGameMenu.MouseMenuSelect(const X, Y: Integer);
 begin
   if (X >= BoxLeft) and (Y >= MenuTop) and
@@ -442,6 +467,7 @@ begin
     Selected := -1;
 end;
 
+//---------------------------------------------------------------------------
 function TGLGameMenu.GetMaterialLibrary: TGLAbstractMaterialLibrary;
 begin
   Result := FMaterialLibrary;

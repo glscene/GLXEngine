@@ -27,9 +27,7 @@ uses
   GLS.SceneViewer;
 
 type
-
   TGLScreenDepth = (sd8bits, sd16bits, sd24bits, sd32bits);
-
   (*  A FullScreen viewer.
     This non visual viewer will, when activated, use the full screen as rendering
     surface. It will also switch/restore videomode depending on the required
@@ -167,9 +165,7 @@ type
 
 procedure Register;
 
-// ------------------------------------------------------------------
-implementation
-// ------------------------------------------------------------------
+implementation //============================================================
 
 uses
   GLS.Screen,
@@ -178,6 +174,7 @@ uses
 const
   cScreenDepthToBPP: array [sd8bits .. sd32bits] of Integer = (8, 16, 24, 32);
 
+//---------------------------------------------------------------------------
 procedure Register;
 begin
   RegisterComponents('GLScene', [TGLFullScreenViewer]);
@@ -186,7 +183,6 @@ end;
 // ------------------
 // ------------------ TGLFullScreenViewer ------------------
 // ------------------
-
 constructor TGLFullScreenViewer.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
@@ -198,17 +194,20 @@ begin
   Buffer.ViewerBeforeRender := DoBeforeRender;
 end;
 
+//---------------------------------------------------------------------------
 destructor TGLFullScreenViewer.Destroy;
 begin
   Active := False;
   inherited Destroy;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLFullScreenViewer.DoBeforeRender(Sender: TObject);
 begin
   SetupVSync(VSync);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLFullScreenViewer.DoBufferChange(Sender: TObject);
 begin
   if Assigned(FForm) and (not Buffer.Rendering) then
@@ -217,22 +216,26 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLFullScreenViewer.DoBufferStructuralChange(Sender: TObject);
 begin
   if Active and (FUpdateCount = 0) then
     ReActivate
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLFullScreenViewer.Render(baseObject: TGLBaseSceneObject = nil);
 begin
   Buffer.Render(baseObject);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLFullScreenViewer.BeginUpdate;
 begin
   Inc(FUpdateCount);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLFullScreenViewer.EndUpdate;
 begin
   Dec(FUpdateCount);
@@ -248,12 +251,14 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLFullScreenViewer.ReActivate;
 begin
   Shutdown;
   Startup;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLFullScreenViewer.Notification(AComponent: TComponent;
   Operation: TOperation);
 begin
@@ -271,26 +276,31 @@ begin
   inherited Notification(AComponent, Operation);
 end;
 
+//---------------------------------------------------------------------------
 function TGLFullScreenViewer.LastFrameTime: Single;
 begin
   Result := Buffer.LastFrameTime;
 end;
 
+//---------------------------------------------------------------------------
 function TGLFullScreenViewer.FramesPerSecond: Single;
 begin
   Result := Buffer.FramesPerSecond;
 end;
 
+//---------------------------------------------------------------------------
 function TGLFullScreenViewer.FramesPerSecondText(decimals: Integer): String;
 begin
   Result := Format('%.*f FPS', [decimals, Buffer.FramesPerSecond]);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLFullScreenViewer.ResetPerformanceMonitor;
 begin
   Buffer.ResetPerformanceMonitor;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLFullScreenViewer.UseCurrentResolution;
 begin
   BeginUpdate;
@@ -310,17 +320,16 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLFullScreenViewer.SetActive(const val: Boolean);
 begin
   if val <> FActive then
   begin
-
     // Alt+Tab delayed until better times
     // {$IFDEF MSWindows}
     // Application.OnDeactivate:=DoDeActivate;
     // Application.OnActivate:=DoActivate;
     // {$ENDIF}
-
     if val then
       Startup
     else
@@ -328,6 +337,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLFullScreenViewer.Startup;
 var
   res: TResolution;
@@ -394,6 +404,7 @@ begin
   FActive := True;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLFullScreenViewer.Shutdown;
 begin
   if not FActive then
@@ -423,6 +434,7 @@ begin
     FreeAndNil(FForm);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLFullScreenViewer.BindFormEvents;
 begin
   if Assigned(FForm) then
@@ -446,6 +458,7 @@ begin
     end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLFullScreenViewer.DoCloseQuery(Sender: TObject;
   var CanClose: Boolean);
 begin
@@ -455,6 +468,7 @@ begin
   // if CanClose then Shutdown;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLFullScreenViewer.DoPaint(Sender: TObject);
 begin
   If not ManualRendering then
@@ -462,6 +476,7 @@ begin
       Render;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLFullScreenViewer.DoActivate(Sender: TObject);
 begin
   (* If not Active and (Form <> nil) then begin
@@ -469,6 +484,7 @@ begin
     end; *)
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLFullScreenViewer.DoDeactivate(Sender: TObject);
 begin
   (* If Active and (Form <> nil) then begin
@@ -478,11 +494,13 @@ begin
     end; *)
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLFullScreenViewer.DoFormDestroy(Sender: TObject);
 begin
   Active := False;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLFullScreenViewer.SetScreenDepth(const val: TGLScreenDepth);
 begin
   if FScreenDepth <> val then
@@ -492,6 +510,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLFullScreenViewer.SetStayOnTop(const val: Boolean);
 begin
   if val <> FStayOnTop then
@@ -501,11 +520,13 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLFullScreenViewer.SetOnCloseQuery(const val: TCloseQueryEvent);
 begin
   FOnCloseQuery := val; // this one uses a special binding
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLFullScreenViewer.SetOnClose(const val: TCloseEvent);
 begin
   If Form <> nil then
@@ -513,6 +534,7 @@ begin
   FOnClose := val;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLFullScreenViewer.SetOnKeyPress(const val: TKeyPressEvent);
 begin
   If Form <> nil then
@@ -520,6 +542,7 @@ begin
   FOnKeyPress := val;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLFullScreenViewer.SetOnKeyUp(const val: TKeyEvent);
 begin
   If Form <> nil then
@@ -527,6 +550,7 @@ begin
   FOnKeyUp := val;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLFullScreenViewer.SetOnKeyDown(const val: TKeyEvent);
 begin
   If Form <> nil then
@@ -534,6 +558,7 @@ begin
   FOnKeyDown := val;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLFullScreenViewer.SetOnMouseWheel(const val: TMouseWheelEvent);
 begin
   If Form <> nil then
@@ -541,6 +566,7 @@ begin
   FOnMouseWheel := val;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLFullScreenViewer.SetOnMouseWheelDown
   (const val: TMouseWheelUpDownEvent);
 begin
@@ -549,6 +575,7 @@ begin
   FOnMouseWheelDown := val;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLFullScreenViewer.SetOnMouseWheelUp
   (const val: TMouseWheelUpDownEvent);
 begin
@@ -557,6 +584,7 @@ begin
   FOnMouseWheelUp := val;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLFullScreenViewer.SetOnClick(const val: TNotifyEvent);
 begin
   If Form <> nil then
@@ -564,6 +592,7 @@ begin
   FOnClick := val;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLFullScreenViewer.SetOnDblClick(const val: TNotifyEvent);
 begin
   If Form <> nil then
@@ -571,6 +600,7 @@ begin
   FOnDblClick := val;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLFullScreenViewer.SetOnMouseMove(const val: TMouseMoveEvent);
 begin
   If Form <> nil then
@@ -578,6 +608,7 @@ begin
   FOnMouseMove := val;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLFullScreenViewer.SetOnMouseDown(const val: TMouseEvent);
 begin
   If Form <> nil then
@@ -585,6 +616,7 @@ begin
   FOnMouseDown := val;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLFullScreenViewer.SetOnMouseUp(const val: TMouseEvent);
 begin
   If Form <> nil then
@@ -592,6 +624,7 @@ begin
   FOnMouseUp := val;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLFullScreenViewer.SetCursor(const val: TCursor);
 begin
   if val <> FCursor then
@@ -602,6 +635,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLFullScreenViewer.SetPopupMenu(const val: TPopupMenu);
 begin
   if val <> FPopupMenu then
@@ -612,17 +646,20 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLFullScreenViewer.SetForm(aVal: TForm);
 begin
   FForm := aVal;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLFullScreenViewer.SetManualRendering(const val: Boolean);
 begin
   if FManualRendering <> val then
     FManualRendering := val;
 end;
 
+//---------------------------------------------------------------------------
 function TGLFullScreenViewer.GetHandle: HWND;
 begin
   if Form <> nil then

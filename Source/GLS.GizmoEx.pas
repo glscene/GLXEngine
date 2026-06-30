@@ -4,7 +4,7 @@
 unit GLS.GizmoEx;
 (*
    Invisible component for helping to Move, Rotate and Scale an Object
-   under GLScene (usefull for an Editor).
+   usefull for an Editor.
    This is an enhanced version of TGLGizmo
 *)
 interface
@@ -22,19 +22,19 @@ uses
   Stage.VectorTypes,
   Stage.VectorGeometry,
   Stage.PersistentClasses,
+  Stage.Coordinates,
+  Stage.GeometryBB,
+  Stage.Color,
   Stage.Strings,
 
   GLS.Scene,
-  Stage.Color,
   GLS.Objects,
   GLS.Material,
   GLS.GeomObjects,
   GLS.BitmapFont,
   GLS.SceneViewer,
   GLS.VectorFileObjects,
-  Stage.Coordinates,
   GLS.RenderContextInfo,
-  Stage.GeometryBB,
   GLS.Canvas,
   GLS.Screen,
   GLS.State,
@@ -457,9 +457,7 @@ type
   end;
 
 
-//==================================================================
-implementation
-//==================================================================
+implementation //============================================================
 
 uses
   GLS.Context,
@@ -467,6 +465,7 @@ uses
 
   Stage.OpenGLTokens;
 
+//---------------------------------------------------------------------------
 procedure RotateAroundArbitraryAxis(const anObject: TGLBaseSceneObject; const Axis, Origin: TAffineVector; const angle: Single);
 var
   M, M1, M2, M3: TGSMatrix;
@@ -492,21 +491,26 @@ begin
   Det := a * d - b * c;
 end;
 
+//---------------------------------------------------------------------------
 //Distance between two points
+//---------------------------------------------------------------------------
 function Dist(const P1, P2: TPoint): real;
 begin
   Result := Sqrt(Sqr(P1.X - P2.X) + Sqr(P1.Y - P2.Y));
 end;
 
+//---------------------------------------------------------------------------
 function CrossingPointLine(p: TPoint; p1, p2: TPoint): Boolean;
 begin
   Result := (abs(p1.X - p.X) + abs(p2.X - p.X) = abs(p2.X - p1.X)) and
     (abs(p1.Y - p.Y) + abs(p2.Y - p.Y) = abs(p2.Y - p1.Y));
 end;
 
+//---------------------------------------------------------------------------
 //Intersection between two lines, return true or false
 //converted from http://doc-for-prog.narod.ru/topics/math/crossing.html
-function IsLineIntLine(const p11, p12, p21, p22: TPoint; var p: TPoint): Boolean;  
+//---------------------------------------------------------------------------
+function IsLineIntLine(const p11, p12, p21, p22: TPoint; var p: TPoint): Boolean;
 var
   Z, ca, cb, ua, ub: Single;
 begin
@@ -546,16 +550,16 @@ begin
     Result := False;
 end;
 
+//---------------------------------------------------------------------------
 //Intersection of line and circle
+//---------------------------------------------------------------------------
 function IsLineIntCirlce(CR: Single; CC: TPoint; LP1, LP2: TPoint; var PIL1, PIL2: TPoint): Smallint;
 var
   d, K, b: Single;
 begin
-
   K := (LP1.Y - LP2.Y) / (LP1.X - LP2.X);
   b := LP1.Y - K * LP1.X;
   //determine decrement of quadratic equation
-
   d := (PowerInteger((2 * K * b - 2 * CC.X - 2 * CC.Y * K), 2) - (4 + 4 * K * K) * (b * b - cr * cr + CC.X * CC.X + CC.Y * CC.Y - 2 * CC.Y * b));
   //if decrement = 0, then no decision and line and circle do not intersect
   if (d < 0) then
@@ -566,7 +570,6 @@ begin
     Exit;
   end;
   //otherwise find roots of quadratic equation
-
   PIL1.X := round((-(2 * K * b - 2 * CC.X - 2 * CC.Y * K) - sqrt(d)) / (2 + 2 * K * K));
   PIL2.X := round((-(2 * K * b - 2 * CC.X - 2 * CC.Y * K) + sqrt(d)) / (2 + 2 * K * K));
   //if abscissas of points are coinside, then the intersection is only in one point
@@ -585,12 +588,14 @@ begin
   Result := 1;
 end;
 
+//---------------------------------------------------------------------------
 constructor TGLGizmoExUIArrowLine.Create(AOwner: TComponent);
 begin
   FNoZWrite := True;
   inherited;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGizmoExUIArrowLine.BuildList(var rci: TGLRenderContextInfo);
 begin
   if FNoZWrite then
@@ -600,13 +605,14 @@ begin
   inherited;
 end;
 
-
+//---------------------------------------------------------------------------
 constructor TGLGizmoExUIDisk.Create(AOwner: TComponent);
 begin
   FNoZWrite := True;
   inherited;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGizmoExUIDisk.BuildList(var rci: TGLRenderContextInfo);
 begin
   if FNoZWrite then
@@ -616,12 +622,14 @@ begin
   inherited;
 end;
 
+//---------------------------------------------------------------------------
 constructor TGLGizmoExUISphere.Create(AOwner: TComponent);
 begin
   FNoZWrite := True;
   inherited;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGizmoExUISphere.BuildList(var rci: TGLRenderContextInfo);
 begin
   if FNoZWrite then
@@ -631,12 +639,14 @@ begin
   inherited;
 end;
 
+//---------------------------------------------------------------------------
 constructor TGLGizmoExUIPolyGon.Create(AOwner: TComponent);
 begin
   FNoZWrite := True;
   inherited;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGizmoExUIPolyGon.BuildList(var rci: TGLRenderContextInfo);
 begin
   if FNoZWrite then
@@ -646,12 +656,14 @@ begin
   inherited;
 end;
 
+//---------------------------------------------------------------------------
 constructor TGLGizmoExUIFrustrum.Create(AOwner: TComponent);
 begin
   FNoZWrite := True;
   inherited;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGizmoExUIFrustrum.BuildList(var rci: TGLRenderContextInfo);
 begin
   if FNoZWrite then
@@ -661,12 +673,14 @@ begin
   inherited;
 end;
 
+//---------------------------------------------------------------------------
 constructor TGLGizmoExUITorus.Create(AOwner: TComponent);
 begin
   FNoZWrite := True;
   inherited;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGizmoExUITorus.BuildList(var rci: TGLRenderContextInfo);
 begin
   if FNoZWrite then
@@ -676,12 +690,14 @@ begin
   inherited;
 end;
 
+//---------------------------------------------------------------------------
 constructor TGLGizmoExUILines.Create(AOwner: TComponent);
 begin
   FNoZWrite := True;
   inherited;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGizmoExUILines.BuildList(var rci: TGLRenderContextInfo);
 begin
   if FNoZWrite then
@@ -691,12 +707,14 @@ begin
   inherited;
 end;
 
+//---------------------------------------------------------------------------
 constructor TGLGizmoExUIFlatText.Create(AOwner: TComponent);
 begin
   FNoZWrite := True;
   inherited;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGizmoExUIFlatText.BuildList(var rci: TGLRenderContextInfo);
 begin
   if FNoZWrite then
@@ -706,8 +724,7 @@ begin
   inherited;
 end;
 
-//------------------------------------------------------------------------------
-
+//---------------------------------------------------------------------------
 constructor TGLGizmoEx.Create(aOwner: TComponent);
 var
   I: Integer;
@@ -1407,7 +1424,6 @@ begin
   end;
 
   //for Scale
-
   FUIScaleLineX := TGLGizmoExUILines(FUIRootScale.addnewChild(TGLGizmoExUILines));
   with FUIScaleLineX do
   begin
@@ -1743,7 +1759,6 @@ begin
   end;
 
   //For Axis
-
   FUIAxisLabelX := TGLGizmoExUIFlatText(FUIRootAxisLabel.AddNewChild(TGLGizmoExUIFlatText));
   with FUIAxisLabelX do
   begin
@@ -1829,6 +1844,7 @@ begin
   FExcludeClassNameList := TStringList.Create;
 end;
 
+//---------------------------------------------------------------------------
 destructor TGLGizmoEx.Destroy;
 begin
   if Assigned(FRootGizmo) then
@@ -1855,22 +1871,26 @@ begin
   inherited Destroy;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGizmoEx.SetVisible(const AValue: Boolean);
 begin
   FUIBaseGizmo.Visible := AValue;
 end;
 
+//---------------------------------------------------------------------------
 function TGLGizmoEx.GetVisible: Boolean;
 begin
   Result := FUIBaseGizmo.Visible;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGizmoEx.SetSelectionRegion(const AValue: TGLGizmoExSelectionRegion);
 begin
   if FSelectionRegion <> AValue then
     FSelectionRegion := AValue;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGizmoEx.SetShowAxisLabel(const AValue: Boolean);
 begin
   if FShowAxisLabel <> AValue then
@@ -1882,6 +1902,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGizmoEx.SetSelAxis(aValue: TGLGizmoExAxis);
 begin
   if FSelAxis <> aValue then
@@ -1892,12 +1913,14 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGizmoEx.SetPickMode(APickMode: TGLGizmoExPickMode);
 begin
   if APickMode <> FPickMode then
     FPickMode := APickMode;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGizmoEx.SetAutoZoomFactor(const AValue: Single);
 begin
   if (FAutoZoomFactor <> AValue) and (AValue > 0) then
@@ -1907,6 +1930,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGizmoEx.SetZoomFactor(const AValue: Single);
 begin
   if (FZoomFactor <> AValue) and (AValue > 0) then
@@ -1916,6 +1940,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGizmoEx.SetShowObjectInfos(const AValue: Boolean);
 begin
   if FShowObjectInfos <> AValue then
@@ -1925,17 +1950,20 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGizmoEx.SetShowBoundingBox(const AValue: Boolean);
 begin
   if FShowBoundingBox <> AValue then
     FShowBoundingBox := AValue;
 end;
 
+//---------------------------------------------------------------------------
 function TGLGizmoEx.GetPickList: TGLPickList;
 begin
   Result := FSelectedObjects;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGizmoEx.SetPickList(aValue: TGLPickList);
 var
   I: Integer;
@@ -1953,6 +1981,7 @@ begin
       LooseSelection();
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGizmoEx.SetSelectedObj(const Value: TGLBaseSceneObject);
 begin
   if FSelectedObjects.FindObject(Value) <> -1 then
@@ -1964,6 +1993,7 @@ begin
   UpdateGizmo();
 end;
 
+//---------------------------------------------------------------------------
 function TGLGizmoEx.GetSelectedObj: TGLBaseSceneObject;
 begin
   Result := nil;
@@ -1974,12 +2004,14 @@ begin
     Result := TGLBaseSceneObject(FSelectedObjects.Hit[0]);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGizmoEx.AddObjToSelectionList(Obj: TGLBaseSceneObject);
 begin
   if (Obj <> nil) and (FSelectedObjects.FindObject(Obj) = -1) then
     FSelectedObjects.AddHit(Obj, nil, 0, 0);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGizmoEx.RemoveObjFromSelectionList(Obj: TGLBaseSceneObject);
 var
   I: Integer;
@@ -1989,6 +2021,7 @@ begin
     FSelectedObjects.Delete(I);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGizmoEx.AssignPickList(aList: TGLPickList; RemoveObj: Boolean = False);
 
   function WithOutGizmoElements(obj: TGLBasesceneobject): Boolean;
@@ -2016,8 +2049,7 @@ begin
           FSelectedObjects.Delete(FSelectedObjects.FindObject(Hit[I]));
 end;
 
-
-
+//---------------------------------------------------------------------------
 procedure TGLGizmoEx.InterfaceRender(Sender: TObject; var rci: TGLRenderContextInfo);
 
   procedure cLine(glc: TGLCanvas; p1, p2: TPoint);
@@ -2084,6 +2116,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGizmoEx.InternalRender(Sender: TObject; var rci: TGLRenderContextInfo);
 
   procedure ShowBoundingBox(aObject: TGLBaseSceneObject);
@@ -2197,6 +2230,7 @@ begin
   rci.GLStates.Disable(stColorMaterial);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGizmoEx.SetReferenceCoordSystem(aValue: TGLGizmoExReferenceCoordinateSystem);
 begin
   if FReferenceCoordSystem <> aValue then
@@ -2206,6 +2240,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGizmoEx.SetHistoryStepsCount(aValue: Integer);
 begin
   if (FHistoryStepsCount <> aValue) and (aValue > 5) then
@@ -2215,12 +2250,14 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGizmoEx.SetCanChangeWithChildren(AValue: Boolean);
 begin
   if FCanChangeWithChildren <> AValue then
     FCanChangeWithChildren := AValue;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGizmoEx.SetAALines(aValue: Boolean);
 begin
   if FAntiAliasedLines <> aValue then
@@ -2255,6 +2292,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGizmoEx.SetInfoLabelCoordType(aValue: TInfoLabelCoordType);
 begin
   if fInfoLabelCoordType <> aValue then
@@ -2264,6 +2302,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGizmoEx.SetAngleDisk(aAngle: Single);
 var
   Disk1alpha, Disk2alpha, Disk1Angle, Disk2Angle: Single;
@@ -2361,9 +2400,9 @@ begin
       FUIRotateDiskZ2.Material.FrontProperties.Diffuse.Alpha := Disk2alpha;
     end;
   end;
-
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGizmoEx.SetBoundingBoxColor(const AValue: TGSColor);
 begin
   if AValue <> FBoundingBoxColor then
@@ -2373,6 +2412,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGizmoEx.SetSelectedColor(const AValue: TGSColor);
 begin
   if AValue <> FSelectedColor then
@@ -2382,6 +2422,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGizmoEx.SetOperation(const Value: TGLGizmoExOperation);
 begin
   if FOperation <> Value then
@@ -2392,6 +2433,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGizmoEx.SetOperationMode(const Value: TGLGizmoExOperationMode);
 begin
   if FOperationMode <> Value then
@@ -2441,6 +2483,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGizmoEx.SetNoZWrite(const Value: Boolean);
 begin
   if fNoZWrite <> Value then
@@ -2527,12 +2570,14 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGizmoEx.SetEnableLoopCursorMoving(const AValue: Boolean);
 begin
   if FEnableLoopCursorMoving <> AValue then
     FEnableLoopCursorMoving := AValue;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGizmoEx.SetEnableMultiSelection(const AValue: Boolean);
 begin
   if FEnableMultiSelection <> AValue then
@@ -2542,6 +2587,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGizmoEx.MultiSelMouseDown(X, Y: Integer);
 begin
   flastcursorPos := Point(X, Y);
@@ -2554,6 +2600,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGizmoEx.MultiSelMouseMove(X, Y: Integer);
 begin
   //calculation starts when the mouse button is down
@@ -2584,6 +2631,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGizmoEx.MultiSelMouseUp(X, Y: Integer);
 
   procedure SelectAssignMode(pick: TGLPickList);
@@ -2732,7 +2780,7 @@ begin
   end;
 end;
 
-
+//---------------------------------------------------------------------------
 procedure TGLGizmoEx.SetVisibleInfoLabelsColor(const AValue: TGSColor);
 begin
   if AValue <> FSelectedColor then
@@ -2744,6 +2792,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGizmoEx.SetSelectionRegionColor(const AValue: TGSColor);
 begin
   if AValue <> FSelectionRegionColor then
@@ -2752,6 +2801,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGizmoEx.SeTGLGizmoExVisibleInfoLabels(const AValue: TGLGizmoExVisibleInfoLabels);
 begin
   if AValue <> FVisibleVisibleInfoLabels then
@@ -2762,12 +2812,14 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGizmoEx.UndoAdd(const AObject: TObject);
 begin
   if AObject <> nil then
     FHistory.AddObject(AObject);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGizmoEx.RemoveSelectedObjects;
 begin
   if not Assigned(FHistory.FGizmoTmpRoot) then
@@ -2777,6 +2829,7 @@ begin
   UpdateGizmo();
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGizmoEx.SetRootGizmo(const AValue: TGLBaseSceneObject);
 begin
   if FRootGizmo <> AValue then
@@ -2790,6 +2843,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGizmoEx.SetGizmoTmpRoot(const AValue: TGLBaseSceneObject);
 begin
   if FGizmoTmpRoot <> AValue then
@@ -2802,6 +2856,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGizmoEx.SetRootObjects(const AValue: TGLBaseSceneObject);
 begin
   if fRootObjects <> AValue then
@@ -2812,18 +2867,21 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGizmoEx.SetExcludeObjectsList(const AValue: TStrings);
 begin
   FExcludeObjectsList.Clear;
   FExcludeObjectsList.AddStrings(AValue);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGizmoEx.SetExcludeClassNameList(const AValue: TStrings);
 begin
   FExcludeClassNameList.Clear;
   FExcludeClassNameList.AddStrings(AValue);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGizmoEx.SetGLGizmoExThickness(const Value: Single);
 begin
   if (FGizmoThickness <> Value) and (Value > 0.2) then
@@ -2858,8 +2916,7 @@ begin
   end;
 end;
 
-//------------------------------------------------------------------------------
-
+//---------------------------------------------------------------------------
 procedure TGLGizmoEx.SetLabelFont(const Value: TGLCustomBitmapFont);
 begin
   if FLabelFont <> Value then
@@ -2880,6 +2937,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 function TGLGizmoEx.InternalGetPickedObjects(const x1, y1, x2, y2: Integer; const guessCount: Integer): TGLPickList;
 
   procedure AddObjectToPicklList(const root: TGLBaseSceneObject; PickList: TGLPickList; X, Y: Integer);
@@ -2938,13 +2996,14 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGizmoEx.Loaded;
 begin
   inherited;
   SeTGLGizmoExThickness(GizmoThickness);
 end;
 
-//------------------------------------------------------------------------------
+//---------------------------------------------------------------------------
 procedure TGLGizmoEx.UpdateVisibleInfoLabels;
 var
   T: string;
@@ -3021,8 +3080,7 @@ begin
   FUIVisibleInfoLabels.StructureChanged;
 end;
 
-//------------------------------------------------------------------------------
-
+//---------------------------------------------------------------------------
 function TGLGizmoEx.CheckObjectInExcludeList(const Obj: TGLBaseSceneObject): Boolean;
 var
   I: Integer;
@@ -3039,9 +3097,9 @@ begin
       end;
     end;
   end;
-
 end;
 
+//---------------------------------------------------------------------------
 function TGLGizmoEx.CheckClassNameInExcludeList(const Obj: TGLBaseSceneObject): Boolean;
 var
   I: Integer;
@@ -3061,6 +3119,7 @@ begin
 
 end;
 
+//---------------------------------------------------------------------------
 function TGLGizmoEx.MouseWorldPos(const X, Y: Integer): TGSVector;
 var
   v: TGSVector;
@@ -3086,6 +3145,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGizmoEx.ActivatingElements(PickList: TGLPickList);
 
   procedure ActlightRotateLine(const line: TGLLines; const dark: TGSVector);
@@ -3443,6 +3503,7 @@ begin
     end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGizmoEx.ViewerMouseMove(const X, Y: Integer);
 var
   pickList:  TGLPickList;
@@ -3864,6 +3925,7 @@ begin
   my := Y;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGizmoEx.ViewerMouseDown(const X, Y: Integer);
 
   function SetInitialDiskPostition(aObject, aObject2: TGLCustomSceneObject): TGSVector;
@@ -3981,9 +4043,9 @@ begin
 
   if EnableMultiSelection then
     MultiSelMouseDown(X, Y);
-
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGizmoEx.ViewerMouseUp(const X, Y: Integer);
 var
   pick: TGLPickList;
@@ -4019,8 +4081,7 @@ begin
   Updategizmo;
 end;
 
-//------------------------------------------------------------------------------
-
+//---------------------------------------------------------------------------
 procedure TGLGizmoEx.UpdateGizmo;
 var
   d: Single;
@@ -4031,7 +4092,7 @@ begin
      not Assigned(RootObjects) or
      not Assigned(Viewer)      then
     Exit;
-    
+
   if FSelectedObjects.Count - 1 < 0 then
   begin
     FUIRootHelpers.Visible := False;
@@ -4126,9 +4187,9 @@ begin
     FUIVisibleInfoLabels.StructureChanged;
     FUIRootVisibleInfoLabels.Scale.AsVector := VectorMake(d, d, d);
   end;
-
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGizmoEx.LooseSelection;
 begin
   ClearSelection;
@@ -4137,12 +4198,14 @@ begin
     OnSelectionLost(self);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGizmoEx.ClearSelection;
 begin
   FSelectedObj := nil;
   FSelectedObjects.Clear;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGizmoEx.LooseCursorSelection;
 begin
   FShowMultiSelecting := False;
@@ -4152,6 +4215,7 @@ begin
   fcursorPos := point(0, 0);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGizmoEx.SetViewer(const Value: TGLSceneViewer);
 begin
   if FViewer <> Value then
@@ -4164,7 +4228,7 @@ begin
   end;
 end;
 
-
+//---------------------------------------------------------------------------
 procedure TGLGizmoEx.Notification(AComponent: TComponent; Operation: TOperation);
 begin
   inherited;
@@ -4179,11 +4243,11 @@ begin
     if AComponent = FGizmoTmpRoot then
       FGizmoTmpRoot := nil;
   end;
-
   if FHistory <> nil then
     FHistory.Notification(AComponent, Operation);
 end;
 
+//---------------------------------------------------------------------------
 function TGLGizmoEx.Undo: TGLGizmoExActionHistoryItem;
 var
   I: Integer;
@@ -4195,10 +4259,10 @@ begin
 
   for I := 0 to Result.GizmoObjectCollection.Count - 1 do
     FSelectedObjects.AddHit(Result.GizmoObjectCollection.Items[I].EffectedObject, nil, 0, 0);
-
   UpdateGizmo;
 end;
 
+//---------------------------------------------------------------------------
 function TGLGizmoEx.Redo: TGLGizmoExActionHistoryItem;
 var
   I: Integer;
@@ -4215,8 +4279,7 @@ begin
   UpdateGizmo;
 end;
 
-//===========================================================================================
-
+//---------------------------------------------------------------------------
 procedure TGLGizmoExObjectItem.AssignFromObject(const AObject: TGLBaseSceneObject; AssignAndRemoveObj: Boolean = False);
 begin
   if not AssignAndRemoveObj then
@@ -4237,12 +4300,14 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 constructor TGLGizmoExObjectItem.Create(AOwner: TCollection);
 begin
   FReturnObject := False;
   inherited;
 end;
 
+//---------------------------------------------------------------------------
 destructor TGLGizmoExObjectItem.Destroy;
 begin
   if FReturnObject then
@@ -4251,6 +4316,7 @@ begin
   inherited;
 end;
 
+//---------------------------------------------------------------------------
 function TGLGizmoExObjectItem.GetGizmo: TGLGizmoEx;
 begin
   if GetParent <> nil then
@@ -4259,11 +4325,13 @@ begin
     Result := nil;
 end;
 
+//---------------------------------------------------------------------------
 function TGLGizmoExObjectItem.GetParent: TGLGizmoExObjectCollection;
 begin
   Result := TGLGizmoExObjectCollection(GetOwner);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGizmoExObjectItem.DoUndo;
 begin
   if FEffectedObject = nil then
@@ -4287,6 +4355,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGizmoExObjectItem.Notification(AComponent: TComponent; Operation: TOperation);
 begin
   inherited;
@@ -4301,35 +4370,39 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGizmoExObjectItem.SetEffectedObject(const Value: TGLBaseSceneObject);
 begin
   FEffectedObject := Value;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGizmoExObjectItem.SetOldMatrix(const Value: TGSMatrix);
 begin
   FOldMatrix := Value;
 end;
 
-//==================================
+//---------------------------------------------------------------------------
 //     TGLGizmoExUndoCollection
-//=================================
-
+//---------------------------------------------------------------------------
 function TGLGizmoExObjectCollection.Add: TGLGizmoExObjectItem;
 begin
   Result := TGLGizmoExObjectItem(inherited Add);
 end;
 
+//---------------------------------------------------------------------------
 function TGLGizmoExObjectCollection.GetItems(const Index: Integer): TGLGizmoExObjectItem;
 begin
   Result := TGLGizmoExObjectItem(inherited GetItem(Index));
 end;
 
+//---------------------------------------------------------------------------
 function TGLGizmoExObjectCollection.GetParent: TGLGizmoEx;
 begin
   Result := TGLGizmoEx(GetOwner);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGizmoExObjectCollection.Notification(AComponent: TComponent; Operation: TOperation);
 var
   I: Integer;
@@ -4339,6 +4412,7 @@ begin
       GetItems(I).Notification(AComponent, Operation);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGizmoExObjectCollection.RemoveByObject(const AObject: TGLCustomSceneObject);
 var
   I: Integer;
@@ -4348,11 +4422,13 @@ begin
       GetItems(I).Free;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGizmoExObjectCollection.SetItems(const Index: Integer; const Value: TGLGizmoExObjectItem);
 begin
   GetItems(Index).Assign(Value);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGizmoExObjectCollection.DoUndo;
 var
   I: Integer;
@@ -4361,36 +4437,37 @@ begin
     GetItems(I).DoUndo;
 end;
 
-//==================================================================
-
+//---------------------------------------------------------------------------
 constructor TGLGizmoExActionHistoryItem.Create(AOwner: TCollection);
 begin
   inherited;
   FGizmoObjectCollection := TGLGizmoExObjectCollection.Create(self, TGLGizmoExObjectItem);
 end;
 
+//---------------------------------------------------------------------------
 destructor TGLGizmoExActionHistoryItem.Destroy;
 begin
   FGizmoObjectCollection.Free;
   inherited;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGizmoExActionHistoryItem.SetObject(aValue: TObject);
 begin
   if FObject <> AValue then
     FObject := AValue;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGizmoExActionHistoryItem.SetGizmoObjectCollection(aValue: TGLGizmoExObjectCollection);
 begin
   if FGizmoObjectCollection <> aValue then
     FGizmoObjectCollection := aValue;
 end;
 
-//=======================================
+//---------------------------------------------------------------------------
 //      TGLGizmoExUndoCollection
-//=======================================
-
+//---------------------------------------------------------------------------
 constructor TGLGizmoExActionHistoryCollection.Create(AOwner: TPersistent; ItemClass: TCollectionItemClass);
 begin
   MaxCount := 30;
@@ -4398,6 +4475,7 @@ begin
   inherited;
 end;
 
+//---------------------------------------------------------------------------
 function TGLGizmoExActionHistoryCollection.Add: TGLGizmoExActionHistoryItem;
 begin
   Result := nil;
@@ -4422,11 +4500,13 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 function TGLGizmoExActionHistoryCollection.GetItems(const Index: Integer): TGLGizmoExActionHistoryItem;
 begin
   Result := TGLGizmoExActionHistoryItem(inherited GetItem(Index));
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGizmoExActionHistoryCollection.Notification(AComponent: TComponent; Operation: TOperation);
 var
   I: Integer;
@@ -4436,11 +4516,13 @@ begin
       GetItems(I).FGizmoObjectCollection.Notification(AComponent, Operation);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGizmoExActionHistoryCollection.SetItems(const Index: Integer; const Value: TGLGizmoExActionHistoryItem);
 begin
   GetItems(Index).Assign(Value);
 end;
 
+//---------------------------------------------------------------------------
 function TGLGizmoExActionHistoryCollection.Undo: TGLGizmoExActionHistoryItem;
 begin
   Result := nil;
@@ -4449,11 +4531,11 @@ begin
 
   if FItemIndex <> 0 then
     FItemIndex := FItemIndex - 1;
-
   Result := Items[FItemIndex];
   Result.GizmoObjectCollection.DoUndo;
 end;
 
+//---------------------------------------------------------------------------
 function TGLGizmoExActionHistoryCollection.Redo: TGLGizmoExActionHistoryItem;
 begin
   Result := nil;
@@ -4465,6 +4547,7 @@ begin
   Result.GizmoObjectCollection.DoUndo;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGizmoExActionHistoryCollection.AddObjects(objs: TGLPickList);
 var
   I: Integer;
@@ -4474,9 +4557,9 @@ begin
     for I := 0 to objs.Count - 1 do
       GizmoObjectCollection.Add.AssignFromObject(TGLBaseSceneObject(objs.Hit[I]));
   end;
-
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGizmoExActionHistoryCollection.AddObject(obj: TObject);
 begin
   if obj = nil then
@@ -4484,6 +4567,7 @@ begin
   Add.FObject := obj;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGizmoExActionHistoryCollection.RemoveObjects(objs: TGLPickList);
 var
   I: Integer;
@@ -4503,5 +4587,5 @@ begin
   objs.Clear;
 end;
 
-
+//---------------------------------------------------------------------------
 end.

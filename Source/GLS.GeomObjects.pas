@@ -2253,6 +2253,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLTorus.SetMinorRadius(const aValue: Single);
 begin
   if FMinorRadius <> aValue then
@@ -2263,6 +2264,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLTorus.SetRings(aValue: Cardinal);
 begin
   if FRings <> aValue then
@@ -2275,6 +2277,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLTorus.SetSides(aValue: Cardinal);
 begin
   if FSides <> aValue then
@@ -2287,6 +2290,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLTorus.SetStartAngle(const aValue: Single);
 begin
   if FStartAngle <> aValue then
@@ -2297,6 +2301,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLTorus.SetStopAngle(const aValue: Single);
 begin
   if FStopAngle <> aValue then
@@ -2307,6 +2312,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLTorus.SetParts(aValue: TGLTorusParts);
 begin
   if aValue <> FParts then
@@ -2316,6 +2322,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 function TGLTorus.AxisAlignedDimensionsUnscaled: TGSVector;
 var
   r, r1: Single;
@@ -2325,6 +2332,7 @@ begin
   Result := VectorMake(r + r1, r + r1, r1); // Danb
 end;
 
+//---------------------------------------------------------------------------
 function TGLTorus.RayCastIntersect(const rayStart, rayVector: TGSVector;
   intersectPoint: PGSVector = nil; intersectNormal: PGSVector = nil): Boolean;
 var
@@ -2403,6 +2411,7 @@ begin
   FParts := [alLine, alTopArrow];
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLArrowLine.SetTopRadius(const aValue: Single);
 begin
   if aValue <> FTopRadius then
@@ -2412,6 +2421,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLArrowLine.SetTopArrowHeadHeight(const aValue: Single);
 begin
   if aValue <> fTopArrowHeadHeight then
@@ -2421,6 +2431,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLArrowLine.SetTopArrowHeadRadius(const aValue: Single);
 begin
   if aValue <> fTopArrowHeadRadius then
@@ -2430,6 +2441,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLArrowLine.SetBottomArrowHeadHeight(const aValue: Single);
 begin
   if aValue <> fBottomArrowHeadHeight then
@@ -2439,6 +2451,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLArrowLine.SetBottomArrowHeadRadius(const aValue: Single);
 begin
   if aValue <> fBottomArrowHeadRadius then
@@ -2448,6 +2461,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLArrowLine.SetParts(aValue: TGLArrowLineParts);
 begin
   if aValue <> FParts then
@@ -2457,6 +2471,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLArrowLine.SetHeadStackingStyle(const val: TGLArrowHeadStyle);
 begin
   if val <> FHeadStackingStyle then
@@ -2466,7 +2481,7 @@ begin
   end;
 end;
 
-//--------------------------------------------------------------------------
+//---------------------------------------------------------------------------
 procedure TGLArrowLine.BuildList(var rci: TGLRenderContextInfo);
 var
   quadric: PGLUquadricObj;
@@ -2547,6 +2562,7 @@ begin
   gluDeleteQuadric(quadric);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLArrowLine.Assign(Source: TPersistent);
 begin
   if Assigned(Source) and (Source is TGLArrowLine) then
@@ -2582,6 +2598,7 @@ begin
   FParts := [aaArc, aaTopArrow];
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLArrowArc.SetArcRadius(const aValue: Single);
 begin
   if fArcRadius <> aValue then
@@ -2592,6 +2609,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLArrowArc.SetStartAngle(const aValue: Single);
 begin
   if FStartAngle <> aValue then
@@ -2602,6 +2620,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLArrowArc.SetStopAngle(const aValue: Single);
 begin
   if FStopAngle <> aValue then
@@ -2612,6 +2631,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLArrowArc.SetTopRadius(const aValue: Single);
 begin
   if aValue <> FTopRadius then
@@ -2622,6 +2642,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLArrowArc.SetTopArrowHeadHeight(const aValue: Single);
 begin
   if aValue <> fTopArrowHeadHeight then
@@ -2632,6 +2653,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLArrowArc.SetTopArrowHeadRadius(const aValue: Single);
 begin
   if aValue <> fTopArrowHeadRadius then
@@ -2642,6 +2664,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLArrowArc.SetBottomArrowHeadHeight(const aValue: Single);
 begin
   if aValue <> fBottomArrowHeadHeight then
@@ -2652,6 +2675,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLArrowArc.SetBottomArrowHeadRadius(const aValue: Single);
 begin
   if aValue <> fBottomArrowHeadRadius then
@@ -2662,6 +2686,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLArrowArc.SetParts(aValue: TGLArrowArcParts);
 begin
   if aValue <> FParts then
@@ -2672,6 +2697,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLArrowArc.SetHeadStackingStyle(const val: TGLArrowHeadStyle);
 begin
   if val <> FHeadStackingStyle then
@@ -3268,6 +3294,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLFrustrum.SetBaseDepth(const aValue: Single);
 begin
   if (aValue <> FBaseDepth) and (aValue >= 0) then
@@ -3277,6 +3304,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLFrustrum.SetBaseWidth(const aValue: Single);
 begin
   if (aValue <> FBaseWidth) and (aValue >= 0) then
@@ -3286,6 +3314,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLFrustrum.SetHeight(const aValue: Single);
 begin
   if (aValue <> FHeight) and (aValue >= 0) then
@@ -3297,6 +3326,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLFrustrum.SetParts(aValue: TGLFrustrumParts);
 begin
   if aValue <> FParts then
@@ -3306,6 +3336,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLFrustrum.SetNormalDirection(aValue: TGLNormalDirection);
 begin
   if aValue <> FNormalDirection then
@@ -3315,6 +3346,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLFrustrum.Assign(Source: TPersistent);
 begin
   if Assigned(Source) and (Source is TGLFrustrum) then
@@ -3329,16 +3361,19 @@ begin
   inherited Assign(Source);
 end;
 
+//---------------------------------------------------------------------------
 function TGLFrustrum.TopDepth: Single;
 begin
   Result := FBaseDepth * (FApexHeight - FHeight) / FApexHeight;
 end;
 
+//---------------------------------------------------------------------------
 function TGLFrustrum.TopWidth: Single;
 begin
   Result := FBaseWidth * (FApexHeight - FHeight) / FApexHeight;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLFrustrum.DefineProperties(Filer: TFiler);
 begin
   inherited;
@@ -3347,6 +3382,7 @@ begin
     (FHeight <> 0.5));
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLFrustrum.ReadData(Stream: TStream);
 begin
   with Stream do
@@ -3358,6 +3394,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLFrustrum.WriteData(Stream: TStream);
 begin
   with Stream do
@@ -3369,6 +3406,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 function TGLFrustrum.AxisAlignedBoundingBoxUnscaled: TAABB;
 var
   aabb: TAABB;
@@ -3388,6 +3426,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 function TGLFrustrum.AxisAlignedDimensionsUnscaled: TGSVector;
 begin
   Result.X := FBaseWidth * 0.5;
@@ -3405,12 +3444,13 @@ begin
   FParts := [ppTop, ppBottom];
 end;
 
-
+//---------------------------------------------------------------------------
 destructor TGLPolygon.Destroy;
 begin
   inherited Destroy;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLPolygon.SetParts(const val: TGLPolygonParts);
 begin
   if FParts <> val then
@@ -3420,6 +3460,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLPolygon.Assign(Source: TPersistent);
 begin
   if Source is TGLPolygon then
@@ -3471,6 +3512,7 @@ begin
   FGrid := 5;
 end;
 
+//---------------------------------------------------------------------------
 function TGLTeapot.AxisAlignedDimensionsUnscaled: TGSVector;
 begin
   SetVector(Result, 0.55, 0.25, 0.35);

@@ -158,9 +158,7 @@ type
     property Cluster: Integer read FCluster write FCluster;
   end;
 
-// ------------------------------------------------------------------
-implementation
-// ------------------------------------------------------------------
+implementation //============================================================
 
 const
   cOwnTriangleEpsilon = 1E-5;
@@ -174,6 +172,7 @@ begin
   inherited;
 end;
 
+//---------------------------------------------------------------------------
 destructor TBSPClusterVisibility.Destroy;
 begin
   if Assigned(FData) then
@@ -181,6 +180,7 @@ begin
   inherited;
 end;
 
+//---------------------------------------------------------------------------
 procedure TBSPClusterVisibility.SetCount(NumClusters: Integer);
 var
   NewSize: Integer;
@@ -215,6 +215,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 function TBSPClusterVisibility.GetVisibility(Source,
   Destination: Integer): Boolean;
 var
@@ -227,6 +228,7 @@ begin
   Result := (FData^[ByteIdx] and (1 shl BitIdx)) > 0;
 end;
 
+//---------------------------------------------------------------------------
 procedure TBSPClusterVisibility.SetVisibility(Source, Destination: Integer;
   const Value: Boolean);
 var
@@ -242,6 +244,7 @@ begin
     FData^[ByteIdx] := FData^[ByteIdx] and not(1 shl BitIdx);
 end;
 
+//---------------------------------------------------------------------------
 procedure TBSPClusterVisibility.SetData(Source: PByte; NumClusters: Integer);
 begin
   Count := NumClusters;
@@ -251,7 +254,6 @@ end;
 // ------------------
 // ------------------ TBSPMeshObject ------------------
 // ------------------
-
 constructor TBSPMeshObject.CreateOwned(AOwner: TGLMeshObjectList);
 begin
   inherited;
@@ -261,12 +263,14 @@ begin
   FUseClusterVisibility := False;
 end;
 
+//---------------------------------------------------------------------------
 destructor TBSPMeshObject.Destroy;
 begin
   FClusterVisibility.Free;
   inherited;
 end;
 
+//---------------------------------------------------------------------------
 procedure TBSPMeshObject.BuildList(var mrci: TGLRenderContextInfo);
 var
   i, j, k, n, camCluster: Integer;
@@ -380,6 +384,7 @@ begin
   DisableOpenGLArrays(mrci);
 end;
 
+//---------------------------------------------------------------------------
 procedure TBSPMeshObject.CleanupUnusedNodes;
 var
   i, j, n: Integer;
@@ -462,6 +467,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 function TBSPMeshObject.AverageDepth: Single;
 var
   depthSum, endNodesCount: Integer;
@@ -499,6 +505,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 function TBSPMeshObject.FindNodeByPoint(const aPoint: TGSVector): TFGBSPNode;
 
   function Traverse(nodeIndex: Integer): Integer;
@@ -542,7 +549,6 @@ end;
 // ------------------
 // ------------------ TFGBSPNode ------------------
 // ------------------
-
 constructor TFGBSPNode.CreateOwned(AOwner: TGLFaceGroups);
 begin
   inherited;
@@ -550,11 +556,13 @@ begin
   FNegativeSubNodeIndex := 0;
 end;
 
+//---------------------------------------------------------------------------
 destructor TFGBSPNode.Destroy;
 begin
   inherited;
 end;
 
+//---------------------------------------------------------------------------
 procedure TFGBSPNode.IsCulled(const bsprci: TBSPRenderContextInfo;
   var positive, negative: Boolean);
 var
@@ -583,6 +591,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TFGBSPNode.CollectNoSort(var bsprci: TBSPRenderContextInfo);
 begin
   if (PositiveSubNodeIndex > 0) then
@@ -593,6 +602,7 @@ begin
     TFGBSPNode(Owner[NegativeSubNodeIndex]).CollectNoSort(bsprci);
 end;
 
+//---------------------------------------------------------------------------
 procedure TFGBSPNode.CollectFrontToBack(var bsprci: TBSPRenderContextInfo);
 begin
   if PlaneEvaluatePoint(splitPlane, bsprci.cameraLocal) >= 0 then
@@ -615,6 +625,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TFGBSPNode.CollectBackToFront(var bsprci: TBSPRenderContextInfo);
 begin
   if PlaneEvaluatePoint(splitPlane, bsprci.cameraLocal) >= 0 then
@@ -637,6 +648,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 function TFGBSPNode.FindSplitPlane(triangleSplitCost: Single = 1;
   triangleImbalanceCost: Single = 0.5): THmgPlane;
 var
@@ -683,6 +695,7 @@ begin
     end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TFGBSPNode.EvaluateSplitPlane(const splitPlane: THmgPlane;
   var nbTriangleSplit: Integer; var nbPositiveTriangles: Integer;
   var nbNegativeTriangles: Integer);
@@ -737,6 +750,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 function TFGBSPNode.AddLerp(iA, iB: Integer; fB, fA: Single): Integer;
 begin
   with Owner.Owner do
@@ -758,6 +772,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 function TFGBSPNode.AddLerpIfDistinct(iA, iB, iMid: Integer): Integer;
 var
   midNormal: TAffineVector;
@@ -822,6 +837,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TFGBSPNode.PerformSplit(const splitPlane: THmgPlane;
   const maxTrianglesPerLeaf: Integer = MaxInt);
 var
@@ -850,6 +866,7 @@ var
     end;
   end;
 
+  //---------------------------------------------------------------------------
   procedure SplitTriangle(strayID, strayNext, strayPrev: Integer;
     eStray, eNext, ePrev: Single);
   var
@@ -1034,6 +1051,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TFGBSPNode.FixTJunctions(const tJunctionsCandidates: TGSIntegerList);
 
   function FindTJunction(iA, iB, iC: Integer;
@@ -1148,9 +1166,7 @@ begin
   mark.Free;
 end;
 
-// ------------------------------------------------------------------
-initialization
-// ------------------------------------------------------------------
+initialization //============================================================
 
 RegisterClasses([TBSPMeshObject, TFGBSPNode]);
 

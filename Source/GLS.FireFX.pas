@@ -16,21 +16,22 @@ uses
   System.Types,
 
   Stage.OpenGLTokens,
-  GLS.Scene,
   Stage.PipelineTransform,
   Stage.XCollection,
   Stage.VectorGeometry,
-  GLS.Context,
   Stage.VectorLists,
   Stage.VectorTypes,
-  GLS.Cadencer,
   Stage.Color,
   Stage.BaseClasses,
   Stage.Coordinates,
+  Stage.TextureFormat,
   Stage.Manager,
+
+  GLS.Scene,
+  GLS.Context,
+  GLS.Cadencer,
   GLS.RenderContextInfo,
-  GLS.State,
-  Stage.TextureFormat;
+  GLS.State;
 
 type
   PGLFireParticle = ^TGLFireParticle;
@@ -182,6 +183,7 @@ function GetOrCreateFireFX(obj: TGLBaseSceneObject): TGLBFireFX; overload;
 
 implementation //============================================================
 
+//---------------------------------------------------------------------------
 function GetOrCreateFireFX(effects: TGLEffects): TGLBFireFX;
 var
   i: Integer;
@@ -193,6 +195,7 @@ begin
     Result := TGLBFireFX.Create(effects);
 end;
 
+//---------------------------------------------------------------------------
 function GetOrCreateFireFX(obj: TGLBaseSceneObject): TGLBFireFX;
 begin
   Result := GetOrCreateFireFX(obj.Effects);
@@ -201,8 +204,6 @@ end;
 // ------------------
 // ------------------ TGLFireFXManager ------------------
 // ------------------
-
-
 constructor TGLFireFXManager.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
@@ -231,7 +232,7 @@ begin
   FireInit;
 end;
 
-
+//---------------------------------------------------------------------------
 destructor TGLFireFXManager.Destroy;
 begin
   DeRegisterAllClients;
@@ -245,7 +246,7 @@ begin
   inherited Destroy;
 end;
 
-
+//---------------------------------------------------------------------------
 procedure TGLFireFXManager.RegisterClient(aClient: TGLBFireFX);
 begin
   if Assigned(aClient) then
@@ -256,7 +257,7 @@ begin
     end;
 end;
 
-
+//---------------------------------------------------------------------------
 procedure TGLFireFXManager.DeRegisterClient(aClient: TGLBFireFX);
 begin
   if Assigned(aClient) then
@@ -266,7 +267,7 @@ begin
   end;
 end;
 
-
+//---------------------------------------------------------------------------
 procedure TGLFireFXManager.DeRegisterAllClients;
 var
   i: Integer;
@@ -277,19 +278,19 @@ begin
   FClients.Clear;
 end;
 
-
+//---------------------------------------------------------------------------
 procedure TGLFireFXManager.SetFireDir(const val: TGSCoordinates);
 begin
   FFireDir.Assign(val);
 end;
 
-
+//---------------------------------------------------------------------------
 procedure TGLFireFXManager.SetInitialDir(const val: TGSCoordinates);
 begin
   FInitialDir.Assign(val);
 end;
 
-
+//---------------------------------------------------------------------------
 procedure TGLFireFXManager.SetCadencer(const val: TGLCadencer);
 begin
   if FCadencer <> val then
@@ -302,13 +303,13 @@ begin
   end;
 end;
 
-
+//---------------------------------------------------------------------------
 function TGLFireFXManager.StoreParticleSize: Boolean;
 begin
   Result := (FParticleSize <> 1);
 end;
 
-
+//---------------------------------------------------------------------------
 procedure TGLFireFXManager.SetInnerColor(const val: TGSColor);
 begin
   if FInnerColor <> val then
@@ -318,7 +319,7 @@ begin
   end;
 end;
 
-
+//---------------------------------------------------------------------------
 procedure TGLFireFXManager.SetOuterColor(const val: TGSColor);
 begin
   if FOuterColor <> val then
@@ -328,14 +329,14 @@ begin
   end;
 end;
 
-
+//---------------------------------------------------------------------------
 procedure TGLFireFXManager.SetReference(const val: TGLBaseSceneObject);
 begin
   // nothing more yet, maybe later
   FReference := val;
 end;
 
-
+//---------------------------------------------------------------------------
 procedure TGLFireFXManager.SetMaxParticles(const val: Integer);
 begin
   if val <> MaxParticles then
@@ -350,7 +351,7 @@ begin
   end;
 end;
 
-
+//---------------------------------------------------------------------------
 procedure TGLFireFXManager.Notification(AComponent: TComponent; Operation: TOperation);
 begin
   if Operation = opRemove then
@@ -363,7 +364,7 @@ begin
   inherited;
 end;
 
-
+//---------------------------------------------------------------------------
 procedure TGLFireFXManager.DoProgress(const progressTime: TGSProgressTimes);
 var
   i: Integer;
@@ -378,7 +379,7 @@ begin
     TGLBFireFX(FClients[i]).OwnerBaseSceneObject.NotifyChange(TGLBFireFX(FClients[i]));
 end;
 
-
+//---------------------------------------------------------------------------
 procedure TGLFireFXManager.FireInit;
 begin
   IntervalDelta := 0;
@@ -386,7 +387,7 @@ begin
   ReallocMem(FFireParticles, FMaxParticles * Sizeof(TGLFireParticle));
 end;
 
-
+//---------------------------------------------------------------------------
 procedure TGLFireFXManager.IsotropicExplosion(minInitialSpeed, maxInitialSpeed, lifeBoostFactor: Single;
   nbParticles: Integer = -1);
 var
@@ -420,7 +421,7 @@ begin
   end;
 end;
 
-
+//---------------------------------------------------------------------------
 procedure TGLFireFXManager.RingExplosion(minInitialSpeed, maxInitialSpeed, lifeBoostFactor: Single;
   const ringVectorX, ringVectorY: TAffineVector; nbParticles: Integer = -1);
 var
@@ -458,6 +459,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLFireFXManager.CalcFire(deltaTime: Double;
   particleInterval, particleLife: Single; fireAlpha: Single);
 var
@@ -522,6 +524,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLFireFXManager.AffParticle3d(Color2: TGSColorVector; const mat: TGSMatrix);
 var
   vx, vy: TGSVector;
@@ -559,29 +562,31 @@ end;
 // ------------------
 // ------------------ TGLBFireFX ------------------
 // ------------------
-
 constructor TGLBFireFX.Create(aOwner: TXCollection);
 begin
   inherited Create(aOwner);
 end;
 
+//---------------------------------------------------------------------------
 destructor TGLBFireFX.Destroy;
 begin
   Manager := nil;
   inherited Destroy;
 end;
 
- 
+//---------------------------------------------------------------------------
 class function TGLBFireFX.FriendlyName: string;
 begin
   Result := 'FireFX';
 end;
 
+//---------------------------------------------------------------------------
 class function TGLBFireFX.FriendlyDescription: string;
 begin
   Result := 'Fire FX';
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLBFireFX.WriteToFiler(writer: TWriter);
 begin
   with writer do
@@ -596,6 +601,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLBFireFX.ReadFromFiler(reader: TReader);
 var
    archiveVersion : Integer;
@@ -611,6 +617,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLBFireFX.Loaded;
 var
   mng: TComponent;
@@ -625,6 +632,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLBFireFX.Assign(Source: TPersistent);
 begin
   if Source is TGLBFireFX then
@@ -634,6 +642,7 @@ begin
   inherited Assign(Source);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLBFireFX.SetManager(const val: TGLFireFXManager);
 begin
   if val <> FManager then
@@ -645,6 +654,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLBFireFX.Render(var rci: TGLRenderContextInfo);
 var
   n: Integer;
@@ -657,12 +667,10 @@ var
 begin
   if Manager = nil then
     Exit;
-
   rci.PipelineTransformation.Push;
   // revert to the base model matrix in the case of a referenced fire
   if Assigned(Manager.Reference) then
     rci.PipelineTransformation.SetModelMatrix(IdentityHmgMatrix);
-
   rci.GLStates.CurrentProgram := 0;
   rci.GLStates.Disable(stCullFace);
   rci.GLStates.ActiveTextureEnabled[ttTexture2D] := False;
@@ -673,9 +681,7 @@ begin
   rci.GLStates.Enable(stDepthTest);
   rci.GLStates.DepthFunc := cfLEqual;
   rci.GLStates.DepthWriteMask := not Manager.NoZWrite;
-
   n := Manager.NP;
-
   if n > 1 then
   begin
     distList := TGSSingleList.Create;
@@ -705,7 +711,6 @@ begin
     objList.Free;
     distList.Free;
   end;
-
   rci.PipelineTransformation.Pop;
 end;
 

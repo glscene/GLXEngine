@@ -3,7 +3,7 @@
 ******************************************************************************)
 unit GLS.FileDEL;
 (*
-  Supports to import TetGen files from http://wias-berlin.de/software/tetgen/fformats.html
+  Supports to import TetGen files
   combined in a DEL ASCII file for Delaunay tetrahedralization.
    RegisterVectorFileFormat('delaunay', 'Triangular Irregular Network', TGLDELVectorFile);
 *)

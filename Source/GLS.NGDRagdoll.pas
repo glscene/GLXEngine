@@ -1,10 +1,10 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.NGDRagdoll;
-
-(* The Ragdoll extension using Newton Game Dynamics Engine *)
-
+(*
+  The Ragdoll extension using Newton Game Dynamics Engine
+*)
 interface
 
 uses
@@ -53,10 +53,9 @@ end;
 
 function GetBoneParent(Actor: TGLActor; bone: integer): integer;
 
-// --------------------------------------------
-implementation
-// --------------------------------------------
+implementation //============================================================
 
+//---------------------------------------------------------------------------
 function TNewtonRagdoll.TranslatePos;
 begin
   with Envelopes[n] do
@@ -68,6 +67,7 @@ begin
         VectorAdd(VectorScale(Mat.Y, Pt.Y), VectorScale(Mat.Z, Pt.Z))));
 end;
 
+//---------------------------------------------------------------------------
 function GetBoneParent;
 var
   i, j: integer;
@@ -83,6 +83,7 @@ begin
         end;
 end;
 
+//---------------------------------------------------------------------------
 procedure NewtonApplyForceAndTorqueCallback(const body: PNewtonBody; timestep: single;
   threadIndex: integer); cdecl;
 var
@@ -95,6 +96,7 @@ begin
   NewtonBodyAddForce(body, @F.X);
 end;
 
+//---------------------------------------------------------------------------
 function NewtonJointCallBack(const Universal: PNewtonJoint; desc: PNewtonHingeSliderUpdateDesc)
   : cardinal; cdecl;
 var
@@ -114,6 +116,7 @@ begin
   Result := 0;
 end;
 
+//---------------------------------------------------------------------------
 constructor TNewtonRagdoll.Create;
 var
   i, j: integer;
@@ -211,6 +214,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TNewtonRagdoll.Conform;
 var
   i: integer;
@@ -227,6 +231,7 @@ begin
   Actor.Skeleton.MorphMesh(true);
 end;
 
+//---------------------------------------------------------------------------
 procedure TNewtonRagdoll.Clean;
 var
   i: integer;
@@ -241,6 +246,7 @@ begin
   FreeAndNil(Bodies);
 end;
 
+//---------------------------------------------------------------------------
 destructor TNewtonRagdoll.Destroy;
 begin
   Clean;
@@ -249,6 +255,7 @@ begin
   inherited Destroy;
 end;
 
+//---------------------------------------------------------------------------
 procedure TNewtonRagdoll.SetEnabled;
 var
   i: integer;
@@ -284,16 +291,19 @@ begin
   Actor.Skeleton.MorphMesh(true);
 end;
 
+//---------------------------------------------------------------------------
 procedure TNewtonRagdoll.SetSlideLimit;
 begin
   FSlideLimit := value;
 end;
 
+//---------------------------------------------------------------------------
 procedure TNewtonRagdoll.SetAngleLimit;
 begin
   FAngleLimit := value;
 end;
 
+//---------------------------------------------------------------------------
 procedure TNewtonRagdoll.SetERP;
 var
   i: integer;
@@ -301,6 +311,7 @@ begin
   FERP := value;
 end;
 
+//---------------------------------------------------------------------------
 procedure TNewtonRagdoll.LoadFromFile;
 var
   i: integer;
@@ -327,6 +338,7 @@ begin
   F.Free;
 end;
 
+//---------------------------------------------------------------------------
 procedure TNewtonRagdoll.SaveToFile;
 var
   i: integer;
@@ -353,4 +365,5 @@ begin
   F.Free;
 end;
 
+//---------------------------------------------------------------------------
 end.

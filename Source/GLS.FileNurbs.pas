@@ -27,19 +27,17 @@ type
     procedure LoadFromStream(stream: TStream); override;
   end;
 
-// ------------------------------------------------------------------
-implementation
-// ------------------------------------------------------------------
+implementation //============================================================
 
 // ------------------
 // ------------------ TGLNurbsVectorFile ------------------
 // ------------------
-
 class function TGLNurbsVectorFile.Capabilities: TGSDataFileCapabilities;
 begin
   Result := [dfcRead];
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLNurbsVectorFile.LoadFromStream(stream: TStream);
   function CleanupLine(const line: String): String;
   var
@@ -176,10 +174,7 @@ begin
   end;
 end;
 
-// ------------------------------------------------------------------
-initialization
-
-// ------------------------------------------------------------------
+initialization //============================================================
 
 RegisterVectorFileFormat('nurbs', 'Nurbs model files', TGLNurbsVectorFile);
 

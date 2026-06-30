@@ -12,7 +12,7 @@ interface
 uses
   System.Math,
   System.Classes,
-  System.SysUtils, 
+  System.SysUtils,
    
   GLS.VectorFileObjects,
   Stage.VectorTypes, 
@@ -23,7 +23,6 @@ uses
   Stage.VectorLists, 
   GLS.ApplicationFileIO;
   
-
 const
   MAX_MS3D_VERTICES  = 8192;
   MAX_MS3D_TRIANGLES = 16384;
@@ -63,7 +62,6 @@ type
     ID: array[0..9] of AnsiChar;
     Version: integer;
   end;
-
 
   // typedef struct
   // (*
@@ -132,7 +130,6 @@ type
     Texture: array[0..127] of AnsiChar;
     Alphamap: array[0..127] of AnsiChar;
   end;
-
 
   // typedef struct
   // (*
@@ -241,23 +238,20 @@ type
     procedure LoadFromStream(aStream: TStream); override;
   end;
 
-
   {$A+}
 
-// ------------------------------------------------------------------
-implementation
-// ------------------------------------------------------------------
+implementation //============================================================
 
 
 // -------------------------
-//  TMS3DGroup 
+//  TMS3DGroup
 // -------------------------
-
 constructor TMS3DGroup.Create;
 begin
   TriangleIndices := TList.Create;
 end;
 
+//---------------------------------------------------------------------------
 destructor TMS3DGroup.Destroy;
 begin
   TriangleIndices.Free;
@@ -265,9 +259,8 @@ begin
 end;
 
 // -------------------------
-//  TMS3DCommentList 
+//  TMS3DCommentList
 // -------------------------
-
 destructor TMS3DCommentList.destroy;
 var
     i: integer;
@@ -281,6 +274,7 @@ begin
     inherited;
 end;
 
+//---------------------------------------------------------------------------
 function TMS3DCommentList.NewComment: pMS3DComment;
 begin
     new(result);
@@ -288,9 +282,8 @@ begin
 end;
 
 // -------------------------
-// TVertexWeightList 
+// TVertexWeightList
 // -------------------------
-
 procedure TVertexWeightList.clear;
 var
     i: integer;
@@ -299,17 +292,20 @@ begin
     inherited;
 end;
 
+//---------------------------------------------------------------------------
 destructor TVertexWeightList.destroy;
 begin
     clear;
     inherited;
 end;
 
+//---------------------------------------------------------------------------
 function TVertexWeightList.GetWeight(idx: Integer): pMS3D_vertex_ex_t;
 begin
     result:=pMS3D_vertex_ex_t(items[idx]);
 end;
 
+//---------------------------------------------------------------------------
 function TVertexWeightList.newWeight: pMS3D_vertex_ex_t;
 var
     p: pMS3D_vertex_ex_t;
@@ -319,22 +315,24 @@ begin
     result:=p;
 end;
 
-
+//---------------------------------------------------------------------------
 procedure TVertexWeightList.SetsubVersion(const Value: Integer);
 begin
   FsubVersion := Value;
 end;
 
-{ TGLMS3DVectorFile }
-
+//---------------------------------------------------------------------------
+// TGLMS3DVectorFile
+//---------------------------------------------------------------------------
 class function TGLMS3DVectorFile.Capabilities: TGSDataFileCapabilities;
 begin
   Result := [dfcRead];
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMS3DVectorFile.LoadFromStream(aStream: TStream);
 var
-  // GLScene
+  // GLS
   i, j, k: integer;
   itemp: Cardinal;
   wtemp: word;
@@ -909,9 +907,7 @@ begin
   end;
 end;
 
-// ------------------------------------------------------------------
-initialization
-// ------------------------------------------------------------------
+initialization //============================================================
 
   RegisterVectorFileFormat('ms3d', 'MilkShape3D files', TGLMS3DVectorFile);
 

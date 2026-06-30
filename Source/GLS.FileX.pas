@@ -31,13 +31,15 @@ type
     procedure LoadFromStream(aStream: TStream); override;
   end;
 
-implementation // -------------------------------------------------------------
+implementation //============================================================
 
+//---------------------------------------------------------------------------
 class function TGLXVectorFile.Capabilities: TGSDataFileCapabilities;
 begin
   Result := [dfcRead];
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLXVectorFile.LoadFromStream(aStream: TStream);
 var
   DXFile: TDXFile;
@@ -150,10 +152,10 @@ begin
   end;
 end;
 
-initialization //--------------------------------------------------------
+initialization //============================================================
 
 RegisterVectorFileFormat('x', 'DirectX Model files', TGLXVectorFile);
 
-finalization //----------------------------------------------------------
+finalization //==============================================================
 
 end.

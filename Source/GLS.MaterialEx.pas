@@ -715,7 +715,6 @@ type
       write SetGeometryVerticesOut default 1;
   end;
 
-
   TGLAbstractShaderUniform = class(TGSUpdateAbleObject, IShaderParameter)
   protected
     FName: string;
@@ -883,7 +882,6 @@ type
       SetTextureSwizzle;
   end;
 
-
   TGLBaseShaderModel = class(TGLLibMaterialProperty)
   protected
     FHandle: TGLProgramHandle;
@@ -1031,7 +1029,6 @@ type
       write FOnSM5UniformSetting;
   end;
 
-
   TGLLibMaterialsEx = class(TGLAbstractLibMaterials)
   protected
     procedure SetItems(AIndex: Integer; const AValue: TGLLibMaterialEx);
@@ -1116,9 +1113,7 @@ type
 procedure RegisterGLMaterialExNameChangeEvent(AEvent: TNotifyEvent);
 procedure DeRegisterGLMaterialExNameChangeEvent(AEvent: TNotifyEvent);
 
-//=================================================================
-implementation
-//=================================================================
+implementation //============================================================
 
 const
   cTextureMagFilter: array[maNearest..maLinear] of Cardinal =
@@ -1228,16 +1223,19 @@ var
   vStandartUniformAutoSetExecutor: TStandartUniformAutoSetExecutor;
   vStoreBegin: procedure(mode: Cardinal);{$IFDEF MSWINDOWS}stdcall;{$ELSE}cdecl;{$ENDIF}
 
+//---------------------------------------------------------------------------
 procedure RegisterGLMaterialExNameChangeEvent(AEvent: TNotifyEvent);
 begin
   vGLMaterialExNameChangeEvent := AEvent;
 end;
 
+//---------------------------------------------------------------------------
 procedure DeRegisterGLMaterialExNameChangeEvent(AEvent: TNotifyEvent);
 begin
   vGLMaterialExNameChangeEvent := nil;
 end;
 
+//---------------------------------------------------------------------------
 function ComputeNameHashKey(
   const AName: string): Integer;
 var
@@ -1249,6 +1247,7 @@ begin
     Result := (Result shl 1) + Byte(AName[i]);
 end;
 
+//---------------------------------------------------------------------------
 procedure Div2(var Value: Integer); inline;
 begin
   Value := Value div 2;
@@ -1256,6 +1255,7 @@ begin
     Value := 1;
 end;
 
+//---------------------------------------------------------------------------
 function CalcTextureLevelNumber(ATarget: TGLTextureTarget; w, h, d: Integer):
   Integer;
 begin
@@ -1289,6 +1289,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 destructor TGLBaseMaterialCollectionItem.Destroy;
 var
   I: Integer;
@@ -1303,18 +1304,21 @@ begin
   inherited;
 end;
 
+//---------------------------------------------------------------------------
 function TGLBaseMaterialCollectionItem.GetMaterialLibrary:
   TGLAbstractMaterialLibrary;
 begin
   Result := TGLAbstractMaterialLibrary(TGLMatLibComponents(Owner).Owner);
 end;
 
+//---------------------------------------------------------------------------
 function TGLBaseMaterialCollectionItem.GetMaterialLibraryEx:
   TGLMaterialLibraryEx;
 begin
   Result := TGLMaterialLibraryEx(TGLMatLibComponents(Owner).Owner);
 end;
 
+//---------------------------------------------------------------------------
 function TGLBaseMaterialCollectionItem.GetUserCount: Integer;
 begin
   if Assigned(FUserList) then
@@ -1323,6 +1327,7 @@ begin
     Result := 0;
 end;
 
+//---------------------------------------------------------------------------
 function TGLBaseMaterialCollectionItem.GetUserList: TGSPersistentObjectList;
 begin
   if FUserList = nil then
@@ -1333,6 +1338,7 @@ begin
   Result := FUserList;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLBaseMaterialCollectionItem.NotifyChange(Sender: TObject);
 var
   I: Integer;
@@ -1346,6 +1352,7 @@ begin
   FNotifying := False;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLBaseMaterialCollectionItem.RegisterUser(
   AUser: TGSUpdateAbleObject);
 begin
@@ -1353,6 +1360,7 @@ begin
     UserList.Add(AUser);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLBaseMaterialCollectionItem.UnregisterUser(
   AUser: TGSUpdateAbleObject);
 begin
@@ -1360,6 +1368,7 @@ begin
     UserList.Remove(AUser);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLBaseMaterialCollectionItem.SetName(const AValue: string);
 begin
   if AValue <> Name then
@@ -1388,6 +1397,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLFixedFunctionProperties.Apply(var ARci: TGLRenderContextInfo);
 begin
   with ARci.GLStates do
@@ -1529,6 +1539,7 @@ begin
   inherited;
 end;
 
+//---------------------------------------------------------------------------
 function TGLFixedFunctionProperties.Blended: Boolean;
 begin
   Result := not (FBlendingMode in [bmOpaque, bmAlphaTest50, bmAlphaTest100, bmCustom]);
@@ -1571,6 +1582,7 @@ begin
   NotifyChange(Self);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLFixedFunctionProperties.SetBlendingMode(const AValue:
   TGLBlendingMode);
 begin
@@ -1685,6 +1697,7 @@ begin
     TextureBinding[ActiveTexture, FHandle.Target] := 0;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLTextureImageEx.Assign(Source: TPersistent);
 var
   LTexture: TGLTextureImageEx;
@@ -1711,6 +1724,7 @@ begin
   inherited;
 end;
 
+//---------------------------------------------------------------------------
 constructor TGLTextureImageEx.Create(AOwner: TXCollection);
 begin
   inherited;
@@ -1729,6 +1743,7 @@ begin
   Name := TGLMatLibComponents(AOwner).MakeUniqueName('Texture');
 end;
 
+//---------------------------------------------------------------------------
 destructor TGLTextureImageEx.Destroy;
 begin
   FHandle.Destroy;
@@ -2036,11 +2051,13 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 class function TGLTextureImageEx.FriendlyName: string;
 begin
   Result := 'Texture Image';
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLTextureImageEx.PrepareImage;
 const
   cAlphaProc: array[TGLTextureImageAlpha] of TImageAlphaProc =
@@ -2320,6 +2337,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLTextureImageEx.SetInternalFormat(const AValue: TGLInternalFormat);
 begin
   if AValue <> FInternalFormat then
@@ -2330,6 +2348,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLTextureImageEx.SetInternallyStored(const AValue: Boolean);
 begin
   if FInternallyStored <> AValue then
@@ -2343,6 +2362,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLTextureImageEx.SetMipGenMode(const AValue: TMipmapGenerationMode);
 begin
   if FMipGenMode <> AValue then
@@ -2353,6 +2373,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLTextureImageEx.SetNormalMapScale(const AValue: Single);
 begin
   if AValue <> FHeightToNormalScale then
@@ -2362,6 +2383,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLTextureImageEx.SetSourceFile(AValue: string);
 begin
   FixPathDelimiter(AValue);
@@ -2374,6 +2396,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLTextureImageEx.SetUseStreaming(const AValue: Boolean);
 begin
   if AValue <> FUseStreaming then
@@ -2395,26 +2418,31 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 function TGLTextureImageEx.StoreBrightness: Boolean;
 begin
   Result := (FImageBrightness <> 1.0);
 end;
 
+//---------------------------------------------------------------------------
 function TGLTextureImageEx.StoreGamma: Boolean;
 begin
   Result := (FImageGamma <> 1.0);
 end;
 
+//---------------------------------------------------------------------------
 function TGLTextureImageEx.StoreNormalMapScale: Boolean;
 begin
   Result := (FHeightToNormalScale <> cDefaultNormalMapScale);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLTextureImageEx.UnApply(var ARci: TGLRenderContextInfo);
 begin
   ARci.GLStates.ActiveTextureEnabled[FHandle.Target] := False;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLTextureImageEx.WriteToFiler(AWriter: TWriter);
 begin
   with AWriter do
@@ -2436,12 +2464,14 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLTextureSampler.Apply(var ARci: TGLRenderContextInfo);
 begin
   if FIsValid then
     ARci.GLStates.SamplerBinding[ARci.GLStates.ActiveTexture] := FHandle.Handle;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLTextureSampler.Assign(Source: TPersistent);
 var
   LSampler: TGLTextureSampler;
@@ -2464,6 +2494,7 @@ begin
   inherited;
 end;
 
+//---------------------------------------------------------------------------
 constructor TGLTextureSampler.Create(AOwner: TXCollection);
 begin
   inherited;
@@ -2485,6 +2516,7 @@ begin
   Name := TGLMatLibComponents(AOwner).MakeUniqueName('Sampler');
 end;
 
+//---------------------------------------------------------------------------
 destructor TGLTextureSampler.Destroy;
 begin
   FHandle.Destroy;
@@ -2492,17 +2524,20 @@ begin
   inherited;
 end;
 
+//---------------------------------------------------------------------------
 function TGLTextureSampler.GetWrap(Index: Integer): TGLSeparateTextureWrap;
 begin
   Result := FWrap[Index];
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLTextureSampler.NotifyChange(Sender: TObject);
 begin
   FHandle.NotifyChangesOfData;
   inherited;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLTextureSampler.DoOnPrepare(Sender: TGLContext);
 var
   ID: Cardinal;
@@ -2552,7 +2587,6 @@ begin
 {$IFDEF USE_OPENGL_DEBUG}
           CheckError;
 {$ENDIF}
-
           FHandle.NotifyDataUpdated;
         end;
       FIsValid := True;
@@ -2565,6 +2599,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 class function TGLTextureSampler.FriendlyName: string;
 begin
   Result := 'Texture Sampler';
@@ -2598,6 +2633,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLTextureSampler.SetBorderColor(const AValue: TGSColor);
 begin
   FBorderColor.Assign(AValue);
@@ -2650,6 +2686,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLTextureSampler.SetMagFilter(AValue: TGLMagFilter);
 begin
   if FMagFilter <> AValue then
@@ -2706,7 +2743,9 @@ begin
   end;
 end;
 
-{ TVXTextureCombiner }
+//---------------------------------------------------------------------------
+// TGLTextureCombiner
+//---------------------------------------------------------------------------
 procedure TGLTextureCombiner.Assign(Source: TPersistent);
 var
   LCombiner: TGLTextureCombiner;
@@ -2719,6 +2758,7 @@ begin
   inherited;
 end;
 
+//---------------------------------------------------------------------------
 constructor TGLTextureCombiner.Create(AOwner: TXCollection);
 begin
   inherited;
@@ -2787,6 +2827,7 @@ begin
     FIsValid := False;
 end;
 
+//---------------------------------------------------------------------------
 class function TGLTextureCombiner.FriendlyName: string;
 begin
   Result := 'Texture Combiner';
@@ -2810,6 +2851,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLTextureCombiner.SetScript(AValue: TStringList);
 begin
   FScript.Assign(AValue);
@@ -2827,8 +2869,9 @@ begin
   end;
 end;
 
-
-{ TVXLibMaterialEx }
+//---------------------------------------------------------------------------
+// TGLLibMaterialEx
+//---------------------------------------------------------------------------
 procedure TGLLibMaterialEx.Apply(var ARci: TGLRenderContextInfo);
 var
   LevelReady: array[TGLMaterialLevel] of Boolean;
@@ -2955,6 +2998,7 @@ end;
 type
   TGLFreindlyMaterial = class(TGLMaterial);
 
+//---------------------------------------------------------------------------
 destructor TGLLibMaterialEx.Destroy;
 var
   I: Integer;
@@ -3095,6 +3139,7 @@ begin
   FSM5.Assign(AValue);
 end;
 
+//---------------------------------------------------------------------------
 function TGLLibMaterialEx.UnApply(var ARci: TGLRenderContextInfo): Boolean;
 
   procedure GetNextPass(AProp: TGLLibMaterialProperty);
@@ -3174,7 +3219,9 @@ begin
     FNextPass.Apply(ARCi);
 end;
 
-{ TVXMultitexturingProperties }
+//---------------------------------------------------------------------------
+// TGLMultitexturingProperties
+//---------------------------------------------------------------------------
 procedure TGLMultitexturingProperties.Apply(var ARci: TGLRenderContextInfo);
 var
   N, U: Integer;
@@ -3302,6 +3349,7 @@ begin
       Result := Result and FTexProps[I].IsValid;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMultitexturingProperties.Loaded;
 var
   I: Integer;
@@ -3326,6 +3374,7 @@ begin
   inherited;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMultitexturingProperties.SetLibCombinerName(const AValue: string);
 var
   LCombiner: TGLTextureCombiner;
@@ -3352,6 +3401,7 @@ begin
   NotifyChange(Self);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMultitexturingProperties.SetLightSourceIndex(AValue: Integer);
 begin
   if AValue < 0 then
@@ -3428,7 +3478,9 @@ begin
     gl.Disable(GL_VERTEX_PROGRAM_ARB);
 end;
 
-{ TVXTextureProperties }
+//---------------------------------------------------------------------------
+// TVXTextureProperties
+//---------------------------------------------------------------------------
 procedure TGLTextureProperties.Apply(var ARci: TGLRenderContextInfo);
 var
   glTarget: Cardinal;
@@ -3530,6 +3582,7 @@ begin
     end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLTextureProperties.ApplyMappingMode;
 var
   R_Dim: Boolean;
@@ -3616,6 +3669,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLTextureProperties.Assign(Source: TPersistent);
 var
   LTexProp: TGLTextureProperties;
@@ -3701,6 +3755,7 @@ begin
     Result := '';
 end;
 
+//---------------------------------------------------------------------------
 function TGLTextureProperties.GetLibTextureName: TGLMaterialComponentName;
 begin
   if Assigned(FLibTexture) then
@@ -3784,6 +3839,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLTextureProperties.NotifyChange(Sender: TObject);
 begin
   inherited;
@@ -3862,6 +3918,7 @@ begin
   NotifyChange(Self);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLTextureProperties.SetMappingMode(
   const AValue: TGLTextureMappingMode);
 begin
@@ -3974,6 +4031,7 @@ begin
   Result := Assigned(FTextureOffset);
 end;
 
+//---------------------------------------------------------------------------
 function TGLTextureProperties.StoreTextureRotate: Boolean;
 begin
   Result := Abs(FTextureRotate) > EPSILON;
@@ -4022,7 +4080,9 @@ begin
     end;
 end;
 
-{ TVXShaderEx }
+//---------------------------------------------------------------------------
+// TGLShaderEx
+//---------------------------------------------------------------------------
 procedure TGLShaderEx.Assign(Source: TPersistent);
 var
   LShader: TGLShaderEx;
@@ -4089,6 +4149,7 @@ begin
   inherited;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLShaderEx.DoOnPrepare(Sender: TGLContext);
 begin
   if not IsDesignTime and FDefferedInit then
@@ -4137,6 +4198,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 class function TGLShaderEx.FriendlyName: string;
 begin
   Result := 'GLSL Shader';
@@ -4257,6 +4319,7 @@ begin
     Result := nil;
 end;
 
+//---------------------------------------------------------------------------
 function TGLLibMaterialProperty.GetMaterialLibrary: TGLAbstractMaterialLibrary;
 begin
   if Owner is TGLBaseMaterialCollectionItem then
@@ -4282,6 +4345,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLLibMaterialProperty.Loaded;
 begin
 end;
@@ -4309,8 +4373,9 @@ begin
   end;
 end;
 
-
-{ TVXLibMaterialsEx }
+//---------------------------------------------------------------------------
+// TGLLibMaterialsEx
+//---------------------------------------------------------------------------
 function TGLLibMaterialsEx.Add: TGLLibMaterialEx;
 begin
   Result := (inherited Add) as TGLLibMaterialEx;
@@ -4368,7 +4433,9 @@ begin
   inherited Items[AIndex] := AValue;
 end;
 
-{ TVXBaseShaderModel }
+//---------------------------------------------------------------------------
+// TGLBaseShaderModel
+//---------------------------------------------------------------------------
 procedure TGLBaseShaderModel.Apply(var ARci: TGLRenderContextInfo);
 var
   I: Integer;
@@ -4443,6 +4510,7 @@ begin
   inherited;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLBaseShaderModel.DoOnPrepare(Sender: TGLContext);
 var
   T: TGLShaderType;
@@ -4824,6 +4892,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 class procedure TGLBaseShaderModel.ReleaseUniforms(
   AList: TGSPersistentObjectList);
 var
@@ -4873,6 +4942,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLBaseShaderModel.Loaded;
 var
   T: TGLShaderType;
@@ -4928,9 +4998,10 @@ begin
   NotifyChange(Self);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLBaseShaderModel.UnApply(var ARci: TGLRenderContextInfo);
 begin
-  if FIsValid {and not ARci.GLStates.ForwardContext} then
+  if FIsValid (*and not ARci.GLStates.ForwardContext *) then
     FHandle.EndUseProgramObject;
 end;
 
@@ -4952,6 +5023,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 class function TGLShaderModel3.IsSupported: Boolean;
 begin
   Result := gl.ARB_shader_objects;
@@ -4990,6 +5062,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLShaderModel5.Apply(var ARci: TGLRenderContextInfo);
 begin
   if Assigned(FShaders[shtControl]) or Assigned(FShaders[shtEvaluation]) then
@@ -5009,7 +5082,9 @@ begin
   ARci.amalgamating := False;
 end;
 
-{ TVXMatLibComponents }
+//---------------------------------------------------------------------------
+// TGLMatLibComponents
+//---------------------------------------------------------------------------
 function TGLMatLibComponents.GetAttachmentByName(
   const AName: TGLMaterialComponentName): TGLFrameBufferAttachment;
 var
@@ -5074,6 +5149,7 @@ begin
   Result := TGLBaseMaterialCollectionItem(inherited GetItems(index));
 end;
 
+//---------------------------------------------------------------------------
 function TGLMatLibComponents.GetNamePath: string;
 var
   s: string;
@@ -5127,6 +5203,7 @@ begin
   Result := nil;
 end;
 
+//---------------------------------------------------------------------------
 function TGLMatLibComponents.GetAsmProgByName(
   const AName: TGLMaterialComponentName): TGLASMVertexProgram;
 var
@@ -5186,8 +5263,9 @@ begin
   end;
 end;
 
-
-{ TVXMaterialLibraryEx }
+//---------------------------------------------------------------------------
+// TGLMaterialLibraryEx
+//---------------------------------------------------------------------------
 function TGLMaterialLibraryEx.AddAttachment(
   const AName: TGLMaterialComponentName): TGLFrameBufferAttachment;
 begin
@@ -5243,6 +5321,7 @@ begin
   FComponents := TGLMatLibComponents.Create(Self);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMaterialLibraryEx.DefineProperties(Filer: TFiler);
 begin
   Filer.DefineBinaryProperty(
@@ -5292,6 +5371,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMaterialLibraryEx.SetComponents(AValue: TGLMatLibComponents);
 begin
   FComponents.Assign(AValue);
@@ -5327,8 +5407,9 @@ begin
   end;
 end;
 
-
-{ TVXShaderUniformTexture }
+//---------------------------------------------------------------------------
+// TGLShaderUniformTexture
+//---------------------------------------------------------------------------
 procedure TGLShaderUniformTexture.Apply(var ARci: TGLRenderContextInfo);
 
   function FindHotActiveUnit: Boolean;
@@ -5489,6 +5570,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLShaderUniformTexture.Assign(Source: TPersistent);
 var
   LUniform: TGLShaderUniformTexture;
@@ -5554,6 +5636,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLShaderUniformTexture.ReadFromFiler(AReader: TReader);
 begin
   with AReader do
@@ -5612,6 +5695,7 @@ begin
   NotifyChange(Self);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLShaderUniformTexture.SetSamplerName(const AValue: string);
 var
   LSampler: TGLTextureSampler;
@@ -5662,7 +5746,9 @@ begin
   end;
 end;
 
-{ TVXAbstractShaderUniform }
+//---------------------------------------------------------------------------
+// TGLAbstractShaderUniform
+//---------------------------------------------------------------------------
 function TGLAbstractShaderUniform.GetFloat: Single;
 begin
   FillChar(Result, SizeOf(Result), $00);
@@ -5819,6 +5905,7 @@ procedure TGLAbstractShaderUniform.SetMat3(const Value: TMatrix3f);
 begin
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLAbstractShaderUniform.SetMat4(const Value: TMatrix4f);
 begin
 end;
@@ -5874,10 +5961,12 @@ end;
 
 procedure TGLAbstractShaderUniform.WriteToFiler(AWriter: TWriter);
 begin
+  //
 end;
 
-
-{ TVXShaderUniform }
+//---------------------------------------------------------------------------
+// TGLShaderUniform
+//---------------------------------------------------------------------------
 function TGLShaderUniform.GetFloat: Single;
 begin
   // TODO: Type checking
@@ -5946,6 +6035,7 @@ begin
   inherited;
 end;
 
+//---------------------------------------------------------------------------
 function TGLShaderUniform.GetAutoSetMethod: string;
 begin
   Result := GetUniformAutoSetMethodName(FAutoSet);
@@ -6000,6 +6090,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLShaderUniform.ReadFromFiler(AReader: TReader);
 begin
   with AReader do
@@ -6137,6 +6228,7 @@ begin
   PopProgram;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLShaderUniform.SetVec4(const Value: TVector4f);
 begin
   PushProgram;
@@ -6251,7 +6343,9 @@ begin
     Value.W);
 end;
 
-{ TVXTextureSwizzling }
+//---------------------------------------------------------------------------
+// TGLTextureSwizzling
+//---------------------------------------------------------------------------
 procedure TGLTextureSwizzling.Assign(Source: TPersistent);
 var
   LSwizzling: TGLTextureSwizzling;
@@ -6334,6 +6428,7 @@ begin
       0;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLFrameBufferAttachment.Assign(Source: TPersistent);
 var
   LAttachment: TGLFrameBufferAttachment;
@@ -6748,6 +6843,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 constructor TStandartUniformAutoSetExecutor.Create;
 begin
   RegisterUniformAutoSetMethod('Camera world position', GLSLType4F,
@@ -6865,6 +6961,7 @@ begin
   Sender.vec4 := ARci.GLStates.MaterialEmission[cmFront];
 end;
 
+//---------------------------------------------------------------------------
 procedure TStandartUniformAutoSetExecutor.SetMaterialFrontShininess(Sender:
   IShaderParameter; var ARci: TGLRenderContextInfo);
 begin
@@ -6921,8 +7018,9 @@ begin
     ARci.PipelineTransformation.ProjectionMatrix^);
 end;
 
-
-{ TVXASMVertexProgram }
+//---------------------------------------------------------------------------
+// TGLASMVertexProgram
+//---------------------------------------------------------------------------
 procedure TGLASMVertexProgram.Assign(Source: TPersistent);
 var
   LProg: TGLASMVertexProgram;
@@ -6952,6 +7050,7 @@ begin
   inherited;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLASMVertexProgram.DoOnPrepare(Sender: TGLContext);
 begin
   if FDefferedInit and not IsDesignTime then
@@ -7027,6 +7126,7 @@ begin
   inherited;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLASMVertexProgram.ReadFromFiler(AReader: TReader);
 var
   archiveVersion: Integer;
@@ -7061,6 +7161,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLASMVertexProgram.WriteToFiler(AWriter: TWriter);
 begin
   with AWriter do

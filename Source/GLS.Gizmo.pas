@@ -284,10 +284,9 @@ type
       default PmGetPickedObjects;
   end;
 
-//=========================================================
-implementation
-//=========================================================
+implementation //============================================================
 
+//---------------------------------------------------------------------------
 procedure RotateAroundArbitraryAxis(const AnObject: TGLBaseSceneObject;
   const Axis, Origin: TAffineVector; const Angle: Single);
 var
@@ -306,8 +305,7 @@ begin
   AnObject.Turn(0);
 end;
 
-// ------------------------------------------------------------------------------
-
+//---------------------------------------------------------------------------
 procedure TGLGizmo.ClearInternalRaycastHitData;
 var
   T: Integer;
@@ -319,6 +317,7 @@ begin
   FInternalRaycastHitData.Clear;
 end;
 
+//---------------------------------------------------------------------------
 constructor TGLGizmo.Create(AOwner: TComponent);
 var
   Cub: TGLCube;
@@ -699,6 +698,7 @@ begin
   FExcludeObjectsList := TStringList.Create;
 end;
 
+//---------------------------------------------------------------------------
 destructor TGLGizmo.Destroy;
 begin
   if Assigned(FRootGizmo) then
@@ -722,11 +722,13 @@ begin
   inherited Destroy;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGizmo.SetVisible(const AValue: Boolean);
 begin
   _GZObaseGizmo.Visible := AValue;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGizmo.SetGizmoElements(const AValue: TGLGizmoElements);
 begin
   if AValue <> FGizmoElements then
@@ -741,6 +743,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGizmo.SetBoundingBoxColor(const AValue: TGSColor);
 begin
   // Bug Here New Color is not Updated
@@ -766,6 +769,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGizmo.SetSelectedColor(const AValue: TGSColor);
 begin
   if AValue <> FSelectedColor then
@@ -774,6 +778,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGizmo.SetVisibleInfoLabelsColor(const AValue: TGSColor);
 begin
   // Bug Here New Color is not Updated
@@ -785,6 +790,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGizmo.SeTGLGizmoVisibleInfoLabels(const AValue
   : TGLGizmoVisibleInfoLabels);
 begin
@@ -796,6 +802,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGizmo.UndoAdd(const AObject: TGLCustomSceneObject);
 begin
   if AObject <> nil then
@@ -804,6 +811,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGizmo.SetRootGizmo(const AValue: TGLBaseSceneObject);
 begin
   if FRootGizmo <> AValue then
@@ -817,12 +825,14 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGizmo.SetExcludeObjectsList(const AValue: TStrings);
 begin
   FExcludeObjectsList.Clear;
   FExcludeObjectsList.AddStrings(AValue);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGizmo.SetGLGizmoThickness(const Value: Single);
 var
   Thk: Single;
@@ -864,8 +874,7 @@ begin
   end;
 end;
 
-// ------------------------------------------------------------------------------
-
+//---------------------------------------------------------------------------
 procedure TGLGizmo.DirectGlDisable(Sender: TObject;
   var Rci: TGLRenderContextInfo);
 begin
@@ -873,6 +882,7 @@ begin
     Rci.GLStates.Disable(StDepthTest);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGizmo.SetLabelFont(const Value: TGLCustomBitmapFont);
 begin
   if FLabelFont <> Value then
@@ -890,12 +900,14 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGizmo.DirectGlEnable(Sender: TObject; var Rci: TGLRenderContextInfo);
 begin
   if FNoZWrite then
     Rci.GLStates.Enable(StDepthTest);
 end;
 
+//---------------------------------------------------------------------------
 function TGLGizmo.GetPickedObjectPoint(const Obj: TGLBaseSceneObject): TGSVector;
 var
   T: Integer;
@@ -912,6 +924,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 function TGLGizmo.InternalGetPickedObjects(const X1, Y1, X2, Y2: Integer;
   const GuessCount: Integer): TGLPickList;
 var
@@ -983,13 +996,14 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGizmo.Loaded;
 begin
   inherited;
   SeTGLGizmoThickness(GizmoThickness);
 end;
 
-// ------------------------------------------------------------------------------
+//---------------------------------------------------------------------------
 procedure TGLGizmo.UpdateVisibleInfoLabels;
 var
   T: string;
@@ -1060,8 +1074,7 @@ begin
   _GZOVisibleInfoLabels.StructureChanged;
 end;
 
-// ------------------------------------------------------------------------------
-
+//---------------------------------------------------------------------------
 function TGLGizmo.CheckObjectInExcludeList
   (const Obj: TGLBaseSceneObject): Boolean;
 var
@@ -1081,6 +1094,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 function TGLGizmo.MouseWorldPos(const X, Y: Integer): TGSVector;
 var
   V: TGSVector;
@@ -1497,6 +1511,7 @@ begin
   My := Y;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGizmo.ViewerMouseDown(const X, Y: Integer);
 var
   Pick: TGLPickList;
@@ -1544,7 +1559,6 @@ begin
     begin
       Assert(False, strErrorEx + strUnknownType);
     end;
-
   end;
 
   if not GotPick then
@@ -1579,13 +1593,13 @@ begin
   LastMousePos := MouseWorldPos(X, Y);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGizmo.ViewerMouseUp(const X, Y: Integer);
 begin
   Moving := False;
 end;
 
-// ------------------------------------------------------------------------------
-
+//---------------------------------------------------------------------------
 procedure TGLGizmo.UpdateGizmo;
 var
   D: Single;
@@ -1659,12 +1673,14 @@ begin
   _GZOrootVisibleInfoLabels.Scale.AsVector := VectorMake(D, D, D);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGizmo.UpdateGizmo(const NewDimensions: TGSVector);
 begin
   ObjDimensions := NewDimensions;
   UpdateGizmo;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGizmo.LooseSelection;
 begin
   SelectedObj := nil;
@@ -1673,6 +1689,7 @@ begin
     OnSelectionLost(Self);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGizmo.SetViewer(const Value: TGLSceneViewer);
 begin
   if FViewer <> Value then
@@ -1685,6 +1702,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGizmo.Notification(AComponent: TComponent; Operation: TOperation);
 begin
   inherited;
@@ -1700,6 +1718,7 @@ begin
     FUndoHistory.Notification(AComponent, Operation);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGizmoUndoItem.AssignFromObject(const AObject
   : TGLCustomSceneObject);
 begin
@@ -1712,6 +1731,7 @@ begin
   FOldLibMaterialName := AObject.Material.LibMaterialName;
 end;
 
+//---------------------------------------------------------------------------
 constructor TGLGizmoUndoItem.Create(AOwner: TCollection);
 begin
   inherited;
@@ -1719,12 +1739,14 @@ begin
     NullHmgVector, CsPoint);
 end;
 
+//---------------------------------------------------------------------------
 destructor TGLGizmoUndoItem.Destroy;
 begin
   FOldAutoScaling.Free;
   inherited;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGizmoUndoItem.DoUndo;
 begin
   FEffectedObject.SetMatrix(FOldMatr);
@@ -1733,6 +1755,7 @@ begin
   FEffectedObject.Material.LibMaterialName := FOldLibMaterialName;
 end;
 
+//---------------------------------------------------------------------------
 function TGLGizmoUndoItem.GetGizmo: TGLGizmo;
 begin
   if GetParent <> nil then
@@ -1741,11 +1764,13 @@ begin
     Result := nil;
 end;
 
+//---------------------------------------------------------------------------
 function TGLGizmoUndoItem.GetParent: TGLGizmoUndoCollection;
 begin
   Result := TGLGizmoUndoCollection(GetOwner);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGizmoUndoItem.Notification(AComponent: TComponent;
   Operation: TOperation);
 begin
@@ -1757,6 +1782,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGizmoUndoItem.SetEffectedObject(const Value: TGLCustomSceneObject);
 begin
   if FEffectedObject <> nil then
@@ -1766,34 +1792,40 @@ begin
     FEffectedObject.FreeNotification(GetGizmo);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGizmoUndoItem.SetOldAutoScaling(const Value: TGSCoordinates);
 begin
   FOldAutoScaling.Assign(Value);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGizmoUndoItem.SetOldMatrix(const Value: TGSMatrix);
 begin
   FOldMatrix := Value;
 end;
 
-{ TGLGizmoUndoCollection }
-
+//---------------------------------------------------------------------------
+//                          TGLGizmoUndoCollection
+//---------------------------------------------------------------------------
 function TGLGizmoUndoCollection.Add: TGLGizmoUndoItem;
 begin
   Result := TGLGizmoUndoItem(inherited Add);
 end;
 
+//---------------------------------------------------------------------------
 function TGLGizmoUndoCollection.GetItems(const Index: Integer)
   : TGLGizmoUndoItem;
 begin
   Result := TGLGizmoUndoItem(inherited GetItem(Index));
 end;
 
+//---------------------------------------------------------------------------
 function TGLGizmoUndoCollection.GetParent: TGLGizmo;
 begin
   Result := TGLGizmo(GetOwner);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGizmoUndoCollection.Notification(AComponent: TComponent;
   Operation: TOperation);
 var
@@ -1804,6 +1836,7 @@ begin
       GetItems(I).Notification(AComponent, Operation);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGizmoUndoCollection.RemoveByObject(const AObject
   : TGLCustomSceneObject);
 var
@@ -1814,12 +1847,14 @@ begin
       GetItems(I).Free;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGizmoUndoCollection.SetItems(const Index: Integer;
   const Value: TGLGizmoUndoItem);
 begin
   GetItems(Index).Assign(Value);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGizmo.SetSelectedObj(const Value: TGLBaseSceneObject);
 begin
   if FSelectedObj <> Value then
@@ -1840,4 +1875,5 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 end.

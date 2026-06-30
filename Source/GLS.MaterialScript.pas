@@ -192,6 +192,7 @@ type
 
 implementation //============================================================
 
+//---------------------------------------------------------------------------
 procedure TGLShaderItem.SetShader(const Value: TGLShader);
 begin
   if Assigned(Value) then
@@ -201,6 +202,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLShaderItem.Assign(Source: TPersistent);
 begin
   if Source is TGLShaderItem then
@@ -210,17 +212,20 @@ begin
   inherited Destroy;
 end;
 
+//---------------------------------------------------------------------------
 constructor TGLShaderItem.Create(Collection: TCollection);
 begin
   inherited Create(Collection);
   FName := 'Shader';
 end;
 
+//---------------------------------------------------------------------------
 destructor TGLShaderItem.Destroy;
 begin
   inherited Destroy;
 end;
 
+//---------------------------------------------------------------------------
 function TGLShaderItem.GetDisplayName: String;
 begin
   if FName = '' then
@@ -232,32 +237,36 @@ end;
 // ------------------------
 // TGLShaderItems
 // ------------------------
-
 constructor TGLShaderItems.Create(AOwner: TPersistent);
 begin
   inherited Create(AOwner, TGLShaderItem);
 end;
 
+//---------------------------------------------------------------------------
 function TGLShaderItems.GetItems(Index: Integer): TGLShaderItem;
 begin
   Result := TGLShaderItem(inherited Items[index]);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLShaderItems.SetItems(Index: Integer; const Val: TGLShaderItem);
 begin
   inherited Items[index] := Val;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMaterialScripter.SeTGLShaderItems(const Value: TGLShaderItems);
 begin
   FShaderItems.Assign(Value);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLShaderItem.SetName(const Value: String);
 begin
   FName := Value;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMaterialScripter.CompileScript;
 begin
   Done := False;
@@ -279,6 +288,7 @@ begin
   until CheckRepeatDone;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMaterialScripter.SetMaterialLibrary(const Value
   : TGLMaterialLibrary);
 begin
@@ -289,6 +299,7 @@ begin
     FMaterialLibrary.FreeNotification(Self);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMaterialScripter.SetMemo(const Value: TMemo);
 begin
   if FMemo <> nil then
@@ -298,12 +309,14 @@ begin
     FMemo.FreeNotification(Self);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMaterialScripter.SetScript(const Value: TStrings);
 begin
   if Assigned(Value) then
     FScript.Assign(Value);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMaterialScripter.CheckError;
 begin
   if Count >= FScript.Count then
@@ -319,6 +332,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 function TGLMaterialScripter.CheckRepeatDone: Boolean;
 begin
   CheckRepeatDone := False;
@@ -331,6 +345,7 @@ begin
     CheckRepeatDone := True;
 end;
 
+//---------------------------------------------------------------------------
 function TGLMaterialScripter.ClassExists(arguement: string): Boolean;
 var
   Temp: string;
@@ -359,9 +374,9 @@ begin
           FMemo.Lines.Add('Stage is at : ' + arguement);
       end;
   end;
-
 end;
 
+//---------------------------------------------------------------------------
 function TGLMaterialScripter.SubstrExists(substr: string): Boolean;
 begin
   if pos(UpperCase(substr), UpperCase(FScript.Strings[Count])) > 0 then
@@ -370,6 +385,7 @@ begin
     Result := False;
 end;
 
+//---------------------------------------------------------------------------
 constructor TGLMaterialScripter.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
@@ -380,6 +396,7 @@ begin
   FOverwrite := False;
 end;
 
+//---------------------------------------------------------------------------
 function TGLMaterialScripter.DeleteSpaces(Value: string): string;
 var
   i: byte;
@@ -391,6 +408,7 @@ begin
       delete(Result, pos(' ', Result), 1);
 end;
 
+//---------------------------------------------------------------------------
 destructor TGLMaterialScripter.Destroy;
 begin
   FShaderItems.Free;
@@ -399,6 +417,7 @@ begin
   inherited Destroy;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMaterialScripter.ExtractColors;
 var
   Val: string;
@@ -417,6 +436,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMaterialScripter.ExtractCoords3;
 var
   Val: string;
@@ -433,6 +453,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMaterialScripter.ExtractCoords4;
 var
   Val: string;
@@ -451,12 +472,14 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 function TGLMaterialScripter.ExtractValue: string;
 begin
   ExtractValue := copy(FScript.Strings[Count], pos('=', FScript.Strings[Count])
     + 1, length(FScript.Strings[Count]) - pos('=', FScript.Strings[Count]));
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMaterialScripter.XPersistantImage;
 begin
   if ClassExists('file') then
@@ -472,6 +495,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMaterialScripter.XBlankImage;
 begin
   if ClassExists('file') then
@@ -488,6 +512,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMaterialScripter.XPictureFileName;
 begin
   if ClassExists('picturefilename') then
@@ -499,6 +524,7 @@ begin
       end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMaterialScripter.XPictureNX;
 begin
   if ClassExists('picturenx') then
@@ -507,6 +533,7 @@ begin
         Picture[cmtNX].LoadFromFile(ExtractValue);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMaterialScripter.XPictureNY;
 begin
   if ClassExists('pictureny') then
@@ -515,6 +542,7 @@ begin
         Picture[cmtNY].LoadFromFile(ExtractValue);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMaterialScripter.XPictureNZ;
 begin
   if ClassExists('picturenz') then
@@ -523,6 +551,7 @@ begin
         Picture[cmtNZ].LoadFromFile(ExtractValue);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMaterialScripter.XPicturePX;
 begin
   if ClassExists('picturepx') then
@@ -531,6 +560,7 @@ begin
         Picture[cmtPX].LoadFromFile(ExtractValue);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMaterialScripter.XPicturePY;
 begin
   if ClassExists('picturepy') then
@@ -539,6 +569,7 @@ begin
         Picture[cmtPY].LoadFromFile(ExtractValue);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMaterialScripter.XPicturePZ;
 begin
   if ClassExists('picturepz') then
@@ -547,6 +578,7 @@ begin
         Picture[cmtPZ].LoadFromFile(ExtractValue);
 end;
 
+//---------------------------------------------------------------------------
 function TGLMaterialScripter.ValueExists(Value: string): Boolean;
 begin
   if UpperCase(TmpStr) = UpperCase(Value) then
@@ -555,6 +587,7 @@ begin
     Result := False;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMaterialScripter.XMaterialLibrary;
 var
   i: word;
@@ -569,6 +602,7 @@ begin
               .MaterialLibrary;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMaterialScripter.XShader;
 var
   i: word;
@@ -582,17 +616,16 @@ begin
             NewMat.Shader := Shaders.Items[i].Shader;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMaterialScripter.ZMaterial;
 var
   i: byte;
   exists: Boolean;
 begin
-
   if Assigned(FMaterialLibrary) then
   begin
     NewMat := FMaterialLibrary.Materials.Add;
     repeat
-
       inc(Count);
       XMaterial;
       if pos('{', FScript.Strings[Count]) > 0 then
@@ -604,14 +637,10 @@ begin
           XFrontProperties;
         end;
       CheckError;
-
     until CheckRepeatDone;
-
     // now we use append and overwrite settings to find out what is what
-
     TmpStr := NewMat.Name;
     delete(TmpStr, 1, 3); // removes the "TAG" not to confuse the system
-
     exists := False;
     if FMaterialLibrary.Materials.Count > 0 then
       for i := 0 to FMaterialLibrary.Materials.Count - 1 do
@@ -642,10 +671,9 @@ begin
 
 end;
 
-/// ////////////////////////
+///////////////////////////
 // extraction procedures //
-/// ////////////////////////
-
+///////////////////////////
 procedure TGLMaterialScripter.XBackAmbient;
 begin
   if ClassExists('ambient') then
@@ -656,6 +684,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMaterialScripter.XBackDiffuse;
 begin
   if ClassExists('diffuse') then
@@ -664,9 +693,9 @@ begin
     ExtractColors;
     NewMat.Material.BackProperties.Diffuse := TmpColor;
   end;
-
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMaterialScripter.XBackEmission;
 begin
   if ClassExists('emission') then
@@ -677,6 +706,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMaterialScripter.XBackShininess;
 begin
   if ClassExists('shininess') then
@@ -684,6 +714,7 @@ begin
       NewMat.Material.BackProperties.Shininess := strtoint(ExtractValue);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMaterialScripter.XBackSpecular;
 begin
   if ClassExists('specular') then
@@ -694,6 +725,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMaterialScripter.XBlendingMode;
 begin
   if ClassExists('blendingmode') then
@@ -712,6 +744,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMaterialScripter.XPolygonMode;
 begin
   if ClassExists('polygonmode') then
@@ -726,6 +759,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMaterialScripter.XCompression;
 begin
   if ClassExists('compression') then
@@ -744,6 +778,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMaterialScripter.XEnvColor;
 begin
   if ClassExists('envcolor') then
@@ -754,6 +789,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMaterialScripter.XFacingCulling;
 begin
   if ClassExists('faceculling') then
@@ -768,6 +804,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMaterialScripter.XFilteringQuality;
 begin
   if ClassExists('filteringquality') then
@@ -780,6 +817,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMaterialScripter.XFrontAmbient;
 begin
   if ClassExists('ambient') then
@@ -790,6 +828,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMaterialScripter.XFrontDiffuse;
 begin
   if ClassExists('diffuse') then
@@ -798,9 +837,9 @@ begin
     ExtractColors;
     NewMat.Material.frontProperties.Diffuse := TmpColor;
   end;
-
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMaterialScripter.XFrontEmission;
 begin
   if ClassExists('emission') then
@@ -811,6 +850,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMaterialScripter.XFrontShininess;
 begin
   if ClassExists('shininess') then
@@ -818,6 +858,7 @@ begin
       NewMat.Material.frontProperties.Shininess := strtoint(ExtractValue);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMaterialScripter.XFrontSpecular;
 begin
   if ClassExists('specular') then
@@ -828,6 +869,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMaterialScripter.XImageAlpha;
 begin
   if ClassExists('imagealpha') then
@@ -854,6 +896,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMaterialScripter.XImageBrightness;
 begin
   if ClassExists('imagebrightness') then
@@ -861,6 +904,7 @@ begin
       NewMat.Material.Texture.ImageBrightness := GLStrToFloatDef(ExtractValue);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMaterialScripter.XImageGamma;
 begin
   if ClassExists('imagegamma') then
@@ -868,12 +912,14 @@ begin
       NewMat.Material.Texture.ImageGamma := GLStrToFloatDef(ExtractValue);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMaterialScripter.XLibMaterialName;
 begin
   if ClassExists('libmaterialname') then
     NewMat.Material.LibMaterialName := ExtractValue;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMaterialScripter.XMagFilter;
 begin
   if ClassExists('magfilter') then
@@ -886,6 +932,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMaterialScripter.XMappingMode;
 begin
   if ClassExists('mappingmode') then
@@ -910,6 +957,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMaterialScripter.XMappingSCoordinates;
 begin
   if ClassExists('mappingscoordinates') then
@@ -920,6 +968,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMaterialScripter.XMappingTCoordinates;
 begin
   if ClassExists('mappingtcoordinates') then
@@ -930,6 +979,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMaterialScripter.XMaterialOptions;
 var
   a, b: Boolean;
@@ -964,6 +1014,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMaterialScripter.XMinFilter;
 begin
   if ClassExists('minfilter') then
@@ -984,6 +1035,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMaterialScripter.XName;
 begin
   if ClassExists('name') then
@@ -991,6 +1043,7 @@ begin
   // we gonna use for appending and such, quick fix style
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMaterialScripter.XNormalMapScale;
 begin
   if ClassExists('normalmapscale') then
@@ -998,12 +1051,14 @@ begin
       NewMat.Material.Texture.NormalMapScale := GLStrToFloatDef(ExtractValue);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMaterialScripter.XTexture2Name;
 begin
   if ClassExists('texture2name') then
     NewMat.Texture2Name := ExtractValue;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMaterialScripter.XTextureFormat;
 begin
   if ClassExists('textureformat') then
@@ -1032,6 +1087,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMaterialScripter.XTextureMode;
 begin
   if ClassExists('texturemode') then
@@ -1048,10 +1104,11 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMaterialScripter.XTextureOffset;
 begin
   if ClassExists('textureoffset') then
-  // i hate this, delphi doesn't allow var object reference for procs
+  // delphi doesn't allow var object reference for procs
   begin
     TmpCoords := NewMat.TextureOffset;
     ExtractCoords3;
@@ -1059,6 +1116,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMaterialScripter.XTextureScale;
 begin
   if ClassExists('texturescale') then
@@ -1069,6 +1127,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMaterialScripter.XTextureWrap;
 begin
   if ClassExists('texturewrap') then
@@ -1088,7 +1147,6 @@ end;
 /// ////////////////////////////////////
 // sub routines : substr{arguements} //
 /// ////////////////////////////////////
-
 procedure TGLMaterialScripter.XTexture;
 begin
   if SubstrExists('texture') then
@@ -1120,6 +1178,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMaterialScripter.XMaterial;
 begin
   XName;
@@ -1135,6 +1194,7 @@ begin
   XMaterialLibrary;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMaterialScripter.XFrontProperties;
 begin
 
@@ -1154,6 +1214,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMaterialScripter.XImageClass;
 // reckon this will be most difficult to get right
 begin
@@ -1200,6 +1261,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMaterialScripter.XBackProperties;
 begin
   if SubstrExists('BackProperties') then
@@ -1218,32 +1280,31 @@ begin
   end;
 end;
 
-(* ****************************************
-  TGLMaterialLibraryItems
-  **************************************** *)
-
+//---------------------------------------------------------------------------
+//  TGLMaterialLibraryItems
+//---------------------------------------------------------------------------
 constructor TGLMaterialLibraryItems.Create(AOwner: TPersistent);
 begin
   inherited Create(AOwner, TGLMaterialLibraryItem);
 end;
 
+//---------------------------------------------------------------------------
 function TGLMaterialLibraryItems.GetItems(Index: Integer)
   : TGLMaterialLibraryItem;
 begin
   Result := TGLMaterialLibraryItem(inherited Items[index]);
-
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMaterialLibraryItems.SetItems(Index: Integer;
   const Val: TGLMaterialLibraryItem);
 begin
   inherited Items[index] := Val;
 end;
 
-(* ****************************************
-  TGLMaterialLibraryItem
-  **************************************** *)
-
+//---------------------------------------------------------------------------
+//  TGLMaterialLibraryItem
+//---------------------------------------------------------------------------
 procedure TGLMaterialLibraryItem.Assign(Source: TPersistent);
 begin
   if Source is TGLMaterialLibraryItem then
@@ -1253,17 +1314,20 @@ begin
   inherited Destroy;
 end;
 
+//---------------------------------------------------------------------------
 constructor TGLMaterialLibraryItem.Create(Collection: TCollection);
 begin
   inherited Create(Collection);
   FName := 'MaterialLibrary';
 end;
 
+//---------------------------------------------------------------------------
 destructor TGLMaterialLibraryItem.Destroy;
 begin
   inherited Destroy;
 end;
 
+//---------------------------------------------------------------------------
 function TGLMaterialLibraryItem.GetDisplayName: String;
 begin
   if FName = '' then
@@ -1272,6 +1336,7 @@ begin
     Result := FName;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMaterialLibraryItem.SetMaterialLibrary
   (const Value: TGLMaterialLibrary);
 begin
@@ -1282,27 +1347,32 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMaterialLibraryItem.SetName(const Value: String);
 begin
   FName := Value;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMaterialScripter.SeTGLMaterialLibraryItems
   (const Value: TGLMaterialLibraryItems);
 begin
   FMaterialLibraryItems.Assign(Value);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMaterialScripter.SetAppend(const Value: Boolean);
 begin
   FAppend := Value;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMaterialScripter.SetOverwrite(const Value: Boolean);
 begin
   FOverwrite := Value;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMaterialScripter.Notification(AComponent: TComponent;
   Operation: TOperation);
 begin

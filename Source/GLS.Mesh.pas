@@ -23,12 +23,13 @@ uses
   Stage.Strings,
   Stage.VectorGeometry,
   Stage.VectorTypes,
-  GLS.XOpenGL,
-  GLS.Context,
-  GLS.Scene,
-  GLS.State,
   Stage.Color,
   Stage.BaseClasses,
+
+  GLS.Scene,
+  GLS.State,
+  GLS.XOpenGL,
+  GLS.Context,
   GLS.RenderContextInfo;
 
 type
@@ -181,10 +182,11 @@ type
       default vmVNCT;
   end;
 
-implementation //==============================================================
+implementation //============================================================
 
-// ----------------- TGLVertexList --------------------------------------------
-
+//---------------------------------------------------------------------------
+// ----------------- TGLVertexList ------------------------------------------
+//---------------------------------------------------------------------------
 constructor TGLVertexList.Create(AOwner: TPersistent);
 begin
   inherited;
@@ -194,6 +196,7 @@ begin
   FGrowth := 256;
 end;
 
+//---------------------------------------------------------------------------
 destructor TGLVertexList.Destroy;
 begin
   Locked := False;
@@ -201,6 +204,7 @@ begin
   inherited;
 end;
 
+//---------------------------------------------------------------------------
 function TGLVertexList.CreateInterpolatedCoords(list2: TGLVertexList;
   lerpFactor: Single): TGLVertexList;
 var
@@ -216,6 +220,7 @@ begin
       Result.FValues^[i].coord);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLVertexList.SetCapacity(const val: Integer);
 begin
   Assert(not Locked, 'Cannot change locked list capacity !');
@@ -225,6 +230,7 @@ begin
   ReallocMem(FValues, FCapacity * SizeOf(TGLVertexData));
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLVertexList.SetGrowth(const val: Integer);
 begin
   if val > 16 then
@@ -233,6 +239,7 @@ begin
     FGrowth := 16;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLVertexList.Grow;
 begin
   Assert(not Locked, 'Cannot add to a locked list !');
@@ -240,41 +247,47 @@ begin
   ReallocMem(FValues, FCapacity * SizeOf(TGLVertexData));
 end;
 
+//---------------------------------------------------------------------------
 function TGLVertexList.GetFirstColor: PGLFloat;
 begin
   Result := @(FValues^[0].color);
 end;
 
+//---------------------------------------------------------------------------
 function TGLVertexList.GetFirstEntry: PGLFloat;
 begin
   Result := Pointer(FValues);
 end;
 
+//---------------------------------------------------------------------------
 function TGLVertexList.GetFirstNormal: PGLFloat;
 begin
   Result := @(FValues^[0].normal);
 end;
 
+//---------------------------------------------------------------------------
 function TGLVertexList.GetFirstVertex: PGLFloat;
 begin
   Result := @(FValues^[0].coord);
 end;
 
+//---------------------------------------------------------------------------
 function TGLVertexList.GetFirstTexPoint: PGLFloat;
 begin
   Result := @(FValues^[0].textCoord);
 end;
 
+//---------------------------------------------------------------------------
 function TGLVertexList.GetLocked: Boolean;
 begin
   Result := Assigned(FLockedOldValues);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLVertexList.SetLocked(val: Boolean);
 var
   size: Integer;
 begin
-
   if val <> Locked then
   begin
     // Only supported with NVidia's right now
@@ -315,6 +328,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLVertexList.EnterLockSection;
 begin
   if Locked then
@@ -324,6 +338,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLVertexList.LeaveLockSection;
 begin
   if Locked then
@@ -333,6 +348,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLVertexList.SetVertices(index: Integer; const val: TGLVertexData);
 begin
   Assert(Cardinal(index) < Cardinal(Count));
@@ -340,56 +356,66 @@ begin
   NotifyChange(Self);
 end;
 
+//---------------------------------------------------------------------------
 function TGLVertexList.GetVertices(index: Integer): TGLVertexData;
 begin
   Assert(Cardinal(index) < Cardinal(Count));
   Result := FValues^[index];
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLVertexList.SetVertexCoord(index: Integer; const val: TAffineVector);
 begin
   FValues^[index].coord := val;
   NotifyChange(Self);
 end;
 
+//---------------------------------------------------------------------------
 function TGLVertexList.GetVertexCoord(index: Integer): TAffineVector;
 begin
   Result := FValues^[index].coord;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLVertexList.SetVertexNormal(index: Integer; const val: TAffineVector);
 begin
   FValues^[index].normal := val;
   NotifyChange(Self);
 end;
 
+//---------------------------------------------------------------------------
 function TGLVertexList.GetVertexNormal(index: Integer): TAffineVector;
 begin
   Result := FValues^[index].normal;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLVertexList.SetVertexTexCoord(index: Integer; const val: TTexPoint);
 begin
   FValues^[index].textCoord := val;
   NotifyChange(Self);
 end;
 
+//---------------------------------------------------------------------------
 function TGLVertexList.GetVertexTexCoord(index: Integer): TTexPoint;
 begin
   Result := FValues^[index].textCoord;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLVertexList.SetVertexColor(index: Integer; const val: TVector4f);
 begin
   FValues^[index].color := val;
   NotifyChange(Self);
 end;
 
+//---------------------------------------------------------------------------
 function TGLVertexList.GetVertexColor(index: Integer): TVector4f;
 begin
   Result := FValues^[index].color;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLVertexList.AddVertex(const vertexData: TGLVertexData);
 begin
   if FCount = FCapacity then
@@ -399,6 +425,7 @@ begin
   NotifyChange(Self);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLVertexList.AddVertex3(const vd1, vd2, vd3: TGLVertexData);
 begin
   // extend memory space
@@ -412,6 +439,7 @@ begin
   NotifyChange(Self);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLVertexList.AddVertex(const aVertex: TVertex;
   const aNormal: TAffineVector; const aColor: TGSColorVector;
   const aTexPoint: TTexPoint);
@@ -430,18 +458,21 @@ begin
   NotifyChange(Self);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLVertexList.AddVertex(const vertex: TVertex;
   const normal: TAffineVector; const color: TGSColorVector);
 begin
   AddVertex(vertex, normal, color, NullTexPoint);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLVertexList.AddVertex(const vertex: TVertex;
   const normal: TAffineVector);
 begin
   AddVertex(vertex, normal, clrBlack, NullTexPoint);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLVertexList.DuplicateVertex(index: Integer);
 begin
   Assert(Cardinal(index) < Cardinal(Count));
@@ -452,6 +483,7 @@ begin
   NotifyChange(Self);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLVertexList.Clear;
 begin
   Assert(not Locked, 'Cannot clear a locked list !');
@@ -462,6 +494,7 @@ begin
   NotifyChange(Self);
 end;
 
+//---------------------------------------------------------------------------
 function TGLVertexList.SumVertexCoords: TAffineVector;
 var
   i: Integer;
@@ -471,6 +504,7 @@ begin
     AddVector(Result, FValues^[i].coord);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLVertexList.GetExtents(var min, max: TAffineVector);
 var
   i, k: Integer;
@@ -495,6 +529,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLVertexList.NormalizeNormals;
 var
   i: Integer;
@@ -503,6 +538,7 @@ begin
     NormalizeVector(FValues^[i].coord);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLVertexList.Translate(const v: TAffineVector);
 var
   i: Integer;
@@ -511,6 +547,7 @@ begin
     AddVector(FValues^[i].coord, v);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLVertexList.DefineOpenGLArrays;
 begin
   gl.EnableClientState(GL_VERTEX_ARRAY);
@@ -524,6 +561,7 @@ begin
     FirstTexPoint);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLVertexList.Assign(Source: TPersistent);
 begin
   if Assigned(Source) and (Source is TGLVertexList) then
@@ -537,8 +575,9 @@ begin
     inherited Assign(Source);
 end;
 
-// ----------------- TGLMesh ------------------------------------------------------
-
+//---------------------------------------------------------------------------
+// ----------------- TGLMesh ------------------------------------------------
+//---------------------------------------------------------------------------
 constructor TGLMesh.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
@@ -553,32 +592,38 @@ begin
   // should change this later to default to vmVN. But need to
 end; // change GLMeshPropform so that it greys out unused vertex info
 
+//---------------------------------------------------------------------------
 destructor TGLMesh.Destroy;
 begin
   FVertices.Free;
   inherited Destroy;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMesh.VerticesChanged(Sender: TObject);
 begin
   StructureChanged;
 end;
 
+//---------------------------------------------------------------------------
 function TGLMesh.Length: Single;
 begin
   Result := 0;
 end;
 
+//---------------------------------------------------------------------------
 function TGLMesh.Area: Single;
 begin
   Result := 0;
 end;
 
+//---------------------------------------------------------------------------
 function TGLMesh.Volume: Single;
 begin
   Result := 0;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMesh.BuildList(var rci: TGLRenderContextInfo);
 var
   VertexCount: Longint;
@@ -632,6 +677,7 @@ begin
     FVertices.LeaveLockSection;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMesh.SetMode(AValue: TGLMeshMode);
 begin
   if AValue <> FMode then
@@ -641,6 +687,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMesh.SetVertices(AValue: TGLVertexList);
 begin
   if AValue <> FVertices then
@@ -650,6 +697,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMesh.SetVertexMode(AValue: TGLVertexMode);
 begin
   if AValue <> FVertexMode then
@@ -659,6 +707,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMesh.CalcNormals(Frontface: TGLFaceWinding);
 var
   vn: TAffineFltVector;
@@ -727,6 +776,7 @@ begin
   StructureChanged;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMesh.Assign(Source: TPersistent);
 begin
   if Assigned(Source) and (Source is TGLMesh) then
@@ -739,6 +789,7 @@ begin
     inherited Assign(Source);
 end;
 
+//---------------------------------------------------------------------------
 function TGLMesh.AxisAlignedDimensionsUnscaled: TGSVector;
 var
   dMin, dMax: TAffineVector;
@@ -753,6 +804,7 @@ begin
   SetVector(Result, FAxisAlignedDimensionsCache);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLMesh.StructureChanged;
 begin
   FAxisAlignedDimensionsCache.X := -1;

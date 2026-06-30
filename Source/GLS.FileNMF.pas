@@ -52,10 +52,9 @@ type
     procedure SaveToStream(aStream: TStream); override;
   end;
 
-// ------------------------------------------------------------------
-implementation
-// ------------------------------------------------------------------
+implementation //============================================================
 
+//---------------------------------------------------------------------------
 procedure TFileNMF.LoadFromStream(Stream: TStream);
 var
   Done: Boolean;
@@ -80,6 +79,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TFileNMF.SaveToStream(Stream: TStream);
 begin
   NumTris := Length(RawTriangles);
@@ -98,12 +98,12 @@ end;
 // ------------------
 // ------------------ TGLNMFVectorFile ------------------
 // ------------------
-
 class function TGLNMFVectorFile.Capabilities: TGSDataFileCapabilities;
 begin
   Result := [dfcRead, dfcWrite];
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLNMFVectorFile.LoadFromStream(aStream: TStream);
 var
   i, j: Integer;
@@ -129,6 +129,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLNMFVectorFile.SaveToStream(aStream: TStream);
 var
   i, j: Integer;
@@ -168,9 +169,7 @@ begin
   end;
 end;
 
-// ------------------------------------------------------------------
-initialization
-// ------------------------------------------------------------------
+initialization //============================================================
 
 RegisterVectorFileFormat('nmf', 'NormalMapper files', TGLNMFVectorFile);
 

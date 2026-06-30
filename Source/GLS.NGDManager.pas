@@ -3,7 +3,7 @@
 ******************************************************************************)
 unit GLS.NGDManager;
 (*
-  The Newton Game Dynamics Manager for GLScene.
+  The Newton Game Dynamics Manager.
   Notes: This code is still under development so any part of it may change at anytime.
 *)
 interface
@@ -618,34 +618,36 @@ function GetNGDDynamic(Obj: TGLBaseSceneObject): TGLNGDDynamic;
 function GetOrCreateNGDDynamic(Obj: TGLBaseSceneObject): TGLNGDDynamic;
 function GetBodyFromGLSceneObject(Obj: TGLBaseSceneObject): PNewtonBody;
 
-// ----------------------------------------------------------------------
-implementation
-
-// ----------------------------------------------------------------------
+implementation //============================================================
 
 const
   epsilon = 0.0000001; // 1E-07
 
+//---------------------------------------------------------------------------
 function GetNGDStatic(Obj: TGLBaseSceneObject): TGLNGDStatic;
 begin
   Result := TGLNGDStatic(Obj.Behaviours.GetByClass(TGLNGDStatic));
 end;
 
+//---------------------------------------------------------------------------
 function GetOrCreateNGDStatic(Obj: TGLBaseSceneObject): TGLNGDStatic;
 begin
   Result := TGLNGDStatic(Obj.GetOrCreateBehaviour(TGLNGDStatic));
 end;
 
+//---------------------------------------------------------------------------
 function GetNGDDynamic(Obj: TGLBaseSceneObject): TGLNGDDynamic;
 begin
   Result := TGLNGDDynamic(Obj.Behaviours.GetByClass(TGLNGDDynamic));
 end;
 
+//---------------------------------------------------------------------------
 function GetOrCreateNGDDynamic(Obj: TGLBaseSceneObject): TGLNGDDynamic;
 begin
   Result := TGLNGDDynamic(Obj.GetOrCreateBehaviour(TGLNGDDynamic));
 end;
 
+//---------------------------------------------------------------------------
 function GetBodyFromGLSceneObject(Obj: TGLBaseSceneObject): PNewtonBody;
 var
   Behaviour: TGLNGDBehaviour;
@@ -684,6 +686,7 @@ begin
   FManager := AOwner as TGLNGDManager;
 end;
 
+//---------------------------------------------------------------------------
 destructor TGLNGDDebugOption.Destroy;
 begin
   FGeomColorDyn.Free;
@@ -707,6 +710,7 @@ begin
   FManager.NotifyChange(self);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLNGDDebugOption.SetManagerDebugs(const Value: TGLNGDManagerDebugs);
 begin
   FManagerDebugs := Value;
@@ -2933,18 +2937,12 @@ begin
   inherited put(index, Item);
 end;
 
-// ------------------------------------------------------------------
-initialization
-
-// ------------------------------------------------------------------
+initialization //============================================================
 
 RegisterXCollectionItemClass(TGLNGDDynamic);
 RegisterXCollectionItemClass(TGLNGDStatic);
 
-// ------------------------------------------------------------------
-finalization
-
-// ------------------------------------------------------------------
+finalization //==============================================================
 
 UnregisterXCollectionItemClass(TGLNGDDynamic);
 UnregisterXCollectionItemClass(TGLNGDStatic);

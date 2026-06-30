@@ -24,17 +24,15 @@ uses
   Stage.MeshUtils;
 
 type
-
   TGLVRMLVectorFile = class(TGLVectorFile)
   public
     class function Capabilities: TGSDataFileCapabilities; override;
     procedure LoadFromStream(aStream: TStream); override;
   end;
 
-// ------------------------------------------------------------------
-implementation
-// ------------------------------------------------------------------
+implementation //============================================================
 
+//---------------------------------------------------------------------------
 procedure TessellatePolygon(PolyVerts: TGSAffineVectorList;
   PolyIndices, TriIndices: TGSIntegerList);
 
@@ -153,12 +151,12 @@ end;
 // ------------------
 // ------------------ TGLVRMLVectorFile ------------------
 // ------------------
-
 class function TGLVRMLVectorFile.Capabilities: TGSDataFileCapabilities;
 begin
   Result := [dfcRead];
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLVRMLVectorFile.LoadFromStream(aStream: TStream);
 var
   mesh: TGLMeshObject;
@@ -602,9 +600,7 @@ begin
   end;
 end;
 
-// ------------------------------------------------------------------
-initialization
-// ------------------------------------------------------------------
+initialization //============================================================
 
 RegisterVectorFileFormat('wrl', 'VRML files', TGLVRMLVectorFile);
 

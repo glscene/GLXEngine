@@ -3,7 +3,7 @@
 ******************************************************************************)
 unit GLS.FileVOR;
 (*
-  Import for VOR ASCII files of TetGen software from http://wias-berlin.de/software/tetgen/fformats.html
+  Import for VOR ASCII files of TetGen software
   is supported for Voronoi polyhedralization.
 *)
 interface
@@ -50,10 +50,8 @@ type
   var
 {$ENDIF}
   VORUseEmbeddedColors: Boolean;
-  
-// ------------------------------------------------------------------
-implementation
-// ------------------------------------------------------------------
+
+implementation //============================================================
 
 const
   cNODE_LABEL = 'node';
@@ -64,12 +62,12 @@ const
 // ------------------
 // ------------------ TGLVectorFile ------------------
 // ------------------
-
 class function TGLVORVectorFile.Capabilities: TGSDataFileCapabilities;
 begin
    Result := [dfcRead, dfcWrite];
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLVORVectorFile.LoadFromStream(aStream: TStream);
 var
   Sl: TStringList;
@@ -193,6 +191,7 @@ begin
    end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLVORVectorFile.SaveToStream(aStream: TStream);
 var
   I: Integer;
@@ -223,9 +222,7 @@ begin
    end;
 end;
 
-// ------------------------------------------------------------------
-initialization
-// ------------------------------------------------------------------
+initialization //============================================================
 
   VORUseEmbeddedColors := False;
   RegisterVectorFileFormat('voronoi', 'Voronoi files', TGLVORVectorFile);

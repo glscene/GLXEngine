@@ -103,9 +103,7 @@ type
     procedure SaveToStream(aStream: TStream); override;
   end;
 
-//---------------------------------------------------
-implementation
-//---------------------------------------------------
+implementation //============================================================
 
 uses
   Stage.TextureFormat;
@@ -113,12 +111,12 @@ uses
 // ------------------
 // ------------------ TGLLMTSVectorFile ------------------
 // ------------------
-
 class function TGLLMTSVectorFile.Capabilities: TGSDataFileCapabilities;
 begin
   Result := [dfcRead, dfcWrite];
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLLMTSVectorFile.LoadFromStream(aStream: TStream);
 var
   MO: TGLMeshObject;
@@ -416,6 +414,7 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLLMTSVectorFile.SaveToStream(aStream: TStream);
 var
   MO: TGLMeshObject;
@@ -686,7 +685,7 @@ begin
   setlength(Matinfo, 0);
 end;
 
-initialization //-------------------------------------------------------------
+initialization //============================================================
 
 RegisterVectorFileFormat('lmts', 'Pulsar Studio LMTS File Format',
   TGLLMTSVectorFile);

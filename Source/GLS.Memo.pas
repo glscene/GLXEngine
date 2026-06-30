@@ -71,13 +71,11 @@ type
     function GetStyle(Index: Integer): TFontStyles;
     procedure SetStyle(Index: Integer; Value: TFontStyles);
   protected
-    
     property TextColor[Index: Integer]: TColor read GetTextColor write
     SetTextColor;
     property BkColor[Index: Integer]: TColor read GetBkColor write SetBkColor;
     property Style[Index: Integer]: TFontStyles read GetStyle write SetStyle;
   public
-    
     destructor Destroy; override;
     procedure Clear; override;
     procedure Delete(Index: Integer);
@@ -324,8 +322,6 @@ type
     property Pos: integer read FPos write FPos;
     property Limit: integer read FLimit write SetLimit;
   end;
-
-  //--------------------------------------------------------------
 
   TGutterClickEvent = procedure(Sender: TObject; LineNo: integer) of object;
   TGutterDrawEvent = procedure(Sender: TObject; ACanvas: TCanvas;
@@ -660,9 +656,9 @@ type
     procedure AddBrackets(StyleNo: integer; const ArrS: array of string);
     property Delimiters: TDelimiters read FDelimiters write FDelimiters;
   published
-    {TControl}
+    // TControl
     property PopupMenu;
-    {TCustomControl}
+    // TCustomControl
     property Align;
     property Enabled;
     property ShowHint;
@@ -670,7 +666,7 @@ type
     property TabStop;
     property Visible;
     property ReadOnly;
-    {TGLSCustomMemo}
+    // TGLSCustomMemo
     property AutoIndent;
     property GutterColor;
     property GutterWidth;
@@ -700,7 +696,7 @@ type
     property OnKeyDown;
     property OnKeyPress;
     property OnKeyUp;
-    {Events }
+    // Events
     property OnGutterClick;
     property OnGutterDraw;
     property OnChange;
@@ -723,9 +719,7 @@ type
 
 procedure Border(Canvas: TCanvas; const rct: TRect; BorderType: TBorderType);
 
-//==========================================================
-implementation
-//==========================================================
+implementation //============================================================
 
 const
   cmDelete = VK_DELETE;
@@ -756,8 +750,9 @@ var
   fIntelliMessage: UINT; // message sent from mouse on wheel roll
   fIntelliScrollLines: Integer; // number of lines to scroll per wheel roll
 
-// ---------------------Helper functions 
-
+//---------------------------------------------------------------------------
+// ---------------------Helper functions
+//---------------------------------------------------------------------------
 function PointInRect(const P: TPoint; const rct: TRect): Boolean; inline;
 begin
   with rct do
@@ -802,8 +797,9 @@ end;
 
 
 
+//---------------------------------------------------------------------------
 // ---------------------TGLSCustomMemo functions
-
+//---------------------------------------------------------------------------
 procedure TGLSCustomMemo.WndProc(var Message: TMessage);
   function GetShiftState: Integer;
   begin
@@ -819,7 +815,6 @@ procedure TGLSCustomMemo.WndProc(var Message: TMessage);
     if GetAsyncKeyState(vk_MButton) < 0 then
       Result := Result or mk_MButton;
   end;
-  //---------------------------------------------------
 begin
   if (Message.Msg = fIntelliMessage) and (fIntelliMessage <> wm_MouseWheel) then
   begin
@@ -830,15 +825,14 @@ begin
     inherited;
 end;
 
-//------------------------------------------------
+//---------------------------------------------------------------------------
 //    INTELLIMOUSE INIT
-//------------------------------------------------
-
+//---------------------------------------------------------------------------
 procedure IntelliMouseInit;
 var
   hWndMouse: hWnd;
   mQueryScrollLines: UINT;
-  //--------------------------------------------
+
   function NativeMouseWheelSupport: Boolean;
   var
     ver: TOSVersionInfo;
@@ -856,7 +850,7 @@ var
     if (not Result) and (ver.szCSDVersion = ' Beta 3') then
       Result := True;
   end;
-  //--------------------------------------------
+
 begin
   if NativeMouseWheelSupport then
   begin
@@ -882,10 +876,9 @@ begin
     fIntelliScrollLines := 3;
 end;
 
-//------------------------------------------------
+//---------------------------------------------------------------------------
 //    WM MOUSE WHEEL
-//------------------------------------------------
-
+//---------------------------------------------------------------------------
 procedure TGLSCustomMemo.WMMouseWheel(var Message: TMessage);
 {$J+}
 {$IFOPT R+} {$DEFINE StoreRangeCheck} {$ENDIF} {$R-}
@@ -910,9 +903,9 @@ end;
 {$J-}
 {$IFDEF StoreRangeCheck} {$R+} {$UNDEF StoreRangeCheck} {$ENDIF}
 
-//--------------------------------------------------------------
+//---------------------------------------------------------------------------
 //        SET CURSOR
-//--------------------------------------------------------------
+//---------------------------------------------------------------------------
 procedure TGLSCustomMemo.SetCursor(ACurX, ACurY: Integer);
 begin
   ClearSelection;
@@ -921,9 +914,9 @@ begin
   CurX := ACurX;
 end;
 
-//--------------------------------------------------------------
+//---------------------------------------------------------------------------
 //        SELECT LINE, CHAR
-//--------------------------------------------------------------
+//---------------------------------------------------------------------------
 function TGLSCustomMemo.SelectLine(LineNo, StyleNo: Integer): integer;
 var
   rct: TRect;
@@ -4417,8 +4410,9 @@ begin
   P.FStyleNo := Value;
 end;
 
+//---------------------------------------------------------------------------
 //-------------------- GET/SET IN COMMENT ---------------------------
-
+//---------------------------------------------------------------------------
 function TGLSMemoStrings.GetInComment(Index: Integer): Boolean;
 var
   P: TLineProp;
@@ -4440,8 +4434,9 @@ begin
   P.FInComment := Value;
 end;
 
+//---------------------------------------------------------------------------
 //-------------------- GET/SET IN BRACKETS ---------------------------
-
+//---------------------------------------------------------------------------
 function TGLSMemoStrings.GetInBrackets(Index: Integer): integer;
 var
   P: TLineProp;
@@ -4463,8 +4458,9 @@ begin
   P.FInBrackets := Value;
 end;
 
+//---------------------------------------------------------------------------
 //-------------------- GET/SET VALID ATTRS ---------------------------
-
+//---------------------------------------------------------------------------
 function TGLSMemoStrings.GetValidAttrs(Index: Integer): Boolean;
 var
   P: TLineProp;
@@ -4485,8 +4481,10 @@ begin
     P := CreateProp(Index);
   P.FValidAttrs := Value;
 end;
-//-------------------- GET/SET CHAR ATTRS ---------------------------
 
+//---------------------------------------------------------------------------
+//-------------------- GET/SET CHAR ATTRS ---------------------------
+//---------------------------------------------------------------------------
 function TGLSMemoStrings.GetCharAttrs(Index: Integer): string;
 var
   P: TLineProp;
@@ -4508,10 +4506,11 @@ begin
   P.FCharAttrs := Value;
 end;
 
- 
 
-// ---------------------TGLSMemoUndo 
 
+//---------------------------------------------------------------------------
+// ---------------------TGLSMemoUndo
+//---------------------------------------------------------------------------
 constructor TGLSMemoUndo.Create(ACurX0, ACurY0, ACurX, ACurY: integer; const AText:
   string);
 begin
@@ -4554,8 +4553,9 @@ begin
   Result := False;
 end;
 
+//---------------------------------------------------------------------------
 //----------------  TINSERT CHAR UNDO --------------------------
-
+//---------------------------------------------------------------------------
 procedure TGLSMemoInsCharUndo.PerformUndo;
 var
   i: integer;
@@ -4595,8 +4595,9 @@ begin
   Result := True;
 end;
 
+//---------------------------------------------------------------------------
 //----------------  TDELETE CHAR UNDO --------------------------
-
+//---------------------------------------------------------------------------
 procedure TGLSMemoDelCharUndo.PerformUndo;
 var
   i: integer;
@@ -4643,8 +4644,9 @@ begin
   Result := True;
 end;
 
+//---------------------------------------------------------------------------
 //----------------  TDELETE BUF, LINE UNDO --------------------------
-
+//---------------------------------------------------------------------------
 constructor TGLSMemoDelLineUndo.Create(AIndex, ACurX0, ACurY0, ACurX, ACurY:
   integer; const AText: string);
 begin
@@ -4692,8 +4694,9 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 //----------------  TPASTE UNDO --------------------------
-
+//---------------------------------------------------------------------------
 procedure TGLSMemoPasteUndo.PerformUndo;
 begin
   with FMemo do
@@ -4715,8 +4718,9 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 //----------------  TUNDO LIST --------------------------
-
+//---------------------------------------------------------------------------
 constructor TGLSMemoUndoList.Create;
 begin
   inherited;
@@ -4846,10 +4850,10 @@ begin
   end;
 end;
 
- 
 
-// ---------------------TGLSSynHiMemo 
-
+//---------------------------------------------------------------------------
+// ---------------------TGLSSynHiMemo
+//---------------------------------------------------------------------------
 procedure TGLSSynHiMemo.SetStyle(Index: integer; Value: TCharStyle);
 var
   No: integer;
@@ -4873,7 +4877,6 @@ end;
 //--------------------------------------------------------------
 //        SYNTAX MEMO - SET WORD LIST
 //--------------------------------------------------------------
-
 procedure TGLSSynHiMemo.SetWordList(Value: TGLSMemoStringList);
 begin
   FWordList.Assign(Value);
@@ -4892,7 +4895,6 @@ end;
 //--------------------------------------------------------------
 //        SYNTAX MEMO - SET CASE SENSITIVE
 //--------------------------------------------------------------
-
 procedure TGLSSynHiMemo.SetCaseSensitive(Value: Boolean);
 var
   LineNo: integer;
@@ -4909,7 +4911,6 @@ end;
 //--------------------------------------------------------------
 //        SYNTAX MEMO - GET TOKEN
 //--------------------------------------------------------------
-
 function TGLSSynHiMemo.GetToken(const S: string; var From: integer;
   out TokenType: TTokenType; out StyleNo: integer): string;
 var
@@ -5124,7 +5125,6 @@ end;
 //--------------------------------------------------------------
 //        SYNTAX MEMO - FIND LINE ATTRS
 //--------------------------------------------------------------
-
 procedure TGLSSynHiMemo.FindLineAttrs(Sender: TObject; LineNo: integer;
   var Attrs: string);
 var
@@ -5168,7 +5168,6 @@ end;
 //--------------------------------------------------------------
 //        SYNTAX MEMO - ADD WORD
 //--------------------------------------------------------------
-
 procedure TGLSSynHiMemo.AddWord(StyleNo: integer; const ArrS: array of string);
 var
   i: integer;
@@ -5180,7 +5179,6 @@ end;
 //--------------------------------------------------------------
 //        SYNTAX MEMO - ADD SPECIAL
 //--------------------------------------------------------------
-
 procedure TGLSSynHiMemo.AddSpecial(StyleNo: integer; const ArrS: array of string);
 var
   i: integer;
@@ -5192,7 +5190,6 @@ end;
 //--------------------------------------------------------------
 //        SYNTAX MEMO - ADD BRACKETS
 //--------------------------------------------------------------
-
 procedure TGLSSynHiMemo.AddBrackets(StyleNo: integer; const ArrS: array of string);
 var
   i: integer;
@@ -5204,7 +5201,6 @@ end;
 //--------------------------------------------------------------
 //        SYNTAX MEMO - CREATE
 //--------------------------------------------------------------
-
 constructor TGLSSynHiMemo.Create(AOwner: TComponent);
 begin
   inherited;
@@ -5251,7 +5247,6 @@ end;
 //--------------------------------------------------------------
 //        SYNTAX MEMO - DESTROY
 //--------------------------------------------------------------
-
 destructor TGLSSynHiMemo.Destroy;
 begin
   FWordList.Free;
@@ -5263,8 +5258,9 @@ begin
   inherited;
 end;
 
+//---------------------------------------------------------------------------
 // ---------------------TGLSMemoStringList
-
+//---------------------------------------------------------------------------
 procedure TGLSMemoStringList.ReadStrings(Reader: TReader);
 var
   i: Integer;
@@ -5282,10 +5278,9 @@ begin
   end;
 end;
 
-//--------------------------------------------------------------
+//---------------------------------------------------------------------------
 //        STRING LIST - WRITE STRINGS
-//--------------------------------------------------------------
-
+//---------------------------------------------------------------------------
 procedure TGLSMemoStringList.WriteStrings(Writer: TWriter);
 var
   i: Integer;
@@ -5302,19 +5297,18 @@ begin
   end;
 end;
 
-//--------------------------------------------------------------
+//---------------------------------------------------------------------------
 //        STRING LIST - DEFINE PROPERTIES
-//--------------------------------------------------------------
-
+//---------------------------------------------------------------------------
 procedure TGLSMemoStringList.DefineProperties(Filer: TFiler);
 begin
   Filer.DefineProperty('Strings', ReadStrings, WriteStrings, Count > 0);
 end;
 
- 
 
-// ---------------------ScrollBar bitmaps 
-
+//---------------------------------------------------------------------------
+// ---------------------ScrollBar bitmaps
+//---------------------------------------------------------------------------
 procedure CreateScrollBarBitmaps;
 var
   i, j: integer;
@@ -5395,8 +5389,9 @@ begin
   end;
 end;
 
-//------------------ FREE SCROLL BAR BITMAPs -------------------
-
+//---------------------------------------------------------------------------
+//------------------ FREE SCROLL BAR BITMAPs
+//---------------------------------------------------------------------------
 procedure FreeScrollBarBitmaps;
 begin
   bmScrollBarFill.Free;

@@ -157,6 +157,7 @@ var
 
 implementation //============================================================
 
+//---------------------------------------------------------------------------
 procedure TGLOpenGL.SetPFD(const PFD_: TPixelFormatDescriptor);
 begin
   DestroyRC;
@@ -166,6 +167,7 @@ begin
   CreateRC;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLOpenGL.SetPFI(const PFI_: Integer);
 begin
   DestroyRC;
@@ -175,19 +177,20 @@ begin
   CreateRC;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLOpenGL.CreateWindow;
 begin
   CustomForm := TCustomForm.CreateNew(nil);
   _WND := CustomForm.Handle;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLOpenGL.DestroyWindow;
 begin
   CustomForm.Free;
 end;
 
-// ------------------------------------------------------------------------------
-
+//---------------------------------------------------------------------------
 procedure TGLOpenGL.ValidatePFD(const PFD_: TPixelFormatDescriptor);
 var
   I: Integer;
@@ -205,31 +208,32 @@ begin
     'Not found the PixelFormat of the index!');
 end;
 
-// ------------------------------------------------------------------------------
-
+//---------------------------------------------------------------------------
 procedure TGLOpenGL.CreateDC;
 begin
   _DC := GetDC(_WND);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLOpenGL.DestroyDC;
 begin
   ReleaseDC(0, _DC);
 end;
 
-// ------------------------------------------------------------------------------
-
+//---------------------------------------------------------------------------
 procedure TGLOpenGL.CreateRC;
 begin
   ApplyPixelFormat(_DC);
   _RC := wglCreateContext(_DC);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLOpenGL.DestroyRC;
 begin
   wglDeleteContext(_RC);
 end;
 
+//---------------------------------------------------------------------------
 constructor TGLOpenGL.Create;
 begin
   inherited;
@@ -240,6 +244,7 @@ begin
   InitOpenGL;
 end;
 
+//---------------------------------------------------------------------------
 destructor TGLOpenGL.Destroy;
 begin
   DestroyRC;
@@ -248,6 +253,7 @@ begin
   inherited;
 end;
 
+//---------------------------------------------------------------------------
 class function TGLOpenGL.DefaultPFD: TPixelFormatDescriptor;
 begin
   with Result do
@@ -281,18 +287,19 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLOpenGL.BeginGL;
 begin
   wglMakeCurrent(_DC, _RC);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLOpenGL.EndGL;
 begin
   wglMakeCurrent(_DC, 0);
 end;
 
-// ------------------------------------------------------------------------------
-
+//---------------------------------------------------------------------------
 procedure TGLOpenGL.InitOpenGL;
 begin
   BeginGL;
@@ -301,25 +308,27 @@ begin
   EndGL;
 end;
 
-// ------------------------------------------------------------------------------
-
+//---------------------------------------------------------------------------
 procedure TGLOpenGL.ApplyPixelFormat(const DC_: HDC);
 begin
   Assert(SetPixelFormat(DC_, _PFI, @_PFD), 'SetPixelFormat() is failed!');
 end;
 
+//---------------------------------------------------------------------------
 constructor TGLShader.Create(const Kind_: Cardinal);
 begin
   inherited Create;
   _ID := glCreateShader(Kind_);
 end;
 
+//---------------------------------------------------------------------------
 destructor TGLShader.Destroy;
 begin
   glDeleteShader(_ID);
   inherited;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLShader.SetSource(const Source_: String);
 var
   P: PAnsiChar;
@@ -342,72 +351,81 @@ begin
   end;
 end;
 
+//---------------------------------------------------------------------------
 constructor TGLShaderV.Create;
 begin
   inherited Create(GL_VERTEX_SHADER);
 end;
 
+//---------------------------------------------------------------------------
 destructor TGLShaderV.Destroy;
 begin
   inherited;
 end;
 
+//---------------------------------------------------------------------------
 constructor TGLShaderG.Create;
 begin
   inherited Create(GL_GEOMETRY_SHADER);
 end;
 
+//---------------------------------------------------------------------------
 destructor TGLShaderG.Destroy;
 begin
   inherited;
 end;
 
+//---------------------------------------------------------------------------
 constructor TGLShaderF.Create;
 begin
   inherited Create(GL_FRAGMENT_SHADER);
 end;
 
+//---------------------------------------------------------------------------
 destructor TGLShaderF.Destroy;
 begin
   inherited;
 end;
 
+//---------------------------------------------------------------------------
 constructor TGLProgram.Create;
 begin
   inherited;
   _ID := glCreateProgram;
 end;
 
+//---------------------------------------------------------------------------
 destructor TGLProgram.Destroy;
 begin
   glDeleteProgram(_ID);
   inherited;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLProgram.Attach(const Shader_: TGLShader);
 begin
   glAttachShader(_ID, Shader_.ID);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLProgram.Detach(const Shader_: TGLShader);
 begin
   glDetachShader(_ID, Shader_.ID);
 end;
 
-// ------------------------------------------------------------------------------
-
+//---------------------------------------------------------------------------
 procedure TGLProgram.Link;
 begin
   glLinkProgram(_ID);
 end;
 
-// ------------------------------------------------------------------------------
-
+//---------------------------------------------------------------------------
 procedure TGLProgram.Use;
 begin
   glUseProgram(_ID);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLBuffer<_TYPE_>.SetCount(const Count_: Integer);
 begin
   _Count := Count_;
@@ -416,6 +434,7 @@ begin
   Unbind;
 end;
 
+//---------------------------------------------------------------------------
 constructor TGLBuffer<_TYPE_>.Create(const Kind_: Cardinal);
 begin
   inherited Create;
@@ -424,90 +443,102 @@ begin
   Count := 0;
 end;
 
+//---------------------------------------------------------------------------
 destructor TGLBuffer<_TYPE_>.Destroy;
 begin
   glDeleteBuffers(1, @_ID);
   inherited;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLBuffer<_TYPE_>.Bind;
 begin
   glBindBuffer(_Kind, _ID);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLBuffer<_TYPE_>.Unbind;
 begin
   glBindBuffer(_Kind, 0);
 end;
 
-// ------------------------------------------------------------------------------
-
+//---------------------------------------------------------------------------
 procedure TGLBuffer<_TYPE_>.Map;
 begin
   Bind;
   _Head := glMapBuffer(_Kind, GL_READ_WRITE);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLBuffer<_TYPE_>.Unmap;
 begin
   glUnmapBuffer(_Kind);
   Unbind;
 end;
 
+//---------------------------------------------------------------------------
 constructor TGLBufferV<_TYPE_>.Create;
 begin
   inherited Create(GL_ARRAY_BUFFER);
 end;
 
+//---------------------------------------------------------------------------
 destructor TGLBufferV<_TYPE_>.Destroy;
 begin
   inherited;
 end;
 
+//---------------------------------------------------------------------------
 constructor TGLBufferI<_TYPE_>.Create;
 begin
   inherited Create(GL_ELEMENT_ARRAY_BUFFER);
 end;
 
+//---------------------------------------------------------------------------
 destructor TGLBufferI<_TYPE_>.Destroy;
 begin
   inherited;
 end;
 
+//---------------------------------------------------------------------------
 constructor TGLBufferU<_TYPE_>.Create;
 begin
   inherited Create(GL_UNIFORM_BUFFER);
 end;
 
+//---------------------------------------------------------------------------
 destructor TGLBufferU<_TYPE_>.Destroy;
 begin
   inherited;
 end;
 
+//---------------------------------------------------------------------------
 constructor TGLArray.Create;
 begin
   inherited Create;
   glGenVertexArrays(1, @_ID);
 end;
 
+//---------------------------------------------------------------------------
 destructor TGLArray.Destroy;
 begin
   glDeleteVertexArrays(1, @_ID);
   inherited;
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLArray.BeginBind;
 begin
   glBindVertexArray(_ID);
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLArray.EndBind;
 begin
   glBindVertexArray(0);
 end;
 
 initialization //============================================================
-
 
 GLOpenGL := TGLOpenGL.Create;
 GLOpenGL.BeginGL;

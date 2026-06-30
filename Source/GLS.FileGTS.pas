@@ -1,10 +1,11 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.FileGTS;
-
-(* GTS (GNU Triangulated Surface) vector file format implementation. *)
-
+(*
+  GTS (GNU Triangulated Surface) vector file format implementation.
+  RegisterVectorFileFormat('gts', 'GNU Triangulated Surface', TGLGTSVectorFile);
+*)
 interface
 
 {$I Stage.Defines.inc}
@@ -14,6 +15,7 @@ uses
 
   Stage.VectorGeometry,
   Stage.VectorLists,
+
   GLS.VectorFileObjects,
   GLS.ApplicationFileIO;
 
@@ -31,9 +33,7 @@ type
     procedure LoadFromStream(aStream: TStream); override;
   end;
 
-// ------------------------------------------------------------------
-implementation
-// ------------------------------------------------------------------
+implementation //============================================================
 
 uses
 {$IFDEF Unicode}
@@ -44,12 +44,12 @@ uses
 // ------------------
 // ------------------ TGLGTSVectorFile ------------------
 // ------------------
-
 class function TGLGTSVectorFile.Capabilities: TGSDataFileCapabilities;
 begin
   Result := [dfcRead];
 end;
 
+//---------------------------------------------------------------------------
 procedure TGLGTSVectorFile.LoadFromStream(aStream: TStream);
 var
   i, nv, ne, nf, k, ei: Integer;
@@ -111,10 +111,7 @@ begin
   end;
 end;
 
-// ------------------------------------------------------------------
-initialization
-
-// ------------------------------------------------------------------
+initialization //============================================================
 
 RegisterVectorFileFormat('gts', 'GNU Triangulated Surface', TGLGTSVectorFile);
 

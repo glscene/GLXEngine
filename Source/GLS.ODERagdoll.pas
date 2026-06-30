@@ -1,10 +1,10 @@
-//
-// GLScene Graphics Engine
-//
+(*****************************************************************************
+                          GLScene Graphics Engine
+******************************************************************************)
 unit GLS.ODERagdoll;
-
-(* The extension of TGLRagdoll by using Open Dynamics Engine (ODE) *)
-
+(*
+  The extension of TGLRagdoll by using Open Dynamics Engine (ODE)
+*)
 interface
 
 uses
