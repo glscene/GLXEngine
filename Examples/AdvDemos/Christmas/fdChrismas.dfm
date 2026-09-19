@@ -3,7 +3,7 @@ object Main: TMain
   Top = 63
   Align = alCustom
   BorderStyle = bsNone
-  Caption = 'Christmas'
+  Caption = 'i2'
   ClientHeight = 552
   ClientWidth = 703
   Color = clBtnFace

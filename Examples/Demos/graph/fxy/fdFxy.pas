@@ -16,14 +16,15 @@ uses
 
   Stage.VectorGeometry,
   Stage.VectorTypes,
+  Stage.Coordinates,
+  Stage.BaseClasses,
+
   GLS.Objects,
   GLS.Graph,
   Stage.Color,
   GLS.Scene,
   GLS.State,
   GLS.SceneViewer,
-  Stage.Coordinates,
-  Stage.BaseClasses,
   GLS.AsyncTimer;
 
 type

@@ -14,11 +14,11 @@ uses
   Vcl.StdCtrls,
 
   GLS.Scene,
-  Stage.VectorTypes,
   GLS.Objects,
   GLS.Cadencer,
   GLS.SceneViewer,
 
+  Stage.VectorTypes,
   Stage.Coordinates,
   Stage.BaseClasses;
 

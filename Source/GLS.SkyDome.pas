@@ -21,9 +21,10 @@ uses
   Stage.OpenGLTokens,
   Stage.VectorTypes,
   Stage.VectorGeometry,
+  Stage.Color,
+
   GLS.Scene,
   GLS.Graphics,
-  Stage.Color,
   GLS.Material,
   GLS.RenderContextInfo;
 

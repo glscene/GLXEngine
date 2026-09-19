@@ -431,11 +431,11 @@ type
 
   (* Set of 3D line segments.
     You define a 3D Line by adding its nodes in the "Nodes" property. The line
-    may be rendered as a set of segment or as a curve (nodes then act as spline
+    may be rendered as a set of segments or as a curve (nodes then act as spline
     control points).
     Alternatively, you can also use it to render a set of spacial nodes (points
     in space), just make the lines transparent and the nodes visible by picking
-    the node aspect that suits you. *)
+    the node aspect that suits you *)
   TGLLines = class(TGLNodedLines)
   private
     FDivision: Integer;
@@ -461,7 +461,7 @@ type
       write SetNURBSTolerance;
   published
     (* Number of divisions for each segment in spline modes.
-      Minimum 1 (disabled), ignored in lsmLines mode. *)
+      Minimum 1 (disabled), ignored in lsmLines mode *)
     property Division: Integer read FDivision write SetDivision default 10;
     // Default spline drawing mode.
     property SplineMode: TGLLineSplineMode read FSplineMode write SetSplineMode
@@ -470,7 +470,7 @@ type
       loUseNodeColorForLines: if set lines will be drawn using node
       colors (and color interpolation between nodes), if not, LineColor
       will be used (single color).
-      loColorLogicXor: enable logic operation for color of XOR type. *)
+      loColorLogicXor: enable logic operation for color of XOR type *)
     property Options: TGLLinesOptions read FOptions write SetOptions;
   end;
 

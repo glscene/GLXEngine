@@ -16,12 +16,15 @@ uses
 
   Stage.VectorGeometry,
   Stage.VectorTypes,
+  Stage.BaseClasses,
+  Stage.Coordinates,
   Stage.KeyBoard,
+  Stage.XCollection,
+  Stage.PersistentClasses,
   Stage.Utils,
 
   GLS.Scene,
   GLS.Objects,
-  Stage.PersistentClasses,
   GLS.Cadencer,
   GLS.SceneViewer,
   GLS.DCE,
@@ -33,16 +36,13 @@ uses
   GLS.BitmapFont,
   GLS.WindowsFont,
   GLS.HUDObjects,
-  Stage.Coordinates,
   GLS.FileMD2,
   GLS.File3DS,
   GLS.Context,
   GLS.EllipseCollision,
   GLS.RenderContextInfo,
-  Stage.XCollection,
   GLS.ProxyObjects,
-  GLS.State,
-  Stage.BaseClasses;
+  GLS.State;
 
 type
   TFormDCE = class(TForm)

@@ -2,8 +2,8 @@ object FormManual: TFormManual
   Left = 192
   Top = 101
   Caption = 'Manual'
-  ClientHeight = 428
-  ClientWidth = 585
+  ClientHeight = 505
+  ClientWidth = 800
   Color = clBtnFace
   Constraints.MinHeight = 200
   Constraints.MinWidth = 320
@@ -15,25 +15,27 @@ object FormManual: TFormManual
   Position = poScreenCenter
   OnResize = FormResize
   DesignSize = (
-    585
-    428)
+    800
+    505)
   TextHeight = 13
   object SceneViewer: TGLSceneViewer
     Left = 0
     Top = 0
-    Width = 585
-    Height = 404
+    Width = 800
+    Height = 481
     Camera = Camera
     Buffer.BackgroundColor = clBlack
-    FieldOfView = 127.324623107910200000
+    FieldOfView = 134.844879150390600000
     PenAsTouch = False
     Align = alClient
     TabOrder = 0
+    ExplicitWidth = 585
+    ExplicitHeight = 404
   end
   object TrackBar: TTrackBar
     Left = 0
-    Top = 404
-    Width = 585
+    Top = 481
+    Width = 800
     Height = 24
     Align = alBottom
     Max = 360
@@ -42,10 +44,12 @@ object FormManual: TFormManual
     TabOrder = 1
     ThumbLength = 15
     OnChange = TrackBarChange
+    ExplicitTop = 377
+    ExplicitWidth = 577
   end
   object CBPlay: TCheckBox
     Left = 230
-    Top = 66
+    Top = 143
     Width = 41
     Height = 18
     Anchors = [akLeft, akBottom]
@@ -53,6 +57,7 @@ object FormManual: TFormManual
     Checked = True
     State = cbChecked
     TabOrder = 2
+    ExplicitTop = 39
   end
   object StaticText1: TStaticText
     Left = 16

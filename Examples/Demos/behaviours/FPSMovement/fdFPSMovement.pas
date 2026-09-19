@@ -15,8 +15,11 @@ uses
   Vcl.ExtCtrls,
   Vcl.StdCtrls,
 
-
   Stage.VectorGeometry,
+  Stage.VectorLists,
+  Stage.Coordinates,
+  Stage.XCollection,
+  Stage.BaseClasses,
   Stage.KeyBoard,
   Stage.Utils,
 
@@ -24,21 +27,17 @@ uses
   GLS.Texture,
   GLS.Cadencer,
   GLS.FPSMovement,
-  Stage.XCollection,
   GLS.State,
   GLS.SceneViewer,
   GLS.Objects,
   GLS.Collision,
   GLS.VectorFileObjects,
   GLS.Navigator,
-  Stage.VectorLists,
   GLS.Octree,
   GLS.File3DS,
   GLS.GeomObjects,
   GLS.Material,
-  Stage.Coordinates,
-  GLS.SimpleNavigation,
-  Stage.BaseClasses;
+  GLS.SimpleNavigation;
 
 type
   TFormFPSMovement = class(TForm)

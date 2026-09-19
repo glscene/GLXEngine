@@ -57,12 +57,13 @@ implementation //=============================================================
 
 {$R *.DFM}
 
+//----------------------------------------------------------------------------
 procedure TFormAVI.FormCreate(Sender: TObject);
 begin
   SetCurrentDir(Application.ExeName);
 end;
 
-
+//----------------------------------------------------------------------------
 procedure TFormAVI.TrackBarChange(Sender: TObject);
 var
    t : Integer;
@@ -77,9 +78,10 @@ begin
 	DummyCube2.RollAngle:=3*t;
 	Cube3.TurnAngle:=4*t;
    // update FPS count
-   StaticText1.Caption:=IntToStr(Trunc(GLSceneViewer1.FramesPerSecond))+' FPS';
+   StaticText1.Caption := IntToStr(Trunc(GLSceneViewer1.FramesPerSecond))+' FPS';
 end;
 
+//----------------------------------------------------------------------------
 procedure TFormAVI.FormResize(Sender: TObject);
 begin
 	GLSceneViewer1.ResetPerformanceMonitor;
@@ -87,6 +89,7 @@ begin
   AVIRecorder1.Height := GLSceneViewer1.Height;
 end;
 
+//----------------------------------------------------------------------------
 procedure TFormAVI.ButtonRecordClick(Sender: TObject);
 var
   i : integer;
@@ -108,7 +111,8 @@ begin
    ButtonRecord.enabled := false;
    TrackBar.enabled := false;
    try
-      while (i<360) and not UserAbort do begin
+      while (i<360) and not UserAbort do
+      begin
          TrackBar.Position:=i;
          TrackBarChange(self);
          AVIRecorder1.AddAVIFrame;
@@ -144,6 +148,7 @@ begin
    end;
 end;
 
+//----------------------------------------------------------------------------
 procedure TFormAVI.FormKeyPress(Sender: TObject; var Key: Char);
 begin
   UserAbort := key = #27;

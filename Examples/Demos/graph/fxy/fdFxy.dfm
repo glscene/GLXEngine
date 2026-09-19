@@ -28,7 +28,6 @@ object FormFxy: TFormFxy
     OnMouseDown = GLSceneViewer1MouseDown
     OnMouseMove = GLSceneViewer1MouseMove
     TabOrder = 0
-    ExplicitWidth = 593
   end
   object Panel1: TPanel
     Left = 675
@@ -37,8 +36,8 @@ object FormFxy: TFormFxy
     Height = 610
     Align = alRight
     TabOrder = 1
-    ExplicitLeft = 584
-    ExplicitHeight = 585
+    ExplicitLeft = 667
+    ExplicitHeight = 583
     object Label2: TLabel
       Left = 46
       Top = 5

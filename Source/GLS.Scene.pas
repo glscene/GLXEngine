@@ -59,8 +59,8 @@ type
 
 const
   cDefaultProxyOptions = [pooEffects, pooObjects, pooTransformation];
-  GLSCENE_REVISION = '$Revision: 2027$';
-  GLSCENE_VERSION = 'v2.7 %s';
+  GLSCENE_REVISION = '$Revision: 2026$';
+  GLSCENE_VERSION = 'v2.6 %s';
 
 type
   TGLNormalDirection = (ndInside, ndOutside);
@@ -708,7 +708,7 @@ type
      It exists only as a container and shall never be rotated/scaled etc. as
      the class type is used in parenting optimizations.
      Shall never implement or add any functionality, the "Create" override
-     only take cares of disabling the build list. *)
+     only take cares of disabling the build list *)
   TGLSceneRootObject = class(TGLBaseSceneObject)
   public
     constructor Create(AOwner: TComponent); override;
@@ -718,7 +718,7 @@ type
     Note that the material is available in public properties, but isn't
     applied automatically before invoking BuildList.
     Subclassing should be reserved to structural objects and objects that
-    have no material of their own. *)
+    have no material of their own *)
   TGLImmaterialSceneObject = class(TGLCustomSceneObject)
   public
     procedure DoRender(var ARci: TGLRenderContextInfo;
@@ -746,7 +746,7 @@ type
   (* Base class for camera invariant objects.
      Camera invariant objects bypass camera settings, such as camera
      position (object is always centered on camera) or camera orientation
-     (object always has same orientation as camera). *)
+     (object always has same orientation as camera) *)
   TGLCameraInvariantObject = class(TGLImmaterialSceneObject)
   private
     FCamInvarianceMode: TGLCameraInvarianceMode;
@@ -790,7 +790,7 @@ type
   (* Provides a way to issue direct OpenGL calls during the rendering.
      You can use this object to do your specific rendering task in its OnRender
      event. The OpenGL calls shall restore the OpenGL states they found when
-     entering, or exclusively use the GLMisc utility functions to alter the states. *)
+     entering, or exclusively use the GLMisc utility functions to alter the states *)
   TGLDirectOpenGL = class(TGLImmaterialSceneObject)
   private
     FUseBuildList: Boolean;
@@ -812,16 +812,16 @@ type
        a StructureChanged call. This is suitable for "static" geometry and
        will usually speed up rendering of things that don't change.
        If false, OnRender will be invoked for each render. This is suitable
-       for dynamic geometry (things that change often or constantly). *)
+       for dynamic geometry (things that change often or constantly) *)
     property UseBuildList: Boolean read FUseBuildList write SetUseBuildList;
     (* Place your specific OpenGL code here.
        The OpenGL calls shall restore the OpenGL states they found when
        entering, or exclusively use the GLMisc utility functions to alter
-       the states. *)
+       the states *)
     property OnRender: TGLDirectRenderEvent read FOnRender write FOnRender;
     (* Defines if the object uses blending.
        This property will allow direct opengl objects to be flagged as
-       blended for object sorting purposes. *)
+       blended for object sorting purposes *)
     property Blend: Boolean read FBlend write SetBlend;
   end;
 
@@ -830,7 +830,7 @@ type
      have (rendering) tasks to perform. It doesn't render anything itself
      and is invisible, but other components can register and be notified
      when the point is reached in the rendering phase.
-     Callbacks must be explicitly unregistered. *)
+     Callbacks must be explicitly unregistered *)
   TGLRenderPoint = class(TGLImmaterialSceneObject)
   private
     FCallBacks: array of TGLDirectRenderEvent;

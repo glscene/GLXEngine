@@ -28,7 +28,7 @@ object FormMandelbrot: TFormMandelbrot
   end
   object Scene: TGLScene
     Left = 16
-    Top = 16
+    Top = 24
     object Mandelbrot: TGLDirectOpenGL
       UseBuildList = False
       OnRender = MandelbrotRender
