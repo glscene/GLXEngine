@@ -38,6 +38,9 @@ Plot2D
 - [Notepad++](https://notepad-plus-plus.org/), source code text editor for programmers.
 - [PasDoc](https://pasdoc.github.io/) creates HTML documentation from source code comments and external files. 
 - [Inno Setup](https://jrsoftware.org/isinfo.php), an open-source installation tool for Windows applications.
-   
+
+### Related projects based on GLXEngine
+- [AstrobloQ](https://github.com/glscene/AstrobloQ), Milky Way Nooevolution Simulator and Solving Fermi Paradox
+- [Geoblock](https://github.com/geoblock), Geomodeling Integrated System for Estimation of Mineral Reserves    
 
 GLXE Team
